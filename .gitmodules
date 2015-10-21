@@ -1,0 +1,9 @@
+[submodule "DiligentCore"]
+	path = DiligentCore
+	url = https://github.com/DiligentGraphics/DiligentCore.git
+[submodule "DiligentTools"]
+	path = DiligentTools
+	url = https://github.com/DiligentGraphics/DiligentTools.git
+[submodule "DiligentSamples"]
+	path = DiligentSamples
+	url = https://github.com/DiligentGraphics/DiligentSamples.git
