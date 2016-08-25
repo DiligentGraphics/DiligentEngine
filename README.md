@@ -18,4 +18,4 @@ Copyright 2015-2016 Egor Yusov.
 Licensed under the [Apache License, Version 2.0](License.txt)
 
 ## Resources
-Follow Diligent Engine on [Twitter](https://twitter.com/diligentengine) and [Facebook](https://www.facebook.com/DiligentGraphics)
+Visit [Diligent Engine Web Site](http://diligentgraphics.com), follow us on [Twitter](https://twitter.com/diligentengine) and [Facebook](https://www.facebook.com/DiligentGraphics)
