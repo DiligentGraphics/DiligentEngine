@@ -1,7 +1,7 @@
 Parent repository that includes core, tools and samples as submodules. For more information, please visit [diligentgraphics.com/diligent-engine](http://diligentgraphics.com/diligent-engine/).
 
 ## Version History
-* v1.0.0. Initial release.
+* v1.0.0. Initial release
 * v2.0. Diligent Engine 2.0
   * Engine completely redesigned to better match next-generation APIs like D3D12 and Vulkan
   * Added Direct3D12-based engine implementation
