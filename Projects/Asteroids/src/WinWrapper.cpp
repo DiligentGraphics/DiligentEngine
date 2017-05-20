@@ -217,7 +217,7 @@ LRESULT CALLBACK WindowProc(
             case '2': gSettings.mode = gd3d12Available ? Settings::RenderMode::NativeD3D12 : gSettings.mode; return 0;
             case '3': gSettings.mode = gd3d11Available ? Settings::RenderMode::DiligentD3D11 : gSettings.mode; return 0;
             case '4': gSettings.mode = gd3d12Available ? Settings::RenderMode::DiligentD3D12 : gSettings.mode; return 0;
-            case '5': gSettings.mode = Settings::RenderMode::DiligentGL; return 0;
+            //case '5': gSettings.mode = Settings::RenderMode::DiligentGL; return 0;
 
             case VK_ESCAPE:
                 SendMessage(hWnd, WM_CLOSE, 0, 0);
