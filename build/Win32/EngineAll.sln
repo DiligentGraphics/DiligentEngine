@@ -95,6 +95,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngineD3D12", "..\.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngineD3DBase", "..\..\diligentcore\Graphics\GraphicsEngineD3DBase\build\Win32\GraphicsEngineD3DBase.vcxproj", "{40FD58ED-AABC-4CBD-BEE4-33116995A626}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Asteroids", "..\..\Projects\Asteroids\asteroids.vcxproj", "{176C9B9A-2E06-4AC5-B186-56C9280104E7}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngineD3DBase.Shared", "..\..\diligentcore\Graphics\GraphicsEngineD3DBase\build\Windows.Shared\GraphicsEngineD3DBase.Shared.vcxitems", "{9E0110FC-5339-4196-8397-BA4FA34A4B84}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngineD3D12.Shared", "..\..\diligentcore\Graphics\GraphicsEngineD3D12\build\Windows.Shared\GraphicsEngineD3D12.Shared.vcxitems", "{628CB771-ED9D-4874-A69E-3484343A4890}"
@@ -405,6 +407,14 @@ Global
 		{40FD58ED-AABC-4CBD-BEE4-33116995A626}.Release|Win32.Build.0 = Release|Win32
 		{40FD58ED-AABC-4CBD-BEE4-33116995A626}.Release|x64.ActiveCfg = Release|x64
 		{40FD58ED-AABC-4CBD-BEE4-33116995A626}.Release|x64.Build.0 = Release|x64
+		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Debug|ARM.ActiveCfg = Debug|x64
+		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Debug|Win32.ActiveCfg = Debug|x64
+		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Debug|x64.ActiveCfg = Debug|x64
+		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Debug|x64.Build.0 = Debug|x64
+		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Release|ARM.ActiveCfg = Release|x64
+		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Release|Win32.ActiveCfg = Release|x64
+		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Release|x64.ActiveCfg = Release|x64
+		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
