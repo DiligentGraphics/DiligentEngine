@@ -14,7 +14,7 @@ Parent repository that includes core, tools and samples as submodules. For more 
 
 
 ## License
-Copyright 2015-2016 Egor Yusov.
+Copyright 2015-2017 Egor Yusov.
 Licensed under the [Apache License, Version 2.0](License.txt)
 
 ## Resources
