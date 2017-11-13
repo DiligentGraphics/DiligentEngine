@@ -1,12 +1,9 @@
-[submodule "diligentcore"]
-	path = diligentcore
-	url = https://EgorYusov@bitbucket.org/EgorYusov/diligentcore.git
-[submodule "diligenttools"]
-	path = diligenttools
-	url = https://EgorYusov@bitbucket.org/EgorYusov/diligenttools.git
-[submodule "diligentsamples"]
-	path = diligentsamples
-	url = https://EgorYusov@bitbucket.org/EgorYusov/diligentsamples.git
-[submodule "diligentterrain"]
-	path = diligentterrain
-	url = https://EgorYusov@bitbucket.org/EgorYusov/diligentterrain.git
+[submodule "DiligentCore"]
+	path = DiligentCore
+	url = https://github.com/DiligentGraphics/DiligentCore.git
+[submodule "DiligentTools"]
+	path = DiligentTools
+	url = https://github.com/DiligentGraphics/DiligentTools.git
+[submodule "DiligentSamples"]
+	path = DiligentSamples
+	url = https://github.com/DiligentGraphics/DiligentSamples.git
