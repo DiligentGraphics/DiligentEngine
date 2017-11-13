@@ -1,0 +1,11 @@
+; file used by Visual Studio plugin builds, mostly for 32-bit
+; to stop mangling our exported function names
+
+LIBRARY
+
+EXPORTS
+   UnityPluginLoad
+   UnityPluginUnload
+   GetRenderEventFunc
+   SetMatrixFromUnity
+   SetTexturesFromUnity

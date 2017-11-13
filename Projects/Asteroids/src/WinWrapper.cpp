@@ -201,6 +201,12 @@ LRESULT CALLBACK WindowProc(
                 gSettings.submitRendering = !gSettings.submitRendering;
                 std::cout << "Submit Rendering: " << gSettings.submitRendering << std::endl;
                 return 0;
+            case 'B':
+                if (gSettings.mode == Settings::RenderMode::DiligentD3D12) {
+                    gSettings.resourceBindingMode = (gSettings.resourceBindingMode + 1) % 3;
+                    gLastFrameRenderMode = static_cast<Settings::RenderMode>(-1);
+                }
+                return 0;
 
             case VK_ADD:
             case VK_OEM_PLUS:
@@ -217,7 +223,7 @@ LRESULT CALLBACK WindowProc(
             case '2': gSettings.mode = gd3d12Available ? Settings::RenderMode::NativeD3D12 : gSettings.mode; return 0;
             case '3': gSettings.mode = gd3d11Available ? Settings::RenderMode::DiligentD3D11 : gSettings.mode; return 0;
             case '4': gSettings.mode = gd3d12Available ? Settings::RenderMode::DiligentD3D12 : gSettings.mode; return 0;
-            //case '5': gSettings.mode = Settings::RenderMode::DiligentGL; return 0;
+            case '5': gSettings.mode = Settings::RenderMode::DiligentGL; return 0;
 
             case VK_ESCAPE:
                 SendMessage(hWnd, WM_CLOSE, 0, 0);
@@ -325,15 +331,15 @@ int InitWorkload(HWND hWnd, AsteroidsSimulation &asteroids)
         break;
 
         case Settings::RenderMode::DiligentD3D11:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings.numThreads, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D11);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D11);
         break;
 
         case Settings::RenderMode::DiligentD3D12:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings.numThreads, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D12);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D12);
         break;
 
         case Settings::RenderMode::DiligentGL:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings.numThreads, &asteroids, &gGUI, hWnd, Diligent::DeviceType::OpenGL);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::OpenGL);
         break;
     }
 
@@ -363,6 +369,8 @@ int main(int argc, char** argv)
             gSettings.closeAfterSeconds = atof(argv[++a]);
         } else if (_stricmp(argv[a], "-nod3d11") == 0) {
             gd3d11Available = false;
+        } else if (_stricmp(argv[a], "-singlethreaded") == 0) {
+            gSettings.multithreadedRendering = false;
         } else if (_stricmp(argv[a], "-warp") == 0) {
             gSettings.warp = true;
         } else if (_stricmp(argv[a], "-nod3d12") == 0) {
@@ -522,6 +530,7 @@ int main(int argc, char** argv)
         // Update GUI
         {
             const char *ModeStr = nullptr;
+            const char *resBindModeStr = "";
             float updateTime = 0;
             float renderTime = 0;
             switch (gSettings.mode)
@@ -544,6 +553,12 @@ int main(int argc, char** argv)
                 case Settings::RenderMode::DiligentD3D12:
                     ModeStr = "Diligent D3D12";
                     gWorkloadDE->GetPerfCounters(updateTime, renderTime);
+                    switch (gSettings.resourceBindingMode)
+                    {
+                        case 0: resBindModeStr = "-d";break;
+                        case 1: resBindModeStr = "-m";break;
+                        case 2: resBindModeStr = "-tm";break;
+                    }
                 break;
 
                 case Settings::RenderMode::DiligentGL:
@@ -551,13 +566,14 @@ int main(int argc, char** argv)
                     gWorkloadDE->GetPerfCounters(updateTime, renderTime);
                 break;
             }
-            float filterScale = 0.05f;
+
+            float filterScale = 0.02f;
             filteredUpdateTime = filteredUpdateTime * (1.f - filterScale) + filterScale * updateTime;
             filteredRenderTime = filteredRenderTime * (1.f - filterScale) + filterScale * renderTime;
             filteredFrameTime = filteredFrameTime * (1.f - filterScale) + filterScale * (float)frameTime;
 
             char buffer[256];
-            sprintf(buffer, "Asteroids %s (%dt) - %4.2f ms (%4.2f ms / %4.2f ms)", ModeStr, gSettings.multithreadedRendering ? gSettings.numThreads : 1, 
+            sprintf(buffer, "Asteroids %s%s (%dt) - %4.2f ms (%4.2f ms / %4.2f ms)", ModeStr, resBindModeStr, gSettings.multithreadedRendering ? gSettings.numThreads : 1, 
                             1000.f * filteredFrameTime, 1000.f * filteredUpdateTime, 1000.f * filteredRenderTime);
 
             SetWindowText(hWnd, buffer);

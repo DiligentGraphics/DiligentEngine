@@ -17,6 +17,7 @@
 *.lib
 *.iobj
 *.ipdb
+*.db
 libs
 obj
 VisualGDBCache
@@ -26,7 +27,7 @@ gen
 tmp
 *.log
 *.mk.old
-*.d
+*.opendb
 local.properties
 project.properties
 proguard-project.txt
@@ -35,3 +36,10 @@ doc/latex
 *.obj
 Debug
 Release
+/cmk_build
+*.db-shm
+*.db-wal
+*.vspx
+*.VC.db
+*.VC.VC.opendb
+.vs

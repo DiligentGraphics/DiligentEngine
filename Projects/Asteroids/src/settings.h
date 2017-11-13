@@ -76,6 +76,8 @@ struct Settings
         DiligentGL
     }mode = DiligentD3D11;
        
+    int resourceBindingMode = 2; // Only for DiligentD3D12 mode
+
     bool lockFrameRate = false;
     bool animate = true;
 

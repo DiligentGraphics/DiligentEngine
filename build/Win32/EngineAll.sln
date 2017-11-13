@@ -11,7 +11,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsEngineOpenGL", "..\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{4E2A7D78-150F-41DB-A6BD-7FC085FA4BAD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew_static", "..\..\diligentcore\External\glew-1.10.0\build\Win32\glew_static.vcxproj", "{664E6F0D-6784-4760-9565-D54F8EB1EDF4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew_static", "..\..\diligentcore\External\glew\build\Win32\glew_static.vcxproj", "{664E6F0D-6784-4760-9565-D54F8EB1EDF4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "..\..\diligentcore\Common\build\Win32\Common.vcxproj", "{7380F7E6-315F-4B4E-92EB-E6AEEE865298}"
 EndProject
@@ -70,6 +70,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlatformInterface.Shared", "..\..\diligentcore\Platforms\interface\build\Windows.Shared\PlatformInterface.Shared.vcxitems", "{C8F281ED-F3B9-4C24-A2D3-40A922363466}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{24288C31-FBC1-47F2-8416-9FB362705B24}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\diligentcore\README.md = ..\..\diligentcore\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{919D8845-B9BB-450F-8C41-D90AA07504DD}"
 EndProject
@@ -80,6 +83,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AntTweakBar", "..\..\diligentsamples\External\TwBarLib\build\Win32\AntTweakBar.vcxproj", "{B99E1FA1-C30A-45F2-9D57-9E9C21B2DF42}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D73BD911-82EA-479F-99A3-82D367039B30}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\diligentsamples\README.md = ..\..\diligentsamples\README.md
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleBase", "..\..\diligentsamples\Samples\SampleBase\build\Win32\SampleBase.vcxproj", "{804DB774-38D0-46A0-8FB7-BDAFDACBB515}"
 EndProject
@@ -104,6 +110,15 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AtmosphereSample.Assets", "..\..\diligentsamples\Samples\Atmosphere\build\AtmosphereSample.Assets.vcxitems", "{A443A4F8-4652-4628-8CA1-F64B6F12A037}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AntTweakBarSample.Assets", "..\..\diligentsamples\Samples\AntTweakBar\build\AntTweakBarSample.Assets.vcxitems", "{CAF59C31-47E1-4F26-8455-C5E49F75BB3C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HLSL2GLSLConverter", "..\..\diligenttools\HLSL2GLSLConverter\build\Win32\HLSL2GLSLConverter.vcxproj", "{8ABE7F5C-D397-4667-8F6F-2F786D958371}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HLSL2GLSLConverterLib", "..\..\diligentcore\Graphics\HLSL2GLSLConverterLib\build\Win32\HLSL2GLSLConverterLib.vcxproj", "{1A782154-A5BD-4A05-B837-EFC77F126C84}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{A834A9FD-1B6A-4F6F-8B30-C07C2A1C9A54}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -415,6 +430,28 @@ Global
 		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Release|Win32.ActiveCfg = Release|x64
 		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Release|x64.ActiveCfg = Release|x64
 		{176C9B9A-2E06-4AC5-B186-56C9280104E7}.Release|x64.Build.0 = Release|x64
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Debug|ARM.ActiveCfg = Debug|Win32
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Debug|Win32.Build.0 = Debug|Win32
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Debug|x64.ActiveCfg = Debug|x64
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Debug|x64.Build.0 = Debug|x64
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Release|ARM.ActiveCfg = Release|Win32
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Release|Win32.ActiveCfg = Release|Win32
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Release|Win32.Build.0 = Release|Win32
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Release|x64.ActiveCfg = Release|x64
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371}.Release|x64.Build.0 = Release|x64
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Debug|ARM.ActiveCfg = Debug|ARM
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Debug|ARM.Build.0 = Debug|ARM
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Debug|Win32.Build.0 = Debug|Win32
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Debug|x64.ActiveCfg = Debug|x64
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Debug|x64.Build.0 = Debug|x64
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Release|ARM.ActiveCfg = Release|ARM
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Release|ARM.Build.0 = Release|ARM
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Release|Win32.ActiveCfg = Release|Win32
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Release|Win32.Build.0 = Release|Win32
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Release|x64.ActiveCfg = Release|x64
+		{1A782154-A5BD-4A05-B837-EFC77F126C84}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -467,5 +504,7 @@ Global
 		{628CB771-ED9D-4874-A69E-3484343A4890} = {87E3C971-12B7-46A3-9778-51AF0BC44B19}
 		{A443A4F8-4652-4628-8CA1-F64B6F12A037} = {D73BD911-82EA-479F-99A3-82D367039B30}
 		{CAF59C31-47E1-4F26-8455-C5E49F75BB3C} = {D73BD911-82EA-479F-99A3-82D367039B30}
+		{8ABE7F5C-D397-4667-8F6F-2F786D958371} = {919D8845-B9BB-450F-8C41-D90AA07504DD}
+		{1A782154-A5BD-4A05-B837-EFC77F126C84} = {87E3C971-12B7-46A3-9778-51AF0BC44B19}
 	EndGlobalSection
 EndGlobal

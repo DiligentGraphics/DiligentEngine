@@ -1,0 +1,1 @@
+call run.bat Debug_Win32 D3D11

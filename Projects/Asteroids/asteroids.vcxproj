@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NOMINMAX;_CRT_SECURE_NO_WARNINGS;ENGINE_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>SDK\Include;$(IntDir);..\..\diligentcore\Graphics\GraphicsEngine\interface;..\..\diligentcore\Graphics\GraphicsEngineD3D11\interface;..\..\diligentcore\Graphics\GraphicsEngineD3D12\interface;..\..\diligentcore\Graphics\GraphicsEngineOpenGl\interface;..\..\diligentcore\Graphics\GraphicsTools\include;..\..\diligentcore\Platforms\interface;..\..\diligenttools\RenderScript\include;..\..\diligenttools\TextureLoader\interface;..\..\diligentcore\Common\interface;..\..\diligentcore\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>SDK\Include;$(IntDir);..\..\diligentcore\Graphics\GraphicsEngine\interface;..\..\diligentcore\Graphics\GraphicsEngineD3D11\interface;..\..\diligentcore\Graphics\GraphicsEngineD3D12\interface;..\..\diligentcore\Graphics\GraphicsEngineOpenGl\interface;..\..\diligentcore\Graphics\GraphicsTools\include;..\..\diligentcore\Graphics\HLSL2GLSLConverterLib\interface;..\..\diligentcore\Platforms\interface;..\..\diligenttools\RenderScript\include;..\..\diligenttools\TextureLoader\interface;..\..\diligentcore\Common\interface;..\..\diligentcore\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -81,7 +81,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NOMINMAX;_CRT_SECURE_NO_WARNINGS;ENGINE_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>SDK\Include;$(IntDir);..\..\diligentcore\Graphics\GraphicsEngine\interface;..\..\diligentcore\Graphics\GraphicsEngineD3D11\interface;..\..\diligentcore\Graphics\GraphicsEngineD3D12\interface;..\..\diligentcore\Graphics\GraphicsEngineOpenGl\interface;..\..\diligentcore\Graphics\GraphicsTools\include;..\..\diligentcore\Platforms\interface;..\..\diligenttools\RenderScript\include;..\..\diligenttools\TextureLoader\interface;..\..\diligentcore\Common\interface;..\..\diligentcore\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>SDK\Include;$(IntDir);..\..\diligentcore\Graphics\GraphicsEngine\interface;..\..\diligentcore\Graphics\GraphicsEngineD3D11\interface;..\..\diligentcore\Graphics\GraphicsEngineD3D12\interface;..\..\diligentcore\Graphics\GraphicsEngineOpenGl\interface;..\..\diligentcore\Graphics\GraphicsTools\include;..\..\diligentcore\Graphics\HLSL2GLSLConverterLib\interface;..\..\diligentcore\Platforms\interface;..\..\diligenttools\RenderScript\include;..\..\diligenttools\TextureLoader\interface;..\..\diligentcore\Common\interface;..\..\diligentcore\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -236,7 +236,7 @@ copy "%(RelativeDir)%(Filename).pdb" "$(TargetDir)"</Command>
     <ProjectReference Include="..\..\diligentcore\Common\build\Win32\Common.vcxproj">
       <Project>{7380f7e6-315f-4b4e-92eb-e6aeee865298}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\diligentcore\External\glew-1.10.0\build\Win32\glew_static.vcxproj">
+    <ProjectReference Include="..\..\diligentcore\External\glew\build\Win32\glew_static.vcxproj">
       <Project>{664e6f0d-6784-4760-9565-d54f8eb1edf4}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\diligentcore\Graphics\GraphicsEngineD3D11\build\Win32\GraphicsEngineD3D11.vcxproj">

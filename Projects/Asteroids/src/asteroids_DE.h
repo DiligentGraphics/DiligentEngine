@@ -13,6 +13,7 @@
 #include "RenderDevice.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
+#include "RefCntAutoPtr.h"
 #include <map>
 #include <mutex>
 #include <atomic>
@@ -22,7 +23,7 @@
 #include "simulation.h"
 #include "util.h"
 #include "gui.h"
-#include "RefCntAutoPtr.h"
+
 
 namespace AsteroidsDE {
 
@@ -41,7 +42,7 @@ struct SkyboxConstantBuffer {
 
 class Asteroids {
 public:
-    Asteroids(UINT NumThreads, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::DeviceType DevType);
+    Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::DeviceType DevType);
     ~Asteroids();
 
     void Render(float frameTime, const OrbitCamera& camera, const Settings& settings);
@@ -59,9 +60,9 @@ private:
 
     enum class BindingMode
     {
-        Dynamic = 1,
-        Mutable = 2,
-        TextureMutable = 3
+        Dynamic = 0,
+        Mutable = 1,
+        TextureMutable = 2
     }m_BindingMode = BindingMode::TextureMutable;
 
     AsteroidsSimulation*        mAsteroids = nullptr;

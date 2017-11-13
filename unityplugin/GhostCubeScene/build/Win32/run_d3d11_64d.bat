@@ -1,0 +1,1 @@
+call run.bat Debug_x64 D3D11

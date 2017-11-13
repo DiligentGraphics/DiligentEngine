@@ -39,13 +39,9 @@ using namespace Diligent;
 namespace Diligent
 {
 #ifdef ENGINE_DLL
-    CreateDeviceAndContextsD3D11Type CreateDeviceAndContextsD3D11 = nullptr;
-    CreateSwapChainD3D11Type CreateSwapChainD3D11 = nullptr;
-
-    CreateDeviceAndContextsD3D12Type CreateDeviceAndContextsD3D12 = nullptr;
-    CreateSwapChainD3D12Type CreateSwapChainD3D12 = nullptr;
-
-    CreateDeviceAndSwapChainGLType CreateDeviceAndSwapChainGL = nullptr;
+    GetEngineFactoryD3D11Type GetEngineFactoryD3D11 = nullptr;
+    GetEngineFactoryD3D12Type GetEngineFactoryD3D12 = nullptr;
+    GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = nullptr;
 #endif
 }
 
@@ -76,11 +72,12 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                                            (Uint32)EngineD3D11DebugFlags::VerifyCommittedResourceRelevance;
 
 #ifdef ENGINE_DLL
-                if(!CreateDeviceAndContextsD3D11 || !CreateSwapChainD3D11)
-                    LoadGraphicsEngineD3D11(CreateDeviceAndContextsD3D11, CreateSwapChainD3D11);
+                if(!GetEngineFactoryD3D11)
+                    LoadGraphicsEngineD3D11(GetEngineFactoryD3D11);
 #endif
-                CreateDeviceAndContextsD3D11( DeviceAttribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
-                CreateSwapChainD3D11( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
+                auto *pFactoryD3D11 = GetEngineFactoryD3D11();
+                pFactoryD3D11->CreateDeviceAndContextsD3D11( DeviceAttribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+                pFactoryD3D11->CreateSwapChainD3D11( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
             }
             else
             {
@@ -91,11 +88,12 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 Attribs.DynamicDescriptorAllocationChunkSize[0] = 4*2048;
 #endif
 #ifdef ENGINE_DLL
-                if(!CreateDeviceAndContextsD3D12 || !CreateSwapChainD3D12)
-                    LoadGraphicsEngineD3D12(CreateDeviceAndContextsD3D12, CreateSwapChainD3D12);
+                if(!GetEngineFactoryD3D12)
+                    LoadGraphicsEngineD3D12(GetEngineFactoryD3D12);
 #endif
-                CreateDeviceAndContextsD3D12( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
-                CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
+                auto *pFactoryD3D12 = GetEngineFactoryD3D12();
+                pFactoryD3D12->CreateDeviceAndContextsD3D12( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+                pFactoryD3D12->CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
             }
             
             mDeviceCtxt.Attach(ppContexts[0]);
@@ -107,10 +105,12 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 
         case DeviceType::OpenGL:
 #ifdef ENGINE_DLL
-            if(!CreateDeviceAndSwapChainGL)
-                LoadGraphicsEngineOpenGL(CreateDeviceAndSwapChainGL);
+            if(GetEngineFactoryOpenGL == nullptr)
+            {
+                LoadGraphicsEngineOpenGL(GetEngineFactoryOpenGL);
+            }
 #endif
-            CreateDeviceAndSwapChainGL(
+            GetEngineFactoryOpenGL()->CreateDeviceAndSwapChainGL(
                 EngineCreationAttribs, &mDevice, &mDeviceCtxt, SwapChainDesc, hWnd, &mSwapChain );
         break;
 
@@ -120,14 +120,16 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
     }
 }
 
-Asteroids::Asteroids(UINT NumThreads, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::DeviceType DevType)
+Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::DeviceType DevType)
     : mAsteroids(asteroids)
     , mGUI(gui)
 {
     QueryPerformanceFrequency((LARGE_INTEGER*)&mPerfCounterFreq);
 
-    mNumSubsets = std::max(NumThreads,1u);
-    mNumSubsets = std::min(NumThreads,32u);
+    mNumSubsets = std::max(settings.numThreads,1);
+    mNumSubsets = std::min(settings.numThreads,32);
+
+    m_BindingMode = static_cast<BindingMode>(settings.resourceBindingMode);
 
     InitDevice(hWnd, DevType);
     
@@ -675,7 +677,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
         auto dynamicData = &dynamicAsteroidData[drawIdx];
 
         {
-            MapHelper<DrawConstantBuffer> drawConstants(pCtx, mDrawConstantBuffer, MAP_WRITE_DISCARD, 0);
+            MapHelper<DrawConstantBuffer> drawConstants(pCtx, mDrawConstantBuffer, MAP_WRITE, MAP_FLAG_DISCARD);
             XMStoreFloat4x4(&drawConstants->mWorld,          dynamicData->world);
             XMStoreFloat4x4(&drawConstants->mViewProjection, viewProjection);
             drawConstants->mSurfaceColor = staticData->surfaceColor;
@@ -794,7 +796,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     // Draw skybox
     {
         {
-            MapHelper<SkyboxConstantBuffer> skyboxConstants(mDeviceCtxt, mSkyboxConstantBuffer, MAP_WRITE_DISCARD, 0);
+            MapHelper<SkyboxConstantBuffer> skyboxConstants(mDeviceCtxt, mSkyboxConstantBuffer, MAP_WRITE, MAP_FLAG_DISCARD);
             XMStoreFloat4x4(&skyboxConstants->mViewProjection, camera.ViewProjection());
         }
 
@@ -819,7 +821,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         controlVertices.reserve(mGUI->size());
 
         {
-            MapHelper<SpriteVertex> vertexBase(mDeviceCtxt, mSpriteVertexBuffer, MAP_WRITE_DISCARD, 0);
+            MapHelper<SpriteVertex> vertexBase(mDeviceCtxt, mSpriteVertexBuffer, MAP_WRITE, MAP_FLAG_DISCARD);
             auto vertexEnd = (SpriteVertex*)vertexBase;
             
             for (int i = -1; i < (int)mGUI->size(); ++i) {
