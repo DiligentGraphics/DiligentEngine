@@ -45,7 +45,7 @@ public:
     GLenum GetDepthBufferFormat()const 
     { 
         if (depth_size_ == 32)
-            GL_DEPTH_COMPONENT32F;
+            return GL_DEPTH_COMPONENT32F;
         else if (depth_size_ == 24)
             return GL_DEPTH_COMPONENT24;
         else if(depth_size_ == 16)

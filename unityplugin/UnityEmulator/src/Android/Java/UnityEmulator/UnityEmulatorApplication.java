@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.DiligentGrpahics.UnityEmulator;
+package com.DiligentGraphics.UnityEmulator;
 
 import javax.microedition.khronos.opengles.GL10;
 

@@ -23,6 +23,7 @@
 
 // This header must be included, otherwise the linker will somehow fail to find android_main()
 #include <unordered_map>
+#include <string>
 #include <android_native_app_glue.h>
 #include "IUnityInterface.h"
 

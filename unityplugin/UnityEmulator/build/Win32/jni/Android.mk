@@ -8,7 +8,7 @@ LOCAL_MODULE := UnityEmulator
 LOCAL_CFLAGS := -std=c++11 -DENGINE_DLL
 LOCAL_CPP_FEATURES := exceptions
 
-LOCAL_STATIC_LIBRARIES := cpufeatures android_native_app_glue ndk_helper
+LOCAL_STATIC_LIBRARIES := cpufeatures android_native_app_glue
 
 # Include paths
 PROJECT_ROOT := $(LOCAL_PATH)/../../..
@@ -27,6 +27,7 @@ LOCAL_C_INCLUDES += $(CORE_ROOT)/Graphics/GraphicsEngine/include
 LOCAL_C_INCLUDES += $(CORE_ROOT)/Graphics/GraphicsEngineD3DBase/include
 LOCAL_C_INCLUDES += $(CORE_ROOT)/Graphics/GraphicsEngineOpenGL/interface
 LOCAL_C_INCLUDES += $(CORE_ROOT)/Graphics/HLSL2GLSLConverterLib/interface
+LOCAL_C_INCLUDES += $(CORE_ROOT)/External/Android/ndk_helper/include
 LOCAL_C_INCLUDES += $(TOOLS_ROOT)/Graphics/GraphicsTools/include
 
 # Source files

@@ -228,6 +228,9 @@ copy "%(RelativeDir)%(Filename).pdb" "$(TargetDir)"</Command>
     <ProjectReference Include="..\..\..\..\diligentcore\Common\build\Win32\Common.vcxproj">
       <Project>{7380f7e6-315f-4b4e-92eb-e6aeee865298}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\diligentcore\External\Android\ndk_helper\build\NdkHelper.vcxproj">
+      <Project>{22ba09ae-e0b5-49f1-8403-2a824762376e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\diligentcore\External\glew\build\Win32\glew_static.vcxproj">
       <Project>{664e6f0d-6784-4760-9565-d54f8eb1edf4}</Project>
     </ProjectReference>
