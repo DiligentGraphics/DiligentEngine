@@ -43,7 +43,7 @@ the same parent directory, otherwise links in the project files will be broken.
 Core module contains several property pages that define common build settings. The pages are located in 
 diligentcore\Shared\Build subdirectory and are referenced by every project.
 
-There is a build subdirectory in each projectís directory that contains Visual Studio project files.
+There is a build subdirectory in each project‚Äôs directory that contains Visual Studio project files.
 
 GraphicsEngineD3D11, GraphicsEngineD3D12 and GraphicsEngineOpenGL projects can be built as either static or dynamic link library.
 
@@ -70,7 +70,7 @@ To run the app from Visual Studio, go to Project Settings->Debugging and select 
 Debugger to launch drop-down list. Then start the application
 
 The second way to build for Android is to navigate to the build/Win32 folder of the project you want to build in command line and 
-use ndk-build. In the folder you can fine android_build.txt file with detailed build instructions
+use ndk-build. For executable projects, there is also **android_build.bat** file that builds and runs the application on the device
 
 Note that when building for Android, the engine root path must not contain white spaces.
 
@@ -81,7 +81,7 @@ Note that when building for Android, the engine root path must not contain white
 ## AntTweakBar Sample
 
 This sample demonstrates how to use [AntTweakBar library](http://anttweakbar.sourceforge.net/doc) to create simple user interface. 
-It can also be thought of as Diligent Engineís ìHello Worldî example. 
+It can also be thought of as Diligent Engine‚Äôs ‚ÄúHello World‚Äù example. 
 
 ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/AntTweakBar/Screenshot.png)
 
