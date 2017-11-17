@@ -1,12 +1,28 @@
-Asteroids D3D12
-===============
+# Asteroids
 
-The Intel asteroids sample was developed as an example of how to use the DirectX 12 graphics API to get performance and power benefits over previous APIs. For more information on the sample, please see: https://software.intel.com/en-us/blogs/2014/08/11/siggraph-2014-directx-12-on-intel
+This app is designed to be a performance benchmark and is based on 
+[this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. 
+It renders 50,000 unique textured asteroids. Every asteroid is a combination of one of 1000 unique 
+meshes and one of 10 unique textures. The demo uses original D3D11 and D3D12 native implementations, 
+and adds implementation using Diligent Engine API to allow comparing performance of different rendering modes.
 
-Requirements
-============
-- Windows 10. The application will run on older operating systems but the DirectX 12 path will not be available.
-- Visual Studio 2015 with the Windows 10 SDK.
-- DirectX 12 capable hardware and drivers. For instance, Intel HD Graphics 4400 or newer.
+![](Screenshot.png)
 
-For more information on Intel graphics and game code, please visit https://software.intel.com/gamedev
+
+# Build and Run Instructions
+
+The demo only supports Win32/x64 configuration. To build the project, open EngineAll.sln
+solution file located in [build/Win32](https://github.com/DiligentGraphics/DiligentEngine/tree/master/build/Win32) folder, 
+choose x64 configuration and build the solution, then set *Asteroids* as statup project and run it.
+
+# Controlling the demo
+
+Use the following keys to control the demo:
+
+* 'm' - toggle multithreaded rendering
+* '+' - increase the number of threads
+* '-' - decrease the number of threads
+* '1' - Use native D3D11 rendering mode
+* '2' - Use native D3D12 rendering mode
+* '3' - Use Diligent Engine D3D11 rendering mode
+* '4' - Use Diligent Engine D3D12 rendering mode
