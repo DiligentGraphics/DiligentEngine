@@ -28,8 +28,9 @@ call "%LOCAL_PATH%call_ndk_build.bat" "%SAMPLES_ROOT%/Samples/SampleBase/build/W
 call "%LOCAL_PATH%call_ndk_build.bat" "%SAMPLES_ROOT%/Samples/AntTweakBar/build/Win32"
 call "%LOCAL_PATH%call_ndk_build.bat" "%SAMPLES_ROOT%/Samples/Atmosphere/build/Win32"
 call "%LOCAL_PATH%call_ndk_build.bat" "%ENGINE_ROOT%/unityplugin/UnityEmulator/build/Win32"
-call "%LOCAL_PATH%call_ndk_build.bat" "%ENGINE_ROOT%/unityplugin/GhostCubeScene/build/Win32"
 call "%LOCAL_PATH%call_ndk_build.bat" "%ENGINE_ROOT%/unityplugin/GhostCubePlugin/PluginSource/build/Win32"
+call "%LOCAL_PATH%call_ndk_build.bat" "%ENGINE_ROOT%/unityplugin/GhostCubeScene/build/Win32"
+
 
 chdir /d %LOCAL_PATH%
 
