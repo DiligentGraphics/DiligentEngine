@@ -5,7 +5,7 @@ LOCAL_PATH := $(abspath $(DEPENDENCY_PATH))
 include $(CLEAR_VARS)
 # Project configuration
 LOCAL_MODULE := GhostCubeSceneEmulator
-LOCAL_CFLAGS := -std=c++11
+LOCAL_CFLAGS := -std=c++11 -fvisibility=hidden
 LOCAL_CPP_FEATURES := exceptions
 LOCAL_LDLIBS := -lGLESv3 -lEGL -llog -landroid
 
