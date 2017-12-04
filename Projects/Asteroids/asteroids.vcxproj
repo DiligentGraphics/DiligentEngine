@@ -224,6 +224,7 @@ copy "%(RelativeDir)%(Filename).pdb" "$(TargetDir)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying %(Filename).dll and %(Filename).pdb</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)%(Filename).dll</Outputs>
     </CustomBuild>
+    <None Include="README.md" />
     <None Include="src\intel_clear_bd_50_usascii.inl" />
     <None Include="src\stb_font_consolas_bold_50_usascii.inl" />
   </ItemGroup>

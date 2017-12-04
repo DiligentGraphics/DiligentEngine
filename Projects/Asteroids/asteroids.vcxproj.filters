@@ -89,6 +89,7 @@
     <None Include="src\stb_font_consolas_bold_50_usascii.inl">
       <Filter>GUI</Filter>
     </None>
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx11.dds">
