@@ -2,7 +2,7 @@
   // See https://go.microsoft.com//fwlink//?linkid=834763 for more information about this file.
   "configurations": [
     {
-      "name": "x86-Debug-Ninja",
+      "name": "x86-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x86" ],
@@ -13,7 +13,7 @@
       "ctestCommandArgs": ""
     },
     {
-      "name": "x86-Release-Ninja",
+      "name": "x86-Release",
       "generator": "Ninja",
       "configurationType": "RelWithDebInfo",
       "inheritEnvironments": [ "msvc_x86" ],
@@ -24,7 +24,7 @@
       "ctestCommandArgs": ""
     },
     {
-      "name": "x64-Debug-Ninja",
+      "name": "x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64" ],
@@ -35,30 +35,8 @@
       "ctestCommandArgs": ""
     },
     {
-      "name": "x64-Release-Ninja",
+      "name": "x64-Release",
       "generator": "Ninja",
-      "configurationType": "RelWithDebInfo",
-      "inheritEnvironments": [ "msvc_x64" ],
-      "buildRoot": "${projectDir}\\cmk_build\\build\\${name}",
-      "installRoot": "${projectDir}\\cmk_build\\install\\${name}",
-      "cmakeCommandArgs": "",
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": ""
-    },
-    {
-      "name": "x64-Debug-VS2017",
-      "generator": "Visual Studio 15 2017",
-      "configurationType": "Debug",
-      "inheritEnvironments": [ "msvc_x64" ],
-      "buildRoot": "${projectDir}\\cmk_build\\build\\${name}",
-      "installRoot": "${projectDir}\\cmk_build\\install\\${name}",
-      "cmakeCommandArgs": "",
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": ""
-    },
-    {
-      "name": "x64-Release-VS2017",
-      "generator": "Visual Studio 15 2017",
       "configurationType": "RelWithDebInfo",
       "inheritEnvironments": [ "msvc_x64" ],
       "buildRoot": "${projectDir}\\cmk_build\\build\\${name}",
