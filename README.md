@@ -53,7 +53,7 @@ As with the Windows Desktop, Microsoft Visual Studio 2015 or later is required t
 Platform platform. Again, any edition including Visual Studio Community is sufficient. Navigate to [build/UWP](build/UWP) 
 directory, open [EngineAll.sln](build/UWP/EngineAll.sln) solution file and build the solution for the desired configuration.
 
-# Android
+## Android
 
 To build the engine for Android, you first need to set up your machine for Android development: 
 download Android SDK (Android Studio is not required), Android NDK, Apache Ant and other required tools. 
@@ -78,17 +78,18 @@ Note that when building for Android, the engine root path must not contain white
 
 Reworking Diligent Engine build system with CMake is in progress.
 
-[CMake](https://cmake.org/) is a cross-platform build system generator. To start using cmake, download the [latest release](https://cmake.org/download/)(3.10 or later is recommended).
+[CMake](https://cmake.org/) is a cross-platform build system generator. To start using cmake, download the [latest release](https://cmake.org/download/) (3.10 or later is recommended).
 
 ## Win32
 
-To generate solution files for Windows desktop platform, use either CMake GUI or command line tool. The build system uses standalone 
-effect compiler. The path to the compiler needs to be specified via FXC variable. For example, to generate Visual Studio 2017 
+To generate build files for Windows desktop platform, use either CMake GUI or command line tool. The build system uses standalone 
+effect compiler, path to which needs to be specified via FXC variable. For example, to generate Visual Studio 2017 
 solution and project files in cmk_build folder, navigate to the engine's root folder and run the following command:
 
 cmake -D FXC="C:/Program Files (x86)/Windows Kits/10/bin/x86/fxc.exe" -H. -B./cmk_build -G "Visual Studio 15 2017 Win64"
 
-Open DiligentEngine.sln file in cmk_build folder, select the desired configuration and build the engine.
+Open DiligentEngine.sln file in cmk_build folder, select the desired configuration and build the engine. By default, Asteroids
+demo will be set up as startup project.
 
 ## Universal Windows Platform
 

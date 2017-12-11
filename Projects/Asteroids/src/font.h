@@ -23,8 +23,8 @@ public:
     SpriteVertex* DrawString(const char* str, float x, float y, float viewportWidth, float viewportHeight, SpriteVertex* outVertex) const
     {
         for (; *str; ++str) {
-            auto codePoint = *str - STB_SOMEFONT_FIRST_CHAR;
-            assert(codePoint >= 0 && codePoint < mFontData.size());
+            int codePoint = *str - STB_SOMEFONT_FIRST_CHAR;
+            assert(codePoint >= 0 && codePoint < static_cast<int>(mFontData.size()));
             const stb_fontchar* cd = &mFontData[codePoint];
 
             outVertex[0] = {x + cd->x0, y + cd->y0, cd->s0, cd->t0};
@@ -50,8 +50,8 @@ public:
     {
         UINT w = 0;
         for (; *str; ++str) {
-            auto codePoint = *str - STB_SOMEFONT_FIRST_CHAR;
-            assert(codePoint >= 0 && codePoint < mFontData.size());
+            int codePoint = *str - STB_SOMEFONT_FIRST_CHAR;
+            assert(codePoint >= 0 && codePoint < static_cast<int>(mFontData.size()));
             const stb_fontchar* cd = &mFontData[codePoint];
             w += cd->advance_int;
         }

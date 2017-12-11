@@ -597,7 +597,7 @@ void Asteroids::CreateMeshes()
 
     // Asteroid vertices
     {
-        memcpy(bufferWO + asteroidVBOffset, asteroidMeshes->vertices.data(), asteroidVBSize);
+        memcpy(bufferWO + static_cast<size_t>(asteroidVBOffset), asteroidMeshes->vertices.data(), static_cast<size_t>(asteroidVBSize));
 
         mAsteroidVertexBufferView.BufferLocation = gpuVA + asteroidVBOffset;
         mAsteroidVertexBufferView.SizeInBytes    = static_cast<UINT>(asteroidVBSize);
@@ -606,7 +606,7 @@ void Asteroids::CreateMeshes()
 
     // Asteroid indices
     {
-        memcpy(bufferWO + asteroidIBOffset, asteroidMeshes->indices.data(), asteroidIBSize);
+        memcpy(bufferWO + static_cast<size_t>(asteroidIBOffset), asteroidMeshes->indices.data(), static_cast<size_t>(asteroidIBSize));
 
         mAsteroidIndexBufferView.BufferLocation = gpuVA + asteroidIBOffset;
         mAsteroidIndexBufferView.SizeInBytes    = static_cast<UINT>(asteroidIBSize);
@@ -615,7 +615,7 @@ void Asteroids::CreateMeshes()
     
     // Skybox vertices
     {
-        memcpy(bufferWO + skyboxVBOffset, skyboxVertices.data(), skyboxVBSize);
+        memcpy(bufferWO + static_cast<size_t>(skyboxVBOffset), skyboxVertices.data(), static_cast<size_t>(skyboxVBSize));
 
         mSkyboxVertexBufferView.BufferLocation = gpuVA + skyboxVBOffset;
         mSkyboxVertexBufferView.SizeInBytes    = static_cast<UINT>(skyboxVBSize);
