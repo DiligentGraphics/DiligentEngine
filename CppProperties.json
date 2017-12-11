@@ -4,7 +4,7 @@
       "inheritEnvironments": [
         "msvc_x86"
       ],
-      "name": "x86-Debug-Ninja",
+      "name": "x86-Debug",
       "includePath": [
         "${env.INCLUDE}"
       ],
@@ -20,7 +20,7 @@
       "inheritEnvironments": [
         "msvc_x86"
       ],
-      "name": "x86-Release-Ninja",
+      "name": "x86-Release",
       "includePath": [
         "${env.INCLUDE}"
       ],
@@ -36,7 +36,7 @@
       "inheritEnvironments": [
         "msvc_x64"
       ],
-      "name": "x64-Debug-Ninja",
+      "name": "x64-Debug",
       "includePath": [
         "${env.INCLUDE}"
       ],
@@ -52,39 +52,7 @@
       "inheritEnvironments": [
         "msvc_x64"
       ],
-      "name": "x64-Release-Ninja",
-      "includePath": [
-        "${env.INCLUDE}"
-      ],
-      "defines": [
-        "WIN32",
-        "NDEBUG",
-        "UNICODE",
-        "_UNICODE"
-      ],
-      "intelliSenseMode": "msvc-x64"
-    },
-    {
-      "inheritEnvironments": [
-        "msvc_x64"
-      ],
-      "name": "x64-Debug-VS2017",
-      "includePath": [
-        "${env.INCLUDE}"
-      ],
-      "defines": [
-        "WIN32",
-        "_DEBUG",
-        "UNICODE",
-        "_UNICODE"
-      ],
-      "intelliSenseMode": "msvc-x64"
-    },
-    {
-      "inheritEnvironments": [
-        "msvc_x64"
-      ],
-      "name": "x64-Release-VS2017",
+      "name": "x64-Release",
       "includePath": [
         "${env.INCLUDE}"
       ],
