@@ -473,8 +473,6 @@ int main(int argc, char** argv)
     // main loop
     double elapsedTime = 0.0;
     double frameTime = 0.0;
-    int lastMouseX = 0;
-    int lastMouseY = 0;
     POINTER_INFO pointerInfo = {};
 
     timeBeginPeriod(1);
@@ -573,15 +571,15 @@ int main(int argc, char** argv)
             filteredFrameTime = filteredFrameTime * (1.f - filterScale) + filterScale * (float)frameTime;
 
             char buffer[256];
-            sprintf(buffer, "Asteroids %s%s (%dt) - %4.2f ms (%4.2f ms / %4.2f ms)", ModeStr, resBindModeStr, gSettings.multithreadedRendering ? gSettings.numThreads : 1, 
-                            1000.f * filteredFrameTime, 1000.f * filteredUpdateTime, 1000.f * filteredRenderTime);
+            sprintf_s(buffer, "Asteroids %s%s (%dt) - %4.2f ms (%4.2f ms / %4.2f ms)", ModeStr, resBindModeStr, gSettings.multithreadedRendering ? gSettings.numThreads : 1, 
+                              1000.f * filteredFrameTime, 1000.f * filteredUpdateTime, 1000.f * filteredRenderTime);
 
             SetWindowText(hWnd, buffer);
 
             if (gSettings.lockFrameRate) {
-                sprintf(buffer, "(Locked)");
+                sprintf_s(buffer, "(Locked)");
             } else {
-                sprintf(buffer, "%.0f fps", 1.0f / filteredFrameTime);
+                sprintf_s(buffer, "%.0f fps", 1.0f / filteredFrameTime);
             }
             gFPSControl->Text(buffer);
         }

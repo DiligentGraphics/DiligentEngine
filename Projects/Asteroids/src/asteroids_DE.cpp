@@ -592,7 +592,6 @@ void Asteroids::CreateGUIResources()
         auto control = i >= 0 ? (*mGUI)[i] : mSprite.get();
         if (control->TextureFile().length() > 0 && mSpriteTextures.find(control->TextureFile()) == mSpriteTextures.end()) {
             std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;            
-            ID3D11ShaderResourceView* textureSRV = nullptr;
             auto path = NarrowString(converter.from_bytes(control->TextureFile()).c_str());
             TextureLoadInfo loadInfo;
             loadInfo.IsSRGB = true;
@@ -722,7 +721,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
 
     if( m_BindingMode == BindingMode::TextureMutable )
     {
-        for(auto &srb=mAsteroidsSRBs.begin(); srb!=mAsteroidsSRBs.end(); ++srb)
+        for(auto srb=mAsteroidsSRBs.begin(); srb!=mAsteroidsSRBs.end(); ++srb)
         {
             mDeviceCtxt->TransitionShaderResources(mAsteroidsPSO, *srb);
         }

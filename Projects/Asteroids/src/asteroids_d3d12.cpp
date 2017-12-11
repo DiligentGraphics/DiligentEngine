@@ -548,7 +548,7 @@ void Asteroids::CreateSubsets(UINT numHeapsPerFrame)
     for (UINT f = 0; f < NUM_FRAMES_TO_BUFFER; f++) {
         // Per-frame data
         auto frame = &mFrame[f];
-        auto dynamicUploadGPUVA = frame->mDynamicUpload->Heap()->GetGPUVirtualAddress();
+        //auto dynamicUploadGPUVA = frame->mDynamicUpload->Heap()->GetGPUVirtualAddress();
 
         for (UINT subsetIdx = 0; subsetIdx < mSubsetCount; ++subsetIdx) {
             void* memory = _aligned_malloc(sizeof(SubsetD3D12), 64);
@@ -793,7 +793,6 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     }
     else
     {
-        LONG64 SubsetUpdateTicks = 0, SubsetRenderTicks = 0;
         for (unsigned int subsetIdx = 0; subsetIdx < mSubsetCount; ++subsetIdx) {
             RenderSubset(swapChainBuffer->mRenderTargetView, mCurrentFrameIndex, frameTime,
                 frame->mSubsets[subsetIdx], subsetIdx, camera.Eye(), camera.ViewProjection(), settings);

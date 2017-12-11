@@ -74,6 +74,30 @@ use ndk-build. For executable projects, there is also **android_build.bat** file
 
 Note that when building for Android, the engine root path must not contain white spaces.
 
+# Building with CMake (Work in Progress)
+
+Reworking Diligent Engine build system with CMake is in progress.
+
+[CMake](https://cmake.org/) is a cross-platform build system generator. To start using cmake, download the [latest release](https://cmake.org/download/)(3.10 or later is recommended).
+
+## Win32
+
+To generate solution files for Windows desktop platform, use either CMake GUI or command line tool. The build system uses standalone 
+effect compiler. The path to the compiler needs to be specified via FXC variable. For example, to generate Visual Studio 2017 
+solution and project files in cmk_build folder, navigate to the engine's root folder and run the following command:
+
+cmake -D FXC="C:/Program Files (x86)/Windows Kits/10/bin/x86/fxc.exe" -H. -B./cmk_build -G "Visual Studio 15 2017 Win64"
+
+Open DiligentEngine.sln file in cmk_build folder, select the desired configuration and build the engine.
+
+## Universal Windows Platform
+
+Not yet supported
+
+## Android
+
+Not yet supported
+
 # Samples
 
 [Sample source code](https://github.com/DiligentGraphics/DiligentSamples)

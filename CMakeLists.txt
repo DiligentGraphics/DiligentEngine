@@ -4,12 +4,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project(DiligentEngine)
 
-if(MSVC)
-	#add_compile_options(/W4)
-else()
-	#add_compile_options(-W -Wall)
-endif()
-
 add_subdirectory(diligentcore)
 add_subdirectory(diligenttools)
 add_subdirectory(diligentsamples)
+add_subdirectory(projects)
+
+if(MSVC)
+	set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT Asteroids)
+endif()
