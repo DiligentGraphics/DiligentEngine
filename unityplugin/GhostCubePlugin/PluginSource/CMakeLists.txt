@@ -95,6 +95,28 @@ if(MSVC)
 		LINK_FLAGS_MINSIZEREL /LTCG
 		LINK_FLAGS_RELWITHDEBINFO /LTCG
 	)
+
+	if(PLATFORM_WIN32)
+		if(WIN64)
+			set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/x86_64/GhostCubePlugin.dll)
+		else()
+			set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/x86/GhostCubePlugin.dll)
+		endif()
+	elseif(PLATFORM_UNIVERSAL_WINDOWS)
+		if(WIN64)
+			set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/Metro/UWP/x86_64/GhostCubePlugin.dll)
+		else()
+			set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/Metro/UWP/x86/GhostCubePlugin.dll)
+		endif()
+	elseif(PLATFORM_ANDROID)
+		set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/Android/libGhostCubePlugin.so)
+	endif()
+	add_custom_command(TARGET GhostCubePlugin-shared POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
+			"${UNITY_PLUGIN_PATH}"
+	)
+			
 endif()
 
 source_group("src" FILES ${SOURCE})
