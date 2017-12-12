@@ -150,7 +150,7 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle, int MajorVe
     //Or better yet, use the GL3 way to get the version number
     glGetIntegerv( GL_MAJOR_VERSION, &MajorVersion );
     glGetIntegerv( GL_MINOR_VERSION, &MinorVersion );
-    LOG_INFO_MESSAGE("Initialized OpenGL ", MajorVersion, '.', MinorVersion, " context")
+    LOG_INFO_MESSAGE("Initialized OpenGL ", MajorVersion, '.', MinorVersion, " context (", GLVersionString, ")")
 
     if( glDebugMessageCallback )
     {

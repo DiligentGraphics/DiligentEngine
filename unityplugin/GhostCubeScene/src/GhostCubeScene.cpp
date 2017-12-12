@@ -177,11 +177,11 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc, double CurrTime
         float aspectRatio = 1.0f;
         float4x4 ReflectionCameraProj = Projection(PI_F / 4.f, aspectRatio, NearPlane, FarPlane, IsDX);
         auto wvp = CubeWorldView * ReflectionCameraProj;
-        float ReverseZ = IsDX ? -1.f : +1.f;
-        SetMatrixFromUnity(wvp._m00, ReverseZ * wvp._m01, wvp._m02, wvp._m03, 
-                           wvp._m10, ReverseZ * wvp._m11, wvp._m12, wvp._m13,
-                           wvp._m20, ReverseZ * wvp._m21, wvp._m22, wvp._m23,
-                           wvp._m30, ReverseZ * wvp._m31, wvp._m32, wvp._m33);
+        float fReverseZ = IsDX ? -1.f : +1.f;
+        SetMatrixFromUnity(wvp._m00, fReverseZ * wvp._m01, wvp._m02, wvp._m03, 
+                           wvp._m10, fReverseZ * wvp._m11, wvp._m12, wvp._m13,
+                           wvp._m20, fReverseZ * wvp._m21, wvp._m22, wvp._m23,
+                           wvp._m30, fReverseZ * wvp._m31, wvp._m32, wvp._m33);
 
         SetTexturesFromUnity(m_pRenderTarget->GetNativeHandle(), m_pDepthBuffer->GetNativeHandle());
 

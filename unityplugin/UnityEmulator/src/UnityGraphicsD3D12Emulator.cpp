@@ -112,7 +112,7 @@ void UnityGraphicsD3D12Impl::CreateDeviceAndCommandQueue()
 #endif
 
     {
-        auto hr = m_D3D12Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, __uuidof(m_D3D12FrameFence), reinterpret_cast<void**>(static_cast<ID3D12Fence**>(&m_D3D12FrameFence)));
+        hr = m_D3D12Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, __uuidof(m_D3D12FrameFence), reinterpret_cast<void**>(static_cast<ID3D12Fence**>(&m_D3D12FrameFence)));
         VERIFY(SUCCEEDED(hr), "Failed to create the fence");
 	    m_D3D12FrameFence->SetName(L"Completed Frame Fence fence");
 	    m_D3D12FrameFence->Signal(m_CompletedFenceValue); // 0 cmd lists are completed
@@ -141,8 +141,8 @@ void UnityGraphicsD3D12Impl::CreateSwapChain(void* pNativeWndHandle, unsigned in
     auto hWnd = reinterpret_cast<HWND>(pNativeWndHandle);
     RECT rc;
     GetClientRect( hWnd, &rc );
-    VERIFY_EXPR(Width  = rc.right - rc.left);
-    VERIFY_EXPR(Height = rc.bottom - rc.top);
+    VERIFY_EXPR(static_cast<LONG>(Width)  == rc.right - rc.left);
+    VERIFY_EXPR(static_cast<LONG>(Height) == rc.bottom - rc.top);
 #endif
 
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -233,6 +233,7 @@ void UnityGraphicsD3D12Impl::InitBuffersAndViews()
         for (UINT n = 0; n < m_BackBuffersCount; n++)
         {
             auto hr = m_SwapChain->GetBuffer(n, IID_PPV_ARGS(&m_RenderTargets[n]));
+            VERIFY_EXPR(SUCCEEDED(hr))
 
             D3D12_RENDER_TARGET_VIEW_DESC RTVDesc = {};
             RTVDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;

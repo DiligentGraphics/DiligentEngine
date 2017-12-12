@@ -108,8 +108,8 @@ void UnityGraphicsD3D11Impl::CreateSwapChain(void* pNativeWndHandle, unsigned in
     auto hWnd = reinterpret_cast<HWND>(pNativeWndHandle);
     RECT rc;
     GetClientRect( hWnd, &rc );
-    VERIFY_EXPR(Width = rc.right - rc.left);
-    VERIFY_EXPR(Height = rc.bottom - rc.top);
+    VERIFY_EXPR( static_cast<LONG>(Width) == rc.right - rc.left);
+    VERIFY_EXPR(static_cast<LONG>(Height) == rc.bottom - rc.top);
 #endif
 
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};

@@ -8,6 +8,7 @@ add_subdirectory(diligentcore)
 add_subdirectory(diligenttools)
 add_subdirectory(diligentsamples)
 add_subdirectory(projects)
+add_subdirectory(unityplugin)
 
 if(MSVC)
 	set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT Asteroids)

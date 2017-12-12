@@ -4,7 +4,9 @@
 
 #if OPENGL_SUPPORTED
 
-#define GLEW_STATIC
+#ifndef GLEW_STATIC
+#   define GLEW_STATIC
+#endif
 #include "glew.h"
 #define NOMINMAX
 #include "wglew.h"

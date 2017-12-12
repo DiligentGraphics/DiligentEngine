@@ -270,7 +270,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
             auto CurrTime = timer.GetElapsedTime();
             auto ElapsedTime = CurrTime - PrevTime;
             PrevTime = CurrTime;
-            float fTime = static_cast<float>(CurrTime);
 
             g_pScene->Render(RenderEventFunc, CurrTime, ElapsedTime);
 
