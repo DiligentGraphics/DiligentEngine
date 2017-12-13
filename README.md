@@ -10,9 +10,17 @@ as a graphics subsystem in a standalone game engine, Unity native plugin or any 
 [shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) that allows shaders authored in HLSL to 
 be translated to GLSL.
 
-# Repository Structure
+# Clonning the Repository
 
-The repository includes the following submodules:
+This is the master repository that contains three [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules). To get the repository and all submodules, use the following command:
+
+ git clone --recursive https://github.com/DiligentGraphics/DiligentEngine.git 
+ 
+ Alternatively, you can get master repository fisrt, and then individually clone all submodules into the engine's root folder.
+
+## Repository Structure
+
+Master repository includes the following submodules:
 
 * [Core](https://github.com/DiligentGraphics/DiligentCore) submodule provides basic engine functionality. It implements the engine API using 
   [Direct3D11](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D11), [Direct3D12](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D12), and
