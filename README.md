@@ -88,6 +88,9 @@ solution and project files in cmk_build folder, navigate to the engine's root fo
 
 cmake -D FXC="C:/Program Files (x86)/Windows Kits/10/bin/x86/fxc.exe" -H. -B./cmk_build -G "Visual Studio 15 2017 Win64"
 
+**WARNING** In current implementation, full path to cmake build folder **must not contain white spaces**. (If anybody knows a way
+to add quotes to CMake's custom commands, please let me know!)
+
 Open DiligentEngine.sln file in cmk_build folder, select the desired configuration and build the engine. By default, Asteroids
 demo will be set up as startup project.
 
