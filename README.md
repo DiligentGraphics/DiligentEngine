@@ -90,11 +90,11 @@ Reworking Diligent Engine build system with CMake is in progress.
 
 ## Win32
 
-To generate build files for Windows desktop platform, use either CMake GUI or command line tool. The build system uses standalone 
-effect compiler, path to which needs to be specified via FXC variable. For example, to generate Visual Studio 2017 64-bit
-solution and project files in *cmk_build/Win64* folder, navigate to the engine's root folder and run the following command:
+To generate build files for Windows desktop platform, use either CMake GUI or command line tool. For example, to generate 
+Visual Studio 2017 64-bit solution and project files in *cmk_build/Win64* folder, navigate to the engine's root folder and 
+run the following command:
 
-*cmake -D FXC="C:/Program Files (x86)/Windows Kits/10/bin/x86/fxc.exe" -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
+*cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
 
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**. (If anybody knows a way
 to add quotes to CMake's custom commands, please let me know!)
@@ -112,7 +112,7 @@ To generate build files for Universal Windows platform, you need to define the f
 For example, to generate Visual Studio 2017 64-bit solution and project files in *cmk_build/UWP64* folder, run the following command
 from the engine's root folder:
 
-*cmake -D FXC="C:/Program Files (x86)/Windows Kits/10/bin/x86/fxc.exe" -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.15063.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"*
+*cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.15063.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"*
 
 ## Android
 

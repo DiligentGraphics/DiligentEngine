@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.10)
 
 project(Asteroids CXX)
 
@@ -34,16 +34,29 @@ set(INCLUDE
 	src/util.h
 )
 
-set(SHADERS
+set(PIXEL_SHADERS
 	src/asteroid_ps.hlsl
 	src/asteroid_ps_d3d11.hlsl
-	src/asteroid_vs.hlsl
 	src/font_ps.hlsl
 	src/skybox_ps.hlsl
-	src/skybox_vs.hlsl
 	src/sprite_ps.hlsl
+)
+
+set(VERTEX_SHADERS
+	src/asteroid_vs.hlsl
+	src/skybox_vs.hlsl
 	src/sprite_vs.hlsl
 )
+
+set(SHADERS ${PIXEL_SHADERS} ${VERTEX_SHADERS})
+
+set_property(SOURCE ${PIXEL_SHADERS} PROPERTY VS_SHADER_TYPE Pixel)
+set_property(SOURCE ${VERTEX_SHADERS} PROPERTY VS_SHADER_TYPE Vertex)
+set_property(SOURCE ${SHADERS} PROPERTY VS_SHADER_ENTRYPOINT "%(Filename)")
+set_property(SOURCE ${SHADERS} PROPERTY VS_SHADER_MODEL 5.0)
+set_property(SOURCE src/asteroid_ps.hlsl ps_5_1 PROPERTY VS_SHADER_MODEL 5.1)
+set_property(SOURCE ${SHADERS} PROPERTY VS_SHADER_VARIABLE_NAME "g_%(Filename)")
+set_property(SOURCE ${SHADERS} PROPERTY VS_SHADER_OUTPUT_HEADER_FILE "${CMAKE_CURRENT_BINARY_DIR}/CompiledShaders/%(Filename).h")
 
 set(GUI
 	src/font.h
@@ -83,47 +96,11 @@ else()
 	message(FATAL_ERROR "Unsupported platform")
 endif()
 
-
-add_custom_target(AsteroidsShaders)
-
-set(SHADER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/Shaders)
-file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
-
-macro(COMPILE_SHADER FILE SHADER_MODEL)
-	get_filename_component(FILE_NAME_WE ${FILE} NAME_WE)
-	get_filename_component(FILE_NAME ${FILE} NAME)
-	set(OUT_FILE ${SHADER_OUTPUT_DIR}/${FILE_NAME_WE}.h)
-
-	add_custom_command(TARGET AsteroidsShaders 
-						# Unfortunately it is not possible to set TARGET directly to GraphicsEngineD3D12-static/shared
-						# because PRE_BUILD is only supported on Visual Studio 8 or later. For all other generators 
-						# PRE_BUILD is treated as PRE_LINK.
-						COMMAND ${FXC} /T ${SHADER_MODEL} ${FILE_NAME} /E ${FILE_NAME_WE} /O3 /Vn g_${FILE_NAME_WE} /Fh ${OUT_FILE} /nologo
-						MAIN_DEPENDENCY ${FILE} # the primary input source file to the command
-						WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src
-						COMMENT "Compiling shader ${FILE}"
-						VERBATIM
-	)
-endmacro()
-
-COMPILE_SHADER(src/asteroid_ps.hlsl ps_5_1)
-COMPILE_SHADER(src/asteroid_ps_d3d11.hlsl ps_5_0)
-COMPILE_SHADER(src/asteroid_vs.hlsl vs_5_0)
-COMPILE_SHADER(src/font_ps.hlsl ps_5_0)
-COMPILE_SHADER(src/skybox_ps.hlsl ps_5_0)
-COMPILE_SHADER(src/skybox_vs.hlsl vs_5_0)
-COMPILE_SHADER(src/sprite_ps.hlsl ps_5_0)
-COMPILE_SHADER(src/sprite_vs.hlsl vs_5_0)
-
-add_dependencies(Asteroids AsteroidsShaders)
-
-target_compile_definitions(Asteroids PRIVATE NOMINMAX)
-
 target_include_directories(Asteroids
 PRIVATE
 	Src
 	SDK/Include
-	${CMAKE_CURRENT_BINARY_DIR}/Shaders
+	${CMAKE_CURRENT_BINARY_DIR}/CompiledShaders
 )
 
 target_link_libraries(Asteroids
@@ -148,8 +125,7 @@ PRIVATE
 set_common_target_properties(Asteroids)
 
 if(MSVC)
-	set_header_file_only_property("${SHADERS}")
-
+	target_compile_definitions(Asteroids PRIVATE NOMINMAX)
 	# Disable MSVC-specific warnings
 	# - w4201: nonstandard extension used: nameless struct/union
 	# - w4324: structure was padded due to alignment specifier
