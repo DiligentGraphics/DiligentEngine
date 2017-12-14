@@ -17,19 +17,20 @@ elseif(PLATFORM_ANDROID)
 	list(APPEND SOURCE src/Android/AndroidMain.cpp)
 endif()
 
-if(PLATFORM_WIN32)
-	add_executable(GhostCubeScene WIN32 ${SOURCE} ${INCLUDE})
-	set_target_properties(GhostCubeScene PROPERTIES 
-		VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/assets"
-	)
-	
-	add_custom_command(TARGET GhostCubeScene POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different
-			"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
-			"\"$<TARGET_FILE_DIR:GhostCubeScene>\"")
+if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 
-elseif(PLATFORM_UNIVERSAL_WINDOWS)
 	add_executable(GhostCubeScene WIN32 ${SOURCE} ${INCLUDE})
+	
+	if(PLATFORM_WIN32)
+		set_target_properties(GhostCubeScene PROPERTIES 
+			VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/assets"
+		)
+	
+		add_custom_command(TARGET GhostCubeScene POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
+				"\"$<TARGET_FILE_DIR:GhostCubeScene>\"")
+	endif()
 
 #elseif(APPLE)
 	#add_executable(GhostCubeScene MACOSX_BUNDLE Main.cpp)
@@ -63,8 +64,13 @@ set_common_target_properties(GhostCubeScene)
 
 if(MSVC)
 	# Disable MSVC-specific warnings
-	# - w4201: nonstandard extension used: nameless struct/unio
+	# - w4201: nonstandard extension used: nameless struct/union
 	target_compile_options(GhostCubeScene PRIVATE /wd4201)
+	
+	if(PLATFORM_UNIVERSAL_WINDOWS)
+		# Consume the windows runtime extensions
+		target_compile_options(GhostCubeScene PRIVATE /ZW)
+	endif()
 endif()
 
 source_group("src" FILES ${SOURCE})
