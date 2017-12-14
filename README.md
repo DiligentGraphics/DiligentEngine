@@ -107,7 +107,7 @@ demo will be set up as startup project.
 To generate build files for Universal Windows platform, you need to define the following two cmake variables:
 
 * CMAKE_SYSTEM_NAME=WindowsStore 
-* CMAKE_SYSTEM_VERSION=<Windows SDK Version>
+* CMAKE_SYSTEM_VERSION=< Windows SDK Version >
 
 For example, to generate Visual Studio 2017 64-bit solution and project files in *cmk_build/UWP64* folder, run the following command
 from the engine's root folder:
