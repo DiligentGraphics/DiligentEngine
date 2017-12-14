@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.8)
 
 project(GhostCubePlugin CXX)
 
@@ -39,7 +39,7 @@ add_library(GhostCubePlugin-shared SHARED
 	${SOURCE} ${INCLUDE} ${UNITY_INTERFACES} 
 )
 
-if(PLATFORM_WIN32 OR PLATFORM_UNVIRSAL_WINDOWS)
+if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 	if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
 	   set(ARCH 64)
 	else("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
@@ -88,6 +88,9 @@ if(MSVC)
 	# Disable MSVC-specific warnings
 	# - w4201: nonstandard extension used: nameless struct/unio
 	target_compile_options(GhostCubePlugin-shared PRIVATE /wd4201)
+	if(PLATFORM_UNIVERSAL_WINDOWS)
+		target_compile_definitions(GhostCubePlugin-shared PRIVATE WINDOWS_UWP UNITY_METRO)
+	endif()
 	# Enable link-time code generation for release builds (I was not able to 
 	# find any way to set these settings through interface library BuildSettings)
 	set_target_properties(GhostCubePlugin-shared PROPERTIES

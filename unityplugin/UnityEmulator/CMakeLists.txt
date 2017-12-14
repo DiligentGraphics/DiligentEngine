@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.8)
 
 project(UnityEmulator CXX)
 
@@ -50,17 +50,38 @@ endif()
 
 if(PLATFORM_WIN32)
 	list(APPEND SOURCE src/Windows/WinMain.cpp)
-elseif(PLATFORM_UNIVERSAL_WINDOWS)
-	list(APPEND SOURCE src/UWP/App.cpp)
-	list(APPEND INCLUDE src/UWP/DeviceResources.cpp)
-	list(APPEND INCLUDE src/UWP/UnityEmulatorAppMain.cpp)
 
-	list(APPEND INCLUDE src/UWP/App.h)
-	list(APPEND INCLUDE src/UWP/DeviceResources.h)
-	list(APPEND INCLUDE src/UWP/DirectXHelper.h)
-	list(APPEND INCLUDE src/UWP/pch2.h)
-	list(APPEND INCLUDE src/UWP/StepTimer.h)
-	list(APPEND INCLUDE src/UWP/UnityEmulatorAppMain.h)
+elseif(PLATFORM_UNIVERSAL_WINDOWS)
+
+	# Windows Runtime types cannot be included into static libraries
+	# https://social.msdn.microsoft.com/Forums/en-US/269db513-64ef-4817-a025-43954f614eb3/lnk4264-why-are-static-libraries-not-recommended-when-authoring-windows-runtime-types?forum=winappswithnativecode
+	# So as a workaround, we will include all source files into the target app project
+	function(get_emulator_uwp_source UWP_SOURCE UWP_INCLUDE UWP_INCLUDE_DIR)
+		get_target_property(EMULATOR_SOURCE_DIR UnityEmulator SOURCE_DIR)
+		
+		set(${UWP_SOURCE}
+			${EMULATOR_SOURCE_DIR}/src/UWP/App.cpp
+			${EMULATOR_SOURCE_DIR}/src/UWP/DeviceResources.cpp
+			${EMULATOR_SOURCE_DIR}/src/UWP/UnityEmulatorAppMain.cpp
+			PARENT_SCOPE
+		)
+
+		set(${UWP_INCLUDE}
+			${EMULATOR_SOURCE_DIR}/src/UWP/App.h
+			${EMULATOR_SOURCE_DIR}/src/UWP/DeviceResources.h
+			${EMULATOR_SOURCE_DIR}/src/UWP/DirectXHelper.h
+			${EMULATOR_SOURCE_DIR}/src/UWP/pch2.h
+			${EMULATOR_SOURCE_DIR}/src/UWP/StepTimer.h
+			${EMULATOR_SOURCE_DIR}/src/UWP/UnityEmulatorAppMain.h
+			PARENT_SCOPE
+		)
+
+		set(${UWP_INCLUDE_DIR}
+			${EMULATOR_SOURCE_DIR}/Src/UWP
+			PARENT_SCOPE
+		)
+	endfunction(get_emulator_uwp_source)
+
 elseif(PLATFORM_ANDROID)
 	list(APPEND SOURCE src/Android/AndroidMainImpl.cpp)
 else()
@@ -92,22 +113,31 @@ endif()
 target_link_libraries(UnityEmulator 
 PRIVATE 
 	BuildSettings 
-	glew-static
 PUBLIC
 	Common 
 	GraphicsEngine
-	GraphicsEngineOpenGL-static
 	GraphicsTools
 	TargetPlatform
 )
 
-if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
-	target_link_libraries(UnityEmulator 
-	PUBLIC
-		GraphicsEngineD3DBase
-		GraphicsEngineD3D11-static
-		GraphicsEngineD3D12-static
-)		
+if(GL_SUPPORTED)
+	target_link_libraries(UnityEmulator PRIVATE glew-static) 
+endif()
+
+if(GL_SUPPORTED OR GLES_SUPPORTED)
+	target_link_libraries(UnityEmulator PUBLIC GraphicsEngineOpenGL-static)
+endif()
+
+if(D3D11_SUPPORTED)
+	target_link_libraries(UnityEmulator PUBLIC GraphicsEngineD3DBase GraphicsEngineD3D11-static)
+endif()
+
+if(D3D12_SUPPORTED)
+	target_link_libraries(UnityEmulator PUBLIC GraphicsEngineD3DBase GraphicsEngineD3D12-static)
+endif()
+
+if(PLATFORM_UNIVERSAL_WINDOWS)
+	target_link_libraries(UnityEmulator PRIVATE dxguid.lib)
 endif()
 
 source_group("src" FILES ${SOURCE})

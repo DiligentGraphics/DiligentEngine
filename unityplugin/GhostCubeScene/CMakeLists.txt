@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.8)
 
 project(GhostCubeScene CXX)
 
@@ -28,6 +28,9 @@ if(PLATFORM_WIN32)
 			"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
 			"\"$<TARGET_FILE_DIR:GhostCubeScene>\"")
 
+elseif(PLATFORM_UNIVERSAL_WINDOWS)
+	add_executable(GhostCubeScene WIN32 ${SOURCE} ${INCLUDE})
+
 #elseif(APPLE)
 	#add_executable(GhostCubeScene MACOSX_BUNDLE Main.cpp)
 #elseif(UNIX)
@@ -35,6 +38,15 @@ if(PLATFORM_WIN32)
 else()
 	message(FATAL_ERROR "Unknown platform")
 endif()
+
+if(PLATFORM_UNIVERSAL_WINDOWS)
+	get_emulator_uwp_source(UWP_SOURCE UWP_INCLUDE UWP_INCLUDE_DIR)
+	source_group("UWP\\src" FILES ${UWP_SOURCE})
+	source_group("UWP\\include" FILES ${UWP_INCLUDE})
+	target_include_directories(GhostCubeScene PRIVATE ${UWP_INCLUDE_DIR})
+	target_sources(GhostCubeScene PRIVATE ${UWP_SOURCE} ${UWP_INCLUDE})
+endif()
+
 
 target_include_directories(GhostCubeScene
 PRIVATE
