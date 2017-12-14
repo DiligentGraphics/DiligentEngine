@@ -90,6 +90,7 @@ endif()
 
 
 add_library(UnityEmulator STATIC ${SOURCE} ${INCLUDE})
+set_common_target_properties(UnityEmulator)
 
 target_include_directories(UnityEmulator
 PRIVATE
@@ -100,14 +101,6 @@ PUBLIC
 
 if(MSVC)
 	target_compile_options(UnityEmulator PRIVATE -DUNICODE)
-
-	# Enable link-time code generation for release builds (I was not able to 
-	# find any way to set these settings through interface library BuildSettings)
-	set_target_properties(UnityEmulator PROPERTIES
-		STATIC_LIBRARY_FLAGS_RELEASE /LTCG
-		STATIC_LIBRARY_FLAGS_MINSIZEREL /LTCG
-		STATIC_LIBRARY_FLAGS_RELWITHDEBINFO /LTCG
-	)
 endif()
 
 target_link_libraries(UnityEmulator 

@@ -84,6 +84,8 @@ if(GL_SUPPORTED OR GLES_SUPPORTED)
 	target_link_libraries(GhostCubePlugin-shared PRIVATE GraphicsEngineOpenGL-static)
 endif()
 
+set_common_target_properties(GhostCubePlugin-shared)
+
 if(MSVC)
 	# Disable MSVC-specific warnings
 	# - w4201: nonstandard extension used: nameless struct/unio
@@ -91,13 +93,6 @@ if(MSVC)
 	if(PLATFORM_UNIVERSAL_WINDOWS)
 		target_compile_definitions(GhostCubePlugin-shared PRIVATE WINDOWS_UWP UNITY_METRO)
 	endif()
-	# Enable link-time code generation for release builds (I was not able to 
-	# find any way to set these settings through interface library BuildSettings)
-	set_target_properties(GhostCubePlugin-shared PROPERTIES
-		LINK_FLAGS_RELEASE /LTCG
-		LINK_FLAGS_MINSIZEREL /LTCG
-		LINK_FLAGS_RELWITHDEBINFO /LTCG
-	)
 
 	if(PLATFORM_WIN32)
 		if(WIN64)

@@ -145,6 +145,8 @@ PRIVATE
 	shcore.lib
 )
 
+set_common_target_properties(Asteroids)
+
 if(MSVC)
 	set_header_file_only_property("${SHADERS}")
 
@@ -153,13 +155,6 @@ if(MSVC)
 	# - w4324: structure was padded due to alignment specifier
 	# - w4238: nonstandard extension used: class rvalue used as lvalue
 	target_compile_options(Asteroids PRIVATE /wd4201 /wd4324 /wd4238)
-	# Enable link-time code generation for release builds (I was not able to 
-	# find any way to set these settings through interface library BuildSettings)
-	set_target_properties(Asteroids PROPERTIES
-		LINK_FLAGS_RELEASE /LTCG
-		LINK_FLAGS_MINSIZEREL /LTCG
-		LINK_FLAGS_RELWITHDEBINFO /LTCG
-	)
 endif()
 
 source_group("src" FILES ${SOURCE})
