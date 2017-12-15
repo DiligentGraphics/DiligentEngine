@@ -63,9 +63,9 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 
 		target_sources(GhostCubeScene PRIVATE ${PLUGIN_DLLS})
 		source_group("assets" FILES ${PLUGIN_DLLS})
-
+		
 		set_source_files_properties(${SHADERS} PROPERTIES 
-			VS_DEPLOYMENT_CONTENT TRUE
+			VS_DEPLOYMENT_CONTENT 1
 			VS_DEPLOYMENT_LOCATION "assets/shaders"
 		)
 
