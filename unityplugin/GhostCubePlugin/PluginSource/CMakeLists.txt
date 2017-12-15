@@ -85,29 +85,35 @@ if(MSVC)
 	if(PLATFORM_UNIVERSAL_WINDOWS)
 		target_compile_definitions(GhostCubePlugin-shared PRIVATE WINDOWS_UWP UNITY_METRO)
 	endif()
+endif()
 
+set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins)
+if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 	if(PLATFORM_WIN32)
-		if(WIN64)
-			set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/x86_64/GhostCubePlugin.dll)
+		if(ARCH EQUAL 64)
+			set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/x86_64)
 		else()
-			set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/x86/GhostCubePlugin.dll)
+			set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/x86)
 		endif()
 	elseif(PLATFORM_UNIVERSAL_WINDOWS)
-		if(WIN64)
-			set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/Metro/UWP/x86_64/GhostCubePlugin.dll)
+		if(ARCH EQUAL 64)
+			set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/Metro/UWP/x64)
 		else()
-			set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/Metro/UWP/x86/GhostCubePlugin.dll)
+			set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/Metro/UWP/x86)
 		endif()
-	elseif(PLATFORM_ANDROID)
-		set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins/Android/libGhostCubePlugin.so)
 	endif()
-	add_custom_command(TARGET GhostCubePlugin-shared POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different
-			"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
-			"${UNITY_PLUGIN_PATH}"
-	)
-			
+	set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/GhostCubePlugin.dll)
+elseif(PLATFORM_ANDROID)
+	set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/Android/libGhostCubePlugin.so)
+else()
+	message(FATAL_ERROR "Unsupported platform")
 endif()
+
+add_custom_command(TARGET GhostCubePlugin-shared POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
+		"${UNITY_PLUGIN_PATH}"
+)
 
 source_group("src" FILES ${SOURCE})
 source_group("include" FILES ${INCLUDE})
