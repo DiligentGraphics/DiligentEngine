@@ -50,13 +50,15 @@ set(VERTEX_SHADERS
 
 set(SHADERS ${PIXEL_SHADERS} ${VERTEX_SHADERS})
 
-set_property(SOURCE ${PIXEL_SHADERS} PROPERTY VS_SHADER_TYPE Pixel)
-set_property(SOURCE ${VERTEX_SHADERS} PROPERTY VS_SHADER_TYPE Vertex)
-set_property(SOURCE ${SHADERS} PROPERTY VS_SHADER_ENTRYPOINT "%(Filename)")
-set_property(SOURCE ${SHADERS} PROPERTY VS_SHADER_MODEL 5.0)
-set_property(SOURCE src/asteroid_ps.hlsl ps_5_1 PROPERTY VS_SHADER_MODEL 5.1)
-set_property(SOURCE ${SHADERS} PROPERTY VS_SHADER_VARIABLE_NAME "g_%(Filename)")
-set_property(SOURCE ${SHADERS} PROPERTY VS_SHADER_OUTPUT_HEADER_FILE "${CMAKE_CURRENT_BINARY_DIR}/CompiledShaders/%(Filename).h")
+set_source_files_properties(${SHADERS} PROPERTIES
+	VS_SHADER_ENTRYPOINT "%(Filename)"
+	VS_SHADER_MODEL 5.0
+	VS_SHADER_VARIABLE_NAME "g_%(Filename)"
+	VS_SHADER_OUTPUT_HEADER_FILE "${CMAKE_CURRENT_BINARY_DIR}/CompiledShaders/%(Filename).h"
+)
+set_source_files_properties(${PIXEL_SHADERS} PROPERTIES VS_SHADER_TYPE Pixel)
+set_source_files_properties(${VERTEX_SHADERS} PROPERTIES VS_SHADER_TYPE Vertex)
+set_source_files_properties(src/asteroid_ps.hlsl PROPERTIES VS_SHADER_MODEL 5.1)
 
 set(GUI
 	src/font.h

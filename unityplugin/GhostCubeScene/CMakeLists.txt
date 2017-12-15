@@ -10,6 +10,14 @@ set(INCLUDE
 	src/GhostCubeScene.h
 )
 
+set(SHADERS
+	build/assets/shaders/Mirror.psh
+	build/assets/shaders/Mirror.vsh
+)
+set(ASSETS ${SHADERS})
+set_source_files_properties(${SHADERS} PROPERTIES VS_TOOL_OVERRIDE "None")
+
+
 if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 	list(APPEND SOURCE src/GhostCubeSceneResTrsnHelper.cpp)
 	list(APPEND INCLUDE src/GhostCubeSceneResTrsnHelper.h)
@@ -19,7 +27,7 @@ endif()
 
 if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 
-	add_executable(GhostCubeScene WIN32 ${SOURCE} ${INCLUDE})
+	add_executable(GhostCubeScene WIN32 ${SOURCE} ${INCLUDE} ${ASSETS})
 	
 	if(PLATFORM_WIN32)
 		set_target_properties(GhostCubeScene PROPERTIES 
@@ -30,6 +38,37 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
 				"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
 				"\"$<TARGET_FILE_DIR:GhostCubeScene>\"")
+
+	elseif(PLATFORM_UNIVERSAL_WINDOWS)
+		
+		set(PLUGIN_REL_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}r.dll)
+		set(PLUGIN_DBG_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}d.dll)
+
+		set(PLUGIN_DLLS ${PLUGIN_REL_DLL} ${PLUGIN_DBG_DLL})
+		set_source_files_properties(${PLUGIN_DLLS} PROPERTIES GENERATED TRUE)
+		set_source_files_properties(${PLUGIN_DBG_DLL} PROPERTIES 
+			VS_DEPLOYMENT_CONTENT $<CONFIG:Debug>
+			VS_DEPLOYMENT_LOCATION "assets"
+		)
+		set_source_files_properties(${PLUGIN_REL_DLL} PROPERTIES 
+			VS_DEPLOYMENT_CONTENT $<NOT:$<CONFIG:Debug>>
+			VS_DEPLOYMENT_LOCATION "assets"
+		)
+
+		add_custom_command(TARGET GhostCubeScene PRE_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
+				"${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_FILE_NAME:GhostCubePlugin-shared>"
+		)
+
+		target_sources(GhostCubeScene PRIVATE ${PLUGIN_DLLS})
+		source_group("assets" FILES ${PLUGIN_DLLS})
+
+		set_source_files_properties(${SHADERS} PROPERTIES 
+			VS_DEPLOYMENT_CONTENT TRUE
+			VS_DEPLOYMENT_LOCATION "assets/shaders"
+		)
+
 	endif()
 
 #elseif(APPLE)
@@ -39,6 +78,8 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 else()
 	message(FATAL_ERROR "Unknown platform")
 endif()
+
+add_dependencies(GhostCubeScene GhostCubePlugin-shared)
 
 if(PLATFORM_UNIVERSAL_WINDOWS)
 	get_emulator_uwp_source(UWP_SOURCE UWP_INCLUDE UWP_INCLUDE_DIR)
@@ -75,6 +116,7 @@ endif()
 
 source_group("src" FILES ${SOURCE})
 source_group("include" FILES ${INCLUDE})
+source_group("assets\\shaders" FILES ${SHADERS})
 
 set_target_properties(GhostCubeScene PROPERTIES
 	FOLDER Unity

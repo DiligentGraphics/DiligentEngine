@@ -39,14 +39,6 @@ add_library(GhostCubePlugin-shared SHARED
 	${SOURCE} ${INCLUDE} ${UNITY_INTERFACES} 
 )
 
-if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
-	if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-	   set(ARCH 64)
-	else("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-	   set(ARCH 32)
-	endif("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-endif()
-
 set(DLL_REL_SUFFIX _${ARCH}r)
 set(DLL_DBG_SUFFIX _${ARCH}d)
 
@@ -57,7 +49,7 @@ set_target_properties(GhostCubePlugin-shared PROPERTIES
 	OUTPUT_NAME_MINSIZEREL GhostCubePlugin${DLL_REL_SUFFIX}
 )
 
-if(PLATFORM_WIN32)
+if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 	target_sources(GhostCubePlugin-shared 
 	PRIVATE	
 		src/RenderingPlugin.def
