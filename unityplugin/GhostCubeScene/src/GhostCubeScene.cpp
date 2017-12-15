@@ -82,7 +82,7 @@ void GhostCubeScene::OnGraphicsInitialized()
     TexDesc.ClearValue.DepthStencil.Depth = 0.f;
     pDevice->CreateTexture(TexDesc, TextureData(), &m_pDepthBuffer);
 
-    auto deviceType = pDevice->GetDeviceCaps().DevType;
+    //auto deviceType = pDevice->GetDeviceCaps().DevType;
     {
         const auto &SCDesc = m_DiligentGraphics->GetSwapChain()->GetDesc();
         auto UseReverseZ = m_DiligentGraphics->UsesReverseZ();

@@ -41,6 +41,8 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 
 	elseif(PLATFORM_UNIVERSAL_WINDOWS)
 		
+		# We cannot use genreator expression to add a file because the file name
+		# must not depend on the configuration
 		set(PLUGIN_REL_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}r.dll)
 		set(PLUGIN_DBG_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}d.dll)
 
