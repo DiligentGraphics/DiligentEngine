@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.6)
 
 project(GhostCubePlugin CXX)
 
@@ -85,6 +85,11 @@ if(MSVC)
 	if(PLATFORM_UNIVERSAL_WINDOWS)
 		target_compile_definitions(GhostCubePlugin-shared PRIVATE WINDOWS_UWP UNITY_METRO)
 	endif()
+endif()
+
+if(PLATFORM_ANDROID)
+	target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_ANDROID)
+	set_target_properties(GhostCubePlugin-shared PROPERTIES CXX_VISIBILITY_PRESET hidden) # -fvisibility=hidden
 endif()
 
 set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins)

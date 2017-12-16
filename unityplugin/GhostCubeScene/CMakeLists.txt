@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.6)
 
 project(GhostCubeScene CXX)
 
@@ -73,6 +73,11 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 
 	endif()
 
+elseif(PLATFORM_ANDROID)
+	
+	list(APPEND ${SOURCE} src/Android/AndroidMain.cpp)
+	add_library(GhostCubeScene SHARED ${SOURCE} ${INCLUDE})
+
 #elseif(APPLE)
 	#add_executable(GhostCubeScene MACOSX_BUNDLE Main.cpp)
 #elseif(UNIX)
@@ -103,6 +108,10 @@ PRIVATE
 	UnityEmulator
 	TargetPlatform
 )
+if(PLATFORM_ANDROID)
+	target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared)
+endif()
+
 set_common_target_properties(GhostCubeScene)
 
 if(MSVC)

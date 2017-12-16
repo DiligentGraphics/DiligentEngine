@@ -116,7 +116,12 @@ from the engine's root folder:
 
 ## Android
 
-Not yet supported
+Please make sure that your machine is set up for Android development. Download 
+[Android Studio](https://developer.android.com/studio/index.html), [Android NDK](https://developer.android.com/ndk/downloads/index.html) and
+other required tools. To verify if you environemnt is properly set up, try building 
+[teapots sample](https://github.com/googlesamples/android-ndk/tree/master/teapots).
+
+
 
 # Samples
 

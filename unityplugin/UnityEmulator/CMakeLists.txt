@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.6)
 
 project(UnityEmulator CXX)
 
@@ -131,6 +131,11 @@ endif()
 
 if(PLATFORM_UNIVERSAL_WINDOWS)
 	target_link_libraries(UnityEmulator PRIVATE dxguid.lib)
+elseif(PLATFORM_ANDROID)
+	target_link_libraries(UnityEmulator PRIVATE NDKHelper GLESv3 android PUBLIC NativeAppGlue)
+	target_include_directories(UnityEmulator PRIVATE
+		${ANDROID_NDK}/sources/android/cpufeatures
+	)
 endif()
 
 source_group("src" FILES ${SOURCE})
