@@ -12,7 +12,7 @@ image:
 
 configuration:
 - Release
-#- Debug
+- Debug
 
 platform:
 - x64
@@ -20,11 +20,13 @@ platform:
 
 environment:
   matrix:
-  - CMAKE_CMD: -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
-    SLN_FOLDER: c:\projects\diligentengine\cmk_build\Win64
+  - generator: "Visual Studio 15 2017 Win64"
+    CMAKE_ARGUMENTS: 
+    SLN_FOLDER: cmk_build\Win64
 
-  - CMAKE_CMD: cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"
-    SLN_FOLDER: c:\projects\diligentengine\cmk_build\UWP64
+  - generator: "Visual Studio 15 2017 Win64"
+    CMAKE_ARGUMENTS: -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
+    SLN_FOLDER: cmk_build\UWP64
 
 # clone directory
 clone_folder: c:\projects\diligentengine
@@ -43,9 +45,9 @@ install:
 
 before_build:
   - cd c:\projects\diligentengine
-  - cmake %CMAKE_CMD%
+  - cmake %CMAKE_ARGUMENTS% -H. -B%SLN_FOLDER% -G %generator%
 
 build:
-  project: %SLN_FOLDER%\DiligentEngine.sln
+  project: c:\projects\diligentengine\%SLN_FOLDER%\DiligentEngine.sln
   verbosity: normal
   parallel: true
