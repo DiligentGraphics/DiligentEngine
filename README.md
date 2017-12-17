@@ -10,6 +10,10 @@ as a graphics subsystem in a standalone game engine, Unity native plugin or any 
 [shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) that allows shaders authored in HLSL to 
 be translated to GLSL.
 
+## Build Status
+
+![](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true&passingText=Windows%20-%20OK&failingText=Windows%20-%20Fails)
+
 # Clonning the Repository
 
 This is the master repository that contains three [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules). To get the repository and all submodules, use the following command:
