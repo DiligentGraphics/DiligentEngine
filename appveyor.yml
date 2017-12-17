@@ -21,12 +21,10 @@ platform:
 environment:
   matrix:
   - generator: "Visual Studio 15 2017 Win64"
-    CMAKE_ARGUMENTS: 
-    SLN_FOLDER: cmk_build\Win64
+    cmake_args: 
 
   - generator: "Visual Studio 15 2017 Win64"
-    CMAKE_ARGUMENTS: -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
-    SLN_FOLDER: cmk_build\UWP64
+    cmake_args: -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
 
 # clone directory
 clone_folder: c:\projects\diligentengine
@@ -45,9 +43,9 @@ install:
 
 before_build:
   - cd c:\projects\diligentengine
-  - cmake %CMAKE_ARGUMENTS% -H. -B%SLN_FOLDER% -G %generator%
+  - cmake "%cmake_args%" -H. -B./cmk_build -G "%generator%"
 
 build:
-  project: c:\projects\diligentengine\%SLN_FOLDER%\DiligentEngine.sln
+  project: c:\projects\diligentengine\cmk_build\DiligentEngine.sln
   verbosity: normal
   parallel: true
