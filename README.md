@@ -12,7 +12,7 @@ be translated to GLSL.
 
 ## Build Status
 
-![](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true&passingText=Windows%20-%20OK&failingText=Windows%20-%20Fails)
+![](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true&passingText=Windows%20-%20OK&failingText=Windows%20-%20Fails&pendingText=Windows%20-%20Pending)
 
 # Clonning the Repository
 
