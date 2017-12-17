@@ -1,3 +1,5 @@
+version: '2.1.{build}'
+
 # branches to build
 branches:
   # whitelist
@@ -7,18 +9,28 @@ branches:
 image:
 #- Visual Studio 2015
 - Visual Studio 2017
+
 configuration:
 - Release
 #- Debug
+
 platform:
 - x64
 #- x86
 
+environment:
+  matrix:
+  - CMAKE_CMD: -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+    SLN_FOLDER: c:\projects\diligentengine\cmk_build\Win64
+
+  - CMAKE_CMD: cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"
+    SLN_FOLDER: c:\projects\diligentengine\cmk_build\UWP64
+
 # clone directory
 clone_folder: c:\projects\diligentengine
 
-# clone submodules
 install:
+  # clone submodules
   - git submodule update --init --recursive
 
   # Install a recent CMake
@@ -31,9 +43,9 @@ install:
 
 before_build:
   - cd c:\projects\diligentengine
-  - cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+  - cmake %CMAKE_CMD%
 
 build:
-  project: c:\projects\diligentengine\cmk_build\Win64\DiligentEngine.sln
-  verbosity: minimal
+  project: %SLN_FOLDER%\DiligentEngine.sln
+  verbosity: normal
   parallel: true
