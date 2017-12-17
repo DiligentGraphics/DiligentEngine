@@ -37,10 +37,12 @@ install:
   - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
   - set PATH=C:\projects\deps\cmake\bin;%PATH%
   - cmake --version
+  - echo Platform: "%PLATFORM%"
   - if "%PLATFORM%"=="x64" ( set generator="Visual Studio 15 2017 Win64" ) else ( set generator="Visual Studio 15 2017" )
-
+  
 before_build:
   - cd c:\projects\diligentengine
+  - echo Generator: "%generator%"
   - cmake "%cmake_args%" -H. -B./cmk_build -G "%generator%"
 
 build:
