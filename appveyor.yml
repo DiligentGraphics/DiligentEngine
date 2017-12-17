@@ -42,11 +42,9 @@ install:
   
 before_build:
   - cd c:\projects\diligentengine
-  - echo on
   - echo %generator%
   - echo %cmake_args%
   - cmake %cmake_args% -H. -B./cmk_build -G %generator%
-  - echo off
 
 build:
   project: c:\projects\diligentengine\cmk_build\DiligentEngine.sln
