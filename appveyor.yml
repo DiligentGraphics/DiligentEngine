@@ -17,8 +17,17 @@ platform:
 # clone directory
 clone_folder: c:\projects\diligentengine
 
+# clone submodules
 install:
   - git submodule update --init --recursive
+
+  # Install a recent CMake
+  - set CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.1-win64-x64.zip"
+  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+  - 7z x cmake.zip -oC:\projects\deps > nul
+  - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
+  - set PATH=C:\projects\deps\cmake\bin;%PATH%
+  - cmake --version
 
 before_build:
   - cd c:\projects\diligentengine
