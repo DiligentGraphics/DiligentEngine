@@ -1,0 +1,28 @@
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+image:
+#- Visual Studio 2015
+- Visual Studio 2017
+configuration:
+- Release
+#- Debug
+platform:
+- x64
+#- x86
+
+# clone directory
+clone_folder: c:\projects\diligentengine
+
+before_build:
+  - echo Running cmake...
+  - cd c:\projects\diligentengine
+  - cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+
+build:
+  project: c:\projects\diligentengine\cmk_build\Win64\DiligentEngine.sln
+  verbosity: minimal
+  parallel: true
