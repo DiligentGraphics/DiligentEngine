@@ -15,7 +15,7 @@ configuration:
 - Release
 
 platform:
-- x86
+- Win32
 - x64
 
 environment:
@@ -42,8 +42,8 @@ install:
   
 before_build:
   - cd c:\projects\diligentengine
-  - echo %generator%
-  - echo %cmake_args%
+  - @echo Generator: %generator%
+  - @echo CMake args: %cmake_args%
   - cmake %cmake_args% -H. -B./cmk_build -G %generator%
 
 build:
