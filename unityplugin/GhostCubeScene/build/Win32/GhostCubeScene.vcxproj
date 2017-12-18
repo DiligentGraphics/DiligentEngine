@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|ARM">
-      <Configuration>Debug</Configuration>
-      <Platform>ARM</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -12,10 +8,6 @@
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM">
-      <Configuration>Release</Configuration>
-      <Platform>ARM</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -58,14 +50,6 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <PlatformToolset>v120</PlatformToolset>
-    <ConfigurationType>Makefile</ConfigurationType>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <PlatformToolset>v120</PlatformToolset>
-    <ConfigurationType>Makefile</ConfigurationType>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
     <Import Project="..\Windows.Shared\GhostCubeScene.Shared.vcxitems" Label="Shared" Condition="Exists('..\Windows.Shared\GhostCubeScene.Shared.vcxitems')" />
@@ -91,25 +75,11 @@
     <Import Project="..\..\..\..\diligentcore\Shared\build\Windows\Win64r.props" />
     <Import Project="..\Windows.Shared\GhostCubeScene.props" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <Import Project="..\..\..\..\diligentcore\Shared\build\Windows\Android32d.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <Import Project="..\..\..\..\diligentcore\Shared\build\Windows\Android32r.props" />
-  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <NMakeForcedIncludes>$(ProjectDir)..\..\..\..\Common\Android\gcc_Debug.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
-    <NMakeOutput>$(ProjectDir)GhostCubeScene-Debug.vgdbsettings</NMakeOutput>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <NMakeForcedIncludes>$(ProjectDir)..\..\..\..\Common\Android\gcc_Release.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
-    <NMakeOutput>$(ProjectDir)GhostCubeScene-Release.vgdbsettings</NMakeOutput>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -215,27 +185,13 @@ copy "%(RelativeDir)%(Filename).pdb" "$(TargetDir)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying %(Filename).dll and %(Filename).pdb</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)%(Filename).dll</Outputs>
     </CustomBuild>
-    <None Include="jni\Android.mk" />
-    <None Include="jni\Application.mk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="AndroidManifest.xml" />
-    <Xml Include="build.xml" />
-    <Xml Include="res\values\strings.xml" />
-    <Xml Include="res\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\diligentcore\Common\build\Win32\Common.vcxproj">
       <Project>{7380f7e6-315f-4b4e-92eb-e6aeee865298}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\diligentcore\External\Android\ndk_helper\build\NdkHelper.vcxproj">
-      <Project>{22ba09ae-e0b5-49f1-8403-2a824762376e}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\diligentcore\External\glew\build\Win32\glew_static.vcxproj">
       <Project>{664e6f0d-6784-4760-9565-d54f8eb1edf4}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\diligentcore\Platforms\Android\build\Windows\AndroidPlatform.vcxproj">
-      <Project>{e333476e-15e3-4d43-a4cf-8748058b3be9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\diligentcore\Platforms\Basic\build\Win32\BasicPlatform.vcxproj">
       <Project>{8ada5f93-7a38-4ad8-b8f5-1ffd4d4f630c}</Project>
@@ -246,20 +202,6 @@ copy "%(RelativeDir)%(Filename).pdb" "$(TargetDir)"</Command>
     <ProjectReference Include="..\..\..\UnityEmulator\build\Win32\UnityEmulator.vcxproj">
       <Project>{f40021ac-6d7b-4828-81c4-2d04f946a88e}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\Android\AndroidMain.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GhostCubeScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

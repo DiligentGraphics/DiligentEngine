@@ -2,36 +2,5 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="..\..\src\RenderingPlugin.def" />
-    <None Include="jni\Android.mk">
-      <Filter>Android\jni</Filter>
-    </None>
-    <None Include="jni\Application.mk">
-      <Filter>Android\jni</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Android">
-      <UniqueIdentifier>{11b4220e-29bf-4572-bee2-1fd8d75f0c48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Android\src">
-      <UniqueIdentifier>{f09afa4f-3ec1-407b-acef-eeded2cb895d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Android\jni">
-      <UniqueIdentifier>{c3a3aa9e-0f29-4329-92ef-929a34b932fb}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\RenderAPI.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\RenderAPI_OpenGLCoreES.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\RenderingPlugin.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SamplePlugin.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

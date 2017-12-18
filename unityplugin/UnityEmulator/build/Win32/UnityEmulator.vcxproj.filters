@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Android">
-      <UniqueIdentifier>{154722cc-8c82-4869-8e51-fb073a87f966}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Android\Java">
-      <UniqueIdentifier>{fe07d990-c5ac-488d-b7df-b3c66018d0b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Android\jni">
-      <UniqueIdentifier>{31c218a8-0b04-4224-97ad-909aeff5c135}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Android\src">
-      <UniqueIdentifier>{90e91db8-8be2-446b-abee-0365b7dc18a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Windows">
       <UniqueIdentifier>{e9f1e7cd-5112-4fb6-854a-3ebfd5efa88b}</UniqueIdentifier>
     </Filter>
@@ -24,42 +12,5 @@
     <ClCompile Include="..\..\src\Windows\WinMain.cpp">
       <Filter>Windows\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Android\AndroidMainImpl.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Android\UnityGraphicsGLESAndroid_Impl.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\UnityGraphicsGLCoreES_Emulator.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\DiligentGraphicsAdapterGL.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\UnityGraphicsEmulator.cpp">
-      <Filter>Android\src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\Android\Java\helper\NDKHelper.java">
-      <Filter>Android\Java</Filter>
-    </None>
-    <None Include="jni\Android.mk">
-      <Filter>Android\jni</Filter>
-    </None>
-    <None Include="jni\Application.mk">
-      <Filter>Android\jni</Filter>
-    </None>
-    <None Include="..\..\src\Android\Java\UnityEmulator\UnityEmulatorNativeActivity.java">
-      <Filter>Android\Java</Filter>
-    </None>
-    <None Include="..\..\src\Android\Java\UnityEmulator\UnityEmulatorApplication.java">
-      <Filter>Android\Java</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\Android\UnityGraphicsGLESAndroid_Impl.h">
-      <Filter>Android\src</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
