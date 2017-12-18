@@ -85,7 +85,7 @@ These files are now deprecated and will be removed in future releases.
 ### Win32
 
 Open [EngineAll.sln](build/Win32/EngineAll.sln) solution file located in [build/Win32](build/Win32) folder, choose the 
-desired configuration and build it. Note that ARM platform is intended to build the engine for Android (see below).
+desired configuration and build it.
 
 ### Build Details
 
