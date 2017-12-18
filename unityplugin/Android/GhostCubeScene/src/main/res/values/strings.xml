@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">Ghost Cube Scene Unity Emulator</string>
+    <string name="plugin_name">GhostCubePlugin</string>
+    <string name="fps">0.0 FPS</string>
+
+</resources>
