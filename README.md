@@ -37,66 +37,14 @@ Master repository includes the following submodules:
 
 # Build Instructions
 
-## Win32
-
-To build the engine for Win32 platform, [Microsoft Visual Studio 2015](https://www.visualstudio.com/vs/community) or later is required. 
-Any edition including Visual Studio Community is sufficient. Open [EngineAll.sln](build/Win32/EngineAll.sln) solution file located in 
-[build/Win32](build/Win32) folder, choose the desired configuration and build it. Note that ARM platform is intended 
-to build the engine for Android (see below).
-
-### Build Details
-
-Diligent engine is self-contained and does not have any external dependencies. Installing Visual Studio is all that is 
-required to build the engine.
-
-Tools module references core module and samples module references both core and tools modules. The modules must share 
-the same parent directory, otherwise links in the project files will be broken.
-
-Core module contains several property pages that define common build settings. The pages are located in 
-diligentcore\Shared\Build subdirectory and are referenced by every project.
-
-There is a build subdirectory in each project’s directory that contains Visual Studio project files.
-
-GraphicsEngineD3D11, GraphicsEngineD3D12 and GraphicsEngineOpenGL projects can be built as either static or dynamic link library.
-
-## Universal Windows Platform
-
-As with the Windows Desktop, Microsoft Visual Studio 2015 or later is required to build the engine for Universal Windows 
-Platform platform. Again, any edition including Visual Studio Community is sufficient. Navigate to [build/UWP](build/UWP) 
-directory, open [EngineAll.sln](build/UWP/EngineAll.sln) solution file and build the solution for the desired configuration.
-
-## Android
-
-To build the engine for Android, you first need to set up your machine for Android development: 
-download Android SDK (Android Studio is not required), Android NDK, Apache Ant and other required tools. 
-
-There are two ways to build the engine for Android.
-The first way is to download and install [Visual GDB](http://visualgdb.com/) plugin for Visual Studio, open Windows Desktop solution 
-(located in [build/Win32](build/Win32]) folder), select ARM platform and build the solution as usual. Note that despite 
-the name, you can build the application for both ARM and x86 Android platforms. You can then deploy and run your Android 
-application directly from the IDE
-
-It is important to rebuild the app project for the first time
-
-To run the app from Visual Studio, go to Project Settings->Debugging and select Local Windows Debugger option in the 
-Debugger to launch drop-down list. Then start the application
-
-The second way to build for Android is to navigate to the build/Win32 folder of the project you want to build in command line and 
-use ndk-build. For executable projects, there is also **android_build.bat** file that builds and runs the application on the device
-
-Note that when building for Android, the engine root path must not contain white spaces.
-
-# Building with CMake (Work in Progress)
-
-Reworking Diligent Engine build system with CMake is in progress.
-
-[CMake](https://cmake.org/) is a cross-platform build system generator. To start using cmake, download the [latest release](https://cmake.org/download/) (3.10 or later is recommended).
+Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
+To start using cmake, download the [latest release](https://cmake.org/download/) (3.10 or later is required for Windows build).
 
 ## Win32
 
 To generate build files for Windows desktop platform, use either CMake GUI or command line tool. For example, to generate 
-Visual Studio 2017 64-bit solution and project files in *cmk_build/Win64* folder, navigate to the engine's root folder and 
-run the following command:
+[Visual Studio 2017](https://www.visualstudio.com/vs/community) 64-bit solution and project files in *cmk_build/Win64* folder, 
+navigate to the engine's root folder and run the following command:
 
 *cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
 
@@ -105,6 +53,7 @@ to add quotes to CMake's custom commands, please let me know!)
 
 Open DiligentEngine.sln file in cmk_build folder, select the desired configuration and build the engine. By default, Asteroids
 demo will be set up as startup project.
+
 
 ## Universal Windows Platform
 
@@ -122,9 +71,37 @@ from the engine's root folder:
 
 Please make sure that your machine is set up for Android development. Download 
 [Android Studio](https://developer.android.com/studio/index.html), [Android NDK](https://developer.android.com/ndk/downloads/index.html) and
-other required tools. To verify if you environemnt is properly set up, try building 
+other required tools. To verify that your environment is properly set up, try building 
 [teapots sample](https://github.com/googlesamples/android-ndk/tree/master/teapots).
 
+Open *DiligentSamples/Android* or *UnityPlugin/Android* folders with Android Studio to build and run
+the engine samples and Unity emulator on Android.
+
+## Legacy Build (Deprecated)
+
+There is a build subdirectory in each project’s directory that contains Visual Studio 2015 project files.
+These files are now deprecated and will be removed in future releases.
+
+### Win32
+
+Open [EngineAll.sln](build/Win32/EngineAll.sln) solution file located in [build/Win32](build/Win32) folder, choose the 
+desired configuration and build it. Note that ARM platform is intended to build the engine for Android (see below).
+
+### Build Details
+
+Diligent engine is self-contained and does not have any external dependencies. Installing Visual Studio is all that is 
+required to build the engine.
+
+Tools module references core module and samples module references both core and tools modules. The modules must share 
+the same parent directory, otherwise links in the project files will be broken.
+
+Core module contains several property pages that define common build settings. The pages are located in 
+diligentcore\Shared\Build subdirectory and are referenced by every project.
+
+## Universal Windows Platform
+
+Navigate to [build/UWP](build/UWP) directory, open [EngineAll.sln](build/UWP/EngineAll.sln) solution file and build 
+the solution for the desired configuration.
 
 
 # Samples
