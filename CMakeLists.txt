@@ -4,10 +4,10 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project(DiligentEngine)
 
-add_subdirectory(diligentcore)
-add_subdirectory(diligenttools)
-add_subdirectory(diligentsamples)
-add_subdirectory(projects)
+add_subdirectory(DiligentCore)
+add_subdirectory(DiligentTools)
+add_subdirectory(DiligentSamples)
+add_subdirectory(Projects)
 add_subdirectory(unityplugin)
 
 if(PLATFORM_WIN32)
