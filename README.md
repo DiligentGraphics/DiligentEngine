@@ -12,7 +12,13 @@ be translated to GLSL.
 
 ## Build Status
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true&passingText=Windows%20-%20OK&failingText=Windows%20-%20Fails&pendingText=Windows%20-%20Pending)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine)
+| Platform                   | Status        |
+| -------------------------- | ------------- |
+| Win32/Universal Windows    | [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
+| Linux                      | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
+
+
+
 
 # Clonning the Repository
 
