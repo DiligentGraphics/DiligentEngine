@@ -2,6 +2,11 @@ sudo: required
 
 language: cpp
 
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+
 compiler:
   #- clang
   - gcc
