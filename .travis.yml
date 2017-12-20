@@ -29,9 +29,12 @@ script:
   - export CC=/usr/bin/gcc-7
   - export CXX=/usr/bin/g++-7
   # Check versions of gcc, g++ and cmake
-  - gcc -v && g++ -v && cmake --version
+  - gcc -v
+  - g++ -v
+  - cmake --version
   # Run cmake
   - mkdir cmk_build
   - cd cmk_build
-  - cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug""
+  - cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+  # Build
   - cmake --build .
