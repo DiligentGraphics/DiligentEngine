@@ -18,6 +18,8 @@ addons:
       - g++-7
       - cmake
 
+before_install:
+  - git submodule update --init --recursive
 
 script:
   # Link gcc-6 and g++-6 to their standard commands
@@ -28,3 +30,8 @@ script:
   - export CXX=/usr/bin/g++-7
   # Check versions of gcc, g++ and cmake
   - gcc -v && g++ -v && cmake --version
+  # Run cmake
+  - mkdir cmk_build
+  - cd cmk_build
+  - cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug""
+  - cmake --build .
