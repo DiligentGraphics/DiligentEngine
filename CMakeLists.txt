@@ -6,8 +6,8 @@ project(DiligentEngine)
 
 add_subdirectory(DiligentCore)
 add_subdirectory(DiligentTools)
-		if(NOT PLATFORM_LINUX)  # !!!! TEMPORARY  !!!!
 add_subdirectory(DiligentSamples)
+		if(NOT PLATFORM_LINUX)  # !!!! TEMPORARY  !!!!
 add_subdirectory(Projects)
 add_subdirectory(unityplugin)
 		endif()					# !!!! TEMPORARY  !!!!
