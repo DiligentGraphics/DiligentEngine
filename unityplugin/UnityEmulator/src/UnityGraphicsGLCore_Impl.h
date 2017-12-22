@@ -4,13 +4,30 @@
 
 #if OPENGL_SUPPORTED
 
-#ifndef GLEW_STATIC
-#   define GLEW_STATIC
+#if defined(PLATFORM_WIN32)
+
+#   ifndef GLEW_STATIC
+#       define GLEW_STATIC
+#   endif
+#   include "GL/glew.h"
+#   define NOMINMAX
+#   include "GL/wglew.h"
+#   include <GL/GL.h>
+
+#elif defined(PLATFORM_LINUX)
+
+#   ifndef GLEW_STATIC
+#       define GLEW_STATIC // Must be defined to use static version of glew
+#   endif
+#   ifndef GLEW_NO_GLU
+#       define GLEW_NO_GLU
+#   endif
+
+#   include "GL/glew.h"
+
+#else
+#   error Unsupported platform
 #endif
-#include "glew.h"
-#define NOMINMAX
-#include "wglew.h"
-#include <GL/GL.h>
 
 class UnityGraphicsGLCore_Impl
 {
