@@ -10,6 +10,15 @@ as a graphics subsystem in a standalone game engine, Unity native plugin or any 
 [shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) that allows shaders authored in HLSL to 
 be translated to GLSL.
 
+## Supported Plaforms and Low-Level Graphics APIs
+
+| Platform                   | APIs                                |
+| -------------------------- | ----------------------------------- |
+| Win32 (Windows desktop)    | Direct3D11, Direct3D12, OpenGL4.2+  |
+| Universal Windows Platform | Direct3D11, Direct3D12              |
+| Android                    | OpenGLES3.0+                        |
+| Linux                      | OpenGL4.2+                          |
+
 ## Build Status
 
 | Platform                   | Status        |
@@ -32,14 +41,21 @@ This is the master repository that contains three [submodules](https://git-scm.c
 
 Master repository includes the following submodules:
 
-* [Core](https://github.com/DiligentGraphics/DiligentCore) submodule provides basic engine functionality. It implements the engine API using 
-  [Direct3D11](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D11), [Direct3D12](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D12), and
-  [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL). It also implements 
-  [HLSL to GLSL source code converter](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/HLSL2GLSLConverterLib)
-* [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule contains several simple graphics applications intended to demonstrate the usage of 
-  the Diligent Engine API.
-* [Tools](https://github.com/DiligentGraphics/DiligentTools) submodule contains [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader) and 
-  [Render Script](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderScript), a Lua-based run-time graphics resource managing system.
+* [Core](https://github.com/DiligentGraphics/DiligentCore) submodule provides basic engine functionality. 
+  It implements the engine API using 
+  [Direct3D11](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D11), 
+  [Direct3D12](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D12), and
+  [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL). 
+  It also implements 
+  [HLSL to GLSL source code converter](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/HLSL2GLSLConverterLib).
+  The module is self-contained and can be built by its own.
+* [Tools](https://github.com/DiligentGraphics/DiligentTools) submodule contains 
+  [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader) and 
+  [Render Script](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderScript), a Lua-based run-time 
+  graphics resource managing system. Tools module depends on Core module.
+* [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule contains several simple graphics applications 
+  intended to demonstrate the usage of the Diligent Engine API. The module depends on Core and Tools modules.
+  
 
 # Build Instructions
 
