@@ -196,6 +196,11 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 # Version History
 
+## v2.1.a
+
+* Refactored build system to use CMake and Gradle for Android
+* Added support for Linux platform
+
 ## v2.1
 
 ### New Features
