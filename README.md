@@ -73,6 +73,36 @@ from the engine's root folder:
 
 *cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.15063.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"*
 
+## Linux
+
+Your Linux environment needs to be set up for c++ development. To configure my fresh Ubuntu 17.10, I installed the following packages:
+
+1. gcc, make and other essential c/c++ tools:
+
+* sudo apt-get update
+* sudo apt-get upgrade
+* sudo apt-get install build-essential
+
+2. cmake
+
+* sudo apt-get install cmake
+
+3. Other required packages:
+
+* sudo apt-get install libx11-dev
+* sudo apt-get install mesa-common-dev
+* sudo apt-get install mesa-utils
+* sudo apt-get install libgl-dev
+
+To generate make files for debug configuration, run the following CMake command from the engine's root folder:
+
+*cmake -H. -B./cmk_build/Linux64 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"* 
+
+To build the engine, run the following command:
+
+*cmake --build ./cmk_build/Linux64*
+
+
 ## Android
 
 Please make sure that your machine is set up for Android development. Download 

@@ -3,8 +3,13 @@
 
 #if OPENGL_SUPPORTED
 
+#include <iostream>
 #include "DebugUtilities.h"
 #include "Errors.h"
+
+#ifndef APIENTRY
+#   define APIENTRY
+#endif
 
 void APIENTRY openglCallbackFunction( GLenum source,
     GLenum type,
@@ -16,47 +21,54 @@ void APIENTRY openglCallbackFunction( GLenum source,
 {
     std::stringstream MessageSS;
 
-    MessageSS << std::endl << "OPENGL DEBUG MESSAGE: " << message << std::endl;
-    MessageSS << "Type: ";
-    switch( type ) {
-    case GL_DEBUG_TYPE_ERROR:
-        MessageSS << "ERROR";
-        break;
-    case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
-        MessageSS << "DEPRECATED_BEHAVIOR";
-        break;
-    case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-        MessageSS << "UNDEFINED_BEHAVIOR";
-        break;
-    case GL_DEBUG_TYPE_PORTABILITY:
-        MessageSS << "PORTABILITY";
-        break;
-    case GL_DEBUG_TYPE_PERFORMANCE:
-        MessageSS << "PERFORMANCE";
-        break;
-    case GL_DEBUG_TYPE_OTHER:
-        MessageSS << "OTHER";
-        break;
+    MessageSS << "OpenGL debug message (";
+    switch( type ) 
+    {
+        case GL_DEBUG_TYPE_ERROR:
+            MessageSS << "ERROR";
+            break;
+        case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+            MessageSS << "DEPRECATED_BEHAVIOR";
+            break;
+        case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+            MessageSS << "UNDEFINED_BEHAVIOR";
+            break;
+        case GL_DEBUG_TYPE_PORTABILITY:
+            MessageSS << "PORTABILITY";
+            break;
+        case GL_DEBUG_TYPE_PERFORMANCE:
+            MessageSS << "PERFORMANCE";
+            break;
+        case GL_DEBUG_TYPE_OTHER:
+            MessageSS << "OTHER";
+            break;
     }
-    MessageSS << std::endl;
 
-    MessageSS << "Severity: ";
-    switch( severity ){
-    case GL_DEBUG_SEVERITY_LOW:
-        MessageSS << "LOW";
-        break;
-    case GL_DEBUG_SEVERITY_MEDIUM:
-        MessageSS << "MEDIUM";
-        break;
-    case GL_DEBUG_SEVERITY_HIGH:
-        MessageSS << "HIGH";
-        break;
+    switch( severity )
+    {
+        case GL_DEBUG_SEVERITY_LOW:
+            MessageSS << ", low severity";
+            break;
+        case GL_DEBUG_SEVERITY_MEDIUM:
+            MessageSS << ", medium severity";
+            break;
+        case GL_DEBUG_SEVERITY_HIGH:
+            MessageSS << ", HIGH severity";
+            break;
+        case GL_DEBUG_SEVERITY_NOTIFICATION:
+            MessageSS << ", notification";
+            break;
     }
-    MessageSS << std::endl;
 
-    //MessageSS << "Id: "<< id << std::endl;
+    MessageSS << ")" << std::endl << message << std::endl;
 
+#if defined(PLATFORM_WIN32)
     OutputDebugStringA( MessageSS.str().c_str() );
+#elif defined(PLATFORM_LINUX)
+    std::cout << MessageSS.str().c_str();
+#else
+#   error Unknown platform
+#endif
 }
 
 
@@ -64,13 +76,24 @@ UnityGraphicsGLCore_Impl::~UnityGraphicsGLCore_Impl()
 {
     if( m_Context )
 	{
+#if defined(PLATFORM_WIN32)
 		wglMakeCurrent( m_WindowHandleToDeviceContext, 0 );
         wglDeleteContext( m_Context );
+#elif defined(PLATFORM_LINUX)
+        // Do nothing. Context is managed by the app
+#else
+#   error Unknown platform
+#endif
 	}
 }
 
-void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle, int MajorVersion, int MinorVersion )
+void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle, 
+                                             #ifdef PLATFORM_LINUX
+                                                 void *pDisplay,
+                                             #endif
+                                             int MajorVersion, int MinorVersion )
 {
+#if defined(PLATFORM_WIN32)
 	HWND hWnd = reinterpret_cast<HWND>(pNativeWndHandle);
 	RECT rc;
 	GetClientRect( hWnd, &rc );
@@ -143,7 +166,22 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle, int MajorVe
 	{       //It's not possible to make a GL 3.x context. Use the old style context (GL 2.1 and before)
 		m_Context = tempContext;
 	}
-		
+#elif defined(PLATFORM_LINUX)
+    m_LinuxWindow = static_cast<Window>(reinterpret_cast<size_t>(pNativeWndHandle));
+    m_Display = reinterpret_cast<Display*>(pDisplay);
+    m_Context = glXGetCurrentContext();
+    if(m_Context == nullptr)
+        LOG_ERROR_AND_THROW( "No active GL context found" );
+
+	// Initialize GLEW
+	GLenum err = glewInit();
+	if( GLEW_OK != err )
+		LOG_ERROR_AND_THROW( "Failed to initialize GLEW" );
+
+#else
+#   error Unsupported platform
+#endif
+
     //Checking GL version
     const GLubyte *GLVersionString = glGetString( GL_VERSION );
 
@@ -183,7 +221,13 @@ void UnityGraphicsGLCore_Impl::ResizeSwapchain(int NewWidth, int NewHeight)
 
 void UnityGraphicsGLCore_Impl::SwapBuffers()
 {
+#if defined(PLATFORM_WIN32)
     ::SwapBuffers( m_WindowHandleToDeviceContext );
+#elif defined(PLATFORM_LINUX)		
+    glXSwapBuffers(m_Display, m_LinuxWindow);
+#else
+#   error Unsupported platform
+#endif
 }
 
 #endif // OPENGL_SUPPORTED

@@ -75,13 +75,16 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 
 elseif(PLATFORM_ANDROID)
 	
-	list(APPEND ${SOURCE} src/Android/AndroidMain.cpp)
+	list(APPEND SOURCE src/Android/AndroidMain.cpp src/LoadPluginFunctions.cpp)
 	add_library(GhostCubeScene SHARED ${SOURCE} ${INCLUDE})
 
+elseif(PLATFORM_LINUX)
+
+	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
+	add_executable(GhostCubeScene ${SOURCE} ${INCLUDE} ${ASSETS})
+	
 #elseif(APPLE)
 	#add_executable(GhostCubeScene MACOSX_BUNDLE Main.cpp)
-#elseif(UNIX)
-	#add_executable(GhostCubeScene Main.cpp)
 else()
 	message(FATAL_ERROR "Unknown platform")
 endif()
@@ -110,6 +113,8 @@ PRIVATE
 )
 if(PLATFORM_ANDROID)
 	target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared)
+elseif (PLATFORM_LINUX)
+	target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared GL X11)
 endif()
 
 set_common_target_properties(GhostCubeScene)

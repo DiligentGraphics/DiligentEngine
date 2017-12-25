@@ -21,16 +21,26 @@
  *  of the possibility of such damages.
  */
 
-// This header must be included, otherwise the linker will somehow fail to find android_main()
-#include <android_native_app_glue.h>
+#include <unordered_map>
+#include <string>
 
-// Actual implementation of the android_main()
-void android_main_impl( struct android_app* state );
+#include "IUnityInterface.h"
 
-// When a native library is being loaded, JNI loader looks for the android_main function. 
-// If the entry does not export that function, it will fail to load. So we have to define
-// android_main() in every android native application
-void android_main( android_app* state )
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetMatrixFromUnity 
+    (float m00, float m01, float m02, float m03,
+     float m10, float m11, float m12, float m13,
+     float m20, float m21, float m22, float m23,
+     float m30, float m31, float m32, float m33);
+
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetTexturesFromUnity(void* renderTargetHandle, void *depthBufferHandle);
+
+void *LoadPluginFunction(const char *name)
 {
-    android_main_impl(state);
+    static std::unordered_map<std::string, void*> functions_map = 
+    { 
+        {"SetMatrixFromUnity", reinterpret_cast<void*>(SetMatrixFromUnity) },
+        {"SetTexturesFromUnity", reinterpret_cast<void*>(SetTexturesFromUnity) }
+    };
+    auto it = functions_map.find(name);
+    return it != functions_map.end() ? it->second : nullptr;
 }

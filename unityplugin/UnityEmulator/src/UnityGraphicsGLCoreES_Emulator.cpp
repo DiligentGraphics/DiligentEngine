@@ -16,9 +16,18 @@ UnityGraphicsGLCoreES_Emulator::UnityGraphicsGLCoreES_Emulator()
     //GeUnityInterfaces().RegisterInterface(IUnityGraphicsGLCoreES__GUID, GetUnityGraphicsAPIInterface());
 }
 
-void UnityGraphicsGLCoreES_Emulator::InitGLContext(void *pNativeWndHandle, int MajorVersion, int MinorVersion)
+void UnityGraphicsGLCoreES_Emulator::InitGLContext(void *pNativeWndHandle, 
+                                                   #ifdef PLATFORM_LINUX
+                                                       void *pDisplay,
+                                                   #endif
+
+int MajorVersion, int MinorVersion)
 {
-    m_GraphicsImpl->InitGLContext(pNativeWndHandle, MajorVersion, MinorVersion);
+    m_GraphicsImpl->InitGLContext(pNativeWndHandle, 
+                                  #ifdef PLATFORM_LINUX
+                                     pDisplay,
+                                  #endif
+                                  MajorVersion, MinorVersion);
 }
 
 UnityGraphicsGLCoreES_Emulator& UnityGraphicsGLCoreES_Emulator::GetInstance()

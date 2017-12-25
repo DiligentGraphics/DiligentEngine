@@ -90,6 +90,9 @@ endif()
 if(PLATFORM_ANDROID)
 	target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_ANDROID)
 	set_target_properties(GhostCubePlugin-shared PROPERTIES CXX_VISIBILITY_PRESET hidden) # -fvisibility=hidden
+elseif(PLATFORM_LINUX)
+	target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_LINUX)
+	set_target_properties(GhostCubePlugin-shared PROPERTIES CXX_VISIBILITY_PRESET hidden) # -fvisibility=hidden
 endif()
 
 set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins)
@@ -110,6 +113,8 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 	set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/GhostCubePlugin.dll)
 elseif(PLATFORM_ANDROID)
 	set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/Android/libGhostCubePlugin.so)
+elseif(PLATFORM_LINUX)
+	set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/libGhostCubePlugin.so)
 else()
 	message(FATAL_ERROR "Unsupported platform")
 endif()

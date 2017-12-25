@@ -84,6 +84,8 @@ elseif(PLATFORM_UNIVERSAL_WINDOWS)
 
 elseif(PLATFORM_ANDROID)
 	list(APPEND SOURCE src/Android/AndroidMainImpl.cpp)
+elseif(PLATFORM_LINUX)
+	list(APPEND SOURCE src/Linux/LinuxMain.cpp)
 else()
 	message(FATAL_ERROR "Unknown platform")
 endif()

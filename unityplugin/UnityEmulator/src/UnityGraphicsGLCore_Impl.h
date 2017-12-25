@@ -24,17 +24,50 @@
 #   endif
 
 #   include "GL/glew.h"
+#   include <GL/glx.h>
+
+// Undefine beautiful defines from GL/glx.h -> X11/Xlib.h
+#   ifdef Bool
+#       undef Bool
+#   endif
+#   ifdef True
+#       undef True
+#   endif
+#   ifdef False
+#       undef False
+#   endif
+#   ifdef Status
+#       undef Status
+#   endif
+#   ifdef Success
+#       undef Success
+#   endif
 
 #else
+
 #   error Unsupported platform
+
 #endif
 
 class UnityGraphicsGLCore_Impl
 {
 public:
+
+#if defined(PLATFORM_WIN32)
+    typedef HGLRC NativeGLContextType;
+#elif defined(PLATFORM_LINUX)
+    typedef GLXContext NativeGLContextType;
+#else
+#   error Unsupported platform
+#endif    
+
     ~UnityGraphicsGLCore_Impl();
 
-    void InitGLContext(void *pNativeWndHandle, int MajorVersion, int MinorVersion);
+    void InitGLContext(void *pNativeWndHandle, 
+                       #ifdef PLATFORM_LINUX
+                           void *pDisplay,
+                       #endif
+                       int MajorVersion, int MinorVersion);
 
     void ResizeSwapchain(int NewWidth, int NewHeight);
 
@@ -44,13 +77,21 @@ public:
     int GetBackBufferHeight()const { return m_BackBufferHeight; }
     GLenum GetBackBufferFormat()const { return GL_RGBA8; }
     GLenum GetDepthBufferFormat()const { return GL_DEPTH_COMPONENT32F; }
-    HGLRC GetContext() { return m_Context; }
+    NativeGLContextType GetContext() { return m_Context; }
 
 private:
     int m_BackBufferWidth = 0;
     int m_BackBufferHeight = 0;
+
+#if defined(PLATFORM_WIN32)
     HDC m_WindowHandleToDeviceContext;
-    HGLRC m_Context;
+#elif defined(PLATFORM_LINUX)
+    Window m_LinuxWindow;
+    Display *m_Display;
+#else
+#   error Unsupported platform
+#endif
+    NativeGLContextType m_Context;
 };
 
 #endif //OPENGL_SUPPORTED
