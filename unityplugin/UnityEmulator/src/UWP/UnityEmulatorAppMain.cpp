@@ -26,6 +26,7 @@
 #include "DirectXHelper.h"
 #include "StringTools.h"
 #include "Errors.h"
+#include "FileSystem.h"
 
 using namespace UnityEmulatorApp;
 using namespace Windows::Foundation;

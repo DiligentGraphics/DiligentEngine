@@ -62,7 +62,7 @@ public:
 private:
 
     UINT m_BackBufferWidth, m_BackBufferHeight;
-    static const UINT m_BackBuffersCount = 3;
+    static constexpr UINT m_BackBuffersCount = 3;
 
     UINT m_FrameIndex = 0;
     CComPtr<ID3D12Device> m_D3D12Device;

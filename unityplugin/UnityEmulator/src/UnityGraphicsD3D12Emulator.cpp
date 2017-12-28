@@ -61,7 +61,7 @@ void UnityGraphicsD3D12Impl::CreateDeviceAndCommandQueue()
 
 	CComPtr<IDXGIFactory4> factory;
     HRESULT hr = CreateDXGIFactory1(__uuidof(factory), reinterpret_cast<void**>(static_cast<IDXGIFactory4**>(&factory)) );
-    if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to create DXGI factory")
+    if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to create DXGI factory");
 
 	CComPtr<IDXGIAdapter1> hardwareAdapter;
 	GetHardwareAdapter(factory, &hardwareAdapter);
@@ -69,14 +69,14 @@ void UnityGraphicsD3D12Impl::CreateDeviceAndCommandQueue()
 	hr = D3D12CreateDevice(hardwareAdapter, D3D_FEATURE_LEVEL_11_0, __uuidof(m_D3D12Device), reinterpret_cast<void**>(static_cast<ID3D12Device**>(&m_D3D12Device)) );
     if( FAILED(hr))
     {
-        LOG_WARNING_MESSAGE("Failed to create hardware device. Attempting to create WARP device")
+        LOG_WARNING_MESSAGE("Failed to create hardware device. Attempting to create WARP device");
 
 		CComPtr<IDXGIAdapter> warpAdapter;
 		hr = factory->EnumWarpAdapter( __uuidof(warpAdapter),  reinterpret_cast<void**>(static_cast<IDXGIAdapter**>(&warpAdapter)) );
-        if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to enum warp adapter")
+        if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to enum warp adapter");
 
 		hr = D3D12CreateDevice( warpAdapter, D3D_FEATURE_LEVEL_11_0, __uuidof(m_D3D12Device), reinterpret_cast<void**>(static_cast<ID3D12Device**>(&m_D3D12Device)) );
-        if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to crate warp device")
+        if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to crate warp device");
     }
 
 #if _DEBUG
@@ -129,7 +129,7 @@ void UnityGraphicsD3D12Impl::CreateDeviceAndCommandQueue()
 	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 
     hr = m_D3D12Device->CreateCommandQueue(&queueDesc, __uuidof(m_D3D12CmdQueue), reinterpret_cast<void**>(static_cast<ID3D12CommandQueue**>(&m_D3D12CmdQueue)));
-    if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to create command queue")
+    if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to create command queue");
 
     hr = m_D3D12Device->SetName(L"Main Command Queue");
     VERIFY_EXPR(SUCCEEDED(hr));
@@ -168,7 +168,7 @@ void UnityGraphicsD3D12Impl::CreateSwapChain(void* pNativeWndHandle, unsigned in
     CComPtr<IDXGISwapChain1> pSwapChain1;
 	CComPtr<IDXGIFactory4> factory;
     HRESULT hr = CreateDXGIFactory1(__uuidof(factory), reinterpret_cast<void**>(static_cast<IDXGIFactory4**>(&factory)) );
-    if(FAILED(hr))LOG_ERROR_AND_THROW("Failed to create DXGI factory")
+    if(FAILED(hr))LOG_ERROR_AND_THROW("Failed to create DXGI factory");
 
 #if defined( PLATFORM_WIN32 )
     hr = factory->CreateSwapChainForHwnd(m_D3D12CmdQueue, hWnd, &swapChainDesc, nullptr, nullptr, &pSwapChain1);
@@ -210,7 +210,7 @@ void UnityGraphicsD3D12Impl::InitBuffersAndViews()
         rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
         rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         auto hr = m_D3D12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_RTVDescriptorHeap));
-        if (FAILED(hr))LOG_ERROR_AND_THROW("Failed to create RTV descriptor heap")
+        if (FAILED(hr))LOG_ERROR_AND_THROW("Failed to create RTV descriptor heap");
 
         m_rtvDescriptorSize = m_D3D12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     }
@@ -223,7 +223,7 @@ void UnityGraphicsD3D12Impl::InitBuffersAndViews()
         rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
         rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         auto hr = m_D3D12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_DSVDescriptorHeap));
-        if (FAILED(hr))LOG_ERROR_AND_THROW("Failed to create DSV descriptor heap")
+        if (FAILED(hr))LOG_ERROR_AND_THROW("Failed to create DSV descriptor heap");
     }
 
     {
@@ -233,7 +233,7 @@ void UnityGraphicsD3D12Impl::InitBuffersAndViews()
         for (UINT n = 0; n < m_BackBuffersCount; n++)
         {
             auto hr = m_SwapChain->GetBuffer(n, IID_PPV_ARGS(&m_RenderTargets[n]));
-            VERIFY_EXPR(SUCCEEDED(hr))
+            VERIFY_EXPR(SUCCEEDED(hr));
 
             D3D12_RENDER_TARGET_VIEW_DESC RTVDesc = {};
             RTVDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
@@ -271,7 +271,7 @@ void UnityGraphicsD3D12Impl::InitBuffersAndViews()
         ClearValue.Format = Desc.Format;
         auto hr = m_D3D12Device->CreateCommittedResource( &HeapProps, D3D12_HEAP_FLAG_NONE,
 		    &Desc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &ClearValue, __uuidof(m_DepthStencilBuffer), reinterpret_cast<void**>(static_cast<ID3D12Resource**>(&m_DepthStencilBuffer)) );
-        if(FAILED(hr))LOG_ERROR_AND_THROW("Failed to create depth-stencil buffer")
+        if(FAILED(hr))LOG_ERROR_AND_THROW("Failed to create depth-stencil buffer");
 
         // Create depth-stencil view
         D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = m_DSVDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
@@ -314,7 +314,7 @@ void UnityGraphicsD3D12Impl::ResizeSwapChain( UINT NewWidth, UINT NewHeight )
     m_SwapChain->GetDesc( &SCDes );
     auto hr = m_SwapChain->ResizeBuffers(SCDes.BufferCount, NewWidth, NewHeight, SCDes.BufferDesc.Format, SCDes.Flags);
     if(FAILED(hr))
-        LOG_ERROR_MESSAGE("Failed to resize swap chain")
+        LOG_ERROR_MESSAGE("Failed to resize swap chain");
 
     m_FrameIndex = m_SwapChain->GetCurrentBackBufferIndex();
 
@@ -353,7 +353,7 @@ CComPtr<ID3D12CommandAllocator> UnityGraphicsD3D12Impl::GetCommandAllocator()
 	if (!m_CmdAllocator)
 	{
 		auto hr = m_D3D12Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, __uuidof(m_CmdAllocator), reinterpret_cast<void**>(&m_CmdAllocator));
-        VERIFY(SUCCEEDED(hr), "Failed to create command allocator")
+        VERIFY(SUCCEEDED(hr), "Failed to create command allocator");
 		m_CmdAllocator->SetName(L"UnityGraphicsD3D12Impl: cmd list allocator");
 	}
 
@@ -400,7 +400,7 @@ void UnityGraphicsD3D12Impl::TransitonResourceStates(int stateCount, UnityGraphi
 {
     if (stateCount >= 0)
     {
-        VERIFY(m_pStateTransitionHandler != nullptr, "State transition handler is not set")
+        VERIFY(m_pStateTransitionHandler != nullptr, "State transition handler is not set");
         m_pStateTransitionHandler->TransitionResources(stateCount, states);
     }
 }

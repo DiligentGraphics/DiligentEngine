@@ -150,7 +150,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
         }
         else
         {
-            LOG_ERROR("Unknown device type. Only the following types are supported: D3D11, D3D12, GL")
+            LOG_ERROR("Unknown device type. Only the following types are supported: D3D11, D3D12, GL");
             return -1;
         }
     }

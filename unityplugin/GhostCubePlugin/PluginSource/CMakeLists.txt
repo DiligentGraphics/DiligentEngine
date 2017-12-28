@@ -61,6 +61,8 @@ target_link_libraries(GhostCubePlugin-shared
 PRIVATE
 	BuildSettings
 	TargetPlatform
+	Common
+	GraphicsAccessories
 	GraphicsTools
 )
 

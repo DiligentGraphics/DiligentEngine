@@ -45,7 +45,7 @@ void UnityGraphicsEmulator::InvokeDeviceEventCallback(UnityGfxDeviceEventType ev
 //static void Get
 UnityGraphicsEmulator::UnityGraphicsEmulator()
 { 
-    VERIFY(m_Instance == nullptr, "Only single instance of UnityGraphicsEmulator must be initialized")
+    VERIFY(m_Instance == nullptr, "Only single instance of UnityGraphicsEmulator must be initialized");
     m_Instance = this; 
     static IUnityGraphics UnityGraphics;
     UnityGraphics.GetRenderer = GetUnityRenderer;

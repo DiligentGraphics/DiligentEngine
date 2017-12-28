@@ -1,7 +1,7 @@
 #include "RenderAPI.h"
 #include "PlatformBase.h"
 #include "Unity/IUnityGraphics.h"
-#include "GraphicsUtilities.h"
+#include "GraphicsAccessories.h"
 
 using namespace Diligent;
 

@@ -129,33 +129,6 @@ other required tools. To verify that your environment is properly set up, try bu
 Open *DiligentSamples/Android* or *UnityPlugin/Android* folders with Android Studio to build and run
 the engine samples and Unity emulator on Android.
 
-## Legacy Build (Deprecated)
-
-There is a build subdirectory in each project’s directory that contains Visual Studio 2015 project files.
-These files are now deprecated and will be removed in future releases.
-
-### Win32
-
-Open [EngineAll.sln](build/Win32/EngineAll.sln) solution file located in [build/Win32](build/Win32) folder, choose the 
-desired configuration and build it.
-
-### Build Details
-
-Diligent engine is self-contained and does not have any external dependencies. Installing Visual Studio is all that is 
-required to build the engine.
-
-Tools module references core module and samples module references both core and tools modules. The modules must share 
-the same parent directory, otherwise links in the project files will be broken.
-
-Core module contains several property pages that define common build settings. The pages are located in 
-diligentcore\Shared\Build subdirectory and are referenced by every project.
-
-## Universal Windows Platform
-
-Navigate to [build/UWP](build/UWP) directory, open [EngineAll.sln](build/UWP/EngineAll.sln) solution file and build 
-the solution for the desired configuration.
-
-
 # Samples
 
 [Sample source code](https://github.com/DiligentGraphics/DiligentSamples)

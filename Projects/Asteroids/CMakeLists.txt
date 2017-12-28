@@ -108,12 +108,12 @@ PRIVATE
 target_link_libraries(Asteroids
 PRIVATE
 	BuildSettings
-	GraphicsEngine
 	GraphicsEngineD3D11-shared 
 	GraphicsEngineD3D12-shared
 	GraphicsEngineOpenGL-shared
 	TargetPlatform
 	TextureLoader
+	Common
 	GraphicsTools
 	d3dcompiler.lib
 	d3d12.lib

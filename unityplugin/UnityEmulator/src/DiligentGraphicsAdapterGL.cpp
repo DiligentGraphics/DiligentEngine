@@ -27,7 +27,7 @@ public:
         
     virtual void Present()override final
     {
-        UNEXPECTED("Present is not expected to be called directly")
+        UNEXPECTED("Present is not expected to be called directly");
     }
 
     virtual void Resize(Uint32 NewWidth, Uint32 NewHeight)override final
@@ -55,7 +55,7 @@ DiligentGraphicsAdapterGL::DiligentGraphicsAdapterGL(const UnityGraphicsGLCoreES
         SCDesc.ColorBufferFormat = TEX_FORMAT_RGBA8_UNORM_SRGB;
     else
     {
-        UNEXPECTED("Unexpected back buffer format")
+        UNEXPECTED("Unexpected back buffer format");
     }
 
     if (DepthBufferGLFormat == GL_DEPTH_COMPONENT32F)
@@ -66,7 +66,7 @@ DiligentGraphicsAdapterGL::DiligentGraphicsAdapterGL(const UnityGraphicsGLCoreES
         SCDesc.DepthBufferFormat = TEX_FORMAT_D16_UNORM;
     else
     {
-        UNEXPECTED("Unexpected depth buffer format")
+        UNEXPECTED("Unexpected depth buffer format");
     }
 
     SCDesc.Width = UnityGraphicsGLImpl->GetBackBufferWidth();

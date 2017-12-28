@@ -86,7 +86,7 @@ void UnityGraphicsGLCoreES_Emulator::BeginFrame()
     glDepthRangef( 0, 1 );
     auto err = glGetError();
     if( err != GL_NO_ERROR)
-        LOG_ERROR_MESSAGE("GL Error: ", err)
+        LOG_ERROR_MESSAGE("GL Error: ", err);
 }
 
 void UnityGraphicsGLCoreES_Emulator::EndFrame()

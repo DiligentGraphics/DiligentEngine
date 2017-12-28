@@ -1,1 +1,0 @@
-call run.bat Release_Win32 D3D12

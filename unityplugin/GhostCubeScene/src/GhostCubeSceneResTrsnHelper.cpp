@@ -50,7 +50,7 @@ void GhostCubeSceneResTrsnHelper::TransitionResources(int stateCount, UnityGraph
             pResToTransition = pMirrorDepth;
         else
         {
-            UNEXPECTED("Unexpected resource to transition")
+            UNEXPECTED("Unexpected resource to transition");
         }
         if (pResToTransition)
         {

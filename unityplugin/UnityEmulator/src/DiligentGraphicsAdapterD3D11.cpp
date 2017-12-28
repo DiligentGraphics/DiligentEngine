@@ -31,7 +31,7 @@ public:
 
     virtual IDXGISwapChain *GetDXGISwapChain()override final
     {
-        UNEXPECTED("DXGI swap chain cannot be requested through the proxy swap chain")
+        UNEXPECTED("DXGI swap chain cannot be requested through the proxy swap chain");
         return nullptr;
     }
 
@@ -41,7 +41,7 @@ public:
 
     virtual void Present()override final
     {
-        UNEXPECTED("Present is not expected to be called directly")
+        UNEXPECTED("Present is not expected to be called directly");
     }
 
     virtual void Resize(Uint32 NewWidth, Uint32 NewHeight)override final

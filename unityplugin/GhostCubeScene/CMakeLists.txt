@@ -11,8 +11,8 @@ set(INCLUDE
 )
 
 set(SHADERS
-	build/assets/shaders/Mirror.psh
-	build/assets/shaders/Mirror.vsh
+	assets/shaders/Mirror.psh
+	assets/shaders/Mirror.vsh
 )
 set(ASSETS ${SHADERS})
 set_source_files_properties(${SHADERS} PROPERTIES VS_TOOL_OVERRIDE "None")
@@ -31,7 +31,7 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 	
 	if(PLATFORM_WIN32)
 		set_target_properties(GhostCubeScene PROPERTIES 
-			VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/assets"
+			VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets"
 		)
 	
 		add_custom_command(TARGET GhostCubeScene POST_BUILD
