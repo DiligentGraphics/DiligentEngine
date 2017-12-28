@@ -27,7 +27,7 @@ be translated to GLSL.
 | Linux                      | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
-
+Last Stable Release - [v2.1.a](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.1.a)
 
 # Clonning the Repository
 
