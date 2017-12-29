@@ -14,6 +14,10 @@ compiler:
 os:
   - linux
 
+env:
+  - CONFIG=Debug
+  - CONFIG=Release
+
 addons:
   apt:
     sources:
@@ -40,6 +44,6 @@ script:
   # Run cmake
   - mkdir cmk_build
   - cd cmk_build
-  - cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+  - cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=${CONFIG}
   # Build
   - cmake --build .
