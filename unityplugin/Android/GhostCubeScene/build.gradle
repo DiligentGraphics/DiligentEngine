@@ -32,7 +32,7 @@ android {
     sourceSets {
         main {
             java.srcDirs = ['../Common/Java']
-            assets.srcDirs = ['../../GhostCubeScene/build/assets']
+            assets.srcDirs = ['../../GhostCubeScene/assets']
         }
     }
 }
