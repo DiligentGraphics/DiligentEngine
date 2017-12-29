@@ -110,7 +110,7 @@ PRIVATE
 	BuildSettings 
 PUBLIC
 	Common 
-	GraphicsEngine
+	GraphicsEngineInterface
 	GraphicsTools
 	TargetPlatform
 )
