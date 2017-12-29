@@ -127,14 +127,14 @@ void CreateRenderAPI(UnityGfxRenderer apiType)
 #	if SUPPORT_OPENGL_LEGACY
 	if (apiType == kUnityGfxRendererOpenGL)
 	{
-        UNSUPPORTED("Legacy Opengl not supported")
+        UNSUPPORTED("Legacy Opengl not supported");
 	}
 #	endif // if SUPPORT_OPENGL_LEGACY
 
 #	if SUPPORT_METAL
 	if (apiType == kUnityGfxRendererMetal)
 	{
-        UNSUPPORTED("Metal not supported")
+        UNSUPPORTED("Metal not supported");
 	}
 #	endif // if SUPPORT_METAL
 }
