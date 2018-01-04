@@ -188,6 +188,16 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 ![](unityplugin/GhostCubePlugin/Screenshot.png)
 
+# References
+
+[Diligent Engine on the Web](http://diligentgraphics.com)
+
+[Diligent Engine on Twitter](https://twitter.com/diligentengine)
+
+[Diligent Engine on Facebook](https://www.facebook.com/DiligentGraphics/)
+
+[API Reference][1]
+
 
 # Version History
 
@@ -243,6 +253,8 @@ Initial release
 
 Licensed under the [Apache License, Version 2.0](License.txt)
 
-**Copyright 2015-2017 Egor Yusov**
+**Copyright 2015-2018 Egor Yusov**
 
-[Diligent Graphics](http://diligentgraphics.com)
+[diligentgraphics.com](http://diligentgraphics.com)
+
+[1]: https://cdn.rawgit.com/DiligentGraphics/DiligentCore/4949ec8a/doc/html/index.html
