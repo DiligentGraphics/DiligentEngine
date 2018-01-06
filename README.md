@@ -131,25 +131,39 @@ the engine samples and Unity emulator on Android.
 
 # Tutorials
 
-## Tutorial 01 - Hello Triangle
+## [Tutorial 01 - Hello Triangle](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial01_HelloTriangle)
 
 ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial01_HelloTriangle/Screenshot.png)
 
 This tutorial shows how to render a simple triangle using Diligent Engine API.
 
-## Tutorial 02 - Cube
+## [Tutorial 02 - Cube](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial02_Cube)
 
 ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial02_Cube/Screenshot.png)
 
 This tutorial demonstrates how to render an actual 3D object, a cube. It shows how to load shaders from files, create and use vertex, 
 index and uniform buffers.
 
-## Tutorial 03 - Texturing
+## [Tutorial 03 - Texturing](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial03_Texturing)
 
 ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial03_Texturing/Screenshot.png)
 
 This tutorial demonstrates how to apply a texture to a 3D object. It shows how to load a texture from file, create shader resource
 binding object and how to sample a texture in the shader.
+
+## [Tutorial 04 - Instancing](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial04_Instancing)
+
+![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial04_Instancing/Screenshot.png)
+
+This tutorial demonstrates how to use instancing to render multiple copies of one object
+using unique transformation matrix for every copy.
+
+## [Tutorial 05 - Texture Array](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial05_TextureArray)
+
+![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial05_TextureArray/Screenshot.png)
+
+This tutorial demonstrates how to combine instancing with texture arrays to 
+use unique texture for every instance.
 
 # Samples
 
