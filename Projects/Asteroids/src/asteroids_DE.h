@@ -14,6 +14,7 @@
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "RefCntAutoPtr.h"
+#include "LockHelper.h"
 #include <map>
 #include <mutex>
 #include <atomic>
@@ -80,9 +81,8 @@ private:
     
     std::mutex mMutex;
     std::condition_variable mCondVar;
-    bool mUpdateSubsets = false;
-    bool mRenderSubsets = false;
-    bool mExitThreads = false;
+    ThreadingTools::Signal mUpdateSubsetsSignal;
+    ThreadingTools::Signal mRenderSubsetsSignal;
     std::atomic_int m_NumThreadsCompleted;
     static void WorkerThreadFunc(Asteroids *pThis, Diligent::Uint32 ThreadNum);
 

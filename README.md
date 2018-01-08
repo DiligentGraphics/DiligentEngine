@@ -165,6 +165,13 @@ using unique transformation matrix for every copy.
 This tutorial demonstrates how to combine instancing with texture arrays to 
 use unique texture for every instance.
 
+## [Tutorial 06 - Multithreading](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial06_Multithreading)
+
+![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial06_Multithreading/Screenshot.png)
+
+This tutorial shows how to generate command lists in parallel from multiple threads.
+
+
 # Samples
 
 [Sample source code](https://github.com/DiligentGraphics/DiligentSamples)

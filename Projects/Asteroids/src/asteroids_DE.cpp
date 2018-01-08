@@ -443,11 +443,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
 
 Asteroids::~Asteroids()
 {
-    {
-        std::unique_lock<std::mutex> lk(mMutex);
-        mExitThreads = true;
-    }
-    mCondVar.notify_all();
+    mUpdateSubsetsSignal.Trigger(true, -1);
 
     for(auto &thread : mWorkerThreads)
     {
@@ -610,13 +606,9 @@ void Asteroids::WorkerThreadFunc(Asteroids *pThis, Diligent::Uint32 ThreadNum)
 {
     for (;;)
     {
-        // Wait for mUpdateSubsets or mExitThreads flag on conditional variable
-        {
-            std::unique_lock<std::mutex> lk(pThis->mMutex);
-            pThis->mCondVar.wait(lk, [&]{return pThis->mUpdateSubsets || pThis->mExitThreads;});
-        }
-
-        if(pThis->mExitThreads)
+        // Wait for UpdateSubsets signal
+        auto SignalledValue = pThis->mUpdateSubsetsSignal.Wait();
+        if(SignalledValue < 0)
             return;
 
         auto SubsetSize = NUM_ASTEROIDS / pThis->mNumSubsets;
@@ -628,11 +620,9 @@ void Asteroids::WorkerThreadFunc(Asteroids *pThis, Diligent::Uint32 ThreadNum)
         // Increment number of completed threads
         ++pThis->m_NumThreadsCompleted;
 
-        // Wait for mRenderSubsets flag on conditional variable
-        {
-            std::unique_lock<std::mutex> lk(pThis->mMutex);
-            pThis->mCondVar.wait(lk, [&]{return pThis->mRenderSubsets || pThis->mExitThreads;});
-        }
+
+        // Wait for RenderSubsets signal
+        pThis->mRenderSubsetsSignal.Wait();
 
         pThis->RenderSubset(1+ThreadNum, pThis->mDeferredCtxt[ThreadNum], *FrameAttribs.camera, SubsetStart, SubsetSize);
 
@@ -735,13 +725,8 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     
     if (settings.multithreadedRendering)
     {
-        // Set mUpdateSubsets flag
-        {
-            std::unique_lock<std::mutex> lk(mMutex);
-            mUpdateSubsets = true;
-            m_NumThreadsCompleted = 0;
-        }
-        mCondVar.notify_all();
+        m_NumThreadsCompleted = 0;
+        mUpdateSubsetsSignal.Trigger(true);
     }
 
     mAsteroids->Update(frameTime, camera.Eye(), settings, 0, SubsetSize);
@@ -751,8 +736,8 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         // Wait for worker threads to finish
         while(m_NumThreadsCompleted < (int)mNumSubsets-1)
             std::this_thread::yield();
-        // Clear mUpdateSubsets flag while all threads are waiting for mRenderSubsets flag
-        mUpdateSubsets = false;
+        // Reset mUpdateSubsetsSignal while all threads are waiting for mRenderSubsetsSignal
+        mUpdateSubsetsSignal.Reset();
     }
     
 
@@ -763,13 +748,9 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
 
     if (settings.multithreadedRendering)
     {
-        // Set mRenderSubsets flag
-        {
-            std::unique_lock<std::mutex> lk(mMutex);
-            mRenderSubsets = true;
-            m_NumThreadsCompleted = 0;
-        }
-        mCondVar.notify_all();
+        // Signal RenderSubsets
+        m_NumThreadsCompleted = 0;
+        mRenderSubsetsSignal.Trigger(true);
     }
 
     RenderSubset(0, mDeviceCtxt, camera, 0, SubsetSize);
@@ -779,8 +760,8 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         // Wait for worker threads to finish
         while(m_NumThreadsCompleted < (int)mNumSubsets-1)
             std::this_thread::yield();
-        // Clear mRenderSubsets flag while all threads are waiting for mUpdateSubsets flag
-        mRenderSubsets = false;
+        // Reset mRenderSubsetsSignal while all threads are waiting for mUpdateSubsetsSignal
+        mRenderSubsetsSignal.Reset();
 
         for(auto &cmdList : mCmdLists)
         {
