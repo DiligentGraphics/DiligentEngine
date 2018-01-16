@@ -27,7 +27,7 @@ be translated to GLSL.
 | Linux                      | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
-Last Stable Release - [v2.1.a](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.1.a)
+Last Stable Release - [v2.1.b](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.1.b)
 
 # Clonning the Repository
 
@@ -36,6 +36,13 @@ This is the master repository that contains three [submodules](https://git-scm.c
  git clone --recursive https://github.com/DiligentGraphics/DiligentEngine.git 
  
  Alternatively, you can get master repository fisrt, and then individually clone all submodules into the engine's root folder.
+ 
+ To checkout the last stable release, run the following commands:
+ 
+* git checkout tags/v2.1.b
+
+* git submodule update --init --recursive
+
 
 ## Repository Structure
 
