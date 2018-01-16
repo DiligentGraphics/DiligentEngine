@@ -236,6 +236,12 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 # Version History
 
+## v2.1.b
+
+* Removed legacy Visual Studio solution and project files
+* Added API reference
+* Added tutorials 1-8
+
 ## v2.1.a
 
 * Refactored build system to use CMake and Gradle for Android
