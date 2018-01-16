@@ -177,6 +177,15 @@ This tutorial shows how to generate command lists in parallel from multiple thre
 
 This tutorial shows how to use geometry shader to render smooth wireframe.
 
+
+## [Tutorial 08 - Tessellation](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial08_Tessellation)
+
+![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial08_Tessellation/Screenshot.png)
+
+This tutorial shows how to use hardware tessellation to implement simple adaptive terrain 
+rendering algorithm.
+
+
 # Samples
 
 [Sample source code](https://github.com/DiligentGraphics/DiligentSamples)
