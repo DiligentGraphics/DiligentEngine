@@ -18,13 +18,14 @@ be translated to GLSL.
 | Universal Windows Platform | Direct3D11, Direct3D12              |
 | Android                    | OpenGLES3.0+                        |
 | Linux                      | OpenGL4.2+                          |
+| MacOS                      | OpenGL4.1 (No compute shaders)      |
 
 ## Build Status
 
 | Platform                   | Status        |
 | -------------------------- | ------------- |
 | Win32/Universal Windows    | [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
-| Linux                      | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
+| Linux/MacOS                | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
 Last Stable Release - [v2.1.b](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.1.b)
@@ -136,6 +137,14 @@ other required tools. To verify that your environment is properly set up, try bu
 Open *DiligentSamples/Android* or *UnityPlugin/Android* folders with Android Studio to build and run
 the engine samples and Unity emulator on Android.
 
+## MacOS
+
+After you clone the repo, run the following command from the engine's root folder to generate XCode project 
+(you need to have [CMake](https://cmake.org/) installed on the system):
+
+*cmake -H. -B./cmk_build/MacOS -G "XCode"*
+
+
 # Tutorials
 
 ## [Tutorial 01 - Hello Triangle](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial01_HelloTriangle)
@@ -242,6 +251,10 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 
 # Version History
+
+## Current Progress
+
+* Added MacOS support
 
 ## v2.1.b
 
