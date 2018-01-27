@@ -7,17 +7,29 @@ notifications:
     on_success: never
     on_failure: always
 
-compiler:
-  #- clang
-  - gcc
-
-os:
-  - linux
-
-env:
-  - CONFIG=Debug
-  - CONFIG=Release
-
+before_install:
+  - |
+    if [ "$TRAVIS_OS_NAME" = "osx" ];  then
+      if brew ls --versions cmake > /dev/null; then
+        echo cmake already installed.
+      else
+        brew install cmake
+      fi;
+      cmake --version
+    fi
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      # Link gcc-7 and g++-7 to their standard commands
+      sudo ln -s /usr/bin/gcc-7 /usr/local/bin/gcc
+      sudo ln -s /usr/bin/g++-7 /usr/local/bin/g++
+      # Export CC and CXX to tell cmake which compiler to use
+      export CC=/usr/bin/gcc-7
+      export CXX=/usr/bin/g++-7
+      # Check versions of gcc, g++ and cmake
+      gcc -v
+      g++ -v
+      cmake --version
+    fi
 addons:
   apt:
     sources:
@@ -26,24 +38,34 @@ addons:
       - gcc-7
       - g++-7
       - cmake
-
-before_install:
-  - git submodule update --init --recursive
-
+      
+matrix:
+  include:
+  - os: linux
+    compiler: gcc
+    env: CONFIG=Debug
+  - os: linux
+    compiler: gcc
+    env: CONFIG=Release
+  - os: osx
+    compiler: clang
+    env: CONFIG=Release
+  - os: osx
+    compiler: clang
+    env: CONFIG=Debug
+    
 script:
-  # Link gcc-7 and g++-7 to their standard commands
-  - sudo ln -s /usr/bin/gcc-7 /usr/local/bin/gcc
-  - sudo ln -s /usr/bin/g++-7 /usr/local/bin/g++
-  # Export CC and CXX to tell cmake which compiler to use
-  - export CC=/usr/bin/gcc-7
-  - export CXX=/usr/bin/g++-7
-  # Check versions of gcc, g++ and cmake
-  - gcc -v
-  - g++ -v
-  - cmake --version
+
   # Run cmake
   - mkdir cmk_build
   - cd cmk_build
-  - cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=${CONFIG}
-  # Build
-  - cmake --build .
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then 
+      cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=${CONFIG}
+      cmake --build .
+    fi
+  - |
+    if [ "$TRAVIS_OS_NAME" = "osx" ]; then 
+      cmake .. -G "Xcode"
+      cmake --build . --config ${CONFIG}
+    fi
