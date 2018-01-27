@@ -7,6 +7,12 @@
 #include "DebugUtilities.h"
 #include "Errors.h"
 
+#ifdef PLATFORM_MACOS
+#import <AppKit/AppKit.h>
+#endif
+
+#if defined(PLATFORM_WIN32) || defined(PLATFORM_LINUX)
+
 #ifndef APIENTRY
 #   define APIENTRY
 #endif
@@ -71,6 +77,7 @@ void APIENTRY openglCallbackFunction( GLenum source,
 #endif
 }
 
+#endif // WIN32 or LINUX
 
 UnityGraphicsGLCore_Impl::~UnityGraphicsGLCore_Impl()
 {
@@ -79,7 +86,7 @@ UnityGraphicsGLCore_Impl::~UnityGraphicsGLCore_Impl()
 #if defined(PLATFORM_WIN32)
 		wglMakeCurrent( m_WindowHandleToDeviceContext, 0 );
         wglDeleteContext( m_Context );
-#elif defined(PLATFORM_LINUX)
+#elif defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS)
         // Do nothing. Context is managed by the app
 #else
 #   error Unknown platform
@@ -177,7 +184,17 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle,
 	GLenum err = glewInit();
 	if( GLEW_OK != err )
 		LOG_ERROR_AND_THROW( "Failed to initialize GLEW" );
-
+#elif defined(PLATFORM_MACOS)
+    NSOpenGLContext* CurrentCtx = [NSOpenGLContext currentContext];
+    m_Context = CurrentCtx;
+    if (m_Context == nullptr)
+    {
+        LOG_ERROR_AND_THROW("No current GL context found!");
+    }
+    // Initialize GLEW
+    GLenum err = glewInit();
+    if( GLEW_OK != err )
+        LOG_ERROR_AND_THROW( "Failed to initialize GLEW" );
 #else
 #   error Unsupported platform
 #endif
@@ -190,6 +207,7 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle,
     glGetIntegerv( GL_MINOR_VERSION, &MinorVersion );
     LOG_INFO_MESSAGE("Initialized OpenGL ", MajorVersion, '.', MinorVersion, " context (", GLVersionString, ")");
 
+#if defined(PLATFORM_WIN32) || defined(PLATFORM_LINUX)
     if( glDebugMessageCallback )
     {
         glEnable( GL_DEBUG_OUTPUT_SYNCHRONOUS );
@@ -202,6 +220,7 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle,
             &unusedIds,
             true );
     }
+#endif
 
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
     if( glGetError() != GL_NO_ERROR )
@@ -225,6 +244,8 @@ void UnityGraphicsGLCore_Impl::SwapBuffers()
     ::SwapBuffers( m_WindowHandleToDeviceContext );
 #elif defined(PLATFORM_LINUX)		
     glXSwapBuffers(m_Display, m_LinuxWindow);
+#elif defined(PLATFORM_MACOS)
+    UNEXPECTED("On MacOS, swap buffers operation is expected to be performed by the app");
 #else
 #   error Unsupported platform
 #endif

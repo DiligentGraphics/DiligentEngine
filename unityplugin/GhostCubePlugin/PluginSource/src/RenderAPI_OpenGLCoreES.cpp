@@ -76,6 +76,7 @@ void RenderAPI_OpenGLCoreES::CreateRenderTargetAndDepthBuffer()
     RenderTargetDesc.BindFlags = BIND_RENDER_TARGET;
     RenderTargetDesc.Usage = USAGE_DEFAULT;
     RenderTargetDesc.Name = "Unity render target";
+    RenderTargetDesc.MipLevels = 1;
     pDeviceGL->CreateTextureFromGLHandle(m_GLRenderTargetHandle, RenderTargetDesc, &pRenderTarget);
         
     RefCntAutoPtr<ITexture> pDepthBuffer;
@@ -84,6 +85,7 @@ void RenderAPI_OpenGLCoreES::CreateRenderTargetAndDepthBuffer()
     DepthBufferDesc.BindFlags = BIND_DEPTH_STENCIL;
     DepthBufferDesc.Usage = USAGE_DEFAULT;
     DepthBufferDesc.Name = "Unity depth buffer";
+    DepthBufferDesc.MipLevels = 1;
     pDeviceGL->CreateTextureFromGLHandle(m_GLDepthTextureHandle, DepthBufferDesc, &pDepthBuffer);
 
     CreateTextureViews(pRenderTarget, pDepthBuffer);
