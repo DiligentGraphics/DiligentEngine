@@ -37,6 +37,7 @@ public:
     void Init();
     void WindowResize(int width, int height);
     void Render();
+    const char* GetSceneName()const{return pScene->GetSceneName();}
     
 private:
     class UnityGraphicsEmulator *GraphicsEmulator = nullptr;

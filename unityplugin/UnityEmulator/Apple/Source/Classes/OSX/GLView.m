@@ -259,4 +259,9 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     CVDisplayLinkStart(displayLink);
 }
 
+- (NSString*)getSceneName
+{
+    return [NSString stringWithFormat:@"%s", _renderer->GetSceneName()];
+}
+
 @end

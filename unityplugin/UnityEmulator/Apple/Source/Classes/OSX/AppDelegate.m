@@ -16,6 +16,10 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    NSWindow* mainWindow = [[NSApplication sharedApplication]mainWindow];
+    [mainWindow setAcceptsMouseMovedEvents:YES];
+    NSString *sceneName =  [[mainWindow contentView] getSceneName];
+    [mainWindow setTitle:sceneName];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
