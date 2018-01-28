@@ -78,12 +78,7 @@ bool UnityEmulatorAppMain::LoadPlugin(const char* LibPath)
 UnityEmulatorAppMain::UnityEmulatorAppMain() :
     m_scene(CreateScene())
 {
-#if defined(PLATFORM_UNIVERSAL_WINDOWS)
-    FileSystem::SetWorkingDirectory("assets");
-#endif
-    
-    std::string LibName = "Assets\\";
-    LibName.append(m_scene->GetPluginName());
+    std::string LibName(m_scene->GetPluginName());
 
 #if _WIN64
 #   if _M_ARM >= 7

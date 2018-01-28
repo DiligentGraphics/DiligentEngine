@@ -50,11 +50,11 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 		set_source_files_properties(${PLUGIN_DLLS} PROPERTIES GENERATED TRUE)
 		set_source_files_properties(${PLUGIN_DBG_DLL} PROPERTIES 
 			VS_DEPLOYMENT_CONTENT $<CONFIG:Debug>
-			VS_DEPLOYMENT_LOCATION "assets"
+			VS_DEPLOYMENT_LOCATION "."
 		)
 		set_source_files_properties(${PLUGIN_REL_DLL} PROPERTIES 
 			VS_DEPLOYMENT_CONTENT $<NOT:$<CONFIG:Debug>>
-			VS_DEPLOYMENT_LOCATION "assets"
+			VS_DEPLOYMENT_LOCATION "."
 		)
 
 		add_custom_command(TARGET GhostCubeScene PRE_BUILD
@@ -68,7 +68,7 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 		
 		set_source_files_properties(${SHADERS} PROPERTIES 
 			VS_DEPLOYMENT_CONTENT 1
-			VS_DEPLOYMENT_LOCATION "assets/shaders"
+			VS_DEPLOYMENT_LOCATION "shaders"
 		)
 
 	endif()
