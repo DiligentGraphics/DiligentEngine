@@ -81,7 +81,7 @@ navigate to the engine's root folder and run the following command:
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**. (If anybody knows a way
 to add quotes to CMake's custom commands, please let me know!)
 
-Open DiligentEngine.sln file in cmk_build folder, select the desired configuration and build the engine. By default, Asteroids
+Open DiligentEngine.sln file in cmk_build/Win64 folder, select the desired configuration and build the engine. By default, Asteroids
 demo will be set up as startup project.
 
 
@@ -142,8 +142,9 @@ the engine samples and Unity emulator on Android.
 After you clone the repo, run the following command from the engine's root folder to generate XCode project 
 (you need to have [CMake](https://cmake.org/) installed on the system):
 
-*cmake -H. -B./cmk_build/MacOS -G "XCode"*
+*cmake -H. -B./cmk_build/MacOS -G "Xcode"*
 
+Open Xcode project file in cmk_build/MacOS folder and build the engine.
 
 # Tutorials
 
