@@ -7,6 +7,7 @@
  */
 
 #import "AppDelegate.h"
+#import "GLView.h"
 
 @interface AppDelegate ()
 
