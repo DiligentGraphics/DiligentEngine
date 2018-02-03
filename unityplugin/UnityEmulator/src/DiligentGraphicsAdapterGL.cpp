@@ -6,17 +6,19 @@
 #include "RenderDeviceFactoryOpenGL.h"
 #include "SwapChainBase.h"
 #include "DefaultRawMemoryAllocator.h"
+
 #include "UnityGraphicsGL_Impl.h"
+#include "SwapChainGL.h"
 
 using namespace Diligent;
 
 namespace
 {
 
-class ProxySwapChainGL : public SwapChainBase<ISwapChain>
+class ProxySwapChainGL : public SwapChainBase<ISwapChainGL>
 {
 public:
-    using TBase = SwapChainBase<ISwapChain>;
+    using TBase = SwapChainBase<ISwapChainGL>;
 
     ProxySwapChainGL( IReferenceCounters *pRefCounters,
                       IRenderDevice *pDevice,
@@ -34,6 +36,11 @@ public:
     {
         TBase::Resize(NewWidth, NewHeight, 0);
     }
+
+    virtual GLuint GetDefaultFBO()const override final
+    {
+        return 0;
+    }
 };
 
 }
@@ -44,7 +51,7 @@ DiligentGraphicsAdapterGL::DiligentGraphicsAdapterGL(const UnityGraphicsGLCoreES
     auto *UnityGraphicsGLImpl = UnityGraphicsGL.GetGraphicsImpl();
 
     auto *pFactoryGL = GetEngineFactoryOpenGL();
-    EngineCreationAttribs Attribs;
+    EngineGLAttribs Attribs;
     pFactoryGL->AttachToActiveGLContext(Attribs, &m_pDevice, &m_pDeviceCtx);
 
     auto BackBufferGLFormat = UnityGraphicsGLImpl->GetBackBufferFormat();

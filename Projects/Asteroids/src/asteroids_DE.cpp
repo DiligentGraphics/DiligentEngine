@@ -51,8 +51,6 @@ namespace AsteroidsDE {
 // Create Direct3D device and swap chain
 void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 {
-    EngineCreationAttribs EngineCreationAttribs;
-    EngineCreationAttribs.strShaderCachePath = "bin\\tmp\\ShaderCache";
     SwapChainDesc SwapChainDesc;
     SwapChainDesc.SamplesCount = 1;
     SwapChainDesc.BufferCount = NUM_SWAP_CHAIN_BUFFERS;
@@ -104,14 +102,18 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
         break;
 
         case DeviceType::OpenGL:
+        {
 #ifdef ENGINE_DLL
-            if(GetEngineFactoryOpenGL == nullptr)
+            if (GetEngineFactoryOpenGL == nullptr)
             {
                 LoadGraphicsEngineOpenGL(GetEngineFactoryOpenGL);
             }
 #endif
+            EngineGLAttribs CreationAttribs;
+            CreationAttribs.pNativeWndHandle = hWnd;
             GetEngineFactoryOpenGL()->CreateDeviceAndSwapChainGL(
-                EngineCreationAttribs, &mDevice, &mDeviceCtxt, SwapChainDesc, hWnd, &mSwapChain );
+                CreationAttribs, &mDevice, &mDeviceCtxt, SwapChainDesc, &mSwapChain);
+        }
         break;
 
         default:

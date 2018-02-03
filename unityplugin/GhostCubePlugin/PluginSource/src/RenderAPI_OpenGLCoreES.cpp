@@ -49,7 +49,7 @@ void RenderAPI_OpenGLCoreES::ProcessDeviceEvent(UnityGfxDeviceEventType type, IU
     if (type == kUnityGfxDeviceEventInitialize)
     {
         auto *pFactoryGL = GetEngineFactoryOpenGL();
-        EngineCreationAttribs Attribs;
+        EngineGLAttribs Attribs;
         pFactoryGL->AttachToActiveGLContext(Attribs, &m_Device, &m_Context);
         if (m_Context)
         {
