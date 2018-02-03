@@ -136,6 +136,9 @@ elseif(PLATFORM_MACOS)
 		    PARENT_SCOPE
 		)
 	endfunction()
+
+elseif(PLATFORM_IOS)
+	
 else()
 	message(FATAL_ERROR "Unknown platform")
 endif()
