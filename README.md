@@ -3,12 +3,33 @@
 Diligent Engine is a light-weight cross-platform abstraction layer between the application and the platform-specific graphics API. 
 Its main goal is to take advantages of the next-generation APIs such as Direct3D12 and Vulkan, but at the same time provide support 
 for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common front-end for all supported platforms and 
-provides [interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/). 
-It also supports [integration with Unity](http://diligentgraphics.com/diligent-engine/unity-integration/) and is designed to be used 
+provides [interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
+[Shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) allows shaders authored in HLSL to 
+be translated to GLSL and used on all supported platforms. 
+The engine supports [integration with Unity](http://diligentgraphics.com/diligent-engine/unity-integration/) and is designed to be used 
 as a graphics subsystem in a standalone game engine, Unity native plugin or any other 3D application. It is distributed under 
-[Apache 2.0 license](License.txt) and is free to use. The engine contains 
-[shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) that allows shaders authored in HLSL to 
-be translated to GLSL.
+[Apache 2.0 license](License.txt) and is free to use.
+
+## Features
+
+* Cross-platform
+  * Exact same client code for all supported platforms and rendering backends
+    * No `#if defined(_WIN32)` ... `#elif defined(LINUX)` ... `#elif defined(ANDROID)` ...
+    * No `#if defined(D3D11)` ... `#elif defined(D3D12)` ... `#elif defined(OPENGL)` ...
+  * Exact same HLSL shaders run on all platforms and all backends 
+* Modular design
+  * Components are clearly separated logically and physically and can be used as needed
+    * Do not want to keep samples and tutorials in your codebase - simply remove Samples submodule
+    * Only need core functionality - use only Core submodule
+    * No 15000 lines-of-code files
+* Clear object-based interface
+  * No global states
+* Key graphics features:
+  * Automatic shader resource binding designed to leverage the next-generation rendering APIs
+  * Multithreaded command buffer generation
+    * [50,000 draw calls at 300 fps](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) with D3D12 backend
+  * Descriptor, memory and resource state management
+* Modern c++ features to make code fast and reliable
 
 ## Supported Plaforms and Low-Level Graphics APIs
 
@@ -19,6 +40,7 @@ be translated to GLSL.
 | Android                    | OpenGLES3.0+                        |
 | Linux                      | OpenGL4.2+                          |
 | MacOS                      | OpenGL4.1 (No compute shaders)      |
+| iOS                        | OpenGLES3.0 (vertex and fragment shaders only) |
 
 ## Build Status
 
