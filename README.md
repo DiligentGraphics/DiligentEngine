@@ -19,8 +19,7 @@ as a graphics subsystem in a standalone game engine, Unity native plugin or any 
   * Exact same HLSL shaders run on all platforms and all backends 
 * Modular design
   * Components are clearly separated logically and physically and can be used as needed
-    * Do not want to keep samples and tutorials in your codebase - simply remove Samples submodule
-    * Only need core functionality - use only Core submodule
+    * Only take what you need for your project (do not want to keep samples and tutorials in your codebase? Simply remove [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule. Only need core functionality? Use only [Core](https://github.com/DiligentGraphics/DiligentCore) submodule)
     * No 15000 lines-of-code files
 * Clear object-based interface
   * No global states
