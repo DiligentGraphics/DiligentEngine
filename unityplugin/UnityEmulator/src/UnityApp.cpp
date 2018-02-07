@@ -177,7 +177,7 @@ void UnityApp::Update(double CurrTime, double ElapsedTime)
     m_Scene->Update(CurrTime, ElapsedTime);
 }
 
-void UnityApp::PlatformRender()
+void UnityApp::Render()
 {
     m_GraphicsEmulator->BeginFrame();
     m_DiligentGraphics->BeginFrame();

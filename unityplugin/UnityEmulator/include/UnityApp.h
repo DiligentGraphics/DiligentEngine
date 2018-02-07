@@ -42,9 +42,7 @@ public:
     virtual void ProcessCommandLine(const char *CmdLine)override;
     virtual const char* GetAppTitle()const override { return m_AppTitle.c_str(); }
     virtual void Initialize(const struct NativeAppAttributes &NativeAppAttribs)override;
-    virtual void PlatformRender()override;
-    // Return true if the message has been handled and no further processing is required
-    virtual bool HandleNativeMessage(struct NativeMessage &msg)override { return false; }
+    virtual void Render()override;
     virtual void Resize(int width, int height)override;
     virtual void Update(double CurrTime, double ElapsedTime)override;
 

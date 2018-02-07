@@ -25,7 +25,6 @@
 #include <iomanip>
 #include <Windows.h>
 #include "NativeAppBase.h"
-#include "NativeAppData.h"
 #include "StringTools.h"
 #include "Timer.h"
 
@@ -91,7 +90,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
             PrevTime = CurrTime;
             g_pTheApp->Update(CurrTime, ElapsedTime);
 
-            g_pTheApp->PlatformRender();
+            g_pTheApp->Render();
 
             double filterScale = 0.2;
             filteredFrameTime = filteredFrameTime * (1.0 - filterScale) + filterScale * ElapsedTime;
@@ -110,9 +109,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
 // Called every time the NativeNativeAppBase receives a message
 LRESULT CALLBACK MessageProc(HWND wnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    NativeMessage msg{ wnd, message, wParam, lParam };
-    if (g_pTheApp->HandleNativeMessage(msg))
-        return 0;
+    auto res = g_pTheApp->HandleWin32Message(wnd, message, wParam, lParam);
+    if (res != 0)
+        return res;
 
     switch (message) 
     {
