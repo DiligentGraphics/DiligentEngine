@@ -1,0 +1,202 @@
+/*     Copyright 2015-2018 Egor Yusov
+ *  
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF ANY PROPRIETARY RIGHTS.
+ *
+ *  In no event and under no legal theory, whether in tort (including negligence), 
+ *  contract, or otherwise, unless required by applicable law (such as deliberate 
+ *  and grossly negligent acts) or agreed to in writing, shall any Contributor be
+ *  liable for any damages, including any direct, indirect, special, incidental, 
+ *  or consequential damages of any character arising as a result of this License or 
+ *  out of the use or inability to use the software (including but not limited to damages 
+ *  for loss of goodwill, work stoppage, computer failure or malfunction, or any and 
+ *  all other commercial damages or losses), even if such Contributor has been advised 
+ *  of the possibility of such damages.
+ */
+
+#include "UnityApp.h"
+#include "IUnityInterface.h"
+
+#if D3D11_SUPPORTED
+#   include "UnityGraphicsD3D11Emulator.h"
+#   include "DiligentGraphicsAdapterD3D11.h"
+#endif
+
+#if D3D12_SUPPORTED
+#   include "UnityGraphicsD3D12Emulator.h"
+#   include "DiligentGraphicsAdapterD3D12.h"
+#endif
+
+#if OPENGL_SUPPORTED
+#   include "UnityGraphicsGLCoreES_Emulator.h"
+#   include "DiligentGraphicsAdapterGL.h"
+#endif
+
+#include "UnityApp.h"
+#include "StringTools.h"
+#include "Errors.h"
+
+using namespace Diligent;
+
+NativeAppBase* CreateApplication()
+{
+    return new UnityApp();
+}
+
+UnityApp::UnityApp() : 
+    m_Scene(CreateScene())
+{
+    m_AppTitle = m_Scene->GetSceneName();
+}
+
+UnityApp::~UnityApp()
+{
+    m_Scene->OnPluginUnload();
+    m_Scene.reset();
+    UnloadPlugin();
+
+    m_DiligentGraphics.reset();
+    m_GraphicsEmulator->Release();
+}
+
+
+
+void UnityApp::ProcessCommandLine(const char *CmdLine)
+{
+    const auto* Key = "mode=";
+    const auto *pos = strstr(CmdLine, Key);
+    if (pos != nullptr)
+    {
+        pos += strlen(Key);
+        if (_stricmp(pos, "D3D11") == 0)
+        {
+            m_DeviceType = DeviceType::D3D11;
+        }
+        else if (_stricmp(pos, "D3D12") == 0)
+        {
+            m_DeviceType = DeviceType::D3D12;
+        }
+        else if (_stricmp(pos, "GL") == 0)
+        {
+            m_DeviceType = DeviceType::OpenGL;
+        }
+        else
+        {
+            LOG_ERROR_AND_THROW("Unknown device type. Only the following types are supported: D3D11, D3D12, GL");
+        }
+    }
+    else
+    {
+        LOG_INFO_MESSAGE("Device type is not specified. Using D3D11 device");
+        m_DeviceType = DeviceType::D3D11;
+    }
+
+    switch (m_DeviceType)
+    {
+        case DeviceType::D3D11: m_AppTitle.append(" (D3D11)"); break;
+        case DeviceType::D3D12: m_AppTitle.append(" (D3D12)"); break;
+        case DeviceType::OpenGL: m_AppTitle.append(" (OpenGL)"); break;
+        default: UNEXPECTED("Unknown device type");
+    }
+}
+
+void UnityApp::Initialize(const struct NativeAppAttributes &NativeAppAttribs)
+{
+   switch (m_DeviceType)
+   {
+#if D3D11_SUPPORTED
+        case DeviceType::D3D11:
+        {
+            auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
+            GraphicsD3D11Emulator.CreateD3D11DeviceAndContext();
+            GraphicsD3D11Emulator.CreateSwapChain(NativeAppAttribs.NativeWindowHandle, NativeAppAttribs.WindowWidth, NativeAppAttribs.WindowHeight);
+            m_GraphicsEmulator = &GraphicsD3D11Emulator;
+            auto *pDiligentAdapterD3D11 = new DiligentGraphicsAdapterD3D11(GraphicsD3D11Emulator);
+            m_DiligentGraphics.reset(pDiligentAdapterD3D11);
+            pDiligentAdapterD3D11->InitProxySwapChain();
+        }
+        break;
+#endif
+
+#if D3D12_SUPPORTED
+        case DeviceType::D3D12:
+        {
+            auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
+            GraphicsD3D12Emulator.CreateD3D12DeviceAndCommandQueue();
+            GraphicsD3D12Emulator.CreateSwapChain(NativeAppAttribs.NativeWindowHandle, NativeAppAttribs.WindowWidth, NativeAppAttribs.WindowHeight);
+            m_GraphicsEmulator = &GraphicsD3D12Emulator;
+            auto *pDiligentAdapterD3D12 = new DiligentGraphicsAdapterD3D12(GraphicsD3D12Emulator);
+            m_DiligentGraphics.reset(pDiligentAdapterD3D12);
+            pDiligentAdapterD3D12->InitProxySwapChain();
+        }
+        break;
+#endif
+
+#if OPENGL_SUPPORTED
+        case DeviceType::OpenGL:
+        {
+            auto &GraphicsGLCoreES_Emulator = UnityGraphicsGLCoreES_Emulator::GetInstance();
+            GraphicsGLCoreES_Emulator.InitGLContext(NativeAppAttribs.NativeWindowHandle, 4, 4);
+            m_GraphicsEmulator = &GraphicsGLCoreES_Emulator;
+            m_DiligentGraphics.reset(new DiligentGraphicsAdapterGL(GraphicsGLCoreES_Emulator));
+        }
+        break;
+#endif
+
+        default:
+            LOG_ERROR_AND_THROW("Unsupported device type");
+    }
+
+   m_Scene->SetDiligentGraphicsAdapter(m_DiligentGraphics.get());
+   m_Scene->OnGraphicsInitialized();
+   if (m_DeviceType == DeviceType::D3D12)
+   {
+       UnityGraphicsD3D12Emulator::GetInstance().SetTransitionHandler(m_Scene->GetStateTransitionHandler());
+   }
+
+   if (!LoadPlugin())
+   {
+       LOG_ERROR_AND_THROW("Failed to load plugin");
+   }
+
+   m_Scene->OnPluginLoad(LoadPluginFunction);
+   UnityPluginLoad(&m_GraphicsEmulator->GeUnityInterfaces());
+
+   RenderEventFunc = GetRenderEventFunc();
+}
+
+void UnityApp::Update(double CurrTime, double ElapsedTime)
+{
+    m_Scene->Update(CurrTime, ElapsedTime);
+}
+
+void UnityApp::PlatformRender()
+{
+    m_GraphicsEmulator->BeginFrame();
+    m_DiligentGraphics->BeginFrame();
+
+    m_Scene->Render(RenderEventFunc);
+
+    m_DiligentGraphics->EndFrame();
+    m_GraphicsEmulator->EndFrame();
+
+    m_GraphicsEmulator->Present();
+}
+
+void UnityApp::Resize(int width, int height)
+{
+    if (m_GraphicsEmulator)
+    {
+        m_DiligentGraphics->PreSwapChainResize();
+        m_GraphicsEmulator->ResizeSwapChain(width, height);
+        m_DiligentGraphics->PostSwapChainResize();
+        m_Scene->OnWindowResize(width, height);
+    }
+}

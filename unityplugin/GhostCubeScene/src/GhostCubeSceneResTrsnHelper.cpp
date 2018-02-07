@@ -20,6 +20,7 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
+#define NOMINMAX
 #include <d3d12.h>
 
 #include "GhostCubeSceneResTrsnHelper.h"

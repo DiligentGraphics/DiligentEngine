@@ -22,54 +22,53 @@
  */
 #pragma once
 
+#include "NativeAppBase.h"
 #include "RenderDevice.h"
 #include "DeviceContext.h"
 #include "RefCntAutoPtr.h"
+#include "UnitySceneBase.h"
 #include "IUnityGraphics.h"
 #include "DiligentGraphicsAdapter.h"
 #include "ResourceStateTransitionHandler.h"
 
 typedef void* (*TLoadPluginFunction)(const char *FunctionName);
 
-class UnitySceneBase
+class UnityApp : public NativeAppBase
 {
 public:
-    virtual ~UnitySceneBase() = 0;
+    UnityApp();
+    virtual ~UnityApp()override;
 
-    virtual void OnPluginLoad(TLoadPluginFunction LoadPluginFunctionCallback) = 0;
+    virtual void ProcessCommandLine(const char *CmdLine)override;
+    virtual const char* GetAppTitle()const override { return m_AppTitle.c_str(); }
+    virtual void Initialize(const struct NativeAppAttributes &NativeAppAttribs)override;
+    virtual void PlatformRender()override;
+    // Return true if the message has been handled and no further processing is required
+    virtual bool HandleNativeMessage(struct NativeMessage &msg)override { return false; }
+    virtual void Resize(int width, int height)override;
+    virtual void Update(double CurrTime, double ElapsedTime)override;
 
-    virtual void OnPluginUnload() = 0;
-
-    virtual void OnGraphicsInitialized() = 0;
-
-    virtual void OnWindowResize(int NewWidth, int NewHeight)
-    {
-        m_WindowWidth = NewWidth;
-        m_WindowHeight = NewHeight;
-    }
-
-    virtual const char* GetSceneName()const = 0;
-
-    virtual const char* GetPluginName()const = 0;
-
-    virtual void Update(double CurrTime, double ElapsedTime) = 0;
-    virtual void Render(UnityRenderingEvent RenderEventFunc) = 0;
-
-    void SetDiligentGraphicsAdapter(DiligentGraphicsAdapter *DiligentGraphics)
-    {
-        m_DiligentGraphics = DiligentGraphics;
-    }
-
-    IResourceStateTransitionHandler* GetStateTransitionHandler() { return m_pStateTransitionHandler.get(); }
+    bool LoadPlugin();
 
 protected:
-    DiligentGraphicsAdapter* m_DiligentGraphics;
+    std::unique_ptr<UnitySceneBase> m_Scene;
+    Diligent::DeviceType m_DeviceType = Diligent::DeviceType::Undefined;
+    std::string m_AppTitle;
+
+    class UnityGraphicsEmulator *m_GraphicsEmulator = nullptr;
+    std::unique_ptr<class DiligentGraphicsAdapter> m_DiligentGraphics;
     std::unique_ptr<IResourceStateTransitionHandler> m_pStateTransitionHandler;
 
-    int m_WindowWidth = 640;
-    int m_WindowHeight = 480;
+    typedef void (UNITY_INTERFACE_API *TUnityPluginLoad)(IUnityInterfaces* unityInterfaces);
+    typedef void (UNITY_INTERFACE_API *TUnityPluginUnload)();
+    typedef UnityRenderingEvent(UNITY_INTERFACE_API *TGetRenderEventFunc)();
+
+    TUnityPluginLoad UnityPluginLoad = nullptr;
+    TUnityPluginUnload UnityPluginUnload = nullptr;
+    TGetRenderEventFunc GetRenderEventFunc = nullptr;
+    UnityRenderingEvent RenderEventFunc = nullptr;
+
+    void UnloadPlugin();
+    static void* LoadPluginFunction(const char* FunctionName);
 };
 
-inline UnitySceneBase::~UnitySceneBase() {}
-
-extern UnitySceneBase* CreateScene();

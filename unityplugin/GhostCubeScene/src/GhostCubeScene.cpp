@@ -22,18 +22,13 @@
  */
 
 #include "GhostCubeScene.h"
+#include "PlatformDefinitions.h"
 #include "BasicMath.h"
 #include <algorithm>
 #include "BasicShaderSourceStreamFactory.h"
 #include "GraphicsUtilities.h"
 #include "MapHelper.h"
 #include "CommonlyUsedStates.h"
-
-#if defined(PLATFORM_WIN32) || defined(PLATFORM_UNIVERSAL_WINDOWS)
-#   define D3D12_SUPPORTED 1
-#else
-#   define D3D12_SUPPORTED 0
-#endif
 
 #if D3D12_SUPPORTED
 #   include "GhostCubeSceneResTrsnHelper.h"
@@ -142,7 +137,13 @@ void GhostCubeScene::OnGraphicsInitialized()
 #endif
 }
 
-void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc, double CurrTime, double ElapsedTime)
+void GhostCubeScene::Update(double CurrTime, double ElapsedTime)
+{
+    m_CubeWorldView = scaleMatrix(1, 2, 1) * rotationY(-static_cast<float>(CurrTime) * 2.0f) * rotationX(-PI_F * 0.3f) * translationMatrix(0.f, 0.0f, 10.0f);
+}
+
+
+void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
 {
     auto pDevice = m_DiligentGraphics->GetDevice();
     auto pCtx = m_DiligentGraphics->GetContext();
@@ -169,14 +170,13 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc, double CurrTime
     // Render ghost cube into the mirror texture
     {
         // Create fake reflection matrix
-        float4x4 CubeWorldView = scaleMatrix(1,2,1) * rotationY( -static_cast<float>(CurrTime) * 2.0f) * rotationX(-PI_F*0.3f) * translationMatrix(0.f, 0.0f, 10.0f);
         float NearPlane = 0.3f;
         float FarPlane = 1000.f;
         if (ReverseZ)
             std::swap(NearPlane, FarPlane);
         float aspectRatio = 1.0f;
         float4x4 ReflectionCameraProj = Projection(PI_F / 4.f, aspectRatio, NearPlane, FarPlane, IsDX);
-        auto wvp = CubeWorldView * ReflectionCameraProj;
+        auto wvp = m_CubeWorldView * ReflectionCameraProj;
         float fReverseZ = IsDX ? -1.f : +1.f;
         SetMatrixFromUnity(wvp._m00, fReverseZ * wvp._m01, wvp._m02, wvp._m03, 
                            wvp._m10, fReverseZ * wvp._m11, wvp._m12, wvp._m13,

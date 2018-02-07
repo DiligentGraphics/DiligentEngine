@@ -10,6 +10,7 @@ set(INCLUDE
 	include/DiligentGraphicsAdapter.h
 	include/ResourceStateTransitionHandler.h
 	include/UnityGraphicsEmulator.h
+	include/UnityApp.h
 	include/UnitySceneBase.h
 )
 
@@ -48,8 +49,10 @@ if(GLES_SUPPORTED)
 	list(APPEND INCLUDE src/Android/UnityGraphicsGLESAndroid_Impl.h)
 endif()
 
+list(APPEND SOURCE src/UnityApp.cpp)
+
 if(PLATFORM_WIN32)
-	list(APPEND SOURCE src/Windows/WinMain.cpp)
+	list(APPEND SOURCE src/Windows/UnityAppWin32.cpp)
 
 elseif(PLATFORM_UNIVERSAL_WINDOWS)
 
@@ -160,8 +163,9 @@ endif()
 
 target_link_libraries(UnityEmulator 
 PRIVATE 
-	BuildSettings 
+	BuildSettings
 PUBLIC
+	NativeAppBase
 	Common 
 	GraphicsEngine
 	GraphicsTools

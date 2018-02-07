@@ -23,6 +23,7 @@
 
 #include "UnitySceneBase.h"
 #include "IUnityInterface.h"
+#include "BasicMath.h"
 
 using TSetMatrixFromUnity = void (UNITY_INTERFACE_API *) (float m00, float m01, float m02, float m03,
                                                           float m10, float m11, float m12, float m13,
@@ -30,7 +31,7 @@ using TSetMatrixFromUnity = void (UNITY_INTERFACE_API *) (float m00, float m01, 
                                                           float m30, float m31, float m32, float m33);
 using TSetTexturesFromUnity = void (UNITY_INTERFACE_API *)(void* renderTargetHandle, void *depthBufferHandle);
 
-class GhostCubeScene : public UnitySceneBase
+class GhostCubeScene final : public UnitySceneBase
 {
 public:
     virtual void OnPluginLoad(TLoadPluginFunction LoadPluginFunctionCallback)override final;
@@ -39,17 +40,19 @@ public:
 
     virtual void OnGraphicsInitialized()override final;
 
-    virtual void Render(UnityRenderingEvent RenderEventFunc, double CurrTime, double ElapsedTime)override final;
+    virtual void Render(UnityRenderingEvent RenderEventFunc)override final;
+    virtual void Update(double CurrTime, double ElapsedTime)override final;
 
-    virtual const char* GetSceneName()override final { return "Ghost Cube Scene"; }
+    virtual const char* GetSceneName()const override final { return "Ghost Cube Scene"; }
 
-    virtual const char* GetPluginName()override final { return "GhostCubePlugin"; }
+    virtual const char* GetPluginName()const override final { return "GhostCubePlugin"; }
 
 private:
     friend class GhostCubeSceneResTrsnHelper;
 
-    TSetMatrixFromUnity SetMatrixFromUnity;
-    TSetTexturesFromUnity SetTexturesFromUnity;
+    TSetMatrixFromUnity SetMatrixFromUnity = nullptr;
+    TSetTexturesFromUnity SetTexturesFromUnity = nullptr;
+    float4x4 m_CubeWorldView;
 
     Diligent::RefCntAutoPtr<Diligent::ITexture> m_pRenderTarget;
     Diligent::RefCntAutoPtr<Diligent::ITexture> m_pDepthBuffer;
