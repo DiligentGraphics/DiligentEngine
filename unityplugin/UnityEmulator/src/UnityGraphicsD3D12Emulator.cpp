@@ -336,6 +336,12 @@ void* UnityGraphicsD3D12Emulator::GetDXGISwapChain()
     return m_GraphicsImpl->GetDXGISwapChain();
 }
 
+void UnityGraphicsD3D12Emulator::GetBackBufferSize(unsigned int &Width, unsigned int &Height)
+{
+    Width = m_GraphicsImpl->GetBackBufferWidth();
+    Height = m_GraphicsImpl->GetBackBufferHeight();
+}
+
 CComPtr<ID3D12CommandAllocator> UnityGraphicsD3D12Impl::GetCommandAllocator()
 {
     if (m_CmdAllocator)

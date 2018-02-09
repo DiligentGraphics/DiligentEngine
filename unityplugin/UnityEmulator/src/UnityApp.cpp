@@ -175,6 +175,11 @@ void UnityApp::InitScene()
    UnityPluginLoad(&m_GraphicsEmulator->GeUnityInterfaces());
 
    RenderEventFunc = GetRenderEventFunc();
+
+   unsigned int SCWidth = 0;
+   unsigned int SCHeight = 0;
+   m_GraphicsEmulator->GetBackBufferSize(SCWidth, SCHeight);
+   m_Scene->OnWindowResize(SCWidth, SCHeight);
 }
 
 void UnityApp::Update(double CurrTime, double ElapsedTime)

@@ -18,7 +18,7 @@
 #endif
 
 
-class UnityGraphicsGLCoreES_Emulator : public UnityGraphicsEmulator
+class UnityGraphicsGLCoreES_Emulator final : public UnityGraphicsEmulator
 {
 public:
     static UnityGraphicsGLCoreES_Emulator& GetInstance();
@@ -37,6 +37,7 @@ public:
     static UnityGraphicsGL_Impl* GetGraphicsImpl();
     virtual UnityGfxRenderer GetUnityGfxRenderer()override final;
     virtual bool SwapChainInitialized()override final;
+    virtual void GetBackBufferSize(unsigned int &Width, unsigned int &Height)override final;
 
 private:
     UnityGraphicsGLCoreES_Emulator();

@@ -179,7 +179,6 @@ public:
     {
         InitScene();
         m_SceneInitialized = true;
-        OnWindowSizeChanged();
     }
 
 

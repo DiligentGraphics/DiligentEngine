@@ -51,6 +51,12 @@ void UnityGraphicsGLCoreES_Emulator::ResizeSwapChain(unsigned int Width, unsigne
     m_GraphicsImpl->ResizeSwapchain(Width, Height);
 }
 
+void UnityGraphicsGLCoreES_Emulator::GetBackBufferSize(unsigned int &Width, unsigned int &Height)
+{
+    Width = m_GraphicsImpl->GetBackBufferWidth();
+    Height = m_GraphicsImpl->GetBackBufferHeight();
+}
+
 bool UnityGraphicsGLCoreES_Emulator::SwapChainInitialized()
 {
     return m_GraphicsImpl->GetContext() != NULL;

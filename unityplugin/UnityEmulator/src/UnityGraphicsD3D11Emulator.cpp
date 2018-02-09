@@ -329,6 +329,11 @@ void* UnityGraphicsD3D11Emulator::GetDXGISwapChain()
     return m_GraphicsImpl->GetDXGISwapChain();
 }
 
+void UnityGraphicsD3D11Emulator::GetBackBufferSize(unsigned int &Width, unsigned int &Height)
+{
+    Width  = m_GraphicsImpl->GetBackBufferWidth();
+    Height = m_GraphicsImpl->GetBackBufferHeight();
+}
 
 static ID3D11Device* UNITY_INTERFACE_API UnityGraphicsD3D11_GetDevice()
 {

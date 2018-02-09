@@ -28,6 +28,7 @@ public:
     void RegisterDeviceEventCallback(IUnityGraphicsDeviceEventCallback callback);
     void UnregisterDeviceEventCallback(IUnityGraphicsDeviceEventCallback callback);
     void InvokeDeviceEventCallback(UnityGfxDeviceEventType eventType);
+    virtual void GetBackBufferSize(unsigned int &Width, unsigned int &Height) = 0;
 
 private:
     UnityGraphicsEmulator(const UnityGraphicsEmulator&) = delete;
