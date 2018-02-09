@@ -6,34 +6,45 @@ if(PLATFORM_WIN32)
 	set(SOURCE 
 		src/Win32/WinMain.cpp
 	)
+	set(INCLUDE
+		include/Win32/Win32AppBase.h
+	)
+
 elseif(PLATFORM_UNIVERSAL_WINDOWS)
+
+	set(SOURCE 
+		src/UWP/dummy.cpp
+	)
+	set(INCLUDE
+		include/UWP/UWPAppBase.h
+	)
 
 	# Windows Runtime types cannot be included into static libraries
 	# https://social.msdn.microsoft.com/Forums/en-US/269db513-64ef-4817-a025-43954f614eb3/lnk4264-why-are-static-libraries-not-recommended-when-authoring-windows-runtime-types?forum=winappswithnativecode
 	# So as a workaround, we will include all source files into the target app project
-	function(get_native_app_uwp_source UWP_SOURCE UWP_INCLUDE UWP_INCLUDE_DIR)
+	function(get_native_app_uwp_source UWP_SOURCE_IN UWP_INCLUDE_IN UWP_INCLUDE_DIR_IN)
 		get_target_property(NATIVE_APP_SOURCE_DIR NativeAppBase SOURCE_DIR)
 
-		set(${UWP_SOURCE}
+		set(UWP_SOURCE
+		    ${UWP_SOURCE_IN}
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/DeviceResources.cpp
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/App.cpp
-			${NATIVE_APP_SOURCE_DIR}/src/UWP/SampleAppMain.cpp
-			${NATIVE_APP_SOURCE_DIR}/src/UWP/TwEventUWP.cpp
+			${NATIVE_APP_SOURCE_DIR}/src/UWP/UWPAppBase.cpp
 			PARENT_SCOPE
 		)
 
-		set(${UWP_INCLUDE}
+		set(UWP_INCLUDE
+			${UWP_INCLUDE_IN}
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/DeviceResources.h
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/DirectXHelper.h
-			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/StepTimer.h
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/App.h
-			${NATIVE_APP_SOURCE_DIR}/src/UWP/pch2.h
-			${NATIVE_APP_SOURCE_DIR}/src/UWP/SampleAppMain.h
-			${NATIVE_APP_SOURCE_DIR}/src/UWP/TwEventUWP.h
+			${NATIVE_APP_SOURCE_DIR}/include/UWP/UWPAppBase.h
+			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/StepTimer.h
 			PARENT_SCOPE
 		)
 
-		set(${UWP_INCLUDE_DIR}
+		set(UWP_INCLUDE_DIR
+			${UWP_INCLUDE_DIR_IN}
 			${NATIVE_APP_SOURCE_DIR}/Src/UWP
 			PARENT_SCOPE
 		)
@@ -143,8 +154,8 @@ elseif(PLATFORM_IOS)
 endif()
 
 list(APPEND INCLUDE 
+	include/AppBase.h
 	include/NativeAppBase.h
-	include/NativeAppData.h
 )
 
 
@@ -164,7 +175,7 @@ if(MSVC)
 		# Disable w4189: local variable is initialized but not referenced
 		# Disable w4063: case is not a valid value for switch of enum
 		# Consume the windows runtime extensions (/ZW)
-		target_compile_options(NativeAppBase INTERFACE /wd4189 /wd4063 /ZW)
+		target_compile_options(NativeAppBase INTERFACE /wd4189 /wd4063)
 	endif()
 endif()
 
@@ -174,8 +185,14 @@ PRIVATE
 	Common
 )
 
-if(PLATFORM_UNIVERSAL_WINDOWS)
+if(PLATFORM_WIN32)
+
+	target_include_directories(NativeAppBase PUBLIC include/Win32)
+
+elseif(PLATFORM_UNIVERSAL_WINDOWS)
 	
+	target_include_directories(NativeAppBase PUBLIC include/UWP src/UWP)
+
 elseif(PLATFORM_ANDROID)
 	target_link_libraries(NativeAppBase PRIVATE NDKHelper android NativeAppBaseGlue)
 	target_include_directories(NativeAppBase PRIVATE

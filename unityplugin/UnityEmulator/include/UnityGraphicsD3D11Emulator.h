@@ -22,6 +22,7 @@ public:
     virtual UnityGfxRenderer GetUnityGfxRenderer()override final;
     virtual bool SwapChainInitialized()override final;
     void* GetD3D11Device();
+    void* GetDXGISwapChain();
 
 private:
     UnityGraphicsD3D11Emulator();

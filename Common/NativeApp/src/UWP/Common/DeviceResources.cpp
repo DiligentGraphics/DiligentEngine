@@ -1,17 +1,22 @@
-﻿#include "pch2.h"
+﻿
+#define NOMINIMAX
+#include <wrl.h>
+#include <wrl/client.h>
+#include <DirectXMath.h>
+#include <agile.h>
+
+#include <dxgi1_4.h>
+#include <d3d12.h>
+#include <d3d11.h>
+#include <pix.h>
+
+#if defined(_DEBUG)
+#   include <dxgidebug.h>
+#endif
+
 #include "DeviceResources.h"
 #include "DirectXHelper.h"
 
-#include "IUnityInterface.h"
-#include "UnityGraphicsD3D11Emulator.h"
-#include "UnityGraphicsD3D12Emulator.h"
-#include "DiligentGraphicsAdapterD3D11.h"
-#include "DiligentGraphicsAdapterD3D12.h"
-#include "ValidatedCast.h"
-
-#include "UnitySceneBase.h"
-#include "StringTools.h"
-#include "Errors.h"
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -20,7 +25,6 @@ using namespace Windows::Graphics::Display;
 using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Platform;
-using namespace Diligent;
 
 namespace DisplayMetrics
 {
@@ -76,150 +80,51 @@ namespace ScreenRotation
 };
 
 // Constructor for DeviceResources.
-DX::DeviceResources::DeviceResources() :
+DX::DeviceResources::DeviceResources(ID3D11Device *d3d11Device, ID3D12Device *d3d12Device) :
 	m_d3dRenderTargetSize(),
 	m_outputSize(),
 	m_logicalSize(),
 	m_nativeOrientation(DisplayOrientations::None),
 	m_currentOrientation(DisplayOrientations::None),
 	m_dpi(-1.0f),
-	m_deviceRemoved(false)
+	m_deviceRemoved(false),
+    m_d3d11Device(d3d11Device),
+    m_d3d12Device(d3d12Device)
 {
-	CreateDeviceResources();
 }
 
-// Configures the Direct3D device, and stores handles to it and the device context.
-void DX::DeviceResources::CreateDeviceResources()
+
+void DX::DeviceResources::SetSwapChainRotation(IDXGISwapChain3 *swapChain)
 {
-    switch (m_DeviceType)
+    // Set the proper orientation for the swap chain, and generate
+    // 3D matrix transformations for rendering to the rotated swap chain.
+    // The 3D matrix is specified explicitly to avoid rounding errors.
+    DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation();
+    switch (displayRotation)
     {
-        case DeviceType::D3D11:
-        {
-            auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
-            GraphicsD3D11Emulator.CreateD3D11DeviceAndContext();
-            m_UnityGraphicsEmulator = &GraphicsD3D11Emulator;
-            m_DiligentGraphics.reset(new DiligentGraphicsAdapterD3D11(GraphicsD3D11Emulator));
-        }
+    case DXGI_MODE_ROTATION_IDENTITY:
+        m_orientationTransform3D = ScreenRotation::Rotation0;
         break;
 
-        case DeviceType::D3D12:
-        {
-            auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
-            GraphicsD3D12Emulator.CreateD3D12DeviceAndCommandQueue();
-            m_UnityGraphicsEmulator = &GraphicsD3D12Emulator;
-            m_DiligentGraphics.reset(new DiligentGraphicsAdapterD3D12(GraphicsD3D12Emulator));
-        }
+    case DXGI_MODE_ROTATION_ROTATE90:
+        m_orientationTransform3D = ScreenRotation::Rotation270;
         break;
 
-        default:
-            LOG_ERROR_AND_THROW("Unsupported device type");
-    }
-}
+    case DXGI_MODE_ROTATION_ROTATE180:
+        m_orientationTransform3D = ScreenRotation::Rotation180;
+        break;
 
-DX::DeviceResources::~DeviceResources()
-{
-    m_DiligentGraphics.reset();
-    m_UnityGraphicsEmulator->Release();
-}
+    case DXGI_MODE_ROTATION_ROTATE270:
+        m_orientationTransform3D = ScreenRotation::Rotation90;
+        break;
 
-// These resources need to be recreated every time the window size is changed.
-void DX::DeviceResources::CreateWindowSizeDependentResources()
-{
-	UpdateRenderTargetSize();
-
-	// The width and height of the swap chain must be based on the window's
-	// natively-oriented width and height. If the window is not in the native
-	// orientation, the dimensions must be reversed.
-	DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation();
-
-	bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
-	auto fWidth = swapDimensions ? m_outputSize.Height : m_outputSize.Width;
-	auto fHeight = swapDimensions ? m_outputSize.Width : m_outputSize.Height;
-
-	UINT backBufferWidth = lround(fWidth);
-	UINT backBufferHeight = lround(fHeight);
-
-    if (m_UnityGraphicsEmulator->SwapChainInitialized())
-	{
-        m_DiligentGraphics->PreSwapChainResize();
-        // If the swap chain already exists, resize it.
-        m_UnityGraphicsEmulator->ResizeSwapChain(backBufferWidth, backBufferHeight);
-
-        m_DiligentGraphics->PostSwapChainResize();
-
-#if 0
-		if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
-		{
-			// If the device was removed for any reason, a new device and swap chain will need to be created.
-			m_deviceRemoved = true;
-
-			// Do not continue execution of this method. DeviceResources will be destroyed and re-created.
-			return;
-		}
-		else
-		{
-			DX::ThrowIfFailed(hr);
-		}
-#endif
-	}
-	else
-	{
-        auto NativeWndHandle = reinterpret_cast<IUnknown*>(m_window.Get());
-        switch (m_DeviceType)
-        {
-            case DeviceType::D3D11:
-            {
-                auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
-                GraphicsD3D11Emulator.CreateSwapChain(NativeWndHandle, backBufferWidth, backBufferHeight);
-                ValidatedCast<DiligentGraphicsAdapterD3D11>(m_DiligentGraphics.get())->InitProxySwapChain();
-            }
-            break;
-
-            case DeviceType::D3D12:
-            {
-                auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
-                GraphicsD3D12Emulator.CreateSwapChain(NativeWndHandle, backBufferWidth, backBufferHeight);
-                ValidatedCast<DiligentGraphicsAdapterD3D12>(m_DiligentGraphics.get())->InitProxySwapChain();
-            }
-            break;
-
-            default:
-                UNEXPECTED("Unsupported device type");
-        }
+    default:
+        throw ref new FailureException();
     }
 
-	// Set the proper orientation for the swap chain, and generate
-	// 3D matrix transformations for rendering to the rotated swap chain.
-	// The 3D matrix is specified explicitly to avoid rounding errors.
-
-	switch (displayRotation)
-	{
-	case DXGI_MODE_ROTATION_IDENTITY:
-		m_orientationTransform3D = ScreenRotation::Rotation0;
-		break;
-
-	case DXGI_MODE_ROTATION_ROTATE90:
-		m_orientationTransform3D = ScreenRotation::Rotation270;
-		break;
-
-	case DXGI_MODE_ROTATION_ROTATE180:
-		m_orientationTransform3D = ScreenRotation::Rotation180;
-		break;
-
-	case DXGI_MODE_ROTATION_ROTATE270:
-		m_orientationTransform3D = ScreenRotation::Rotation90;
-		break;
-
-	default:
-		throw ref new FailureException();
-	}
-#if 0
-	DX::ThrowIfFailed(
-		m_swapChain->SetRotation(displayRotation)
-		);
-#endif
-
-	
+    DX::ThrowIfFailed(
+        swapChain->SetRotation(displayRotation)
+    );
 }
 
 // Determine the dimensions of the render target and whether it will be scaled down.
@@ -251,6 +156,19 @@ void DX::DeviceResources::UpdateRenderTargetSize()
 	// Prevent zero size DirectX content from being created.
 	m_outputSize.Width = max(m_outputSize.Width, 1);
 	m_outputSize.Height = max(m_outputSize.Height, 1);
+
+
+    // The width and height of the swap chain must be based on the window's
+    // natively-oriented width and height. If the window is not in the native
+    // orientation, the dimensions must be reversed.
+    DXGI_MODE_ROTATION displayRotation = ComputeDisplayRotation();
+
+    bool swapDimensions = displayRotation == DXGI_MODE_ROTATION_ROTATE90 || displayRotation == DXGI_MODE_ROTATION_ROTATE270;
+    auto fWidth = swapDimensions ? m_outputSize.Height : m_outputSize.Width;
+    auto fHeight = swapDimensions ? m_outputSize.Width : m_outputSize.Height;
+
+    m_backBufferWidth = lround(fWidth);
+    m_backBufferHeight = lround(fHeight);
 }
 
 // This method is called when the CoreWindow is created (or re-created).
@@ -264,7 +182,7 @@ void DX::DeviceResources::SetWindow(CoreWindow^ window)
 	m_currentOrientation = currentDisplayInformation->CurrentOrientation;
 	m_dpi = currentDisplayInformation->LogicalDpi;
 
-	CreateWindowSizeDependentResources();
+	//CreateWindowSizeDependentResources();
 }
 
 // This method is called in the event handler for the SizeChanged event.
@@ -273,7 +191,7 @@ void DX::DeviceResources::SetLogicalSize(Windows::Foundation::Size logicalSize)
 	if (m_logicalSize != logicalSize)
 	{
 		m_logicalSize = logicalSize;
-		CreateWindowSizeDependentResources();
+		//CreateWindowSizeDependentResources();
 	}
 }
 
@@ -287,7 +205,7 @@ void DX::DeviceResources::SetDpi(float dpi)
 		// When the display DPI changes, the logical size of the window (measured in Dips) also changes and needs to be updated.
 		m_logicalSize = Windows::Foundation::Size(m_window->Bounds.Width, m_window->Bounds.Height);
 
-		CreateWindowSizeDependentResources();
+		//CreateWindowSizeDependentResources();
 	}
 }
 
@@ -297,7 +215,7 @@ void DX::DeviceResources::SetCurrentOrientation(DisplayOrientations currentOrien
 	if (m_currentOrientation != currentOrientation)
 	{
 		m_currentOrientation = currentOrientation;
-		CreateWindowSizeDependentResources();
+		//CreateWindowSizeDependentResources();
 	}
 }
 
@@ -308,21 +226,10 @@ void DX::DeviceResources::ValidateDevice()
 	// was created or if the device has been removed.
 
 	ComPtr<IDXGIDevice3> dxgiDevice;
-    ComPtr<ID3D11Device> d3d11Device;
-    ComPtr<ID3D12Device> d3d12Device;
-
-    if (m_DeviceType == DeviceType::D3D11)
-    {
-        auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
-        d3d11Device = reinterpret_cast<ID3D11Device*>(GraphicsD3D11Emulator.GetGraphicsImpl());
-        DX::ThrowIfFailed(d3d11Device.As(&dxgiDevice));
-    }
-    else if (m_DeviceType == DeviceType::D3D12)
-    {
-        auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
-        d3d12Device = reinterpret_cast<ID3D12Device*>(GraphicsD3D12Emulator.GetGraphicsImpl());
-        DX::ThrowIfFailed(d3d12Device.As(&dxgiDevice));
-    }
+    if(m_d3d11Device)
+	    DX::ThrowIfFailed(m_d3d11Device.As(&dxgiDevice));
+    else if(m_d3d12Device)
+        DX::ThrowIfFailed(m_d3d12Device.As(&dxgiDevice));
 
 	ComPtr<IDXGIAdapter> deviceAdapter;
 	DX::ThrowIfFailed(dxgiDevice->GetAdapter(&deviceAdapter));
@@ -358,50 +265,12 @@ void DX::DeviceResources::ValidateDevice()
 
 	if (previousDesc.AdapterLuid.LowPart != currentDesc.AdapterLuid.LowPart ||
 		previousDesc.AdapterLuid.HighPart != currentDesc.AdapterLuid.HighPart ||
-		d3d11Device && FAILED(d3d11Device->GetDeviceRemovedReason()) || 
-        d3d12Device && FAILED(d3d12Device->GetDeviceRemovedReason()))
+		m_d3d11Device && FAILED(m_d3d11Device->GetDeviceRemovedReason()) || 
+        m_d3d12Device && FAILED(m_d3d12Device->GetDeviceRemovedReason()))
 	{
 		m_deviceRemoved = true;
 	}
 }
-
-void DX::DeviceResources::SetResourceStateTransitionHandler(IResourceStateTransitionHandler *pHandler)
-{
-    if (GetDeviceType() == DeviceType::D3D12)
-    {
-        UnityGraphicsD3D12Emulator::GetInstance().SetTransitionHandler(pHandler);
-    }
-}
-
-void DX::DeviceResources::BeginFrame()
-{
-    m_UnityGraphicsEmulator->BeginFrame();
-    m_DiligentGraphics->BeginFrame();
-}
-
-void DX::DeviceResources::EndFrame()
-{
-    m_DiligentGraphics->EndFrame();
-    m_UnityGraphicsEmulator->EndFrame();
-}
-
-// Present the contents of the swap chain to the screen.
-void DX::DeviceResources::Present()
-{
-    m_UnityGraphicsEmulator->Present();
-
-	//// If the device was removed either by a disconnection or a driver upgrade, we 
-	//// must recreate all device resources.
-	//if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
-	//{
-	//	m_deviceRemoved = true;
-	//}
-	//else
-	//{
-	//	DX::ThrowIfFailed(hr);
-	//}
-}
-
 
 // This method determines the rotation between the display device's native Orientation and the
 // current display orientation.

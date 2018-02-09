@@ -51,10 +51,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
     RegisterClassEx(&wcex);
 
     // Create a window
-    NativeAppAttributes AppAttribs;
-    AppAttribs.WindowWidth = 1280;
-    AppAttribs.WindowHeight = 1024;
-    RECT rc = { 0, 0, AppAttribs.WindowWidth, AppAttribs.WindowHeight };
+    LONG WindowWidth = 1280;
+    LONG WindowHeight = 1024;
+    RECT rc = { 0, 0, WindowWidth, WindowHeight };
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
     HWND wnd = CreateWindow(L"SampleApp", Title.c_str(), 
                             WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
@@ -67,8 +66,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
     ShowWindow(wnd, cmdShow);
     UpdateWindow(wnd);
     
-    AppAttribs.NativeWindowHandle = wnd;
-    g_pTheApp->Initialize(AppAttribs);
+    g_pTheApp->OnWindowCreated(wnd, WindowWidth, WindowHeight);
 
     Diligent::Timer Timer;
     auto PrevTime = Timer.GetElapsedTime();
@@ -91,6 +89,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
             g_pTheApp->Update(CurrTime, ElapsedTime);
 
             g_pTheApp->Render();
+
+            g_pTheApp->Present();
 
             double filterScale = 0.2;
             filteredFrameTime = filteredFrameTime * (1.0 - filterScale) + filterScale * ElapsedTime;

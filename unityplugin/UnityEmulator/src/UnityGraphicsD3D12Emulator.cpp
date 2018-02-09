@@ -331,6 +331,10 @@ void* UnityGraphicsD3D12Emulator::GetD3D12Device()
     return m_GraphicsImpl->GetD3D12Device();
 }
 
+void* UnityGraphicsD3D12Emulator::GetDXGISwapChain()
+{
+    return m_GraphicsImpl->GetDXGISwapChain();
+}
 
 CComPtr<ID3D12CommandAllocator> UnityGraphicsD3D12Impl::GetCommandAllocator()
 {

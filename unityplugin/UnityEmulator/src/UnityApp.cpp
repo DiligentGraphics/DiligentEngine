@@ -45,11 +45,6 @@
 
 using namespace Diligent;
 
-NativeAppBase* CreateApplication()
-{
-    return new UnityApp();
-}
-
 UnityApp::UnityApp() : 
     m_Scene(CreateScene())
 {
@@ -107,7 +102,7 @@ void UnityApp::ProcessCommandLine(const char *CmdLine)
     }
 }
 
-void UnityApp::Initialize(const struct NativeAppAttributes &NativeAppAttribs)
+void UnityApp::InitGraphics(void *NativeWindowHandle, int WindowWidth, int WindowHeight)
 {
    switch (m_DeviceType)
    {
@@ -116,11 +111,14 @@ void UnityApp::Initialize(const struct NativeAppAttributes &NativeAppAttribs)
         {
             auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
             GraphicsD3D11Emulator.CreateD3D11DeviceAndContext();
-            GraphicsD3D11Emulator.CreateSwapChain(NativeAppAttribs.NativeWindowHandle, NativeAppAttribs.WindowWidth, NativeAppAttribs.WindowHeight);
             m_GraphicsEmulator = &GraphicsD3D11Emulator;
             auto *pDiligentAdapterD3D11 = new DiligentGraphicsAdapterD3D11(GraphicsD3D11Emulator);
             m_DiligentGraphics.reset(pDiligentAdapterD3D11);
-            pDiligentAdapterD3D11->InitProxySwapChain();
+            if (NativeWindowHandle != nullptr)
+            {
+                GraphicsD3D11Emulator.CreateSwapChain(NativeWindowHandle, WindowWidth, WindowHeight);
+                pDiligentAdapterD3D11->InitProxySwapChain();
+            }
         }
         break;
 #endif
@@ -130,11 +128,14 @@ void UnityApp::Initialize(const struct NativeAppAttributes &NativeAppAttribs)
         {
             auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
             GraphicsD3D12Emulator.CreateD3D12DeviceAndCommandQueue();
-            GraphicsD3D12Emulator.CreateSwapChain(NativeAppAttribs.NativeWindowHandle, NativeAppAttribs.WindowWidth, NativeAppAttribs.WindowHeight);
             m_GraphicsEmulator = &GraphicsD3D12Emulator;
             auto *pDiligentAdapterD3D12 = new DiligentGraphicsAdapterD3D12(GraphicsD3D12Emulator);
             m_DiligentGraphics.reset(pDiligentAdapterD3D12);
-            pDiligentAdapterD3D12->InitProxySwapChain();
+            if (NativeWindowHandle != nullptr)
+            {
+                GraphicsD3D12Emulator.CreateSwapChain(NativeWindowHandle, WindowWidth, WindowHeight);
+                pDiligentAdapterD3D12->InitProxySwapChain();
+            }
         }
         break;
 #endif
@@ -142,8 +143,9 @@ void UnityApp::Initialize(const struct NativeAppAttributes &NativeAppAttribs)
 #if OPENGL_SUPPORTED
         case DeviceType::OpenGL:
         {
+            VERIFY_EXPR(NativeWindowHandle != nullptr);
             auto &GraphicsGLCoreES_Emulator = UnityGraphicsGLCoreES_Emulator::GetInstance();
-            GraphicsGLCoreES_Emulator.InitGLContext(NativeAppAttribs.NativeWindowHandle, 4, 4);
+            GraphicsGLCoreES_Emulator.InitGLContext(NativeWindowHandle, 4, 4);
             m_GraphicsEmulator = &GraphicsGLCoreES_Emulator;
             m_DiligentGraphics.reset(new DiligentGraphicsAdapterGL(GraphicsGLCoreES_Emulator));
         }
@@ -153,7 +155,10 @@ void UnityApp::Initialize(const struct NativeAppAttributes &NativeAppAttribs)
         default:
             LOG_ERROR_AND_THROW("Unsupported device type");
     }
+}
 
+void UnityApp::InitScene()
+{
    m_Scene->SetDiligentGraphicsAdapter(m_DiligentGraphics.get());
    m_Scene->OnGraphicsInitialized();
    if (m_DeviceType == DeviceType::D3D12)
@@ -186,7 +191,10 @@ void UnityApp::Render()
 
     m_DiligentGraphics->EndFrame();
     m_GraphicsEmulator->EndFrame();
+}
 
+void UnityApp::Present()
+{
     m_GraphicsEmulator->Present();
 }
 

@@ -20,22 +20,26 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
-#pragma once 
 
-#if defined(PLATFORM_WIN32)
+#include "UWPAppBase.h"
 
-    #include "Win32AppBase.h"
-    using NativeAppBase = Win32AppBase;
+UWPAppBase::UWPAppBase()
+{
+    // TODO: Change the timer settings if you want something other than the default variable timestep mode.
+    // e.g. for 60 FPS fixed timestep update logic, call:
+    /*
+    m_timer.SetFixedTimeStep(true);
+    m_timer.SetTargetElapsedSeconds(1.0 / 60);
+    */
+}
 
-#elif defined(PLATFORM_UNIVERSAL_WINDOWS)
-
-    #include "UWPAppBase.h"
-    using NativeAppBase = UWPAppBase;
-
-#else
-
-#   error Usnupported paltform
-
-#endif
-
-extern NativeAppBase* CreateApplication();
+void UWPAppBase::Update()
+{
+    // Update scene objects.
+    m_timer.Tick([&]()
+    {
+        auto CurrTime = m_timer.GetTotalSeconds();
+        auto ElapsedTime = m_timer.GetElapsedSeconds();
+        Update(CurrTime, ElapsedTime);
+    });
+}

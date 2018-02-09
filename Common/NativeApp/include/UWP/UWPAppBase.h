@@ -20,22 +20,52 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
+
+
 #pragma once 
 
-#if defined(PLATFORM_WIN32)
+#include <memory>
 
-    #include "Win32AppBase.h"
-    using NativeAppBase = Win32AppBase;
+#define NOMINIMAX
+#include <wrl.h>
+#include <wrl/client.h>
 
-#elif defined(PLATFORM_UNIVERSAL_WINDOWS)
+#include "AppBase.h"
+#include "Common/StepTimer.h"
+#include "Common/DeviceResources.h"
 
-    #include "UWPAppBase.h"
-    using NativeAppBase = UWPAppBase;
+class UWPAppBase : public AppBase
+{
+public:
+    UWPAppBase();
 
-#else
+    virtual void OnSetWindow(Windows::UI::Core::CoreWindow^ window) {}
+    virtual void OnWindowSizeChanged() = 0;
 
-#   error Usnupported paltform
+    using AppBase::Update;
+    virtual void Update();
 
-#endif
+    // Notifies the app that it is being suspended.
+    virtual void OnSuspending() {}
+    
+    // Notifes the app that it is no longer suspended.
+    virtual void OnResuming() {}
 
-extern NativeAppBase* CreateApplication();
+    // Notifies renderers that device resources need to be released.
+    virtual void OnDeviceRemoved() {}
+
+    bool IsFrameReady()const { return m_bFrameReady; }
+
+    virtual std::shared_ptr<DX::DeviceResources> InitDeviceResources() = 0;
+
+    virtual void InitWindowSizeDependentResources() = 0;
+    
+    virtual void CreateRenderers() = 0;
+
+protected:
+    std::shared_ptr<DX::DeviceResources> m_DeviceResources;
+
+    // Rendering loop timer.
+    DX::StepTimer m_timer;
+    bool m_bFrameReady = false;
+};

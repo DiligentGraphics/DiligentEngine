@@ -324,6 +324,12 @@ void* UnityGraphicsD3D11Emulator::GetD3D11Device()
     return m_GraphicsImpl->GetD3D11Device();
 }
 
+void* UnityGraphicsD3D11Emulator::GetDXGISwapChain()
+{
+    return m_GraphicsImpl->GetDXGISwapChain();
+}
+
+
 static ID3D11Device* UNITY_INTERFACE_API UnityGraphicsD3D11_GetDevice()
 {
     auto *GraphicsImpl = UnityGraphicsD3D11Emulator::GetGraphicsImpl();

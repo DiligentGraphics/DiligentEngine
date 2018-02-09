@@ -21,12 +21,21 @@
  *  of the possibility of such damages.
  */
 
-#include "pch2.h"
+#define NOMINIMAX
+#include <wrl.h>
+#include <wrl/client.h>
+#include <DirectXMath.h>
+#include <agile.h>
+
+#if defined(_DEBUG)
+#   include <dxgidebug.h>
+#endif
+
 #include "App.h"
 
 #include <ppltasks.h>
 
-using namespace UnityEmulatorApp;
+using namespace SampleApp;
 
 using namespace concurrency;
 using namespace Windows::ApplicationModel;
@@ -41,18 +50,23 @@ using namespace Windows::Graphics::Display;
 using Microsoft::WRL::ComPtr;
 
 
+ref class ApplicationSource sealed : IFrameworkViewSource
+{
+public:
+    virtual IFrameworkView^ CreateView()
+    {
+        return ref new App();
+    }
+};
+
+
 // The main function is only used to initialize our IFrameworkView class.
 [Platform::MTAThread]
 int main(Platform::Array<Platform::String^>^)
 {
-	auto direct3DApplicationSource = ref new Direct3DApplicationSource();
+	auto direct3DApplicationSource = ref new ApplicationSource();
 	CoreApplication::Run(direct3DApplicationSource);
 	return 0;
-}
-
-IFrameworkView^ Direct3DApplicationSource::CreateView()
-{
-	return ref new App();
 }
 
 App::App() :
@@ -60,6 +74,7 @@ App::App() :
 	m_windowVisible(true)
 {
 }
+
 
 // The first method called when the IFrameworkView is being created.
 void App::Initialize(CoreApplicationView^ applicationView)
@@ -98,14 +113,20 @@ void App::SetWindow(CoreWindow^ window)
 
 	DisplayInformation::DisplayContentsInvalidated +=
 		ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnDisplayContentsInvalidated);
+
+    if (m_Main)
+    {
+        m_Main->OnSetWindow(window);
+    }
 }
 
 // Initializes scene resources, or loads a previously saved app state.
 void App::Load(Platform::String^ entryPoint)
 {
-	if (m_main == nullptr)
+	if (m_Main == nullptr)
 	{
-		m_main = std::unique_ptr<UnityEmulatorAppMain>(new UnityEmulatorAppMain());
+        m_Main.reset(CreateApplication());
+        m_Main->OnSetWindow(CoreWindow::GetForCurrentThread());
 	}
 }
 
@@ -118,21 +139,20 @@ void App::Run()
 		{
 			CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
 
-            //auto commandQueue = GetDeviceResources()->GetCommandQueue();
+            auto commandQueue = GetDeviceResources();//->GetCommandQueue();
 			//PIXBeginEvent(commandQueue, 0, L"Update");
 			{
-				m_main->Update();
+				m_Main->Update();
 			}
 			//PIXEndEvent(commandQueue);
 
 			//PIXBeginEvent(commandQueue, 0, L"Render");
 			{
-                GetDeviceResources()->BeginFrame();
-
-                m_main->Render();
-
-                GetDeviceResources()->EndFrame();
-				GetDeviceResources()->Present();
+                m_Main->Render();
+				if (m_Main->IsFrameReady())
+				{
+                    m_Main->Present();
+				}
 			}
 			//PIXEndEvent(commandQueue);
 		}
@@ -168,7 +188,7 @@ void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
 
 	create_task([this, deferral]()
 	{
-		m_main->OnSuspending();
+		m_Main->OnSuspending();
 		deferral->Complete();
 	});
 }
@@ -179,7 +199,7 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
 	// and state are persisted when resuming from suspend. Note that this event
 	// does not occur if the app was previously terminated.
 
-	m_main->OnResuming();
+	m_Main->OnResuming();
 }
 
 // Window event handlers.
@@ -187,7 +207,7 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
 void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ args)
 {
 	GetDeviceResources()->SetLogicalSize(Size(sender->Bounds.Width, sender->Bounds.Height));
-	m_main->OnWindowSizeChanged();
+	m_Main->OnWindowSizeChanged();
 }
 
 void App::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args)
@@ -209,13 +229,13 @@ void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 	// you should always retrieve it using the GetDpi method.
 	// See DeviceResources.cpp for more details.
 	GetDeviceResources()->SetDpi(sender->LogicalDpi);
-	m_main->OnWindowSizeChanged();
+	m_Main->OnWindowSizeChanged();
 }
 
 void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 {
 	GetDeviceResources()->SetCurrentOrientation(sender->CurrentOrientation);
-	m_main->OnWindowSizeChanged();
+	m_Main->OnWindowSizeChanged();
 }
 
 void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
@@ -231,7 +251,7 @@ std::shared_ptr<DX::DeviceResources> App::GetDeviceResources()
 		// can be created.
 
 		m_deviceResources = nullptr;
-		m_main->OnDeviceRemoved();
+		m_Main->OnDeviceRemoved();
 
 #if defined(_DEBUG)
 		ComPtr<IDXGIDebug1> dxgiDebug;
@@ -244,9 +264,10 @@ std::shared_ptr<DX::DeviceResources> App::GetDeviceResources()
 
 	if (m_deviceResources == nullptr)
 	{
-		m_deviceResources = std::make_shared<DX::DeviceResources>();
+		m_deviceResources = m_Main->InitDeviceResources();
 		m_deviceResources->SetWindow(CoreWindow::GetForCurrentThread());
-		m_main->CreateRenderers(m_deviceResources);
+        m_Main->OnWindowSizeChanged();
+		m_Main->CreateRenderers();
 	}
 	return m_deviceResources;
 }

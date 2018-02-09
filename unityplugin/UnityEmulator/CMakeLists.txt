@@ -49,48 +49,39 @@ if(GLES_SUPPORTED)
 	list(APPEND INCLUDE src/Android/UnityGraphicsGLESAndroid_Impl.h)
 endif()
 
-list(APPEND SOURCE src/UnityApp.cpp)
-
 if(PLATFORM_WIN32)
 	list(APPEND SOURCE src/Windows/UnityAppWin32.cpp)
+	list(APPEND SOURCE src/UnityApp.cpp)
 
 elseif(PLATFORM_UNIVERSAL_WINDOWS)
 
 	# Windows Runtime types cannot be included into static libraries
 	# https://social.msdn.microsoft.com/Forums/en-US/269db513-64ef-4817-a025-43954f614eb3/lnk4264-why-are-static-libraries-not-recommended-when-authoring-windows-runtime-types?forum=winappswithnativecode
 	# So as a workaround, we will include all source files into the target app project
-	function(get_emulator_uwp_source UWP_SOURCE UWP_INCLUDE UWP_INCLUDE_DIR)
-		get_target_property(EMULATOR_SOURCE_DIR UnityEmulator SOURCE_DIR)
+	function(get_emulator_uwp_source UWP_SOURCE_IN UWP_INCLUDE_IN UWP_INCLUDE_DIR_IN)
 		
-		set(${UWP_SOURCE}
-			${EMULATOR_SOURCE_DIR}/src/UWP/App.cpp
-			${EMULATOR_SOURCE_DIR}/src/UWP/DeviceResources.cpp
-			${EMULATOR_SOURCE_DIR}/src/UWP/UnityEmulatorAppMain.cpp
-			PARENT_SCOPE
-		)
-
-		set(${UWP_INCLUDE}
-			${EMULATOR_SOURCE_DIR}/src/UWP/App.h
-			${EMULATOR_SOURCE_DIR}/src/UWP/DeviceResources.h
-			${EMULATOR_SOURCE_DIR}/src/UWP/DirectXHelper.h
-			${EMULATOR_SOURCE_DIR}/src/UWP/pch2.h
-			${EMULATOR_SOURCE_DIR}/src/UWP/StepTimer.h
-			${EMULATOR_SOURCE_DIR}/src/UWP/UnityEmulatorAppMain.h
-			PARENT_SCOPE
-		)
-
-		set(${UWP_INCLUDE_DIR}
-			${EMULATOR_SOURCE_DIR}/Src/UWP
+		get_target_property(EMULATOR_SOURCE_DIR UnityEmulator SOURCE_DIR)
+		set(UWP_SOURCE
+		    ${UWP_SOURCE_IN}
+			${EMULATOR_SOURCE_DIR}/src/UWP/UnityAppUWP.cpp
+			${EMULATOR_SOURCE_DIR}/src/UnityApp.cpp
 			PARENT_SCOPE
 		)
 	endfunction(get_emulator_uwp_source)
 
 elseif(PLATFORM_ANDROID)
-	list(APPEND SOURCE src/Android/AndroidMainImpl.cpp)
+	list(APPEND SOURCE 
+		src/Android/AndroidMainImpl.cpp
+		src/UnityApp.cpp
+	)
 elseif(PLATFORM_LINUX)
-	list(APPEND SOURCE src/Linux/LinuxMain.cpp)
+	list(APPEND SOURCE 
+		src/Linux/LinuxMain.cpp 
+		src/UnityApp.cpp
+	)
 elseif(PLATFORM_MACOS)
     list(APPEND SOURCE
+		src/Linux/LinuxMain.cpp 
         src/MacOS/Renderer.cpp
     )
     list(APPEND INCLUDE

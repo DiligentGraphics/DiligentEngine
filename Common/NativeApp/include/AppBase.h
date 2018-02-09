@@ -20,22 +20,19 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
+
 #pragma once 
 
-#if defined(PLATFORM_WIN32)
+class AppBase
+{
+public:
+    virtual ~AppBase() {}
 
-    #include "Win32AppBase.h"
-    using NativeAppBase = Win32AppBase;
+    virtual void ProcessCommandLine(const char *CmdLine) = 0;
+    virtual const char* GetAppTitle()const = 0;
+    virtual void Update(double CurrTime, double ElapsedTime) {};
+    virtual void Render() = 0;
+    virtual void Present() = 0;
+    virtual void Resize(int width, int height) = 0;
+};
 
-#elif defined(PLATFORM_UNIVERSAL_WINDOWS)
-
-    #include "UWPAppBase.h"
-    using NativeAppBase = UWPAppBase;
-
-#else
-
-#   error Usnupported paltform
-
-#endif
-
-extern NativeAppBase* CreateApplication();

@@ -41,14 +41,17 @@ public:
 
     virtual void ProcessCommandLine(const char *CmdLine)override;
     virtual const char* GetAppTitle()const override { return m_AppTitle.c_str(); }
-    virtual void Initialize(const struct NativeAppAttributes &NativeAppAttribs)override;
     virtual void Render()override;
+    virtual void Present()override;
     virtual void Resize(int width, int height)override;
     virtual void Update(double CurrTime, double ElapsedTime)override;
 
     bool LoadPlugin();
 
 protected:
+    virtual void InitGraphics(void *NativeWindowHandle, int WindowWidth, int WindowHeight);
+    virtual void InitScene();
+
     std::unique_ptr<UnitySceneBase> m_Scene;
     Diligent::DeviceType m_DeviceType = Diligent::DeviceType::Undefined;
     std::string m_AppTitle;

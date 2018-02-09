@@ -31,6 +31,21 @@
 
 HMODULE g_DLLHandle;
 
+class UnityAppWin32 : public UnityApp
+{
+public:
+    virtual void OnWindowCreated(HWND hWnd, LONG WindowWidth, LONG WindowHeight)override final
+    {
+        InitGraphics(hWnd, WindowWidth, WindowHeight);
+        InitScene();
+    }
+};
+
+NativeAppBase* CreateApplication()
+{
+    return new UnityAppWin32();
+}
+
 void* UnityApp::LoadPluginFunction(const char* FunctionName)
 {
     auto Func = GetProcAddress(g_DLLHandle, FunctionName);
@@ -79,4 +94,5 @@ void UnityApp::UnloadPlugin()
     m_GraphicsEmulator->InvokeDeviceEventCallback(kUnityGfxDeviceEventShutdown);
     UnityPluginUnload();
     FreeLibrary(g_DLLHandle);
+    g_DLLHandle = NULL;
 }

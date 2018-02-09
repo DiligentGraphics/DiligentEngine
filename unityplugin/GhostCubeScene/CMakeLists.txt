@@ -119,7 +119,9 @@ endif()
 add_dependencies(GhostCubeScene GhostCubePlugin-shared)
 
 if(PLATFORM_UNIVERSAL_WINDOWS)
-	get_emulator_uwp_source(UWP_SOURCE UWP_INCLUDE UWP_INCLUDE_DIR)
+	get_native_app_uwp_source("" "" "")
+    get_emulator_uwp_source("${UWP_SOURCE}" "${UWP_INCLUDE}" "${UWP_INCLUDE_DIR}")
+
 	source_group("UWP\\src" FILES ${UWP_SOURCE})
 	source_group("UWP\\include" FILES ${UWP_INCLUDE})
 	target_include_directories(GhostCubeScene PRIVATE ${UWP_INCLUDE_DIR})

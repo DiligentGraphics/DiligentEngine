@@ -1,8 +1,11 @@
 ﻿#pragma once
 
-#include "UnityGraphicsEmulator.h"
-#include "DiligentGraphicsAdapter.h"
-#include "ResourceStateTransitionHandler.h"
+#include <vector>
+#include <dxgi1_4.h>
+#include <d3d12.h>
+#include <d3d11.h>
+#include <DirectXMath.h>
+#include <agile.h>
 
 namespace DX
 {
@@ -10,20 +13,14 @@ namespace DX
 	class DeviceResources
 	{
 	public:
-		DeviceResources();
-        ~DeviceResources();
+		DeviceResources(ID3D11Device *d3d11Device, ID3D12Device *d3d12Device);
+
 		void SetWindow(Windows::UI::Core::CoreWindow^ window);
 		void SetLogicalSize(Windows::Foundation::Size logicalSize);
 		void SetCurrentOrientation(Windows::Graphics::Display::DisplayOrientations currentOrientation);
 		void SetDpi(float dpi);
 		void ValidateDevice();
-        void BeginFrame();
-		void Present();
-        void EndFrame();
-        DiligentGraphicsAdapter* GetDiligentGraphicsAdapter() { return m_DiligentGraphics.get(); }
-        UnityGraphicsEmulator*   GetUnityGraphicsEmulator()   { return m_UnityGraphicsEmulator;}
-
-        Diligent::DeviceType        GetDeviceType()const                {return m_DeviceType;}
+        void SetSwapChainRotation(IDXGISwapChain3 *swapChain);
 
 		// The size of the render target, in pixels.
 		Windows::Foundation::Size	GetOutputSize() const				{ return m_outputSize; }
@@ -33,22 +30,27 @@ namespace DX
 
 		float						GetDpi() const						{ return m_effectiveDpi; }
 		bool						IsDeviceRemoved() const				{ return m_deviceRemoved; }
-        void                        SetResourceStateTransitionHandler(IResourceStateTransitionHandler *pHandler);
+
 		// D3D Accessors.
 		DirectX::XMFLOAT4X4			GetOrientationTransform3D() const	{ return m_orientationTransform3D; }
 
+        void UpdateRenderTargetSize();
+        UINT GetBackBufferWidth()  {return m_backBufferWidth;}
+        UINT GetBackBufferHeight() {return m_backBufferHeight;}
+
+        Windows::UI::Core::CoreWindow^ GetWindow(){return m_window.Get();}
+
 	private:
-		void CreateDeviceResources();
-		void CreateWindowSizeDependentResources();
-		void UpdateRenderTargetSize();
+		
+		
 		DXGI_MODE_ROTATION ComputeDisplayRotation();
 
-        bool											m_deviceRemoved = false;
+        bool											m_deviceRemoved;
 
-        UnityGraphicsEmulator*                          m_UnityGraphicsEmulator = nullptr;
-
-        std::unique_ptr<DiligentGraphicsAdapter>        m_DiligentGraphics;
-
+		// Direct3D objects.
+		Microsoft::WRL::ComPtr<ID3D12Device>			m_d3d12Device;
+        Microsoft::WRL::ComPtr<ID3D11Device>			m_d3d11Device;
+		
 		// Cached reference to the Window.
 		Platform::Agile<Windows::UI::Core::CoreWindow>	m_window;
 
@@ -59,13 +61,13 @@ namespace DX
 		Windows::Graphics::Display::DisplayOrientations	m_nativeOrientation;
 		Windows::Graphics::Display::DisplayOrientations	m_currentOrientation;
 		float											m_dpi;
+        UINT                                            m_backBufferWidth  = 0;
+        UINT                                            m_backBufferHeight = 0;
 
 		// This is the DPI that will be reported back to the app. It takes into account whether the app supports high resolution screens or not.
 		float											m_effectiveDpi;
 
 		// Transforms used for display orientation.
 		DirectX::XMFLOAT4X4								m_orientationTransform3D;
-
-        Diligent::DeviceType m_DeviceType = Diligent::DeviceType::D3D12;
 	};
 }

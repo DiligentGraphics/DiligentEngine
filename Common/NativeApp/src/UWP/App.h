@@ -23,11 +23,10 @@
 
 #pragma once
 
-#include "pch.h"
-#include "DeviceResources.h"
-#include "UnityEmulatorAppMain.h"
+#include "Common\DeviceResources.h"
+#include "NativeAppBase.h"
 
-namespace UnityEmulatorApp
+namespace SampleApp
 {
 	// Main entry point for our app. Connects the app with the Windows shell and handles application lifecycle events.
 	ref class App sealed : public Windows::ApplicationModel::Core::IFrameworkView
@@ -60,16 +59,9 @@ namespace UnityEmulatorApp
 
 	private:
         std::shared_ptr<DX::DeviceResources> GetDeviceResources();
-
+        std::unique_ptr<NativeAppBase> m_Main;
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
-		std::unique_ptr<UnityEmulatorAppMain> m_main;
 		bool m_windowClosed;
 		bool m_windowVisible;
 	};
 }
-
-ref class Direct3DApplicationSource sealed : Windows::ApplicationModel::Core::IFrameworkViewSource
-{
-public:
-	virtual Windows::ApplicationModel::Core::IFrameworkView^ CreateView();
-};

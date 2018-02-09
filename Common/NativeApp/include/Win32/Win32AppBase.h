@@ -23,16 +23,14 @@
 
 #pragma once 
 
-#ifdef PLATFORM_WIN32
+#define NOMINMAX
 #include <Windows.h>
-#endif
 
-struct NativeMessage
+#include "AppBase.h"
+
+class Win32AppBase : public AppBase
 {
-#ifdef PLATFORM_WIN32
-    HWND hWnd;
-    UINT message;
-    WPARAM wParam;
-    LPARAM lParam;
-#endif
+public:
+    virtual void OnWindowCreated(HWND hWnd, LONG WindowWidth, LONG WindowHeight) = 0;
+    virtual LRESULT HandleWin32Message(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) { return 0; }
 };
