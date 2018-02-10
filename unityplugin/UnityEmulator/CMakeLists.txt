@@ -81,7 +81,7 @@ elseif(PLATFORM_ANDROID)
 	list(APPEND INCLUDE include/UnityAppBase.h)
 elseif(PLATFORM_LINUX)
 	list(APPEND SOURCE 
-		src/Linux/LinuxMain.cpp 
+		src/Linux/UnityAppLinux.cpp 
 		src/UnityAppBase.cpp
 	)
 	list(APPEND INCLUDE include/UnityAppBase.h)

@@ -137,7 +137,7 @@ void UnityGraphicsD3D12Impl::CreateDeviceAndCommandQueue()
 
 void UnityGraphicsD3D12Impl::CreateSwapChain(void* pNativeWndHandle, unsigned int Width, unsigned int Height)
 {
-#ifdef PLATFORM_WIN32
+#if PLATFORM_WIN32
     auto hWnd = reinterpret_cast<HWND>(pNativeWndHandle);
     RECT rc;
     GetClientRect( hWnd, &rc );
@@ -170,14 +170,14 @@ void UnityGraphicsD3D12Impl::CreateSwapChain(void* pNativeWndHandle, unsigned in
     HRESULT hr = CreateDXGIFactory1(__uuidof(factory), reinterpret_cast<void**>(static_cast<IDXGIFactory4**>(&factory)) );
     if(FAILED(hr))LOG_ERROR_AND_THROW("Failed to create DXGI factory");
 
-#if defined( PLATFORM_WIN32 )
+#if PLATFORM_WIN32
     hr = factory->CreateSwapChainForHwnd(m_D3D12CmdQueue, hWnd, &swapChainDesc, nullptr, nullptr, &pSwapChain1);
     if(FAILED(hr))LOG_ERROR_AND_THROW("Failed to create Swap Chain" );
 
 	// This sample does not support fullscreen transitions.
 	hr = factory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_WINDOW_CHANGES | DXGI_MWA_NO_ALT_ENTER);
 
-#elif defined( PLATFORM_UNIVERSAL_WINDOWS )
+#elif PLATFORM_UNIVERSAL_WINDOWS
 
     hr = factory->CreateSwapChainForCoreWindow(
 		m_D3D12CmdQueue,
@@ -282,7 +282,7 @@ void UnityGraphicsD3D12Impl::InitBuffersAndViews()
 void UnityGraphicsD3D12Impl::Present()
 {
     UINT SyncInterval = 0;
-#ifdef PLATFORM_UNIVERSAL_WINDOWS
+#if PLATFORM_UNIVERSAL_WINDOWS
     SyncInterval = 1; // Interval 0 is not supported on Windows Phone 
 #endif
 

@@ -51,7 +51,7 @@ void UnityGraphicsD3D11Impl::CreateDeviceAndContext()
 	// description.  All applications are assumed to support 9.1 unless otherwise stated.
 	D3D_FEATURE_LEVEL featureLevels[] = 
 	{
-#ifdef PLATFORM_UNIVERSAL_WINDOWS
+#if PLATFORM_UNIVERSAL_WINDOWS
 		D3D_FEATURE_LEVEL_11_1,
 #endif
 		D3D_FEATURE_LEVEL_11_0,
@@ -104,7 +104,7 @@ void UnityGraphicsD3D11Impl::CreateSwapChain(void* pNativeWndHandle, unsigned in
     m_BackBufferWidth = 0;
     m_BackBufferHeight = 0;
 
-#ifdef PLATFORM_WIN32
+#if PLATFORM_WIN32
     auto hWnd = reinterpret_cast<HWND>(pNativeWndHandle);
     RECT rc;
     GetClientRect( hWnd, &rc );
@@ -135,7 +135,7 @@ void UnityGraphicsD3D11Impl::CreateSwapChain(void* pNativeWndHandle, unsigned in
 
     CComPtr<IDXGISwapChain1> pSwapChain1;
 
-#if defined( PLATFORM_WIN32 )
+#if PLATFORM_WIN32
 	// This sequence obtains the DXGI factory that was used to create the Direct3D device above.
 	CComPtr<IDXGIDevice> pDXGIDevice;
 	m_d3d11Device->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>( static_cast<IDXGIDevice**>(&pDXGIDevice) ) );
@@ -148,7 +148,7 @@ void UnityGraphicsD3D11Impl::CreateSwapChain(void* pNativeWndHandle, unsigned in
     if(FAILED(hr))
         throw std::runtime_error( "Failed to create DXGI swap chain" );
 
-#elif defined( PLATFORM_UNIVERSAL_WINDOWS )
+#elif PLATFORM_UNIVERSAL_WINDOWS
 
 	CComPtr<IDXGIDevice3> pDXGIDevice;
 	m_d3d11Device->QueryInterface(__uuidof(IDXGIDevice3), reinterpret_cast<void**>(static_cast<IDXGIDevice3**>(&pDXGIDevice)));
@@ -228,7 +228,7 @@ void UnityGraphicsD3D11Impl::CreateRTVandDSV()
 void UnityGraphicsD3D11Impl::Present()
 {
     UINT SyncInterval = 1; // 0
-#ifdef PLATFORM_UNIVERSAL_WINDOWS
+#if PLATFORM_UNIVERSAL_WINDOWS
     SyncInterval = 1; // Interval 0 is not supported on Windows Phone 
 #endif
 

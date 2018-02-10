@@ -43,13 +43,20 @@ public:
     virtual const char* GetAppTitle()const override { return m_AppTitle.c_str(); }
     virtual void Render()override;
     virtual void Present()override;
-    virtual void Resize(int width, int height)override;
+    virtual void WindowResize(int width, int height)override;
     virtual void Update(double CurrTime, double ElapsedTime)override;
 
     bool LoadPlugin();
 
 protected:
-    virtual void InitGraphics(void *NativeWindowHandle, int WindowWidth, int WindowHeight);
+    virtual void InitGraphics(
+#if PLATFORM_LINUX
+        void *display,
+#endif
+        void *NativeWindowHandle, 
+        int WindowWidth, 
+        int WindowHeight
+    );
     virtual void InitScene();
 
     std::unique_ptr<UnitySceneBase> m_Scene;

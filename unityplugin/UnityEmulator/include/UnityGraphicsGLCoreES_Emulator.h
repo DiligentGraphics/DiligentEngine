@@ -7,10 +7,10 @@
 #include <memory>
 #include "UnityGraphicsEmulator.h"
 
-#if defined(PLATFORM_ANDROID)
+#if PLATFORM_ANDROID
     class UnityGraphicsGLESAndroid_Impl;
     using UnityGraphicsGL_Impl = UnityGraphicsGLESAndroid_Impl;
-#elif defined(PLATFORM_WIN32) || defined(PLATFORM_UNIVERSAL_WINDOWS) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS)
+#elif PLATFORM_WIN32 || PLATFORM_UNIVERSAL_WINDOWS || PLATFORM_LINUX || PLATFORM_MACOS
     class UnityGraphicsGLCore_Impl;
     using UnityGraphicsGL_Impl = UnityGraphicsGLCore_Impl;
 #else
@@ -23,7 +23,7 @@ class UnityGraphicsGLCoreES_Emulator final : public UnityGraphicsEmulator
 public:
     static UnityGraphicsGLCoreES_Emulator& GetInstance();
     void InitGLContext(void *pNativeWndHandle, 
-                       #ifdef PLATFORM_LINUX
+                       #if PLATFORM_LINUX
                            void *pDisplay,
                        #endif
                        int MajorVersion, int MinorVersion);

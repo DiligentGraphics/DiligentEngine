@@ -1,8 +1,8 @@
 #pragma once
 
-#if defined(PLATFORM_WIN32)
+#if PLATFORM_WIN32
     #include <d3d11.h>
-#elif defined(PLATFORM_UNIVERSAL_WINDOWS)
+#elif PLATFORM_UNIVERSAL_WINDOWS
     #include <d3d11_2.h>
 #endif
 

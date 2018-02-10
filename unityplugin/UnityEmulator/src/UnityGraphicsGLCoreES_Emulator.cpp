@@ -17,14 +17,14 @@ UnityGraphicsGLCoreES_Emulator::UnityGraphicsGLCoreES_Emulator()
 }
 
 void UnityGraphicsGLCoreES_Emulator::InitGLContext(void *pNativeWndHandle, 
-                                                   #ifdef PLATFORM_LINUX
+                                                   #if PLATFORM_LINUX
                                                        void *pDisplay,
                                                    #endif
 
 int MajorVersion, int MinorVersion)
 {
     m_GraphicsImpl->InitGLContext(pNativeWndHandle, 
-                                  #ifdef PLATFORM_LINUX
+                                  #if PLATFORM_LINUX
                                      pDisplay,
                                   #endif
                                   MajorVersion, MinorVersion);

@@ -38,7 +38,7 @@ using namespace Diligent;
 
 namespace Diligent
 {
-#ifdef ENGINE_DLL
+#if ENGINE_DLL
     GetEngineFactoryD3D11Type GetEngineFactoryD3D11 = nullptr;
     GetEngineFactoryD3D12Type GetEngineFactoryD3D12 = nullptr;
     GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = nullptr;
@@ -69,7 +69,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 DeviceAttribs.DebugFlags = (Uint32)EngineD3D11DebugFlags::VerifyCommittedShaderResources |
                                            (Uint32)EngineD3D11DebugFlags::VerifyCommittedResourceRelevance;
 
-#ifdef ENGINE_DLL
+#if ENGINE_DLL
                 if(!GetEngineFactoryD3D11)
                     LoadGraphicsEngineD3D11(GetEngineFactoryD3D11);
 #endif
@@ -85,7 +85,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #ifndef _DEBUG
                 Attribs.DynamicDescriptorAllocationChunkSize[0] = 4*2048;
 #endif
-#ifdef ENGINE_DLL
+#if ENGINE_DLL
                 if(!GetEngineFactoryD3D12)
                     LoadGraphicsEngineD3D12(GetEngineFactoryD3D12);
 #endif
@@ -103,7 +103,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 
         case DeviceType::OpenGL:
         {
-#ifdef ENGINE_DLL
+#if ENGINE_DLL
             if (GetEngineFactoryOpenGL == nullptr)
             {
                 LoadGraphicsEngineOpenGL(GetEngineFactoryOpenGL);

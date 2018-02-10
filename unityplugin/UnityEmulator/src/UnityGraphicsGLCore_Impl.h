@@ -4,7 +4,7 @@
 
 #if OPENGL_SUPPORTED
 
-#if defined(PLATFORM_WIN32)
+#if PLATFORM_WIN32
 
 #   ifndef GLEW_STATIC
 #       define GLEW_STATIC
@@ -14,7 +14,7 @@
 #   include "GL/wglew.h"
 #   include <GL/GL.h>
 
-#elif defined(PLATFORM_LINUX)
+#elif PLATFORM_LINUX
 
 #   ifndef GLEW_STATIC
 #       define GLEW_STATIC // Must be defined to use static version of glew
@@ -43,7 +43,7 @@
 #       undef Success
 #   endif
 
-#elif defined(PLATFORM_MACOS)
+#elif PLATFORM_MACOS
 
 #   ifndef GLEW_STATIC
 #       define GLEW_STATIC // Must be defined to use static version of glew
@@ -64,11 +64,11 @@ class UnityGraphicsGLCore_Impl
 {
 public:
 
-#if defined(PLATFORM_WIN32)
+#if PLATFORM_WIN32
     typedef HGLRC NativeGLContextType;
-#elif defined(PLATFORM_LINUX)
+#elif PLATFORM_LINUX
     typedef GLXContext NativeGLContextType;
-#elif defined(PLATFORM_MACOS)
+#elif PLATFORM_MACOS
     typedef void* NativeGLContextType;
 #else
 #   error Unsupported platform
@@ -77,7 +77,7 @@ public:
     ~UnityGraphicsGLCore_Impl();
 
     void InitGLContext(void *pNativeWndHandle, 
-                       #ifdef PLATFORM_LINUX
+                       #if PLATFORM_LINUX
                            void *pDisplay,
                        #endif
                        int MajorVersion, int MinorVersion);
@@ -96,12 +96,12 @@ private:
     int m_BackBufferWidth = 0;
     int m_BackBufferHeight = 0;
 
-#if defined(PLATFORM_WIN32)
+#if PLATFORM_WIN32
     HDC m_WindowHandleToDeviceContext;
-#elif defined(PLATFORM_LINUX)
+#elif PLATFORM_LINUX
     Window m_LinuxWindow;
     Display *m_Display;
-#elif defined(PLATFORM_MACOS)
+#elif PLATFORM_MACOS
     
 #else
 #   error Unsupported platform

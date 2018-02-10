@@ -57,7 +57,7 @@ static void UNITY_INTERFACE_API OnGraphicsDeviceEvent(UnityGfxDeviceEventType ev
 
 extern "C" void	UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnityInterfaces* unityInterfaces)
 {
-#if (defined(PLATFORM_WIN32) || defined(PLATFORM_UNIVERSAL_WINDOWS)) && (defined(_DEBUG) || defined(DEBUG))
+#if (PLATFORM_WIN32 || PLATFORM_UNIVERSAL_WINDOWS) && (defined(_DEBUG) || defined(DEBUG))
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 

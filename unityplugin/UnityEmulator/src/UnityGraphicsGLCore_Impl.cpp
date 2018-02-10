@@ -7,11 +7,11 @@
 #include "DebugUtilities.h"
 #include "Errors.h"
 
-#ifdef PLATFORM_MACOS
+#if PLATFORM_MACOS
 #import <AppKit/AppKit.h>
 #endif
 
-#if defined(PLATFORM_WIN32) || defined(PLATFORM_LINUX)
+#if PLATFORM_WIN32 || PLATFORM_LINUX
 
 #ifndef APIENTRY
 #   define APIENTRY
@@ -68,9 +68,9 @@ void APIENTRY openglCallbackFunction( GLenum source,
 
     MessageSS << ")" << std::endl << message << std::endl;
 
-#if defined(PLATFORM_WIN32)
+#if PLATFORM_WIN32
     OutputDebugStringA( MessageSS.str().c_str() );
-#elif defined(PLATFORM_LINUX)
+#elif PLATFORM_LINUX
     std::cout << MessageSS.str().c_str();
 #else
 #   error Unknown platform
@@ -83,10 +83,10 @@ UnityGraphicsGLCore_Impl::~UnityGraphicsGLCore_Impl()
 {
     if( m_Context )
 	{
-#if defined(PLATFORM_WIN32)
+#if PLATFORM_WIN32
 		wglMakeCurrent( m_WindowHandleToDeviceContext, 0 );
         wglDeleteContext( m_Context );
-#elif defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS)
+#elif PLATFORM_LINUX || PLATFORM_MACOS
         // Do nothing. Context is managed by the app
 #else
 #   error Unknown platform
@@ -95,12 +95,12 @@ UnityGraphicsGLCore_Impl::~UnityGraphicsGLCore_Impl()
 }
 
 void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle, 
-                                             #ifdef PLATFORM_LINUX
+                                             #if PLATFORM_LINUX
                                                  void *pDisplay,
                                              #endif
                                              int MajorVersion, int MinorVersion )
 {
-#if defined(PLATFORM_WIN32)
+#if PLATFORM_WIN32
 	HWND hWnd = reinterpret_cast<HWND>(pNativeWndHandle);
 	RECT rc;
 	GetClientRect( hWnd, &rc );
@@ -173,7 +173,7 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle,
 	{       //It's not possible to make a GL 3.x context. Use the old style context (GL 2.1 and before)
 		m_Context = tempContext;
 	}
-#elif defined(PLATFORM_LINUX)
+#elif PLATFORM_LINUX
     m_LinuxWindow = static_cast<Window>(reinterpret_cast<size_t>(pNativeWndHandle));
     m_Display = reinterpret_cast<Display*>(pDisplay);
     m_Context = glXGetCurrentContext();
@@ -184,7 +184,7 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle,
 	GLenum err = glewInit();
 	if( GLEW_OK != err )
 		LOG_ERROR_AND_THROW( "Failed to initialize GLEW" );
-#elif defined(PLATFORM_MACOS)
+#elif PLATFORM_MACOS
     NSOpenGLContext* CurrentCtx = [NSOpenGLContext currentContext];
     m_Context = CurrentCtx;
     if (m_Context == nullptr)
@@ -207,7 +207,7 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle,
     glGetIntegerv( GL_MINOR_VERSION, &MinorVersion );
     LOG_INFO_MESSAGE("Initialized OpenGL ", MajorVersion, '.', MinorVersion, " context (", GLVersionString, ")");
 
-#if defined(PLATFORM_WIN32) || defined(PLATFORM_LINUX)
+#if PLATFORM_WIN32 || PLATFORM_LINUX
     if( glDebugMessageCallback )
     {
         glEnable( GL_DEBUG_OUTPUT_SYNCHRONOUS );
@@ -240,11 +240,11 @@ void UnityGraphicsGLCore_Impl::ResizeSwapchain(int NewWidth, int NewHeight)
 
 void UnityGraphicsGLCore_Impl::SwapBuffers()
 {
-#if defined(PLATFORM_WIN32)
+#if PLATFORM_WIN32
     ::SwapBuffers( m_WindowHandleToDeviceContext );
-#elif defined(PLATFORM_LINUX)		
+#elif PLATFORM_LINUX
     glXSwapBuffers(m_Display, m_LinuxWindow);
-#elif defined(PLATFORM_MACOS)
+#elif PLATFORM_MACOS
     UNEXPECTED("On MacOS, swap buffers operation is expected to be performed by the app");
 #else
 #   error Unsupported platform

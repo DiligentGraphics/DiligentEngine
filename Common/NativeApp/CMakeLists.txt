@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 3.6)
 project(NativeAppBase)
 
 if(PLATFORM_WIN32)
+
 	set(SOURCE 
 		src/Win32/WinMain.cpp
 	)
@@ -56,14 +57,22 @@ elseif(PLATFORM_UNIVERSAL_WINDOWS)
 	endfunction(add_uwp_app)
 
 elseif(PLATFORM_ANDROID)
+
 	set(SOURCE 
 		src/Android/AndroidMainImpl.cpp
 	)
+
 elseif(PLATFORM_LINUX)
-	set(SOURCE 
-		src/Linux/LinuxMain.cpp
-	)
+
+    set(SOURCE 
+        src/Linux/LinuxMain.cpp
+    )
+    function(add_linux_app TARGET_NAME SOURCE INCLUDE ASSETS)
+        add_executable(${TARGET_NAME} ${SOURCE} ${INCLUDE} ${ASSETS})
+	endfunction()
+	
 elseif(PLATFORM_MACOS)
+
     set(SOURCE
         src/MacOS/Renderer.cpp
     )
@@ -112,6 +121,7 @@ elseif(PLATFORM_MACOS)
 	endfunction()
 
 elseif(PLATFORM_IOS)
+
     set(SOURCE
         src/MacOS/Renderer.cpp
     )
@@ -205,6 +215,7 @@ elseif(PLATFORM_ANDROID)
 	)
 elseif(PLATFORM_LINUX)
 	target_link_libraries(NativeAppBase PRIVATE X11)
+	target_include_directories(NativeAppBase PUBLIC include/Linux)
 elseif(PLATFORM_MACOS OR PLATFORM_IOS)
     target_include_directories(NativeAppBase PUBLIC
         src/MacOS

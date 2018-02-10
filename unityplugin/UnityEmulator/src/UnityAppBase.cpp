@@ -102,7 +102,14 @@ void UnityAppBase::ProcessCommandLine(const char *CmdLine)
     }
 }
 
-void UnityAppBase::InitGraphics(void *NativeWindowHandle, int WindowWidth, int WindowHeight)
+void UnityAppBase::InitGraphics(
+#if PLATFORM_LINUX
+        void *display,
+#endif    
+        void *NativeWindowHandle, 
+        int WindowWidth, 
+        int WindowHeight
+    )
 {
    switch (m_DeviceType)
    {
@@ -145,7 +152,12 @@ void UnityAppBase::InitGraphics(void *NativeWindowHandle, int WindowWidth, int W
         {
             VERIFY_EXPR(NativeWindowHandle != nullptr);
             auto &GraphicsGLCoreES_Emulator = UnityGraphicsGLCoreES_Emulator::GetInstance();
-            GraphicsGLCoreES_Emulator.InitGLContext(NativeWindowHandle, 4, 4);
+            GraphicsGLCoreES_Emulator.InitGLContext(NativeWindowHandle,
+            #if PLATFORM_LINUX
+                display,
+            #endif
+                4, 4
+            );
             m_GraphicsEmulator = &GraphicsGLCoreES_Emulator;
             m_DiligentGraphics.reset(new DiligentGraphicsAdapterGL(GraphicsGLCoreES_Emulator));
         }
@@ -161,11 +173,12 @@ void UnityAppBase::InitScene()
 {
    m_Scene->SetDiligentGraphicsAdapter(m_DiligentGraphics.get());
    m_Scene->OnGraphicsInitialized();
+#if D3D12_SUPPORTED
    if (m_DeviceType == DeviceType::D3D12)
    {
        UnityGraphicsD3D12Emulator::GetInstance().SetTransitionHandler(m_Scene->GetStateTransitionHandler());
    }
-
+#endif
    if (!LoadPlugin())
    {
        LOG_ERROR_AND_THROW("Failed to load plugin");
@@ -203,7 +216,7 @@ void UnityAppBase::Present()
     m_GraphicsEmulator->Present();
 }
 
-void UnityAppBase::Resize(int width, int height)
+void UnityAppBase::WindowResize(int width, int height)
 {
     if (m_GraphicsEmulator)
     {

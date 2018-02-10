@@ -2,9 +2,9 @@
 
 #include "PlatformDefinitions.h"
 
-#if defined(PLATFORM_ANDROID)
+#if PLATFORM_ANDROID
 #   include "Android/UnityGraphicsGLESAndroid_Impl.h"
-#elif defined(PLATFORM_WIN32) || defined(PLATFORM_UNIVERSAL_WINDOWS) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS)
+#elif PLATFORM_WIN32 || PLATFORM_UNIVERSAL_WINDOWS || PLATFORM_LINUX || PLATFORM_MACOS
 #   include "UnityGraphicsGLCore_Impl.h"
 #else
 #   error Unknown Platform

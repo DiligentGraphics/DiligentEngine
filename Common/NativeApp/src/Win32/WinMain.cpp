@@ -125,7 +125,7 @@ LRESULT CALLBACK MessageProc(HWND wnd, UINT message, WPARAM wParam, LPARAM lPara
         case WM_SIZE: // Window size has been changed
             if( g_pTheApp )
             {
-                g_pTheApp->Resize(LOWORD(lParam), HIWORD(lParam));
+                g_pTheApp->WindowResize(LOWORD(lParam), HIWORD(lParam));
             }
             return 0;
 

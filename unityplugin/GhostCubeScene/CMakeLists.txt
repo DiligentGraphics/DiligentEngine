@@ -83,7 +83,7 @@ elseif(PLATFORM_ANDROID)
 elseif(PLATFORM_LINUX)
 
 	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
-	add_executable(GhostCubeScene ${SOURCE} ${INCLUDE} ${ASSETS})
+	add_linux_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS}")
 	
 elseif(PLATFORM_MACOS)
 	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
@@ -129,6 +129,7 @@ PRIVATE
 target_link_libraries(GhostCubeScene
 PRIVATE
 	BuildSettings
+	NativeAppBase
 	UnityEmulator
 	TargetPlatform
 )

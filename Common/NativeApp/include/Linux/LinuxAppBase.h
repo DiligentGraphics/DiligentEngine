@@ -20,27 +20,29 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
+
 #pragma once 
 
-#if PLATFORM_WIN32
 
-    #include "Win32AppBase.h"
-    using NativeAppBase = Win32AppBase;
+#include <GL/glx.h>
+#include <GL/gl.h>
 
-#elif PLATFORM_UNIVERSAL_WINDOWS
-
-    #include "UWPAppBase.h"
-    using NativeAppBase = UWPAppBase;
-
-#elif PLATFORM_LINUX
-
-    #include "LinuxAppBase.h"
-    using NativeAppBase = LinuxAppBase;
-
-#else
-
-#   error Usnupported paltform
-
+// Undef symbols defined by XLib
+#ifdef Bool
+# undef Bool
+#endif
+#ifdef True
+#   undef True
+#endif
+#ifdef False
+#   undef False
 #endif
 
-extern NativeAppBase* CreateApplication();
+#include "AppBase.h"
+
+class LinuxAppBase : public AppBase
+{
+public:
+    virtual void OnGLContextCreated(Display* display, Window window) = 0;
+    virtual int HandleXEvent(XEvent *xev){}
+};
