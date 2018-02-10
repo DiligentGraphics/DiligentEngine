@@ -27,9 +27,9 @@ endif()
 
 if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 
-	add_executable(GhostCubeScene WIN32 ${SOURCE} ${INCLUDE} ${ASSETS})
-	
 	if(PLATFORM_WIN32)
+		add_win32_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS}")
+
 		set_target_properties(GhostCubeScene PROPERTIES 
 			VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets"
 		)
@@ -40,7 +40,9 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 				"\"$<TARGET_FILE_DIR:GhostCubeScene>\"")
 
 	elseif(PLATFORM_UNIVERSAL_WINDOWS)
-		
+		add_uwp_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS}")
+	    append_emulator_uwp_source(GhostCubeScene)
+
 		# We cannot use genreator expression to add a file because the file name
 		# must not depend on the configuration
 		set(PLUGIN_REL_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}r.dll)
@@ -117,16 +119,6 @@ else()
 endif()
 
 add_dependencies(GhostCubeScene GhostCubePlugin-shared)
-
-if(PLATFORM_UNIVERSAL_WINDOWS)
-	get_native_app_uwp_source("" "" "")
-    get_emulator_uwp_source("${UWP_SOURCE}" "${UWP_INCLUDE}" "${UWP_INCLUDE_DIR}")
-
-	source_group("UWP\\src" FILES ${UWP_SOURCE})
-	source_group("UWP\\include" FILES ${UWP_INCLUDE})
-	target_include_directories(GhostCubeScene PRIVATE ${UWP_INCLUDE_DIR})
-	target_sources(GhostCubeScene PRIVATE ${UWP_SOURCE} ${UWP_INCLUDE})
-endif()
 
 
 target_include_directories(GhostCubeScene

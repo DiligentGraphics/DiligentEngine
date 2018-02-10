@@ -10,7 +10,6 @@ set(INCLUDE
 	include/DiligentGraphicsAdapter.h
 	include/ResourceStateTransitionHandler.h
 	include/UnityGraphicsEmulator.h
-	include/UnityApp.h
 	include/UnitySceneBase.h
 )
 
@@ -50,42 +49,51 @@ if(GLES_SUPPORTED)
 endif()
 
 if(PLATFORM_WIN32)
-	list(APPEND SOURCE src/Windows/UnityAppWin32.cpp)
-	list(APPEND SOURCE src/UnityApp.cpp)
-
+	list(APPEND SOURCE src/Windows/UnityAppWin32.cpp src/UnityAppBase.cpp)
+	list(APPEND INCLUDE include/UnityAppBase.h)
+	
 elseif(PLATFORM_UNIVERSAL_WINDOWS)
 
 	# Windows Runtime types cannot be included into static libraries
 	# https://social.msdn.microsoft.com/Forums/en-US/269db513-64ef-4817-a025-43954f614eb3/lnk4264-why-are-static-libraries-not-recommended-when-authoring-windows-runtime-types?forum=winappswithnativecode
 	# So as a workaround, we will include all source files into the target app project
-	function(get_emulator_uwp_source UWP_SOURCE_IN UWP_INCLUDE_IN UWP_INCLUDE_DIR_IN)
+	function(append_emulator_uwp_source TARGET_NAME)
 		
 		get_target_property(EMULATOR_SOURCE_DIR UnityEmulator SOURCE_DIR)
-		set(UWP_SOURCE
-		    ${UWP_SOURCE_IN}
+		set(EMULATOR_UWP_SOURCE
 			${EMULATOR_SOURCE_DIR}/src/UWP/UnityAppUWP.cpp
-			${EMULATOR_SOURCE_DIR}/src/UnityApp.cpp
-			PARENT_SCOPE
+			${EMULATOR_SOURCE_DIR}/src/UnityAppBase.cpp
 		)
-	endfunction(get_emulator_uwp_source)
+		set(EMULATOR_UWP_INCLUDE
+			${EMULATOR_SOURCE_DIR}/include/UnityAppBase.h
+		)
+
+		target_sources(${TARGET_NAME} PRIVATE ${EMULATOR_UWP_SOURCE} ${EMULATOR_UWP_INCLUDE})
+		source_group("src\\UnityEmulator" FILES ${EMULATOR_UWP_SOURCE})
+		source_group("include\\UnityEmulator" FILES ${EMULATOR_UWP_INCLUDE})
+	endfunction()
 
 elseif(PLATFORM_ANDROID)
 	list(APPEND SOURCE 
 		src/Android/AndroidMainImpl.cpp
-		src/UnityApp.cpp
+		src/UnityAppBase.cpp
 	)
+	list(APPEND INCLUDE include/UnityAppBase.h)
 elseif(PLATFORM_LINUX)
 	list(APPEND SOURCE 
 		src/Linux/LinuxMain.cpp 
-		src/UnityApp.cpp
+		src/UnityAppBase.cpp
 	)
+	list(APPEND INCLUDE include/UnityAppBase.h)
 elseif(PLATFORM_MACOS)
     list(APPEND SOURCE
 		src/Linux/LinuxMain.cpp 
         src/MacOS/Renderer.cpp
+		src/UnityAppBase.cpp
     )
     list(APPEND INCLUDE
         src/MacOS/Renderer.h
+		include/UnityAppBase.h
     )
     set_source_files_properties(src/UnityGraphicsGLCore_Impl.cpp
         PROPERTIES COMPILE_FLAGS "-x objective-c++"

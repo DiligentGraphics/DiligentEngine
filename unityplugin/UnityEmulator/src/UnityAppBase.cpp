@@ -21,7 +21,7 @@
  *  of the possibility of such damages.
  */
 
-#include "UnityApp.h"
+#include "UnityAppBase.h"
 #include "IUnityInterface.h"
 
 #if D3D11_SUPPORTED
@@ -39,19 +39,19 @@
 #   include "DiligentGraphicsAdapterGL.h"
 #endif
 
-#include "UnityApp.h"
+#include "UnityAppBase.h"
 #include "StringTools.h"
 #include "Errors.h"
 
 using namespace Diligent;
 
-UnityApp::UnityApp() : 
+UnityAppBase::UnityAppBase() : 
     m_Scene(CreateScene())
 {
     m_AppTitle = m_Scene->GetSceneName();
 }
 
-UnityApp::~UnityApp()
+UnityAppBase::~UnityAppBase()
 {
     m_Scene->OnPluginUnload();
     m_Scene.reset();
@@ -63,7 +63,7 @@ UnityApp::~UnityApp()
 
 
 
-void UnityApp::ProcessCommandLine(const char *CmdLine)
+void UnityAppBase::ProcessCommandLine(const char *CmdLine)
 {
     const auto* Key = "mode=";
     const auto *pos = strstr(CmdLine, Key);
@@ -102,7 +102,7 @@ void UnityApp::ProcessCommandLine(const char *CmdLine)
     }
 }
 
-void UnityApp::InitGraphics(void *NativeWindowHandle, int WindowWidth, int WindowHeight)
+void UnityAppBase::InitGraphics(void *NativeWindowHandle, int WindowWidth, int WindowHeight)
 {
    switch (m_DeviceType)
    {
@@ -157,7 +157,7 @@ void UnityApp::InitGraphics(void *NativeWindowHandle, int WindowWidth, int Windo
     }
 }
 
-void UnityApp::InitScene()
+void UnityAppBase::InitScene()
 {
    m_Scene->SetDiligentGraphicsAdapter(m_DiligentGraphics.get());
    m_Scene->OnGraphicsInitialized();
@@ -182,12 +182,12 @@ void UnityApp::InitScene()
    m_Scene->OnWindowResize(SCWidth, SCHeight);
 }
 
-void UnityApp::Update(double CurrTime, double ElapsedTime)
+void UnityAppBase::Update(double CurrTime, double ElapsedTime)
 {
     m_Scene->Update(CurrTime, ElapsedTime);
 }
 
-void UnityApp::Render()
+void UnityAppBase::Render()
 {
     m_GraphicsEmulator->BeginFrame();
     m_DiligentGraphics->BeginFrame();
@@ -198,12 +198,12 @@ void UnityApp::Render()
     m_GraphicsEmulator->EndFrame();
 }
 
-void UnityApp::Present()
+void UnityAppBase::Present()
 {
     m_GraphicsEmulator->Present();
 }
 
-void UnityApp::Resize(int width, int height)
+void UnityAppBase::Resize(int width, int height)
 {
     if (m_GraphicsEmulator)
     {

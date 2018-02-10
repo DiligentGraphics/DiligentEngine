@@ -10,6 +10,10 @@ if(PLATFORM_WIN32)
 		include/Win32/Win32AppBase.h
 	)
 
+	function(add_win32_app TARGET_NAME SOURCE INCLUDE ASSETS)
+		add_executable(${TARGET_NAME} WIN32 ${SOURCE} ${INCLUDE} ${ASSETS})
+	endfunction()
+
 elseif(PLATFORM_UNIVERSAL_WINDOWS)
 
 	set(SOURCE 
@@ -22,33 +26,34 @@ elseif(PLATFORM_UNIVERSAL_WINDOWS)
 	# Windows Runtime types cannot be included into static libraries
 	# https://social.msdn.microsoft.com/Forums/en-US/269db513-64ef-4817-a025-43954f614eb3/lnk4264-why-are-static-libraries-not-recommended-when-authoring-windows-runtime-types?forum=winappswithnativecode
 	# So as a workaround, we will include all source files into the target app project
-	function(get_native_app_uwp_source UWP_SOURCE_IN UWP_INCLUDE_IN UWP_INCLUDE_DIR_IN)
+	function(add_uwp_app TARGET_NAME SOURCE INCLUDE ASSETS)
 		get_target_property(NATIVE_APP_SOURCE_DIR NativeAppBase SOURCE_DIR)
 
 		set(UWP_SOURCE
-		    ${UWP_SOURCE_IN}
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/DeviceResources.cpp
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/App.cpp
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/UWPAppBase.cpp
-			PARENT_SCOPE
 		)
 
 		set(UWP_INCLUDE
-			${UWP_INCLUDE_IN}
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/DeviceResources.h
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/DirectXHelper.h
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/App.h
 			${NATIVE_APP_SOURCE_DIR}/include/UWP/UWPAppBase.h
 			${NATIVE_APP_SOURCE_DIR}/src/UWP/Common/StepTimer.h
-			PARENT_SCOPE
 		)
 
-		set(UWP_INCLUDE_DIR
-			${UWP_INCLUDE_DIR_IN}
+		add_executable(${TARGET_NAME} WIN32 ${SOURCE} ${INCLUDE} ${ASSETS} ${UWP_SOURCE} ${UWP_INCLUDE})
+
+		target_include_directories(${TARGET_NAME} 
+		PUBLIC
 			${NATIVE_APP_SOURCE_DIR}/Src/UWP
-			PARENT_SCOPE
 		)
-	endfunction(get_native_app_uwp_source)
+
+		source_group("UWP Common\\src" FILES ${UWP_SOURCE})
+		source_group("UWP Common\\include" FILES ${UWP_INCLUDE})
+
+	endfunction(add_uwp_app)
 
 elseif(PLATFORM_ANDROID)
 	set(SOURCE 

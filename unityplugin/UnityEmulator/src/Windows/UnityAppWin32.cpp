@@ -25,13 +25,13 @@
 #include <Windows.h>
 
 #include "UnityGraphicsEmulator.h"
-#include "UnityApp.h"
+#include "UnityAppBase.h"
 #include "IUnityInterface.h"
 #include "Errors.h"
 
 HMODULE g_DLLHandle;
 
-class UnityAppWin32 : public UnityApp
+class UnityAppWin32 : public UnityAppBase
 {
 public:
     virtual void OnWindowCreated(HWND hWnd, LONG WindowWidth, LONG WindowHeight)override final
@@ -46,14 +46,14 @@ NativeAppBase* CreateApplication()
     return new UnityAppWin32();
 }
 
-void* UnityApp::LoadPluginFunction(const char* FunctionName)
+void* UnityAppBase::LoadPluginFunction(const char* FunctionName)
 {
     auto Func = GetProcAddress(g_DLLHandle, FunctionName);
     VERIFY( Func != nullptr, "Failed to import plugin function \"", FunctionName, "\"." );
     return Func;
 }
 
-bool UnityApp::LoadPlugin()
+bool UnityAppBase::LoadPlugin()
 {
     std::string LibName = m_Scene->GetPluginName();
 #if _WIN64
@@ -89,7 +89,7 @@ bool UnityApp::LoadPlugin()
     return true;
 }
 
-void UnityApp::UnloadPlugin()
+void UnityAppBase::UnloadPlugin()
 {
     m_GraphicsEmulator->InvokeDeviceEventCallback(kUnityGfxDeviceEventShutdown);
     UnityPluginUnload();

@@ -33,11 +33,11 @@
 
 typedef void* (*TLoadPluginFunction)(const char *FunctionName);
 
-class UnityApp : public NativeAppBase
+class UnityAppBase : public NativeAppBase
 {
 public:
-    UnityApp();
-    virtual ~UnityApp()override;
+    UnityAppBase();
+    virtual ~UnityAppBase()override;
 
     virtual void ProcessCommandLine(const char *CmdLine)override;
     virtual const char* GetAppTitle()const override { return m_AppTitle.c_str(); }

@@ -21,7 +21,7 @@
 *  of the possibility of such damages.
 */
 
-#include "UnityApp.h"
+#include "UnityAppBase.h"
 #include "IUnityInterface.h"
 #include "UnityGraphicsD3D11Emulator.h"
 #include "UnityGraphicsD3D12Emulator.h"
@@ -33,7 +33,7 @@
 
 using namespace Diligent;
 
-class UnityAppUWP final : public UnityApp
+class UnityAppUWP final : public UnityAppBase
 {
 public:
     UnityAppUWP()
@@ -60,7 +60,7 @@ public:
         {
             return;
         }
-        UnityApp::Render();
+        UnityAppBase::Render();
         m_bFrameReady = true;
     }
 
@@ -224,14 +224,14 @@ NativeAppBase* CreateApplication()
 
 
 HMODULE g_DLLHandle;
-void* UnityApp::LoadPluginFunction(const char* FunctionName)
+void* UnityAppBase::LoadPluginFunction(const char* FunctionName)
 {
     auto Func = GetProcAddress(g_DLLHandle, FunctionName);
     VERIFY(Func != nullptr, "Failed to import plugin function \"", FunctionName, "\".");
     return Func;
 }
 
-bool UnityApp::LoadPlugin()
+bool UnityAppBase::LoadPlugin()
 {
     std::string LibName = m_Scene->GetPluginName();
 
@@ -278,7 +278,7 @@ bool UnityApp::LoadPlugin()
     return true;
 }
 
-void UnityApp::UnloadPlugin()
+void UnityAppBase::UnloadPlugin()
 {
     m_GraphicsEmulator->InvokeDeviceEventCallback(kUnityGfxDeviceEventShutdown);
     UnityPluginUnload();
