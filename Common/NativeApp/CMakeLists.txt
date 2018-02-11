@@ -94,16 +94,16 @@ elseif(PLATFORM_LINUX)
 elseif(PLATFORM_MACOS)
 
     set(SOURCE
-        src/MacOS/Renderer.cpp
+        src/MacOS/MacOSAppBase.cpp
     )
     set(INCLUDE
-        src/MacOS/Renderer.h
+        include/MacOS/MacOSAppBase.h
     )
 
-	function(get_native_app_macos_source APPLE_SOURCE APPLE_INCLUDE APPLE_RESOURCES APPLE_INFO_PLIST APPLE_INCLUDE_DIRS)
+	function(add_macos_app TARGET_NAME SOURCE INCLUDE ASSETS)
 		get_target_property(NATIVE_APP_SOURCE_DIR NativeAppBase SOURCE_DIR)
 
-		set(${APPLE_SOURCE}
+		set(APPLE_SOURCE
 		    ${NATIVE_APP_SOURCE_DIR}/Apple/Source/main.m
 		    ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/WindowController.m
 		    ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.m
@@ -113,31 +113,46 @@ elseif(PLATFORM_MACOS)
         set_source_files_properties(${APPLE_SOURCE} PROPERTIES
             COMPILE_FLAGS "-x objective-c++"
         )
-        set( APPLE_SOURCE ${APPLE_SOURCE} PARENT_SCOPE )
 
-		set(${APPLE_INCLUDE}
+		set(APPLE_INCLUDE
 		    ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/WindowController.h
        		    ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.h
        		    ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.h
        		    ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.h
-		    PARENT_SCOPE
 		)
 
-		set(${APPLE_RESOURCES}
+		set(APPLE_RESOURCES
 		    ${NATIVE_APP_SOURCE_DIR}/Apple/Data/OSX/Base.lproj/Main.storyboard
 		    ${NATIVE_APP_SOURCE_DIR}/Apple/Data/OSX/Images.xcassets/AppIcon.appiconset/dg.icns
-		    PARENT_SCOPE
 		)
 
-		set(${APPLE_INFO_PLIST}
+		set(APPLE_INFO_PLIST
 		    ${NATIVE_APP_SOURCE_DIR}/Apple/Data/OSX/Info.plist
-		    PARENT_SCOPE
 		)
 
-		set(${APPLE_INCLUDE_DIRS}
+		set(APPLE_INCLUDE_DIRS
         		${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX
-			PARENT_SCOPE
 		)
+
+            add_executable(${TARGET_NAME} MACOSX_BUNDLE ${SOURCE} ${APPLE_SOURCE} ${INCLUDE} ${APPLE_INCLUDE} ${ASSETS} ${APPLE_RESOURCES})
+            set_target_properties(${TARGET_NAME} PROPERTIES
+                MACOSX_BUNDLE_GUI_IDENTIFIER "com.diligentengine.samples.${TARGET_NAME}"
+                MACOSX_BUNDLE_INFO_PLIST "${APPLE_INFO_PLIST}"
+                RESOURCE "${APPLE_RESOURCES}"
+            )
+            source_group("MacOS" FILES ${APPLE_SOURCE})
+            source_group("MacOS" FILES ${APPLE_INCLUDE})
+            source_group("Resources" FILES ${APPLE_RESOURCES})
+            target_include_directories(${TARGET_NAME} PRIVATE ${APPLE_INCLUDE_DIRS})
+
+            find_package(OpenGL REQUIRED)
+
+            find_library(CORE_VIDEO CoreVideo)
+            if (NOT CORE_VIDEO)
+                 message(FATAL_ERROR "CoreVideo not found")
+            endif()
+	    target_link_libraries(${TARGET_NAME} PRIVATE ${OPENGL_LIBRARY} ${CORE_VIDEO})
+
 	endfunction()
 
 elseif(PLATFORM_IOS)
@@ -254,6 +269,7 @@ elseif(PLATFORM_LINUX)
 elseif(PLATFORM_MACOS OR PLATFORM_IOS)
     target_include_directories(NativeAppBase PUBLIC
         src/MacOS
+        include/MacOS
     )
 endif()
 

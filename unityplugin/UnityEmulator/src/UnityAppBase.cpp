@@ -151,7 +151,9 @@ void UnityAppBase::InitGraphics(
         case DeviceType::OpenGL:
         case DeviceType::OpenGLES:
         {
+#if !PLATFORM_MACOS
             VERIFY_EXPR(NativeWindowHandle != nullptr);
+#endif
             auto &GraphicsGLCoreES_Emulator = UnityGraphicsGLCoreES_Emulator::GetInstance();
 
 #           if PLATFORM_WIN32 || PLATFORM_LINUX

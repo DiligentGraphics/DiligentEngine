@@ -85,28 +85,13 @@ elseif(PLATFORM_LINUX)
 	
 elseif(PLATFORM_MACOS)
 	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
-        get_emulator_macos_source(MAC_SOURCE MAC_INCLUDE MAC_RESOURCES MAC_INFO_PLIST MAC_INCLUDE_DIRS)
-        add_executable(GhostCubeScene MACOSX_BUNDLE ${SOURCE} ${MAC_SOURCE} ${INCLUDE} ${MAC_INCLUDE} ${ASSETS} ${SHADERS} ${MAC_RESOURCES})
-        set_target_properties(GhostCubeScene PROPERTIES
-            MACOSX_BUNDLE_GUI_IDENTIFIER "com.diligentengine.unityemulator.GhostCubeScene"
-            MACOSX_BUNDLE_INFO_PLIST "${MAC_INFO_PLIST}"
-            RESOURCE "${MAC_RESOURCES}"
-        )
+	set(ASSETS_AND_SHADERS ${ASSETS} ${SHADERS})
+	add_macos_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS_AND_SHADERS}")
+  
         set_source_files_properties(${SHADERS} PROPERTIES
             MACOSX_PACKAGE_LOCATION "Resources/shaders"
         )
 
-        source_group("MacOS" FILES ${MAC_SOURCE})
-        source_group("MacOS" FILES ${MAC_INCLUDE})
-        source_group("Resources" FILES ${MAC_RESOURCES})
-        target_include_directories(GhostCubeScene PRIVATE ${MAC_INCLUDE_DIRS})
-        find_package(OpenGL REQUIRED)
-
-        find_library(CORE_VIDEO CoreVideo)
-        if (NOT CORE_VIDEO)
-            message(FATAL_ERROR "CoreVideo not found")
-        endif()
-        target_link_libraries(GhostCubeScene PRIVATE ${OPENGL_LIBRARY} ${CORE_VIDEO})
 elseif(PLATFORM_IOS)
 	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
         #get_emulator_ios_source(IOS_SOURCE IOS_INCLUDE IOS_RESOURCES IOS_INFO_PLIST IOS_INCLUDE_DIRS)

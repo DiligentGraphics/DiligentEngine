@@ -87,57 +87,15 @@ elseif(PLATFORM_LINUX)
 	list(APPEND INCLUDE include/UnityAppBase.h)
 elseif(PLATFORM_MACOS)
     list(APPEND SOURCE
-		src/Linux/LinuxMain.cpp 
-        src/MacOS/Renderer.cpp
-		src/UnityAppBase.cpp
+        src/MacOS/UnityAppMacOS.cpp
+	src/UnityAppBase.cpp
     )
     list(APPEND INCLUDE
-        src/MacOS/Renderer.h
-		include/UnityAppBase.h
+	include/UnityAppBase.h
     )
     set_source_files_properties(src/UnityGraphicsGLCore_Impl.cpp
         PROPERTIES COMPILE_FLAGS "-x objective-c++"
     )
-
-	function(get_emulator_macos_source MAC_SOURCE MAC_INCLUDE MAC_RESOURCES MAC_INFO_PLIST MAC_INCLUDE_DIRS)
-		get_target_property(EMULATOR_SOURCE_DIR UnityEmulator SOURCE_DIR)
-
-		set(${MAC_SOURCE}
-		    ${EMULATOR_SOURCE_DIR}/Apple/Source/main.m
-		    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX/WindowController.m
-		    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.m
-		    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.m
-		    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.m
-		)
-        set_source_files_properties(${MAC_SOURCE} PROPERTIES
-            COMPILE_FLAGS "-x objective-c++"
-        )
-        set( MAC_SOURCE ${MAC_SOURCE} PARENT_SCOPE )
-
-		set(${MAC_INCLUDE}
-		    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX/WindowController.h
-       		    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.h
-       		    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.h
-       		    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.h
-		    PARENT_SCOPE
-		)
-
-		set(${MAC_RESOURCES}
-		    ${EMULATOR_SOURCE_DIR}/Apple/Data/OSX/Base.lproj/Main.storyboard
-		    ${EMULATOR_SOURCE_DIR}/Apple/Data/OSX/Images.xcassets/AppIcon.appiconset/dg.icns
-		    PARENT_SCOPE
-		)
-
-		set(${MAC_INFO_PLIST}
-		    ${EMULATOR_SOURCE_DIR}/Apple/Data/OSX/Info.plist
-		    PARENT_SCOPE
-		)
-
-		set(${MAC_INCLUDE_DIRS}
-        	    ${EMULATOR_SOURCE_DIR}/Apple/Source/Classes/OSX
-		    PARENT_SCOPE
-		)
-	endfunction()
 
 elseif(PLATFORM_IOS)
 	

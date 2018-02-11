@@ -21,30 +21,23 @@
  *  of the possibility of such damages.
  */
 
-#include "RenderDevice.h"
-#include "DeviceContext.h"
-#include "SwapChain.h"
-#include "RefCntAutoPtr.h"
-#include "UnitySceneBase.h"
-#include "Timer.h"
-#include <queue>
+#pragma once 
 
-class Renderer
+#include "AppBase.h"
+#include "Timer.h"
+
+class MacOSAppBase : public AppBase
 {
 public:
-    Renderer();
-    ~Renderer();
-    void Init();
-    void WindowResize(int width, int height);
-    void Render();
-    const char* GetSceneName()const{return pScene->GetSceneName();}
-    
-private:
-    class UnityGraphicsEmulator *GraphicsEmulator = nullptr;
-    std::unique_ptr<class DiligentGraphicsAdapter> pDiligentGraphics;
-    std::unique_ptr<UnitySceneBase> pScene;
-    UnityRenderingEvent RenderEventFunc;
+    using AppBase::Update;
+    void Update();
+    virtual void OnGLContextCreated() = 0;
+    virtual void OnMouseDown(int button){}
+    virtual void OnMouseUp(int button){}
+    virtual void OnMouseMove(int x, int y){}
+    virtual void OnKeyPressed(int key){}
+
+protected:
     Diligent::Timer timer;
     double PrevTime = 0.0;
 };
-
