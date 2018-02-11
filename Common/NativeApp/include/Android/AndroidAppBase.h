@@ -38,6 +38,7 @@ public:
     void SetState( android_app* state );
     void InitSensors();
     void ProcessSensors( int32_t id );
+    void DrawFrame();    
     bool IsReady();
     virtual void TrimMemory() = 0;
     virtual void TermDisplay() = 0;
@@ -74,8 +75,7 @@ private:
     void ResumeSensors();
     void ShowUI();
     void UpdateFPS( float fFPS );
-    void DrawFrame();
-    
+
     android_app* app_ = nullptr;
     bool initialized_resources_ = false;
     bool has_focus_ = false;
