@@ -59,8 +59,28 @@ elseif(PLATFORM_UNIVERSAL_WINDOWS)
 elseif(PLATFORM_ANDROID)
 
 	set(SOURCE 
-		src/Android/AndroidMainImpl.cpp
+		src/Android/AndroidAppBase.cpp
 	)
+	set(INCLUDE
+		include/Android/AndroidAppBase.h
+	)
+	function(add_android_app TARGET_NAME SOURCE INCLUDE ASSETS)
+		get_target_property(NATIVE_APP_SOURCE_DIR NativeAppBase SOURCE_DIR)
+		set(ANDROID_SOURCE
+			${NATIVE_APP_SOURCE_DIR}/src/Android/AndroidMain.cpp
+		)
+		add_library(${TARGET_NAME} SHARED ${SOURCE} ${ANDROID_SOURCE} ${INCLUDE} ${ASSETS})
+		target_link_libraries(${TARGET_NAME} 
+		PRIVATE 
+			android
+			NativeAppGlue
+		)
+		#target_include_directories(${TARGET_NAME} 
+		#PRIVATE
+		#	${ANDROID_NDK}/sources/android/cpufeatures
+		#)
+		source_group("Android" FILES ${ANDROID_SOURCE})
+	endfunction()
 
 elseif(PLATFORM_LINUX)
 
@@ -202,20 +222,35 @@ PRIVATE
 
 if(PLATFORM_WIN32)
 
-	target_include_directories(NativeAppBase PUBLIC include/Win32)
+	target_include_directories(NativeAppBase
+	PUBLIC 
+		include/Win32
+	)
 
 elseif(PLATFORM_UNIVERSAL_WINDOWS)
 	
-	target_include_directories(NativeAppBase PUBLIC include/UWP src/UWP)
+	target_include_directories(NativeAppBase 
+	PUBLIC 
+		include/UWP 
+		src/UWP
+	)
 
 elseif(PLATFORM_ANDROID)
-	target_link_libraries(NativeAppBase PRIVATE NDKHelper android NativeAppBaseGlue)
-	target_include_directories(NativeAppBase PRIVATE
-		${ANDROID_NDK}/sources/android/cpufeatures
+	target_link_libraries(NativeAppBase PUBLIC NDKHelper NativeAppGlue PRIVATE android)
+	target_include_directories(NativeAppBase
+	PUBLIC
+	    include/Android
 	)
 elseif(PLATFORM_LINUX)
-	target_link_libraries(NativeAppBase PRIVATE X11)
-	target_include_directories(NativeAppBase PUBLIC include/Linux)
+	target_link_libraries(NativeAppBase 
+	PRIVATE 
+		X11
+	)
+	target_include_directories(NativeAppBase 
+	PUBLIC 
+		include/Linux
+	)
+
 elseif(PLATFORM_MACOS OR PLATFORM_IOS)
     target_include_directories(NativeAppBase PUBLIC
         src/MacOS

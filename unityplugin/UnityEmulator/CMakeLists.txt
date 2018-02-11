@@ -75,7 +75,7 @@ elseif(PLATFORM_UNIVERSAL_WINDOWS)
 
 elseif(PLATFORM_ANDROID)
 	list(APPEND SOURCE 
-		src/Android/AndroidMainImpl.cpp
+		src/Android/UnityAppAndroid.cpp
 		src/UnityAppBase.cpp
 	)
 	list(APPEND INCLUDE include/UnityAppBase.h)

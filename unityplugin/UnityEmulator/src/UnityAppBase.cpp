@@ -149,14 +149,32 @@ void UnityAppBase::InitGraphics(
 
 #if OPENGL_SUPPORTED
         case DeviceType::OpenGL:
+        case DeviceType::OpenGLES:
         {
             VERIFY_EXPR(NativeWindowHandle != nullptr);
             auto &GraphicsGLCoreES_Emulator = UnityGraphicsGLCoreES_Emulator::GetInstance();
+
+#           if PLATFORM_WIN32 || PLATFORM_LINUX
+                int major_version = 4;
+                int minor_version = 4;
+#           elif PLATFORM_MACOS
+                int major_version = 4;
+                int minor_version = 1;
+#           elif PLATFORM_ANDROID
+                int major_version = 3;
+                int minor_version = 1;
+#           elif PLATFORM_IOS
+                int major_version = 3;
+                int minor_version = 0;
+#           else
+#               error Unknown platform
+#           endif
+
             GraphicsGLCoreES_Emulator.InitGLContext(NativeWindowHandle,
             #if PLATFORM_LINUX
                 display,
             #endif
-                4, 4
+                major_version, minor_version
             );
             m_GraphicsEmulator = &GraphicsGLCoreES_Emulator;
             m_DiligentGraphics.reset(new DiligentGraphicsAdapterGL(GraphicsGLCoreES_Emulator));

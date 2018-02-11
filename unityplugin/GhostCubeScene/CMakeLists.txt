@@ -21,8 +21,6 @@ set_source_files_properties(${SHADERS} PROPERTIES VS_TOOL_OVERRIDE "None")
 if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 	list(APPEND SOURCE src/GhostCubeSceneResTrsnHelper.cpp)
 	list(APPEND INCLUDE src/GhostCubeSceneResTrsnHelper.h)
-elseif(PLATFORM_ANDROID)
-	list(APPEND SOURCE src/Android/AndroidMain.cpp)
 endif()
 
 if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
@@ -77,8 +75,8 @@ if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 
 elseif(PLATFORM_ANDROID)
 	
-	list(APPEND SOURCE src/Android/AndroidMain.cpp src/LoadPluginFunctions.cpp)
-	add_library(GhostCubeScene SHARED ${SOURCE} ${INCLUDE})
+	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
+	add_android_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS}")
 
 elseif(PLATFORM_LINUX)
 

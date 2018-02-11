@@ -37,6 +37,11 @@
     #include "LinuxAppBase.h"
     using NativeAppBase = LinuxAppBase;
 
+#elif PLATFORM_ANDROID
+
+    #include "AndroidAppBase.h"
+    using NativeAppBase = AndroidAppBase;
+
 #else
 
 #   error Usnupported paltform
