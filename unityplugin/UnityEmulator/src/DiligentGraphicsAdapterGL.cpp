@@ -21,10 +21,12 @@ public:
     using TBase = SwapChainBase<ISwapChainGL>;
 
     ProxySwapChainGL( IReferenceCounters *pRefCounters,
+                      const UnityGraphicsGLCoreES_Emulator& UnityGraphicsGL,
                       IRenderDevice *pDevice,
                       IDeviceContext *pDeviceContext,
                       const SwapChainDesc& SCDesc ) : 
-        TBase(pRefCounters, pDevice, pDeviceContext,SCDesc)
+        TBase(pRefCounters, pDevice, pDeviceContext,SCDesc),
+        m_UnityGraphicsGL(UnityGraphicsGL)
     {}
         
     virtual void Present()override final
@@ -39,8 +41,11 @@ public:
 
     virtual GLuint GetDefaultFBO()const override final
     {
-        return 0;
+        return m_UnityGraphicsGL.GetGraphicsImpl()->GetDefaultFBO();
     }
+    
+private:
+    const UnityGraphicsGLCoreES_Emulator& m_UnityGraphicsGL;
 };
 
 }
@@ -83,7 +88,7 @@ DiligentGraphicsAdapterGL::DiligentGraphicsAdapterGL(const UnityGraphicsGLCoreES
     SCDesc.BufferCount = 0;
 
     auto &DefaultAllocator = DefaultRawMemoryAllocator::GetAllocator();
-    auto pProxySwapChainGL = NEW_RC_OBJ(DefaultAllocator, "ProxySwapChainGL instance", ProxySwapChainGL)(m_pDevice, m_pDeviceCtx, SCDesc);
+    auto pProxySwapChainGL = NEW_RC_OBJ(DefaultAllocator, "ProxySwapChainGL instance", ProxySwapChainGL)(m_UnityGraphicsGL, m_pDevice, m_pDeviceCtx, SCDesc);
     pProxySwapChainGL->QueryInterface(IID_SwapChain, reinterpret_cast<IObject**>(static_cast<ISwapChain**>(&m_pProxySwapChain)));
 
     m_pDeviceCtx->SetSwapChain(m_pProxySwapChain);

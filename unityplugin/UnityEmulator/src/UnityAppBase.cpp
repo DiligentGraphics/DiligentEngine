@@ -243,6 +243,9 @@ void UnityAppBase::WindowResize(int width, int height)
         m_DiligentGraphics->PreSwapChainResize();
         m_GraphicsEmulator->ResizeSwapChain(width, height);
         m_DiligentGraphics->PostSwapChainResize();
-        m_Scene->OnWindowResize(width, height);
+        unsigned int SCWidth = 0;
+        unsigned int SCHeight = 0;
+        m_GraphicsEmulator->GetBackBufferSize(SCWidth, SCHeight);
+        m_Scene->OnWindowResize(SCWidth, SCHeight);
     }
 }
