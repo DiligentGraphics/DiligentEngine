@@ -46,7 +46,7 @@ as a graphics subsystem in a standalone game engine, Unity native plugin or any 
 | Platform                   | Status        |
 | -------------------------- | ------------- |
 | Win32/Universal Windows    | [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
-| Linux/MacOS                | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
+| Linux/MacOS/iOS            | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
 Last Stable Release - [v2.1.b](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.1.b)
