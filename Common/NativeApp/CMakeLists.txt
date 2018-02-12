@@ -224,6 +224,7 @@ elseif(PLATFORM_IOS)
                 MACOSX_BUNDLE_INFO_PLIST "${APPLE_INFO_PLIST}"
                 RESOURCE "${APPLE_RESOURCES}"
                 XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
+                XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "Dev Team"
             )
             source_group("iOS" FILES ${APPLE_SOURCE})
             source_group("iOS" FILES ${APPLE_INCLUDE})
