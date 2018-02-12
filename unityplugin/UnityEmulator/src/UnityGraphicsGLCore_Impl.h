@@ -91,6 +91,7 @@ public:
     GLenum GetBackBufferFormat()const { return GL_RGBA8; }
     GLenum GetDepthBufferFormat()const { return GL_DEPTH_COMPONENT32F; }
     NativeGLContextType GetContext() { return m_Context; }
+    GLuint GetDefaultFBO()const{return 0;}
 
 private:
     int m_BackBufferWidth = 0;

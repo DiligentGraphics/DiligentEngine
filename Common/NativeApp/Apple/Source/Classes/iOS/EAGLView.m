@@ -8,12 +8,12 @@
 
 #import "EAGLView.h"
 
-#include "Renderer.h"
+#include "NativeAppBase.h"
 #include <memory>
 
 @interface EAGLView ()
 {
-    std::unique_ptr<Renderer> _renderer;
+    std::unique_ptr<NativeAppBase> _theApp;
     EAGLContext* _context;
     NSInteger _animationFrameInterval;
     CADisplayLink* _displayLink;
@@ -48,11 +48,11 @@
             return nil;
 		}
 		
-        _renderer.reset(new Renderer());
+        _theApp.reset(CreateApplication());
         // Init our renderer.
-        _renderer->Init((__bridge void*)self.layer);
+        _theApp->OnGLContextCreated((__bridge void*)self.layer);
 
-		if (!_renderer)
+		if (!_theApp)
 		{
             return nil;
 		}
@@ -68,12 +68,14 @@
 - (void) drawView:(id)sender
 {   
 	[EAGLContext setCurrentContext:_context];
-    _renderer->Render();
+    _theApp->Update();
+    _theApp->Render();
+    _theApp->Present();
 }
 
 - (void) layoutSubviews
 {
-	_renderer->WindowResize(0, 0);
+	_theApp->WindowResize(0, 0);
     [self drawView:nil];
 }
 
@@ -131,7 +133,7 @@
 
 - (void) dealloc
 {
-     _renderer.reset();
+     _theApp.reset();
 
 	// tear down context
 	if ([EAGLContext currentContext] == _context)

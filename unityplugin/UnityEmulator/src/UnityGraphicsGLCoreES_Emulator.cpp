@@ -20,8 +20,7 @@ void UnityGraphicsGLCoreES_Emulator::InitGLContext(void *pNativeWndHandle,
                                                    #if PLATFORM_LINUX
                                                        void *pDisplay,
                                                    #endif
-
-int MajorVersion, int MinorVersion)
+                                                   int MajorVersion, int MinorVersion)
 {
     m_GraphicsImpl->InitGLContext(pNativeWndHandle, 
                                   #if PLATFORM_LINUX
@@ -80,8 +79,8 @@ UnityGfxRenderer UnityGraphicsGLCoreES_Emulator::GetUnityGfxRenderer()
 
 void UnityGraphicsGLCoreES_Emulator::BeginFrame()
 {
-    glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
-    glBindFramebuffer( GL_READ_FRAMEBUFFER, 0 );
+    glBindFramebuffer( GL_DRAW_FRAMEBUFFER, m_GraphicsImpl->GetDefaultFBO() );
+    glBindFramebuffer( GL_READ_FRAMEBUFFER, m_GraphicsImpl->GetDefaultFBO() );
     glClearDepthf( UsesReverseZ() ? 0.f : 1.f );
     static const float ClearColor[4] = { 0, 0, 0.5f, 1 };
     glClearColor(ClearColor[0], ClearColor[1], ClearColor[2], ClearColor[3]);

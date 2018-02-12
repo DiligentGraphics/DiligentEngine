@@ -14,91 +14,64 @@ set(SHADERS
 	assets/shaders/Mirror.psh
 	assets/shaders/Mirror.vsh
 )
-set(ASSETS ${SHADERS})
+set(ALL_ASSETS ${SHADERS})
 set_source_files_properties(${SHADERS} PROPERTIES VS_TOOL_OVERRIDE "None")
 
 
 if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
 	list(APPEND SOURCE src/GhostCubeSceneResTrsnHelper.cpp)
 	list(APPEND INCLUDE src/GhostCubeSceneResTrsnHelper.h)
+elseif(PLATFORM_ANDROID OR PLATFORM_LINUX OR PLATFORM_MACOS OR PLATFORM_IOS)
+	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
 endif()
 
-if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
-
-	if(PLATFORM_WIN32)
-		add_win32_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS}")
-
-		set_target_properties(GhostCubeScene PROPERTIES 
-			VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets"
-		)
-	
-		add_custom_command(TARGET GhostCubeScene POST_BUILD
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
-				"\"$<TARGET_FILE_DIR:GhostCubeScene>\"")
-
-	elseif(PLATFORM_UNIVERSAL_WINDOWS)
-		add_uwp_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS}")
-	    append_emulator_uwp_source(GhostCubeScene)
-
-		# We cannot use genreator expression to add a file because the file name
-		# must not depend on the configuration
-		set(PLUGIN_REL_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}r.dll)
-		set(PLUGIN_DBG_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}d.dll)
-
-		set(PLUGIN_DLLS ${PLUGIN_REL_DLL} ${PLUGIN_DBG_DLL})
-		set_source_files_properties(${PLUGIN_DLLS} PROPERTIES GENERATED TRUE)
-		set_source_files_properties(${PLUGIN_DBG_DLL} PROPERTIES 
-			VS_DEPLOYMENT_CONTENT $<CONFIG:Debug>
-			VS_DEPLOYMENT_LOCATION "."
-		)
-		set_source_files_properties(${PLUGIN_REL_DLL} PROPERTIES 
-			VS_DEPLOYMENT_CONTENT $<NOT:$<CONFIG:Debug>>
-			VS_DEPLOYMENT_LOCATION "."
-		)
-
-		add_custom_command(TARGET GhostCubeScene PRE_BUILD
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
-				"${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_FILE_NAME:GhostCubePlugin-shared>"
-		)
-
-		target_sources(GhostCubeScene PRIVATE ${PLUGIN_DLLS})
-		source_group("assets" FILES ${PLUGIN_DLLS})
 		
-		set_source_files_properties(${SHADERS} PROPERTIES 
-			VS_DEPLOYMENT_CONTENT 1
-			VS_DEPLOYMENT_LOCATION "shaders"
-		)
+set_source_files_properties(${SHADERS} PROPERTIES 
+	VS_DEPLOYMENT_CONTENT 1
+	VS_DEPLOYMENT_LOCATION "shaders"
+	MACOSX_PACKAGE_LOCATION "Resources/shaders"
+)
 
-	endif()
+add_target_platform_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ALL_ASSETS}")
 
-elseif(PLATFORM_ANDROID)
+if(PLATFORM_WIN32)
+	set_target_properties(GhostCubeScene PROPERTIES 
+		VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+	)
 	
-	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
-	add_android_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS}")
+	add_custom_command(TARGET GhostCubeScene POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
+			"\"$<TARGET_FILE_DIR:GhostCubeScene>\"")
 
-elseif(PLATFORM_LINUX)
+elseif(PLATFORM_UNIVERSAL_WINDOWS)
+	append_emulator_uwp_source(GhostCubeScene)
 
-	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
-	add_linux_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS}")
-	
-elseif(PLATFORM_MACOS)
-	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
-	set(ASSETS_AND_SHADERS ${ASSETS} ${SHADERS})
-	add_macos_app(GhostCubeScene "${SOURCE}" "${INCLUDE}" "${ASSETS_AND_SHADERS}")
-  
-        set_source_files_properties(${SHADERS} PROPERTIES
-            MACOSX_PACKAGE_LOCATION "Resources/shaders"
-        )
+	# We cannot use genreator expression to add a file because the file name
+	# must not depend on the configuration
+	set(PLUGIN_REL_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}r.dll)
+	set(PLUGIN_DBG_DLL ${CMAKE_CURRENT_BINARY_DIR}/GhostCubePlugin_${ARCH}d.dll)
 
-elseif(PLATFORM_IOS)
-	list(APPEND SOURCE src/LoadPluginFunctions.cpp)
-        #get_emulator_ios_source(IOS_SOURCE IOS_INCLUDE IOS_RESOURCES IOS_INFO_PLIST IOS_INCLUDE_DIRS)
-        add_executable(GhostCubeScene MACOSX_BUNDLE ${SOURCE} ${IOS_SOURCE} ${INCLUDE} ${IOS_INCLUDE} ${ASSETS} ${SHADERS} ${IOS_RESOURCES})
+	set(PLUGIN_DLLS ${PLUGIN_REL_DLL} ${PLUGIN_DBG_DLL})
+	set_source_files_properties(${PLUGIN_DLLS} PROPERTIES GENERATED TRUE)
+	set_source_files_properties(${PLUGIN_DBG_DLL} PROPERTIES 
+		VS_DEPLOYMENT_CONTENT $<CONFIG:Debug>
+		VS_DEPLOYMENT_LOCATION "."
+	)
+	set_source_files_properties(${PLUGIN_REL_DLL} PROPERTIES 
+		VS_DEPLOYMENT_CONTENT $<NOT:$<CONFIG:Debug>>
+		VS_DEPLOYMENT_LOCATION "."
+	)
 
-else()
-	message(FATAL_ERROR "Unknown platform")
+	add_custom_command(TARGET GhostCubeScene PRE_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"\"$<TARGET_FILE:GhostCubePlugin-shared>\""
+			"${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_FILE_NAME:GhostCubePlugin-shared>"
+	)
+
+	target_sources(GhostCubeScene PRIVATE ${PLUGIN_DLLS})
+	source_group("assets" FILES ${PLUGIN_DLLS})
+
 endif()
 
 add_dependencies(GhostCubeScene GhostCubePlugin-shared)
@@ -120,7 +93,7 @@ if(PLATFORM_ANDROID)
 	target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared)
 elseif (PLATFORM_LINUX)
 	target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared GL X11)
-elseif (PLATFORM_MACOS)
+elseif (PLATFORM_MACOS OR PLATFORM_IOS)
     target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared)
 endif()
 

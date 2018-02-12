@@ -213,6 +213,11 @@ void UnityGraphicsGLESAndroid_Impl::ResizeSwapchain(int new_width, int new_heigh
 
 void UnityGraphicsGLESAndroid_Impl::SwapBuffers()
 {
+    if(surface_ == EGL_NO_SURFACE)
+    {
+        return;
+    }
+
     bool b = eglSwapBuffers( display_, surface_ );
     if( !b )
     {
@@ -220,7 +225,14 @@ void UnityGraphicsGLESAndroid_Impl::SwapBuffers()
         if( err == EGL_BAD_SURFACE )
         {
             //Recreate surface
-            InitEGLSurface();
+            try
+            {
+                InitEGLSurface();
+            }
+            catch (std::runtime_error &)
+            {
+            }
+
             //return EGL_SUCCESS; //Still consider UnityGraphicsGLESAndroid_Impl is valid
         }
         else if( err == EGL_CONTEXT_LOST || err == EGL_BAD_CONTEXT )

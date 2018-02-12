@@ -20,42 +20,15 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
-#pragma once 
 
-#if PLATFORM_WIN32
+#include "IOSAppBase.h"
 
-    #include "Win32AppBase.h"
-    using NativeAppBase = Win32AppBase;
+void IOSAppBase::Update()
+{
+    // Render the scene
+    auto CurrTime = timer.GetElapsedTime();
+    auto ElapsedTime = CurrTime - PrevTime;
+    PrevTime = CurrTime;
+    Update(CurrTime, ElapsedTime);
+}
 
-#elif PLATFORM_UNIVERSAL_WINDOWS
-
-    #include "UWPAppBase.h"
-    using NativeAppBase = UWPAppBase;
-
-#elif PLATFORM_LINUX
-
-    #include "LinuxAppBase.h"
-    using NativeAppBase = LinuxAppBase;
-
-#elif PLATFORM_ANDROID
-
-    #include "AndroidAppBase.h"
-    using NativeAppBase = AndroidAppBase;
-
-#elif PLATFORM_MACOS
-
-    #include "MacOSAppBase.h"
-    using NativeAppBase = MacOSAppBase;
-
-#elif PLATFORM_IOS
-
-    #include "IOSAppBase.h"
-    using NativeAppBase = IOSAppBase;
-
-#else
-
-#   error Usnupported paltform
-
-#endif
-
-extern NativeAppBase* CreateApplication();

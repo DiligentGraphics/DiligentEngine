@@ -44,8 +44,15 @@ if(GL_SUPPORTED)
 endif()
 
 if(GLES_SUPPORTED)
-	list(APPEND SOURCE src/Android/UnityGraphicsGLESAndroid_Impl.cpp)
-	list(APPEND INCLUDE src/Android/UnityGraphicsGLESAndroid_Impl.h)
+	if(PLATFORM_ANDROID)
+	    list(APPEND SOURCE src/Android/UnityGraphicsGLESAndroid_Impl.cpp)
+	    list(APPEND INCLUDE src/Android/UnityGraphicsGLESAndroid_Impl.h)
+	elseif(PLATFORM_IOS)
+	    list(APPEND SOURCE src/IOS/UnityGraphicsGLES_IOS_Impl.mm)
+	    list(APPEND INCLUDE src/IOS/UnityGraphicsGLES_IOS_Impl.h)
+	else()
+	    message(FATAL_ERROR Unknown platform)
+	endif()
 endif()
 
 if(PLATFORM_WIN32)
@@ -98,7 +105,13 @@ elseif(PLATFORM_MACOS)
     )
 
 elseif(PLATFORM_IOS)
-	
+    list(APPEND SOURCE
+        src/IOS/UnityAppIOS.cpp
+        src/UnityAppBase.cpp
+    )
+    list(APPEND INCLUDE
+         include/UnityAppBase.h
+    )
 else()
 	message(FATAL_ERROR "Unknown platform")
 endif()

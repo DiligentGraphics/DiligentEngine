@@ -20,42 +20,20 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
+
 #pragma once 
 
-#if PLATFORM_WIN32
+#include "AppBase.h"
+#include "Timer.h"
 
-    #include "Win32AppBase.h"
-    using NativeAppBase = Win32AppBase;
+class IOSAppBase : public AppBase
+{
+public:
+    using AppBase::Update;
+    void Update();
+    virtual void OnGLContextCreated(void *eaglLayer) = 0;
 
-#elif PLATFORM_UNIVERSAL_WINDOWS
-
-    #include "UWPAppBase.h"
-    using NativeAppBase = UWPAppBase;
-
-#elif PLATFORM_LINUX
-
-    #include "LinuxAppBase.h"
-    using NativeAppBase = LinuxAppBase;
-
-#elif PLATFORM_ANDROID
-
-    #include "AndroidAppBase.h"
-    using NativeAppBase = AndroidAppBase;
-
-#elif PLATFORM_MACOS
-
-    #include "MacOSAppBase.h"
-    using NativeAppBase = MacOSAppBase;
-
-#elif PLATFORM_IOS
-
-    #include "IOSAppBase.h"
-    using NativeAppBase = IOSAppBase;
-
-#else
-
-#   error Usnupported paltform
-
-#endif
-
-extern NativeAppBase* CreateApplication();
+protected:
+    Diligent::Timer timer;
+    double PrevTime = 0.0;
+};

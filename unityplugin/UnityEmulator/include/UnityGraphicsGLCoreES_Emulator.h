@@ -13,6 +13,9 @@
 #elif PLATFORM_WIN32 || PLATFORM_UNIVERSAL_WINDOWS || PLATFORM_LINUX || PLATFORM_MACOS
     class UnityGraphicsGLCore_Impl;
     using UnityGraphicsGL_Impl = UnityGraphicsGLCore_Impl;
+#elif PLATFORM_IOS
+    class UnityGraphicsGLES_IOS_Impl;
+    using UnityGraphicsGL_Impl = UnityGraphicsGLES_IOS_Impl;
 #else
 #   error Unknown Platform
 #endif
