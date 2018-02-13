@@ -7,6 +7,7 @@
  */
 
 #include <memory>
+#include <string>
 
 #import "GLView.h"
 #include "NativeAppBase.h"
@@ -17,6 +18,7 @@
 {
     std::unique_ptr<NativeAppBase> _theApp;
     NSRect _viewRectPixels;
+    std::string _error;
 }
 @end
 
@@ -148,7 +150,15 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 	[[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
 	// Init the application.
-    _theApp->OnGLContextCreated();
+    try
+    {
+        _theApp->OnGLContextCreated();
+    }
+    catch(std::runtime_error &err)
+    {
+        _error = err.what();
+        _theApp.reset();
+    }
 }
 
 - (void)reshape
@@ -192,7 +202,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 #endif // !SUPPORT_RETINA_RESOLUTION
     
 	// Set the new dimensions in our renderer
-    _theApp->WindowResize(_viewRectPixels.size.width, _viewRectPixels.size.height);
+    if(_theApp)
+        _theApp->WindowResize(_viewRectPixels.size.width, _viewRectPixels.size.height);
 
 	CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
@@ -230,8 +241,11 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 	// simultaneously when resizing
 	CGLLockContext([[self openGLContext] CGLContextObj]);
 
-    _theApp->Update();
-	_theApp->Render();
+    if(_theApp)
+    {
+        _theApp->Update();
+        _theApp->Render();
+    }
 
 	CGLFlushDrawable([[self openGLContext] CGLContextObj]);
 	CGLUnlockContext([[self openGLContext] CGLContextObj]);
@@ -256,27 +270,32 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 #if SUPPORT_RETINA_RESOLUTION
     curPoint = [self convertPointToBacking:curPoint];
 #endif
-    _theApp->OnMouseMove(curPoint.x, _viewRectPixels.size.height-1 - curPoint.y);
+    if(_theApp)
+        _theApp->OnMouseMove(curPoint.x, _viewRectPixels.size.height-1 - curPoint.y);
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
     [self mouseMove: theEvent];
-    _theApp->OnMouseDown(1);
+    if(_theApp)
+        _theApp->OnMouseDown(1);
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
     [self mouseMove: theEvent];
-    _theApp->OnMouseUp(1);
+    if(_theApp)
+        _theApp->OnMouseUp(1);
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent {
     [self mouseMove: theEvent];
-    _theApp->OnMouseDown(3);
+    if(_theApp)
+        _theApp->OnMouseDown(3);
 }
 
 - (void)rightMouseUp:(NSEvent *)theEvent {
     [self mouseMove: theEvent];
-    _theApp->OnMouseUp(3);
+    if(_theApp)
+        _theApp->OnMouseUp(3);
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
@@ -296,7 +315,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
         case 0x7F: key = '\b'; break;
         default: key = c;
     }
-    _theApp->OnKeyPressed(key);
+    if(_theApp)
+        _theApp->OnKeyPressed(key);
 
     [super keyDown:theEvent];
 }
@@ -317,7 +337,12 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 
 - (NSString*)getAppName
 {
-    return [NSString stringWithFormat:@"%s", _theApp->GetAppTitle()];
+    return [NSString stringWithFormat:@"%s", _theApp ? _theApp->GetAppTitle() : ""];
+}
+
+- (NSString*)getError
+{
+    return _error.empty() ? nil : [NSString stringWithFormat:@"%s", _error.c_str()];
 }
 
 @end

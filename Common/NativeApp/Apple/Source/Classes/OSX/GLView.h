@@ -17,5 +17,6 @@
 -(void)stopDisplayLink;
 -(void)startDisplayLink;
 -(NSString*)getAppName;
+- (NSString*)getError;
 
 @end
