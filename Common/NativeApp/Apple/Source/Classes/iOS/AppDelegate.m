@@ -73,6 +73,7 @@
      */
 	
 	[(EAGLView*)self.window.rootViewController.view stopAnimation];
+    [(EAGLView*)self.window.rootViewController.view terminate];
 }
 
 

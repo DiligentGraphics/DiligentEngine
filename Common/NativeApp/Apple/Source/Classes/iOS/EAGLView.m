@@ -131,9 +131,14 @@
 	}
 }
 
+- (void)terminate
+{
+    _theApp.reset();
+}
+
 - (void) dealloc
 {
-     _theApp.reset();
+    [self terminate];
 
 	// tear down context
 	if ([EAGLContext currentContext] == _context)

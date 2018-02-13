@@ -160,12 +160,22 @@ the engine samples and Unity emulator on Android.
 
 ## MacOS
 
-After you clone the repo, run the following command from the engine's root folder to generate XCode project 
+After you clone the repo, run the following command from the engine's root folder to generate Xcode project
 (you need to have [CMake](https://cmake.org/) installed on the system):
 
 *cmake -H. -B./cmk_build/MacOS -G "Xcode"*
 
 Open Xcode project file in cmk_build/MacOS folder and build the engine.
+
+## iOS
+
+Run the command below from the engine's root folder to generate Xcode project configured for iOS build:
+(you need to have [CMake](https://cmake.org/) installed on your Mac):
+
+*cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -H. -Bcmk_build/IOS -GXcode*
+
+Open Xcode project file in cmk_build/IOS folder and build the engine. To run the applications on an iOS device,
+you will need to set the appropriate development team in the project settings.
 
 # Tutorials
 
