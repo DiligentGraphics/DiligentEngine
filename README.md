@@ -1,4 +1,4 @@
-# DiligentEngine
+# Diligent Engine - A Modern Cross-Platform 3D Graphics Library
 
 Diligent Engine is a light-weight cross-platform abstraction layer between the application and the platform-specific graphics API. 
 Its main goal is to take advantages of the next-generation APIs such as Direct3D12 and Vulkan, but at the same time provide support 
