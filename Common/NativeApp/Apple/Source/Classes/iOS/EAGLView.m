@@ -10,6 +10,7 @@
 
 #include "NativeAppBase.h"
 #include <memory>
+#include <string>
 
 @interface EAGLView ()
 {
@@ -17,6 +18,7 @@
     EAGLContext* _context;
     NSInteger _animationFrameInterval;
     CADisplayLink* _displayLink;
+    std::string _error;
 }
 @end
 
@@ -48,14 +50,17 @@
             return nil;
 		}
 		
-        _theApp.reset(CreateApplication());
-        // Init our renderer.
-        _theApp->OnGLContextCreated((__bridge void*)self.layer);
-
-		if (!_theApp)
-		{
-            return nil;
-		}
+        try
+        {
+            _theApp.reset(CreateApplication());
+            // Init our renderer.
+            _theApp->OnGLContextCreated((__bridge void*)self.layer);
+        }
+        catch(std::runtime_error &err)
+        {
+            _error = err.what();
+            _theApp.reset();
+        }
         
 		_animating = FALSE;
 		_animationFrameInterval = 1;
@@ -68,14 +73,18 @@
 - (void) drawView:(id)sender
 {   
 	[EAGLContext setCurrentContext:_context];
-    _theApp->Update();
-    _theApp->Render();
-    _theApp->Present();
+    if(_theApp)
+    {
+        _theApp->Update();
+        _theApp->Render();
+        _theApp->Present();
+    }
 }
 
 - (void) layoutSubviews
 {
-	_theApp->WindowResize(0, 0);
+    if(_theApp)
+        _theApp->WindowResize(0, 0);
     [self drawView:nil];
 }
 
@@ -143,6 +152,46 @@
 	// tear down context
 	if ([EAGLContext currentContext] == _context)
         [EAGLContext setCurrentContext:nil];
+}
+
+- (NSString*)getError
+{
+    return _error.empty() ? nil : [NSString stringWithFormat:@"%s", _error.c_str()];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches
+           withEvent:(UIEvent *)event;
+{
+    UITouch *firstTouch = touches.allObjects[0];
+    CGPoint location = [firstTouch locationInView:self];
+    if(_theApp)
+        _theApp->OnTouchBegan(location.x, location.y);
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches
+           withEvent:(UIEvent *)event;
+{
+    UITouch *firstTouch = touches.allObjects[0];
+    CGPoint location = [firstTouch locationInView:self];
+    if(_theApp)
+        _theApp->OnTouchMoved(location.x, location.y);
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches
+           withEvent:(UIEvent *)event;
+{
+    UITouch *firstTouch = touches.allObjects[0];
+    CGPoint location = [firstTouch locationInView:self];
+    if(_theApp)
+        _theApp->OnTouchEnded(location.x, location.y);}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches
+               withEvent:(UIEvent *)event;
+{
+    UITouch *firstTouch = touches.allObjects[0];
+    CGPoint location = [firstTouch locationInView:self];
+    if(_theApp)
+        _theApp->OnTouchEnded(location.x, location.y);
 }
 
 @end
