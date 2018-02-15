@@ -40,7 +40,7 @@
 #endif
 
 #ifdef __cplusplus
-#   define CHECK_STRUCT_ALIGNMENT(s) static_assert( sizeof(s) % 16 == 0, "sizeof("#s") is not multiple of 16" );
+#   define CHECK_STRUCT_ALIGNMENT(s) static_assert( sizeof(s) % 16 == 0, "structure size is not multiple of 16" );
 #else
 #   define CHECK_STRUCT_ALIGNMENT(s)
 #endif
@@ -99,7 +99,7 @@ struct LightAttribs
 
     ShadowMapAttribs ShadowAttribs;
 };
-CHECK_STRUCT_ALIGNMENT(LightAttribs);
+CHECK_STRUCT_ALIGNMENT(LightAttribs)
 
 struct CameraAttribs
 {
@@ -120,7 +120,7 @@ struct CameraAttribs
     matrix mViewProjInv;
 #endif
 };
-CHECK_STRUCT_ALIGNMENT(CameraAttribs);
+CHECK_STRUCT_ALIGNMENT(CameraAttribs)
 
 #define LIGHT_SCTR_TECHNIQUE_EPIPOLAR_SAMPLING 0
 #define LIGHT_SCTR_TECHNIQUE_BRUTE_FORCE 1
@@ -256,7 +256,7 @@ struct PostProcessingAttribs
         {}
 #endif
 };
-CHECK_STRUCT_ALIGNMENT(PostProcessingAttribs);
+CHECK_STRUCT_ALIGNMENT(PostProcessingAttribs)
 
 struct AirScatteringAttribs
 {
@@ -307,7 +307,7 @@ struct AirScatteringAttribs
 #endif
 };
 
-CHECK_STRUCT_ALIGNMENT(AirScatteringAttribs);
+CHECK_STRUCT_ALIGNMENT(AirScatteringAttribs)
 
 struct MiscDynamicParams
 {
@@ -328,6 +328,6 @@ struct MiscDynamicParams
     uint4 ui4SrcDstMinMaxLevelOffset;
 #endif
 };
-CHECK_STRUCT_ALIGNMENT(MiscDynamicParams);
+CHECK_STRUCT_ALIGNMENT(MiscDynamicParams)
 
 #endif //_STRCUTURES_FXH_

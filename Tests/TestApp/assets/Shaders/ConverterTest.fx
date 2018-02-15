@@ -450,7 +450,7 @@ void TestSample()
 {
     float2 f2UV = float2(0.2, 0.3);
     float3 f3UVW = float3(0.2, 0.3, 0.5);
-    int3 Offset = int3(3, 6, 2);
+    const int3 Offset = int3(3, 6, 2);
     float4 f4UVWQ = float4(0.2, 0.3, 0.5, 10.0);
 
 #ifndef GL_ES
@@ -495,7 +495,7 @@ void TestSampleBias()
 {
     float2 f2UV = float2(0.2, 0.3);
     float3 f3UVW = float3(0.2, 0.3, 0.5);
-    int3 Offset = int3(3, 6, 2);
+    const int3 Offset = int3(3, 6, 2);
     float4 f4UVWQ = float4(0.2, 0.3, 0.5, 10.0);
 
 #ifndef GL_ES
@@ -539,7 +539,7 @@ void TestSampleLevel()
     float2 f2UV = float2(0.2, 0.3);
     float3 f3UVW = float3(0.2, 0.3, 0.5);
     float Level = 1.8;
-    int3 Offset = int3(3, 6, 2);
+    const int3 Offset = int3(3, 6, 2);
     float4 f4UVWQ = float4(0.2, 0.3, 0.5, 10.0);
 
 #ifndef GL_ES
@@ -588,7 +588,7 @@ void TestSampleGrad()
     float3 f3UVW = float3(0.2, 0.3, 0.5);
     float3 f3ddxUVW = float3(-0.02, 0.03, 0.05);
     float3 f3ddyUVW = float3( 0.01, -0.02, 0.02);
-    int3 Offset = int3(3, 6, 2);
+    const int3 Offset = int3(3, 6, 2);
     float4 f4UVWQ = float4(0.2, 0.3, 0.5, 10.0);
 
 #ifndef GL_ES
@@ -632,7 +632,7 @@ void TestSampleGrad()
 void TestSampleCmp()
 {
     float3 f3UVW = float3(0.2, 0.3, 0.5);
-    int3 Offset = int3(3, 6, 2);
+    const int3 Offset = int3(3, 6, 2);
     float4 f4UVWQ = float4(0.2, 0.3, 0.5, 10.0);
     float CompareVal = 0.7;
 
@@ -675,7 +675,7 @@ void TestSampleCmp()
 void TestSampleCmpLevelZero()
 {
     float3 f3UVW = float3(0.2, 0.3, 0.5);
-    int3 Offset = int3(3, 6, 2);
+    const int3 Offset = int3(3, 6, 2);
     float4 f4UVWQ = float4(0.2, 0.3, 0.5, 10.0);
     float CompareVal = 0.7;
 
@@ -717,7 +717,7 @@ void TestSampleCmpLevelZero()
 void TestLoad()
 {
     int4 Location = int4(2, 5, 1, 10);
-    int3 Offset = int3(5, 10, 20);
+    const int3 Offset = int3(5, 10, 20);
 
 #ifndef GL_ES
     // Texture1D 
@@ -803,7 +803,7 @@ void TestLoad()
 void TestGather()
 {
     float4 Location = float4(0.2, 0.5, 0.1, 0.7);
-    int3 Offset = int3(5, 10, 20);
+    const int3 Offset = int3(5, 10, 20);
     
     //Texture2D
     {
@@ -846,7 +846,7 @@ void TestGather()
 void TestGatherCmp()
 {
     float4 Location = float4(0.2, 0.5, 0.1, 0.7);
-    int3 Offset = int3(5, 10, 20);
+    const int3 Offset = int3(5, 10, 20);
     float CompareVal = 0.01;
 
     //Texture2D

@@ -22,6 +22,7 @@
 */
 
 #include <sstream>
+#include <math.h>
 
 #include "PlatformDefinitions.h"
 #include "TestApp.h"

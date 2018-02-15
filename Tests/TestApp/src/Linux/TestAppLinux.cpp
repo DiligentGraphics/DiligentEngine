@@ -21,13 +21,13 @@
 *  of the possibility of such damages.
 */
 
-#include "SampleApp.h"
+#include "TestApp.h"
 using namespace Diligent;
 
 class TestAppLinux final : public TestApp
 {
 public:
-    SampleAppLinux()
+    TestAppLinux()
     {
         m_DeviceType = DeviceType::OpenGL;
     }
