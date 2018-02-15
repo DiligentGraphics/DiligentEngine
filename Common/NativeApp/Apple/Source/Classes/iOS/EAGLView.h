@@ -18,6 +18,8 @@
 
 - (void) startAnimation;
 - (void) stopAnimation;
+- (void) terminate;
 - (void) drawView:(id)sender;
+- (NSString*)getError;
 
 @end

@@ -43,7 +43,7 @@ public:
 
     virtual int Resume(ANativeWindow* window)override final
     {
-        ((UnityGraphicsGLCoreES_Emulator*)m_GraphicsEmulator)->GetGraphicsImpl()->Resume( window );
+        return ((UnityGraphicsGLCoreES_Emulator*)m_GraphicsEmulator)->GetGraphicsImpl()->Resume( window );
     }
     
     virtual void TermDisplay()override final

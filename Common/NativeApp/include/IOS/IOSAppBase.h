@@ -32,6 +32,9 @@ public:
     using AppBase::Update;
     void Update();
     virtual void OnGLContextCreated(void *eaglLayer) = 0;
+    virtual void OnTouchBegan(float x, float y){}
+    virtual void OnTouchMoved(float x, float y){}
+    virtual void OnTouchEnded(float x, float y){}
 
 protected:
     Diligent::Timer timer;

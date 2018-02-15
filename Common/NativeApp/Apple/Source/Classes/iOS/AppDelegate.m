@@ -20,6 +20,13 @@
     
     [self.window makeKeyAndVisible];
     
+    NSString *error = [(EAGLView*)self.window.rootViewController.view getError];
+    if(error != nil)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed to start the application" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Whatever", nil];
+        [alert show];
+    }
+
 	[(EAGLView*)self.window.rootViewController.view startAnimation];
 
     return YES;
@@ -73,6 +80,7 @@
      */
 	
 	[(EAGLView*)self.window.rootViewController.view stopAnimation];
+    [(EAGLView*)self.window.rootViewController.view terminate];
 }
 
 
