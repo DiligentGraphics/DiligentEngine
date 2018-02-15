@@ -1,0 +1,11 @@
+// Fragment Shader – file "minimal.frag"
+ 
+layout(location = 1)in vec2 in_UV;
+uniform sampler2D g_tex2DTest;
+
+out vec4 out_Color;
+ 
+void main(void)
+{
+	out_Color = textureLod(g_tex2DTest, in_UV, 0.0);
+}

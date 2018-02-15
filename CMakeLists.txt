@@ -11,6 +11,10 @@ add_subdirectory(DiligentSamples)
 add_subdirectory(Projects)
 add_subdirectory(unityplugin)
 
+if(ENABLE_TESTS)
+    add_subdirectory(Tests)
+endif()
+
 if(PLATFORM_WIN32)
     set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT Asteroids)
 elseif(PLATFORM_UNIVERSAL_WINDOWS)

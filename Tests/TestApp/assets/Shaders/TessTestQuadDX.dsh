@@ -1,0 +1,32 @@
+
+struct DSOutput
+{
+	float4 f4Position : SV_Position;
+	float3 f3Color	: COLOR;
+};
+
+
+struct HS_CONSTANT_DATA_OUTPUT
+{
+    float Edges[4]  : SV_TessFactor;
+    float Inside[2] : SV_InsideTessFactor;
+};
+
+struct HSOutput
+{
+    float4 Position : POS;
+    float3 Color : COL;
+};
+
+[domain("quad")]
+/* partitioning = fractional_even  , 
+   outputtopology = triangle_cw */
+void main( HS_CONSTANT_DATA_OUTPUT Input, 
+           float2 QuadUV : SV_DomainLocation, 
+           OutputPatch<HSOutput, 1> QuadPatch,
+           out DSOutput Out)
+{
+    Out.f4Position.xy = QuadPatch[0].Position.xy + QuadUV.xy * 0.2;
+    Out.f4Position.zw = QuadPatch[0].Position.zw;
+    Out.f3Color = frac( (QuadPatch[0].Color + float3(QuadUV.xy, 1.0)) * float3(4121.35f, 8232.25f, 9124.42f) );
+}

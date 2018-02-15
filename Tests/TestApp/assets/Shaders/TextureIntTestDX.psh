@@ -1,0 +1,28 @@
+
+Texture2D<uint4> g_tex2DTest : register(t4);
+
+struct VSOut
+{
+	float4 f4Position : SV_Position;
+	float2 f2UV	: UV;
+};
+
+ 
+float4 main(VSOut In) : SV_Target
+{
+	float Width, Height;
+	g_tex2DTest.GetDimensions(Width, Height);
+    float2 IJ = In.f2UV * float2(Width, Height);
+	float4 Color0 = g_tex2DTest.Load( int3(IJ,    0) ) / 127.f;
+	float4 Color1 = g_tex2DTest.Load( int3(IJ/4,  2) ) / 127.f;
+	float4 Color2 = g_tex2DTest.Load( int3(IJ/16, 4) ) / 127.f;
+	float4 Color3 = g_tex2DTest.Load( int3(IJ/32, 5) ) / 127.f;
+	if( In.f2UV.x < 0.5 && In.f2UV.y < 0.5 )
+		return Color0;
+	else if( In.f2UV.x > 0.5 && In.f2UV.y < 0.5 )
+		return Color1;
+	else if( In.f2UV.x < 0.5 && In.f2UV.y > 0.5 )
+		return Color2;
+	else
+		return Color3;
+}

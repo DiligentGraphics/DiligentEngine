@@ -1,0 +1,26 @@
+
+Texture2D<float4> g_tex2DTest : register(t2);
+SamplerState g_tex2DTest_sampler : register(s3);
+
+struct VSOut
+{
+	float4 f4Position : SV_Position;
+	float2 f2UV	: UV;
+};
+
+ 
+float4 main(VSOut In) : SV_Target
+{
+	float4 Color0 = g_tex2DTest.SampleLevel(g_tex2DTest_sampler, In.f2UV, 0);
+	float4 Color1 = g_tex2DTest.SampleLevel(g_tex2DTest_sampler, In.f2UV, 2);
+	float4 Color2 = g_tex2DTest.SampleLevel(g_tex2DTest_sampler, In.f2UV, 4);
+	float4 Color3 = g_tex2DTest.SampleLevel(g_tex2DTest_sampler, In.f2UV, 5);
+	if( In.f2UV.x < 0.5 && In.f2UV.y < 0.5 )
+		return Color0;
+	else if( In.f2UV.x > 0.5 && In.f2UV.y < 0.5 )
+		return Color1;
+	else if( In.f2UV.x < 0.5 && In.f2UV.y > 0.5 )
+		return Color2;
+	else
+		return Color3;
+}

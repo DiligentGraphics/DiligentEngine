@@ -1,0 +1,26 @@
+// Fragment Shader – file "minimal.frag"
+ 
+layout(location = 1)in  vec3 ex_Color;
+
+uniform cbTestBlock2
+{
+	vec4 Color;
+}g_TestBlock2;
+
+uniform cbTestBlock
+{
+	vec4 Color;
+}g_TestBlock;
+
+out vec4 out_Color;
+ 
+void main(void)
+{
+	out_Color = g_TestBlock.Color * vec4(ex_Color,1.0) + g_TestBlock2.Color;
+	
+	// Try replacing the above with the following:
+	//vec3 tmp_Color;
+	//tmp_Color = ex_Color.rrr;	
+	//out_Color = vec4(tmp_Color,1.0);
+}
+

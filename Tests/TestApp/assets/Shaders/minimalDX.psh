@@ -1,0 +1,11 @@
+struct VSOut
+{
+	float4 f4Position : SV_Position;
+	float3 f3Color	: COLOR;
+};
+
+ 
+float4 main(VSOut In) : SV_Target
+{
+	return float4(In.f3Color,1);
+}

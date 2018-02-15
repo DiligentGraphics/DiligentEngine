@@ -1,0 +1,46 @@
+
+struct VSOutput
+{
+	float4 f4Position : SV_Position;
+	float3 f3Color	: COLOR;
+};
+
+// Output patch constant data.
+struct HS_CONSTANT_DATA_OUTPUT
+{
+    float Edges[4]  : SV_TessFactor;
+};
+
+HS_CONSTANT_DATA_OUTPUT ConstantHS( InputPatch<VSOutput, 1> p, 
+                                    uint BlockID : SV_PrimitiveID,
+                                    out float Inside[2] : SV_InsideTessFactor)
+{
+    HS_CONSTANT_DATA_OUTPUT Factors;
+    Factors.Edges[0] = 2.5 + float(BlockID);
+    Factors.Edges[1] = 4.8 + frac(p[0].f4Position.x*223.145);
+    Factors.Edges[2] = 5.9 + frac(p[0].f4Position.y*142.512);
+    Factors.Edges[3] = 7.5 - float(BlockID);
+    Inside[0] = 6.2 + p[0].f4Position.x*3.4;
+    Inside[1] = 7.3 + p[0].f4Position.y*1.4;
+    return Factors;
+}
+
+struct HSOutput
+{
+    float4 Position : POS;
+    float3 Color : COL;
+};
+
+[domain("quad")]
+[partitioning("fractional_even")]
+[outputtopology("triangle_cw")]
+[outputcontrolpoints(1)]
+[patchconstantfunc("ConstantHS")]
+[maxtessfactor( (float)(32.f+2.f) )]
+HSOutput main(InputPatch<VSOutput, 1> inputPatch, uint uCPID : SV_OutputControlPointID)
+{
+    HSOutput Out;
+    Out.Position = inputPatch[uCPID].f4Position;
+    Out.Color = inputPatch[uCPID].f3Color;
+    return Out;
+}

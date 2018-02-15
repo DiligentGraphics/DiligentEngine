@@ -1,0 +1,33 @@
+// Fragment Shader – file "minimal.frag"
+ 
+layout(location = 1)in vec2 in_UV;
+uniform isampler2D g_tex2DTest;
+
+out vec4 out_Color;
+ 
+void main(void)
+{
+    vec2 TexSize;
+
+	TexSize = vec2( textureSize(g_tex2DTest, 0) );
+	ivec4 texel0 = texelFetch(g_tex2DTest, ivec2(in_UV*TexSize), 0);
+
+	TexSize = vec2( textureSize(g_tex2DTest, 2) );
+	ivec4 texel1 = texelFetch(g_tex2DTest, ivec2(in_UV*TexSize), 2);
+
+	TexSize = vec2( textureSize(g_tex2DTest, 4) );
+	ivec4 texel2 = texelFetch(g_tex2DTest, ivec2(in_UV*TexSize), 4);
+
+	TexSize = vec2( textureSize(g_tex2DTest, 5) );
+	ivec4 texel3 = texelFetch(g_tex2DTest, ivec2(in_UV*TexSize), 5);
+
+	if( in_UV.x < 0.5 && in_UV.y < 0.5 )
+		out_Color = vec4(texel0) / 127.f;
+	else if( in_UV.x > 0.5 && in_UV.y < 0.5 )
+		out_Color = vec4(texel1) / 127.f;
+	else if( in_UV.x < 0.5 && in_UV.y > 0.5 )
+		out_Color = vec4(texel2) / 127.f;
+	else
+		out_Color = vec4(texel3) / 127.f;
+}
+

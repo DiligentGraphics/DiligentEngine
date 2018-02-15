@@ -1,0 +1,14 @@
+
+Texture2D<float4> g_tex2DTest : register(t2);
+SamplerState g_tex2DTest_sampler : register(s3);
+
+struct VSOut
+{
+	float4 f4Position : SV_Position;
+	float2 f2UV	: UV;
+};
+
+float4 main(VSOut In) : SV_Target
+{
+	return g_tex2DTest.SampleLevel(g_tex2DTest_sampler, In.f2UV, 0);
+}

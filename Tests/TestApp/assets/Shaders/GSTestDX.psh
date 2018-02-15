@@ -1,0 +1,18 @@
+struct VSOutput
+{
+	float4 f4Position : SV_Position;
+	float3 f3Color	: COLOR;
+};
+
+struct GSOut
+{
+    VSOutput VSOut;
+};
+
+
+ 
+void main(GSOut In,
+          out float4 Color : SV_Target)
+{
+	Color = float4(In.VSOut.f3Color,1.0);
+}
