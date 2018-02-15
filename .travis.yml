@@ -76,7 +76,7 @@ script:
   - cd cmk_build
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then 
-      cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=${CONFIG}
+      cmake .. -G "Unix Makefiles" -DENABLE_TESTS=TRUE -DCMAKE_BUILD_TYPE=${CONFIG}
       cmake --build .
     fi
   - |
