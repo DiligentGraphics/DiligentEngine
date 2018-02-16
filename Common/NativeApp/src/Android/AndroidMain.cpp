@@ -29,7 +29,7 @@
 #include "NativeAppBase.h"
 
 
-#define HELPER_CLASS_NAME "com/sample/helper/NDKHelper" //Class name of helper function
+#define HELPER_CLASS_NAME "com/android/helper/NDKHelper" //Class name of helper function
 
 
 // This is the main entry point of a native application that is using

@@ -39,15 +39,21 @@ add_library(GhostCubePlugin-shared SHARED
     ${SOURCE} ${INCLUDE} ${UNITY_INTERFACES} 
 )
 
-set(DLL_REL_SUFFIX _${ARCH}r)
-set(DLL_DBG_SUFFIX _${ARCH}d)
+if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
+    set(DLL_REL_SUFFIX _${ARCH}r)
+    set(DLL_DBG_SUFFIX _${ARCH}d)
 
-set_target_properties(GhostCubePlugin-shared PROPERTIES
-    OUTPUT_NAME_DEBUG GhostCubePlugin${DLL_DBG_SUFFIX}
-    OUTPUT_NAME_RELEASE GhostCubePlugin${DLL_REL_SUFFIX}
-    OUTPUT_NAME_RELWITHDEBINFO GhostCubePlugin${DLL_REL_SUFFIX}
-    OUTPUT_NAME_MINSIZEREL GhostCubePlugin${DLL_REL_SUFFIX}
-)
+    set_target_properties(GhostCubePlugin-shared PROPERTIES
+        OUTPUT_NAME_DEBUG GhostCubePlugin${DLL_DBG_SUFFIX}
+        OUTPUT_NAME_RELEASE GhostCubePlugin${DLL_REL_SUFFIX}
+        OUTPUT_NAME_RELWITHDEBINFO GhostCubePlugin${DLL_REL_SUFFIX}
+        OUTPUT_NAME_MINSIZEREL GhostCubePlugin${DLL_REL_SUFFIX}
+    )
+else()
+    set_target_properties(GhostCubePlugin-shared PROPERTIES
+        OUTPUT_NAME GhostCubePlugin
+    )
+endif()
 
 if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
     target_sources(GhostCubePlugin-shared 
