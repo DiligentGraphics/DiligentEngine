@@ -1,0 +1,2 @@
+include 'Common', ':TestApp'
+project(':Common').projectDir = new File(settingsDir, '../../Common/NativeApp/Android')

@@ -1,0 +1,32 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion=27
+
+    defaultConfig {
+        applicationId = 'com.diligentengine.testapp'
+        minSdkVersion 21
+        targetSdkVersion 25
+    }
+    buildTypes {
+            release {
+                minifyEnabled = false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                              'proguard-rules.pro'
+            }
+    }
+    sourceSets {
+        main {
+            assets.srcDirs = ['../../TestApp/assets']
+        }
+    }
+}
+
+buildDir '../build/TestApp'
+
+dependencies {
+    implementation project(":Common")
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.1'
+}

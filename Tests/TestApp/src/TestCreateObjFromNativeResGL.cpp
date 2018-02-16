@@ -72,8 +72,6 @@
 
 #   include <GLES3/gl3.h>
 #   include <GLES3/gl3ext.h>
- // GLStubs must be included after GLFeatures!
-#   include "GLStubsAndroid.h"
 
 #elif PLATFORM_IOS
 
