@@ -65,7 +65,7 @@ public:
 
     std::vector<std::thread> m_Threads;
     static void WorkerThreadFunc(SmartPointerTest *This, size_t ThreadNum);
-    Object *m_pSharedObject;
+    Object *m_pSharedObject = nullptr;
     void StartConcurrencyTest();
     void RunConcurrencyTest();
     void WaitForThreadStart(int VarId);
@@ -80,5 +80,5 @@ public:
 #endif
     std::mutex m_Mtx;
     std::condition_variable m_CondVar;
-    bool m_bThreadStart[2];
+    bool m_bThreadStart[2] = {false, false};
 };

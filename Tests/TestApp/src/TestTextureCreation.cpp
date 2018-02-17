@@ -48,8 +48,8 @@ public:
     TextureCreationVerifier( IRenderDevice *pDevice, IDeviceContext *pContext ) :
         m_pDevice(pDevice),
         m_pDeviceContext(pContext),
-        m_TextureFormat(TEX_FORMAT_UNKNOWN),
         m_BindFlags(0),
+        m_TextureFormat(TEX_FORMAT_UNKNOWN),
         m_PixelSize(0),
         m_bTestDataUpload(False)
     {
@@ -547,7 +547,7 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
     TextureCreationVerifier Verifier(pDevice, pContext);
     const Uint32 BindSRU = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET | BIND_UNORDERED_ACCESS;
     const Uint32 BindSR = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET;
-    const Uint32 BindSD = BIND_SHADER_RESOURCE | BIND_DEPTH_STENCIL;
+    //const Uint32 BindSD = BIND_SHADER_RESOURCE | BIND_DEPTH_STENCIL;
     const Uint32 BindSU = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
     const Uint32 BindD = BIND_DEPTH_STENCIL;
     const Uint32 BindS = BIND_SHADER_RESOURCE;

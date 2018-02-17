@@ -27,9 +27,6 @@
 
 using namespace Diligent;
 
-const bool bIsGL43 = false;
-
-
 TestSamplerCreation::TestSamplerCreation(IRenderDevice *pDevice) : 
     m_pDevice(pDevice)
 {

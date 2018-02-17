@@ -280,10 +280,9 @@ void SmartPointerTest::RunConcurrencyTest()
 }
 
 
-SmartPointerTest::SmartPointerTest() : 
-    m_bThreadStart{false, false},
-    m_NumThreadsCompleted(0),
-    m_pSharedObject(nullptr)
+SmartPointerTest::SmartPointerTest() :
+    m_pSharedObject(nullptr),
+    m_NumThreadsCompleted(0)
 {
     // Test constructors of RefCntAutoPtr
     {
@@ -333,7 +332,9 @@ SmartPointerTest::SmartPointerTest() :
             pRawPtr2->Release();
 
             auto *pRawPtr3 = SmartPtr().Detach();
+            (void)pRawPtr3;
             auto *pRawPtr4 = SmartPtr(MakeNewObj<Object>()).Detach();
+            (void)pRawPtr4;
             pRawPtr4->Release();
         }
     }
@@ -563,6 +564,7 @@ SmartPointerTest::SmartPointerTest() :
         try
         {
             auto *pExceptionTest = MakeNewObj<ExceptionTest1>();
+            (void)pExceptionTest;
         }
         catch(std::runtime_error &)
         {
@@ -589,6 +591,7 @@ SmartPointerTest::SmartPointerTest() :
         try
         {
             auto *pExceptionTest = NEW_RC_OBJ( DefaultRawMemoryAllocator::GetAllocator(), "Test object", ExceptionTest2)();
+            (void)pExceptionTest;
         }
         catch(std::runtime_error &)
         {
@@ -625,6 +628,7 @@ SmartPointerTest::SmartPointerTest() :
         try
         {
             auto *pExceptionTest = NEW_RC_OBJ( DefaultRawMemoryAllocator::GetAllocator(), "Test object", ExceptionTest3)();
+            (void)pExceptionTest;
         }
         catch(std::runtime_error &)
         {

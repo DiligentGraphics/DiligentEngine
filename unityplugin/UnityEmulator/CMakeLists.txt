@@ -171,6 +171,13 @@ elseif(PLATFORM_MACOS)
     )
 endif()
 
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    # Disable the following clang warning
+    #    '<function name>' hides overloaded virtual function
+    # as hiding is intended
+    target_compile_options(UnityEmulator PRIVATE -Wno-overloaded-virtual)
+endif()
+
 source_group("src" FILES ${SOURCE})
 source_group("include" FILES ${INCLUDE})
 
