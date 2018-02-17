@@ -62,6 +62,7 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
         VERIFY_EXPR( pShader );
     }
 
+    if(pRenderDevice->GetDeviceCaps().bComputeShadersSupported)
     {
         CreationAttrs.FilePath = "Shaders\\CSConversionTest.fx";
         CreationAttrs.EntryPoint = "TestCS";

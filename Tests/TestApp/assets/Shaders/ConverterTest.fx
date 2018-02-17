@@ -1229,9 +1229,12 @@ void TestPS  ( in VSOutput In,
         u1 = asuint( i1 ); u2 = asuint( i2 ); u3 = asuint( i3 ); u4 = asuint( i4 );
         u1 = asuint( u1 ); u2 = asuint( u2 ); u3 = asuint( u3 ); u4 = asuint( u4 );
 
+#if defined(GL_ES) && (__VERSION__>=310) || !defined(GL_ES) && (__VERSION__>=420)
         f1 = f16tof32( u1 ); f2 = f16tof32( u2 ); f3 = f16tof32( u3 ); f4 = f16tof32( u4 );
         f1 = f16tof32( i1 ); f2 = f16tof32( i2 ); f3 = f16tof32( i3 ); f4 = f16tof32( i4 );
         u1 = f32tof16( f1 ); u2 = f32tof16( f2 ); u3 = f32tof16( f3 ); u4 = f32tof16( f4 );
+#endif
+
 #ifndef GL_ES
         double d = asdouble( u1, u1 );
 #endif

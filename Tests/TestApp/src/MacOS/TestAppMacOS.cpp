@@ -22,11 +22,11 @@
 */
 
 #include <queue>
-#include "SampleApp.h"
+#include "TestApp.h"
 
 using namespace Diligent;
 
-class TestAppMacOS final : public SampleApp
+class TestAppMacOS final : public TestApp
 {
 public:
     TestAppMacOS()
