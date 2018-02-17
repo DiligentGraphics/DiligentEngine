@@ -72,7 +72,9 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
         RefCntAutoPtr<IShader> pShader;
         //pRenderDevice->CreateShader( CreationAttrs, &pShader );
         //VERIFY_EXPR( pShader );
-        status = "Skipped compute shader conversion test";
     }
+    else
+        status = "Skipped compute shader conversion test";
+
     SetStatus(TestResult::Succeeded, status.c_str());
 }
