@@ -246,7 +246,7 @@ SmartPointerTest::~SmartPointerTest()
 
     auto NumIterations = NumThreadInterations;
     std::stringstream infoss;
-    infoss << "Performed " << m_NumTestsPerformed << " concurrency tests with " << NumIterations << " iterations each";
+    infoss << "Performed " << m_NumTestsPerformed << " concurrency tests with " << NumIterations << " iterations on " << m_Threads.size() << " threads";
     SetStatus(TestResult::Succeeded, infoss.str().c_str());
 }
 

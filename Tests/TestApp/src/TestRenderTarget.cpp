@@ -38,6 +38,11 @@ TestRenderTarget::TestRenderTarget() :
 
 void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent )
 {
+#if PLATFORM_IOS
+    SetStatus(TestResult::Skipped);
+    return;
+#endif
+    
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pDeviceContext;
     m_pRenderScript = CreateRenderScriptFromFile( "TestRenderTargets.lua", pDevice, pDeviceContext, [&]( ScriptParser *pScriptParser )
@@ -51,6 +56,9 @@ void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     
 void TestRenderTarget::Draw()
 {
+    if(!m_pDeviceContext)
+        return;
+    
     m_pRenderScript->Run( m_pDeviceContext, "Render" );
     SetStatus(TestResult::Succeeded);
 }

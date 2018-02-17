@@ -172,7 +172,7 @@ function TestSetRenderTargets()
 	end
 
 	-- It is not allowed to mix different resources as render targets. In particular, we cannot
-	-- bind Textrue2D & Texture3D at the same time
+	-- bind Texture2D & Texture3D at the same time
 	if not IsGLES then
 		Context.SetRenderTargets(Tex2D_DefRTV[3], Tex2DArr_Slice2RTV[1], Tex2DArr_Slice2DSV)
 		Context.SetRenderTargets(Tex2DArr_Slice2Mip2RTV[1], Tex2DArr_Slice2Mip2DSV)

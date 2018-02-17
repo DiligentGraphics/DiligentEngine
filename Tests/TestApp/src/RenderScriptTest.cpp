@@ -36,6 +36,11 @@ using namespace Diligent;
 RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext *pContext ) :
     UnitTestBase("RenderScript test")
 {
+#if PLATFORM_IOS
+    SetStatus(TestResult::Skipped);
+    return;
+#endif
+    
     RefCntAutoPtr<ITexture> pTestGlobalTexture;
     {
         TextureDesc TexDesc;
