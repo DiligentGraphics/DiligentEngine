@@ -1,15 +1,8 @@
 apply plugin: 'com.android.library'
+apply from: "android_common.gradle"
 
 android {
-    compileSdkVersion=27
-
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
             abiFilters 'armeabi-v7a'//, 'armeabi', 'arm64-v8a','x86', 'x86_64'

@@ -1,12 +1,9 @@
 apply plugin: 'com.android.application'
+apply from: "../../../Common/NativeApp/Android/android_common.gradle"
 
 android {
-    compileSdkVersion=27
-
     defaultConfig {
         applicationId = 'com.diligentengine.testapp'
-        minSdkVersion 21
-        targetSdkVersion 25
     }
     buildTypes {
             release {
