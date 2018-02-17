@@ -38,7 +38,8 @@
 
 using namespace Diligent;
 
-TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext)
+TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext) :
+    UnitTestBase("Buffer creation test")
 {
     std::unique_ptr<TestCreateObjFromNativeRes> pTestCreateObjFromNativeRes;
     const auto DevCaps = pDevice->GetDeviceCaps();
@@ -67,7 +68,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         default: UNEXPECTED("Unexpected device type");
     }
 
-
+    int BuffersCreated = 0;
     {
         Diligent::BufferDesc BuffDesc;
         BuffDesc.Name = "Buffer creation test 0";
@@ -78,6 +79,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
+        ++BuffersCreated;
     }
 
     {
@@ -90,6 +92,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
+        ++BuffersCreated;
     }
 
     if(DevCaps.bComputeShadersSupported && DevCaps.bIndirectRenderingSupported)
@@ -107,6 +110,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
+        ++BuffersCreated;
     }
 
     if(DevCaps.bComputeShadersSupported)
@@ -122,6 +126,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
+        ++BuffersCreated;
     }
 
     {
@@ -134,6 +139,10 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
+        ++BuffersCreated;
     }
-
+    
+    std::stringstream infoss;
+    infoss << "Created " << BuffersCreated << " test buffers.";
+    SetStatus(TestResult::Succeeded, infoss.str().c_str());
 }

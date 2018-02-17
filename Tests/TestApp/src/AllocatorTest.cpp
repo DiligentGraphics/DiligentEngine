@@ -34,7 +34,8 @@ using namespace Diligent;
 
 AllocatorTest TheTest;
 
-AllocatorTest::AllocatorTest()
+AllocatorTest::AllocatorTest() :
+    UnitTestBase("Allocator test")
 {
     const Uint32 AllocSize = 32;
     const Uint32 NumAllocationsPerPage = 16;
@@ -78,4 +79,5 @@ AllocatorTest::AllocatorTest()
 
     // Double free
     //TestAllocator.Free( Allocations[0][0] );
+    SetStatus(TestResult::Succeeded);
 }

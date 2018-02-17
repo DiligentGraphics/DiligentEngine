@@ -23,9 +23,10 @@
 
 #pragma once
 
+#include "UnitTestBase.h"
 #include "ScriptParser.h"
 
-class TestVPAndSR
+class TestVPAndSR : public UnitTestBase
 {
 public:
     TestVPAndSR(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext);

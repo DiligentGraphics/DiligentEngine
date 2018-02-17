@@ -40,7 +40,8 @@ static const char g_ShaderSource[] =
 "}                              \n"
 ;
 
-TestPipelineStateBase::TestPipelineStateBase(Diligent::IRenderDevice *pDevice) : 
+TestPipelineStateBase::TestPipelineStateBase(Diligent::IRenderDevice *pDevice, const char *Name) :
+    UnitTestBase(Name),
     m_pDevice(pDevice)
 {
     ShaderCreationAttribs Attrs;

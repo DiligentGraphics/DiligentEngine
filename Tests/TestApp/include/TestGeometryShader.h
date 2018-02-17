@@ -23,9 +23,13 @@
 
 #pragma once
 
-class TestGeometryShader
+#include "UnitTestBase.h"
+
+class TestGeometryShader : public UnitTestBase
 {
 public:
+    TestGeometryShader() : UnitTestBase("Test Geometry Shaders"){}
+    
     void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext);
     void Draw();
 

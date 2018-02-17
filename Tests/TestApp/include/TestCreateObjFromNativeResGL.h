@@ -24,6 +24,7 @@
 #pragma once
 
 #include "TestCreateObjFromNativeRes.h"
+
 class TestCreateObjFromNativeResGL : public TestCreateObjFromNativeRes
 {
 public:

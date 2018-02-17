@@ -35,7 +35,8 @@
 
 using namespace Diligent;
 
-ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceContext *pContext )
+ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceContext *pContext ) :
+    UnitTestBase("Shader Converter Test")
 {
     ShaderCreationAttribs CreationAttrs;
     CreationAttrs.FilePath = "Shaders\\ConverterTest.fx";
@@ -62,6 +63,7 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
         VERIFY_EXPR( pShader );
     }
 
+    std::string status;
     if(pRenderDevice->GetDeviceCaps().bComputeShadersSupported)
     {
         CreationAttrs.FilePath = "Shaders\\CSConversionTest.fx";
@@ -70,5 +72,7 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
         RefCntAutoPtr<IShader> pShader;
         //pRenderDevice->CreateShader( CreationAttrs, &pShader );
         //VERIFY_EXPR( pShader );
+        status = "Skipped compute shader conversion test";
     }
+    SetStatus(TestResult::Succeeded, status.c_str());
 }

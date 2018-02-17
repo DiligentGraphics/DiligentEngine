@@ -23,9 +23,11 @@
 
 #pragma once
 
+#include "UnitTestBase.h"
+
 const bool bIsGL43 = false;
 
-class TestTextureCreation
+class TestTextureCreation : public UnitTestBase
 {
 public:
     TestTextureCreation(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext);
@@ -35,4 +37,6 @@ private:
     void CheckFormatSize( Diligent::TEXTURE_FORMAT *begin, Diligent::TEXTURE_FORMAT *end, Diligent::Uint32 RefSize );
     void CheckNumComponents( Diligent::TEXTURE_FORMAT *begin, Diligent::TEXTURE_FORMAT *end, Diligent::Uint32 RefComponents );
     void CheckComponentType( Diligent::TEXTURE_FORMAT *begin, Diligent::TEXTURE_FORMAT *end, Diligent::COMPONENT_TYPE RefType );
+    
+    int m_NumFormatsTested = 0;
 };

@@ -35,7 +35,7 @@ void TestGeometryShader::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCo
 {
     if(!pDevice->GetDeviceCaps().bGeometryShadersSupported)
     {
-        LOG_WARNING_MESSAGE("Geometry shaders are not supported");
+        SetStatus(TestResult::Skipped, "Geometry shaders are not supported");
         return;
     }
 
@@ -92,4 +92,6 @@ void TestGeometryShader::Draw()
     DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_POINT_LIST;
     DrawAttrs.NumVertices = 2; // Draw 2 triangles
     m_pDeviceContext->Draw(DrawAttrs);
+    
+    SetStatus(TestResult::Succeeded);
 }

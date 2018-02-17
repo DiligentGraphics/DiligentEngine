@@ -35,7 +35,7 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
 {
     if(!pDevice->GetDeviceCaps().bTessellationSupported)
     {
-        LOG_WARNING_MESSAGE("Tessellation is not supported");
+        SetStatus(TestResult::Skipped, "Tessellation is not supported");
         return;
     }
     
@@ -134,4 +134,6 @@ void TestTessellation::Draw()
     m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     DrawAttrs.NumVertices = 1; // Draw 1 tri patch
     m_pDeviceContext->Draw(DrawAttrs);
+    
+    SetStatus(TestResult::Succeeded);
 }

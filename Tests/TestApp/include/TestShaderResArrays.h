@@ -23,7 +23,9 @@
 
 #pragma once
 
-class TestShaderResArrays
+#include "UnitTestBase.h"
+
+class TestShaderResArrays : public UnitTestBase
 {
 public:
     TestShaderResArrays(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, bool bUseOpenGL, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);

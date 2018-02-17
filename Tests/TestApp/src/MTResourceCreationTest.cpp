@@ -42,7 +42,8 @@ static const char g_ShaderSource[] =
 "}                              \n"
 ;
 
-MTResourceCreationTest::MTResourceCreationTest(IRenderDevice *pDevice, IDeviceContext *pContext, Uint32 NumThreads) : 
+MTResourceCreationTest::MTResourceCreationTest(IRenderDevice *pDevice, IDeviceContext *pContext, Uint32 NumThreads) :
+    UnitTestBase("Multithreaded resource creation"),
     m_pDevice(pDevice),
     m_pContext(pContext)
 {
@@ -243,5 +244,8 @@ void MTResourceCreationTest::StopThreads()
     m_bStopThreadsFlag = true;
     for(auto &t : m_Threads)
         t.join();
-    LOG_INFO_MESSAGE("MTResourceCreationTest: Buffers created: ", m_NumBuffersCreated, " Textures created: ", m_NumTexturesCreated, " PSO Created: ", m_NumPSOCreated);
+    
+    std::stringstream infoss;
+    infoss << "Buffers created: " << m_NumBuffersCreated << " Textures created: " << m_NumTexturesCreated << " PSO Created: " << m_NumPSOCreated;
+    SetStatus(m_Threads.empty() ? TestResult::Skipped : TestResult::Succeeded, infoss.str().c_str());
 }

@@ -23,9 +23,12 @@
 
 #pragma once
 
-class TestTessellation
+#include "UnitTestBase.h"
+
+class TestTessellation : public UnitTestBase
 {
 public:
+    TestTessellation() : UnitTestBase("Tessellation test") {}
     void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext);
     void Draw();
 

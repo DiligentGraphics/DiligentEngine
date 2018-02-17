@@ -28,10 +28,11 @@
 #include "VariableSizeGPUAllocationsManager.h"
 #include "DefaultRawMemoryAllocator.h"
 #include "DebugUtilities.h"
+#include "UnitTestBase.h"
 
 using namespace Diligent;
 
-class VariableSizeAllocationsManagerTest
+class VariableSizeAllocationsManagerTest : public UnitTestBase
 {
 public:
     VariableSizeAllocationsManagerTest();
@@ -39,7 +40,8 @@ public:
 
 static VariableSizeAllocationsManagerTest TheVariableSizeAllocationsManagerTest;
 
-VariableSizeAllocationsManagerTest::VariableSizeAllocationsManagerTest()
+VariableSizeAllocationsManagerTest::VariableSizeAllocationsManagerTest() :
+    UnitTestBase("Variable size allocation manager test")
 {
     auto &Allocator = DefaultRawMemoryAllocator::GetAllocator();
     {
@@ -175,4 +177,6 @@ VariableSizeAllocationsManagerTest::VariableSizeAllocationsManagerTest()
 
         ListMgr.ReleaseStaleAllocations(3);
     }
+    
+    SetStatus(TestResult::Succeeded);
 }

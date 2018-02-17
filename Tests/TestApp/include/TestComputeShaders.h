@@ -24,8 +24,9 @@
 #pragma once
 
 #include "ScriptParser.h"
+#include "UnitTestBase.h"
 
-class TestComputeShaders
+class TestComputeShaders : public UnitTestBase
 {
 public:
     TestComputeShaders();

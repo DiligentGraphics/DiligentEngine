@@ -23,7 +23,9 @@
 
 #pragma once
 
-class RenderScriptTest
+#include "UnitTestBase.h"
+
+class RenderScriptTest : public UnitTestBase
 {
 public:
     RenderScriptTest( Diligent::IRenderDevice *pRenderDevice, Diligent::IDeviceContext *pContext );

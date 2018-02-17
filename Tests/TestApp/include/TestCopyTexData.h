@@ -23,7 +23,9 @@
 
 #pragma once
 
-class TestCopyTexData
+#include "UnitTestBase.h"
+
+class TestCopyTexData : public UnitTestBase
 {
 public:
     TestCopyTexData(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext);

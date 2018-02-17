@@ -539,7 +539,8 @@ private:
     std::unique_ptr<TestCreateObjFromNativeRes> m_pTestCreateObjFromNativeRes;
 };
 
-TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext *pContext ) : 
+TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext *pContext ) :
+    UnitTestBase("Texture creation test"),
     m_pDevice(pDevice)
 {
     TestTextureFormatAttribs();
@@ -689,10 +690,14 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
             LOG_WARNING_MESSAGE( "Texture format ", CurrAttrs.Name, " is not supported!\n" );
             continue;
         }
+        ++m_NumFormatsTested;
         assert(CurrAttrs.PixelSize == PixelFormatAttribs.ComponentSize * PixelFormatAttribs.NumComponents || 
                PixelFormatAttribs.ComponentType == COMPONENT_TYPE_COMPRESSED);
         Verifier.Test(CurrAttrs.Fmt, CurrAttrs.PixelSize, CurrAttrs.BindFlags, CurrAttrs.TestDataUpload);
     }
+    std::stringstream infoss;
+    infoss << "Formats tested: " << m_NumFormatsTested;
+    SetStatus(TestResult::Succeeded, infoss.str().c_str());
 }
 
 void TestTextureCreation::CheckFormatSize(TEXTURE_FORMAT *begin, TEXTURE_FORMAT *end, Uint32 RefSize)

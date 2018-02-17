@@ -23,7 +23,9 @@
 
 #pragma once
 
-class ShaderConverterTest
+#include "UnitTestBase.h"
+
+class ShaderConverterTest : public UnitTestBase
 {
 public:
     ShaderConverterTest( Diligent::IRenderDevice *pRenderDevice, Diligent::IDeviceContext *pContext );

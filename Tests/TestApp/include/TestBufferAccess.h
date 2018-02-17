@@ -23,7 +23,9 @@
 
 #pragma once
 
-class TestBufferAccess
+#include "UnitTestBase.h"
+
+class TestBufferAccess : public UnitTestBase
 {
 public:
     static const int TriGridSize = 16;

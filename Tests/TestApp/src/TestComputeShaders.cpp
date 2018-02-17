@@ -31,12 +31,19 @@
 
 using namespace Diligent;
 
-TestComputeShaders::TestComputeShaders()
+TestComputeShaders::TestComputeShaders() :
+    UnitTestBase("Compute shader test")
 {
 }
 
 void TestComputeShaders::Init( IRenderDevice *pDevice, IDeviceContext *pContext )
 {
+    if(!pDevice->GetDeviceCaps().bComputeShadersSupported)
+    {
+        SetStatus(TestResult::Skipped, "Compute shaders are not supported");
+        return;
+    }
+    
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pContext;
     m_pRenderScript = CreateRenderScriptFromFile( "TestComputeShaders.lua", pDevice, pContext, []( ScriptParser *pScriptParser )
@@ -46,5 +53,8 @@ void TestComputeShaders::Init( IRenderDevice *pDevice, IDeviceContext *pContext 
     
 void TestComputeShaders::Draw()
 {
+    if(!m_pDeviceContext)
+        return;
+    
     m_pRenderScript->Run( m_pDeviceContext, "Render" );
 }

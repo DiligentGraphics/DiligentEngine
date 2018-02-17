@@ -27,13 +27,15 @@
 #include "pch.h"
 #include "BasicMath.h"
 #include "DebugUtilities.h"
+#include "UnitTestBase.h"
 
 using namespace Diligent;
 
-class MathLibTest
+class MathLibTest : public UnitTestBase
 {
 public:
-    MathLibTest()
+    MathLibTest() :
+        UnitTestBase("Mathlib test")
     {
         // Ctor
         {
@@ -497,6 +499,7 @@ public:
                          9, 10, 11);
             std::hash<float3x3>()(m2);
         }
+        SetStatus(TestResult::Succeeded);
     }
 };
 

@@ -23,7 +23,9 @@
 
 #pragma once
 
-class AllocatorTest
+#include "UnitTestBase.h"
+
+class AllocatorTest : public UnitTestBase
 {
 public:
     AllocatorTest();

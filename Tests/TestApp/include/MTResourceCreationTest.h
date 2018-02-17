@@ -28,7 +28,9 @@
 #include <atomic>
 #include <condition_variable>
 
-class MTResourceCreationTest
+#include "UnitTestBase.h"
+
+class MTResourceCreationTest : public UnitTestBase
 {
 public:
     MTResourceCreationTest(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext, Diligent::Uint32 NumThreads);

@@ -32,7 +32,8 @@
 
 using namespace Diligent;
 
-TestTexturing::TestTexturing() : 
+TestTexturing::TestTexturing() :
+    UnitTestBase("Texturing test"),
     m_iTestTexWidth(512),
     m_iTestTexHeight(512),
     m_iMipLevels(8),
@@ -265,6 +266,11 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
 
     pVS->BindResources(m_pResourceMapping, 0);
     pPS->BindResources(m_pResourceMapping, 0);
+    
+    auto *FmtName = pDevice->GetTextureFormatInfo(TexFormat).Name;
+    m_TestName.append(" (");
+    m_TestName.append(FmtName);
+    m_TestName.append(")");
 }
     
 void TestTexturing::Draw()
@@ -282,4 +288,6 @@ void TestTexturing::Draw()
     DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
     DrawAttrs.NumVertices = 4; // Draw quad
     m_pDeviceContext->Draw( DrawAttrs );
+    
+    SetStatus(TestResult::Succeeded);
 }

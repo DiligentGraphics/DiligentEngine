@@ -23,7 +23,9 @@
 
 #pragma once
 
-class TestSamplerCreation
+#include "UnitTestBase.h"
+
+class TestSamplerCreation : public UnitTestBase
 {
 public:
     TestSamplerCreation(Diligent::IRenderDevice *pDevice);

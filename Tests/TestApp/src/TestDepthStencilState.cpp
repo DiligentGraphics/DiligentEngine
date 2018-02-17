@@ -46,7 +46,7 @@ void TestDepthStencilState::CreateTestDSS( DepthStencilStateDesc &DSSDesc )
 }
 
 TestDepthStencilState::TestDepthStencilState( IRenderDevice *pDevice, IDeviceContext *pContext ) :
-    TestPipelineStateBase(pDevice),
+    TestPipelineStateBase(pDevice, "Depth-stencil state initialization test"),
     m_pDeviceContext(pContext)
 {
     DepthStencilStateDesc &DSSDesc = m_PSODesc.GraphicsPipeline.DepthStencilDesc;
@@ -158,4 +158,6 @@ TestDepthStencilState::TestDepthStencilState( IRenderDevice *pDevice, IDeviceCon
         m_pDevice->CreatePipelineState( m_PSODesc, &pPSO );
         pScript->Run( m_pDeviceContext, "TestDSSDesc", pPSO );
     }
+    
+    SetStatus(TestResult::Succeeded);
 }

@@ -169,7 +169,7 @@ Open Xcode project file in cmk_build/MacOS folder and build the engine.
 
 ## iOS
 
-Run the command below from the engine's root folder to generate Xcode project configured for iOS build:
+Run the command below from the engine's root folder to generate Xcode project configured for iOS build
 (you need to have [CMake](https://cmake.org/) installed on your Mac):
 
 *cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -H. -Bcmk_build/IOS -GXcode*

@@ -28,10 +28,11 @@
 #include "RingBuffer.h"
 #include "DefaultRawMemoryAllocator.h"
 #include "DebugUtilities.h"
+#include "UnitTestBase.h"
 
 using namespace Diligent;
 
-class RingBufferTest
+class RingBufferTest : public UnitTestBase
 {
 public:
     RingBufferTest();
@@ -39,7 +40,8 @@ public:
 
 static RingBufferTest TheRingBufferTest;
 
-RingBufferTest::RingBufferTest()
+RingBufferTest::RingBufferTest() :
+    UnitTestBase("Ring buffer test")
 {
     auto &Allocator = DefaultRawMemoryAllocator::GetAllocator();
     {
@@ -129,4 +131,6 @@ RingBufferTest::RingBufferTest()
         RB.FinishCurrentFrame(5);
         RB.ReleaseCompletedFrames(6);
     }
+    
+    SetStatus(TestResult::Succeeded);
 }

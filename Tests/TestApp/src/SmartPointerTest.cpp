@@ -245,7 +245,9 @@ SmartPointerTest::~SmartPointerTest()
         t.join();
 
     auto NumIterations = NumThreadInterations;
-    LOG_INFO_MESSAGE("SmartPointerTest: performed ", m_NumTestsPerformed, " concurrency tests with ", NumIterations, " iterations each");
+    std::stringstream infoss;
+    infoss << "Performed " << m_NumTestsPerformed << " concurrency tests with " << NumIterations << " iterations each";
+    SetStatus(TestResult::Succeeded, infoss.str().c_str());
 }
 
 void SmartPointerTest::RunConcurrencyTest()
@@ -281,6 +283,7 @@ void SmartPointerTest::RunConcurrencyTest()
 
 
 SmartPointerTest::SmartPointerTest() :
+    UnitTestBase("Smart pointer test"),
     m_pSharedObject(nullptr),
     m_NumThreadsCompleted(0)
 {

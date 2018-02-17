@@ -224,12 +224,8 @@ void TestApp::InitializeRenderers()
 
     TestVPAndSR TestVPAndSR(m_pDevice, m_pImmediateContext);
 
-
-    if(m_pDevice->GetDeviceCaps().bComputeShadersSupported)
-    {
-        m_pTestCS.reset(new TestComputeShaders);
-        m_pTestCS->Init(m_pDevice, m_pImmediateContext);
-    }
+    m_pTestCS.reset(new TestComputeShaders);
+    m_pTestCS->Init(m_pDevice, m_pImmediateContext);
 
     m_pTestRT.reset(new TestRenderTarget);
     m_pTestRT->Init(m_pDevice, m_pImmediateContext, -0.4f, 0.55f, 0.4f, 0.4f);
@@ -480,8 +476,7 @@ void TestApp::Render()
     {
         m_pTestTexturing[i]->Draw();
     }
-    if(m_pTestCS)
-        m_pTestCS->Draw();
+    m_pTestCS->Draw();
     m_pTestRT->Draw();
     m_pTestShaderResArrays->Draw();
     m_TestGS.Draw();

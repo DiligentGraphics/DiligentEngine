@@ -27,7 +27,8 @@
 
 using namespace Diligent;
 
-TestSamplerCreation::TestSamplerCreation(IRenderDevice *pDevice) : 
+TestSamplerCreation::TestSamplerCreation(IRenderDevice *pDevice) :
+    UnitTestBase("Test sampler creation"),
     m_pDevice(pDevice)
 {
     // Test different filters
@@ -123,4 +124,6 @@ TestSamplerCreation::TestSamplerCreation(IRenderDevice *pDevice) :
         m_pDevice->CreateSampler(SamplerDesc, &pSampler2);
         assert(pSampler1 == pSampler2);
     }
+    
+    SetStatus(TestResult::Succeeded);
 }

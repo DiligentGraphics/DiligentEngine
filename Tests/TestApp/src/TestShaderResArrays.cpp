@@ -32,7 +32,8 @@
 
 using namespace Diligent;
 
-TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext *pDeviceContext, bool bUseOpenGL, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent)
+TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext *pDeviceContext, bool bUseOpenGL, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent) :
+    UnitTestBase("Shader resource array test")
 {
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pDeviceContext;
@@ -187,4 +188,6 @@ void TestShaderResArrays::Draw()
     DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
     DrawAttrs.NumVertices = 4; // Draw quad
     m_pDeviceContext->Draw( DrawAttrs );
+    
+    SetStatus(TestResult::Succeeded);
 }

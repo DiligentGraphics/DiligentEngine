@@ -24,8 +24,9 @@
 #pragma once
 
 #include "ScriptParser.h"
+#include "UnitTestBase.h"
 
-class TestRenderTarget
+class TestRenderTarget : public UnitTestBase
 {
 public:
     TestRenderTarget();

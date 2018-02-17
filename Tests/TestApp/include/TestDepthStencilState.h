@@ -24,6 +24,7 @@
 #pragma once
 
 #include "TestPipelineStateBase.h"
+
 class TestDepthStencilState : public TestPipelineStateBase
 {
 public:

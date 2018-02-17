@@ -38,7 +38,8 @@ void TestCreateObjFromNativeResD3D12::CreateTexture(Diligent::ITexture *pTexture
     auto *pD3D12Texture = pTextureD3D12->GetD3D12Texture();
     RefCntAutoPtr<ITexture> pTextureFromNativeD3D12Handle;
     pDeviceD3D12->CreateTextureFromD3DResource(pD3D12Texture, &pTextureFromNativeD3D12Handle);
-
+    ++m_NumTexturesCreated;
+    
     auto TestTexDesc = pTextureFromNativeD3D12Handle->GetDesc();
     if (SrcTexDesc.Type == RESOURCE_DIM_TEX_CUBE || SrcTexDesc.Type == RESOURCE_DIM_TEX_CUBE_ARRAY)
     {
@@ -64,7 +65,8 @@ void TestCreateObjFromNativeResD3D12::CreateBuffer(Diligent::IBuffer *pBuffer)
     {
         RefCntAutoPtr<IBuffer> pBufferFromNativeD3D12Handle;
         pDeviceD3D12->CreateBufferFromD3DResource(pD3D12Buffer, SrcBuffDesc, &pBufferFromNativeD3D12Handle);
-
+        ++m_NumBuffersCreated;
+        
         const auto &TestBufferDesc = pBufferFromNativeD3D12Handle->GetDesc();
         VERIFY_EXPR(TestBufferDesc == SrcBuffDesc);
 

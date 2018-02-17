@@ -30,6 +30,7 @@
 using namespace Diligent;
 
 TestCopyTexData::TestCopyTexData( IRenderDevice *pDevice, IDeviceContext *pContext ) :
+    UnitTestBase("Texture data copy test"),
     m_pDevice(pDevice),
     m_pContext(pContext)
 {
@@ -68,12 +69,17 @@ TestCopyTexData::TestCopyTexData( IRenderDevice *pDevice, IDeviceContext *pConte
         TEX_FORMAT_R8_UINT,
         TEX_FORMAT_R8_SINT
     };
+    int NumFormatsTested = 0;
     for( auto f = 0; f < _countof( TestFormats ); ++f )
     {
         Test2DTexture(TestFormats[f]);
         Test2DTexArray(TestFormats[f]);
         Test3DTexture(TestFormats[f]);
+        ++NumFormatsTested;
     }
+    std::stringstream infoss;
+    infoss << "Formats tested: " << NumFormatsTested;
+    SetStatus(TestResult::Succeeded, infoss.str().c_str());
 }
 
 void TestCopyTexData::Test2DTexture( TEXTURE_FORMAT Format )

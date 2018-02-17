@@ -23,8 +23,9 @@
 
 #pragma once
 
+#include "UnitTestBase.h"
 
-class TestBufferCreation
+class TestBufferCreation : public UnitTestBase
 {
 public:
     TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext);

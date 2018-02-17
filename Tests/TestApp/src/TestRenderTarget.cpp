@@ -31,7 +31,8 @@
 
 using namespace Diligent;
 
-TestRenderTarget::TestRenderTarget()
+TestRenderTarget::TestRenderTarget() :
+    UnitTestBase("Render target test")
 {
 }
 
@@ -51,4 +52,5 @@ void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
 void TestRenderTarget::Draw()
 {
     m_pRenderScript->Run( m_pDeviceContext, "Render" );
+    SetStatus(TestResult::Succeeded);
 }

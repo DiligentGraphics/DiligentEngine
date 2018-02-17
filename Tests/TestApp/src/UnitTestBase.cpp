@@ -21,27 +21,38 @@
  *  of the possibility of such damages.
  */
 
-#pragma once
+// EngineSandbox.cpp : Defines the entry point for the application.
+//
 
+#include <iomanip>
+#include <ios>
+
+#include "pch.h"
 #include "UnitTestBase.h"
+#include "Errors.h"
 
-class TestDrawCommands : public UnitTestBase
+using namespace Diligent;
+
+int UnitTestBase::m_TotalTests = 0;
+size_t UnitTestBase::m_MaxNameLen = 0;
+
+UnitTestBase::UnitTestBase(const char *Name) :
+    m_TestName(Name)
 {
-public:
-    TestDrawCommands() : UnitTestBase("Draw commands test"){}
-    
-    static const int TriGridSize = 16;
+    m_MaxNameLen = std::max(m_MaxNameLen, m_TestName.length());
+    m_TestNum = ++m_TotalTests;
+    LOG_INFO_MESSAGE("Initialized test ", m_TestNum, ": ", Name);
+}
 
-    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);   
-    void Draw();
-
-private:
-    void Define2DVertex(std::vector<float> &VertexData, float fX, float fY, float fR, float fG, float fB);
-
-    Diligent::RefCntAutoPtr<Diligent::IRenderDevice> m_pRenderDevice;
-    Diligent::RefCntAutoPtr<Diligent::IDeviceContext> m_pDeviceContext;
-
-    Diligent::RefCntAutoPtr<Diligent::IPipelineState> m_pPSO, m_pPSOInst;
-    Diligent::RefCntAutoPtr<Diligent::IBuffer> m_pVertexBuff, m_pVertexBuff2, m_pIndexBuff, m_pInstanceData, m_pIndirectDrawArgs, m_pIndexedIndirectDrawArgs;
-    Diligent::RefCntAutoPtr<Diligent::IResourceMapping> m_pResMapping;
-};
+UnitTestBase::~UnitTestBase()
+{
+    const char* TestResltStr[] =
+    {
+        "UNKNOWN",
+        "SKIPPED",
+        "FAILED",
+        "SUCCEEDED"
+    };
+    LOG_INFO_MESSAGE("Test ", std::setw(2), m_TestNum, "/", m_TotalTests, " - ", std::setw(m_MaxNameLen), std::left, m_TestName, " : ",
+                     TestResltStr[static_cast<int>(m_TestResult)], ". ", m_TestResultInfo);
+}

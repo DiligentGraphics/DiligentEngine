@@ -23,25 +23,32 @@
 
 #pragma once
 
+#include <string>
 #include "UnitTestBase.h"
 
-class TestDrawCommands : public UnitTestBase
+class UnitTestBase
 {
 public:
-    TestDrawCommands() : UnitTestBase("Draw commands test"){}
+    enum class TestResult
+    {
+        Unknown = 0,
+        Skipped,
+        Failed,
+        Succeeded
+    };
+    UnitTestBase(const char *Name);
+    ~UnitTestBase();
+    void SetStatus(TestResult result, const char *info ="")
+    {
+        m_TestResult = result;
+        m_TestResultInfo = info != nullptr ? info : "";
+    }
     
-    static const int TriGridSize = 16;
-
-    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);   
-    void Draw();
-
-private:
-    void Define2DVertex(std::vector<float> &VertexData, float fX, float fY, float fR, float fG, float fB);
-
-    Diligent::RefCntAutoPtr<Diligent::IRenderDevice> m_pRenderDevice;
-    Diligent::RefCntAutoPtr<Diligent::IDeviceContext> m_pDeviceContext;
-
-    Diligent::RefCntAutoPtr<Diligent::IPipelineState> m_pPSO, m_pPSOInst;
-    Diligent::RefCntAutoPtr<Diligent::IBuffer> m_pVertexBuff, m_pVertexBuff2, m_pIndexBuff, m_pInstanceData, m_pIndirectDrawArgs, m_pIndexedIndirectDrawArgs;
-    Diligent::RefCntAutoPtr<Diligent::IResourceMapping> m_pResMapping;
+protected:
+    std::string m_TestName;
+    TestResult m_TestResult = TestResult::Unknown;
+    std::string m_TestResultInfo;
+    int m_TestNum = 0;
+    static int m_TotalTests;
+    static size_t m_MaxNameLen;
 };

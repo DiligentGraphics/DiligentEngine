@@ -24,6 +24,7 @@
 #pragma once
 
 #include "TestPipelineStateBase.h"
+#include "UnitTestBase.h"
 
 class TestBlendState : public TestPipelineStateBase
 {

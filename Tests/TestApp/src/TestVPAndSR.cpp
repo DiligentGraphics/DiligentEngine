@@ -31,7 +31,8 @@
 
 using namespace Diligent;
 
-TestVPAndSR::TestVPAndSR(IRenderDevice *pDevice, IDeviceContext *pContext )
+TestVPAndSR::TestVPAndSR(IRenderDevice *pDevice, IDeviceContext *pContext ) :
+    UnitTestBase("Viewport and scissor rect test")
 {
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pContext;
@@ -46,4 +47,6 @@ TestVPAndSR::TestVPAndSR(IRenderDevice *pDevice, IDeviceContext *pContext )
 
     m_pRenderScript->Run( m_pDeviceContext, "SetViewports" );
     m_pRenderScript->Run( m_pDeviceContext, "SetScissorRects" );
+    
+    SetStatus(TestResult::Succeeded);
 }

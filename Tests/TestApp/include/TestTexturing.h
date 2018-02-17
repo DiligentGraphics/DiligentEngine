@@ -23,7 +23,9 @@
 
 #pragma once
 
-class TestTexturing
+#include "UnitTestBase.h"
+
+class TestTexturing : public UnitTestBase
 {
 public:
     TestTexturing();

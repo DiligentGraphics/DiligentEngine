@@ -30,9 +30,11 @@
 #include <condition_variable>
 #include <atomic>
 
-class SmartPointerTest
+#include "UnitTestBase.h"
+
+class SmartPointerTest : public UnitTestBase
 {
-public:
+public:    
     class Object : public Diligent::RefCountedObject<Diligent::IObject>
     {
     public:

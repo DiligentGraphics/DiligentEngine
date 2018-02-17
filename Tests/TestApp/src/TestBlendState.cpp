@@ -48,7 +48,7 @@ void TestBlendState::CreateTestBS( BlendStateDesc &BSDesc )
 }
 
 TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext ) :
-    TestPipelineStateBase(pDevice),
+    TestPipelineStateBase(pDevice, "Blend state initialization test"),
     m_pDeviceContext(pContext)
 {
     m_PSODesc.Name = "PSO-TestBlendStates";
@@ -247,4 +247,5 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         m_pDevice->CreatePipelineState(m_PSODesc, &pPSO );
         pScript->Run( m_pDeviceContext, "TestPSOArg", pPSO );
     }
+    SetStatus(TestResult::Succeeded);
 }

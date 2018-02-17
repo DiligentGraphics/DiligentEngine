@@ -43,7 +43,7 @@ void TestRasterizerState::CreateTestRS()
 }
 
 TestRasterizerState::TestRasterizerState( IRenderDevice *pDevice, IDeviceContext *pContext ) :
-    TestPipelineStateBase(pDevice),
+    TestPipelineStateBase(pDevice, "Rasterizer state initialization test"),
     m_pDeviceContext(pContext)
 {
     RasterizerStateDesc &RSDesc = m_PSODesc.GraphicsPipeline.RasterizerDesc;
@@ -129,4 +129,6 @@ TestRasterizerState::TestRasterizerState( IRenderDevice *pDevice, IDeviceContext
         m_pDevice->CreatePipelineState(m_PSODesc, &pPSO );
         pScript->Run( m_pDeviceContext, "TestRSDescFunc", pPSO );
     }
+    
+    SetStatus(TestResult::Succeeded);
 }

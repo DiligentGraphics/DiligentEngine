@@ -33,6 +33,7 @@
 using namespace Diligent;
 
 TestBufferAccess::TestBufferAccess() :
+    UnitTestBase("Buffer access test"),
     m_fXExtent(0), 
     m_fYExtent(0)
 {}
@@ -215,52 +216,57 @@ void TestBufferAccess::Draw(float fTime)
     
     m_pDeviceContext->Draw(DrawAttrs);
 
-return;
-    MapHelper<float> pStagingData;
-    // Test reading data from staging resource
+    bool TestStagingBuffers = false;
+    if(TestStagingBuffers)
     {
-        m_pInstBuff[4]->CopyData( m_pDeviceContext, m_pInstBuff[3], 0, 0, sizeof( instance_offsets ) );
-        pStagingData.Map( m_pDeviceContext, m_pInstBuff[4], MAP_READ, 0 );
-        for(int i = 0; i < _countof(instance_offsets); ++i)
-            assert(pStagingData[i] == instance_offsets[i]);
-        pStagingData.Unmap();
-    }
-
-    // D3D12 does not allow writing to the CPU-readable buffers
-    if(m_pRenderDevice->GetDeviceCaps().DevType != DeviceType::D3D12)
-    {
-        // Test writing data to staging resource
+        MapHelper<float> pStagingData;
+        // Test reading data from staging resource
         {
-            pStagingData.Map( m_pDeviceContext, m_pInstBuff[5], MAP_WRITE, 0 );
-            for(int Inst = 0; Inst < NumInstances; ++Inst)
-            {
-                pStagingData[Inst*2] = (1+Inst) * fDX;
-                pStagingData[Inst*2+1] = 4.f * fDY + sin(fTime*1.3f) * fDY * 0.3f;
-            }
+            m_pInstBuff[4]->CopyData( m_pDeviceContext, m_pInstBuff[3], 0, 0, sizeof( instance_offsets ) );
+            pStagingData.Map( m_pDeviceContext, m_pInstBuff[4], MAP_READ, 0 );
+            for(int i = 0; i < _countof(instance_offsets); ++i)
+                assert(pStagingData[i] == instance_offsets[i]);
             pStagingData.Unmap();
         }
 
-        m_pInstBuff[2]->CopyData( m_pDeviceContext, m_pInstBuff[5], 0, 0, sizeof( instance_offsets ) );
-        pBuffs[1] = m_pInstBuff[2];
-        m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
-        m_pDeviceContext->Draw(DrawAttrs);
-
-
-        // Test reading & writing data to the staging resource
-        /*{
-            MapHelper<float> pInstData2( m_pDeviceContext, m_pInstBuff[6], MAP_READ_WRITE, 0 );
-            MapHelper<float> pInstData3( std::move(pInstData2) );
-            MapHelper<float> pInstData;
-            pInstData = std::move(pInstData3);
-            static float fPrevTime = fTime;
-            for(int Inst = 0; Inst < NumInstances; ++Inst)
+        // D3D12 does not allow writing to the CPU-readable buffers
+        if(m_pRenderDevice->GetDeviceCaps().DevType != DeviceType::D3D12)
+        {
+            // Test writing data to staging resource
             {
-                pInstData[Inst*2] += (fTime-fPrevTime) * sin(fTime)*0.1f * m_fXExtent;
+                pStagingData.Map( m_pDeviceContext, m_pInstBuff[5], MAP_WRITE, 0 );
+                for(int Inst = 0; Inst < NumInstances; ++Inst)
+                {
+                    pStagingData[Inst*2] = (1+Inst) * fDX;
+                    pStagingData[Inst*2+1] = 4.f * fDY + sin(fTime*1.3f) * fDY * 0.3f;
+                }
+                pStagingData.Unmap();
             }
-            fPrevTime = fTime;
-        }*/
 
-        m_pInstBuff[2]->CopyData( m_pDeviceContext, m_pInstBuff[6], 0, 0, sizeof( instance_offsets ) );
-        m_pDeviceContext->Draw(DrawAttrs);
+            m_pInstBuff[2]->CopyData( m_pDeviceContext, m_pInstBuff[5], 0, 0, sizeof( instance_offsets ) );
+            pBuffs[1] = m_pInstBuff[2];
+            m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
+            m_pDeviceContext->Draw(DrawAttrs);
+
+
+            // Test reading & writing data to the staging resource
+            /*{
+                MapHelper<float> pInstData2( m_pDeviceContext, m_pInstBuff[6], MAP_READ_WRITE, 0 );
+                MapHelper<float> pInstData3( std::move(pInstData2) );
+                MapHelper<float> pInstData;
+                pInstData = std::move(pInstData3);
+                static float fPrevTime = fTime;
+                for(int Inst = 0; Inst < NumInstances; ++Inst)
+                {
+                    pInstData[Inst*2] += (fTime-fPrevTime) * sin(fTime)*0.1f * m_fXExtent;
+                }
+                fPrevTime = fTime;
+            }*/
+
+            m_pInstBuff[2]->CopyData( m_pDeviceContext, m_pInstBuff[6], 0, 0, sizeof( instance_offsets ) );
+            m_pDeviceContext->Draw(DrawAttrs);
+        }
     }
+    
+    SetStatus(TestResult::Succeeded);
 }

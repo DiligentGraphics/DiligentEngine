@@ -950,6 +950,8 @@ void TestDrawCommands::Draw()
     }
 
     m_pDeviceContext->SetVertexBuffers( 0, 0, nullptr, 0, 0, SET_VERTEX_BUFFERS_FLAG_RESET );
+    
+    SetStatus(TestResult::Succeeded);
 }
 
 

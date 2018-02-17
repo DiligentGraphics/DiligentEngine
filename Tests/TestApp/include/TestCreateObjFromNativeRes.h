@@ -23,10 +23,26 @@
 
 #pragma once
 
-class TestCreateObjFromNativeRes
+#include "UnitTestBase.h"
+
+class TestCreateObjFromNativeRes : public UnitTestBase
 {
 public:
-    virtual ~TestCreateObjFromNativeRes() {}
+    TestCreateObjFromNativeRes() : UnitTestBase("Object initialization from native resource handle test") {}
+    virtual ~TestCreateObjFromNativeRes()
+    {
+        if(m_NumTexturesCreated != 0 || m_NumBuffersCreated != 0 )
+        {
+            std::stringstream infoss;
+            infoss << "Textures crated: " << m_NumTexturesCreated <<" Buffers created: " << m_NumBuffersCreated;
+            SetStatus(TestResult::Succeeded, infoss.str().c_str());
+        }
+        else
+            SetStatus(TestResult::Skipped);
+    }
     virtual void CreateTexture(Diligent::ITexture *pTexture) = 0;
     virtual void CreateBuffer(Diligent::IBuffer *pBuffer) = 0;
+protected:
+    int m_NumTexturesCreated = 0;
+    int m_NumBuffersCreated = 0;
 };

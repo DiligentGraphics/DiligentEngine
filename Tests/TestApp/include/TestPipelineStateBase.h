@@ -23,10 +23,12 @@
 
 #pragma once
 
-class TestPipelineStateBase
+#include "UnitTestBase.h"
+
+class TestPipelineStateBase : public UnitTestBase
 {
 public:
-    TestPipelineStateBase( Diligent::IRenderDevice *pDevice );
+    TestPipelineStateBase( Diligent::IRenderDevice *pDevice, const char *TestName );
 
 protected:
     Diligent::RefCntAutoPtr<Diligent::IRenderDevice> m_pDevice;

@@ -33,7 +33,8 @@
 
 using namespace Diligent;
 
-RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext *pContext )
+RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext *pContext ) :
+    UnitTestBase("RenderScript test")
 {
     RefCntAutoPtr<ITexture> pTestGlobalTexture;
     {
@@ -421,4 +422,5 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         pScript->SetGlobalVariable( "svTestBlock", pShaderVar );
         pScript->Run( "TestShaderVariable", pShaderVar );
     }
+    SetStatus(TestResult::Succeeded);
 }
