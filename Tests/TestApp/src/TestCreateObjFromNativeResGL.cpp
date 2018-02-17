@@ -76,7 +76,6 @@
 #elif PLATFORM_IOS
 
 #   include <OpenGLES/ES3/gl.h>
-#   include "GLStubsIOS.h"
 
 #else
 #   error Unsupported platform

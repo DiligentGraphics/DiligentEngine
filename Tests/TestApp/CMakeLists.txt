@@ -33,18 +33,18 @@ set_source_files_properties(${ASSETS} PROPERTIES
 )
 
 set_source_files_properties(${SHADERS} PROPERTIES
-    VS_DEPLOYMENT_LOCATION "shaders"
-    MACOSX_PACKAGE_LOCATION "Resources/shaders"
+    VS_DEPLOYMENT_LOCATION "Shaders"
+    MACOSX_PACKAGE_LOCATION "Resources/Shaders"
 )
 
 set_source_files_properties(${CS_TEST_SHADERS} PROPERTIES
-    VS_DEPLOYMENT_LOCATION "shaders/CSTest"
-    MACOSX_PACKAGE_LOCATION "Resources/shaders/CSTest"
+    VS_DEPLOYMENT_LOCATION "Shaders/CSTest"
+    MACOSX_PACKAGE_LOCATION "Resources/Shaders/CSTest"
 )
 
 set_source_files_properties(${RT_TEST_SHADERS} PROPERTIES
-    VS_DEPLOYMENT_LOCATION "shaders/RTTest"
-    MACOSX_PACKAGE_LOCATION "Resources/shaders/RTTest"
+    VS_DEPLOYMENT_LOCATION "Shaders/RTTest"
+    MACOSX_PACKAGE_LOCATION "Resources/Shaders/RTTest"
 )
 
 set(ALL_SHADERS ${SHADERS} ${CS_TEST_SHADERS} ${RT_TEST_SHADERS})

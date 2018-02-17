@@ -33,6 +33,12 @@ using namespace Diligent;
 
 void TestGeometryShader::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext)
 {
+    if(!pDevice->GetDeviceCaps().bGeometryShadersSupported)
+    {
+        LOG_WARNING_MESSAGE("Geometry shaders are not supported");
+        return;
+    }
+
     m_pDeviceContext = pDeviceContext;
 
     ShaderCreationAttribs CreationAttrs;
@@ -76,6 +82,9 @@ void TestGeometryShader::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCo
     
 void TestGeometryShader::Draw()
 {
+    if(!m_pDeviceContext)
+        return;
+
     m_pDeviceContext->SetPipelineState(m_pPSO);
     m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     

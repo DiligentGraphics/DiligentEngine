@@ -22,11 +22,11 @@
 */
 
 #include <queue>
-#include "SampleApp.h"
+#include "TestApp.h"
 
 using namespace Diligent;
 
-class TestAppIOS final : public SampleApp
+class TestAppIOS final : public TestApp
 {
 public:
     TestAppIOS()

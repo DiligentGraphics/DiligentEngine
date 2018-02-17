@@ -41,8 +41,8 @@ using namespace Diligent;
 TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext)
 {
     std::unique_ptr<TestCreateObjFromNativeRes> pTestCreateObjFromNativeRes;
-    auto DevType = pDevice->GetDeviceCaps().DevType;
-    switch (DevType)
+    const auto DevCaps = pDevice->GetDeviceCaps();
+    switch (DevCaps.DevType)
     {
 #if D3D11_SUPPORTED
         case DeviceType::D3D11:
@@ -92,6 +92,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
     }
 
+    if(DevCaps.bComputeShadersSupported && DevCaps.bIndirectRenderingSupported)
     {
         Diligent::BufferDesc BuffDesc;
         BuffDesc.Name = "Buffer creation test 2";
@@ -108,6 +109,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
     }
 
+    if(DevCaps.bComputeShadersSupported)
     {
         Diligent::BufferDesc BuffDesc;
         BuffDesc.Name = "Buffer creation test 3";

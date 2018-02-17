@@ -1,3 +1,9 @@
+#if defined(GL_ES) && (__VERSION__<=300)
+#   define GLES30 1
+#else
+#   define GLES30 0
+#endif
+
 /***//* Some comment * ** * * * / ** //// */ //Another comment
 //
 // Comment
@@ -83,10 +89,12 @@ Texture2DArray <uint4>  Tex2D_U_A;
 
 SamplerState Tex2D_F_A1_sampler,Tex2D_F_A3_sampler;
 
+#if !GLES30
 Texture2DMS < float2 > Tex2DMS_F1;
 Texture2DMS < float, 4 > Tex2DMS_F2;
 Texture2DMS < int >   Tex2DMS_I;
 Texture2DMS < uint > Tex2DMS_U;
+#endif
 
 #ifndef GL_ES
 Texture2DMSArray  <  float3  > Tex2DMS_F_A1;
@@ -802,6 +810,7 @@ void TestLoad()
 
 void TestGather()
 {
+#if !GLES30 // no textureGather in GLES3.0
     float4 Location = float4(0.2, 0.5, 0.1, 0.7);
     const int3 Offset = int3(5, 10, 20);
     
@@ -839,12 +848,15 @@ void TestGather()
         //TexC_U_A.Gather(Location.xyzw);
     }
 #endif
+
+#endif
 }
 
 
 
 void TestGatherCmp()
 {
+#if !GLES30 // no textureGather in GLES3.0
     float4 Location = float4(0.2, 0.5, 0.1, 0.7);
     const int3 Offset = int3(5, 10, 20);
     float CompareVal = 0.01;
@@ -870,6 +882,8 @@ void TestGatherCmp()
     {
         TexCAS1.GatherCmp(TexCAS1_sampler, Location.xyzw, CompareVal);
     }
+#endif
+
 #endif
 }
 
@@ -979,7 +993,7 @@ void TestFuncArgs2( Texture3D<int> Arg1,
 
 struct PSOutputSubStruct
 {
-    float4 Color4 : SV_Target4;
+    float4 Color4 : SV_Target1;
 };
 struct PSOutput
 {
@@ -1171,6 +1185,7 @@ void TestPS  ( in VSOutput In,
         //f1 = dst(f1,f1); f1 = dst(f2,f2); f1 = dst(f3,f3); f1 = dst(f4,f4);
         f1 = rcp(f1); f2 = rcp(f2); f3 = rcp(f3); f4 = rcp(f4);
 
+#if !GLES30 // no bit operations in GLES3.0
         i1 = countbits(u1); i2 = countbits(u2); i3 = countbits(u3); i4 = countbits(u4);
         i1 = countbits(i1); i2 = countbits(i2); i3 = countbits(i3); i4 = countbits(i4);
         i1 = firstbithigh(u1); i2 = firstbithigh(u2); i3 = firstbithigh(u3); i4 = firstbithigh(u4);
@@ -1179,12 +1194,15 @@ void TestPS  ( in VSOutput In,
         i1 = firstbitlow(i1); i2 = firstbitlow(i2); i3 = firstbitlow(i3); i4 = firstbitlow(i4);
         u1 = reversebits(u1); u2 = reversebits(u2); u3 = reversebits(u3); u4 = reversebits(u4);
         i1 = reversebits(i1); i2 = reversebits(i2); i3 = reversebits(i3); i4 = reversebits(i4);
+#endif
 
         f1 = saturate(f1); f2 = saturate(f2); f3 = saturate(f3); f4 = saturate(f4);
         sincos(f1,f1,f1_); sincos(f2,f2,f2_); sincos(f3,f3,f3_); sincos(f4,f4,f4_);
 
+#if !GLES30
         f1 = frexp(f1_, i1); f2 = frexp(f2_, i2); f3 = frexp(f3_, i3); f4 = frexp(f4_, i4);
         f1 = ldexp(f1, i1); f2 = ldexp(f2, i2); f3 = ldexp(f3, i3); f4 = ldexp(f4, i4);
+#endif
 
         float4x4 f4x4;
         f4x4[0] = float4(0.0, 1.0/Pos.x, 2.0/Pos.y, 3.0);

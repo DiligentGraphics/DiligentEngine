@@ -33,6 +33,12 @@ using namespace Diligent;
 
 void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext)
 {
+    if(!pDevice->GetDeviceCaps().bTessellationSupported)
+    {
+        LOG_WARNING_MESSAGE("Tessellation is not supported");
+        return;
+    }
+    
     m_pDeviceContext = pDeviceContext;
 
     ShaderCreationAttribs CreationAttrs;
@@ -113,6 +119,9 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     
 void TestTessellation::Draw()
 {
+    if(!m_pDeviceContext)
+        return;
+
     m_pDeviceContext->SetPipelineState(m_pQuadPSO);
     m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     
