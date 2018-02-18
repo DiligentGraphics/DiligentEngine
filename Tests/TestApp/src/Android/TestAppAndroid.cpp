@@ -36,6 +36,7 @@ public:
 
     virtual void Initialize(ANativeWindow* window)override final
     {
+        TestApp::Initialize(window);
         InitializeDiligentEngine(window);
         m_RenderDeviceGLES = RefCntAutoPtr<IRenderDeviceGLES>(m_pDevice, IID_RenderDeviceGLES);
         InitializeRenderers();

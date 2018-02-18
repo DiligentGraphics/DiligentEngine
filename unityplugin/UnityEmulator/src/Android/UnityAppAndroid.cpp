@@ -37,6 +37,7 @@ public:
 
     virtual void Initialize(ANativeWindow* window)override final
     {
+        UnityAppBase::Initialize(window);
         InitGraphics(window, 0/*Unused*/, 0/*Unused*/);
         InitScene();
     }

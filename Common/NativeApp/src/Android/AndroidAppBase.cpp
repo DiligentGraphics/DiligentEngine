@@ -48,21 +48,8 @@ int AndroidAppBase::InitDisplay()
             LoadResources();
         }
     }
-
-    ShowUI();
-
-    // auto width = pSwapChain_->GetDesc().Width;
-    // auto height = pSwapChain_->GetDesc().Height;
-
-    // //Note that screen size might have been changed
-    // pDeviceContext_->SetViewports( 1, nullptr, width, height );
-    // //renderer_.UpdateViewport();
     
-    // WindowResize(width, height);
-
-    // // Send the new window size to AntTweakBar
-    // TwWindowSize(width, height);
-
+    ShowUI();
 
     //tap_camera_.SetFlip( 1.f, -1.f, -1.f );
     //tap_camera_.SetPinchTransformFactor( 2.f, 2.f, 8.f );
@@ -82,6 +69,12 @@ void AndroidAppBase::InitSensors()
 //
 void AndroidAppBase::DrawFrame()
 {
+    // APP_CMD_CONFIG_CHANGED event is generated seveal frames
+    // before the screen is actually resized. The only robust way
+    // to detect window resize is to check it very frame
+    if(CheckWindowSizeChanged())
+        WindowResize(0,0);
+
     float fFPS;
     if( monitor_.Update( fFPS ) )
     {
@@ -126,6 +119,7 @@ void AndroidAppBase::HandleCmd( struct android_app* app, int32_t cmd )
     {
     case APP_CMD_SAVE_STATE:
         break;
+
     case APP_CMD_INIT_WINDOW:
         // The window is being shown, get it ready.
         if( app->window != NULL )
@@ -134,24 +128,36 @@ void AndroidAppBase::HandleCmd( struct android_app* app, int32_t cmd )
             eng->DrawFrame();
         }
         break;
+
+    case APP_CMD_CONFIG_CHANGED:
+    case APP_CMD_WINDOW_RESIZED:
+        // This does not work as the screen resizes few frames
+        // after the event has been received
+        // eng->WindowResize(0,0);
+        break;
+
     case APP_CMD_TERM_WINDOW:
         // The window is being hidden or closed, clean it up.
         eng->TermDisplay();
         eng->has_focus_ = false;
         break;
+
     case APP_CMD_STOP:
         break;
+
     case APP_CMD_GAINED_FOCUS:
         eng->ResumeSensors();
         //Start animation
         eng->has_focus_ = true;
         break;
+
     case APP_CMD_LOST_FOCUS:
         eng->SuspendSensors();
         // Also stop animating.
         eng->has_focus_ = false;
         eng->DrawFrame();
         break;
+
     case APP_CMD_LOW_MEMORY:
         //Free up GL resources
         eng->TrimMemory();

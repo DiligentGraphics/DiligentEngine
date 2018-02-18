@@ -44,9 +44,25 @@ public:
     virtual void TermDisplay() = 0;
     static int32_t HandleInput( android_app* app, AInputEvent* event );
     static void HandleCmd( struct android_app* app, int32_t cmd );
-
+    bool CheckWindowSizeChanged()
+    {
+        auto new_window_width_ = ANativeWindow_getWidth(app_->window);
+        auto new_window_height_ = ANativeWindow_getHeight(app_->window);
+        if(new_window_width_ != window_width_ || new_window_height_ != window_height_)
+        {
+            window_width_ = new_window_width_;
+            window_height_ = new_window_height_;
+            return true;
+        }
+        else
+            return false;
+    }
 protected:
-    virtual void Initialize(ANativeWindow* window) = 0;
+    virtual void Initialize(ANativeWindow* window)
+    {
+        CheckWindowSizeChanged();
+    }
+
     virtual int Resume(ANativeWindow* window) = 0;
     
     virtual int32_t HandleInput(AInputEvent* event ){return 0;}
@@ -79,7 +95,9 @@ private:
     android_app* app_ = nullptr;
     bool initialized_resources_ = false;
     bool has_focus_ = false;
-
+    int32_t window_width_ = 0;
+    int32_t window_height_ = 0;
+    
     ASensorManager* sensor_manager_ = nullptr;
     const ASensor* accelerometer_sensor_ = nullptr;
     ASensorEventQueue* sensor_event_queue_ = nullptr;
