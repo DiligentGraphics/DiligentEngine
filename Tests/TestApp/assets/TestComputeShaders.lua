@@ -1,7 +1,7 @@
 -- Compute shader test script
 
 ThreadGroupSizeX = 16
-ThreadGroupSizeY = 16
+ThreadGroupSizeY = 8
 
 TestTexture = Texture.Create{
 	Name = "Compute Shader Test Texture",
