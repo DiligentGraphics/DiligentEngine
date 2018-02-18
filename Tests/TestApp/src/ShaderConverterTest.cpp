@@ -66,12 +66,16 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
     std::string status;
     if(pRenderDevice->GetDeviceCaps().bComputeShadersSupported)
     {
+#if PLATFORM_LINUX || PLATFORM_WIN32
         CreationAttrs.FilePath = "Shaders\\CSConversionTest.fx";
         CreationAttrs.EntryPoint = "TestCS";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_COMPUTE;
         RefCntAutoPtr<IShader> pShader;
-        //pRenderDevice->CreateShader( CreationAttrs, &pShader );
-        //VERIFY_EXPR( pShader );
+        pRenderDevice->CreateShader( CreationAttrs, &pShader );
+        VERIFY_EXPR( pShader );
+#else
+        status = "Skipped compute shader conversion test";
+#endif
     }
     else
         status = "Skipped compute shader conversion test";
