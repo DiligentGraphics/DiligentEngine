@@ -32,14 +32,14 @@ using namespace Diligent;
 
 static const char g_ShaderSource[] = 
 "void VSMain(out float4 pos : SV_POSITION) \n"
-"{                              \n"
-"	pos = float4(0,0,0,0);      \n"
-"}                              \n"
-"                               \n"
+"{                                      \n"
+"	pos = float4(0.0, 0.0, 0.0, 0.0);   \n"
+"}                                      \n"
+"                                       \n"
 "void PSMain(out float4 col : SV_TARGET)\n"
-"{                              \n"
-"	col = float4(0,0,0,0);      \n"
-"}                              \n"
+"{                                      \n"
+"	col = float4(0.0, 0.0, 0.0, 0.0);   \n"
+"}                                      \n"
 ;
 
 MTResourceCreationTest::MTResourceCreationTest(IRenderDevice *pDevice, IDeviceContext *pContext, Uint32 NumThreads) :
@@ -189,13 +189,13 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
             Attrs.Source = g_ShaderSource;
             Attrs.EntryPoint = "VSMain";
             Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
-            Attrs.Desc.Name = "TrivialVS";
+            Attrs.Desc.Name = "TrivialVS (MTResourceCreationTest)";
             Attrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
             m_pDevice->CreateShader(Attrs, &pTrivialVS);
 
             Attrs.EntryPoint = "PSMain";
             Attrs.Desc.ShaderType = SHADER_TYPE_PIXEL;
-            Attrs.Desc.Name = "TrivialPS";
+            Attrs.Desc.Name = "TrivialPS (MTResourceCreationTest)";
             m_pDevice->CreateShader(Attrs, &pTrivialPS);
 
             PipelineStateDesc PSODesc;

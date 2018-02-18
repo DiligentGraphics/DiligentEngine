@@ -35,13 +35,13 @@ TrivialVS = Shader.Create{
 	Source = 
 [[void VSMain(out float4 pos : SV_Position)
 {
-	pos = float4(0,0,0,0); 
+	pos = float4(0.0, 0.0, 0.0, 0.0); 
 }]],
 	EntryPoint = "VSMain",
 	SourceLanguage = "SHADER_SOURCE_LANGUAGE_HLSL",
 	Desc = {
 		ShaderType = "SHADER_TYPE_VERTEX",
-		Name = "TrivialVS"
+		Name = "TrivialVS (DepthStencilStateTest.lua)"
 	}
 }
 
@@ -49,13 +49,13 @@ TrivialPS = Shader.Create{
 	Source = 
 [[void PSMain(out float4 col : SV_TARGET)
 {
-	col = float4(0,0,0,0);
+	col = float4(0.0, 0.0, 0.0, 0.0);
 }]],
 	EntryPoint = "PSMain",
 	SourceLanguage = "SHADER_SOURCE_LANGUAGE_HLSL",
 	Desc = {
 		ShaderType = "SHADER_TYPE_PIXEL",
-		Name = "TrivialPS"
+		Name = "TrivialPS (DepthStencilStateTest.lua)"
 	}
 }
 

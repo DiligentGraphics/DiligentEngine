@@ -30,14 +30,14 @@ using namespace Diligent;
 
 static const char g_ShaderSource[] = 
 "void VSMain(out float4 pos : SV_POSITION) \n"
-"{                              \n"
-"	pos = float4(0,0,0,0);      \n"
-"}                              \n"
-"                               \n"
-"void PSMain(out float4 col : SV_TARGET)\n"
-"{                              \n"
-"	col = float4(0,0,0,0);      \n"
-"}                              \n"
+"{                                         \n"
+"	pos = float4(0.0, 0.0, 0.0, 0.0);      \n"
+"}                                         \n"
+"                                          \n"
+"void PSMain(out float4 col : SV_TARGET)   \n"
+"{                                         \n"
+"	col = float4(0.0, 0.0, 0.0, 0.0);      \n"
+"}                                         \n"
 ;
 
 TestPipelineStateBase::TestPipelineStateBase(Diligent::IRenderDevice *pDevice, const char *Name) :
@@ -48,13 +48,13 @@ TestPipelineStateBase::TestPipelineStateBase(Diligent::IRenderDevice *pDevice, c
     Attrs.Source = g_ShaderSource;
     Attrs.EntryPoint = "VSMain";
     Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
-    Attrs.Desc.Name = "TrivialVS";
+    Attrs.Desc.Name = "TrivialVS (TestPipelineStateBase)";
     Attrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
     m_pDevice->CreateShader(Attrs, &m_pTrivialVS);
 
     Attrs.EntryPoint = "PSMain";
     Attrs.Desc.ShaderType = SHADER_TYPE_PIXEL;
-    Attrs.Desc.Name = "TrivialPS";
+    Attrs.Desc.Name = "TrivialPS (TestPipelineStateBase)";
     m_pDevice->CreateShader(Attrs, &m_pTrivialPS);
 
     m_PSODesc.GraphicsPipeline.pVS = m_pTrivialVS;
