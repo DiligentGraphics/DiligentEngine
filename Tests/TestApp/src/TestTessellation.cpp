@@ -51,24 +51,28 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         CreationAttrs.FilePath = "Shaders\\TessTestQuadDX.vsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
         pDevice->CreateShader( CreationAttrs, &pVS );
+        VERIFY_EXPR(pVS);
     }
 
     {
         CreationAttrs.FilePath = "Shaders\\TessTestQuadDX.hsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_HULL;
         pDevice->CreateShader( CreationAttrs, &pHS );
+        VERIFY_EXPR(pHS);
     }
 
     {
         CreationAttrs.FilePath = "Shaders\\TessTestQuadDX.dsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_DOMAIN;
         pDevice->CreateShader( CreationAttrs, &pDS );
+        VERIFY_EXPR(pDS);
     }
 
     {
         CreationAttrs.FilePath = "Shaders\\GSTestDX.psh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_PIXEL;
         pDevice->CreateShader( CreationAttrs, &pPS );
+        VERIFY_EXPR(pPS);
     }
 
     PipelineStateDesc PSODesc;
@@ -93,6 +97,7 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         CreationAttrs.FilePath = "Shaders\\TessTestTriDX.vsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
         pDevice->CreateShader( CreationAttrs, &pVS );
+        VERIFY_EXPR(pVS);
     }
 
     {
@@ -100,6 +105,7 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         CreationAttrs.FilePath = "Shaders\\TessTestTriDX.hsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_HULL;
         pDevice->CreateShader( CreationAttrs, &pHS );
+        VERIFY_EXPR(pHS);
     }
 
     {
@@ -107,6 +113,7 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         CreationAttrs.FilePath = "Shaders\\TessTestTriDX.dsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_DOMAIN;
         pDevice->CreateShader( CreationAttrs, &pDS );
+        VERIFY_EXPR(pDS);
     }
  
     PSODesc.GraphicsPipeline.pPS = pPS;
