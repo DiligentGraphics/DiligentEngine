@@ -1,5 +1,5 @@
 
-layout(rgba8, binding = 2) uniform image2D g_tex2DTestUAV;
+layout(rgba8, binding = 2) uniform writeonly image2D g_tex2DTestUAV;
 
 layout (local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
  
