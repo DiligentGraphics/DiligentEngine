@@ -61,6 +61,8 @@ public:
     void Suspend();
     EGLint Resume( ANativeWindow* window );
 
+    void UpdateScreenSize();
+    
 private:
     //EGL configurations
     ANativeWindow* window_ = nullptr;

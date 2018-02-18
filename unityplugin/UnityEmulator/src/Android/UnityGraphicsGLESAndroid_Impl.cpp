@@ -270,6 +270,21 @@ void UnityGraphicsGLESAndroid_Impl::Terminate()
     context_valid_ = false;
 }
 
+void UnityGraphicsGLESAndroid_Impl::UpdateScreenSize()
+{
+    int32_t new_screen_width  = 0;
+    int32_t new_screen_height = 0;
+    eglQuerySurface( display_, surface_, EGL_WIDTH, &new_screen_width );
+    eglQuerySurface( display_, surface_, EGL_HEIGHT, &new_screen_height );
+
+    if( new_screen_width != screen_width_ || new_screen_height != screen_height_ )
+    {
+        screen_width_ = new_screen_width;
+        screen_height_ = new_screen_height;
+        //Screen resized
+        LOG_INFO_MESSAGE( "Window size changed to ", screen_width_, "x", screen_height_ );
+    }
+}
 
 EGLint UnityGraphicsGLESAndroid_Impl::Resume( ANativeWindow* window )
 {
@@ -283,18 +298,7 @@ EGLint UnityGraphicsGLESAndroid_Impl::Resume( ANativeWindow* window )
     //Create surface
     window_ = window;
     surface_ = eglCreateWindowSurface( display_, config_, window_, NULL );
-    int32_t new_screen_width  = 0;
-    int32_t new_screen_height = 0;
-    eglQuerySurface( display_, surface_, EGL_WIDTH, &new_screen_width );
-    eglQuerySurface( display_, surface_, EGL_HEIGHT, &new_screen_height );
-
-    if( new_screen_width != screen_width_ || new_screen_height != screen_height_ )
-    {
-        screen_width_ = new_screen_width;
-        screen_height_ = new_screen_height;
-        //Screen resized
-        LOG_INFO_MESSAGE( "Screen resized\n" );
-    }
+    UpdateScreenSize();
 
     if( eglMakeCurrent( display_, surface_, surface_, context_ ) == EGL_TRUE )
         return EGL_SUCCESS;

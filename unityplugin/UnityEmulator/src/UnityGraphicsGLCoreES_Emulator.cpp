@@ -47,6 +47,10 @@ void UnityGraphicsGLCoreES_Emulator::Release()
 
 void UnityGraphicsGLCoreES_Emulator::ResizeSwapChain(unsigned int Width, unsigned int Height)
 {
+#if PLATFORM_ANDROID
+    m_GraphicsImpl->UpdateScreenSize();
+    GetBackBufferSize(Width, Height);
+#endif
     m_GraphicsImpl->ResizeSwapchain(Width, Height);
 }
 
