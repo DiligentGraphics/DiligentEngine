@@ -51,6 +51,10 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
     TestPipelineStateBase(pDevice, "Blend state initialization test"),
     m_pDeviceContext(pContext)
 {
+    // Dual-source color blending is not supported in GLES3.2, but NVidia's GPUs do support it
+    const auto& DevCaps = pDevice->GetDeviceCaps();
+    bool TestSRC1 = DevCaps.DevType != DeviceType::OpenGLES;// || DevCaps.Vendor == GPU_VENDOR::NVIDIA;
+
     m_PSODesc.Name = "PSO-TestBlendStates";
     BlendStateDesc &BSDesc = m_PSODesc.GraphicsPipeline.BlendDesc;
     BSDesc.RenderTargets[0].BlendEnable = True;
@@ -80,14 +84,13 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         BLEND_FACTOR_INV_SRC1_ALPHA,
     };
 
-
     for( int i = 0; i < BlendStateDesc::MaxRenderTargets; ++i )
     {
         auto &RT = BSDesc.RenderTargets[i];
         RT.BlendEnable = True;
         for( auto bf = BLEND_FACTOR_UNDEFINED + 1; bf < BLEND_FACTOR_NUM_FACTORS; ++bf )
         {
-            if( i > 0 && 
+            if( (!TestSRC1 || i > 0) && 
                 (bf == BLEND_FACTOR_SRC1_COLOR || 
                  bf == BLEND_FACTOR_INV_SRC1_COLOR ||
                  bf == BLEND_FACTOR_SRC1_ALPHA || 
@@ -99,7 +102,7 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
 
         for( auto bf = BLEND_FACTOR_UNDEFINED + 1; bf < BLEND_FACTOR_NUM_FACTORS; ++bf )
         {
-            if( i > 0 && 
+            if( (!TestSRC1 || i > 0) && 
                 (bf == BLEND_FACTOR_SRC1_COLOR || 
                  bf == BLEND_FACTOR_INV_SRC1_COLOR ||
                  bf == BLEND_FACTOR_SRC1_ALPHA || 
@@ -123,7 +126,7 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         for( auto bf = 0; bf < _countof(AlphaBlendFactors); ++bf )
         {
             auto AlphaBlend = AlphaBlendFactors[bf];
-            if( i > 0 && (AlphaBlend == BLEND_FACTOR_SRC1_ALPHA || AlphaBlend == BLEND_FACTOR_INV_SRC1_ALPHA) )
+            if( (!TestSRC1 || i > 0) && (AlphaBlend == BLEND_FACTOR_SRC1_ALPHA || AlphaBlend == BLEND_FACTOR_INV_SRC1_ALPHA) )
                 continue;
 
             RT.SrcBlendAlpha = AlphaBlend;
@@ -133,7 +136,7 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         for( auto bf = 0; bf < _countof(AlphaBlendFactors); ++bf )
         {
             auto AlphaBlend = AlphaBlendFactors[bf];
-            if( i > 0 && (AlphaBlend == BLEND_FACTOR_SRC1_ALPHA || AlphaBlend == BLEND_FACTOR_INV_SRC1_ALPHA) )
+            if( (!TestSRC1 || i > 0) && (AlphaBlend == BLEND_FACTOR_SRC1_ALPHA || AlphaBlend == BLEND_FACTOR_INV_SRC1_ALPHA) )
                 continue;
 
             RT.DestBlendAlpha = AlphaBlend;

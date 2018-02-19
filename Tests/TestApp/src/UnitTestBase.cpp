@@ -41,7 +41,7 @@ UnitTestBase::UnitTestBase(const char *Name) :
 {
     m_MaxNameLen = std::max(m_MaxNameLen, m_TestName.length());
     m_TestNum = ++m_TotalTests;
-    LOG_INFO_MESSAGE("Initialized test ", m_TestNum, ": ", Name);
+    LOG_INFO_MESSAGE("Created test ", m_TestNum, ": ", Name);
 }
 
 UnitTestBase::~UnitTestBase()
