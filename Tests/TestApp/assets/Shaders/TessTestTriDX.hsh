@@ -13,8 +13,8 @@ struct HS_CONSTANT_DATA_OUTPUT
 
 void ConstantHS( InputPatch<VSOutput, 1> p, 
                  uint BlockID : SV_PrimitiveID,
-                 out float Inside : SV_InsideTessFactor,
-                 out HS_CONSTANT_DATA_OUTPUT Factors)
+                 out HS_CONSTANT_DATA_OUTPUT Factors,
+                 out float Inside : SV_InsideTessFactor)
 {
     Factors.Edges[0] = 2.5 + float(BlockID);
     Factors.Edges[1] = 4.5 + p[0].f4Position.x * 1.53;
