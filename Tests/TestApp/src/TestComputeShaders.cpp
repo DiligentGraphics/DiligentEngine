@@ -57,4 +57,5 @@ void TestComputeShaders::Draw()
         return;
     
     m_pRenderScript->Run( m_pDeviceContext, "Render" );
+    SetStatus(TestResult::Succeeded);
 }

@@ -66,13 +66,15 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
     std::string status;
     if(pRenderDevice->GetDeviceCaps().bComputeShadersSupported)
     {
-#if PLATFORM_LINUX || PLATFORM_WIN32
+#if PLATFORM_LINUX
         CreationAttrs.FilePath = "Shaders\\CSConversionTest.fx";
         CreationAttrs.EntryPoint = "TestCS";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_COMPUTE;
         RefCntAutoPtr<IShader> pShader;
         pRenderDevice->CreateShader( CreationAttrs, &pShader );
         VERIFY_EXPR( pShader );
+#elif PLATFORM_WIN32
+        status = "Skipped compute shader conversion test as on Win32, only 8 image uniforms are allowed. Besides, an error is generated when passing image as a function argument.";
 #else
         status = "Skipped compute shader conversion test";
 #endif

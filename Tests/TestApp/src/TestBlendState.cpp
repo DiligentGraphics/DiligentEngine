@@ -54,6 +54,8 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
     // Dual-source color blending is not supported in GLES3.2, but NVidia's GPUs do support it
     const auto& DevCaps = pDevice->GetDeviceCaps();
     bool TestSRC1 = DevCaps.DevType != DeviceType::OpenGLES;// || DevCaps.Vendor == GPU_VENDOR::NVIDIA;
+    std::stringstream statusss;
+    statusss << "Dual-source color blending " << (TestSRC1 ? "tested." : "NOT tested.");
 
     m_PSODesc.Name = "PSO-TestBlendStates";
     BlendStateDesc &BSDesc = m_PSODesc.GraphicsPipeline.BlendDesc;
@@ -86,6 +88,7 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
 
     // GLES is required to support 4 render targets
     int NumRenderTargetsToTest = DevCaps.DevType == DeviceType::OpenGLES ? 4 : 8;
+    statusss << " Num render targets tested: " << NumRenderTargetsToTest;
     for( int i = 0; i < NumRenderTargetsToTest; ++i )
     {
         auto &RT = BSDesc.RenderTargets[i];
@@ -252,5 +255,5 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         m_pDevice->CreatePipelineState(m_PSODesc, &pPSO );
         pScript->Run( m_pDeviceContext, "TestPSOArg", pPSO );
     }
-    SetStatus(TestResult::Succeeded);
+    SetStatus(TestResult::Succeeded, statusss.str().c_str());
 }
