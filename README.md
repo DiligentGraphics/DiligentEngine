@@ -147,6 +147,8 @@ To build the engine, run the following command:
 
 *cmake --build ./cmk_build/Linux64*
 
+The engine's root folder contains [Visual Studio Code](https://code.visualstudio.com/) settings files that configure
+the IDE to build and run the engine. 
 
 ## Android
 
