@@ -84,7 +84,9 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         BLEND_FACTOR_INV_SRC1_ALPHA,
     };
 
-    for( int i = 0; i < BlendStateDesc::MaxRenderTargets; ++i )
+    // GLES is required to support 4 render targets
+    int NumRenderTargetsToTest = DevCaps.DevType == DeviceType::OpenGLES ? 4 : 8;
+    for( int i = 0; i < NumRenderTargetsToTest; ++i )
     {
         auto &RT = BSDesc.RenderTargets[i];
         RT.BlendEnable = True;
