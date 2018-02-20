@@ -49,7 +49,7 @@ as a graphics subsystem in a standalone game engine, Unity native plugin or any 
 | Linux/MacOS/iOS            | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
-Last Stable Release - [v2.1.b](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.1.b)
+Last Stable Release - [v2.2](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.2)
 
 # Clonning the Repository
 
@@ -61,7 +61,7 @@ This is the master repository that contains three [submodules](https://git-scm.c
  
  To checkout the last stable release, run the following commands:
  
-* git checkout tags/v2.1.b
+* git checkout tags/v2.2
 
 * git submodule update --init --recursive
 
@@ -286,9 +286,9 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 # Version History
 
-## Current Progress
+## v2.2
 
-* Added MacOS support
+* Added MacOS  and iOS support
 
 ## v2.1.b
 
