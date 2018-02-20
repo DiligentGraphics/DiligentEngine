@@ -11,8 +11,6 @@ std::unique_ptr<UnityGraphicsGL_Impl> UnityGraphicsGLCoreES_Emulator::m_Graphics
 
 UnityGraphicsGLCoreES_Emulator::UnityGraphicsGLCoreES_Emulator()
 {
-    VERIFY(!m_GraphicsImpl, "Another emulator has already been initialized");
-    m_GraphicsImpl.reset( new UnityGraphicsGL_Impl );
     //GeUnityInterfaces().RegisterInterface(IUnityGraphicsGLCoreES__GUID, GetUnityGraphicsAPIInterface());
 }
 
@@ -22,7 +20,9 @@ void UnityGraphicsGLCoreES_Emulator::InitGLContext(void *pNativeWndHandle,
                                                    #endif
                                                    int MajorVersion, int MinorVersion)
 {
-    m_GraphicsImpl->InitGLContext(pNativeWndHandle, 
+    VERIFY(!m_GraphicsImpl, "Another emulator has already been initialized");
+    m_GraphicsImpl.reset( new UnityGraphicsGL_Impl );
+    m_GraphicsImpl->InitGLContext(pNativeWndHandle,
                                   #if PLATFORM_LINUX
                                      pDisplay,
                                   #endif
