@@ -87,7 +87,7 @@ Master repository includes the following submodules:
   intended to demonstrate the usage of the Diligent Engine API. The module depends on Core and Tools modules.
   
 
-# Build Instructions
+# Build and Run Instructions
 
 Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
 To start using cmake, download the [latest release](https://cmake.org/download/) (3.10 or later is required for Windows build).
@@ -103,9 +103,13 @@ navigate to the engine's root folder and run the following command:
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**. (If anybody knows a way
 to add quotes to CMake's custom commands, please let me know!)
 
-Open DiligentEngine.sln file in cmk_build/Win64 folder, select the desired configuration and build the engine. By default, Asteroids
-demo will be set up as startup project.
+Open DiligentEngine.sln file in cmk_build/Win64 folder, select configuration and build the engine. Set the desired project
+as startup project (by default, Asteroids demo will be selected) and run it. 
 
+By default, appplications will run in D3D11 mode. To select D3D12 or OpenGL, use the following command line option:
+**mode=**{**D3D11**|**D3D12**|**GL**} (do not use spaces!). If you want to run an application outside of Visual Studio environment,
+the application's assets folder must be selected as a working directory. (For Visual Studio, this is automatically configured by 
+CMake). 
 
 ## Universal Windows Platform
 
@@ -118,6 +122,8 @@ For example, to generate Visual Studio 2017 64-bit solution and project files in
 from the engine's root folder:
 
 *cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.15063.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"*
+
+Set the desired project as startup project (by default, Atmosphere sample will be selected) and run it. 
 
 ## Linux
 
@@ -149,7 +155,8 @@ To build the engine, run the following command:
 *cmake --build ./cmk_build/Linux64*
 
 The engine's root folder contains [Visual Studio Code](https://code.visualstudio.com/) settings files that configure
-the IDE to build and run the engine.
+the IDE to build the engine. You can run applications directly from the IDE. To run an application from the command line,
+the app's assets folder must be current directory.
 
 ## Android
 
@@ -168,7 +175,7 @@ After you clone the repo, run the following command from the engine's root folde
 
 *cmake -H. -B./cmk_build/MacOS -G "Xcode"*
 
-Open Xcode project file in cmk_build/MacOS folder and build the engine.
+Open Xcode project file in cmk_build/MacOS folder to build the engine and run the applications. 
 
 ## iOS
 
