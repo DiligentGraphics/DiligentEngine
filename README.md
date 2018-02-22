@@ -1,6 +1,7 @@
 # Diligent Engine - A Modern Cross-Platform 3D Graphics Library
 
-Diligent Engine is a light-weight cross-platform abstraction layer between the application and the platform-specific graphics API. 
+[Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a light-weight cross-platform abstraction layer between the 
+application and the platform-specific graphics API. 
 Its main goal is to take advantages of the next-generation APIs such as Direct3D12 and Vulkan, but at the same time provide support 
 for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common front-end for all supported platforms and 
 provides [interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
@@ -148,7 +149,7 @@ To build the engine, run the following command:
 *cmake --build ./cmk_build/Linux64*
 
 The engine's root folder contains [Visual Studio Code](https://code.visualstudio.com/) settings files that configure
-the IDE to build and run the engine. 
+the IDE to build and run the engine.
 
 ## Android
 
@@ -243,13 +244,13 @@ rendering algorithm.
 ## AntTweakBar Sample
 
 This sample demonstrates how to use [AntTweakBar library](http://anttweakbar.sourceforge.net/doc) to create simple user interface. 
-It can also be thought of as Diligent Engine’s “Hello World” example. 
 
 ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/AntTweakBar/Screenshot.png)
 
 ## Atmosphere Sample
 
-The sample demonstrates how Diligent Engine can be used to implement various rendering tasks: 
+The sample implements physically-based atmospheric light scattering model and demonstrates how
+Diligent Engine can be used to accomplish various rendering tasks: 
 loading textures from files, using complex shaders, rendering to textures, using compute shaders 
 and unordered access views, etc.
 
@@ -308,10 +309,10 @@ and adds implementation using Diligent Engine API to allow comparing performance
 #### Core
 
 * Interoperability with native API
-** Accessing internal objects and handles
-** Createing diligent engine buffers/textures from native resources
-** Attaching to existing D3D11/D3D12 device or GL context
-** Resource state and command queue synchronization for D3D12
+  * Accessing internal objects and handles
+  * Createing diligent engine buffers/textures from native resources
+  * Attaching to existing D3D11/D3D12 device or GL context
+  * Resource state and command queue synchronization for D3D12
 * Integraion with Unity
 * Geometry shader support
 * Tessellation support
@@ -320,8 +321,8 @@ and adds implementation using Diligent Engine API to allow comparing performance
 #### HLSL->GLSL converter
 * Support for structured buffers
 * HLSL->GLSL conversion is now a two-stage process:
-** Creating conversion stream
-** Creating GLSL source from the stream
+  * Creating conversion stream
+  * Creating GLSL source from the stream
 * Geometry shader support
 * Tessellation control and tessellation evaluation shader support
 * Support for non-void shader functions
