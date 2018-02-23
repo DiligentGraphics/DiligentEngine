@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "PlatformBase.h"
 
 // Direct3D 12 implementation of RenderAPI.
