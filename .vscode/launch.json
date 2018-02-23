@@ -62,6 +62,25 @@
             ]
         },
         {
+            "name": "Tutorial00_HelloLinux",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial00_HelloLinux/Tutorial00_HelloLinux",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial00_HelloLinux",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },        
+        {
             "name": "Tutorial01_HelloTriangle",
             "type": "cppdbg",
             "request": "launch",
