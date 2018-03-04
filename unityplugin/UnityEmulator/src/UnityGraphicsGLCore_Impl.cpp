@@ -1,7 +1,7 @@
 
 #include "UnityGraphicsGLCore_Impl.h"
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED
 
 #include <iostream>
 #include "DebugUtilities.h"
@@ -251,4 +251,4 @@ void UnityGraphicsGLCore_Impl::SwapBuffers()
 #endif
 }
 
-#endif // OPENGL_SUPPORTED
+#endif // GL_SUPPORTED

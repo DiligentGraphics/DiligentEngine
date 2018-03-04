@@ -100,6 +100,10 @@ navigate to the engine's root folder and run the following command:
 
 *cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
 
+You can generate Win32 solution that targets Win8.1 SDK using the following command:
+
+*cmake -D CMAKE_SYSTEM_VERSION=8.1 -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
+
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**. (If anybody knows a way
 to add quotes to CMake's custom commands, please let me know!)
 
@@ -124,6 +128,9 @@ from the engine's root folder:
 *cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.15063.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"*
 
 Set the desired project as startup project (by default, Atmosphere sample will be selected) and run it. 
+
+Note: you can generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but the solution will fail
+to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++11 support.
 
 ## Linux
 

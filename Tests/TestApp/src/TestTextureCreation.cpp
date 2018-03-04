@@ -36,7 +36,7 @@
 #include "TestCreateObjFromNativeResD3D12.h"
 #endif
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
 #include "TestCreateObjFromNativeResGL.h"
 #endif
 
@@ -68,7 +68,7 @@ public:
             break;
 #endif
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
             case DeviceType::OpenGL:
             case DeviceType::OpenGLES:
                 m_pTestCreateObjFromNativeRes.reset(new TestCreateObjFromNativeResGL(pDevice));

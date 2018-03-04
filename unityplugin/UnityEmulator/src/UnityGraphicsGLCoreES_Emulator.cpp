@@ -2,7 +2,7 @@
 
 #include "UnityGraphicsGLCoreES_Emulator.h"
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
 
 #include "DebugUtilities.h"
 #include "Errors.h"
@@ -102,4 +102,4 @@ void UnityGraphicsGLCoreES_Emulator::EndFrame()
 {
 }
 
-#endif // OPENGL_SUPPORTED
+#endif // GL_SUPPORTED || GLES_SUPPORTED

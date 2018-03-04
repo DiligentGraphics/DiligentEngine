@@ -2,7 +2,7 @@
 
 #include "PlatformDefinitions.h"
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
 
 #include <memory>
 #include "UnityGraphicsEmulator.h"
@@ -47,4 +47,4 @@ private:
     static std::unique_ptr<UnityGraphicsGL_Impl> m_GraphicsImpl;
 };
 
-#endif // OPENGL_SUPPORTED
+#endif // GL_SUPPORTED || GLES_SUPPORTED

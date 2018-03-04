@@ -32,7 +32,7 @@
 #include "TestCreateObjFromNativeResD3D12.h"
 #endif
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
 #include "TestCreateObjFromNativeResGL.h"
 #endif
 
@@ -58,7 +58,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         break;
 #endif
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
         case DeviceType::OpenGL:
         case DeviceType::OpenGLES:
             pTestCreateObjFromNativeRes.reset(new TestCreateObjFromNativeResGL(pDevice));

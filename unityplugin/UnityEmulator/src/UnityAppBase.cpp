@@ -34,7 +34,7 @@
 #   include "DiligentGraphicsAdapterD3D12.h"
 #endif
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
 #   include "UnityGraphicsGLCoreES_Emulator.h"
 #   include "DiligentGraphicsAdapterGL.h"
 #endif
@@ -147,7 +147,7 @@ void UnityAppBase::InitGraphics(
         break;
 #endif
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
         case DeviceType::OpenGL:
         case DeviceType::OpenGLES:
         {

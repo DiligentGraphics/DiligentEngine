@@ -24,7 +24,7 @@
 
 #include "PlatformDefinitions.h"
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
 
 #include "DiligentGraphicsAdapter.h"
 
@@ -43,4 +43,4 @@ private:
     const UnityGraphicsGLCoreES_Emulator& m_UnityGraphicsGL;
 };
 
-#endif // OPENGL_SUPPORTED
+#endif // GL_SUPPORTED || GLES_SUPPORTED

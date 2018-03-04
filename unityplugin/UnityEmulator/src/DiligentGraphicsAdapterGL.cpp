@@ -1,6 +1,6 @@
 #include "DiligentGraphicsAdapterGL.h"
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
 
 #include "UnityGraphicsGLCoreES_Emulator.h"
 #include "RenderDeviceFactoryOpenGL.h"
@@ -112,4 +112,4 @@ bool DiligentGraphicsAdapterGL::UsesReverseZ()
     return m_UnityGraphicsGL.UsesReverseZ(); 
 }
 
-#endif // OPENGL_SUPPORTED
+#endif // GL_SUPPORTED || GLES_SUPPORTED

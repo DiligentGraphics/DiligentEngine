@@ -2,7 +2,7 @@
 
 #include "PlatformDefinitions.h"
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED
 
 #if PLATFORM_WIN32
 
@@ -110,4 +110,4 @@ private:
     NativeGLContextType m_Context;
 };
 
-#endif //OPENGL_SUPPORTED
+#endif // GL_SUPPORTED

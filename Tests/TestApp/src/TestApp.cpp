@@ -37,7 +37,7 @@
 #   include "RenderDeviceFactoryD3D12.h"
 #endif
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
 #   include "RenderDeviceFactoryOpenGL.h"
 #endif
 
@@ -51,8 +51,8 @@
 #include "TestRasterizerState.h"
 #include "TestBlendState.h"
 #include "TestVPAndSR.h"
-#if OPENGL_SUPPORTED
-#include "ShaderConverterTest.h"
+#if GL_SUPPORTED || GLES_SUPPORTED
+    #include "ShaderConverterTest.h"
 #endif
 #include "TestCopyTexData.h"
 #include "PlatformMisc.h"
@@ -127,7 +127,7 @@ void TestApp::InitializeDiligentEngine(
         break;
 #endif
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
         case DeviceType::OpenGL:
         case DeviceType::OpenGLES:
         {
@@ -184,7 +184,7 @@ void TestApp::InitializeRenderers()
     m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, bUseOpenGL, 0.4f, -0.9f, 0.5f, 0.5f));
     m_pMTResCreationTest.reset(new MTResourceCreationTest(m_pDevice, m_pImmediateContext, 7));
 
-#if OPENGL_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
     ShaderConverterTest ConverterTest(m_pDevice, m_pImmediateContext);
 #endif
     TestSamplerCreation TestSamplers(m_pDevice);
