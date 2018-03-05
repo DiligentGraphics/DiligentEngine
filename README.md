@@ -405,9 +405,11 @@ and adds implementation using Diligent Engine API to allow comparing performance
 ## Current progress
 
 * Enabled Win32 build targeting Windows 8.1 SDK
+* Enabled build customization through custom build config file
 * Fixed the following issues: 
   * [Messy #include structure?](https://github.com/DiligentGraphics/DiligentEngine/issues/3) 
   * [Move GetEngineFactoryXXXType and LoadGraphicsEngineXXX to Diligent namespace](https://github.com/DiligentGraphics/DiligentEngine/issues/5)
+  * [Customizable build scripts](https://github.com/DiligentGraphics/DiligentEngine/issues/6)
   * [Win32FileSystem releated functions should use wchar_t (UTF-16)](https://github.com/DiligentGraphics/DiligentEngine/issues/7)
 
 ## v2.2
