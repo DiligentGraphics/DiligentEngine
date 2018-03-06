@@ -7,8 +7,8 @@ for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes
 provides [interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
 [Shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) allows shaders authored in HLSL to 
 be translated to GLSL and used on all supported platforms. 
-The engine supports [integration with Unity](http://diligentgraphics.com/diligent-engine/unity-integration/) and is designed to be used 
-as a graphics subsystem in a standalone game engine, Unity native plugin or any other 3D application. It is distributed under 
+The engine supports [integration with Unity](http://diligentgraphics.com/diligent-engine/integration-with-unity/) and is designed to be 
+used as a graphics subsystem in a standalone game engine, Unity native plugin or any other 3D application. It is distributed under 
 [Apache 2.0 license](License.txt) and is free to use.
 
 ## Features
@@ -90,7 +90,7 @@ Master repository includes the following submodules:
 # Build and Run Instructions
 
 Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
-To start using cmake, download the [latest release](https://cmake.org/download/) (3.10 or later is required for Windows build).
+To start using cmake, download the [latest release](https://cmake.org/download/) (3.10 or later is required).
 
 ## Win32
 
@@ -110,8 +110,8 @@ to add quotes to CMake's custom commands, please let me know!)
 Open DiligentEngine.sln file in cmk_build/Win64 folder, select configuration and build the engine. Set the desired project
 as startup project (by default, Asteroids demo will be selected) and run it. 
 
-By default, appplications will run in D3D11 mode. To select D3D12 or OpenGL, use the following command line option:
-**mode=**{**D3D11**|**D3D12**|**GL**} (do not use spaces!). If you want to run an application outside of Visual Studio environment,
+By default, appplications will run in D3D11 mode. To select D3D12 or OpenGL, use the following command line options:
+**mode=D3D11**, **mode=D3D12**, or **mode=GL** (do not use spaces!). If you want to run an application outside of Visual Studio environment,
 the application's assets folder must be selected as a working directory. (For Visual Studio, this is automatically configured by 
 CMake). 
 
@@ -244,8 +244,8 @@ new configuration:
 For instance:
 
 ```cmake
-set(CMAKE_C_FLAGS_RELEASEMT /MT CACHE INTERNAL "" FORCE)
-set(CMAKE_CXX_FLAGS_RELEASEMT /MT CACHE INTERNAL "" FORCE)
+set(CMAKE_C_FLAGS_RELEASEMT "/MT" CACHE INTERNAL "" FORCE)
+set(CMAKE_CXX_FLAGS_RELEASEMT "/MT" CACHE INTERNAL "" FORCE)
 set(CMAKE_EXE_LINKER_FLAGS_RELEASEMT "/OPT:REF" CACHE INTERNAL "" FORCE)
 set(CMAKE_SHARED_LINKER_FLAGS_RELEASEMT "/OPT:REF" CACHE INTERNAL "" FORCE)
 ```
