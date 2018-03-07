@@ -415,6 +415,22 @@ public:
 
         // Matrix 3x3
         {
+            float2x2 m1(1, 2,
+                        5, 6);
+            float2x2 m2(1, 2,
+                        5, 6);
+            VERIFY_EXPR(m1._11 == 1 && m1._12 == 2 &&
+                        m1._21 == 5 && m1._22 == 6);
+            VERIFY_EXPR(m1[0][0] == 1 && m1[0][1] == 2 &&
+                        m1[1][0] == 5 && m1[1][1] == 6);
+
+            VERIFY_EXPR(m1 == m2);
+            auto t = transposeMatrix(transposeMatrix(m1));
+            VERIFY_EXPR(t == m1);
+        }
+
+        // Matrix 3x3
+        {
             float3x3 m1( 1,  2,  3,
                          5,  6,  7,
                          9, 10, 11),
@@ -498,6 +514,10 @@ public:
                          5,  6,  7,
                          9, 10, 11);
             std::hash<float3x3>()(m2);
+
+            float2x2 m3(1, 2,
+                        5, 6);
+            std::hash<float2x2>()(m3);
         }
         SetStatus(TestResult::Succeeded);
     }
