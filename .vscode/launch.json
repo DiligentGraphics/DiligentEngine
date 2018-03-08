@@ -233,6 +233,25 @@
             ]
         },
         {
+            "name": "Tutorial09_Quads",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial09_Quads/Tutorial09_Quads",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial09_Quads/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "TestApp",
             "type": "cppdbg",
             "request": "launch",
