@@ -82,6 +82,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 EngineD3D12Attribs Attribs;
                 Attribs.GPUDescriptorHeapDynamicSize[0] = 65536*4;
                 Attribs.GPUDescriptorHeapSize[0] = 65536*4;
+                Attribs.NumCommandsToFlushCmdList = 1024;
 #ifndef _DEBUG
                 Attribs.DynamicDescriptorAllocationChunkSize[0] = 4*2048;
 #endif
