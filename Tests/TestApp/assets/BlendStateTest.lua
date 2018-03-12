@@ -195,6 +195,8 @@ for rt = 1, 4 do
 		RT.DestBlend = v
 		PSODesc.GraphicsPipeline.BlendDesc = BSDesc
 		local TestPSO = PipelineState.Create(PSODesc)
+        assert(TestPSO:IsCompatibleWith(PSO_TestBlendState) == true)
+        assert(PSO_TestBlendState:IsCompatibleWith(TestPSO) == true)
 		assert(TestPSO.GraphicsPipeline.BlendDesc.RenderTargets[rt].SrcBlend == v)
 		assert(TestPSO.GraphicsPipeline.BlendDesc.RenderTargets[rt].DestBlend == v)
 		Context.SetPipelineState(TestPSO)
@@ -205,6 +207,8 @@ for rt = 1, 4 do
 		RT.DestBlendAlpha = v
 		PSODesc.GraphicsPipeline.BlendDesc = BSDesc
 		local TestPSO = PipelineState.Create(PSODesc)
+        assert(TestPSO:IsCompatibleWith(PSO_TestBlendState) == true)
+        assert(PSO_TestBlendState:IsCompatibleWith(TestPSO) == true)
 		assert(TestPSO.GraphicsPipeline.BlendDesc.RenderTargets[rt].SrcBlendAlpha == v)
 		assert(TestPSO.GraphicsPipeline.BlendDesc.RenderTargets[rt].DestBlendAlpha == v)
 		Context.SetPipelineState(TestPSO)
@@ -219,6 +223,8 @@ for rt = 1, 4 do
 		RT.BlendOpAlpha = v
 		PSODesc.GraphicsPipeline.BlendDesc = BSDesc
 		local TestPSO = PipelineState.Create(PSODesc)
+        assert(TestPSO:IsCompatibleWith(PSO_TestBlendState) == true)
+        assert(PSO_TestBlendState:IsCompatibleWith(TestPSO) == true)
 		assert(TestPSO.GraphicsPipeline.BlendDesc.RenderTargets[rt].BlendOp == v)
 		assert(TestPSO.GraphicsPipeline.BlendDesc.RenderTargets[rt].BlendOpAlpha == v)
 		Context.SetPipelineState(TestPSO)

@@ -232,7 +232,6 @@ TestVertexLayoutPSO = PipelineState.Create
 }
 
 
-
 function CheckVertexDescription(VD)
 	assert(VD[1].InputIndex == 0)
 	assert(VD[1].BufferSlot == 0)
@@ -302,6 +301,16 @@ TestVertexLayoutPSO3 = PipelineState.Create
 		DSVFormat = "TEX_FORMAT_D32_FLOAT",
 	}
 }
+
+assert(TestVertexLayoutPSO:IsCompatibleWith(TestVertexLayoutPSO))
+assert(TestVertexLayoutPSO:IsCompatibleWith(TestVertexLayoutPSO2))
+assert(TestVertexLayoutPSO:IsCompatibleWith(TestVertexLayoutPSO3))
+assert(TestVertexLayoutPSO2:IsCompatibleWith(TestVertexLayoutPSO))
+assert(TestVertexLayoutPSO2:IsCompatibleWith(TestVertexLayoutPSO2))
+assert(TestVertexLayoutPSO2:IsCompatibleWith(TestVertexLayoutPSO3))
+assert(TestVertexLayoutPSO3:IsCompatibleWith(TestVertexLayoutPSO))
+assert(TestVertexLayoutPSO3:IsCompatibleWith(TestVertexLayoutPSO2))
+assert(TestVertexLayoutPSO3:IsCompatibleWith(TestVertexLayoutPSO3))
 
 CheckVertexDescription(TestVertexLayoutPSO3.GraphicsPipeline.InputLayout)
 

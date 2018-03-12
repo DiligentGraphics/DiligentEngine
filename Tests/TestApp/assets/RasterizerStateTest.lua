@@ -103,12 +103,16 @@ for i,v in ipairs(FillModes) do
 	PSODesc.GraphicsPipeline.RasterizerDesc.FillMode = v
 	local TestPSO = PipelineState.Create(PSODesc)
 	assert(TestPSO.GraphicsPipeline.RasterizerDesc.FillMode == v)
+    assert(TestRS_PSO:IsCompatibleWith(TestPSO) == true)
+    assert(TestPSO:IsCompatibleWith(TestRS_PSO) == true)
 	Context.SetPipelineState(TestPSO)
 end
 
 for i,v in ipairs(CullModes) do
 	PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = v
 	local TestPSO = PipelineState.Create(PSODesc)
+    assert(TestRS_PSO:IsCompatibleWith(TestPSO) == true)
+    assert(TestPSO:IsCompatibleWith(TestRS_PSO) == true)
 	assert(TestPSO.GraphicsPipeline.RasterizerDesc.CullMode == v)
 	Context.SetPipelineState(TestPSO)
 end

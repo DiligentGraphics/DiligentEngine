@@ -6,7 +6,7 @@
 // We also bind the buffer to index 0. You need to set the buffer binding
 // in the range [0..3] – this is the minimum range approved by Khronos.
 // Notice that various platforms might support more indices than that.
-layout(std140, binding = 2) buffer bufIndirectDispatchArgs
+layout(std140, binding = 3) buffer bufIndirectDispatchArgs
 {
 	uvec4 data[];
 }g_DispatchArgs;

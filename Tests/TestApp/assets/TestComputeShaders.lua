@@ -217,6 +217,8 @@ UpdateDispatchArgsBuffPSO = PipelineState.Create
 		pCS = UpdateDispatchArgsBuffCS
 	}
 }
+assert(UpdateDrawArgsBuffPSO:IsCompatibleWith(UpdateDispatchArgsBuffPSO) == true)
+assert(UpdateDispatchArgsBuffPSO:IsCompatibleWith(UpdateDrawArgsBuffPSO) == true)
 
 RenderPSO = PipelineState.Create
 {

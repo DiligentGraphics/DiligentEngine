@@ -122,42 +122,50 @@ StencilOps =
 
 for i,v in ipairs(ComparisonFuncs) do
 	PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = v
-	local TestPSO = PipelineState.Create(PSODesc)
-	assert(TestPSO.GraphicsPipeline.DepthStencilDesc.DepthFunc == v)
-	Context.SetPipelineState(TestPSO)
+	local TestPSO2 = PipelineState.Create(PSODesc)
+    assert(TestPSO:IsCompatibleWith(TestPSO2))
+    assert(TestPSO2:IsCompatibleWith(TestPSO))
+	assert(TestPSO2.GraphicsPipeline.DepthStencilDesc.DepthFunc == v)
+	Context.SetPipelineState(TestPSO2)
 end
 
 for i,v in ipairs(StencilOps) do
 	PSODesc.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilFailOp = v
 	PSODesc.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilDepthFailOp = v
 	PSODesc.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilPassOp = v
-	local TestPSO = PipelineState.Create(PSODesc)
-	assert( TestPSO.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilFailOp == v )
-	assert( TestPSO.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilDepthFailOp == v )
-	assert( TestPSO.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilPassOp == v )
-	Context.SetPipelineState(TestPSO)
+	local TestPSO2 = PipelineState.Create(PSODesc)
+    assert(TestPSO:IsCompatibleWith(TestPSO2))
+    assert(TestPSO2:IsCompatibleWith(TestPSO))
+	assert( TestPSO2.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilFailOp == v )
+	assert( TestPSO2.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilDepthFailOp == v )
+	assert( TestPSO2.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilPassOp == v )
+	Context.SetPipelineState(TestPSO2)
 end
 
 for i,v in ipairs(StencilOps) do
 	PSODesc.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFailOp = v
 	PSODesc.GraphicsPipeline.DepthStencilDesc.BackFace.StencilDepthFailOp = v
 	PSODesc.GraphicsPipeline.DepthStencilDesc.BackFace.StencilPassOp = v
-	local TestPSO = PipelineState.Create(PSODesc)
+	local TestPSO2 = PipelineState.Create(PSODesc)
+    assert(TestPSO:IsCompatibleWith(TestPSO2))
+    assert(TestPSO2:IsCompatibleWith(TestPSO))
 	--local TestDSS2 = DepthStencilState.Create(DSSDesc)
-	assert( TestPSO.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFailOp == v )
-	assert( TestPSO.GraphicsPipeline.DepthStencilDesc.BackFace.StencilDepthFailOp == v )
-	assert( TestPSO.GraphicsPipeline.DepthStencilDesc.BackFace.StencilPassOp == v )
-	Context.SetPipelineState(TestPSO)
+	assert( TestPSO2.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFailOp == v )
+	assert( TestPSO2.GraphicsPipeline.DepthStencilDesc.BackFace.StencilDepthFailOp == v )
+	assert( TestPSO2.GraphicsPipeline.DepthStencilDesc.BackFace.StencilPassOp == v )
+	Context.SetPipelineState(TestPSO2)
 end
 
 
 for i,v in ipairs(ComparisonFuncs) do
 	PSODesc.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilFunc = v
 	PSODesc.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFunc = v
-	local TestPSO = PipelineState.Create(PSODesc)
-	assert( TestPSO.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilFunc == v )
-	assert( TestPSO.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFunc == v )
-	Context.SetPipelineState(TestPSO)
+	local TestPSO2 = PipelineState.Create(PSODesc)
+    assert(TestPSO:IsCompatibleWith(TestPSO2))
+    assert(TestPSO2:IsCompatibleWith(TestPSO))
+	assert( TestPSO2.GraphicsPipeline.DepthStencilDesc.FrontFace.StencilFunc == v )
+	assert( TestPSO2.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFunc == v )
+	Context.SetPipelineState(TestPSO2)
 end
 
 function TestDSSDesc(PSOArg)
