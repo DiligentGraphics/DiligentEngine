@@ -352,6 +352,13 @@ This tutorial shows how to use hardware tessellation to implement simple adaptiv
 rendering algorithm.
 
 
+## [Tutorial 09 - Quads](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial09_Quads)
+
+![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial09_Quads/Screenshot.png)
+
+This tutorial shows how to render multiple 2D quads, frequently swithcing textures and blend modes.
+
+
 # Samples
 
 [Sample source code](https://github.com/DiligentGraphics/DiligentSamples)
