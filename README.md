@@ -50,7 +50,7 @@ used as a graphics subsystem in a standalone game engine, Unity native plugin or
 | Linux/MacOS/iOS            | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
-Last Stable Release - [v2.2](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.2)
+Last Stable Release - [v2.2.a](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.2.a)
 
 # Clonning the Repository
 
@@ -62,7 +62,7 @@ This is the master repository that contains three [submodules](https://git-scm.c
  
  To checkout the last stable release, run the following commands:
  
-* git checkout tags/v2.2
+* git checkout tags/v2.2.a
 
 * git submodule update --init --recursive
 
@@ -409,10 +409,11 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 # Version History
 
-## Current progress
+## v2.2.a
 
 * Enabled Win32 build targeting Windows 8.1 SDK
 * Enabled build customization through custom build config file
+* Implemented PSO compatibility
 * Fixed the following issues: 
   * [Messy #include structure?](https://github.com/DiligentGraphics/DiligentEngine/issues/3) 
   * [Move GetEngineFactoryXXXType and LoadGraphicsEngineXXX to Diligent namespace](https://github.com/DiligentGraphics/DiligentEngine/issues/5)

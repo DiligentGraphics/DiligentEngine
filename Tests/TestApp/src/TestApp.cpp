@@ -51,6 +51,7 @@
 #include "TestRasterizerState.h"
 #include "TestBlendState.h"
 #include "TestVPAndSR.h"
+#include "TestPSOCompatibility.h"
 #if GL_SUPPORTED || GLES_SUPPORTED
     #include "ShaderConverterTest.h"
 #endif
@@ -178,6 +179,7 @@ void TestApp::InitializeRenderers()
     TestDepthStencilState TestDSS(m_pDevice, m_pImmediateContext);
     TestTextureCreation TestTexCreation(m_pDevice, m_pImmediateContext);
     TestBufferCreation TestBuffCreation(m_pDevice, m_pImmediateContext);
+    TestPSOCompatibility TestPSOCompat(m_pDevice);
 
     m_TestGS.Init(m_pDevice, m_pImmediateContext);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext);
