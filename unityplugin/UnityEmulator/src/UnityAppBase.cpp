@@ -82,9 +82,13 @@ void UnityAppBase::ProcessCommandLine(const char *CmdLine)
         {
             m_DeviceType = DeviceType::OpenGL;
         }
+        else if (_stricmp(pos, "VK") == 0)
+        {
+            m_DeviceType = DeviceType::Vulkan;
+        }
         else
         {
-            LOG_ERROR_AND_THROW("Unknown device type. Only the following types are supported: D3D11, D3D12, GL");
+            LOG_ERROR_AND_THROW("Unknown device type. Only the following types are supported: D3D11, D3D12, GL, VK");
         }
     }
     else

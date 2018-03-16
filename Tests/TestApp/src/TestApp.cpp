@@ -41,6 +41,10 @@
 #   include "RenderDeviceFactoryOpenGL.h"
 #endif
 
+#if VULKAN_SUPPORTED
+#   include "RenderDeviceFactoryVk.h"
+#endif
+
 #include "FileSystem.h"
 #include "MapHelper.h"
 #include "RenderScriptTest.h"
@@ -159,6 +163,24 @@ void TestApp::InitializeDiligentEngine(
         break;
 #endif
 
+#if VULKAN_SUPPORTED
+        case DeviceType::Vulkan:
+        {
+#if ENGINE_DLL
+            GetEngineFactoryVkType GetEngineFactoryVk = nullptr;
+            // Load the dll and import GetEngineFactoryVk() function
+            LoadGraphicsEngineVk(GetEngineFactoryVk);
+#endif
+            EngineVkAttribs EngVkAttribs;
+            ppContexts.resize(1 + NumDeferredCtx);
+            auto *pFactoryVk = GetEngineFactoryVk();
+            pFactoryVk->CreateDeviceAndContextsVk(EngVkAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
+
+            if (!m_pSwapChain && NativeWindowHandle != nullptr)
+                pFactoryVk->CreateSwapChainVk(m_pDevice, ppContexts[0], SCDesc, NativeWindowHandle, &m_pSwapChain);
+        }
+        break;
+#endif
         default:
             LOG_ERROR_AND_THROW("Unknown device type");
             break;
@@ -400,9 +422,13 @@ void TestApp::ProcessCommandLine(const char *CmdLine)
         {
             m_DeviceType = DeviceType::OpenGL;
         }
+        else if (_stricmp(pos, "VK") == 0)
+        {
+            m_DeviceType = DeviceType::Vulkan;
+        }
         else
         {
-            LOG_ERROR_AND_THROW("Unknown device type. Only the following types are supported: D3D11, D3D12, GL");
+            LOG_ERROR_AND_THROW("Unknown device type. Only the following types are supported: D3D11, D3D12, GL, VK");
         }
     }
     else
@@ -416,6 +442,7 @@ void TestApp::ProcessCommandLine(const char *CmdLine)
         case DeviceType::D3D11: m_AppTitle.append(" (D3D11)"); break;
         case DeviceType::D3D12: m_AppTitle.append(" (D3D12)"); break;
         case DeviceType::OpenGL: m_AppTitle.append(" (OpenGL)"); break;
+        case DeviceType::Vulkan: m_AppTitle.append(" (Vulkan)"); break;
         default: UNEXPECTED("Unknown device type");
     }
 }
