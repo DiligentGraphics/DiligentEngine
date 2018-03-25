@@ -5,7 +5,8 @@ project(IncludeTest)
 file(GLOB GRAPHICS_ENGINE_INC_TEST LIST_DIRECTORIES false src/GraphicsEngine/*.cpp)
 file(GLOB PLATFORMS_INC_TEST LIST_DIRECTORIES false src/Platforms/*.cpp)
 file(GLOB COMMON_INC_TEST LIST_DIRECTORIES false src/Common/*.cpp)
-add_library(IncludeTest ${GRAPHICS_ENGINE_INC_TEST} ${PLATFORMS_INC_TEST} ${COMMON_INC_TEST})
+file(GLOB GRAPHICS_TOOLS_INC_TEST LIST_DIRECTORIES false src/GraphicsTools/*.cpp)
+add_library(IncludeTest ${GRAPHICS_ENGINE_INC_TEST} ${PLATFORMS_INC_TEST} ${COMMON_INC_TEST} ${GRAPHICS_TOOLS_INC_TEST})
 
 if(D3D11_SUPPORTED)
     file(GLOB GRAPHICS_ENGINE_D3D11_INC_TEST LIST_DIRECTORIES false src/GraphicsEngineD3D11/*.cpp)
@@ -38,6 +39,7 @@ endif()
 source_group("src\\GraphicsEngine" FILES ${GRAPHICS_ENGINE_INC_TEST})
 source_group("src\\Platforms" FILES ${PLATFORMS_INC_TEST})
 source_group("src\\Common" FILES ${COMMON_INC_TEST})
+source_group("src\\GraphicsTool" FILES ${GRAPHICS_TOOLS_INC_TEST})
 
 set_target_properties(IncludeTest PROPERTIES
     FOLDER Tests
