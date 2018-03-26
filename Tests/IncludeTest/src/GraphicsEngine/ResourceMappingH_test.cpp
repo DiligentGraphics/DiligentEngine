@@ -21,5 +21,5 @@
  *  of the possibility of such damages.
  */
 
-#include "Graphics/GraphicsEngine/interface/ResourceMapping.h"
+#include "DiligentCore/Graphics/GraphicsEngine/interface/ResourceMapping.h"
 

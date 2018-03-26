@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/ValidatedCast.h"
+#include "DiligentCore/Common/interface/ValidatedCast.h"

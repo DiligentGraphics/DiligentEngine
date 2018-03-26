@@ -32,4 +32,4 @@
 #   define ENGINE_DLL 1
 #endif
 
-#include "Graphics/GraphicsEngineOpenGL/interface/RenderDeviceFactoryOpenGL.h"
+#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/RenderDeviceFactoryOpenGL.h"

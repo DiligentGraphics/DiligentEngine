@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Graphics/GraphicsTools/include/ShaderMacroHelper.h"
+#include "DiligentCore/Graphics/GraphicsTools/include/ShaderMacroHelper.h"

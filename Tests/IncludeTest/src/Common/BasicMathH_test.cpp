@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/BasicMath.h"
+#include "DiligentCore/Common/interface/BasicMath.h"

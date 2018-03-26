@@ -22,4 +22,4 @@
  */
 typedef unsigned int GLuint;
 typedef unsigned int GLenum;
-#include "Graphics/GraphicsEngineOpenGL/interface/TextureGL.h"
+#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/TextureGL.h"

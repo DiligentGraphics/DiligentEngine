@@ -30,4 +30,4 @@
 #   define ENGINE_DLL 1
 #endif
 
-#include "Graphics/GraphicsEngineD3D11/interface/RenderDeviceFactoryD3D11.h"
+#include "DiligentCore/Graphics/GraphicsEngineD3D11/interface/RenderDeviceFactoryD3D11.h"

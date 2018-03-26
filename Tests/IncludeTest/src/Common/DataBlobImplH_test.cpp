@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/DataBlobImpl.h"
+#include "DiligentCore/Common/interface/DataBlobImpl.h"

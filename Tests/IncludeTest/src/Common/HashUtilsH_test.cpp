@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/HashUtils.h"
+#include "DiligentCore/Common/interface/HashUtils.h"

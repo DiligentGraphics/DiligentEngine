@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Graphics/GraphicsTools/include/CommonlyUsedStates.h"
+#include "DiligentCore/Graphics/GraphicsTools/include/CommonlyUsedStates.h"

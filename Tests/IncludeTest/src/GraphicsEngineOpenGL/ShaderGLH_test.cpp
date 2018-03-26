@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Graphics/GraphicsEngineOpenGL/interface/ShaderGL.h"
+#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/ShaderGL.h"

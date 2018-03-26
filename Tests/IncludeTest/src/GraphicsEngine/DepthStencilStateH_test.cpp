@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Graphics/GraphicsEngine/interface/DepthStencilState.h"
+#include "DiligentCore/Graphics/GraphicsEngine/interface/DepthStencilState.h"

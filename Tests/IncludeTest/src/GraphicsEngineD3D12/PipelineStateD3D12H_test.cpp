@@ -22,4 +22,4 @@
  */
 
 #include <d3d12.h>
-#include "Graphics/GraphicsEngineD3D12/interface/PipelineStateD3D12.h"
+#include "DiligentCore/Graphics/GraphicsEngineD3D12/interface/PipelineStateD3D12.h"

@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Platforms/interface/FileSystem.h"
+#include "DiligentCore/Platforms/interface/FileSystem.h"

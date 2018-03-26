@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 #include <d3d12.h>
-#include "Graphics/GraphicsEngineD3D12/interface/SwapChainD3D12.h"
+#include "DiligentCore/Graphics/GraphicsEngineD3D12/interface/SwapChainD3D12.h"

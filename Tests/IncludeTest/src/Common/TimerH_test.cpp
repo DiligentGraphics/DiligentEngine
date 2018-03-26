@@ -21,5 +21,5 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/Timer.h"
+#include "DiligentCore/Common/interface/Timer.h"
 

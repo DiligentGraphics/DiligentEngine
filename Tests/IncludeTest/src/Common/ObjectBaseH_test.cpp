@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/ObjectBase.h"
+#include "DiligentCore/Common/interface/ObjectBase.h"

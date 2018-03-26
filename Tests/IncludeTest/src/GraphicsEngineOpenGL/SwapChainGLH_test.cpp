@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 typedef unsigned int GLuint;
-#include "Graphics/GraphicsEngineOpenGL/interface/SwapChainGL.h"
+#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/SwapChainGL.h"

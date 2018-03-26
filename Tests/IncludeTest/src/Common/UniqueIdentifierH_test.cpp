@@ -21,5 +21,5 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/UniqueIdentifier.h"
+#include "DiligentCore/Common/interface/UniqueIdentifier.h"
 

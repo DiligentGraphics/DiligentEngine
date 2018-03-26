@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/DefaultRawMemoryAllocator.h"
+#include "DiligentCore/Common/interface/DefaultRawMemoryAllocator.h"

@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/RefCountedObjectImpl.h"
+#include "DiligentCore/Common/interface/RefCountedObjectImpl.h"

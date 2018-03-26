@@ -22,4 +22,4 @@
  */
 
 typedef unsigned int GLuint;
-#include "Graphics/GraphicsEngineOpenGL/interface/BufferGL.h"
+#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/BufferGL.h"

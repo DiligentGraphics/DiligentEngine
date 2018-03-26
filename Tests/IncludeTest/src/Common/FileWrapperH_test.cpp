@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/FileWrapper.h"
+#include "DiligentCore/Common/interface/FileWrapper.h"

@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/LockHelper.h"
+#include "DiligentCore/Common/interface/LockHelper.h"

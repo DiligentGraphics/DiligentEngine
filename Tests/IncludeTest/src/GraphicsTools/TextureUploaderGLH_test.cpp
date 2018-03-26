@@ -22,5 +22,5 @@
  */
 
 #if GL_SUPPORTED || GLES_SUPPORTED
-#include "Graphics/GraphicsTools/include/TextureUploaderGL.h"
+#include "DiligentCore/Graphics/GraphicsTools/include/TextureUploaderGL.h"
 #endif

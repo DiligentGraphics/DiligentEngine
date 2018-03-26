@@ -27,7 +27,7 @@ if(GL_SUPPORTED OR GLES_SUPPORTED)
     source_group("src\\GraphicsEngineOpenGL" FILES ${GRAPHICS_ENGINE_GL_INC_TEST})
 endif()
 
-target_include_directories(IncludeTest PRIVATE ../../DiligentCore ../..)
+target_include_directories(IncludeTest PRIVATE ../..)
 target_link_libraries(IncludeTest PRIVATE BuildSettings)
 set_common_target_properties(IncludeTest)
 

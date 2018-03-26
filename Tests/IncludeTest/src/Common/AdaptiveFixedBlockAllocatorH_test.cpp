@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/AdaptiveFixedBlockAllocator.h"
+#include "DiligentCore/Common/interface/AdaptiveFixedBlockAllocator.h"

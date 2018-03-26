@@ -22,4 +22,4 @@
  */
 
 #include <d3d11.h>
-#include "Graphics/GraphicsEngineD3D11/interface/EngineD3D11Attribs.h"
+#include "DiligentCore/Graphics/GraphicsEngineD3D11/interface/EngineD3D11Attribs.h"

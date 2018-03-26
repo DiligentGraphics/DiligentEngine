@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/STDAllocator.h"
+#include "DiligentCore/Common/interface/STDAllocator.h"

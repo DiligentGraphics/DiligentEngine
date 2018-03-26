@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Platforms/interface/PlatformDebug.h"
+#include "DiligentCore/Platforms/interface/PlatformDebug.h"

@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "Common/interface/StringDataBlobImpl.h"
+#include "DiligentCore/Common/interface/StringDataBlobImpl.h"

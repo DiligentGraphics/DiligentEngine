@@ -22,5 +22,5 @@
  */
 
 #if D3D11_SUPPORTED
-#include "Graphics/GraphicsTools/include/TextureUploaderD3D11.h"
+#include "DiligentCore/Graphics/GraphicsTools/include/TextureUploaderD3D11.h"
 #endif
