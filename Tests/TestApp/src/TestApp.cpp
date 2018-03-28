@@ -58,6 +58,7 @@
 #include "TestCopyTexData.h"
 #include "PlatformMisc.h"
 #include "TestBufferCreation.h"
+#include "TestBrokenShader.h"
 
 using namespace Diligent;
 
@@ -180,6 +181,7 @@ void TestApp::InitializeRenderers()
     TestTextureCreation TestTexCreation(m_pDevice, m_pImmediateContext);
     TestBufferCreation TestBuffCreation(m_pDevice, m_pImmediateContext);
     TestPSOCompatibility TestPSOCompat(m_pDevice);
+    TestBrokenShader TestBrknShdr(m_pDevice);
 
     m_TestGS.Init(m_pDevice, m_pImmediateContext);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext);
