@@ -109,9 +109,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
 // Called every time the NativeNativeAppBase receives a message
 LRESULT CALLBACK MessageProc(HWND wnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    auto res = g_pTheApp->HandleWin32Message(wnd, message, wParam, lParam);
-    if (res != 0)
-        return res;
+    if(g_pTheApp)
+    {
+        auto res = g_pTheApp->HandleWin32Message(wnd, message, wParam, lParam);
+        if (res != 0)
+            return res;
+    }
 
     switch (message) 
     {
