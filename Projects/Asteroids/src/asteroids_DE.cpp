@@ -75,7 +75,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #endif
                 auto *pFactoryD3D11 = GetEngineFactoryD3D11();
                 pFactoryD3D11->CreateDeviceAndContextsD3D11( DeviceAttribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
-                pFactoryD3D11->CreateSwapChainD3D11( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
+                pFactoryD3D11->CreateSwapChainD3D11( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
             }
             else
             {
@@ -92,7 +92,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #endif
                 auto *pFactoryD3D12 = GetEngineFactoryD3D12();
                 pFactoryD3D12->CreateDeviceAndContextsD3D12( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
-                pFactoryD3D12->CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
+                pFactoryD3D12->CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
             }
             
             mDeviceCtxt.Attach(ppContexts[0]);

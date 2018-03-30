@@ -123,7 +123,7 @@ void TestApp::InitializeDiligentEngine(
             pFactoryD3D11->CreateDeviceAndContextsD3D11(DeviceAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
 
             if(NativeWindowHandle != nullptr)
-                pFactoryD3D11->CreateSwapChainD3D11(m_pDevice, ppContexts[0], SCDesc, NativeWindowHandle, &m_pSwapChain);
+                pFactoryD3D11->CreateSwapChainD3D11(m_pDevice, ppContexts[0], SCDesc, FullScreenModeDesc{}, NativeWindowHandle, &m_pSwapChain);
         }
         break;
 #endif
@@ -158,7 +158,7 @@ void TestApp::InitializeDiligentEngine(
             pFactoryD3D12->CreateDeviceAndContextsD3D12(EngD3D12Attribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
 
             if (!m_pSwapChain && NativeWindowHandle != nullptr)
-                pFactoryD3D12->CreateSwapChainD3D12(m_pDevice, ppContexts[0], SCDesc, NativeWindowHandle, &m_pSwapChain);
+                pFactoryD3D12->CreateSwapChainD3D12(m_pDevice, ppContexts[0], SCDesc, FullScreenModeDesc{}, NativeWindowHandle, &m_pSwapChain);
         }
         break;
 #endif
@@ -209,7 +209,8 @@ void TestApp::InitializeDiligentEngine(
         for(Uint32 m=0; m < DisplayModes.size(); ++m)
         {
             const auto &Mode = DisplayModes[m];
-            ss << "   " << Mode.Width << 'x' << Mode.Height << " " << std::setprecision(2) << Mode.RefreshRate << "Hz\n";
+            float RefreshRate = (float)Mode.RefreshRateNumerator / (float)Mode.RefreshRateDenominator;
+            ss << "   " << Mode.Width << 'x' << Mode.Height << " " << std::fixed << std::setprecision(2) << RefreshRate << " Hz\n";
         }
     }
     auto str = ss.str();
