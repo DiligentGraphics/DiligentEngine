@@ -34,6 +34,16 @@ public:
         UNEXPECTED("Present is not expected to be called directly");
     }
 
+    virtual void SetFullscreenMode(const DisplayModeAttribs &DisplayMode)override final
+    {
+        UNEXPECTED("Fullscreen mode cannot be set through the proxy swap chain");
+    }
+
+    virtual void SetWindowedMode()override final
+    {
+        UNEXPECTED("Windowed mode cannot be set through the proxy swap chain");
+    }
+
     virtual void Resize(Uint32 NewWidth, Uint32 NewHeight)override final
     {
         TBase::Resize(NewWidth, NewHeight, 0);

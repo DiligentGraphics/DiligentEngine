@@ -62,6 +62,16 @@ public:
         m_pDSV = nullptr;
     }
 
+    virtual void SetFullscreenMode(const DisplayModeAttribs &DisplayMode)override final
+    {
+        UNEXPECTED("Fullscreen mode cannot be set through the proxy swap chain");
+    }
+
+    virtual void SetWindowedMode()override final
+    {
+        UNEXPECTED("Windowed mode cannot be set through the proxy swap chain");
+    }
+
 private:
     ID3D11RenderTargetView *m_pRTV = nullptr;
     ID3D11DepthStencilView *m_pDSV = nullptr;
