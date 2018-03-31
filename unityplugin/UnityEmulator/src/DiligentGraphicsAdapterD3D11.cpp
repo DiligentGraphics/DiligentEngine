@@ -39,7 +39,7 @@ public:
 
     virtual ID3D11DepthStencilView *GetDSV()override final { return m_pDSV; }
 
-    virtual void Present()override final
+    virtual void Present(Uint32 SyncInterval)override final
     {
         UNEXPECTED("Present is not expected to be called directly");
     }

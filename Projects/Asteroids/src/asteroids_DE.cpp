@@ -843,7 +843,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         }
     }
 
-    mSwapChain->Present();//settings.vsync ? 1 : 0, 0);
+    mSwapChain->Present(settings.vsync ? 1 : 0);
 }
 
 void Asteroids::GetPerfCounters(float &UpdateTime, float &RenderTime)

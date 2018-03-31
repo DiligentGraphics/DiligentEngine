@@ -29,7 +29,7 @@ public:
         m_UnityGraphicsGL(UnityGraphicsGL)
     {}
         
-    virtual void Present()override final
+    virtual void Present(Uint32 SyncInterval)override final
     {
         UNEXPECTED("Present is not expected to be called directly");
     }

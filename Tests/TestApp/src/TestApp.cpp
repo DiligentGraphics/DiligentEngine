@@ -543,5 +543,5 @@ void TestApp::Render()
 
 void TestApp::Present()
 {
-    m_pSwapChain->Present();
+    m_pSwapChain->Present(0);
 }
