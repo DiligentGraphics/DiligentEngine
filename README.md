@@ -1,15 +1,10 @@
 # Diligent Engine - A Modern Cross-Platform 3D Graphics Library
 
-[Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a light-weight cross-platform abstraction layer between the 
+[Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform abstraction layer between the 
 application and the platform-specific graphics API. 
-Its main goal is to take advantages of the next-generation APIs such as Direct3D12 and Vulkan, but at the same time provide support 
-for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common front-end for all supported platforms and 
+The main goal is to take advantages of next-generation APIs such as Direct3D12 and Vulkan, while providing support for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common front-end for all supported platforms and 
 provides [interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
-[Shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) allows shaders authored in HLSL to 
-be translated to GLSL and used on all supported platforms. 
-The engine supports [integration with Unity](http://diligentgraphics.com/diligent-engine/integration-with-unity/) and is designed to be 
-used as a graphics subsystem in a standalone game engine, Unity native plugin or any other 3D application. It is distributed under 
-[Apache 2.0 license](License.txt) and is free to use.
+[Shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) translates shaders authored in HSL to GLSL and enables use on all supported platform. The engine is designed as a graphics subsystem in a standalone game engine, Unity native plugin or any other 3D application, and supports [integration with Unity](http://diligentgraphics.com/diligent-engine/integration-with-unity/). [Diligent Engine](http://diligentgraphics.com/diligent-engine/) is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 ## Features
 
