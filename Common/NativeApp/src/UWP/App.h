@@ -57,11 +57,15 @@ namespace SampleApp
 		void OnOrientationChanged(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 		void OnDisplayContentsInvalidated(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
 
+        void OnKeyDown(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args);
+        void OnKeyUp(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args);
+
 	private:
         std::shared_ptr<DX::DeviceResources> GetDeviceResources();
         std::unique_ptr<NativeAppBase> m_Main;
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
-		bool m_windowClosed;
-		bool m_windowVisible;
+		bool m_windowClosed = false;
+		bool m_windowVisible = false;
+        bool m_bShiftPressed = false;
 	};
 }
