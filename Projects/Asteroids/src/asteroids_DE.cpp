@@ -769,6 +769,10 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         for(auto &cmdList : mCmdLists)
         {
             mDeviceCtxt->ExecuteCommandList(cmdList);
+            // Release command lists now to release all outstanding references
+            // In d3d11 mode, command lists hold references to the swap chain's back buffer 
+            // that cause swap chain resize to fail
+            cmdList.Release();
         }
     }
 
