@@ -409,6 +409,20 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 # Version History
 
+## Current progress
+
+* Core:
+  * Implemented hardware adapter & display mode enumeration in D3D11 and D3D12 modes
+  * Implemented initialization in fullscreen mode as well as toggling between fullscreen and windowed modes in run time
+  * Added sync interval parameter to ISwapChain::Present()
+* Samples:
+  * Added display fullscreen mode selection dialog box
+  * Implemented fullscreen mode toggle on UWP with shift + enter
+  * Implemented fullscreen window toggle on Win32 with alt + enter
+* Fixed the following issues:
+  * [Add option to redirect diligent error messages](https://github.com/DiligentGraphics/DiligentEngine/issues/9)
+  * [Add ability to run in exclusive fullscreen/vsync mode](https://github.com/DiligentGraphics/DiligentEngine/issues/10)
+
 ## v2.2.a
 
 * Enabled Win32 build targeting Windows 8.1 SDK
