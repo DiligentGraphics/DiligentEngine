@@ -1,4 +1,4 @@
-/*     Copyright 2015-2017 Egor Yusov
+/*     Copyright 2015-2018 Egor Yusov
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -519,6 +519,38 @@ public:
                         5, 6);
             std::hash<float2x2>()(m3);
         }
+
+        // Test ortho projection matrix
+        {
+            {
+                float4x4 OrthoProj = Ortho(2.f, 4.f, -4.f, 12.f, true);
+                auto c0 = float3(-1.f, -2.f, -4.f) * OrthoProj;
+                auto c1 = float3(+1.f, +2.f, +12.f) * OrthoProj;
+                VERIFY_EXPR(c0 == float3(-1, -1, 0) && c1 == float3(+1,+1,+1) );
+            }
+
+            {
+                float4x4 OrthoProj = Ortho(2.f, 4.f, -4.f, 12.f, false);
+                auto c0 = float3(-1.f, -2.f, -4.f) * OrthoProj;
+                auto c1 = float3(+1.f, +2.f, +12.f) * OrthoProj;
+                VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
+            }
+
+            {
+                float4x4 OrthoProj = OrthoOffCenter(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, true);
+                auto c0 = float3(-2.f, -4.f, -6.f) * OrthoProj;
+                auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
+                VERIFY_EXPR(c0 == float3(-1, -1, 0) && c1 == float3(+1, +1, +1));
+            }
+
+            {
+                float4x4 OrthoProj = OrthoOffCenter(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, false);
+                auto c0 = float3(-2.f, -4.f, -6.f) * OrthoProj;
+                auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
+                VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
+            }
+        }
+
         SetStatus(TestResult::Succeeded);
     }
 };

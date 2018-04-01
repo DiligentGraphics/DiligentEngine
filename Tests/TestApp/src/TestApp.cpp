@@ -23,6 +23,7 @@
 
 #include <sstream>
 #include <math.h>
+#include <iomanip>
 
 #include "PlatformDefinitions.h"
 #include "TestApp.h"
@@ -62,6 +63,7 @@
 #include "TestCopyTexData.h"
 #include "PlatformMisc.h"
 #include "TestBufferCreation.h"
+#include "TestBrokenShader.h"
 
 using namespace Diligent;
 
@@ -92,6 +94,8 @@ void TestApp::InitializeDiligentEngine(
     SCDesc.SamplesCount = 1;
     Uint32 NumDeferredCtx = 0;
     std::vector<IDeviceContext*> ppContexts;
+    std::vector<HardwareAdapterAttribs> Adapters;
+    std::vector<std::vector<DisplayModeAttribs>> AdapterDisplayModes;
     switch (m_DeviceType)
     {
 #if D3D11_SUPPORTED
@@ -103,12 +107,27 @@ void TestApp::InitializeDiligentEngine(
             // Load the dll and import GetEngineFactoryD3D11() function
             LoadGraphicsEngineD3D11(GetEngineFactoryD3D11);
 #endif
-            ppContexts.resize(1 + NumDeferredCtx);
             auto *pFactoryD3D11 = GetEngineFactoryD3D11();
+            Uint32 NumAdapters = 0;
+            pFactoryD3D11->EnumerateHardwareAdapters(NumAdapters, 0);
+            Adapters.resize(NumAdapters);
+            pFactoryD3D11->EnumerateHardwareAdapters(NumAdapters, Adapters.data());
+
+            for(Uint32 i=0; i < Adapters.size(); ++i)
+            {
+                Uint32 NumDisplayModes = 0;
+                std::vector<DisplayModeAttribs> DisplayModes;
+                pFactoryD3D11->EnumerateDisplayModes(i, 0, TEX_FORMAT_RGBA8_UNORM, NumDisplayModes, nullptr);
+                DisplayModes.resize(NumDisplayModes);
+                pFactoryD3D11->EnumerateDisplayModes(i, 0, TEX_FORMAT_RGBA8_UNORM, NumDisplayModes, DisplayModes.data());
+                AdapterDisplayModes.emplace_back(std::move(DisplayModes));
+            }
+
+            ppContexts.resize(1 + NumDeferredCtx);
             pFactoryD3D11->CreateDeviceAndContextsD3D11(DeviceAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
 
             if(NativeWindowHandle != nullptr)
-                pFactoryD3D11->CreateSwapChainD3D11(m_pDevice, ppContexts[0], SCDesc, NativeWindowHandle, &m_pSwapChain);
+                pFactoryD3D11->CreateSwapChainD3D11(m_pDevice, ppContexts[0], SCDesc, FullScreenModeDesc{}, NativeWindowHandle, &m_pSwapChain);
         }
         break;
 #endif
@@ -121,13 +140,29 @@ void TestApp::InitializeDiligentEngine(
             // Load the dll and import GetEngineFactoryD3D12() function
             LoadGraphicsEngineD3D12(GetEngineFactoryD3D12);
 #endif
+            auto *pFactoryD3D12 = GetEngineFactoryD3D12();
+            Uint32 NumAdapters = 0;
+            pFactoryD3D12->EnumerateHardwareAdapters(NumAdapters, 0);
+            Adapters.resize(NumAdapters);
+            pFactoryD3D12->EnumerateHardwareAdapters(NumAdapters, Adapters.data());
+
+            for (Uint32 i = 0; i < Adapters.size(); ++i)
+            {
+                Uint32 NumDisplayModes = 0;
+                std::vector<DisplayModeAttribs> DisplayModes;
+                pFactoryD3D12->EnumerateDisplayModes(i, 0, TEX_FORMAT_RGBA8_UNORM, NumDisplayModes, nullptr);
+                DisplayModes.resize(NumDisplayModes);
+                pFactoryD3D12->EnumerateDisplayModes(i, 0, TEX_FORMAT_RGBA8_UNORM, NumDisplayModes, DisplayModes.data());
+                AdapterDisplayModes.emplace_back(std::move(DisplayModes));
+            }
+
             EngineD3D12Attribs EngD3D12Attribs;
             ppContexts.resize(1 + NumDeferredCtx);
-            auto *pFactoryD3D12 = GetEngineFactoryD3D12();
+            
             pFactoryD3D12->CreateDeviceAndContextsD3D12(EngD3D12Attribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
 
             if (!m_pSwapChain && NativeWindowHandle != nullptr)
-                pFactoryD3D12->CreateSwapChainD3D12(m_pDevice, ppContexts[0], SCDesc, NativeWindowHandle, &m_pSwapChain);
+                pFactoryD3D12->CreateSwapChainD3D12(m_pDevice, ppContexts[0], SCDesc, FullScreenModeDesc{}, NativeWindowHandle, &m_pSwapChain);
         }
         break;
 #endif
@@ -186,6 +221,23 @@ void TestApp::InitializeDiligentEngine(
             break;
     }
 
+
+    std::stringstream ss;
+    ss << "Found " << Adapters.size() << " adapters:\n";
+    for (Uint32 i = 0; i < Adapters.size(); ++i)
+    {
+        ss << Adapters[i].Description << " (" << (Adapters[i].DedicatedVideoMemory >> 20) << " MB). Num outputs: " << Adapters[i].NumOutputs << ". Display modes:\n";
+        const auto &DisplayModes = AdapterDisplayModes[i];
+        for(Uint32 m=0; m < DisplayModes.size(); ++m)
+        {
+            const auto &Mode = DisplayModes[m];
+            float RefreshRate = (float)Mode.RefreshRateNumerator / (float)Mode.RefreshRateDenominator;
+            ss << "   " << Mode.Width << 'x' << Mode.Height << " " << std::fixed << std::setprecision(2) << RefreshRate << " Hz\n";
+        }
+    }
+    auto str = ss.str();
+    LOG_INFO_MESSAGE(str);
+
     m_pImmediateContext.Attach(ppContexts[0]);
     m_pDeferredContexts.resize(NumDeferredCtx);
     for (Diligent::Uint32 ctx = 0; ctx < NumDeferredCtx; ++ctx)
@@ -202,6 +254,7 @@ void TestApp::InitializeRenderers()
     TestTextureCreation TestTexCreation(m_pDevice, m_pImmediateContext);
     TestBufferCreation TestBuffCreation(m_pDevice, m_pImmediateContext);
     TestPSOCompatibility TestPSOCompat(m_pDevice);
+    TestBrokenShader TestBrknShdr(m_pDevice);
 
     m_TestGS.Init(m_pDevice, m_pImmediateContext);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext);
@@ -517,5 +570,5 @@ void TestApp::Render()
 
 void TestApp::Present()
 {
-    m_pSwapChain->Present();
+    m_pSwapChain->Present(0);
 }

@@ -1,15 +1,15 @@
 # Diligent Engine - A Modern Cross-Platform 3D Graphics Library
 
-[Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a light-weight cross-platform abstraction layer between the 
-application and the platform-specific graphics API. 
-Its main goal is to take advantages of the next-generation APIs such as Direct3D12 and Vulkan, but at the same time provide support 
-for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common front-end for all supported platforms and 
-provides [interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
-[Shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) allows shaders authored in HLSL to 
-be translated to GLSL and used on all supported platforms. 
-The engine supports [integration with Unity](http://diligentgraphics.com/diligent-engine/integration-with-unity/) and is designed to be 
-used as a graphics subsystem in a standalone game engine, Unity native plugin or any other 3D application. It is distributed under 
-[Apache 2.0 license](License.txt) and is free to use.
+[Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform abstraction layer between the 
+application and the platform-specific graphics API designed to take advantages of next-generation APIs such as 
+Direct3D12 and Vulkan, while providing support for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes 
+common front-end for all supported platforms and provides 
+[interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
+[Shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) allows HLSL shaders to be used 
+on all supported platforms and rendering backends. The engine is intended to be used as a graphics subsystem in a game engine
+or any other 3D application, and supports 
+[integration with Unity](http://diligentgraphics.com/diligent-engine/integration-with-unity/). 
+Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 ## Features
 
@@ -408,6 +408,20 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 
 # Version History
+
+## Current progress
+
+* Core:
+  * Implemented hardware adapter & display mode enumeration in D3D11 and D3D12 modes
+  * Implemented initialization in fullscreen mode as well as toggling between fullscreen and windowed modes in run time
+  * Added sync interval parameter to ISwapChain::Present()
+* Samples:
+  * Added fullscreen mode selection dialog box
+  * Implemented fullscreen mode toggle on UWP with shift + enter
+  * Implemented fullscreen window toggle on Win32 with alt + enter
+* Fixed the following issues:
+  * [Add option to redirect diligent error messages](https://github.com/DiligentGraphics/DiligentEngine/issues/9)
+  * [Add ability to run in exclusive fullscreen/vsync mode](https://github.com/DiligentGraphics/DiligentEngine/issues/10)
 
 ## v2.2.a
 

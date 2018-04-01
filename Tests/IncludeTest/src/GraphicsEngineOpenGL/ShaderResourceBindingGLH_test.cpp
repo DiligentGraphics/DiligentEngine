@@ -1,4 +1,4 @@
-/*     Copyright 2015-2017 Egor Yusov
+/*     Copyright 2015-2018 Egor Yusov
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,4 +20,4 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
-#include "Graphics/GraphicsEngineOpenGL/interface/ShaderResourceBindingGL.h"
+#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/ShaderResourceBindingGL.h"

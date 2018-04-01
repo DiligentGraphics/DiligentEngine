@@ -1,4 +1,4 @@
-/*     Copyright 2015-2017 Egor Yusov
+/*     Copyright 2015-2018 Egor Yusov
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 #include <d3d12.h>
-#include "Graphics/GraphicsEngineD3D12/interface/TextureD3D12.h"
+#include "DiligentCore/Graphics/GraphicsEngineD3D12/interface/TextureD3D12.h"

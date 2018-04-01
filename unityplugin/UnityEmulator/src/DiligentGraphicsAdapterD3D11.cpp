@@ -39,7 +39,7 @@ public:
 
     virtual ID3D11DepthStencilView *GetDSV()override final { return m_pDSV; }
 
-    virtual void Present()override final
+    virtual void Present(Uint32 SyncInterval)override final
     {
         UNEXPECTED("Present is not expected to be called directly");
     }
@@ -60,6 +60,16 @@ public:
     {
         m_pRTV = nullptr;
         m_pDSV = nullptr;
+    }
+
+    virtual void SetFullscreenMode(const DisplayModeAttribs &DisplayMode)override final
+    {
+        UNEXPECTED("Fullscreen mode cannot be set through the proxy swap chain");
+    }
+
+    virtual void SetWindowedMode()override final
+    {
+        UNEXPECTED("Windowed mode cannot be set through the proxy swap chain");
     }
 
 private:

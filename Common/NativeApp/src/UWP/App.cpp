@@ -103,6 +103,12 @@ void App::SetWindow(CoreWindow^ window)
 	window->Closed += 
 		ref new TypedEventHandler<CoreWindow^, CoreWindowEventArgs^>(this, &App::OnWindowClosed);
 
+    window->KeyDown += 
+        ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(this, &App::OnKeyDown);
+
+    window->KeyUp +=
+        ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(this, &App::OnKeyUp);
+
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
 	currentDisplayInformation->DpiChanged +=
@@ -241,6 +247,47 @@ void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
 {
 	GetDeviceResources()->ValidateDevice();
+}
+
+void App::OnKeyDown(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args)
+{
+    auto Key = args->VirtualKey;
+    switch(Key)
+    {
+        case VirtualKey::Escape:
+            CoreApplication::Exit();
+        break;
+
+        case VirtualKey::Enter:
+            if(m_bShiftPressed)
+            {
+                auto applicationView = Windows::UI::ViewManagement::ApplicationView::GetForCurrentView();
+                if (applicationView->IsFullScreenMode)
+                {
+                    applicationView->ExitFullScreenMode();
+                }
+                else
+                {
+                    applicationView->TryEnterFullScreenMode();
+                }
+            }
+        break;
+
+        case VirtualKey::Shift:
+            m_bShiftPressed = true;
+            break;
+    }
+}
+
+void App::OnKeyUp(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args)
+{
+    auto Key = args->VirtualKey;
+    switch (Key)
+    {
+        case VirtualKey::Shift:
+            m_bShiftPressed = false;
+            break;
+    }
 }
 
 std::shared_ptr<DX::DeviceResources> App::GetDeviceResources()

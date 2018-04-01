@@ -165,11 +165,11 @@ public:
             IDXGISwapChain3 *pDXGISwapChain3 = nullptr;
             if (m_DeviceType == DeviceType::D3D12)
             {
-                GetEngineFactoryD3D12()->CreateSwapChainD3D12(m_pDevice, m_pImmediateContext, SCDesc, reinterpret_cast<IUnknown*>(window), &m_pSwapChain);
+                GetEngineFactoryD3D12()->CreateSwapChainD3D12(m_pDevice, m_pImmediateContext, SCDesc, FullScreenModeDesc{}, reinterpret_cast<IUnknown*>(window), &m_pSwapChain);
             }
             else if (m_DeviceType == DeviceType::D3D11)
             {
-                GetEngineFactoryD3D11()->CreateSwapChainD3D11(m_pDevice, m_pImmediateContext, SCDesc, reinterpret_cast<IUnknown*>(window), &m_pSwapChain);
+                GetEngineFactoryD3D11()->CreateSwapChainD3D11(m_pDevice, m_pImmediateContext, SCDesc, FullScreenModeDesc{}, reinterpret_cast<IUnknown*>(window), &m_pSwapChain);
             }
             else
                 UNEXPECTED("Unexpected device type");
