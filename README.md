@@ -416,7 +416,7 @@ and adds implementation using Diligent Engine API to allow comparing performance
   * Implemented initialization in fullscreen mode as well as toggling between fullscreen and windowed modes in run time
   * Added sync interval parameter to ISwapChain::Present()
 * Samples:
-  * Added display fullscreen mode selection dialog box
+  * Added fullscreen mode selection dialog box
   * Implemented fullscreen mode toggle on UWP with shift + enter
   * Implemented fullscreen window toggle on Win32 with alt + enter
 * Fixed the following issues:
