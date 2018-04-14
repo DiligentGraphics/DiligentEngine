@@ -415,6 +415,10 @@ and adds implementation using Diligent Engine API to allow comparing performance
   * Implemented hardware adapter & display mode enumeration in D3D11 and D3D12 modes
   * Implemented initialization in fullscreen mode as well as toggling between fullscreen and windowed modes in run time
   * Added sync interval parameter to ISwapChain::Present()
+  * API Changes
+    * Added `NumViewports` member to `GraphicsPipelineDesc` struct
+    * Removed `PRIMITIVE_TOPOLOGY_TYPE` type; replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
+      with `PRIMITIVE_TOPOLOGY GraphicsPipelineDesc::PrimitiveTopology`; removed `DrawAttribs::Topology`
 * Samples:
   * Added fullscreen mode selection dialog box
   * Implemented fullscreen mode toggle on UWP with shift + enter

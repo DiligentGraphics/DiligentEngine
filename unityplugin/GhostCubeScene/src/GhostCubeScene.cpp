@@ -89,7 +89,7 @@ void GhostCubeScene::OnGraphicsInitialized()
 
         PSODesc.GraphicsPipeline.RTVFormats[0] = SCDesc.ColorBufferFormat == TEX_FORMAT_RGBA8_UNORM ? TEX_FORMAT_RGBA8_UNORM_SRGB : SCDesc.ColorBufferFormat;
         PSODesc.GraphicsPipeline.DSVFormat = SCDesc.DepthBufferFormat;
-        PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+        PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
         PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
         PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
 
@@ -210,6 +210,5 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
 
     DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 4;
-    DrawAttrs.Topology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
     pCtx->Draw(DrawAttrs);
 }

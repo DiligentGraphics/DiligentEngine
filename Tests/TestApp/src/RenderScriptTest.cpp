@@ -122,7 +122,6 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
 
         {
             DrawAttribs GlobalDrawAttribs;
-            GlobalDrawAttribs.Topology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
             GlobalDrawAttribs.NumVertices = 123;
             GlobalDrawAttribs.IndexType = VT_UINT16;
             GlobalDrawAttribs.IsIndexed = True;
@@ -336,7 +335,6 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
 
     {
         DrawAttribs DrawAttribs;
-        DrawAttribs.Topology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         DrawAttribs.NumVertices = 34;
         DrawAttribs.IndexType = VT_UINT16;
         DrawAttribs.IsIndexed = True;

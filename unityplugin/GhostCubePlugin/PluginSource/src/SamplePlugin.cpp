@@ -49,7 +49,7 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
         PSODesc.GraphicsPipeline.RTVFormats[0] = RTVFormat;
         PSODesc.GraphicsPipeline.DSVFormat = DSVFormat;
-        PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+        PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
         PSODesc.GraphicsPipeline.RasterizerDesc.FrontCounterClockwise = deviceType == DeviceType::D3D11 || deviceType == DeviceType::D3D12 ? true : false;
         PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
@@ -169,6 +169,5 @@ void SamplePlugin::Render(Diligent::IDeviceContext *pContext, const float4x4 &Vi
     DrawAttrs.IsIndexed = true;
     DrawAttrs.IndexType = VT_UINT32;
     DrawAttrs.NumIndices = 36;
-    DrawAttrs.Topology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     pContext->Draw(DrawAttrs);
 }

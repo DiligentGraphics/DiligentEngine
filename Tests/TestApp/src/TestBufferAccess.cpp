@@ -150,6 +150,7 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, f
     };
     PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
     PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
+    PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     pDevice->CreatePipelineState(PSODesc, &m_pPSO);
 }
     
@@ -166,7 +167,6 @@ void TestBufferAccess::Draw(float fTime)
     m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
     
     Diligent::DrawAttribs DrawAttrs;
-    DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     DrawAttrs.NumVertices = 3;
     DrawAttrs.NumInstances = NumInstances;
     m_pDeviceContext->Draw(DrawAttrs);

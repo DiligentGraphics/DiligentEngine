@@ -225,7 +225,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM_SRGB;
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
         PSODesc.GraphicsPipeline.DSVFormat = TEX_FORMAT_D32_FLOAT;
-        PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+        PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         PSODesc.Name = "Asteroids PSO";
 
         PSODesc.GraphicsPipeline.pVS = vs;
@@ -324,7 +324,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM_SRGB;
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
         PSODesc.GraphicsPipeline.DSVFormat = TEX_FORMAT_D32_FLOAT;
-        PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+        PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
         mDevice->CreatePipelineState(PSODesc, &mSkyboxPSO);
     }
@@ -372,7 +372,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM_SRGB;
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
         PSODesc.GraphicsPipeline.DSVFormat = TEX_FORMAT_D32_FLOAT;
-        PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+        PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         
         RefCntAutoPtr<IShader> sprite_vs, sprite_ps, font_ps;
         {
@@ -690,7 +690,6 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
         }
 
         DrawAttribs attribs;
-        attribs.Topology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         attribs.IsIndexed = true;
         attribs.NumIndices = dynamicData->indexCount;
         attribs.IndexType = VT_UINT16;
@@ -796,7 +795,6 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         mDeviceCtxt->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
 
         DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         DrawAttrs.NumVertices = 6*6;
         mDeviceCtxt->Draw(DrawAttrs);
     }
@@ -838,7 +836,6 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
                     mDeviceCtxt->CommitShaderResources(mSpriteSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
                 }
                 DrawAttribs DrawAttrs;
-                DrawAttrs.Topology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
                 DrawAttrs.NumVertices = controlVertices[1+i];
                 DrawAttrs.StartVertexLocation = vertexStart;
                 mDeviceCtxt->Draw(DrawAttrs);

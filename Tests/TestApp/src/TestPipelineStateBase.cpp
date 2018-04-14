@@ -59,7 +59,7 @@ TestPipelineStateBase::TestPipelineStateBase(Diligent::IRenderDevice *pDevice, c
 
     m_PSODesc.GraphicsPipeline.pVS = m_pTrivialVS;
     m_PSODesc.GraphicsPipeline.pPS = m_pTrivialPS;
-    m_PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    m_PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     m_PSODesc.GraphicsPipeline.NumRenderTargets = 1;
     m_PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM;
     m_PSODesc.GraphicsPipeline.DSVFormat = TEX_FORMAT_D32_FLOAT;

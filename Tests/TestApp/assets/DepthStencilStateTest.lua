@@ -68,7 +68,7 @@ PSODesc =
 		DepthStencilDesc = DSSDesc,
 		RTVFormats = {"TEX_FORMAT_RGBA8_UNORM"},
 		DSVFormat = "TEX_FORMAT_D32_FLOAT",
-		PrimitiveTopologyType = "PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE"
+		PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST"
 	}
 }
 

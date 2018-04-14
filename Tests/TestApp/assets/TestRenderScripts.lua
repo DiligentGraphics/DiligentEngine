@@ -81,7 +81,7 @@ PSO = PipelineState.Create
 			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32", IsNormalized = false},
 			{ InputIndex = 1, BufferSlot = 1, NumComponents = 4, ValueType = "VT_UINT8",   IsNormalized = true},
 		},
-		PrimitiveTopologyType = "PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE",
+		PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST",
 		pVS = MinimalVS,
 		pPS = UniformBufferPS,
 		RTVFormats = "TEX_FORMAT_RGBA8_UNORM_SRGB",
@@ -119,7 +119,7 @@ PSOInst = PipelineState.Create
 			{ InputIndex = 1, BufferSlot = 1, NumComponents = 4, ValueType = "VT_UINT8",   IsNormalized = true},
 			{ InputIndex = 2, BufferSlot = 2, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false, Frequency = "FREQUENCY_PER_INSTANCE"},
 		},
-		PrimitiveTopologyType = "PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE",
+		PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST",
 		pVS = MinimalInstVS,
 		pPS = UniformBufferPS,
 		RTVFormats = "TEX_FORMAT_RGBA8_UNORM_SRGB",
@@ -179,16 +179,14 @@ UnfiformBuffer1 = Buffer.Create(
 )
 
 DrawAttrs1 = DrawAttribs.Create{
-    NumVertices = 3,
-    Topology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST"
+    NumVertices = 3
 }
 
 DrawAttrs2 = DrawAttribs.Create{
     IsIndexed = true,
     NumIndices = 3,
     IndexType = "VT_UINT32",
-    NumInstances = 3,
-    Topology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST"
+    NumInstances = 3
 }
 
 ResMapping = ResourceMapping.Create{

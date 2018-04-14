@@ -79,7 +79,8 @@ TestApp::TestApp() :
 
 TestApp::~TestApp()
 {
-    m_pMTResCreationTest->StopThreads();
+    if(m_pMTResCreationTest)
+        m_pMTResCreationTest->StopThreads();
 }
 
 
@@ -207,6 +208,10 @@ void TestApp::InitializeDiligentEngine(
             LoadGraphicsEngineVk(GetEngineFactoryVk);
 #endif
             EngineVkAttribs EngVkAttribs;
+#ifdef _DEBUG
+            EngVkAttribs.EnableValidation = true;
+#endif
+
             ppContexts.resize(1 + NumDeferredCtx);
             auto *pFactoryVk = GetEngineFactoryVk();
             pFactoryVk->CreateDeviceAndContextsVk(EngVkAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
@@ -247,12 +252,12 @@ void TestApp::InitializeDiligentEngine(
 void TestApp::InitializeRenderers()
 {
     bool bUseOpenGL = m_DeviceType == DeviceType::OpenGL || m_DeviceType == DeviceType::OpenGLES;
-
+    
     TestRasterizerState TestRS(m_pDevice, m_pImmediateContext);
     TestBlendState TestBS(m_pDevice, m_pImmediateContext);
     TestDepthStencilState TestDSS(m_pDevice, m_pImmediateContext);
-    TestTextureCreation TestTexCreation(m_pDevice, m_pImmediateContext);
     TestBufferCreation TestBuffCreation(m_pDevice, m_pImmediateContext);
+    TestTextureCreation TestTexCreation(m_pDevice, m_pImmediateContext);
     TestPSOCompatibility TestPSOCompat(m_pDevice);
     TestBrokenShader TestBrknShdr(m_pDevice);
 
@@ -425,7 +430,6 @@ void TestApp::InitializeRenderers()
 
         Diligent::DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
 
         // This adds transition barrier for pTex1
@@ -543,7 +547,6 @@ void TestApp::Render()
 
     Diligent::DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 3;
-    DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
 
     DrawAttrs.IsIndexed = true;

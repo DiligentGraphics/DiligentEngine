@@ -238,7 +238,8 @@ RenderPSO = PipelineState.Create
 			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32"},
 			{ InputIndex = 1, BufferSlot = 1, NumComponents = 2, ValueType = "VT_FLOAT32"}
 		},
-		RTVFormats = {"TEX_FORMAT_RGBA8_UNORM_SRGB"}
+		RTVFormats = {"TEX_FORMAT_RGBA8_UNORM_SRGB"},
+        PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
 	}
 }
 
@@ -251,8 +252,7 @@ RenderPS:BindResources(ResMapping, {"BIND_SHADER_RESOURCES_RESET_BINDINGS", "BIN
 
 
 DrawAttrs = DrawAttribs.Create{
-    Topology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP",
-	IsIndexed = true,
+    IsIndexed = true,
 	IndexType = "VT_UINT32",
 	IsIndirect = true,
 	pIndirectDrawAttribs = IndirectDrawArgsBuffer

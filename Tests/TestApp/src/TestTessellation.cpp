@@ -87,7 +87,7 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     PSODesc.GraphicsPipeline.pVS = pVS;
     PSODesc.GraphicsPipeline.pHS = pHS;
     PSODesc.GraphicsPipeline.pDS = pDS;
-    PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_PATCH;
+    PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST;
     
     pDevice->CreatePipelineState( PSODesc, &m_pQuadPSO );
 
@@ -133,7 +133,6 @@ void TestTessellation::Draw()
     m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     
     Diligent::DrawAttribs DrawAttrs;
-    DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST;
     DrawAttrs.NumVertices = 2; // Draw 2 quad patches
     m_pDeviceContext->Draw(DrawAttrs);
 

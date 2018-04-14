@@ -36,6 +36,10 @@
 #include "TestCreateObjFromNativeResGL.h"
 #endif
 
+#if VULKAN_SUPPORTED
+#include "TestCreateObjFromNativeResVK.h"
+#endif
+
 using namespace Diligent;
 
 TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext) :
@@ -65,6 +69,12 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         break;
 #endif
 
+#if VULKAN_SUPPORTED
+        case DeviceType::Vulkan:
+            pTestCreateObjFromNativeRes.reset(new TestCreateObjFromNativeResVK(pDevice));
+            break;
+#endif
+
         default: UNEXPECTED("Unexpected device type");
     }
 
@@ -75,7 +85,11 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         BuffDesc.uiSizeInBytes = 256;
         BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
         RefCntAutoPtr<IBuffer> pBuffer;
-        pDevice->CreateBuffer(BuffDesc, BufferData(), &pBuffer);
+        BufferData InitData;
+        InitData.DataSize = BuffDesc.uiSizeInBytes;
+        std::vector<Uint8> DummyData(InitData.DataSize);
+        InitData.pData = DummyData.data();
+        pDevice->CreateBuffer(BuffDesc, InitData, &pBuffer);
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);

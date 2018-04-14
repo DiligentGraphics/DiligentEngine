@@ -40,6 +40,10 @@
 #include "TestCreateObjFromNativeResGL.h"
 #endif
 
+#if VULKAN_SUPPORTED
+#include "TestCreateObjFromNativeResVK.h"
+#endif
+
 using namespace Diligent;
 
 class TextureCreationVerifier
@@ -73,6 +77,12 @@ public:
             case DeviceType::OpenGLES:
                 m_pTestCreateObjFromNativeRes.reset(new TestCreateObjFromNativeResGL(pDevice));
             break;
+#endif
+
+#if VULKAN_SUPPORTED
+            case DeviceType::Vulkan:
+                m_pTestCreateObjFromNativeRes.reset(new TestCreateObjFromNativeResVK(pDevice));
+                break;
 #endif
 
             default: UNEXPECTED("Unexpected device type");

@@ -75,7 +75,7 @@ void TestGeometryShader::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCo
     PSODesc.GraphicsPipeline.pPS = pPS;
     PSODesc.GraphicsPipeline.pVS = pVS;
     PSODesc.GraphicsPipeline.pGS = pGS;
-    PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_POINT;
+    PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_POINT_LIST;
     
     pDevice->CreatePipelineState( PSODesc, &m_pPSO );
 }
@@ -89,7 +89,6 @@ void TestGeometryShader::Draw()
     m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     
     Diligent::DrawAttribs DrawAttrs;
-    DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_POINT_LIST;
     DrawAttrs.NumVertices = 2; // Draw 2 triangles
     m_pDeviceContext->Draw(DrawAttrs);
     

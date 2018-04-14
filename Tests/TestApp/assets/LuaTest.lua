@@ -596,7 +596,6 @@ end
 
 
 TestDrawAttribs = DrawAttribs.Create{
-	Topology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP",
 	NumIndices = 128,
 	IndexType = "VT_UINT16",
 	IsIndexed = true,
@@ -608,7 +607,6 @@ TestDrawAttribs = DrawAttribs.Create{
 	FirstInstanceLocation = 96,
 	pIndirectDrawAttribs = TestBuffer2
 }
-assert( TestDrawAttribs.Topology == "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP" )
 assert( TestDrawAttribs.NumIndices == 128 )
 assert( TestDrawAttribs.IndexType == "VT_UINT16" )
 assert( TestDrawAttribs.IsIndexed == true )
@@ -621,7 +619,6 @@ assert( TestDrawAttribs.FirstInstanceLocation == 96 )
 --Context.Draw(TestBuffer2)
 
 
-TestDrawAttribs.Topology = "PRIMITIVE_TOPOLOGY_POINT_LIST"
 TestDrawAttribs.NumVertices = 92
 TestDrawAttribs.IndexType = "VT_UINT32"
 TestDrawAttribs.IsIndexed = false
@@ -638,7 +635,6 @@ TestDrawAttribs2 = DrawAttribs.Create{
 }
 assert( TestDrawAttribs.pIndirectDrawAttribs.Name == TestDrawAttribs2.pIndirectDrawAttribs.Name )
 
-assert( TestDrawAttribs.Topology == "PRIMITIVE_TOPOLOGY_POINT_LIST" )
 assert( TestDrawAttribs.NumIndices == 92 )
 assert( TestDrawAttribs.NumVertices == 92 )
 assert( TestDrawAttribs.IndexType == "VT_UINT32" )
@@ -653,7 +649,6 @@ assert( TestDrawAttribs.FirstInstanceLocation == 946 )
 
 
 
-assert( TestGlobalDrawAttribs.Topology == "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP" );
 assert( TestGlobalDrawAttribs.NumVertices == 123 );
 assert( TestGlobalDrawAttribs.NumIndices == 123 );
 assert( TestGlobalDrawAttribs.IndexType == "VT_UINT16" );
@@ -666,7 +661,6 @@ assert( TestGlobalDrawAttribs.StartVertexLocation == 98 );
 assert( TestGlobalDrawAttribs.FirstIndexLocation == 98 );
 
 function TestDrawAttribsArg(DrawAttrs)
-	assert( DrawAttrs.Topology == "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST" );
 	assert( DrawAttrs.NumVertices == 34 );
 	assert( DrawAttrs.NumIndices == 34 );
 	assert( DrawAttrs.IndexType == "VT_UINT16" );

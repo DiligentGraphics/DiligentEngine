@@ -85,6 +85,7 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
     PSODesc.GraphicsPipeline.pVS = pVS;
     PSODesc.GraphicsPipeline.pPS = pPS;
 
+    PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
     LayoutElement Elems[] =
     {
         LayoutElement( 0, 0, 3, Diligent::VT_FLOAT32, false, 0 ),
@@ -185,7 +186,6 @@ void TestShaderResArrays::Draw()
     m_pDeviceContext->SetVertexBuffers( 0, 1, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
 
     Diligent::DrawAttribs DrawAttrs;
-    DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
     DrawAttrs.NumVertices = 4; // Draw quad
     m_pDeviceContext->Draw( DrawAttrs );
     

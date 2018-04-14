@@ -68,44 +68,44 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         }
 
     {
-        Diligent::BufferDesc BuffDesc;
+        BufferDesc BuffDesc;
         BuffDesc.uiSizeInBytes = (Uint32)VertexData.size()*sizeof( float );
         BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
         BuffDesc.Usage = USAGE_STATIC;
-        Diligent::BufferData BuffData;
+        BufferData BuffData;
         BuffData.pData = VertexData.data();
         BuffData.DataSize = (Uint32)VertexData.size()*sizeof( float );
         m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &m_pVertexBuff );
     }
 
     {
-        Diligent::BufferDesc BuffDesc;
+        BufferDesc BuffDesc;
         BuffDesc.uiSizeInBytes = (Uint32)VertexData2.size()*sizeof( float );
         BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
         BuffDesc.Usage = USAGE_STATIC;
-        Diligent::BufferData BuffData;
+        BufferData BuffData;
         BuffData.pData = VertexData2.data();
         BuffData.DataSize = (Uint32)VertexData2.size()*sizeof( float );
         m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &m_pVertexBuff2 );
     }
 
     {
-        Diligent::BufferDesc BuffDesc;
+        BufferDesc BuffDesc;
         BuffDesc.uiSizeInBytes = (Uint32)IndexData.size() * sizeof( Uint32 );
         BuffDesc.BindFlags = BIND_INDEX_BUFFER;
         BuffDesc.Usage = USAGE_STATIC;
-        Diligent::BufferData BuffData;
+        BufferData BuffData;
         BuffData.pData = IndexData.data();
         BuffData.DataSize = BuffDesc.uiSizeInBytes;
         m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &m_pIndexBuff );
     }
 
     {
-        Diligent::BufferDesc BuffDesc;
+        BufferDesc BuffDesc;
         BuffDesc.uiSizeInBytes = (Uint32)InstanceData.size() * sizeof( float );
         BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
         BuffDesc.Usage = USAGE_STATIC;
-        Diligent::BufferData BuffData;
+        BufferData BuffData;
         BuffData.pData = InstanceData.data();
         BuffData.DataSize = BuffDesc.uiSizeInBytes;
         m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &m_pInstanceData );
@@ -121,7 +121,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         //} DrawArraysIndirectCommand;
 
         Uint32 IndirectDrawArgs[] = { 3, 2, 0, 0 };
-        Diligent::BufferDesc BuffDesc;
+        BufferDesc BuffDesc;
         BuffDesc.uiSizeInBytes = sizeof( IndirectDrawArgs );
         // A buffer cannot be created if no bind flags set. We thus have to set this dummy BIND_VERTEX_BUFFER flag
         // to be able to create the buffer
@@ -141,7 +141,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         //} DrawElementsIndirectCommand;
 
         Uint32 IndirectDrawArgs[] = { 3, 2, 0, 0, 0 };
-        Diligent::BufferDesc BuffDesc;
+        BufferDesc BuffDesc;
         BuffDesc.uiSizeInBytes = sizeof( IndirectDrawArgs );
         // A buffer cannot be created if no bind flags set. We thus have to set this dummy flag
         // to be able to create the buffer
@@ -157,7 +157,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.Desc.TargetProfile = bUseOpenGL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
 
-    RefCntAutoPtr<Diligent::IShader> pVS, pVSInst, pPS;
+    RefCntAutoPtr<IShader> pVS, pVSInst, pPS;
     {
         CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\minimalGL.vsh" : "Shaders\\minimalDX.vsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
@@ -195,14 +195,15 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     BSDesc.RenderTargets[0].DestBlendAlpha = BLEND_FACTOR_ZERO;
     BSDesc.RenderTargets[0].BlendOpAlpha = BLEND_OPERATION_ADD;
 
+    PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     {
         PSODesc.GraphicsPipeline.pVS = pVS;
 
         InputLayoutDesc LayoutDesc;
         LayoutElement Elems[] =
         {
-            LayoutElement( 0, 0, 3, Diligent::VT_FLOAT32, false, 0 ),
-            LayoutElement( 1, 0, 3, Diligent::VT_FLOAT32, false, sizeof( float ) * 3 )
+            LayoutElement( 0, 0, 3, VT_FLOAT32, false, 0 ),
+            LayoutElement( 1, 0, 3, VT_FLOAT32, false, sizeof( float ) * 3 )
         };
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
         PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
@@ -215,9 +216,9 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         InputLayoutDesc LayoutDesc;
         LayoutElement Elems[] =
         {
-            LayoutElement( 0, 0, 3, Diligent::VT_FLOAT32, false, 0 ),
-            LayoutElement( 1, 0, 3, Diligent::VT_FLOAT32, false, sizeof( float ) * 3 ),
-            LayoutElement( 2, 1, 2, Diligent::VT_FLOAT32, false, 0, LayoutElement::FREQUENCY_PER_INSTANCE )
+            LayoutElement( 0, 0, 3, VT_FLOAT32, false, 0 ),
+            LayoutElement( 1, 0, 3, VT_FLOAT32, false, sizeof( float ) * 3 ),
+            LayoutElement( 2, 1, 2, VT_FLOAT32, false, 0, LayoutElement::FREQUENCY_PER_INSTANCE )
         };
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
         PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
@@ -225,13 +226,13 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     }
 
     {
-        Diligent::BufferDesc BuffDesc;
+        BufferDesc BuffDesc;
         float UniformData[16] = { 1, 1, 1, 1 };
         BuffDesc.uiSizeInBytes = sizeof( UniformData );
         BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
         BuffDesc.Usage = USAGE_DEFAULT;
         BuffDesc.CPUAccessFlags = 0;
-        Diligent::BufferData BuffData;
+        BufferData BuffData;
         BuffData.pData = UniformData;
         BuffData.DataSize = sizeof( UniformData );
         RefCntAutoPtr<IBuffer> pUniformBuff3, pUniformBuff4;
@@ -240,7 +241,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BuffDesc.Name = "Test Constant Buffer 4";
         m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &pUniformBuff4 );
 
-        Diligent::ResourceMappingDesc ResMappingDesc;
+        ResourceMappingDesc ResMappingDesc;
         ResourceMappingEntry pEtries[] = { { "cbTestBlock3", pUniformBuff3 }, { "cbTestBlock4", pUniformBuff4 }, { nullptr, nullptr } };
         ResMappingDesc.pEntries = pEtries;
         m_pRenderDevice->CreateResourceMapping( ResMappingDesc, &m_pResMapping );
@@ -268,16 +269,14 @@ void TestDrawCommands::Draw()
 
     // 0,1: basic drawing
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
     // 2,3: test StartVertex
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.StartVertexLocation = 2*3;
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
         m_pDeviceContext->Draw(DrawAttrs);
@@ -287,16 +286,14 @@ void TestDrawCommands::Draw()
     Offsets[0] = 4*3*6*sizeof(float);
     m_pDeviceContext->SetVertexBuffers(0, 1, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
     // 6,7: test buffer offset & StartVertex
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.StartVertexLocation = 2*3;
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
         m_pDeviceContext->Draw(DrawAttrs);
@@ -306,8 +303,7 @@ void TestDrawCommands::Draw()
     Strides[0] *= 2;
     m_pDeviceContext->SetVertexBuffers(0, 1, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.StartVertexLocation = 4*3/2; // Stride is 2x
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
         m_pDeviceContext->Draw(DrawAttrs);
@@ -327,8 +323,7 @@ void TestDrawCommands::Draw()
 
     // 0,1
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 2*3; // Draw 2 triangles
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
@@ -339,8 +334,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ) );
     
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 2*3; // Draw 2 triangles
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
@@ -359,8 +353,7 @@ void TestDrawCommands::Draw()
     
     // 0,1
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 2*3; // Draw 2 triangles
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
@@ -372,8 +365,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ) );
     
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 2*3; // Draw 2 triangles
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
@@ -395,8 +387,7 @@ void TestDrawCommands::Draw()
     
     // 0,1
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         m_pDeviceContext->Draw(DrawAttrs);
@@ -406,8 +397,7 @@ void TestDrawCommands::Draw()
     Offsets[1] = 2* Strides[1];
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         m_pDeviceContext->Draw(DrawAttrs);
@@ -415,8 +405,7 @@ void TestDrawCommands::Draw()
 
     // 4,5: test start vertex index
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.StartVertexLocation = 2*3;
@@ -436,8 +425,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0);
     // 0,1
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 0;
@@ -446,8 +434,7 @@ void TestDrawCommands::Draw()
 
     // 2,3
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
@@ -458,8 +445,7 @@ void TestDrawCommands::Draw()
     Offsets[0] += 2*3 * Strides[0];
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
@@ -470,8 +456,7 @@ void TestDrawCommands::Draw()
     Offsets[1] += 2 * Strides[1];
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
@@ -491,8 +476,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0);
     // 0,1
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -503,8 +487,7 @@ void TestDrawCommands::Draw()
     // 2,3: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ) );
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -516,8 +499,7 @@ void TestDrawCommands::Draw()
     Offsets[0] += 2*3 * Strides[0];
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -529,8 +511,7 @@ void TestDrawCommands::Draw()
     Offsets[1] += 2 * Strides[1];
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -540,8 +521,7 @@ void TestDrawCommands::Draw()
 
     // 8,9: test first index location
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstIndexLocation = 2*3;
@@ -564,8 +544,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0);
     // 0,1
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -574,8 +553,7 @@ void TestDrawCommands::Draw()
     }
     // 2,3
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -587,8 +565,7 @@ void TestDrawCommands::Draw()
     // 4,5: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ) );
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -601,8 +578,7 @@ void TestDrawCommands::Draw()
     Offsets[1] += Strides[1] * 2;
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -613,8 +589,7 @@ void TestDrawCommands::Draw()
 
     // 8,9: test first index location
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -637,8 +612,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0);
     // 0,1
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -648,8 +622,7 @@ void TestDrawCommands::Draw()
 
     // 2,3
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.BaseVertex = 2*3;
@@ -661,8 +634,7 @@ void TestDrawCommands::Draw()
     // 4,5: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ) );
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.BaseVertex = 2*3;
@@ -675,8 +647,7 @@ void TestDrawCommands::Draw()
     Offsets[1] += Strides[1] * 2;
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.BaseVertex = 2*3;
@@ -687,8 +658,7 @@ void TestDrawCommands::Draw()
 
     // 8,9: Test first index location
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.BaseVertex = 2*3;
@@ -711,8 +681,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0);
     // 0,1
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -722,8 +691,7 @@ void TestDrawCommands::Draw()
 
     // 2,3
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -736,8 +704,7 @@ void TestDrawCommands::Draw()
     // 4,5: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ) );
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -751,8 +718,7 @@ void TestDrawCommands::Draw()
     Offsets[1] += Strides[1] * 2;
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -764,8 +730,7 @@ void TestDrawCommands::Draw()
 
     // 8,9: test first index location
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
@@ -799,8 +764,7 @@ void TestDrawCommands::Draw()
             MappedData[3] = 0; // Start instance
             MappedData.Unmap();
 
-            Diligent::DrawAttribs DrawAttrs;
-            DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            DrawAttribs DrawAttrs;
             DrawAttrs.IsIndirect = true;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
             m_pDeviceContext->Draw(DrawAttrs);
@@ -814,8 +778,7 @@ void TestDrawCommands::Draw()
             MappedData[2] = 3*2;  // Start vertex
             MappedData[3] = 0;    // Start instance
             MappedData.Unmap();
-            Diligent::DrawAttribs DrawAttrs;
-            DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            DrawAttribs DrawAttrs;
             DrawAttrs.IsIndirect = true;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
             m_pDeviceContext->Draw(DrawAttrs);
@@ -829,8 +792,7 @@ void TestDrawCommands::Draw()
             MappedData[2] = 3*2; // Start vertex
             MappedData[3] = 2;   // Start instance
             MappedData.Unmap();
-            Diligent::DrawAttribs DrawAttrs;
-            DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            DrawAttribs DrawAttrs;
             DrawAttrs.IsIndirect = true;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
             m_pDeviceContext->Draw(DrawAttrs);
@@ -860,8 +822,7 @@ void TestDrawCommands::Draw()
             MappedData[4] = 0; // Start instance
             MappedData.Unmap();
 
-            Diligent::DrawAttribs DrawAttrs;
-            DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            DrawAttribs DrawAttrs;
             DrawAttrs.IsIndirect = true;
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
@@ -879,8 +840,7 @@ void TestDrawCommands::Draw()
             MappedData[4] = 0;  // Start instance
             MappedData.Unmap();
 
-            Diligent::DrawAttribs DrawAttrs;
-            DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            DrawAttribs DrawAttrs;
             DrawAttrs.IsIndirect = true;
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
@@ -898,8 +858,7 @@ void TestDrawCommands::Draw()
             MappedData[4] = 0;  // Start instance
             MappedData.Unmap();
 
-            Diligent::DrawAttribs DrawAttrs;
-            DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            DrawAttribs DrawAttrs;
             DrawAttrs.IsIndirect = true;
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
@@ -917,8 +876,7 @@ void TestDrawCommands::Draw()
             MappedData[4] = 2;  // Start instance
             MappedData.Unmap();
 
-            Diligent::DrawAttribs DrawAttrs;
-            DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            DrawAttribs DrawAttrs;
             DrawAttrs.IsIndirect = true;
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
@@ -938,8 +896,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
 
     {
-        Diligent::DrawAttribs DrawAttrs;
-        DrawAttrs.Topology = Diligent::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         
         for(int iRow=0; iRow < TriGridSize; ++iRow)

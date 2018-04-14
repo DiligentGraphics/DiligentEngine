@@ -201,7 +201,7 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
             PipelineStateDesc PSODesc;
             PSODesc.GraphicsPipeline.pVS = pTrivialVS;
             PSODesc.GraphicsPipeline.pPS = pTrivialPS;
-            PSODesc.GraphicsPipeline.PrimitiveTopologyType = PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+            PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
             PSODesc.GraphicsPipeline.NumRenderTargets = 1;
             PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM;
             PSODesc.GraphicsPipeline.DSVFormat = TEX_FORMAT_D32_FLOAT;
