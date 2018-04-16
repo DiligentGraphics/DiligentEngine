@@ -81,9 +81,15 @@ TrivialVS = Shader.Create{
 
 TrivialPS = Shader.Create{
 	Source = 
-[[void PSMain(out float4 col : SV_TARGET)
+[[void PSMain(out float4 col0 : SV_TARGET, 
+              out float4 col1 : SV_TARGET1,
+              out float4 col2 : SV_TARGET2,
+              out float4 col3 : SV_TARGET3)
 {
-	col = float4(0.0, 0.0, 0.0, 0.0);
+	col0 = float4(0.0, 0.0, 0.0, 0.0);
+    col1 = float4(0.0, 0.0, 0.0, 0.0);
+    col2 = float4(0.0, 0.0, 0.0, 0.0);
+    col3 = float4(0.0, 0.0, 0.0, 0.0);
 }]],
 	EntryPoint = "PSMain",
 	SourceLanguage = "SHADER_SOURCE_LANGUAGE_HLSL",
@@ -101,7 +107,7 @@ PSODesc =
 		pVS = TrivialVS,
 		pPS = TrivialPS,
 		BlendDesc = BSDesc,
-		RTVFormats = {"TEX_FORMAT_RGBA8_UNORM", "TEX_FORMAT_RGBA8_UNORM"},
+		RTVFormats = {"TEX_FORMAT_RGBA8_UNORM", "TEX_FORMAT_RGBA8_UNORM", "TEX_FORMAT_RGBA8_UNORM", "TEX_FORMAT_RGBA8_UNORM"},
 		DSVFormat = "TEX_FORMAT_D32_FLOAT",
 		PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST",
 		SmplDesc = {Count = 1, Quality = 0 }

@@ -725,7 +725,7 @@ void TestSampleCmpLevelZero()
 void TestLoad()
 {
     int4 Location = int4(2, 5, 1, 10);
-    const int3 Offset = int3(5, 10, 20);
+    const int3 Offset = int3(5, 7, -6);
 
 #ifndef GL_ES
     // Texture1D 
@@ -1256,7 +1256,5 @@ void TestPS  ( in VSOutput In,
 #ifndef GL_ES
         double d = asdouble( u1, u1 );
 #endif
-
-        f1 = noise( f1 ); f2 = noise( f2 ); f3 = noise( f3 ); f4 = noise( f4 );
     }
 }
