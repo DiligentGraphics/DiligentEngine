@@ -214,8 +214,8 @@ void DiligentGraphicsAdapterD3D12::InitProxySwapChain()
 
 void DiligentGraphicsAdapterD3D12::PreSwapChainResize()
 {
-    auto *pProxySwapChainD3D12 = ValidatedCast<ProxySwapChainD3D12>(m_pProxySwapChain.RawPtr());
-    auto *pDeviceD3D12 = ValidatedCast<IRenderDeviceD3D12>(m_pDevice.RawPtr());
+    auto *pProxySwapChainD3D12 = m_pProxySwapChain.RawPtr<ProxySwapChainD3D12>();
+    auto *pDeviceD3D12 = m_pDevice.RawPtr<IRenderDeviceD3D12>();
     pProxySwapChainD3D12->ReleaseBuffers();
     auto *GraphicsImpl = m_UnityGraphicsD3D12.GetGraphicsImpl();
     pDeviceD3D12->FinishFrame();
@@ -228,14 +228,14 @@ void DiligentGraphicsAdapterD3D12::PreSwapChainResize()
 void DiligentGraphicsAdapterD3D12::PostSwapChainResize()
 {
     auto *GraphicsImpl = m_UnityGraphicsD3D12.GetGraphicsImpl();
-    auto *pProxySwapChainD3D12 = ValidatedCast<ProxySwapChainD3D12>(m_pProxySwapChain.RawPtr());
+    auto *pProxySwapChainD3D12 = m_pProxySwapChain.RawPtr<ProxySwapChainD3D12>();
     pProxySwapChainD3D12->CreateBuffers(GraphicsImpl->GetDXGISwapChain(), GraphicsImpl->GetDepthBuffer());
 }
 
 void DiligentGraphicsAdapterD3D12::BeginFrame()
 {
     auto *GraphicsImpl = m_UnityGraphicsD3D12.GetGraphicsImpl();
-    auto *pProxySwapChainD3D12 = ValidatedCast<ProxySwapChainD3D12>(m_pProxySwapChain.RawPtr());
+    auto *pProxySwapChainD3D12 = m_pProxySwapChain.RawPtr<ProxySwapChainD3D12>();
     pProxySwapChainD3D12->SetBackBufferIndex(GraphicsImpl->GetCurrentBackBufferIndex());
     // Unity graphics emulator transitions render target to D3D12_RESOURCE_STATE_RENDER_TARGET,
     // and depth buffer to D3D12_RESOURCE_STATE_DEPTH_WRITE state
@@ -247,15 +247,15 @@ void DiligentGraphicsAdapterD3D12::EndFrame()
 {
     // Unity graphics emulator expects render target to be D3D12_RESOURCE_STATE_RENDER_TARGET,
     // and depth buffer to be in D3D12_RESOURCE_STATE_DEPTH_WRITE state
-    auto *pCtxD3D12 = ValidatedCast<IDeviceContextD3D12>(m_pDeviceCtx.RawPtr());
-    auto *pProxySwapChainD3D12 = ValidatedCast<ProxySwapChainD3D12>(m_pProxySwapChain.RawPtr());
+    auto *pCtxD3D12 = m_pDeviceCtx.RawPtr<IDeviceContextD3D12>();
+    auto *pProxySwapChainD3D12 = m_pProxySwapChain.RawPtr<ProxySwapChainD3D12>();
     auto *pCurrentBackBuffer = pProxySwapChainD3D12->GetCurrentBackBuffer();
     auto *pDepthBuffer = pProxySwapChainD3D12->GetDepthBuffer();
     pCtxD3D12->TransitionTextureState(pCurrentBackBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
     pCtxD3D12->TransitionTextureState(pDepthBuffer, D3D12_RESOURCE_STATE_DEPTH_WRITE);
     m_pDeviceCtx->Flush();
     m_pDeviceCtx->InvalidateState();
-    ValidatedCast<IRenderDeviceD3D12>(m_pDevice.RawPtr())->FinishFrame();
+    m_pDevice.RawPtr<IRenderDeviceD3D12>()->FinishFrame();
 }
 
 bool DiligentGraphicsAdapterD3D12::UsesReverseZ()

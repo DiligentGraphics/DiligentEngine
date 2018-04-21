@@ -42,8 +42,8 @@ void GhostCubeSceneResTrsnHelper::TransitionResources(int stateCount, UnityGraph
     for (int i = 0; i < stateCount; ++i)
     {
         auto &ResState = states[i];
-        ITextureD3D12 *pMirrorRT = ValidatedCast<ITextureD3D12>(m_TheScene.m_pRenderTarget.RawPtr());
-        ITextureD3D12 *pMirrorDepth = ValidatedCast<ITextureD3D12>(m_TheScene.m_pDepthBuffer.RawPtr());
+        ITextureD3D12 *pMirrorRT = m_TheScene.m_pRenderTarget.RawPtr<ITextureD3D12>();
+        ITextureD3D12 *pMirrorDepth = m_TheScene.m_pDepthBuffer.RawPtr<ITextureD3D12>();
         ITextureD3D12 *pResToTransition = nullptr;
         if (ResState.resource == pMirrorRT->GetD3D12Texture())
             pResToTransition = pMirrorRT;

@@ -141,6 +141,14 @@ LRESULT CALLBACK MessageProc(HWND wnd, UINT message, WPARAM wParam, LPARAM lPara
             PostQuitMessage(0);
             return 0;
 
+        case WM_GETMINMAXINFO:
+        {
+            LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+            lpMMI->ptMinTrackSize.x = 320;
+            lpMMI->ptMinTrackSize.y = 240;
+            return 0;
+        }
+
         default:
             return DefWindowProc(wnd, message, wParam, lParam);
     }
