@@ -5,7 +5,7 @@ uniform sampler2D g_tex2DTest2;
  
 layout(location = 1)in vec2 ex_UV;
 
-out vec4 out_Color;
+layout(location = 0) out vec4 out_Color;
 
 void main()
 {

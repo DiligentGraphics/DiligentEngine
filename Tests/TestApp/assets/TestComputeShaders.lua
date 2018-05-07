@@ -235,8 +235,8 @@ RenderPSO = PipelineState.Create
 		pPS = RenderPS,
 		InputLayout = 
 		{
-			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32"},
-			{ InputIndex = 1, BufferSlot = 1, NumComponents = 2, ValueType = "VT_FLOAT32"}
+			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32", IsNormalized = false},
+			{ InputIndex = 1, BufferSlot = 1, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false}
 		},
 		RTVFormats = {"TEX_FORMAT_RGBA8_UNORM_SRGB"},
         PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
