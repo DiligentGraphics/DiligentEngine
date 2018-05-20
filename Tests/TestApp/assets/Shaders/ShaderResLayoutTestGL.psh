@@ -21,8 +21,10 @@ uniform sampler g_SamArr_mut[3];
 uniform sampler g_Sam_dyn;
 uniform sampler g_SamArr_dyn[4];
 
-uniform samplerBuffer g_UniformPixelBuff;
-layout(rgba32f) uniform writeonly imageBuffer g_StoragePixelBuff;
+uniform samplerBuffer g_UniformTexelBuff;
+layout(rgba32f) uniform writeonly imageBuffer g_StorageTexelBuff;
+uniform samplerBuffer g_UniformTexelBuff_mut;
+layout(rgba32f) uniform writeonly imageBuffer g_StorageTexelBuff_mut;
 
 uniform UniformBuff_Stat
 {
