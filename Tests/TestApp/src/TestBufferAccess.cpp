@@ -43,7 +43,7 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, f
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pContext;
     auto DevType = m_pRenderDevice->GetDeviceCaps().DevType;
-    bool bUseOpenGL = DevType == DeviceType::OpenGL || DevType == DeviceType::OpenGLES;
+    bool bUseGLSL = DevType == DeviceType::OpenGL || DevType == DeviceType::OpenGLES || DevType == DeviceType::Vulkan;
 
     m_fXExtent = fXExtent;
     m_fYExtent = fYExtent;
@@ -115,18 +115,18 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, f
     ShaderCreationAttribs CreationAttrs;
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
-    CreationAttrs.Desc.TargetProfile = bUseOpenGL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
+    CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
 
     RefCntAutoPtr<Diligent::IShader> pVSInst, pPS;
 
     {
-        CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\minimalInstGL.vsh" : "Shaders\\minimalInstDX.vsh";
+        CreationAttrs.FilePath = bUseGLSL ? "Shaders\\minimalInstGL.vsh" : "Shaders\\minimalInstDX.vsh";
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_VERTEX;
         m_pRenderDevice->CreateShader( CreationAttrs, &pVSInst );
     }
 
     {
-        CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\minimalGL.psh" : "Shaders\\minimalDX.psh";
+        CreationAttrs.FilePath = bUseGLSL ? "Shaders\\minimalGL.psh" : "Shaders\\minimalDX.psh";
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_PIXEL;
         m_pRenderDevice->CreateShader( CreationAttrs, &pPS );
     }

@@ -1008,7 +1008,7 @@ void TestPS  ( in VSOutput In,
 {
     float4 Pos = In.f4PosPS;
 
-    Out.Color3 = float4(0.0, 1.0, 2.0, 3.0);
+    Out.Color3 = float4(0.0 + a, 1.0 + b, 2.0 + c, 3.0 + d);
     Out.substr.Color4 = float4(0.0, 1.0, 2.0, 3.0);
 
     TestFuncArgs1( Tex2D_F6,

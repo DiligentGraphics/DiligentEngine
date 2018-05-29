@@ -30,7 +30,7 @@ class TestTexturing : public UnitTestBase
 public:
     TestTexturing();
 
-    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, Diligent::TEXTURE_FORMAT TexFormat, bool bUseOpenGL, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);   
+    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, Diligent::TEXTURE_FORMAT TexFormat, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);   
     void Draw();
     static void GenerateTextureData(Diligent::IRenderDevice *pRenderDevice, std::vector<Diligent::Uint8> &Data, std::vector<Diligent::TextureSubResData> &SubResouces, const Diligent::TextureDesc &TexDesc, const float *ColorOffset = nullptr);
 

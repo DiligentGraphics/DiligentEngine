@@ -1,6 +1,6 @@
 
 uniform sampler2D g_tex2D_Dyn;
-uniform sampler2D g_tex2DArr_Dyn[4];
+uniform sampler2D g_tex2DArr_Dyn[8];
 uniform sampler2D g_tex2D_Static;
 uniform sampler2D g_tex2DArr_Static[2];
 uniform sampler2D g_tex2D_Mut;
@@ -17,8 +17,8 @@ uniform sampler g_Sam_static;
 uniform sampler g_SamArr_static[2];
 uniform sampler g_Sam_mut;
 uniform sampler g_SamArr_mut[3];
-uniform sampler g_Sam_dyn;
 uniform sampler g_SamArr_dyn[4];
+uniform sampler g_Sam_dyn;
 
 uniform samplerBuffer g_UniformTexelBuff;
 layout(rgba32f) uniform writeonly imageBuffer g_StorageTexelBuff;
@@ -116,6 +116,10 @@ void main(void)
     out_Color += textureLod(g_tex2DArr_Dyn[1], g_UniformBuffArr_Dyn[1].UV + g_StorageBuffArr_Dyn[1].UV[0].xy, 0.0);
     out_Color += textureLod(g_tex2DArr_Dyn[2], g_UniformBuffArr_Dyn[2].UV + g_StorageBuffArr_Dyn[2].UV[0].xy, 0.0);
     out_Color += textureLod(g_tex2DArr_Dyn[3], g_UniformBuffArr_Dyn[3].UV + g_StorageBuffArr_Dyn[3].UV[0].xy, 0.0);
+    out_Color += textureLod(g_tex2DArr_Dyn[4], g_UniformBuffArr_Dyn[0].UV + g_StorageBuffArr_Dyn[0].UV[0].xy, 0.0);
+    out_Color += textureLod(g_tex2DArr_Dyn[5], g_UniformBuffArr_Dyn[1].UV + g_StorageBuffArr_Dyn[1].UV[0].xy, 0.0);
+    out_Color += textureLod(g_tex2DArr_Dyn[6], g_UniformBuffArr_Dyn[2].UV + g_StorageBuffArr_Dyn[2].UV[0].xy, 0.0);
+    out_Color += textureLod(g_tex2DArr_Dyn[7], g_UniformBuffArr_Dyn[3].UV + g_StorageBuffArr_Dyn[3].UV[0].xy, 0.0);
 
     out_Color += textureLod(g_tex2D_Static, g_UniformBuff_Stat.UV + g_StorageBuff_Stat.UV[0].xy, 0.0);
     out_Color += textureLod(g_tex2DArr_Static[0], g_UniformBuffArr_Stat[0].UV + g_StorageBuffArr_Stat[0].UV[0].xy, 0.0);

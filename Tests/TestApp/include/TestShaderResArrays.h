@@ -28,7 +28,7 @@
 class TestShaderResArrays : public UnitTestBase
 {
 public:
-    TestShaderResArrays(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, bool bUseOpenGL, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);
+    TestShaderResArrays(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);
 
     void Draw();
     

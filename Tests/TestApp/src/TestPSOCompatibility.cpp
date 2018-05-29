@@ -268,10 +268,10 @@ TestPSOCompatibility::TestPSOCompatibility(IRenderDevice *pDevice ) :
     auto PSO_TexArr = CreateTestPSO(VS0, PS_TexArr);
     auto PSO_ArrOfTex = CreateTestPSO(VS0, PS_ArrOfTex);
     VERIFY_EXPR(PSO_Tex->IsCompatibleWith(PSO_Tex2));
-    if(DevType!=DeviceType::D3D12)
+    if(DevType!=DeviceType::D3D12 && DevType != DeviceType::Vulkan)
         VERIFY_EXPR(!PSO_Tex->IsCompatibleWith(PSO_TexArr));
     VERIFY_EXPR(!PSO_Tex->IsCompatibleWith(PSO_ArrOfTex));
-    if (DevType != DeviceType::D3D12)
+    if (DevType != DeviceType::D3D12 && DevType != DeviceType::Vulkan)
         VERIFY_EXPR(!PSO_Tex2->IsCompatibleWith(PSO_TexArr));
     VERIFY_EXPR(!PSO_Tex2->IsCompatibleWith(PSO_ArrOfTex));
     VERIFY_EXPR(!PSO_TexArr->IsCompatibleWith(PSO_ArrOfTex));

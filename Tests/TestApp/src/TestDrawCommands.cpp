@@ -37,7 +37,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     m_pDeviceContext = pDeviceContext;
 
     auto DevType = m_pRenderDevice->GetDeviceCaps().DevType;
-    bool bUseOpenGL = DevType == DeviceType::OpenGL || DevType == DeviceType::OpenGLES;
+    bool bUseGLSL = DevType == DeviceType::OpenGL || DevType == DeviceType::OpenGLES || DevType == DeviceType::Vulkan;
 
     std::vector<float> VertexData;
     std::vector<float> VertexData2;
@@ -155,23 +155,23 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     ShaderCreationAttribs CreationAttrs;
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
-    CreationAttrs.Desc.TargetProfile = bUseOpenGL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
+    CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
 
     RefCntAutoPtr<IShader> pVS, pVSInst, pPS;
     {
-        CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\minimalGL.vsh" : "Shaders\\minimalDX.vsh";
+        CreationAttrs.FilePath = bUseGLSL ? "Shaders\\minimalGL.vsh" : "Shaders\\minimalDX.vsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
         m_pRenderDevice->CreateShader( CreationAttrs, &pVS );
     }
 
     {
-        CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\minimalInstGL.vsh" : "Shaders\\minimalInstDX.vsh";
+        CreationAttrs.FilePath = bUseGLSL ? "Shaders\\minimalInstGL.vsh" : "Shaders\\minimalInstDX.vsh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
         m_pRenderDevice->CreateShader( CreationAttrs, &pVSInst );
     }
 
     {
-        CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\minimalGL.psh" : "Shaders\\minimalDX.psh";
+        CreationAttrs.FilePath = bUseGLSL ? "Shaders\\minimalGL.psh" : "Shaders\\minimalDX.psh";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_PIXEL;
         m_pRenderDevice->CreateShader( CreationAttrs, &pPS );
     }

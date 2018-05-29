@@ -12,14 +12,14 @@ uniform texture2D g_sepTex2DArr_static[2];
 uniform texture2D g_sepTex2D_mut;
 uniform texture2D g_sepTex2DArr_mut[3];
 uniform texture2D g_sepTex2D_dyn;
-uniform texture2D g_sepTex2DArr_dyn[4];
+uniform texture2D g_sepTex2DArr_dyn[8];
 
 uniform sampler g_Sam_static;
 uniform sampler g_SamArr_static[2];
 uniform sampler g_Sam_mut;
 uniform sampler g_SamArr_mut[3];
-uniform sampler g_Sam_dyn;
 uniform sampler g_SamArr_dyn[4];
+uniform sampler g_Sam_dyn;
 
 uniform samplerBuffer g_UniformTexelBuff;
 layout(rgba32f) uniform writeonly imageBuffer g_StorageTexelBuff;

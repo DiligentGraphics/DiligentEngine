@@ -13,7 +13,7 @@ TestSampler = Sampler.Create{
     MaxLOD = 10,
     MaxAnisotropy = 6,
     ComparisonFunc = "COMPARISON_FUNC_GREATER_EQUAL",
-    BorderColor = {r = 0.1, g = 0.2, b=0.3, a=0.4},
+    BorderColor = {r = 0.0, g = 0.0, b=0.0, a=1.0},
 }
 
 ErrorTestSampler = Sampler.Create

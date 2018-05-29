@@ -132,11 +132,13 @@ void TestTexturing::GenerateTextureData(IRenderDevice *pRenderDevice, std::vecto
 }
 
 
-void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext, TEXTURE_FORMAT TexFormat, bool bUseOpenGL, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent )
+void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext, TEXTURE_FORMAT TexFormat, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent )
 {
     m_pRenderDevice = pDevice;
     m_TextureFormat = TexFormat;
     m_pDeviceContext = pDeviceContext;
+    auto DevType = m_pRenderDevice->GetDeviceCaps().DevType;
+    bool bUseGLSL = DevType == DeviceType::OpenGL || DevType == DeviceType::OpenGLES || DevType == DeviceType::Vulkan;
 
     float Vertices[] = 
     {
@@ -167,11 +169,11 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     ShaderCreationAttribs CreationAttrs;
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
-    CreationAttrs.Desc.TargetProfile = bUseOpenGL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
+    CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
 
     RefCntAutoPtr<Diligent::IShader> pVS, pPS;
     {
-        CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\TextureTestGL.vsh" : "Shaders\\TextureTestDX.vsh";
+        CreationAttrs.FilePath = bUseGLSL ? "Shaders\\TextureTestGL.vsh" : "Shaders\\TextureTestDX.vsh";
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_VERTEX;
         m_pRenderDevice->CreateShader( CreationAttrs, &pVS );
     }
@@ -180,9 +182,9 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
                          PixelFormatAttribs.ComponentType == COMPONENT_TYPE_SINT;
     {
         if( bIsIntTexture )
-            CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\TextureIntTestGL.psh" : "Shaders\\TextureIntTestDX.psh";
+            CreationAttrs.FilePath = bUseGLSL ? "Shaders\\TextureIntTestGL.psh" : "Shaders\\TextureIntTestDX.psh";
         else
-            CreationAttrs.FilePath = bUseOpenGL ? "Shaders\\TextureTestGL.psh" : "Shaders\\TextureTestDX.psh";
+            CreationAttrs.FilePath = bUseGLSL ? "Shaders\\TextureTestGL.psh" : "Shaders\\TextureTestDX.psh";
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_PIXEL;
         
         StaticSamplerDesc StaticSampler;
