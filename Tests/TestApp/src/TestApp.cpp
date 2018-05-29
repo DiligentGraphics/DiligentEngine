@@ -64,6 +64,7 @@
 #include "PlatformMisc.h"
 #include "TestBufferCreation.h"
 #include "TestBrokenShader.h"
+#include "TestShaderResourceLayout.h"
 
 using namespace Diligent;
 
@@ -210,8 +211,10 @@ void TestApp::InitializeDiligentEngine(
             EngineVkAttribs EngVkAttribs;
 #ifdef _DEBUG
             EngVkAttribs.EnableValidation = true;
+            EngVkAttribs.MainDescriptorPoolSize = EngineVkAttribs::DescriptorPoolSize{ 64, 64, 256, 256, 64, 32, 32, 32, 32 };
+            EngVkAttribs.DynamicDescriptorPoolSize = EngineVkAttribs::DescriptorPoolSize{ 64, 64, 256, 256, 64, 32, 32, 32, 32 };
 #endif
-
+            
             ppContexts.resize(1 + NumDeferredCtx);
             auto *pFactoryVk = GetEngineFactoryVk();
             pFactoryVk->CreateDeviceAndContextsVk(EngVkAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
@@ -251,8 +254,6 @@ void TestApp::InitializeDiligentEngine(
 
 void TestApp::InitializeRenderers()
 {
-    bool bUseOpenGL = m_DeviceType == DeviceType::OpenGL || m_DeviceType == DeviceType::OpenGLES;
-    
     TestRasterizerState TestRS(m_pDevice, m_pImmediateContext);
     TestBlendState TestBS(m_pDevice, m_pImmediateContext);
     TestDepthStencilState TestDSS(m_pDevice, m_pImmediateContext);
@@ -260,15 +261,17 @@ void TestApp::InitializeRenderers()
     TestTextureCreation TestTexCreation(m_pDevice, m_pImmediateContext);
     TestPSOCompatibility TestPSOCompat(m_pDevice);
     TestBrokenShader TestBrknShdr(m_pDevice);
-
+    
     m_TestGS.Init(m_pDevice, m_pImmediateContext);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext);
-    m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, bUseOpenGL, 0.4f, -0.9f, 0.5f, 0.5f));
+    m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, 0.4f, -0.9f, 0.5f, 0.5f));
     m_pMTResCreationTest.reset(new MTResourceCreationTest(m_pDevice, m_pImmediateContext, 7));
+    TestShaderResourceLayout TestShaderResLayout(m_pDevice, m_pImmediateContext);
 
-#if GL_SUPPORTED || GLES_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED || VULKAN_SUPPORTED
     ShaderConverterTest ConverterTest(m_pDevice, m_pImmediateContext);
 #endif
+
     TestSamplerCreation TestSamplers(m_pDevice);
 
     RenderScriptTest LuaTest(m_pDevice, m_pImmediateContext);
@@ -297,7 +300,7 @@ void TestApp::InitializeRenderers()
         {
             auto Ind = i + j * 4;
             m_pTestTexturing[Ind].reset(new TestTexturing);
-            m_pTestTexturing[Ind]->Init(m_pDevice, m_pImmediateContext, TestFormats[Ind], bUseOpenGL, -1 + (float)i*1.f / 4.f, -1 + (float)j*1.f / 4.f, 0.9f / 4.f, 0.9f / 4.f);
+            m_pTestTexturing[Ind]->Init(m_pDevice, m_pImmediateContext, TestFormats[Ind], -1 + (float)i*1.f / 4.f, -1 + (float)j*1.f / 4.f, 0.9f / 4.f, 0.9f / 4.f);
         }
 
 #if 0
@@ -525,6 +528,8 @@ void TestApp::Update(double CurrTime, double ElapsedTime)
 void TestApp::Render()
 {
     m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr);
+    float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
+    m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor);
 
     double dCurrTime = m_CurrTime;
 

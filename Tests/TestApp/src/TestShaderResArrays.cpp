@@ -181,9 +181,8 @@ void TestShaderResArrays::Draw()
     m_pDeviceContext->CommitShaderResources(m_pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     
     IBuffer *pBuffs[] = {m_pVertexBuff};
-    Uint32 Strides[] = {sizeof(float)*5};
     Uint32 Offsets[] = {0};
-    m_pDeviceContext->SetVertexBuffers( 0, 1, pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
+    m_pDeviceContext->SetVertexBuffers( 0, 1, pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
 
     Diligent::DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 4; // Draw quad

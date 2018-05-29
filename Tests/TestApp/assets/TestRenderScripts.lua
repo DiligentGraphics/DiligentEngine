@@ -115,9 +115,9 @@ PSOInst = PipelineState.Create
 		},
 		InputLayout = 
 		{
-			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32", IsNormalized = false},
-			{ InputIndex = 1, BufferSlot = 1, NumComponents = 4, ValueType = "VT_UINT8",   IsNormalized = true},
-			{ InputIndex = 2, BufferSlot = 2, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false, Frequency = "FREQUENCY_PER_INSTANCE"},
+			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32", IsNormalized = false, Stride = 4*3},
+			{ InputIndex = 1, BufferSlot = 1, NumComponents = 4, ValueType = "VT_UINT8",   IsNormalized = true, Stride = 4*1},
+			{ InputIndex = 2, BufferSlot = 2, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false, Frequency = "FREQUENCY_PER_INSTANCE", Stride = 0},
 		},
 		PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST",
 		pVS = MinimalInstVS,
@@ -209,14 +209,14 @@ function DrawTris(DrawAttrs)
 	
 	if( DrawAttrs.NumInstances == 1 ) then
 		Context.SetPipelineState(PSO)
-		Context.SetVertexBuffers(0, VertexBuffer1, 0, 4*3, ColorsBuffer1, 0, 1*4, "SET_VERTEX_BUFFERS_FLAG_RESET")
+		Context.SetVertexBuffers(0, VertexBuffer1, 0, ColorsBuffer1, 0, "SET_VERTEX_BUFFERS_FLAG_RESET")
 		SRB:BindResources({"SHADER_TYPE_VERTEX", "SHADER_TYPE_PIXEL"}, ResMapping, {"BIND_SHADER_RESOURCES_UPDATE_UNRESOLVED", "BIND_SHADER_RESOURCES_ALL_RESOLVED"})
 		Context.TransitionShaderResources(PSO)
 		Context.CommitShaderResources()
 		Context.Draw(DrawAttrs)
 	else
 		Context.SetPipelineState(PSOInst)
-		Context.SetVertexBuffers(0, VertexBuffer2, ColorsBuffer2, 0, 1*4, InstanceBuffer, 0, "SET_VERTEX_BUFFERS_FLAG_RESET")
+		Context.SetVertexBuffers(0, VertexBuffer2, ColorsBuffer2, 0, InstanceBuffer, 0, "SET_VERTEX_BUFFERS_FLAG_RESET")
 		Context.SetIndexBuffer(IndexBuffer)
 		SRBInst:BindResources({"SHADER_TYPE_VERTEX", "SHADER_TYPE_PIXEL"}, ResMapping, {"BIND_SHADER_RESOURCES_UPDATE_UNRESOLVED", "BIND_SHADER_RESOURCES_ALL_RESOLVED"})
 		Context.TransitionShaderResources(PSOInst)

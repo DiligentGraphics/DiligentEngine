@@ -171,7 +171,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
     {
         PipelineStateDesc PSODesc;
         LayoutElement inputDesc[] = {
-            LayoutElement( 0, 0, 3, VT_FLOAT32),
+            LayoutElement( 0, 0, 3, VT_FLOAT32, false, 0, sizeof(Vertex)),
             LayoutElement( 1, 0, 3, VT_FLOAT32)
         };
 
@@ -655,9 +655,8 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
 
     {
         IBuffer* ia_buffers[] = { mVertexBuffer };
-        Uint32 ia_strides[] = { sizeof(Vertex) };
         Uint32 ia_offsets[] = { 0 };
-        pCtx->SetVertexBuffers(0, 1, ia_buffers, ia_strides, ia_offsets, 0);
+        pCtx->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, 0);
         pCtx->SetIndexBuffer(mIndexBuffer, 0);
     }
 
@@ -787,9 +786,8 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         }
 
         IBuffer* ia_buffers[] = { mSkyboxVertexBuffer };
-        UINT ia_strides[] = { sizeof(SkyboxVertex) };
         UINT ia_offsets[] = { 0 };
-        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_strides, ia_offsets, 0);
+        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, 0);
 
         mDeviceCtxt->SetPipelineState(mSkyboxPSO);
         mDeviceCtxt->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
@@ -817,9 +815,8 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         }
 
         IBuffer* ia_buffers[] = { mSpriteVertexBuffer };
-        Uint32 ia_strides[] = { sizeof(SpriteVertex) };
         Uint32 ia_offsets[] = { 0 };
-        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_strides, ia_offsets, 0);
+        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, 0);
 
         // Draw
         UINT vertexStart = 0;

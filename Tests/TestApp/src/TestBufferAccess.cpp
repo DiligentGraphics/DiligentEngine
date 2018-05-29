@@ -145,8 +145,8 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, f
     LayoutElement Elems[] =
     {
         LayoutElement( 0, 0, 3, Diligent::VT_FLOAT32, false, 0 ),
-        LayoutElement( 1, 0, 3, Diligent::VT_FLOAT32, false, sizeof( float ) * 3 ),
-        LayoutElement( 2, 1, 2, Diligent::VT_FLOAT32, false, 0, LayoutElement::FREQUENCY_PER_INSTANCE )
+        LayoutElement( 1, 0, 3, Diligent::VT_FLOAT32, false, sizeof( float ) * 3, sizeof( float ) * 6),
+        LayoutElement( 2, 1, 2, Diligent::VT_FLOAT32, false, 0, 0, LayoutElement::FREQUENCY_PER_INSTANCE )
     };
     PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
     PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
@@ -162,9 +162,8 @@ void TestBufferAccess::Draw(float fTime)
     //m_pDeviceContext->CommitShaderResources(nullptr);
 
     IBuffer *pBuffs[2] = {m_pVertexBuff, m_pInstBuff[0]};
-    Uint32 Strides[] = {sizeof(float)*6, sizeof(float)*2};
     Uint32 Offsets[] = {0, 0};
-    m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
+    m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
     
     Diligent::DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 3;
@@ -184,7 +183,7 @@ void TestBufferAccess::Draw(float fTime)
     m_pInstBuff[1]->UpdateData( m_pDeviceContext, sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2] );
 
     pBuffs[1] = m_pInstBuff[1];
-    m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
+    m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
     
     m_pDeviceContext->Draw(DrawAttrs);
 
@@ -212,7 +211,7 @@ void TestBufferAccess::Draw(float fTime)
     }
 
     pBuffs[1] = m_pInstBuff[3];
-    m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
+    m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
     
     m_pDeviceContext->Draw(DrawAttrs);
 
@@ -245,7 +244,7 @@ void TestBufferAccess::Draw(float fTime)
 
             m_pInstBuff[2]->CopyData( m_pDeviceContext, m_pInstBuff[5], 0, 0, sizeof( instance_offsets ) );
             pBuffs[1] = m_pInstBuff[2];
-            m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Strides, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
+            m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
             m_pDeviceContext->Draw(DrawAttrs);
 
 

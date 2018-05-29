@@ -235,8 +235,8 @@ RenderPSO = PipelineState.Create
 		pPS = RenderPS,
 		InputLayout = 
 		{
-			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32", IsNormalized = false},
-			{ InputIndex = 1, BufferSlot = 1, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false}
+			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32", IsNormalized = false, Stride = 4*4},
+			{ InputIndex = 1, BufferSlot = 1, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false, Stride = 4*4}
 		},
 		RTVFormats = {"TEX_FORMAT_RGBA8_UNORM_SRGB"},
         PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
@@ -264,7 +264,7 @@ function Draw()
 	Context.SetPipelineState(RenderPSO)
 	Context.TransitionShaderResources(RenderPSO)
 	Context.CommitShaderResources()
-	Context.SetVertexBuffers(PositionsBuffer, 0, 4*4, TexcoordBuffer, TexcoordDataOffset, 4*4, "SET_VERTEX_BUFFERS_FLAG_RESET")
+	Context.SetVertexBuffers(PositionsBuffer, 0, TexcoordBuffer, TexcoordDataOffset, "SET_VERTEX_BUFFERS_FLAG_RESET")
 	Context.SetIndexBuffer(IndexBuffer)
 	Context.Draw(DrawAttrs)
 end

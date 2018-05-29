@@ -420,8 +420,8 @@ TestBuffer3 = Buffer.Create(
 	}
 )
 
-Context.SetVertexBuffers(1, TestBuffer, 0, 4, TestBuffer3, 16, 8, "SET_VERTEX_BUFFERS_FLAG_RESET")
-Context.SetVertexBuffers(1, TestBuffer, 0, 4, nil)
+Context.SetVertexBuffers(1, TestBuffer, 0, TestBuffer3, 16, "SET_VERTEX_BUFFERS_FLAG_RESET")
+Context.SetVertexBuffers(1, TestBuffer, 0, nil)
 Context.SetVertexBuffers(nil, nil, nil, {"SET_VERTEX_BUFFERS_FLAG_RESET", "SET_VERTEX_BUFFERS_FLAG_RESET"})
 
 TestBuffer3 = Buffer.Create({
