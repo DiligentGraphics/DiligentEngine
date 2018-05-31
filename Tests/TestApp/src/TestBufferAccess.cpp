@@ -38,7 +38,7 @@ TestBufferAccess::TestBufferAccess() :
     m_fYExtent(0)
 {}
 
-void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent )
+void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, ISwapChain *pSwapChain, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent )
 {
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pContext;
@@ -137,7 +137,7 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, f
     PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_NONE;
     PSODesc.GraphicsPipeline.BlendDesc.IndependentBlendEnable = False;
     PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].BlendEnable = False;
-    PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM_SRGB;
+    PSODesc.GraphicsPipeline.RTVFormats[0] = pSwapChain->GetDesc().ColorBufferFormat;
     PSODesc.GraphicsPipeline.NumRenderTargets = 1;
     PSODesc.GraphicsPipeline.pVS = pVSInst;
     PSODesc.GraphicsPipeline.pPS = pPS;

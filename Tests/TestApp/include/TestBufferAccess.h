@@ -31,7 +31,7 @@ public:
     static const int TriGridSize = 16;
     TestBufferAccess();
 
-    void Init( Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent );
+    void Init( Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext, Diligent::ISwapChain *pSwapChain, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent );
     void Draw(float fTime);
 
 private:

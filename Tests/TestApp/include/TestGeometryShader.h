@@ -30,7 +30,7 @@ class TestGeometryShader : public UnitTestBase
 public:
     TestGeometryShader() : UnitTestBase("Test Geometry Shaders"){}
     
-    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext);
+    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, Diligent::ISwapChain *pSwapChain);
     void Draw();
 
 private:

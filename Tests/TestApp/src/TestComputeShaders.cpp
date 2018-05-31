@@ -36,7 +36,7 @@ TestComputeShaders::TestComputeShaders() :
 {
 }
 
-void TestComputeShaders::Init( IRenderDevice *pDevice, IDeviceContext *pContext )
+void TestComputeShaders::Init( IRenderDevice *pDevice, IDeviceContext *pContext, ISwapChain *pSwapChain )
 {
     if(!pDevice->GetDeviceCaps().bComputeShadersSupported)
     {
@@ -46,8 +46,10 @@ void TestComputeShaders::Init( IRenderDevice *pDevice, IDeviceContext *pContext 
     
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pContext;
-    m_pRenderScript = CreateRenderScriptFromFile( "TestComputeShaders.lua", pDevice, pContext, []( ScriptParser *pScriptParser )
+    const auto* BackBufferFmt = pDevice->GetTextureFormatInfo(pSwapChain->GetDesc().ColorBufferFormat).Name;
+    m_pRenderScript = CreateRenderScriptFromFile( "TestComputeShaders.lua", pDevice, pContext, [BackBufferFmt]( ScriptParser *pScriptParser )
     {
+        pScriptParser->SetGlobalVariable( "extBackBufferFormat", BackBufferFmt );
     } );
 }
     

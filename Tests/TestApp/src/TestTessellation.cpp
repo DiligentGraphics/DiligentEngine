@@ -31,7 +31,7 @@
 
 using namespace Diligent;
 
-void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext)
+void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext, ISwapChain *pSwapChain)
 {
     if(!pDevice->GetDeviceCaps().bTessellationSupported)
     {
@@ -81,7 +81,7 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     PSODesc.GraphicsPipeline.RasterizerDesc.FillMode = FILL_MODE_WIREFRAME;
     PSODesc.GraphicsPipeline.BlendDesc.IndependentBlendEnable = False;
     PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].BlendEnable = False;
-    PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM_SRGB;
+    PSODesc.GraphicsPipeline.RTVFormats[0] = pSwapChain->GetDesc().ColorBufferFormat;
     PSODesc.GraphicsPipeline.NumRenderTargets = 1;
     PSODesc.GraphicsPipeline.pPS = pPS;
     PSODesc.GraphicsPipeline.pVS = pVS;

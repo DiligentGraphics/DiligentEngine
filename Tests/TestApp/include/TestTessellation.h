@@ -29,7 +29,7 @@ class TestTessellation : public UnitTestBase
 {
 public:
     TestTessellation() : UnitTestBase("Tessellation test") {}
-    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext);
+    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, Diligent::ISwapChain *pSwapChain);
     void Draw();
 
 private:

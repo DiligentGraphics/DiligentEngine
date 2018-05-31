@@ -31,7 +31,7 @@ class TestComputeShaders : public UnitTestBase
 public:
     TestComputeShaders();
 
-    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext);
+    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pContext, Diligent::ISwapChain *pSwapChain);
     void Draw();
     
 private:

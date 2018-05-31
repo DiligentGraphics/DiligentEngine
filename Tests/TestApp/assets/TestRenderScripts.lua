@@ -84,8 +84,8 @@ PSO = PipelineState.Create
 		PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST",
 		pVS = MinimalVS,
 		pPS = UniformBufferPS,
-		RTVFormats = "TEX_FORMAT_RGBA8_UNORM_SRGB",
-		DSVFormat = "TEX_FORMAT_D32_FLOAT",
+		RTVFormats = extBackBufferFormat,
+		DSVFormat = "TEX_FORMAT_UNKNOWN",
 	},
 	SRBAllocationGranularity = 16
 }
@@ -122,7 +122,7 @@ PSOInst = PipelineState.Create
 		PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST",
 		pVS = MinimalInstVS,
 		pPS = UniformBufferPS,
-		RTVFormats = "TEX_FORMAT_RGBA8_UNORM_SRGB",
+		RTVFormats = extBackBufferFormat,
 		DSVFormat = "TEX_FORMAT_D32_FLOAT",
 	}
 }

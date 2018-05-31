@@ -419,6 +419,8 @@ and adds implementation using Diligent Engine API to allow comparing performance
     * Added `NumViewports` member to `GraphicsPipelineDesc` struct
     * Removed `PRIMITIVE_TOPOLOGY_TYPE` type; replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
       with `PRIMITIVE_TOPOLOGY GraphicsPipelineDesc::PrimitiveTopology`; removed `DrawAttribs::Topology`
+    * Removed `pStrides` prarameter from `IDeviceContext::SetVertexBuffers()`. Strides are now defined
+      through vertex layout.
 * Samples:
   * Added fullscreen mode selection dialog box
   * Implemented fullscreen mode toggle on UWP with shift + enter
