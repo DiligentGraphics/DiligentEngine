@@ -24,10 +24,10 @@ assert( TestGlobalSampler.MinLOD == 1.5 )
 assert( TestGlobalSampler.MaxLOD == 4 )
 assert( TestGlobalSampler.MaxAnisotropy == 2 )
 assert( TestGlobalSampler.ComparisonFunc == "COMPARISON_FUNC_LESS" )
-assert( TestGlobalSampler.BorderColor.r == 1.5 )
-assert( TestGlobalSampler.BorderColor.g == 2.25 )
-assert( TestGlobalSampler.BorderColor.b == 3.125 )
-assert( TestGlobalSampler.BorderColor.a == 4.0625 )
+assert( TestGlobalSampler.BorderColor.r == 0.0 )
+assert( TestGlobalSampler.BorderColor.g == 0.0 )
+assert( TestGlobalSampler.BorderColor.b == 0.0 )
+assert( TestGlobalSampler.BorderColor.a == 1.0 )
 
 assert( TestGlobalBuffer2UAV.ViewType == "BUFFER_VIEW_UNORDERED_ACCESS" )
 assert( TestGlobalBuffer2UAV.ByteOffset == 0 )
@@ -59,7 +59,7 @@ TestSampler = Sampler.Create{
     MaxLOD = 10,
     MaxAnisotropy = 6,
     ComparisonFunc = "COMPARISON_FUNC_GREATER_EQUAL",
-    BorderColor = {r = 0.5, g = 0.25, b=0.125, a=0.0625},
+    BorderColor = {r = 0.0, g = 0.0, b=0.0, a=1.0},
 }
 assert( TestSampler.Name == "Test Sampler" )
 assert( TestSampler.MinFilter == "FILTER_TYPE_POINT" ) 
@@ -73,10 +73,10 @@ assert( TestSampler.MinLOD == 0.5 )
 assert( TestSampler.MaxLOD == 10 )
 assert( TestSampler.MaxAnisotropy == 6 )
 assert( TestSampler.ComparisonFunc == "COMPARISON_FUNC_GREATER_EQUAL" )
-assert( TestSampler.BorderColor.r == 0.5 )
-assert( TestSampler.BorderColor.g == 0.25 )
-assert( TestSampler.BorderColor.b == 0.125 )
-assert( TestSampler.BorderColor.a == 0.0625 )
+assert( TestSampler.BorderColor.r == 0.0 )
+assert( TestSampler.BorderColor.g == 0.0 )
+assert( TestSampler.BorderColor.b == 0.0 )
+assert( TestSampler.BorderColor.a == 1.0 )
 
 
 
@@ -107,29 +107,29 @@ assert( TestSampler2.MinLOD == 0.5 )
 assert( TestSampler2.MaxLOD == 10 )
 assert( TestSampler2.MaxAnisotropy == 6 )
 assert( TestSampler2.ComparisonFunc == "COMPARISON_FUNC_GREATER_EQUAL" )
-assert( TestSampler2.BorderColor.r == 0.5 )
-assert( TestSampler2.BorderColor.g == 0.25 )
-assert( TestSampler2.BorderColor.b == 0.125 )
-assert( TestSampler2.BorderColor.a == 0.0625 )
+assert( TestSampler2.BorderColor.r == 0.0 )
+assert( TestSampler2.BorderColor.g == 0.0 )
+assert( TestSampler2.BorderColor.b == 0.0 )
+assert( TestSampler2.BorderColor.a == 1.0 )
 
 
 
 TestSampler3 = Sampler.Create{
     BorderColor = 
-		{r = TestSampler2.BorderColor.r * 2, 
-	     g = TestSampler2.BorderColor.g * 2,
-		 b = TestSampler2.BorderColor.b * 2,
-		 a = TestSampler2.BorderColor.a * 2
+		{r = TestSampler2.BorderColor.r, 
+	     g = TestSampler2.BorderColor.g,
+		 b = TestSampler2.BorderColor.b,
+		 a = TestSampler2.BorderColor.a
 		 }
 }
-assert( TestSampler3.BorderColor.r == 0.5 * 2 )
-assert( TestSampler3.BorderColor.g == 0.25 * 2 )
-assert( TestSampler3.BorderColor.b == 0.125 * 2 )
-assert( TestSampler3.BorderColor.a == 0.0625 * 2 )
+assert( TestSampler3.BorderColor.r == 0.0 )
+assert( TestSampler3.BorderColor.g == 0.0 )
+assert( TestSampler3.BorderColor.b == 0.0 )
+assert( TestSampler3.BorderColor.a == 1.0 )
 
 -- TestSampler3.MaxLOD = 0
 TestSampler3.BorderColor.a = 1
-assert( TestSampler3.BorderColor.a == 0.0625 * 2 )
+assert( TestSampler3.BorderColor.a ==1.0 )
 
 function Func1()
 	local TestSampler = Sampler.Create{
@@ -342,10 +342,10 @@ function TestSamplerArg(Sampler)
 	assert( Sampler.MaxLOD == 10 )
 	assert( Sampler.MaxAnisotropy == 6 )
 	assert( Sampler.ComparisonFunc == "COMPARISON_FUNC_GREATER_EQUAL" )
-	assert( Sampler.BorderColor.r == 0.5 )
-	assert( Sampler.BorderColor.g == 0.25 )
-	assert( Sampler.BorderColor.b == 0.125 )
-	assert( Sampler.BorderColor.a == 0.0625 )	
+	assert( Sampler.BorderColor.r == 0.0 )
+	assert( Sampler.BorderColor.g == 0.0 )
+	assert( Sampler.BorderColor.b == 0.0 )
+	assert( Sampler.BorderColor.a == 1.0 )	
 	Sampler = nil
 	collectgarbage()
 end
