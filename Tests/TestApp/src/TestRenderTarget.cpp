@@ -53,7 +53,7 @@ void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         pScriptParser->SetGlobalVariable( "YExt", fYExtent );
     } );
 }
-    
+
 void TestRenderTarget::Draw()
 {
     if(!m_pDeviceContext)
