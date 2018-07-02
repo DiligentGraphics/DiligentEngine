@@ -54,6 +54,9 @@ public:
         return m_UnityGraphicsGL.GetGraphicsImpl()->GetDefaultFBO();
     }
     
+    virtual ITextureView* GetCurrentBackBufferRTV()override final{return nullptr;}
+    virtual ITextureView* GetDepthBufferDSV()override final{return nullptr;}
+
 private:
     const UnityGraphicsGLCoreES_Emulator& m_UnityGraphicsGL;
 };

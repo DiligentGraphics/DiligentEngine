@@ -72,6 +72,9 @@ public:
         UNEXPECTED("Windowed mode cannot be set through the proxy swap chain");
     }
 
+    virtual ITextureView* GetCurrentBackBufferRTV()override final{return nullptr;}
+    virtual ITextureView* GetDepthBufferDSV()override final{return nullptr;}
+
 private:
     ID3D11RenderTargetView *m_pRTV = nullptr;
     ID3D11DepthStencilView *m_pDSV = nullptr;

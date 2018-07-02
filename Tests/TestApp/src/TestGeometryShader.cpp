@@ -70,8 +70,9 @@ void TestGeometryShader::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCo
     PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_NONE;
     PSODesc.GraphicsPipeline.BlendDesc.IndependentBlendEnable = False;
     PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].BlendEnable = False;
-    PSODesc.GraphicsPipeline.RTVFormats[0] = pSwapChain->GetDesc().ColorBufferFormat;
     PSODesc.GraphicsPipeline.NumRenderTargets = 1;
+    PSODesc.GraphicsPipeline.RTVFormats[0] = pSwapChain->GetDesc().ColorBufferFormat;
+    PSODesc.GraphicsPipeline.DSVFormat = pSwapChain->GetDesc().DepthBufferFormat;
     PSODesc.GraphicsPipeline.pPS = pPS;
     PSODesc.GraphicsPipeline.pVS = pVS;
     PSODesc.GraphicsPipeline.pGS = pGS;

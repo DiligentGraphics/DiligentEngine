@@ -253,6 +253,7 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     PSODesc.GraphicsPipeline.BlendDesc.IndependentBlendEnable = False;
     PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].BlendEnable = False;
     PSODesc.GraphicsPipeline.RTVFormats[0] = pSwapChain->GetDesc().ColorBufferFormat;
+    PSODesc.GraphicsPipeline.DSVFormat = pSwapChain->GetDesc().DepthBufferFormat;
     PSODesc.GraphicsPipeline.NumRenderTargets = 1;
     PSODesc.GraphicsPipeline.pVS = pVS;
     PSODesc.GraphicsPipeline.pPS = pPS;

@@ -85,7 +85,7 @@ PSO = PipelineState.Create
 		pVS = MinimalVS,
 		pPS = UniformBufferPS,
 		RTVFormats = extBackBufferFormat,
-		DSVFormat = "TEX_FORMAT_UNKNOWN",
+		DSVFormat = extDepthBufferFormat
 	},
 	SRBAllocationGranularity = 16
 }
@@ -123,7 +123,7 @@ PSOInst = PipelineState.Create
 		pVS = MinimalInstVS,
 		pPS = UniformBufferPS,
 		RTVFormats = extBackBufferFormat,
-		DSVFormat = "TEX_FORMAT_D32_FLOAT",
+		DSVFormat = extDepthBufferFormat
 	}
 }
 SRBInst = PSOInst:CreateShaderResourceBinding()
