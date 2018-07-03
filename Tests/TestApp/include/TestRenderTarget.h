@@ -31,7 +31,7 @@ class TestRenderTarget : public UnitTestBase
 public:
     TestRenderTarget();
 
-    void Init(Diligent::IRenderDevice *pDevice, Diligent::IDeviceContext *pDeviceContext, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);   
+    void Init(Diligent::IRenderDevice* pDevice, Diligent::IDeviceContext* pDeviceContext, Diligent::ISwapChain* pSwapChain, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent);   
     void Draw();
     
 private:

@@ -147,8 +147,8 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
 {
     auto pDevice = m_DiligentGraphics->GetDevice();
     auto pCtx = m_DiligentGraphics->GetContext();
-    auto DevType = pDevice->GetDeviceCaps().DevType;
-    bool IsDX = DevType == DeviceType::D3D11 || DevType == DeviceType::D3D12;
+    const auto& DeviceCaps = pDevice->GetDeviceCaps();
+    const bool bIsGL = DeviceCaps.IsGLDevice();
     auto ReverseZ = m_DiligentGraphics->UsesReverseZ();
 
     // In OpenGL, render targets must be bound to the pipeline to be cleared
@@ -159,7 +159,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     pCtx->ClearRenderTarget(pRTVs[0], ClearColor);
     pCtx->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, ReverseZ ? 0.f : 1.f, 0);
 
-    if (DevType == DeviceType::D3D12)
+    if (DeviceCaps.DevType == DeviceType::D3D12)
     {
         // D3D12 context must be flushed so that the commands are submitted before the
         // commands issued by the plugin
@@ -175,9 +175,9 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
         if (ReverseZ)
             std::swap(NearPlane, FarPlane);
         float aspectRatio = 1.0f;
-        float4x4 ReflectionCameraProj = Projection(PI_F / 4.f, aspectRatio, NearPlane, FarPlane, IsDX);
+        float4x4 ReflectionCameraProj = Projection(PI_F / 4.f, aspectRatio, NearPlane, FarPlane, bIsGL);
         auto wvp = m_CubeWorldView * ReflectionCameraProj;
-        float fReverseZ = IsDX ? -1.f : +1.f;
+        float fReverseZ = bIsGL ? +1.f : -1.f;
         SetMatrixFromUnity(wvp._m00, fReverseZ * wvp._m01, wvp._m02, wvp._m03, 
                            wvp._m10, fReverseZ * wvp._m11, wvp._m12, wvp._m13,
                            wvp._m20, fReverseZ * wvp._m21, wvp._m22, wvp._m23,
@@ -202,7 +202,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
         if (ReverseZ)
             std::swap(NearPlane, FarPlane);
         float AspectRatio = static_cast<float>(m_WindowWidth) / static_cast<float>(std::max(m_WindowHeight, 1));
-        float4x4 MainCameraProj = Projection(PI_F / 3.f, AspectRatio, NearPlane, FarPlane, IsDX);
+        float4x4 MainCameraProj = Projection(PI_F / 3.f, AspectRatio, NearPlane, FarPlane, bIsGL);
         auto wvp = MirrorWorldView * MainCameraProj;
         MapHelper<float4x4> CBConstants(pCtx, m_pMirrorVSConstants, MAP_WRITE, MAP_FLAG_DISCARD);
         *CBConstants = transposeMatrix(wvp);

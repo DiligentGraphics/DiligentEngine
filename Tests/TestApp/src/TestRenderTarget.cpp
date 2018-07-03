@@ -36,7 +36,7 @@ TestRenderTarget::TestRenderTarget() :
 {
 }
 
-void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent )
+void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext, ISwapChain* pSwapChain, float fMinXCoord, float fMinYCoord, float fXExtent, float fYExtent )
 {
 #if PLATFORM_IOS
     SetStatus(TestResult::Skipped);
@@ -47,6 +47,11 @@ void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     m_pDeviceContext = pDeviceContext;
     m_pRenderScript = CreateRenderScriptFromFile( "TestRenderTargets.lua", pDevice, pDeviceContext, [&]( ScriptParser *pScriptParser )
     {
+        const auto* BackBufferFmt = pDevice->GetTextureFormatInfo(pSwapChain->GetDesc().ColorBufferFormat).Name;
+        const auto* DepthBufferFmt = pDevice->GetTextureFormatInfo(pSwapChain->GetDesc().DepthBufferFormat).Name;
+        pScriptParser->SetGlobalVariable( "extBackBufferFormat", BackBufferFmt );
+        pScriptParser->SetGlobalVariable( "extDepthBufferFormat", DepthBufferFmt );
+
         pScriptParser->SetGlobalVariable( "MinX", fMinXCoord );
         pScriptParser->SetGlobalVariable( "MinY", fMinYCoord );
         pScriptParser->SetGlobalVariable( "XExt", fXExtent );
