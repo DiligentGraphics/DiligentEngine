@@ -111,6 +111,7 @@ PRIVATE
     GraphicsEngineD3D11-shared 
     GraphicsEngineD3D12-shared
     GraphicsEngineOpenGL-shared
+    GraphicsEngineVk-shared
     TargetPlatform
     TextureLoader
     Common

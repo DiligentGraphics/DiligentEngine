@@ -24,6 +24,7 @@
 #include "RenderDeviceFactoryD3D11.h"
 #include "RenderDeviceFactoryD3D12.h"
 #include "RenderDeviceFactoryOpenGL.h"
+#include "RenderDeviceFactoryVk.h"
 #include "BasicShaderSourceStreamFactory.h"
 #include "MapHelper.h"
 
@@ -42,6 +43,7 @@ namespace Diligent
     GetEngineFactoryD3D11Type GetEngineFactoryD3D11 = nullptr;
     GetEngineFactoryD3D12Type GetEngineFactoryD3D12 = nullptr;
     GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = nullptr;
+    GetEngineFactoryVkType GetEngineFactoryVulkan = nullptr;
 #endif
 }
 
@@ -59,6 +61,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
     SwapChainDesc.DefaultDepthValue = 0.f;
     switch (DevType)
     {
+        case DeviceType::Vulkan:
         case DeviceType::D3D12:
         case DeviceType::D3D11:
         {
@@ -77,7 +80,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 pFactoryD3D11->CreateDeviceAndContextsD3D11( DeviceAttribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
                 pFactoryD3D11->CreateSwapChainD3D11( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
             }
-            else
+            else if(DevType == DeviceType::D3D12)
             {
                 EngineD3D12Attribs Attribs;
                 Attribs.GPUDescriptorHeapDynamicSize[0] = 65536*4;
@@ -94,6 +97,23 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 pFactoryD3D12->CreateDeviceAndContextsD3D12( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
                 pFactoryD3D12->CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
             }
+            else if(DevType == DeviceType::Vulkan)
+            {
+                EngineVkAttribs Attribs;
+                Attribs.DynamicHeapSize = 32 << 20;
+#if ENGINE_DLL
+                if(!GetEngineFactoryVulkan)
+                    LoadGraphicsEngineVk(GetEngineFactoryVulkan);
+#endif
+                auto *pFactoryVk = GetEngineFactoryVulkan();
+                pFactoryVk->CreateDeviceAndContextsVk( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+                pFactoryVk->CreateSwapChainVk( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
+            }
+            else
+            {
+                UNEXPECTED("Unexpected device type");
+            }
+
             
             mDeviceCtxt.Attach(ppContexts[0]);
             mDeferredCtxt.resize(mNumSubsets-1);
@@ -149,6 +169,8 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         case DeviceType::D3D11: spriteFile = "DiligentD3D11.dds"; break;
         case DeviceType::D3D12: spriteFile = "DiligentD3D12.dds"; break;
         case DeviceType::OpenGL: spriteFile = "DiligentGL.dds"; break;
+        case DeviceType::Vulkan: spriteFile = "DiligentVk.dds"; break;
+        default: UNEXPECTED("Unexpected device type");
     }
     mSprite.reset( new GUISprite(5, 10, 140, 50, spriteFile) );
     
@@ -222,9 +244,9 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
 
             mDevice->CreateShader(attribs, &ps);
         }
-        PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM_SRGB;
+        PSODesc.GraphicsPipeline.RTVFormats[0] = mSwapChain->GetDesc().ColorBufferFormat;
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
-        PSODesc.GraphicsPipeline.DSVFormat = TEX_FORMAT_D32_FLOAT;
+        PSODesc.GraphicsPipeline.DSVFormat = mSwapChain->GetDesc().DepthBufferFormat;
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         PSODesc.Name = "Asteroids PSO";
 
@@ -321,9 +343,9 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.pVS = vs;
         PSODesc.GraphicsPipeline.pPS = ps;
 
-        PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM_SRGB;
+        PSODesc.GraphicsPipeline.RTVFormats[0] = mSwapChain->GetDesc().ColorBufferFormat;
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
-        PSODesc.GraphicsPipeline.DSVFormat = TEX_FORMAT_D32_FLOAT;
+        PSODesc.GraphicsPipeline.DSVFormat = mSwapChain->GetDesc().DepthBufferFormat;
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
         mDevice->CreatePipelineState(PSODesc, &mSkyboxPSO);
@@ -369,9 +391,9 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
 
         PSODesc.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
 
-        PSODesc.GraphicsPipeline.RTVFormats[0] = TEX_FORMAT_RGBA8_UNORM_SRGB;
+        PSODesc.GraphicsPipeline.RTVFormats[0] = mSwapChain->GetDesc().ColorBufferFormat;
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
-        PSODesc.GraphicsPipeline.DSVFormat = TEX_FORMAT_D32_FLOAT;
+        PSODesc.GraphicsPipeline.DSVFormat = mSwapChain->GetDesc().DepthBufferFormat;
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         
         RefCntAutoPtr<IShader> sprite_vs, sprite_ps, font_ps;

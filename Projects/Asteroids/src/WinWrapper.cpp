@@ -41,6 +41,7 @@ AsteroidsD3D12::Asteroids* gWorkloadD3D12 = nullptr;
 AsteroidsDE::Asteroids*    gWorkloadDE = nullptr;
 bool gd3d11Available = false;
 bool gd3d12Available = false;
+bool gVulkanAvailable = false;
 Settings::RenderMode gLastFrameRenderMode = static_cast<Settings::RenderMode>(-1);
 
 GUI gGUI;
@@ -164,7 +165,7 @@ LRESULT CALLBACK WindowProc(
 
                 case Settings::RenderMode::DiligentD3D11:
                 case Settings::RenderMode::DiligentD3D12:
-                case Settings::RenderMode::DiligentGL:
+                case Settings::RenderMode::DiligentVulkan:
                     if(gWorkloadDE)
                         gWorkloadDE->ResizeSwapChain(hWnd, gSettings.renderWidth, gSettings.renderHeight);
                 break;
@@ -223,7 +224,7 @@ LRESULT CALLBACK WindowProc(
             case '2': gSettings.mode = gd3d12Available ? Settings::RenderMode::NativeD3D12 : gSettings.mode; return 0;
             case '3': gSettings.mode = gd3d11Available ? Settings::RenderMode::DiligentD3D11 : gSettings.mode; return 0;
             case '4': gSettings.mode = gd3d12Available ? Settings::RenderMode::DiligentD3D12 : gSettings.mode; return 0;
-            // '5': gSettings.mode = Settings::RenderMode::DiligentGL; return 0;
+            //case '5': gSettings.mode = gVulkanAvailable ? Settings::RenderMode::DiligentVulkan : gSettings.mode; return 0;
 
             case VK_ESCAPE:
                 SendMessage(hWnd, WM_CLOSE, 0, 0);
@@ -338,8 +339,8 @@ int InitWorkload(HWND hWnd, AsteroidsSimulation &asteroids)
             gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D12);
         break;
 
-        case Settings::RenderMode::DiligentGL:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::OpenGL);
+        case Settings::RenderMode::DiligentVulkan:
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::Vulkan);
         break;
     }
 
@@ -354,6 +355,7 @@ int main(int argc, char** argv)
     
     gd3d11Available = CheckDll("d3d11.dll");
     gd3d12Available = CheckDll("d3d12.dll");
+    gVulkanAvailable = CheckDll("vulkan-1.dll");
 
     // Must be done before any windowing-system-like things or else virtualization will kick in
     auto dpi = SetupDPI();
@@ -425,8 +427,12 @@ int main(int argc, char** argv)
 
     AsteroidsSimulation asteroids(1337, NUM_ASTEROIDS, NUM_UNIQUE_MESHES, MESH_MAX_SUBDIV_LEVELS, NUM_UNIQUE_TEXTURES);
 
-    
-    gSettings.mode = Settings::RenderMode::DiligentD3D12;
+    if (gVulkanAvailable)
+        gSettings.mode = Settings::RenderMode::DiligentVulkan;
+    else if (gd3d12Available)
+        gSettings.mode = Settings::RenderMode::DiligentD3D12;
+    else
+        gSettings.mode = Settings::RenderMode::DiligentD3D11;
 
 
     // init window class
@@ -559,8 +565,8 @@ int main(int argc, char** argv)
                     }
                 break;
 
-                case Settings::RenderMode::DiligentGL:
-                    ModeStr = "Diligent GL";
+                case Settings::RenderMode::DiligentVulkan:
+                    ModeStr = "Diligent Vulkan";
                     gWorkloadDE->GetPerfCounters(updateTime, renderTime);
                 break;
             }
@@ -598,7 +604,7 @@ int main(int argc, char** argv)
 
             case Settings::RenderMode::DiligentD3D11:
             case Settings::RenderMode::DiligentD3D12:
-            case Settings::RenderMode::DiligentGL:
+            case Settings::RenderMode::DiligentVulkan:
                 if(gWorkloadDE)
                     gWorkloadDE->Render((float)frameTime, gCamera, gSettings);
             break;

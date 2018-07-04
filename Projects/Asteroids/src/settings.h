@@ -73,7 +73,7 @@ struct Settings
         NativeD3D12,
         DiligentD3D11,
         DiligentD3D12,
-        DiligentGL
+        DiligentVulkan
     }mode = DiligentD3D11;
        
     int resourceBindingMode = 2; // Only for DiligentD3D12 mode
