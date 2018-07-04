@@ -203,7 +203,7 @@ LRESULT CALLBACK WindowProc(
                 std::cout << "Submit Rendering: " << gSettings.submitRendering << std::endl;
                 return 0;
             case 'B':
-                if (gSettings.mode == Settings::RenderMode::DiligentD3D12) {
+                if (gSettings.mode == Settings::RenderMode::DiligentD3D12 || gSettings.mode == Settings::RenderMode::DiligentVulkan) {
                     gSettings.resourceBindingMode = (gSettings.resourceBindingMode + 1) % 3;
                     gLastFrameRenderMode = static_cast<Settings::RenderMode>(-1);
                 }
@@ -555,7 +555,8 @@ int main(int argc, char** argv)
                 break;
 
                 case Settings::RenderMode::DiligentD3D12:
-                    ModeStr = "Diligent D3D12";
+                case Settings::RenderMode::DiligentVulkan:
+                    ModeStr = gSettings.mode == Settings::RenderMode::DiligentD3D12 ? "Diligent D3D12" : "Diligent Vk";
                     gWorkloadDE->GetPerfCounters(updateTime, renderTime);
                     switch (gSettings.resourceBindingMode)
                     {
@@ -563,11 +564,6 @@ int main(int argc, char** argv)
                         case 1: resBindModeStr = "-m";break;
                         case 2: resBindModeStr = "-tm";break;
                     }
-                break;
-
-                case Settings::RenderMode::DiligentVulkan:
-                    ModeStr = "Diligent Vulkan";
-                    gWorkloadDE->GetPerfCounters(updateTime, renderTime);
                 break;
             }
 
