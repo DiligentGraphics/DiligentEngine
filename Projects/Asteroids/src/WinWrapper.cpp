@@ -43,6 +43,7 @@ bool gd3d11Available = false;
 bool gd3d12Available = false;
 bool gVulkanAvailable = false;
 Settings::RenderMode gLastFrameRenderMode = static_cast<Settings::RenderMode>(-1);
+bool gUpdateWorkload = false;
 
 GUI gGUI;
 GUIText* gFPSControl;
@@ -208,19 +209,19 @@ LRESULT CALLBACK WindowProc(
             case 'B':
                 if (gSettings.mode == Settings::RenderMode::DiligentD3D12 || gSettings.mode == Settings::RenderMode::DiligentVulkan) {
                     gSettings.resourceBindingMode = (gSettings.resourceBindingMode + 1) % 3;
-                    gLastFrameRenderMode = static_cast<Settings::RenderMode>(-1);
+                    gUpdateWorkload = true;
                 }
                 return 0;
 
             case VK_ADD:
             case VK_OEM_PLUS:
                 gSettings.numThreads = std::min(gSettings.numThreads+1, 16);
-                gLastFrameRenderMode = static_cast<Settings::RenderMode>(-1);
+                gUpdateWorkload = true;
                 return 0;
             case VK_SUBTRACT:
             case VK_OEM_MINUS:
                 gSettings.numThreads = std::max(gSettings.numThreads-1, 2);
-                gLastFrameRenderMode = static_cast<Settings::RenderMode>(-1);
+                gUpdateWorkload = true;
                 return 0;
 
             case '1': gSettings.mode = gd3d11Available ? Settings::RenderMode::NativeD3D11 : gSettings.mode; return 0;
@@ -518,7 +519,7 @@ int main(int argc, char** argv)
         }
 
         // If we swap to a new API we need to recreate swap chains
-        if (gLastFrameRenderMode != gSettings.mode) {
+        if (gLastFrameRenderMode != gSettings.mode || gUpdateWorkload) {
             // Delete workload first so that the window does not
             // post quit message to the queue
             delete gWorkloadD3D11;
@@ -527,9 +528,11 @@ int main(int argc, char** argv)
             gWorkloadD3D12 = nullptr;
             delete gWorkloadDE;
             gWorkloadDE = nullptr;
-            CreateDemoWindow(hWnd);
+            if (hWnd == NULL || gLastFrameRenderMode != gSettings.mode)
+                CreateDemoWindow(hWnd);
             InitWorkload(hWnd, asteroids);
             gLastFrameRenderMode = gSettings.mode;
+            gUpdateWorkload = false;
         }
 
         // Still need to process inertia even when no interaction is happening
