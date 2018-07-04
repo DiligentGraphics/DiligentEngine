@@ -131,7 +131,10 @@ LRESULT CALLBACK WindowProc(
 {
     switch (message) {
         case WM_DESTROY:
-            PostQuitMessage(0);
+            // If all workloads are null, we are recreating the window
+            // and should not post quit message
+            if(gWorkloadD3D11 || gWorkloadD3D12 || gWorkloadDE)
+                PostQuitMessage(0);
             return 0;
 
         case WM_SIZE: {
@@ -224,7 +227,7 @@ LRESULT CALLBACK WindowProc(
             case '2': gSettings.mode = gd3d12Available ? Settings::RenderMode::NativeD3D12 : gSettings.mode; return 0;
             case '3': gSettings.mode = gd3d11Available ? Settings::RenderMode::DiligentD3D11 : gSettings.mode; return 0;
             case '4': gSettings.mode = gd3d12Available ? Settings::RenderMode::DiligentD3D12 : gSettings.mode; return 0;
-            //case '5': gSettings.mode = gVulkanAvailable ? Settings::RenderMode::DiligentVulkan : gSettings.mode; return 0;
+            case '5': gSettings.mode = gVulkanAvailable ? Settings::RenderMode::DiligentVulkan : gSettings.mode; return 0;
 
             case VK_ESCAPE:
                 SendMessage(hWnd, WM_CLOSE, 0, 0);
@@ -239,6 +242,7 @@ LRESULT CALLBACK WindowProc(
             }
             switch (wParam) {
             case VK_RETURN:
+                gSettings.windowed = !gSettings.windowed;
                 ToggleFullscreen(hWnd);
                 break;
             }
@@ -287,12 +291,6 @@ LRESULT CALLBACK WindowProc(
 
 int InitWorkload(HWND hWnd, AsteroidsSimulation &asteroids)
 {
-    delete gWorkloadD3D11;
-    gWorkloadD3D11 = nullptr;
-    delete gWorkloadD3D12;
-    gWorkloadD3D12 = nullptr;
-    delete gWorkloadDE;
-    gWorkloadDE = nullptr;
     switch (gSettings.mode)
     {
         case Settings::RenderMode::NativeD3D11: 
@@ -345,6 +343,41 @@ int InitWorkload(HWND hWnd, AsteroidsSimulation &asteroids)
     }
 
     return 0;
+}
+
+void CreateDemoWindow(HWND& hWnd)
+{
+    RECT windowRect = { 100, 100, gSettings.windowWidth, gSettings.windowHeight };
+    if(hWnd)
+    {
+        GetWindowRect(hWnd, &windowRect);
+        DestroyWindow(hWnd);
+    }
+    else
+    {
+        AdjustWindowRect(&windowRect, windowedStyle, FALSE);
+    }
+
+    // create the window and store a handle to it
+    hWnd = CreateWindowEx(
+        WS_EX_APPWINDOW,
+        "AsteroidsDemoWndClass",
+        "Asteroids",
+        windowedStyle,
+        windowRect.left,
+        windowRect.top,
+        windowRect.right - windowRect.left,
+        windowRect.bottom - windowRect.top,
+        NULL,
+        NULL,
+        GetModuleHandle(NULL),
+        NULL);
+
+    if (!gSettings.windowed) {
+        ToggleFullscreen(hWnd);
+    }
+
+    SetForegroundWindow(hWnd);
 }
 
 int main(int argc, char** argv)
@@ -443,32 +476,10 @@ int main(int argc, char** argv)
     windowClass.lpfnWndProc = WindowProc;
     windowClass.hInstance = GetModuleHandle(NULL);
     windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-    windowClass.lpszClassName = "AsteroidsD3D12WindowClass";
+    windowClass.lpszClassName = "AsteroidsDemoWndClass";
     RegisterClassEx(&windowClass);
 
-    RECT windowRect = { 0, 0, gSettings.windowWidth, gSettings.windowHeight };
-    AdjustWindowRect(&windowRect, windowedStyle, FALSE);
-
-    // create the window and store a handle to it
-    auto hWnd = CreateWindowEx(
-        WS_EX_APPWINDOW,
-        "AsteroidsD3D12WindowClass",
-        "Asteroids",
-        windowedStyle,
-        0, // CW_USE_DEFAULT
-        0, // CW_USE_DEFAULT
-        windowRect.right - windowRect.left,
-        windowRect.bottom - windowRect.top,
-        NULL,
-        NULL,
-        windowClass.hInstance,
-        NULL);
-
-    if (!gSettings.windowed) {
-        ToggleFullscreen(hWnd);
-    }
-
-    SetForegroundWindow(hWnd);
+    HWND hWnd = NULL;
 
     // Initialize performance counters
     UINT64 perfCounterFreq = 0;
@@ -508,6 +519,15 @@ int main(int argc, char** argv)
 
         // If we swap to a new API we need to recreate swap chains
         if (gLastFrameRenderMode != gSettings.mode) {
+            // Delete workload first so that the window does not
+            // post quit message to the queue
+            delete gWorkloadD3D11;
+            gWorkloadD3D11 = nullptr;
+            delete gWorkloadD3D12;
+            gWorkloadD3D12 = nullptr;
+            delete gWorkloadDE;
+            gWorkloadDE = nullptr;
+            CreateDemoWindow(hWnd);
             InitWorkload(hWnd, asteroids);
             gLastFrameRenderMode = gSettings.mode;
         }
