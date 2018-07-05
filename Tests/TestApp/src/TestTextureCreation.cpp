@@ -294,6 +294,18 @@ private:
         {
             TextureViewDesc ViewDesc;
             ViewDesc.TextureDim = TexDesc.Type;
+            
+            if( SampleCount > 1 )
+            {
+                ViewDesc.MostDetailedMip = 0;
+                ViewDesc.NumMipLevels = 1;
+            }
+            else
+            {
+                ViewDesc.MostDetailedMip = 1;
+                ViewDesc.NumMipLevels = 2;
+            }
+
             if( TexDesc.Type == RESOURCE_DIM_TEX_1D_ARRAY || TexDesc.Type == RESOURCE_DIM_TEX_2D_ARRAY )
             {
                 ViewDesc.FirstArraySlice = 3;
@@ -306,28 +318,17 @@ private:
                     ViewDesc.FirstDepthSlice = 3;
                     ViewDesc.NumDepthSlices = 4;
                 }
-                else
+                else if( DeviceCaps.DevType == DeviceType::Vulkan && ViewDesc.ViewType != TEXTURE_VIEW_RENDER_TARGET && ViewDesc.ViewType != TEXTURE_VIEW_DEPTH_STENCIL || DeviceCaps.DevType != DeviceType::Vulkan)
                 {
                     // OpenGL cannot create views for separate depth slices
                     ViewDesc.FirstDepthSlice = 0;
-                    ViewDesc.NumDepthSlices = 1;
+                    ViewDesc.NumDepthSlices = TexDesc.Depth >> ViewDesc.MostDetailedMip;
                 }
             }
             else
             {
                 ViewDesc.FirstArraySlice = 0;
                 ViewDesc.NumArraySlices = 1;
-            }
-
-            if( SampleCount > 1 )
-            {
-                ViewDesc.MostDetailedMip = 0;
-                ViewDesc.NumMipLevels = 1;
-            }
-            else
-            {
-                ViewDesc.MostDetailedMip = 1;
-                ViewDesc.NumMipLevels = 2;
             }
 
             if( TexDesc.BindFlags & BIND_SHADER_RESOURCE )

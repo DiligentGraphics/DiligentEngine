@@ -10,9 +10,9 @@
  *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF ANY PROPRIETARY RIGHTS.
  *
- *  In no event and under no legal theory, whether in tort (including negligence), 
+ *  In no event and under no legal theory, whether in tort (including neVkigence), 
  *  contract, or otherwise, unless required by applicable law (such as deliberate 
- *  and grossly negligent acts) or agreed to in writing, shall any Contributor be
+ *  and grossly neVkigent acts) or agreed to in writing, shall any Contributor be
  *  liable for any damages, including any direct, indirect, special, incidental, 
  *  or consequential damages of any character arising as a result of this License or 
  *  out of the use or inability to use the software (including but not limited to damages 
@@ -23,9 +23,13 @@
 
 #include "pch.h"
 
-//#include "RenderDeviceGL.h"
-//#include "TextureGL.h"
-//#include "BufferGL.h"
+#if VULKAN_SUPPORTED
+#include "vulkan.h"
+#endif
+
+#include "RenderDeviceVk.h"
+#include "TextureVk.h"
+#include "BufferVk.h"
 
 #include "Errors.h"
 #include "TestCreateObjFromNativeResVK.h"
@@ -34,49 +38,43 @@ using namespace Diligent;
 
 void TestCreateObjFromNativeResVK::CreateTexture(Diligent::ITexture *pTexture)
 {
-//#if PLATFORM_WIN32 || PLATFORM_LINUX || PLATFORM_ANDROID
-//    RefCntAutoPtr<IRenderDeviceGL> pDeviceGL(m_pDevice, IID_RenderDeviceGL);
-//    const auto &SrcTexDesc = pTexture->GetDesc();
-//    if (SrcTexDesc.Type == RESOURCE_DIM_TEX_CUBE_ARRAY)
-//        return;
-//
-//    RefCntAutoPtr<ITextureGL> pTextureGL(pTexture, IID_TextureGL);
-//    auto GLHandle = pTextureGL->GetGLTextureHandle();
-//    RefCntAutoPtr<ITexture> pAttachedTexture;
-//    auto TmpTexDesc = SrcTexDesc;
-//    TmpTexDesc.Width = 0;
-//    TmpTexDesc.Height = 0;
-//    TmpTexDesc.MipLevels = 0;
-//    TmpTexDesc.Format = TEX_FORMAT_UNKNOWN;
-//    pDeviceGL->CreateTextureFromGLHandle(GLHandle, TmpTexDesc, &pAttachedTexture);
-//    ++m_NumTexturesCreated;
-//    
-//    const auto &TestTexDesc = pAttachedTexture->GetDesc();
-//    VERIFY_EXPR(TestTexDesc == SrcTexDesc);
-//    RefCntAutoPtr<ITextureGL> pAttachedTextureGL(pAttachedTexture, IID_TextureGL);
-//    VERIFY_EXPR(pAttachedTextureGL->GetGLTextureHandle() == GLHandle);
-//    VERIFY_EXPR(pAttachedTextureGL->GetBindTarget() == pTextureGL->GetBindTarget());
-//    VERIFY_EXPR( reinterpret_cast<size_t>(pAttachedTextureGL->GetNativeHandle()) == GLHandle);
-//#endif
+#if VULKAN_SUPPORTED
+    RefCntAutoPtr<IRenderDeviceVk> pDeviceVk(m_pDevice, IID_RenderDeviceVk);
+    const auto& SrcTexDesc = pTexture->GetDesc();
+    if (SrcTexDesc.Type == RESOURCE_DIM_TEX_CUBE_ARRAY)
+        return;
+
+    RefCntAutoPtr<ITextureVk> pTextureVk(pTexture, IID_TextureVk);
+    auto VkHandle = pTextureVk->GetVkImage();
+    RefCntAutoPtr<ITexture> pAttachedTexture;
+    pDeviceVk->CreateTextureFromVulkanImage(VkHandle, SrcTexDesc, &pAttachedTexture);
+    ++m_NumTexturesCreated;
+    
+    const auto& TestTexDesc = pAttachedTexture->GetDesc();
+    VERIFY_EXPR(TestTexDesc == SrcTexDesc);
+    RefCntAutoPtr<ITextureVk> pAttachedTextureVk(pAttachedTexture, IID_TextureVk);
+    VERIFY_EXPR(pAttachedTextureVk->GetVkImage() == VkHandle);
+    VERIFY_EXPR( reinterpret_cast<VkImage>(pAttachedTextureVk->GetNativeHandle()) == VkHandle);
+#endif
 }
 
 void TestCreateObjFromNativeResVK::CreateBuffer(Diligent::IBuffer *pBuffer)
 {
-//#if PLATFORM_WIN32 || PLATFORM_LINUX || PLATFORM_ANDROID
-//    RefCntAutoPtr<IRenderDeviceGL> pDeviceGL(m_pDevice, IID_RenderDeviceGL);
-//    const auto &SrcBuffDesc = pBuffer->GetDesc();
-//    RefCntAutoPtr<IBufferGL> pBufferGL(pBuffer, IID_BufferGL);
-//    auto GLBufferHandle = pBufferGL->GetGLBufferHandle();
-//  
-//    RefCntAutoPtr<IBuffer> pBufferFromNativeGLHandle;
-//    pDeviceGL->CreateBufferFromGLHandle(GLBufferHandle, SrcBuffDesc, &pBufferFromNativeGLHandle);
-//    ++m_NumBuffersCreated;
-//    
-//    const auto &TestBufferDesc = pBufferFromNativeGLHandle->GetDesc();
-//    VERIFY_EXPR(TestBufferDesc == SrcBuffDesc);
-//
-//    RefCntAutoPtr<IBufferGL> pTestBufferGL(pBufferFromNativeGLHandle, IID_BufferGL);
-//    VERIFY_EXPR(pTestBufferGL->GetGLBufferHandle() == GLBufferHandle);
-//    VERIFY_EXPR( reinterpret_cast<size_t>(pTestBufferGL->GetNativeHandle()) == GLBufferHandle);
-//#endif
+#if VULKAN_SUPPORTED
+    RefCntAutoPtr<IRenderDeviceVk> pDeviceVk(m_pDevice, IID_RenderDeviceVk);
+    const auto &SrcBuffDesc = pBuffer->GetDesc();
+    RefCntAutoPtr<IBufferVk> pBufferVk(pBuffer, IID_BufferVk);
+    auto VkBufferHandle = pBufferVk->GetVkBuffer();
+  
+    RefCntAutoPtr<IBuffer> pBufferFromNativeVkHandle;
+    pDeviceVk->CreateBufferFromVulkanResource(VkBufferHandle, SrcBuffDesc, &pBufferFromNativeVkHandle);
+    ++m_NumBuffersCreated;
+    
+    const auto &TestBufferDesc = pBufferFromNativeVkHandle->GetDesc();
+    VERIFY_EXPR(TestBufferDesc == SrcBuffDesc);
+
+    RefCntAutoPtr<IBufferVk> pTestBufferVk(pBufferFromNativeVkHandle, IID_BufferVk);
+    VERIFY_EXPR(pTestBufferVk->GetVkBuffer() == VkBufferHandle);
+    VERIFY_EXPR( reinterpret_cast<VkBuffer>(pTestBufferVk->GetNativeHandle()) == VkBufferHandle);
+#endif
 }

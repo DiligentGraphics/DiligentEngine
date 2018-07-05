@@ -102,6 +102,8 @@ endif()
 
 set_common_target_properties(TestApp)
 target_include_directories(TestApp
+PRIVATE
+    ../../DiligentCore/External/vulkan
 PUBLIC
     include
 )
@@ -156,7 +158,7 @@ endif()
 
 target_link_libraries(TestApp 
 PRIVATE 
-    BuildSettings 
+    BuildSettings
 PUBLIC
     NativeAppBase
     Common 
