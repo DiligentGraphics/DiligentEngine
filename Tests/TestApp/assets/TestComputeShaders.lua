@@ -29,6 +29,7 @@ TestTexture:GetDefaultView("TEXTURE_VIEW_SHADER_RESOURCE"):SetSampler(LinearSamp
 
 PositionsBuffer = Buffer.Create(
 	{
+        Name = "Position buffer",
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_VERTEX_BUFFER", "BIND_UNORDERED_ACCESS"},
 		Mode = "BUFFER_MODE_FORMATTED",
@@ -39,6 +40,7 @@ PositionsBuffer = Buffer.Create(
 
 TexcoordBuffer = Buffer.Create(
 	{
+        Name = "Texcoord buffer",
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_VERTEX_BUFFER", "BIND_UNORDERED_ACCESS"},
 		Mode = "BUFFER_MODE_FORMATTED",
@@ -49,6 +51,7 @@ TexcoordBuffer = Buffer.Create(
 
 OffsetsBuffer = Buffer.Create(
 	{
+        Name = "Offsets buffer",
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_UNORDERED_ACCESS", "BIND_SHADER_RESOURCE"},
 		--uiSizeInBytes = 64,
@@ -61,6 +64,7 @@ OffsetsBuffer = Buffer.Create(
 
 IndexBuffer  = Buffer.Create(
 	{
+        Name = "Index buffer",
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_INDEX_BUFFER", "BIND_UNORDERED_ACCESS"},
 		Mode = "BUFFER_MODE_FORMATTED",
@@ -72,6 +76,7 @@ IndexBuffer  = Buffer.Create(
 
 IndirectDrawArgsBuffer = Buffer.Create(
 	{
+        Name = "Indirect Draw Args Buffer",
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_INDIRECT_DRAW_ARGS", "BIND_UNORDERED_ACCESS"},
 		Format = {ValueType = "VT_UINT32", NumComponents = 4, IsNormalized = false},
@@ -82,6 +87,7 @@ IndirectDrawArgsBuffer = Buffer.Create(
 
 IndirectDispatchArgsBuffer =  Buffer.Create(
 	{
+        Name = "Indirect Dispatch Args Buffer",
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_INDIRECT_DRAW_ARGS", "BIND_UNORDERED_ACCESS"},
 		Format = {ValueType = "VT_UINT32", NumComponents = 4, IsNormalized = false},
@@ -90,7 +96,7 @@ IndirectDispatchArgsBuffer =  Buffer.Create(
 	}
 )
 
-if Constants.DeviceType == "D3D11" or Constants.DeviceType == "D3D12" then
+if Constants.DeviceType == "D3D11" or Constants.DeviceType == "D3D12"  or Constants.DeviceType == "Vulkan" then
 	TexcoordDataOffset = 0 -- Non-zero byte offset is only supported for structured buffers in DirectX
 else
 	TexcoordDataOffset = 2*4*4
@@ -117,7 +123,7 @@ function GetShaderPath( ShaderName, ShaderExt, GLESSpecial )
 	local ProcessedShaderPath = ""
 	if Constants.DeviceType == "D3D11" or Constants.DeviceType == "D3D12" then
 		ProcessedShaderPath = "Shaders\\" .. ShaderName .. "DX." .. ShaderExt
-	elseif Constants.DeviceType == "OpenGL" or not GLESSpecial then
+	elseif Constants.DeviceType == "OpenGL" or Constants.DeviceType == "Vulkan" or not GLESSpecial then
 		ProcessedShaderPath = "Shaders\\" .. ShaderName .. "GL." .. ShaderExt
 	else
 		ProcessedShaderPath = "Shaders\\" .. ShaderName .. "GLES." .. ShaderExt
@@ -239,6 +245,7 @@ RenderPSO = PipelineState.Create
 			{ InputIndex = 1, BufferSlot = 1, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false, Stride = 4*4}
 		},
 		RTVFormats = {extBackBufferFormat},
+        DSVFormat = extDepthBufferFormat,
         PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
 	}
 }

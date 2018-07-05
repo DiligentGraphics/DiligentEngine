@@ -49,13 +49,14 @@ TestBrokenShader::TestBrokenShader(IRenderDevice *pDevice) :
     RefCntAutoPtr<IShader> pBrokenShader;
     IDataBlob *pErrors = nullptr;
     Attrs.ppCompilerOutput = &pErrors;
-    LOG_INFO_MESSAGE("No worries, testing broken shader...");
+    LOG_INFO_MESSAGE("\n\nNo worries, testing broken shader...");
     pDevice->CreateShader(Attrs, &pBrokenShader);
     VERIFY_EXPR(!pBrokenShader);
     VERIFY_EXPR(pErrors != nullptr);
     const char* Msg = reinterpret_cast<const char*>(pErrors->GetDataPtr());
     LOG_INFO_MESSAGE("Compiler output:\n", Msg);
     pErrors->Release();
+    LOG_INFO_MESSAGE("No worries, errors above are result of the broken shader test.\n");
 
     SetStatus(TestResult::Succeeded);
 }

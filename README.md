@@ -421,6 +421,9 @@ and adds implementation using Diligent Engine API to allow comparing performance
       with `PRIMITIVE_TOPOLOGY GraphicsPipelineDesc::PrimitiveTopology`; removed `DrawAttribs::Topology`
     * Removed `pStrides` prarameter from `IDeviceContext::SetVertexBuffers()`. Strides are now defined
       through vertex layout.
+* API Changes:
+  * Math library functions `SetNearFarClipPlanes()`, `GetNearFarPlaneFromProjMatrix()`, `Projection()`,
+    `OrthoOffCenter()`, and `Ortho()` take `bIsGL` flag instead of `bIsDirectX`
 * Samples:
   * Added fullscreen mode selection dialog box
   * Implemented fullscreen mode toggle on UWP with shift + enter
