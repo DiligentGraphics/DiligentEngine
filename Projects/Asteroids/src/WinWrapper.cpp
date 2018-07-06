@@ -142,28 +142,28 @@ LRESULT CALLBACK WindowProc(
             UINT ww = LOWORD(lParam);
             UINT wh = HIWORD(lParam);
 
-            // Ignore resizing to minimized
-            if (ww == 0 || wh == 0) return 0;
-
             gSettings.windowWidth = (int)ww;
             gSettings.windowHeight = (int)wh;
             gSettings.renderWidth = (UINT)(double(gSettings.windowWidth)  * gSettings.renderScale);
             gSettings.renderHeight = (UINT)(double(gSettings.windowHeight) * gSettings.renderScale);
 
             // Update camera projection
-            float aspect = (float)gSettings.renderWidth / (float)gSettings.renderHeight;
-            gCamera.Projection(XM_PIDIV2 * 0.8f * 3 / 2, aspect);
+            if(gSettings.renderWidth !=0 && gSettings.renderHeight !=0)
+            {
+                float aspect = (float)gSettings.renderWidth / (float)gSettings.renderHeight;
+                gCamera.Projection(XM_PIDIV2 * 0.8f * 3 / 2, aspect);
+            }
 
             // Resize currently active swap chain
             switch (gSettings.mode)
             {
                 case Settings::RenderMode::NativeD3D11: 
-                    if(gWorkloadD3D11)
+                    if(gWorkloadD3D11 && gSettings.renderWidth !=0 && gSettings.renderHeight !=0)
                         gWorkloadD3D11->ResizeSwapChain(gDXGIFactory, hWnd, gSettings.renderWidth, gSettings.renderHeight); 
                 break;
 
                 case Settings::RenderMode::NativeD3D12: 
-                    if(gWorkloadD3D12)
+                    if(gWorkloadD3D12 && gSettings.renderWidth !=0 && gSettings.renderHeight !=0)
                         gWorkloadD3D12->ResizeSwapChain(gDXGIFactory, hWnd, gSettings.renderWidth, gSettings.renderHeight); 
                 break;
 
@@ -282,6 +282,14 @@ LRESULT CALLBACK WindowProc(
                 gCamera.ProcessPointerFrames(pointerId, &pointerInfo);
                 if (message == WM_POINTERUP) gCamera.RemovePointer(pointerId);
             }
+            return 0;
+        }
+                           
+        case WM_GETMINMAXINFO:
+        {
+            LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+            lpMMI->ptMinTrackSize.x = 320;
+            lpMMI->ptMinTrackSize.y = 240;
             return 0;
         }
 
