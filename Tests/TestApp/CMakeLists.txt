@@ -23,8 +23,8 @@ if(NOT D3D12_SUPPORTED)
 endif()
 
 if(NOT VULKAN_SUPPORTED)
-    list(REMOVE_ITEM SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/TestCreateObjFromNativeResVk.cpp)
-    list(REMOVE_ITEM INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include/TestCreateObjFromNativeResVk.h)
+    list(REMOVE_ITEM SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/TestCreateObjFromNativeResVK.cpp)
+    list(REMOVE_ITEM INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include/TestCreateObjFromNativeResVK.h)
 endif()
 
 file(GLOB ASSETS LIST_DIRECTORIES false assets/*.*)
