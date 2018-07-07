@@ -386,7 +386,7 @@ void TestDrawCommands::Draw()
 
     m_pDeviceContext->SetPipelineState(m_pPSOInst);
     m_pDeviceContext->TransitionShaderResources(m_pPSOInst, nullptr);
-    m_pDeviceContext->CommitShaderResources(nullptr, 0);
+    m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_VERIFY_STATES);
 
     Offsets[0] = 3*16*3 * 6*sizeof(float);
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);

@@ -707,7 +707,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
         }
         else if( m_BindingMode == BindingMode::TextureMutable )
         {
-            pCtx->CommitShaderResources(mAsteroidsSRBs[staticData->textureIndex], 0);
+            pCtx->CommitShaderResources(mAsteroidsSRBs[staticData->textureIndex], COMMIT_SHADER_RESOURCES_FLAG_VERIFY_STATES);
         }
 
         DrawAttribs attribs;

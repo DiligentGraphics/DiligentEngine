@@ -281,7 +281,7 @@ void TestTexturing::Draw()
 {
     m_pDeviceContext->SetPipelineState(m_pPSO);
     m_pDeviceContext->TransitionShaderResources(m_pPSO, nullptr);
-    m_pDeviceContext->CommitShaderResources(nullptr, 0);
+    m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_VERIFY_STATES);
     
     IBuffer *pBuffs[] = {m_pVertexBuff};
     Uint32 Offsets[] = {0};
