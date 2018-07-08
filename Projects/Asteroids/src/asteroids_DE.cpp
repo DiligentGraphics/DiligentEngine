@@ -24,7 +24,11 @@
 #include "RenderDeviceFactoryD3D11.h"
 #include "RenderDeviceFactoryD3D12.h"
 #include "RenderDeviceFactoryOpenGL.h"
+
+#if VULKAN_SUPPORTED
 #include "RenderDeviceFactoryVk.h"
+#endif
+
 #include "BasicShaderSourceStreamFactory.h"
 #include "MapHelper.h"
 
@@ -43,7 +47,9 @@ namespace Diligent
     GetEngineFactoryD3D11Type GetEngineFactoryD3D11 = nullptr;
     GetEngineFactoryD3D12Type GetEngineFactoryD3D12 = nullptr;
     GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = nullptr;
+#if VULKAN_SUPPORTED
     GetEngineFactoryVkType GetEngineFactoryVulkan = nullptr;
+#endif
 #endif
 }
 
@@ -97,6 +103,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 pFactoryD3D12->CreateDeviceAndContextsD3D12( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
                 pFactoryD3D12->CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
             }
+#if VULKAN_SUPPORTED
             else if(DevType == DeviceType::Vulkan)
             {
                 EngineVkAttribs Attribs;
@@ -109,6 +116,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 pFactoryVk->CreateDeviceAndContextsVk( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
                 pFactoryVk->CreateSwapChainVk( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
             }
+#endif
             else
             {
                 UNEXPECTED("Unexpected device type");

@@ -397,7 +397,9 @@ int main(int argc, char** argv)
     
     gd3d11Available = CheckDll("d3d11.dll");
     gd3d12Available = CheckDll("d3d12.dll");
+#if VULKAN_SUPPORTED
     gVulkanAvailable = CheckDll("vulkan-1.dll");
+#endif
 
     // Must be done before any windowing-system-like things or else virtualization will kick in
     auto dpi = SetupDPI();

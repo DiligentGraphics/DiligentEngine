@@ -111,7 +111,6 @@ PRIVATE
     GraphicsEngineD3D11-shared 
     GraphicsEngineD3D12-shared
     GraphicsEngineOpenGL-shared
-    GraphicsEngineVk-shared
     TargetPlatform
     TextureLoader
     Common
@@ -124,6 +123,13 @@ PRIVATE
     dxgi.lib
     shcore.lib
 )
+
+if(VULKAN_SUPPORTED)
+    target_link_libraries(Asteroids
+    PRIVATE
+        GraphicsEngineVk-shared
+    )
+endif()
 
 set_common_target_properties(Asteroids)
 
