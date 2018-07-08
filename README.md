@@ -27,19 +27,19 @@ Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is fr
 * Key graphics features:
   * Automatic shader resource binding designed to leverage the next-generation rendering APIs
   * Multithreaded command buffer generation
-    * [50,000 draw calls at 300 fps](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) with D3D12 backend
+    * [50,000 draw calls at 300 fps](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) with D3D12/Vulkan backend
   * Descriptor, memory and resource state management
 * Modern c++ features to make code fast and reliable
 
 ## Supported Plaforms and Low-Level Graphics APIs
 
-| Platform                   | APIs                                |
-| -------------------------- | ----------------------------------- |
-| Win32 (Windows desktop)    | Direct3D11, Direct3D12, OpenGL4.2+  |
-| Universal Windows Platform | Direct3D11, Direct3D12              |
-| Android                    | OpenGLES3.0+                        |
-| Linux                      | OpenGL4.2+                          |
-| MacOS                      | OpenGL4.1 (No compute shaders)      |
+| Platform                   | APIs                                        |
+| -------------------------- | ------------------------------------------- |
+| Win32 (Windows desktop)    | Direct3D11, Direct3D12, OpenGL4.2+, Vulkan  |
+| Universal Windows Platform | Direct3D11, Direct3D12                      |
+| Android                    | OpenGLES3.0+                                |
+| Linux                      | OpenGL4.2+                                  |
+| MacOS                      | OpenGL4.1 (No compute shaders)              |
 | iOS                        | OpenGLES3.0 (vertex and fragment shaders only) |
 
 ## Build Status
@@ -50,7 +50,7 @@ Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is fr
 | Linux/MacOS/iOS            | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
-Last Stable Release - [v2.2.a](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.2.a)
+Last Stable Release - [v2.3](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.3)
 
 # Clonning the Repository
 
@@ -62,7 +62,7 @@ This is the master repository that contains three [submodules](https://git-scm.c
  
  To checkout the last stable release, run the following commands:
  
-* git checkout tags/v2.2.a
+* git checkout tags/v2.3
 
 * git submodule update --init --recursive
 
@@ -74,8 +74,9 @@ Master repository includes the following submodules:
 * [Core](https://github.com/DiligentGraphics/DiligentCore) submodule provides basic engine functionality. 
   It implements the engine API using 
   [Direct3D11](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D11), 
-  [Direct3D12](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D12), and
-  [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL). 
+  [Direct3D12](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D12),
+  [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL), and. 
+  [Vulkan](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineVulkan)
   It also implements 
   [HLSL to GLSL source code converter](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/HLSL2GLSLConverterLib).
   The module is self-contained and can be built by its own.
@@ -107,11 +108,14 @@ You can generate Win32 solution that targets Win8.1 SDK using the following comm
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**. (If anybody knows a way
 to add quotes to CMake's custom commands, please let me know!)
 
+To enable Vulkan validation layers, you will need to download [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
+variable *VK_LAYER_PATH* that contains path to the Bin directory in VulkanSDK installation folder.
+
 Open DiligentEngine.sln file in cmk_build/Win64 folder, select configuration and build the engine. Set the desired project
 as startup project (by default, Asteroids demo will be selected) and run it. 
 
-By default, appplications will run in D3D11 mode. To select D3D12 or OpenGL, use the following command line options:
-**mode=D3D11**, **mode=D3D12**, or **mode=GL** (do not use spaces!). If you want to run an application outside of Visual Studio environment,
+By default, appplications will run in D3D11 mode. To select D3D12, OpenGL, or Vulkan use the following command line options:
+**mode=D3D11**, **mode=D3D12**, **mode=GL**, or **mode=Vk** (do not use spaces!). If you want to run an application outside of Visual Studio environment,
 the application's assets folder must be selected as a working directory. (For Visual Studio, this is automatically configured by 
 CMake). 
 
@@ -363,13 +367,13 @@ This tutorial shows how to render multiple 2D quads, frequently swithcing textur
 
 [Sample source code](https://github.com/DiligentGraphics/DiligentSamples)
 
-## AntTweakBar Sample
+## [AntTweakBar Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/AntTweakBar)
 
 This sample demonstrates how to use [AntTweakBar library](http://anttweakbar.sourceforge.net/doc) to create simple user interface. 
 
 ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/AntTweakBar/Screenshot.png)
 
-## Atmosphere Sample
+## [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere)
 
 The sample implements physically-based atmospheric light scattering model and demonstrates how
 Diligent Engine can be used to accomplish various rendering tasks: 
@@ -409,25 +413,32 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 # Version History
 
-## Current progress
+## v2.3
 
 * Core:
+  * **Implemented Vulkan backend**
   * Implemented hardware adapter & display mode enumeration in D3D11 and D3D12 modes
   * Implemented initialization in fullscreen mode as well as toggling between fullscreen and windowed modes in run time
   * Added sync interval parameter to ISwapChain::Present()
   * API Changes
     * Added `NumViewports` member to `GraphicsPipelineDesc` struct
-    * Removed `PRIMITIVE_TOPOLOGY_TYPE` type; replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
-      with `PRIMITIVE_TOPOLOGY GraphicsPipelineDesc::PrimitiveTopology`; removed `DrawAttribs::Topology`
+    * Removed `PRIMITIVE_TOPOLOGY_TYPE` type
+	* Replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
+      with `PRIMITIVE_TOPOLOGY GraphicsPipelineDesc::PrimitiveTopology`
+	* Removed `DrawAttribs::Topology`
     * Removed `pStrides` prarameter from `IDeviceContext::SetVertexBuffers()`. Strides are now defined
       through vertex layout.
 * API Changes:
   * Math library functions `SetNearFarClipPlanes()`, `GetNearFarPlaneFromProjMatrix()`, `Projection()`,
     `OrthoOffCenter()`, and `Ortho()` take `bIsGL` flag instead of `bIsDirectX`
+  * Vertex buffer strides are now defined by the pipeline state as part of the input layout description (`LayoutElement::Stride`)
+  * Added `COMMIT_SHADER_RESOURCES_FLAG_VERIFY_STATES` flag
+  * Added `NumViewports` member to `GraphicsPipelineDesc` structure
 * Samples:
   * Added fullscreen mode selection dialog box
   * Implemented fullscreen mode toggle on UWP with shift + enter
   * Implemented fullscreen window toggle on Win32 with alt + enter
+  * Added tutorial 09 - Quads
 * Fixed the following issues:
   * [Add option to redirect diligent error messages](https://github.com/DiligentGraphics/DiligentEngine/issues/9)
   * [Add ability to run in exclusive fullscreen/vsync mode](https://github.com/DiligentGraphics/DiligentEngine/issues/10)
