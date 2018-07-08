@@ -75,7 +75,7 @@ Master repository includes the following submodules:
   It implements the engine API using 
   [Direct3D11](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D11), 
   [Direct3D12](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D12),
-  [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL), and. 
+  [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL), and
   [Vulkan](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineVulkan)
   It also implements 
   [HLSL to GLSL source code converter](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/HLSL2GLSLConverterLib).
@@ -384,7 +384,7 @@ and unordered access views, etc.
 
 # Projects
 
-## Asteroids Performance Benchmark
+## [Asteroids Performance Benchmark](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids)
 
 This sample is designed to be a performance benchmark and is based on 
 [this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. 
@@ -394,7 +394,7 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 ![](Projects/Asteroids/Screenshot.png)
 
-## Unity Integration Demo
+## [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin)
 
 [This project](unityplugin) demonstrates integration of Diligent Engine with Unity
 

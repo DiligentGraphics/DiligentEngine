@@ -11,9 +11,8 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 # Build and Run Instructions
 
-The demo only supports Win32/x64 configuration. To build the project, open EngineAll.sln
-solution file located in [build/Win32](https://github.com/DiligentGraphics/DiligentEngine/tree/master/build/Win32) folder, 
-choose x64 configuration and build the solution, then set *Asteroids* as statup project and run it.
+The demo only supports Win32/x64 configuration. To build the project, follow
+[these instructions](https://github.com/DiligentGraphics/DiligentEngine#win32).
 
 # Controlling the demo
 
@@ -26,3 +25,4 @@ Use the following keys to control the demo:
 * '2' - Use native D3D12 rendering mode
 * '3' - Use Diligent Engine D3D11 rendering mode
 * '4' - Use Diligent Engine D3D12 rendering mode
+* '5' - Use Diligent Engine Vulkan rendering mode
