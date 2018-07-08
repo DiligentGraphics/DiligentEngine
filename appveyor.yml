@@ -55,7 +55,7 @@ install:
   - git submodule update --init --recursive
 
   # Install a recent CMake
-  - set CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.1-win64-x64.zip"
+  - set CMAKE_URL="https://cmake.org/files/v3.11/cmake-3.11.4-win64-x64.zip"
   - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
   - 7z x cmake.zip -oC:\projects\deps > nul
   - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
