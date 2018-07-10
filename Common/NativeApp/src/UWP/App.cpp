@@ -32,6 +32,7 @@
 #endif
 
 #include "App.h"
+#include "StringTools.h"
 
 #include <ppltasks.h>
 
@@ -83,7 +84,7 @@ void App::Initialize(CoreApplicationView^ applicationView)
 	// can make the CoreWindow active and start rendering on the window.
 	applicationView->Activated +=
 		ref new TypedEventHandler<CoreApplicationView^, IActivatedEventArgs^>(this, &App::OnActivated);
-
+    
 	CoreApplication::Suspending +=
 		ref new EventHandler<SuspendingEventArgs^>(this, &App::OnSuspending);
 
@@ -180,8 +181,18 @@ void App::Uninitialize()
 
 void App::OnActivated(CoreApplicationView^ applicationView, IActivatedEventArgs^ args)
 {
-	// Run() won't start until the CoreWindow is activated.
-	CoreWindow::GetForCurrentThread()->Activate();
+    if (args->Kind == ActivationKind::Launch)
+    {
+        LaunchActivatedEventArgs^ launchArgs = (LaunchActivatedEventArgs^)args;
+        auto CmdLine = Diligent::NarrowString(launchArgs->Arguments->Data());
+        m_Main->ProcessCommandLine(CmdLine.c_str());
+    }
+
+    auto Title = Diligent::WidenString(m_Main->GetAppTitle());
+    Windows::UI::ViewManagement::ApplicationView::GetForCurrentView()->Title = ref new Platform::String(Title.c_str());
+
+    // Run() won't start until the CoreWindow is activated.
+    CoreWindow::GetForCurrentThread()->Activate();
 }
 
 void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)

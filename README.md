@@ -137,6 +137,9 @@ You can target specific SDK version by refining CMAKE_SYSTEM_VERSION, for instan
 
 Set the desired project as startup project (by default, Atmosphere sample will be selected) and run it. 
 
+By default, appplications will run in D3D11 mode. You can select D3D11 or D3D12 using the following command line options:
+**mode=D3D11**, **mode=D3D12** (do not use spaces!).
+
 Note: you can generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but the solution will fail
 to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++11 support.
 
