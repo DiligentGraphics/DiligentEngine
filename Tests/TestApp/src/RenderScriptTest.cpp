@@ -218,7 +218,6 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         RefCntAutoPtr<ISampler> pTestSampler4;
         pScript->GetSamplerByName( "TestSampler4", &pTestSampler4 );
         const auto &SamDesc = pTestSampler4->GetDesc();
-        assert( strcmp(SamDesc.Name, "") == 0 );
         assert( SamDesc.MinFilter == SamplerDesc().MinFilter );
         assert( SamDesc.MagFilter == SamplerDesc().MagFilter );
         assert( SamDesc.MipFilter == SamplerDesc().MipFilter );

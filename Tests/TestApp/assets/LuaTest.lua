@@ -440,7 +440,6 @@ Buff3DefaultUAV = TestBuffer3:GetDefaultView("BUFFER_VIEW_UNORDERED_ACCESS")
 assert(Buff3DefaultUAV.ViewType == "BUFFER_VIEW_UNORDERED_ACCESS" )
 assert(Buff3DefaultUAV.ByteOffset == 0 )
 assert(Buff3DefaultUAV.ByteWidth == TestBuffer3.uiSizeInBytes )
-assert(Buff3DefaultUAV.Name == "" )
 
 Buff3UAV = TestBuffer3:CreateView{
 	Name = "Buff3UAV",
