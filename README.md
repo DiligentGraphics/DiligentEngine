@@ -111,6 +111,8 @@ to add quotes to CMake's custom commands, please let me know!)
 To enable Vulkan validation layers, you will need to download [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
 variable *VK_LAYER_PATH* that contains path to the Bin directory in VulkanSDK installation folder.
 
+Make sure that Visual C++ ATL Support is installed via Visual Studio Installer.
+
 Open DiligentEngine.sln file in cmk_build/Win64 folder, select configuration and build the engine. Set the desired project
 as startup project (by default, Asteroids demo will be selected) and run it. 
 
@@ -145,7 +147,9 @@ to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++1
 
 ## Linux
 
-Your Linux environment needs to be set up for c++ development. To configure my fresh Ubuntu 17.10, I installed the following packages:
+Your Linux environment needs to be set up for c++ development. If it already is, make sure your c++ tools are up to date
+as Diligent Engine uses modern c++ features (gcc/g++ 7 or later is recommended). To configure my fresh Ubuntu 17.10, I installed
+the following packages:
 
 1. gcc, make and other essential c/c++ tools:
 
