@@ -87,6 +87,8 @@ protected:
     Diligent::RefCntAutoPtr<Diligent::IBuffer> m_pInstBuff, m_pInstBuff2, m_pUniformBuff, m_pUniformBuff2, m_pUniformBuff3, m_pUniformBuff4;
     Diligent::RefCntAutoPtr<Diligent::ITexture> m_pTestTex;
     Diligent::RefCntAutoPtr<Diligent::ScriptParser> m_pRenderScript;
+    Diligent::RefCntAutoPtr<Diligent::IFence> m_pFence;
+    Diligent::Uint64 m_NextFenceValue = 1;
 
     SmartPointerTest m_SmartPointerTest;
     double m_CurrTime = 0;

@@ -67,6 +67,11 @@ public:
         m_GraphicsD3D12Impl.IdleGPU();
     }
 
+    virtual void SignalFence(ID3D12Fence* pFence, Uint64 Value)
+    {
+        m_GraphicsD3D12Impl.GetCommandQueue()->Signal(pFence, Value);
+    }
+
 private:
     UnityGraphicsD3D12Impl& m_GraphicsD3D12Impl;
 };

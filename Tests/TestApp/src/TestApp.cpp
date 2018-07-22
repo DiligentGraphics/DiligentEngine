@@ -495,6 +495,12 @@ void TestApp::InitializeRenderers()
         // This may cause D3D12 error
         m_pImmediateContext->Flush();
     }
+
+    {
+        FenceDesc fenceDesc;
+        fenceDesc.Name = "Test fence";
+        m_pDevice->CreateFence(fenceDesc, &m_pFence);
+    }
 }
 
 void TestApp::ProcessCommandLine(const char *CmdLine)
@@ -607,8 +613,15 @@ void TestApp::Render()
     m_TestGS.Draw();
     m_TestTessellation.Draw();
     
+    auto CompletedFenceValue = m_pFence->GetCompletedValue();
+    VERIFY_EXPR(CompletedFenceValue < m_NextFenceValue);
+    m_pImmediateContext->SignalFence(m_pFence, m_NextFenceValue++);
+
     m_pImmediateContext->Flush();
     m_pImmediateContext->InvalidateState();
+    
+    CompletedFenceValue = m_pFence->GetCompletedValue();
+    VERIFY_EXPR(CompletedFenceValue < m_NextFenceValue);
 }
 
 void TestApp::Present()

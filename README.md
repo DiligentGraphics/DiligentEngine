@@ -420,6 +420,12 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 # Version History
 
+
+## Current Progress
+
+* Core
+  * Added `IFence` interface and `IDeviceContext::SignalFence()` method to enable CPU-GPU synchronization
+
 ## v2.3
 
 * Core:

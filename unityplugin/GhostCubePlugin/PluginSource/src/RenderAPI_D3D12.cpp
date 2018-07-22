@@ -86,6 +86,11 @@ public:
         m_ResourcesToTransition.push_back(ResourceState);
     }
 
+    void SignalFence(ID3D12Fence* pFence, Uint64 Value)
+    {
+        UNSUPPORTED("Signalling fence via unity command graphics is not supported");
+    }
+
 private:
     IUnityGraphicsD3D12v2* const m_pUnityGraphicsD3D12;
     HANDLE m_WaitForGPUEventHandle = {};
