@@ -370,6 +370,14 @@ rendering algorithm.
 This tutorial shows how to render multiple 2D quads, frequently swithcing textures and blend modes.
 
 
+## [Tutorial 10 - Data Streaming](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial10_DataStreaming)
+
+![](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial10_DataStreaming/Screenshot.png)
+
+This tutorial shows dynamic buffer mapping strategy using `MAP_FLAG_DISCARD` and `MAP_FLAG_DO_NOT_SYNCHRONIZE`
+flags to efficiently stream varying amounts of data to GPU.
+
+
 # Samples
 
 [Sample source code](https://github.com/DiligentGraphics/DiligentSamples)
@@ -425,6 +433,9 @@ and adds implementation using Diligent Engine API to allow comparing performance
 
 * Core
   * Added `IFence` interface and `IDeviceContext::SignalFence()` method to enable CPU-GPU synchronization
+
+* Samples:
+  * Added Tutorial 10 - Data Streaming
 
 ## v2.3
 
