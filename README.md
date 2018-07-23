@@ -370,9 +370,9 @@ rendering algorithm.
 This tutorial shows how to render multiple 2D quads, frequently swithcing textures and blend modes.
 
 
-## [Tutorial 10 - Data Streaming](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial10_DataStreaming)
+## [Tutorial 10 - Data Streaming](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial10_DataStreaming)
 
-![](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial10_DataStreaming/Screenshot.png)
+![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial10_DataStreaming/Screenshot.png)
 
 This tutorial shows dynamic buffer mapping strategy using `MAP_FLAG_DISCARD` and `MAP_FLAG_DO_NOT_SYNCHRONIZE`
 flags to efficiently stream varying amounts of data to GPU.
