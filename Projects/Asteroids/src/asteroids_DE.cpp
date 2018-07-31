@@ -666,7 +666,6 @@ void Asteroids::WorkerThreadFunc(Asteroids *pThis, Diligent::Uint32 ThreadNum)
         // Increment number of completed threads
         ++pThis->m_NumThreadsCompleted;
     }
-   
 }
 
 void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
@@ -803,6 +802,12 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
             cmdList.Release();
         }
     }
+
+    // Call FinishFrame() to release dynamic resources allocated by deferred contexts
+    // IMPORTANT: we must wait until the command lists are submitted for execution
+    // because FinishFrame() invalidates all dynamic resources
+    for(auto& ctx : mDeferredCtxt)
+        ctx->FinishFrame();
 
     QueryPerformanceCounter((LARGE_INTEGER*)&currCounter);
     mRenderTicks = currCounter-mRenderTicks;
