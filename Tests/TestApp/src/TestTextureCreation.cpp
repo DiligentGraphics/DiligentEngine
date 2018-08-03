@@ -377,6 +377,8 @@ private:
         // Without flushing the command buffer, the memory is not released until sometimes 
         // later causing out-of-memory error
         m_pDeviceContext->Flush();
+        // Also call FinishFrame() because otherwise resources will not be released
+        m_pDeviceContext->FinishFrame();
     }
     
 

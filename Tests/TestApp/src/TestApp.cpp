@@ -65,6 +65,7 @@
 #include "TestBufferCreation.h"
 #include "TestBrokenShader.h"
 #include "TestShaderResourceLayout.h"
+#include "TestShaderVarAccess.h"
 
 using namespace Diligent;
 
@@ -213,10 +214,7 @@ void TestApp::InitializeDiligentEngine(
             EngVkAttribs.EnableValidation = true;
             EngVkAttribs.MainDescriptorPoolSize = EngineVkAttribs::DescriptorPoolSize{ 64, 64, 256, 256, 64, 32, 32, 32, 32 };
             EngVkAttribs.DynamicDescriptorPoolSize = EngineVkAttribs::DescriptorPoolSize{ 64, 64, 256, 256, 64, 32, 32, 32, 32 };
-            EngVkAttribs.ImmediateCtxUploadHeapPageSize = 32*1024;
-            EngVkAttribs.ImmediateCtxUploadHeapReserveSize = 64*1024;
-            EngVkAttribs.DeferredCtxUploadHeapPageSize = 8*1024;
-            EngVkAttribs.DeferredCtxUploadHeapReserveSize = 16*1024;
+            EngVkAttribs.UploadHeapPageSize = 32*1024;
             //EngVkAttribs.DeviceLocalMemoryReserveSize = 32 << 20;
             //EngVkAttribs.HostVisibleMemoryReserveSize = 48 << 20;
 
@@ -287,6 +285,7 @@ void TestApp::InitializeRenderers()
     m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, m_pSwapChain, 0.4f, -0.9f, 0.5f, 0.5f));
     m_pMTResCreationTest.reset(new MTResourceCreationTest(m_pDevice, m_pImmediateContext, 7));
     
+    TestShaderVarAccess TestShaderVarAccess(m_pDevice, m_pImmediateContext, m_pSwapChain);
     TestShaderResourceLayout TestShaderResLayout(m_pDevice, m_pImmediateContext);
     
 #if GL_SUPPORTED || GLES_SUPPORTED || VULKAN_SUPPORTED
@@ -466,7 +465,7 @@ void TestApp::InitializeRenderers()
         Diligent::DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3;
         m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
-
+        
         // This adds transition barrier for pTex1
         m_pImmediateContext->SetRenderTargets(1, pRTVs, pDSV);
         m_pImmediateContext->ClearRenderTarget(pRTVs[0], ClearColor);
@@ -582,7 +581,7 @@ void TestApp::Render()
         MapHelper<float> UniformData(m_pImmediateContext, m_pUniformBuff, MAP_WRITE, MAP_FLAG_DISCARD);
         UniformData[0] = UniformData[1] = UniformData[2] = UniformData[3] = (float)fabs(sin(dCurrTime));
     }
-
+    
     {
         MapHelper<float> UniformData(m_pImmediateContext, m_pUniformBuff2, MAP_WRITE, MAP_FLAG_DISCARD);
         UniformData[0] = (float)sin(dCurrTime*3.8)*0.1f;

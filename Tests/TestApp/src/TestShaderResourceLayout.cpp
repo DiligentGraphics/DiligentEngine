@@ -172,53 +172,55 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     RefCntAutoPtr<IResourceMapping> pResMapping;
     pDevice->CreateResourceMapping(ResMappingDesc, &pResMapping);
 
+    ShaderVariableDesc VarDesc[] = 
+    {
+        { "g_tex2D_Static", SHADER_VARIABLE_TYPE_STATIC },
+        { "g_tex2D_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "g_tex2D_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_tex2DArr_Static", SHADER_VARIABLE_TYPE_STATIC },
+        { "g_tex2DArr_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "g_tex2DArr_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_sepTex2DArr_static", SHADER_VARIABLE_TYPE_STATIC },
+        { "g_sepTex2D_mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "g_sepTex2DArr_mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "g_sepTex2D_dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_sepTex2DArr_dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_SamArr_static", SHADER_VARIABLE_TYPE_STATIC},
+        { "g_Sam_mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "g_SamArr_mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "g_Sam_dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_SamArr_dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "UniformBuff_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "UniformBuff_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "UniformBuffArr_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "UniformBuffArr_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "storageBuff_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "storageBuff_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "storageBuffArr_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "storageBuffArr_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_tex2DStorageImgArr_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
+        { "g_tex2DStorageImgArr_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_tex2DNoResourceTest", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_UniformTexelBuff_mut", SHADER_VARIABLE_TYPE_DYNAMIC },
+        { "g_StorageTexelBuff_mut", SHADER_VARIABLE_TYPE_DYNAMIC }
+    };
+    StaticSamplerDesc StaticSamplers[] = 
+    {
+        {"g_tex2D_Static", SamplerDesc{}},
+        {"g_tex2DArr_Mut", SamplerDesc{}},
+        {"g_Sam_static", SamplerDesc{}},
+        {"g_SamArr_mut", SamplerDesc{} },
+        {"g_Sam_dyn", SamplerDesc{} },
+        {"g_tex2DNoStaticSamplerTest", SamplerDesc{} }
+    };
+
     RefCntAutoPtr<IShader> pVS;
     {
         CreationAttrs.Desc.Name = "Shader resource layout test VS";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
         CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_GLSL;
         CreationAttrs.FilePath = "Shaders\\ShaderResLayoutTestGL.vsh";
-        ShaderVariableDesc VarDesc[] = 
-        {
-            { "g_tex2D_Static", SHADER_VARIABLE_TYPE_STATIC },
-            { "g_tex2D_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "g_tex2D_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_tex2DArr_Static", SHADER_VARIABLE_TYPE_STATIC },
-            { "g_tex2DArr_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "g_tex2DArr_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_sepTex2DArr_static", SHADER_VARIABLE_TYPE_STATIC },
-            { "g_sepTex2D_mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "g_sepTex2DArr_mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "g_sepTex2D_dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_sepTex2DArr_dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_SamArr_static", SHADER_VARIABLE_TYPE_STATIC},
-            { "g_Sam_mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "g_SamArr_mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "g_Sam_dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_SamArr_dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "UniformBuff_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "UniformBuff_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "UniformBuffArr_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "UniformBuffArr_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "storageBuff_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "storageBuff_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "storageBuffArr_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "storageBuffArr_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_tex2DStorageImgArr_Mut", SHADER_VARIABLE_TYPE_MUTABLE },
-            { "g_tex2DStorageImgArr_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_tex2DNoResourceTest", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_UniformTexelBuff_mut", SHADER_VARIABLE_TYPE_DYNAMIC },
-            { "g_StorageTexelBuff_mut", SHADER_VARIABLE_TYPE_DYNAMIC }
-        };
-        StaticSamplerDesc StaticSamplers[] = 
-        {
-            {"g_tex2D_Static", SamplerDesc{}},
-            {"g_tex2DArr_Mut", SamplerDesc{}},
-            {"g_Sam_static", SamplerDesc{}},
-            {"g_SamArr_mut", SamplerDesc{} },
-            {"g_Sam_dyn", SamplerDesc{} },
-            {"g_tex2DNoStaticSamplerTest", SamplerDesc{} }
-        };
+
         CreationAttrs.Desc.VariableDesc = VarDesc;
         CreationAttrs.Desc.NumVariables = _countof(VarDesc);
         CreationAttrs.Desc.NumStaticSamplers = _countof(StaticSamplers);
@@ -242,6 +244,18 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pVS->GetShaderVariable("g_tex2D_Mut");
         LOG_INFO_MESSAGE("The above 2 warnings and 1 errors about missing shader resources are part of the test");
         pVS->BindResources(pResMapping, BIND_SHADER_RESOURCES_UPDATE_UNRESOLVED | BIND_SHADER_RESOURCES_ALL_RESOLVED);
+    }
+
+    {
+        auto NumVSVars = pVS->GetVariableCount();
+        for(Uint32 v=0; v < NumVSVars; ++v)
+        {
+            auto pVar = pVS->GetShaderVariable(v);
+            VERIFY_EXPR(pVar->GetIndex() == v);
+            VERIFY_EXPR(pVar->GetType() == SHADER_VARIABLE_TYPE_STATIC);
+            auto pVar2 = pVS->GetShaderVariable(pVar->GetName());
+            VERIFY_EXPR(pVar == pVar2);
+        }
     }
 
     RefCntAutoPtr<IShader> pPS;
@@ -269,6 +283,18 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pPS->GetShaderVariable("storageBuff_Dyn");
         LOG_INFO_MESSAGE("The above 2 warnings and 1 errors about missing shader resources are part of the test");
         pPS->BindResources(pResMapping, BIND_SHADER_RESOURCES_UPDATE_UNRESOLVED | BIND_SHADER_RESOURCES_ALL_RESOLVED);
+    }
+
+    {
+        auto NumPSVars = pPS->GetVariableCount();
+        for(Uint32 v=0; v < NumPSVars; ++v)
+        {
+            auto pVar = pPS->GetShaderVariable(v);
+            VERIFY_EXPR(pVar->GetIndex() == v);
+            VERIFY_EXPR(pVar->GetType() == SHADER_VARIABLE_TYPE_STATIC);
+            auto pVar2 = pPS->GetShaderVariable(pVar->GetName());
+            VERIFY_EXPR(pVar == pVar2);
+        }
     }
 
     PipelineStateDesc PSODesc;
@@ -369,6 +395,30 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2DStorageImgArr_Dyn")->SetArray(pUAVs+1, 1, 1);
     pContext->CommitShaderResources(pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     pContext->Draw(DrawAttrs);
+
+    {
+        auto NumVSVars = pSRB->GetVariableCount(SHADER_TYPE_VERTEX);
+        for(Uint32 v=0; v < NumVSVars; ++v)
+        {
+            auto pVar = pSRB->GetVariable(SHADER_TYPE_VERTEX, v);
+            VERIFY_EXPR(pVar->GetIndex() == v);
+            VERIFY_EXPR(pVar->GetType() == SHADER_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_VARIABLE_TYPE_DYNAMIC);
+            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_VERTEX, pVar->GetName());
+            VERIFY_EXPR(pVar == pVar2);
+        }
+    }
+
+    {
+        auto NumPSVars = pSRB->GetVariableCount(SHADER_TYPE_PIXEL);
+        for(Uint32 v=0; v < NumPSVars; ++v)
+        {
+            auto pVar = pSRB->GetVariable(SHADER_TYPE_PIXEL, v);
+            VERIFY_EXPR(pVar->GetIndex() == v);
+            VERIFY_EXPR(pVar->GetType() == SHADER_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_VARIABLE_TYPE_DYNAMIC);
+            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_PIXEL, pVar->GetName());
+            VERIFY_EXPR(pVar == pVar2);
+        }
+    }
 
     SetStatus(TestResult::Succeeded);
 }
