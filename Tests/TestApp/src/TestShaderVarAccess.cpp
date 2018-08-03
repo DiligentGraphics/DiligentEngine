@@ -88,13 +88,17 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     //    pUAVs[i] = pStorageTex[i]->GetDefaultView(TEXTURE_VIEW_UNORDERED_ACCESS);
     //}
 
-    //TexDesc.BindFlags = BIND_RENDER_TARGET;
-    //RefCntAutoPtr<ITexture> pRenderTarget;
-    //pDevice->CreateTexture(TexDesc, TextureData{}, &pRenderTarget);
-    //auto *pRTV = pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
-    //m_pDeviceContext->SetRenderTargets(1, &pRTV, nullptr);
-    //float Zero[4] = {};
-    //m_pDeviceContext->ClearRenderTarget(pRTV, Zero);
+    TexDesc.Format = pSwapChain->GetDesc().ColorBufferFormat;
+    TexDesc.BindFlags = BIND_RENDER_TARGET | BIND_SHADER_RESOURCE;
+    RefCntAutoPtr<ITexture> pRenderTarget;
+    pDevice->CreateTexture(TexDesc, TextureData{}, &pRenderTarget);
+    auto *pRTV = pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
+
+    TexDesc.Format = pSwapChain->GetDesc().DepthBufferFormat;
+    TexDesc.BindFlags = BIND_DEPTH_STENCIL;
+    RefCntAutoPtr<ITexture> pDepthTex;
+    pDevice->CreateTexture(TexDesc, TextureData{}, &pDepthTex);
+    auto *pDSV = pDepthTex->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
 
     BufferDesc BuffDesc;
     BuffDesc.uiSizeInBytes = 1024;
@@ -520,8 +524,15 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwBuff_Dyn")->Set(pFormattedBuffUAV[3]);
     pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_Dyn")->Set(pFormattedBuffSRVs[2]);
 
+    m_pDeviceContext->SetRenderTargets(1, &pRTV, pDSV);
+    float Zero[4] = {};
+    m_pDeviceContext->ClearRenderTarget(pRTV, Zero);
+    m_pDeviceContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG);
+
     pContext->CommitShaderResources(pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     pContext->Draw(DrawAttrs);
+
+    m_pDeviceContext->SetRenderTargets(0, nullptr, nullptr);
 
     SetStatus(TestResult::Succeeded);
 }
