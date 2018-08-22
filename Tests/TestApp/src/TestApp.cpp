@@ -272,29 +272,29 @@ void TestApp::InitializeDiligentEngine(
 
 void TestApp::InitializeRenderers()
 {
-    TestRasterizerState TestRS(m_pDevice, m_pImmediateContext);
-    TestBlendState TestBS(m_pDevice, m_pImmediateContext);
-    TestDepthStencilState TestDSS(m_pDevice, m_pImmediateContext);
-    TestBufferCreation TestBuffCreation(m_pDevice, m_pImmediateContext);
-    TestTextureCreation TestTexCreation(m_pDevice, m_pImmediateContext);
-    TestPSOCompatibility TestPSOCompat(m_pDevice);
-    TestBrokenShader TestBrknShdr(m_pDevice);
+    TestRasterizerState TestRS{m_pDevice, m_pImmediateContext};
+    TestBlendState TestBS{m_pDevice, m_pImmediateContext};
+    TestDepthStencilState TestDSS{m_pDevice, m_pImmediateContext};
+    TestBufferCreation TestBuffCreation{m_pDevice, m_pImmediateContext};
+    TestTextureCreation TestTexCreation{m_pDevice, m_pImmediateContext};
+    TestPSOCompatibility TestPSOCompat{m_pDevice};
+    TestBrokenShader TestBrknShdr{m_pDevice};
     
     m_TestGS.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, m_pSwapChain, 0.4f, -0.9f, 0.5f, 0.5f));
     m_pMTResCreationTest.reset(new MTResourceCreationTest(m_pDevice, m_pImmediateContext, 7));
     
-    TestShaderVarAccess TestShaderVarAccess(m_pDevice, m_pImmediateContext, m_pSwapChain);
-    TestShaderResourceLayout TestShaderResLayout(m_pDevice, m_pImmediateContext);
+    TestShaderVarAccess TestShaderVarAccess{m_pDevice, m_pImmediateContext, m_pSwapChain};
+    TestShaderResourceLayout TestShaderResLayout{m_pDevice, m_pImmediateContext};
     
 #if GL_SUPPORTED || GLES_SUPPORTED || VULKAN_SUPPORTED
-    ShaderConverterTest ConverterTest(m_pDevice, m_pImmediateContext);
+    ShaderConverterTest ConverterTest{m_pDevice, m_pImmediateContext};
 #endif
     
-    TestSamplerCreation TestSamplers(m_pDevice);
+    TestSamplerCreation TestSamplers{m_pDevice};
     
-    RenderScriptTest LuaTest(m_pDevice, m_pImmediateContext);
+    RenderScriptTest LuaTest{m_pDevice, m_pImmediateContext};
     
     const auto* BackBufferFmt = m_pDevice->GetTextureFormatInfo(m_pSwapChain->GetDesc().ColorBufferFormat).Name;
     const auto* DepthBufferFmt = m_pDevice->GetTextureFormatInfo(m_pSwapChain->GetDesc().DepthBufferFormat).Name;

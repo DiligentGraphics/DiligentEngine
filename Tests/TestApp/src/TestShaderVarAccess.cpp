@@ -34,7 +34,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     UnitTestBase("Shader variable access test"),
     m_pDeviceContext(pContext)
 {
-    if ( !(pDevice->GetDeviceCaps().DevType == DeviceType::D3D11 || pDevice->GetDeviceCaps().DevType == DeviceType::D3D12) )
+    if( pDevice->GetDeviceCaps().DevType == DeviceType::OpenGLES )
         return;
 
     ShaderCreationAttribs CreationAttrs;
@@ -176,8 +176,8 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     {
         CreationAttrs.Desc.Name = "Shader variable access test VS";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
-        CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-        CreationAttrs.FilePath = "Shaders\\ShaderVarAccessTestDX.vsh";
+        CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_DEFAULT;
+        CreationAttrs.FilePath = pDevice->GetDeviceCaps().IsD3DDevice() ? "Shaders\\ShaderVarAccessTestDX.vsh" : "Shaders\\ShaderVarAccessTestGL.vsh";
         
         CreationAttrs.Desc.VariableDesc = VarDesc.data();
         CreationAttrs.Desc.NumVariables = static_cast<Uint32>(VarDesc.size());
@@ -223,10 +223,9 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
 
 
         auto tex2D_Mut = pVS->GetShaderVariable("g_tex2D_Mut");
-        VERIFY_EXPR(tex2D_Mut->GetIndex() == static_cast<Uint32>(-1));
+        VERIFY_EXPR(tex2D_Mut == nullptr);
         auto tex2D_Dyn = pVS->GetShaderVariable("g_tex2D_Dyn");
-        VERIFY_EXPR(tex2D_Dyn->GetIndex() == static_cast<Uint32>(-1));
-        LOG_INFO_MESSAGE("The above 2 errors about missing shader resources are part of the test");
+        VERIFY_EXPR(tex2D_Dyn == nullptr);
     }
 
     {
@@ -250,8 +249,8 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     {
         CreationAttrs.Desc.Name = "Shader variable access test PS";
         CreationAttrs.Desc.ShaderType = SHADER_TYPE_PIXEL;
-        CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-        CreationAttrs.FilePath = "Shaders\\ShaderVarAccessTestDX.psh";
+        CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_DEFAULT;
+        CreationAttrs.FilePath = pDevice->GetDeviceCaps().IsD3DDevice() ? "Shaders\\ShaderVarAccessTestDX.psh" : "Shaders\\ShaderVarAccessTestGL.psh";
         CreationAttrs.Desc.VariableDesc = VarDesc.data();
         CreationAttrs.Desc.NumVariables = static_cast<Uint32>(VarDesc.size());
 
@@ -308,10 +307,9 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
 
 
         auto tex2D_Mut = pPS->GetShaderVariable("g_tex2D_Mut");
-        VERIFY_EXPR(tex2D_Mut->GetIndex() == static_cast<Uint32>(-1));
+        VERIFY_EXPR(tex2D_Mut == nullptr);
         auto tex2D_Dyn = pPS->GetShaderVariable("g_tex2D_Dyn");
-        VERIFY_EXPR(tex2D_Dyn->GetIndex() == static_cast<Uint32>(-1));
-        LOG_INFO_MESSAGE("The above 2 errors about missing shader resources are part of the test");
+        VERIFY_EXPR(tex2D_Dyn == nullptr);
     }
 
     {
@@ -397,10 +395,9 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         Buffer_DynArr->SetArray(&pFormattedBuffSRV, 1, 1);
 
         auto tex2D_Static = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_Static");
-        VERIFY_EXPR(tex2D_Static->GetIndex() == static_cast<Uint32>(-1));
+        VERIFY_EXPR(tex2D_Static == nullptr);
         auto UniformBuff_Stat = pSRB->GetVariable(SHADER_TYPE_VERTEX, "UniformBuff_Stat");
-        VERIFY_EXPR(UniformBuff_Stat->GetIndex() == static_cast<Uint32>(-1));
-        LOG_INFO_MESSAGE("The above 2 errors about missing shader resources are part of the test");
+        VERIFY_EXPR(UniformBuff_Stat == nullptr);
     }
 
 
@@ -479,10 +476,9 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         rwBuff_Dyn->Set(pFormattedBuffUAV[2]);
         
         auto tex2D_Static = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_Static");
-        VERIFY_EXPR(tex2D_Static->GetIndex() == static_cast<Uint32>(-1));
+        VERIFY_EXPR(tex2D_Static == nullptr);
         auto UniformBuff_Stat = pSRB->GetVariable(SHADER_TYPE_PIXEL, "UniformBuff_Stat");
-        VERIFY_EXPR(UniformBuff_Stat->GetIndex() == static_cast<Uint32>(-1));
-        LOG_INFO_MESSAGE("The above 2 errors about missing shader resources are part of the test");
+        VERIFY_EXPR(UniformBuff_Stat == nullptr);
     }
 
 

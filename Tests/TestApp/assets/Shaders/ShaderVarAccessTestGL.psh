@@ -1,0 +1,78 @@
+uniform sampler2D g_tex2D_Static;
+uniform sampler2D g_tex2D_Mut;
+uniform sampler2D g_tex2D_MutArr[2];
+uniform sampler2D g_tex2D_Dyn;
+uniform sampler2D g_tex2D_DynArr[2];
+uniform sampler2D g_tex2D_StaticArr[2];
+
+uniform UniformBuff_Stat
+{
+	vec4 g_f4Color0;
+}g_UniformBuff_Stat;
+
+uniform UniformBuff_Stat2
+{
+	vec4 g_f4Color01;
+}g_UniformBuff_Stat2;
+
+uniform UniformBuff_Mut
+{
+	vec4 g_f4Color1;
+}g_UniformBuff_Mut;
+
+uniform UniformBuff_Dyn
+{
+	vec4 g_f4Color2;
+}g_UniformBuff_Dyn;
+
+layout(rgba32f) uniform readonly image2D g_rwtex2D_Static;
+layout(rgba32f) uniform readonly image2D g_rwtex2D_Static2;
+layout(rgba32f) uniform readonly image2D g_rwtex2D_Mut;
+layout(rgba32f) uniform readonly image2D g_rwtex2D_Dyn;
+
+layout(std140) buffer g_rwBuff_Static
+{
+	vec4 data[];
+}rwBuff_Static;
+
+layout(std140) buffer g_rwBuff_Mut
+{
+	vec4 data[];
+}rwBuff_Mut;
+
+layout(std140) buffer g_rwBuff_Dyn
+{
+	vec4 data[];
+}rwBuff_Dyn;
+
+uniform samplerBuffer g_Buffer_Static;
+uniform samplerBuffer g_Buffer_StaticArr[2];
+uniform samplerBuffer g_Buffer_Mut;
+uniform samplerBuffer g_Buffer_MutArr[2];
+uniform samplerBuffer g_Buffer_Dyn;
+uniform samplerBuffer g_Buffer_DynArr[2];
+
+layout(location = 0) in vec4 f4Color;
+ 
+layout(location = 0) out vec4 out_Color;
+
+void main()
+{
+    out_Color = f4Color;
+    out_Color += textureLod(g_tex2D_Static, vec2(0.5,0.5), 0.0);
+    out_Color += textureLod(g_tex2D_StaticArr[0], vec2(0.5,0.5), 0.0) + textureLod(g_tex2D_StaticArr[1], vec2(0.5,0.5), 0.0);
+    out_Color += textureLod(g_tex2D_Mut, vec2(0.5,0.5), 0.0);
+    out_Color += textureLod(g_tex2D_MutArr[0], vec2(0.5,0.5), 0.0) + textureLod(g_tex2D_MutArr[1], vec2(0.5,0.5), 0.0);
+    out_Color += textureLod(g_tex2D_Dyn, vec2(0.5,0.5), 0.0);
+    out_Color += textureLod(g_tex2D_DynArr[0], vec2(0.5,0.5), 0.0) + textureLod(g_tex2D_DynArr[1], vec2(0.5,0.5), 0.0);
+    out_Color += g_UniformBuff_Stat.g_f4Color0 + g_UniformBuff_Stat2.g_f4Color01 + g_UniformBuff_Mut.g_f4Color1 + g_UniformBuff_Dyn.g_f4Color2;
+    out_Color += imageLoad(g_rwtex2D_Static, ivec2(0,0)) + imageLoad(g_rwtex2D_Mut, ivec2(0,0)) + imageLoad(g_rwtex2D_Dyn, ivec2(0,0)) + imageLoad(g_rwtex2D_Static2, ivec2(0,0));
+    out_Color += rwBuff_Static.data[0] + rwBuff_Mut.data[0] + rwBuff_Dyn.data[0];
+    
+    out_Color += texelFetch(g_Buffer_Static, 0);
+    out_Color += texelFetch(g_Buffer_StaticArr[0], 0) + texelFetch(g_Buffer_StaticArr[1],0);
+    out_Color += texelFetch(g_Buffer_Mut, 0);
+    out_Color += texelFetch(g_Buffer_MutArr[0], 0) + texelFetch(g_Buffer_MutArr[1], 0);
+    out_Color += texelFetch(g_Buffer_Dyn, 0);
+    out_Color += texelFetch(g_Buffer_DynArr[0], 0) + texelFetch(g_Buffer_DynArr[1], 0);
+}
