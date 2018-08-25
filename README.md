@@ -330,21 +330,11 @@ endfunction()
 
 # Projects
 
-## [Asteroids Performance Benchmark](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids)
+| Project    | Screenshot  | Description          |
+|------------|-------------|----------------------|
+| [Asteroids Performance Benchmark](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) | ![](Projects/Asteroids/Screenshot.png) | This sample is designed to be a performance benchmark and is based on [this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. It renders 50,000 unique textured asteroids. Every asteroid is a combination of one of 1000 unique meshes and one of 10 unique textures. The sample uses original D3D11 and D3D12 native implementations, and adds implementation using Diligent Engine API to allow comparing performance of different rendering modes. |
+|  [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin) | ![](unityplugin/GhostCubePlugin/Screenshot.png) | This project demonstrates integration of Diligent Engine with Unity |
 
-This sample is designed to be a performance benchmark and is based on 
-[this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. 
-It renders 50,000 unique textured asteroids. Every asteroid is a combination of one of 1000 unique 
-meshes and one of 10 unique textures. The sample uses original D3D11 and D3D12 native implementations, 
-and adds implementation using Diligent Engine API to allow comparing performance of different rendering modes.
-
-![](Projects/Asteroids/Screenshot.png)
-
-## [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin)
-
-[This project](unityplugin) demonstrates integration of Diligent Engine with Unity
-
-![](unityplugin/GhostCubePlugin/Screenshot.png)
 
 # References
 
