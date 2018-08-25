@@ -306,7 +306,7 @@ function(custom_configure_target TARGET)
 endfunction()
 ```
 
-# Tutorials
+# [Tutorials](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials)
 
 | Tutorial   | Screenshot  | Description          |
 |------------|-------------|----------------------|
@@ -321,9 +321,7 @@ endfunction()
 | [09 - Quads](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial09_Quads) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial09_Quads/Screenshot.png) | This tutorial shows how to render multiple 2D quads, frequently swithcing textures and blend modes. |
 | [10 - Data Streaming](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial10_DataStreaming) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial10_DataStreaming/Screenshot.png) | This tutorial shows dynamic buffer mapping strategy using `MAP_FLAG_DISCARD` and `MAP_FLAG_DO_NOT_SYNCHRONIZE` flags to efficiently stream varying amounts of data to GPU. |
 
-# Samples
-
-[Sample source code](https://github.com/DiligentGraphics/DiligentSamples)
+# [Samples](https://github.com/DiligentGraphics/DiligentSamples)
 
 | Sample     | Screenshot  | Description          |
 |------------|-------------|----------------------|
