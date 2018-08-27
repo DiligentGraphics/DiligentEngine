@@ -49,7 +49,7 @@ void TestCreateObjFromNativeResD3D11::CreateTexture(Diligent::ITexture *pTexture
         pDeviceD3D11->CreateTextureFromD3DResource(static_cast<ID3D11Texture2D*>(pd3d11Texture), &pTextureFromNativeD3D11Handle);
         ++m_NumTexturesCreated;
     }
-    else if (RESOURCE_DIM_TEX_3D)
+    else if (SrcTexDesc.Type == RESOURCE_DIM_TEX_3D)
     {
         pDeviceD3D11->CreateTextureFromD3DResource(static_cast<ID3D11Texture3D*>(pd3d11Texture), &pTextureFromNativeD3D11Handle);
         ++m_NumTexturesCreated;
@@ -94,7 +94,7 @@ void TestCreateObjFromNativeResD3D11::CreateBuffer(Diligent::IBuffer *pBuffer)
     {
         BufferDesc BuffDesc;
         BuffDesc.Name = "Test buffer from D3D11 buffer";
-        BuffDesc.Format = SrcBuffDesc.Format;
+        BuffDesc.ElementByteStride = SrcBuffDesc.ElementByteStride;
         RefCntAutoPtr<IBuffer> pBufferFromNativeD3D11Handle;
         pDeviceD3D11->CreateBufferFromD3DResource(pd3d11Buffer, BuffDesc, &pBufferFromNativeD3D11Handle);
         ++m_NumBuffersCreated;

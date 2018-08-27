@@ -95,7 +95,7 @@ void TestCopyTexData::Test2DTexture( TEXTURE_FORMAT Format )
 
     Diligent::RefCntAutoPtr<ITexture> pSrcTex, pDstTex;
     auto FmtAttribs = m_pDevice->GetTextureFormatInfo(Format);
-    auto TexelSize = FmtAttribs.ComponentSize * FmtAttribs.NumComponents;
+    auto TexelSize = Uint32{FmtAttribs.ComponentSize} * Uint32{FmtAttribs.NumComponents};
     std::vector<uint8_t> DummyData(TexDesc.Width * TexDesc.Height * TexelSize);
     TextureData InitData;
     InitData.NumSubresources = TexDesc.MipLevels;
@@ -147,7 +147,7 @@ void TestCopyTexData::Test2DTexArray( TEXTURE_FORMAT Format )
 
     Diligent::RefCntAutoPtr<ITexture> pSrcTex, pDstTex;
     auto FmtAttribs = m_pDevice->GetTextureFormatInfo(Format);
-    auto TexelSize = FmtAttribs.ComponentSize * FmtAttribs.NumComponents;
+    auto TexelSize = Uint32{FmtAttribs.ComponentSize} * Uint32{FmtAttribs.NumComponents};
     std::vector<uint8_t> DummyData(TexDesc.Width * TexDesc.Height * TexelSize);
     TextureData InitData;
     InitData.NumSubresources = TexDesc.MipLevels * TexDesc.ArraySize;
@@ -204,7 +204,7 @@ void TestCopyTexData::Test3DTexture( TEXTURE_FORMAT Format )
 
     Diligent::RefCntAutoPtr<ITexture> pSrcTex, pDstTex;
     auto FmtAttribs = m_pDevice->GetTextureFormatInfo(Format);
-    auto TexelSize = FmtAttribs.ComponentSize * FmtAttribs.NumComponents;
+    auto TexelSize = Uint32{FmtAttribs.ComponentSize} * Uint32{FmtAttribs.NumComponents};
     std::vector<uint8_t> DummyData(TexDesc.Width * TexDesc.Height * TexDesc.Depth * TexelSize);
     TextureData InitData;
     InitData.NumSubresources = TexDesc.MipLevels;

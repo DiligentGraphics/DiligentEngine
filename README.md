@@ -354,6 +354,9 @@ endfunction()
 
 * Core
   * Added `IFence` interface and `IDeviceContext::SignalFence()` method to enable CPU-GPU synchronization
+  * Added `BUFFER_MODE_RAW` mode allowing raw buffer views in D3D11/D3D12.
+  * Moved `Format` member from `BufferDesc` to `BufferViewDesc`
+  * Removed `IsIndirect` member from `DrawAttrbis` as setting `pIndirectDrawAttribs` to a non-null buffer already indicates indirect rendering
 
 * Samples:
   * Added Tutorial 10 - Data Streaming

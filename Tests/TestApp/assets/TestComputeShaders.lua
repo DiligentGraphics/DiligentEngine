@@ -33,10 +33,17 @@ PositionsBuffer = Buffer.Create(
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_VERTEX_BUFFER", "BIND_UNORDERED_ACCESS"},
 		Mode = "BUFFER_MODE_FORMATTED",
-		Format = {ValueType = "VT_FLOAT32", NumComponents = 4, IsNormalized = false},
+        ElementByteStride = 16,
 		uiSizeInBytes = (4 + 8) * 4 * 4
 	}
 )
+PositionsBufferUAV = PositionsBuffer:CreateView
+{
+    Name = "bufPositions UAV",
+    ViewType = "BUFFER_VIEW_UNORDERED_ACCESS",
+    Format = {ValueType = "VT_FLOAT32", NumComponents = 4}
+}
+
 
 TexcoordBuffer = Buffer.Create(
 	{
@@ -44,10 +51,12 @@ TexcoordBuffer = Buffer.Create(
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_VERTEX_BUFFER", "BIND_UNORDERED_ACCESS"},
 		Mode = "BUFFER_MODE_FORMATTED",
-		Format = {ValueType = "VT_FLOAT32", NumComponents = 4, IsNormalized = false},
+        ElementByteStride = 16,
 		uiSizeInBytes = (4 + 8) * 4 * 4
 	}
 )
+
+
 
 OffsetsBuffer = Buffer.Create(
 	{
@@ -56,11 +65,18 @@ OffsetsBuffer = Buffer.Create(
 		BindFlags = {"BIND_UNORDERED_ACCESS", "BIND_SHADER_RESOURCE"},
 		--uiSizeInBytes = 64,
 		Mode = "BUFFER_MODE_FORMATTED",
-		Format = {ValueType = "VT_FLOAT32", NumComponents = 4, IsNormalized = false},
+        ElementByteStride = 16
 	},
 	"VT_FLOAT32",
 	{0.03,0,0,0,  0,0.03,0,0,  0.03,0.03,0,0,  -0.03,-0.03,0,0}
 )
+OffsetsBufferSRV = OffsetsBuffer:CreateView
+{
+    Name = "Offsets UAV",
+    ViewType = "BUFFER_VIEW_SHADER_RESOURCE",
+    Format = {ValueType = "VT_FLOAT32", NumComponents = 4}
+}
+
 
 IndexBuffer  = Buffer.Create(
 	{
@@ -68,54 +84,71 @@ IndexBuffer  = Buffer.Create(
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_INDEX_BUFFER", "BIND_UNORDERED_ACCESS"},
 		Mode = "BUFFER_MODE_FORMATTED",
-		Format = {ValueType = "VT_UINT32", NumComponents = 4, IsNormalized = false},
+        ElementByteStride = 16
 	},
 	"VT_UINT32",
 	{0,0,0,0}
 )
+IndexBufferUAV = IndexBuffer:CreateView
+{
+    Name = "bufIndices UAV",
+    ViewType = "BUFFER_VIEW_UNORDERED_ACCESS",
+    Format = {ValueType = "VT_UINT32", NumComponents = 4}
+}
+
 
 IndirectDrawArgsBuffer = Buffer.Create(
 	{
         Name = "Indirect Draw Args Buffer",
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_INDIRECT_DRAW_ARGS", "BIND_UNORDERED_ACCESS"},
-		Format = {ValueType = "VT_UINT32", NumComponents = 4, IsNormalized = false},
+        ElementByteStride = 16,
 		Mode = "BUFFER_MODE_FORMATTED",
 		uiSizeInBytes = 32
 	}
 )
+IndirectDrawArgsBufferUAV = IndirectDrawArgsBuffer:CreateView
+{
+    Name = "bufIndirectDrawArgs UAV",
+    ViewType = "BUFFER_VIEW_UNORDERED_ACCESS",
+    Format = {ValueType = "VT_UINT32", NumComponents = 4}
+}
+
 
 IndirectDispatchArgsBuffer =  Buffer.Create(
 	{
         Name = "Indirect Dispatch Args Buffer",
 		Usage = "USAGE_DEFAULT",
 		BindFlags = {"BIND_INDIRECT_DRAW_ARGS", "BIND_UNORDERED_ACCESS"},
-		Format = {ValueType = "VT_UINT32", NumComponents = 4, IsNormalized = false},
+        ElementByteStride = 16,
 		Mode = "BUFFER_MODE_FORMATTED",
 		uiSizeInBytes = 64
 	}
 )
+IndirectDispatchArgsBufferUAV = IndirectDispatchArgsBuffer:CreateView
+{
+    Name = "bufIndirectDispatchArgs UAV",
+    ViewType = "BUFFER_VIEW_UNORDERED_ACCESS",
+    Format = {ValueType = "VT_UINT32", NumComponents = 4}
+}
 
-if Constants.DeviceType == "D3D11" or Constants.DeviceType == "D3D12"  or Constants.DeviceType == "Vulkan" then
-	TexcoordDataOffset = 0 -- Non-zero byte offset is only supported for structured buffers in DirectX
-else
-	TexcoordDataOffset = 2*4*4
-end
-
-TexCoordUAV = TexcoordBuffer:CreateView{
+TexcoordDataOffset = 2*4*4
+TexCoordUAV = TexcoordBuffer:CreateView
+{
 	ViewType = "BUFFER_VIEW_UNORDERED_ACCESS",
 	ByteOffset = TexcoordDataOffset,
-	ByteWidth = 4*4*4
+	ByteWidth = 4*4*4,
+    Format = {ValueType = "VT_FLOAT32", NumComponents = 4}
 }
 
 ResMapping = ResourceMapping.Create{
 	{Name = "g_tex2DTest", pObject = TestTexture:GetDefaultView("TEXTURE_VIEW_SHADER_RESOURCE")},
-	{Name = "bufPositions", pObject = PositionsBuffer:GetDefaultView("BUFFER_VIEW_UNORDERED_ACCESS") },
+	{Name = "bufPositions", pObject = PositionsBufferUAV },
 	{Name = "bufTexcoord", pObject = TexCoordUAV},
-	{Name = "bufIndices", pObject = IndexBuffer:GetDefaultView("BUFFER_VIEW_UNORDERED_ACCESS") },
-	{Name = "bufIndirectDrawArgs", pObject = IndirectDrawArgsBuffer:GetDefaultView("BUFFER_VIEW_UNORDERED_ACCESS") },
-	{Name = "bufIndirectDispatchArgs", pObject = IndirectDispatchArgsBuffer:CreateView{ ViewType = "BUFFER_VIEW_UNORDERED_ACCESS"} },
-	{Name = "Offsets", pObject = OffsetsBuffer:CreateView{ ViewType = "BUFFER_VIEW_SHADER_RESOURCE"} }
+	{Name = "bufIndices", pObject = IndexBufferUAV},
+	{Name = "bufIndirectDrawArgs", pObject = IndirectDrawArgsBufferUAV },
+	{Name = "bufIndirectDispatchArgs", pObject = IndirectDispatchArgsBufferUAV },
+	{Name = "Offsets", pObject = OffsetsBufferSRV}
 }
 
 function GetShaderPath( ShaderName, ShaderExt, GLESSpecial )
@@ -261,7 +294,6 @@ RenderPS:BindResources(ResMapping, {"BIND_SHADER_RESOURCES_RESET_BINDINGS", "BIN
 DrawAttrs = DrawAttribs.Create{
     IsIndexed = true,
 	IndexType = "VT_UINT32",
-	IsIndirect = true,
 	pIndirectDrawAttribs = IndirectDrawArgsBuffer
 }
 

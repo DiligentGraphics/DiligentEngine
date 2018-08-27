@@ -759,7 +759,6 @@ void TestDrawCommands::Draw()
             MappedData.Unmap();
 
             DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndirect = true;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
             m_pDeviceContext->Draw(DrawAttrs);
         }
@@ -773,7 +772,6 @@ void TestDrawCommands::Draw()
             MappedData[3] = 0;    // Start instance
             MappedData.Unmap();
             DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndirect = true;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
             m_pDeviceContext->Draw(DrawAttrs);
         }
@@ -787,7 +785,6 @@ void TestDrawCommands::Draw()
             MappedData[3] = 2;   // Start instance
             MappedData.Unmap();
             DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndirect = true;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
             m_pDeviceContext->Draw(DrawAttrs);
         }
@@ -815,7 +812,6 @@ void TestDrawCommands::Draw()
             MappedData.Unmap();
 
             DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndirect = true;
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
             DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
@@ -833,7 +829,6 @@ void TestDrawCommands::Draw()
             MappedData.Unmap();
 
             DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndirect = true;
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
             DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
@@ -851,7 +846,6 @@ void TestDrawCommands::Draw()
             MappedData.Unmap();
 
             DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndirect = true;
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
             DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
@@ -869,7 +863,6 @@ void TestDrawCommands::Draw()
             MappedData.Unmap();
 
             DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndirect = true;
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
             DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;

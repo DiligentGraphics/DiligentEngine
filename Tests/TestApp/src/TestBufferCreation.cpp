@@ -114,14 +114,25 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         Diligent::BufferDesc BuffDesc;
         BuffDesc.Name = "Buffer creation test 2";
         BuffDesc.uiSizeInBytes = 256;
-        BuffDesc.BindFlags = BIND_INDIRECT_DRAW_ARGS | BIND_UNORDERED_ACCESS;
+        BuffDesc.BindFlags = BIND_UNORDERED_ACCESS | BIND_SHADER_RESOURCE;
         BuffDesc.Mode = BUFFER_MODE_FORMATTED;
-        BuffDesc.Format.NumComponents = 4;
-        BuffDesc.Format.ValueType = VT_INT32;
-        BuffDesc.Format.IsNormalized = false;
+        BuffDesc.ElementByteStride = 16;
         RefCntAutoPtr<IBuffer> pBuffer;
         pDevice->CreateBuffer(BuffDesc, BufferData(), &pBuffer);
         VERIFY_EXPR(pBuffer);
+
+        BufferViewDesc ViewDesc;
+        ViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
+        ViewDesc.ByteOffset = 32;
+        ViewDesc.Format.NumComponents = 4;
+        ViewDesc.Format.ValueType = VT_FLOAT32;
+        ViewDesc.Format.IsNormalized = false;
+        RefCntAutoPtr<IBufferView> pBufferSRV;
+        pBuffer->CreateView(ViewDesc, &pBufferSRV);
+
+        ViewDesc.ViewType = BUFFER_VIEW_UNORDERED_ACCESS;
+        RefCntAutoPtr<IBufferView> pBufferUAV;
+        pBuffer->CreateView(ViewDesc, &pBufferUAV);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
         ++BuffersCreated;
@@ -155,7 +166,34 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
         ++BuffersCreated;
     }
-    
+
+    {
+        Diligent::BufferDesc BuffDesc;
+        BuffDesc.Name = "Buffer creation test 5";
+        BuffDesc.uiSizeInBytes = 256;
+        BuffDesc.BindFlags =  BIND_VERTEX_BUFFER | BIND_INDEX_BUFFER | BIND_UNORDERED_ACCESS | BIND_SHADER_RESOURCE;
+        BuffDesc.Mode = BUFFER_MODE_RAW;
+        BuffDesc.ElementByteStride = 16;
+        RefCntAutoPtr<IBuffer> pBuffer;
+        pDevice->CreateBuffer(BuffDesc, BufferData(), &pBuffer);
+        VERIFY_EXPR(pBuffer);
+
+        BufferViewDesc ViewDesc;
+        ViewDesc.ViewType = BUFFER_VIEW_UNORDERED_ACCESS;
+        ViewDesc.ByteOffset = 32;
+        ViewDesc.Format.NumComponents = 4;
+        ViewDesc.Format.ValueType = VT_FLOAT32;
+        RefCntAutoPtr<IBufferView> pBufferUAV;
+        pBuffer->CreateView(ViewDesc, &pBufferUAV);
+
+        ViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
+        RefCntAutoPtr<IBufferView> pBufferSRV;
+        pBuffer->CreateView(ViewDesc, &pBufferSRV);
+
+        pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
+        ++BuffersCreated;
+    }
+
     std::stringstream infoss;
     infoss << "Created " << BuffersCreated << " test buffers.";
     SetStatus(TestResult::Succeeded, infoss.str().c_str());

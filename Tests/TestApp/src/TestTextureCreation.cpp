@@ -193,7 +193,7 @@ private:
                                 TextureData &InitData)
     {
 
-        Uint32 PixelSize = PixelFormatAttribs.ComponentSize * PixelFormatAttribs.NumComponents;
+        Uint32 PixelSize = Uint32{PixelFormatAttribs.ComponentSize} * Uint32{PixelFormatAttribs.NumComponents};
         assert( PixelSize == m_PixelSize );
             
         Uint32 ArrSize = (TexDesc.Type == RESOURCE_DIM_TEX_3D) ? 1 : TexDesc.ArraySize;
@@ -713,7 +713,7 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
             continue;
         }
         ++m_NumFormatsTested;
-        assert(CurrAttrs.PixelSize == Uint32{PixelFormatAttribs.ComponentSize} * PixelFormatAttribs.NumComponents || 
+        assert(CurrAttrs.PixelSize == Uint32{PixelFormatAttribs.ComponentSize} * Uint32{PixelFormatAttribs.NumComponents} || 
                PixelFormatAttribs.ComponentType == COMPONENT_TYPE_COMPRESSED);
         Verifier.Test(CurrAttrs.Fmt, CurrAttrs.PixelSize, CurrAttrs.BindFlags, CurrAttrs.TestDataUpload);
     }
@@ -727,7 +727,7 @@ void TestTextureCreation::CheckFormatSize(TEXTURE_FORMAT *begin, TEXTURE_FORMAT 
     for(auto fmt = begin; fmt != end; ++fmt)
     {
         auto FmtAttrs = m_pDevice->GetTextureFormatInfo(*fmt);
-        assert(Uint32{FmtAttrs.ComponentSize} * FmtAttrs.NumComponents == RefSize);
+        assert(Uint32{FmtAttrs.ComponentSize} * Uint32{FmtAttrs.NumComponents} == RefSize);
     }
 }
 

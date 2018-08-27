@@ -49,7 +49,7 @@ void TestTexturing::GenerateTextureData(IRenderDevice *pRenderDevice, std::vecto
     SubResouces.resize(TexDesc.MipLevels);
  
     auto PixelFormatAttribs = pRenderDevice->GetTextureFormatInfoExt(TexDesc.Format);
-    auto PixelSize = PixelFormatAttribs.ComponentSize * PixelFormatAttribs.NumComponents;
+    auto PixelSize = Uint32{PixelFormatAttribs.ComponentSize} * Uint32{PixelFormatAttribs.NumComponents};
     
     for(Uint32 Level = 0; Level < TexDesc.MipLevels; ++Level)
     {

@@ -111,24 +111,32 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     }
 
     RefCntAutoPtr<IBuffer> pUniformTexelBuff, pStorageTexelBuff;
-    IBufferView *pUniformTexelBuffSRV = nullptr, *pStorageTexelBuffUAV = nullptr;
+    RefCntAutoPtr<IBufferView> pUniformTexelBuffSRV , pStorageTexelBuffUAV;
     {
-        Diligent::BufferDesc TxlBuffDesc;
+        BufferDesc TxlBuffDesc;
         TxlBuffDesc.Name = "Uniform texel buffer test";
         TxlBuffDesc.uiSizeInBytes = 256;
-        TxlBuffDesc.BindFlags = BIND_SHADER_RESOURCE;
+        TxlBuffDesc.BindFlags = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
         TxlBuffDesc.Usage = USAGE_DEFAULT;
-        TxlBuffDesc.Format.ValueType = VT_FLOAT32;
-        TxlBuffDesc.Format.NumComponents = 4;
-        TxlBuffDesc.Format.IsNormalized = false;
+        TxlBuffDesc.ElementByteStride = 16;
         TxlBuffDesc.Mode = BUFFER_MODE_FORMATTED;
         pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &pUniformTexelBuff);
-        pUniformTexelBuffSRV = pUniformTexelBuff->GetDefaultView(BUFFER_VIEW_SHADER_RESOURCE);
+
+        BufferViewDesc TxlBuffViewDesc;
+        TxlBuffViewDesc.Name = "Uniform texel buffer SRV";
+        TxlBuffViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
+        TxlBuffViewDesc.Format.ValueType = VT_FLOAT32;
+        TxlBuffViewDesc.Format.NumComponents = 4;
+        TxlBuffViewDesc.Format.IsNormalized = false;
+        pUniformTexelBuff->CreateView(TxlBuffViewDesc, &pUniformTexelBuffSRV);
 
         TxlBuffDesc.Name = "Storage texel buffer test";
         TxlBuffDesc.BindFlags = BIND_UNORDERED_ACCESS;
         pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &pStorageTexelBuff);
-        pStorageTexelBuffUAV = pStorageTexelBuff->GetDefaultView(BUFFER_VIEW_UNORDERED_ACCESS);
+        
+        TxlBuffViewDesc.Name = "Storage texel buffer UAV";
+        TxlBuffViewDesc.ViewType = BUFFER_VIEW_UNORDERED_ACCESS;
+        pUniformTexelBuff->CreateView(TxlBuffViewDesc, &pStorageTexelBuffUAV);
     }
     
     ResourceMappingDesc ResMappingDesc;

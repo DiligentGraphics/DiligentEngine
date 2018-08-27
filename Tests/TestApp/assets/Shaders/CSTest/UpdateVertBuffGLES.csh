@@ -4,7 +4,7 @@
 // If you do not want your data to be aligned by compiler try to use:
 // packed or shared instead of std140 keyword.
 // We also bind the buffer to index 0. You need to set the buffer binding
-// in the range [0..3] � this is the minimum range approved by Khronos.
+// in the range [0..3] – this is the minimum range approved by Khronos.
 // Notice that various platforms might support more indices than that.
 layout(std140, binding = 2) buffer bufPositions
 {

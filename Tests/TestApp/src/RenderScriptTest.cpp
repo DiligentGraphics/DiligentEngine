@@ -79,12 +79,10 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
             Diligent::BufferDesc BuffDesc;
             BuffDesc.Name = "TestGlobalBuff2";
             BuffDesc.uiSizeInBytes = 64;
-            BuffDesc.BindFlags = BIND_VERTEX_BUFFER | BIND_UNORDERED_ACCESS;
+            BuffDesc.BindFlags = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
             BuffDesc.Usage = USAGE_DEFAULT;
-            BuffDesc.Format.ValueType = VT_UINT16;
-            BuffDesc.Format.NumComponents = 4;
-            BuffDesc.Format.IsNormalized = true;
-            BuffDesc.Mode = BUFFER_MODE_FORMATTED;
+            BuffDesc.ElementByteStride = 16;
+            BuffDesc.Mode = BUFFER_MODE_STRUCTURED;
             RefCntAutoPtr<IBuffer> pBuffer;
             pRenderDevice->CreateBuffer( BuffDesc, Diligent::BufferData(), &pBuffer );
             pScriptParser->SetGlobalVariable( "TestGlobalBufferWithUAV", pBuffer );
@@ -126,7 +124,6 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
             GlobalDrawAttribs.IndexType = VT_UINT16;
             GlobalDrawAttribs.IsIndexed = True;
             GlobalDrawAttribs.NumInstances = 19;
-            GlobalDrawAttribs.IsIndirect = True;
             GlobalDrawAttribs.BaseVertex = 97;
             GlobalDrawAttribs.IndirectDrawArgsOffset = 120;
             GlobalDrawAttribs.StartVertexLocation = 98;
@@ -338,7 +335,6 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         DrawAttribs.IndexType = VT_UINT16;
         DrawAttribs.IsIndexed = True;
         DrawAttribs.NumInstances = 139;
-        DrawAttribs.IsIndirect = True;
         DrawAttribs.BaseVertex = 937;
         DrawAttribs.IndirectDrawArgsOffset = 1205;
         DrawAttribs.StartVertexLocation = 198;

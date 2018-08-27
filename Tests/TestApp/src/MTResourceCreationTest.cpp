@@ -100,16 +100,12 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
             WaitForThreadStart(0);
         
         RefCntAutoPtr<IBuffer> pBuffer1, pBuffer2,pBuffer3,pBuffer4;
+        RefCntAutoPtr<IBufferView> pBufferSRV, pBufferUAV;
         {
             BufferDesc BuffDesc;
             BuffDesc.Usage = USAGE_DEFAULT;
             BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
-            BuffDesc.Mode = BUFFER_MODE_FORMATTED;
-            BuffDesc.Format.NumComponents = 4;
-            BuffDesc.Format.IsNormalized = False;
-            BuffDesc.Format.ValueType = VT_FLOAT32;
             BuffDesc.Name = "MT test buffer";
-
             BuffDesc.uiSizeInBytes = sizeof(RawBufferData);
 
             BufferData BuffData;
@@ -118,12 +114,25 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
 
             m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer1);
 
+            BuffDesc.Mode = BUFFER_MODE_FORMATTED;
+            BuffDesc.ElementByteStride = 16;
             BuffDesc.BindFlags = BIND_SHADER_RESOURCE|BIND_UNORDERED_ACCESS;
             m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer2);
 
-            BuffDesc.BindFlags = BIND_VERTEX_BUFFER|BIND_UNORDERED_ACCESS;
-            m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer3);
+            BufferViewDesc ViewDesc;
+            ViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
+            ViewDesc.ByteOffset = 16;
+            ViewDesc.Format.NumComponents = 4;
+            ViewDesc.Format.IsNormalized = False;
+            ViewDesc.Format.ValueType = VT_FLOAT32;
+            pBuffer2->CreateView(ViewDesc, &pBufferSRV);
 
+            BuffDesc.BindFlags = BIND_VERTEX_BUFFER | BIND_UNORDERED_ACCESS;
+            m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer3);
+            ViewDesc.ViewType = BUFFER_VIEW_UNORDERED_ACCESS;
+            pBuffer3->CreateView(ViewDesc, &pBufferUAV);
+
+            BuffDesc.Mode = BUFFER_MODE_RAW;
             BuffDesc.BindFlags = BIND_INDEX_BUFFER|BIND_UNORDERED_ACCESS;
             m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer4);
             

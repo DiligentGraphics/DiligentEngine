@@ -124,26 +124,38 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
 
     RefCntAutoPtr<IBuffer> pFormattedBuff0, pFormattedBuff[4];
     IDeviceObject *pFormattedBuffSRV = nullptr, *pFormattedBuffUAV[4] = {}, *pFormattedBuffSRVs[4] = {};
+    RefCntAutoPtr<IBufferView> spFormattedBuffSRV, spFormattedBuffUAV[4], spFormattedBuffSRVs[4];
     {
         Diligent::BufferDesc TxlBuffDesc;
         TxlBuffDesc.Name = "Uniform texel buffer test";
         TxlBuffDesc.uiSizeInBytes = 256;
         TxlBuffDesc.BindFlags = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
         TxlBuffDesc.Usage = USAGE_DEFAULT;
-        TxlBuffDesc.Format.ValueType = VT_FLOAT32;
-        TxlBuffDesc.Format.NumComponents = 4;
-        TxlBuffDesc.Format.IsNormalized = false;
+        TxlBuffDesc.ElementByteStride = 16;
         TxlBuffDesc.Mode = BUFFER_MODE_FORMATTED;
         pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &pFormattedBuff0);
-        pFormattedBuffSRV = pFormattedBuff0->GetDefaultView(BUFFER_VIEW_SHADER_RESOURCE);
+        
+        Diligent::BufferViewDesc ViewDesc;
+        ViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
+        ViewDesc.Format.ValueType = VT_FLOAT32;
+        ViewDesc.Format.NumComponents = 4;
+        ViewDesc.Format.IsNormalized = false;
+        pFormattedBuff0->CreateView(ViewDesc, &spFormattedBuffSRV);
+        pFormattedBuffSRV = spFormattedBuffSRV;
 
         for(size_t i=0; i < _countof(pFormattedBuff); ++i)
         {
             TxlBuffDesc.Name = "UAV buffer test";
             TxlBuffDesc.BindFlags = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
             pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &(pFormattedBuff[i]));
-            pFormattedBuffUAV[i] = pFormattedBuff[i]->GetDefaultView(BUFFER_VIEW_UNORDERED_ACCESS);
-            pFormattedBuffSRVs[i] = pFormattedBuff[i]->GetDefaultView(BUFFER_VIEW_SHADER_RESOURCE);
+            
+            ViewDesc.ViewType = BUFFER_VIEW_UNORDERED_ACCESS;
+            pFormattedBuff[i]->CreateView(ViewDesc, &(spFormattedBuffUAV[i]));
+            pFormattedBuffUAV[i] = spFormattedBuffUAV[i];
+
+            ViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
+            pFormattedBuff[i]->CreateView(ViewDesc, &(spFormattedBuffSRVs[i]));
+            pFormattedBuffSRVs[i] = spFormattedBuffSRVs[i];
         }
     }
  
