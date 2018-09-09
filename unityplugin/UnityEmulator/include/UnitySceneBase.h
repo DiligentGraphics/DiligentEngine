@@ -22,6 +22,8 @@
  */
 #pragma once
 
+#include <memory>
+
 #include "RenderDevice.h"
 #include "DeviceContext.h"
 #include "RefCntAutoPtr.h"

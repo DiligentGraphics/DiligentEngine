@@ -44,77 +44,78 @@ VariableSizeAllocationsManagerTest::VariableSizeAllocationsManagerTest() :
     UnitTestBase("Variable size allocation manager test")
 {
     auto &Allocator = DefaultRawMemoryAllocator::GetAllocator();
+
     {
         VariableSizeAllocationsManager ListMgr(128, Allocator);
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 1);
 
-        auto o1 = ListMgr.Allocate(16);
-        VERIFY_EXPR(o1 == 0);
+        auto a1 = ListMgr.Allocate(17, 4);
+        VERIFY_EXPR(a1.UnalignedOffset == 0 && a1.Size == 20);
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 1);
 
-        auto o2 = ListMgr.Allocate(32);
-        VERIFY_EXPR(o2 == 16);
+        auto a2 = ListMgr.Allocate(17, 8);
+        VERIFY_EXPR(a2.UnalignedOffset == 20 && a2.Size == 28);
 
-        auto o3 = ListMgr.Allocate(8);
-        VERIFY_EXPR(o3 == 48);
+        auto a3 = ListMgr.Allocate(8, 1);
+        VERIFY_EXPR(a3.UnalignedOffset == 48 && a3.Size == 8);
 
-        auto o4 = ListMgr.Allocate(16);
-        VERIFY_EXPR(o4 == 56);
+        auto a4 = ListMgr.Allocate(11, 8);
+        VERIFY_EXPR(a4.UnalignedOffset == 56 && a4.Size == 16);
 
-        auto o5 = ListMgr.Allocate(64);
-        VERIFY_EXPR(o5 == VariableSizeAllocationsManager::InvalidOffset);
+        auto a5 = ListMgr.Allocate(64, 1);
+        VERIFY_EXPR(a5.UnalignedOffset == VariableSizeAllocationsManager::InvalidOffset && a5.Size == 0);
 
-        o5 = ListMgr.Allocate(16);
-        VERIFY_EXPR(o5 == 72);
+        a5 = ListMgr.Allocate(16, 1);
+        VERIFY_EXPR(a5.UnalignedOffset == 72 && a5.Size == 16);
 
-        auto o6 = ListMgr.Allocate(8);
-        VERIFY_EXPR(o6 == 88);
+        auto a6 = ListMgr.Allocate(8, 1);
+        VERIFY_EXPR(a6.UnalignedOffset == 88 && a6.Size == 8);
 
-        auto o7 = ListMgr.Allocate(16);
-        VERIFY_EXPR(o7 == 96);
+        auto a7 = ListMgr.Allocate(16, 1);
+        VERIFY_EXPR(a7.UnalignedOffset == 96 && a7.Size == 16);
 
-        auto o8 = ListMgr.Allocate(8);
-        VERIFY_EXPR(o8 == 112);
+        auto a8 = ListMgr.Allocate(8, 1);
+        VERIFY_EXPR(a8.UnalignedOffset == 112 && a8.Size == 8);
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 1);
 
-        auto o9 = ListMgr.Allocate(8);
-        VERIFY_EXPR(o9 == 120);
+        auto a9 = ListMgr.Allocate(8, 1);
+        VERIFY_EXPR(a9.UnalignedOffset == 120 && a9.Size == 8);
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 0);
 
         VERIFY_EXPR(ListMgr.IsFull());
 
-        ListMgr.Free(o6, 8);
+        ListMgr.Free(std::move(a6));
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 1);
 
-        ListMgr.Free(o8, 8);
+        ListMgr.Free(a8.UnalignedOffset, a8.Size);
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 2);
 
-        ListMgr.Free(o9, 8);
+        ListMgr.Free(std::move(a9));
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 2);
 
-        auto o10 = ListMgr.Allocate(16);
-        VERIFY_EXPR(o10 == o8);
+        auto a10 = ListMgr.Allocate(16, 1);
+        VERIFY_EXPR(a10.UnalignedOffset == 112 && a10.Size == 16);
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 1);
 
-        ListMgr.Free(o10, 16);
+        ListMgr.Free(a10.UnalignedOffset, a10.Size);
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 2);
 
-        ListMgr.Free(o7, 16);
+        ListMgr.Free(std::move(a7));
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 1);
 
-        ListMgr.Free(o4, 16);
+        ListMgr.Free(std::move(a4));
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 2);
 
-        ListMgr.Free(o2, 32);
+        ListMgr.Free(a2.UnalignedOffset, a2.Size);
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 3);
 
-        ListMgr.Free(o1, 16);
+        ListMgr.Free(std::move(a1));
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 3);
 
-        ListMgr.Free(o3, 8);
+        ListMgr.Free(std::move(a3));
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 2);
 
-        ListMgr.Free(o5, 16);
+        ListMgr.Free(std::move(a5));
         VERIFY_EXPR(ListMgr.DbgGetNumFreeBlocks() == 1);
 
         VERIFY_EXPR(ListMgr.IsEmpty());
@@ -130,15 +131,15 @@ VariableSizeAllocationsManagerTest::VariableSizeAllocationsManagerTest() :
         {
             ++NumPerms;
             VariableSizeAllocationsManager ListMgr(NumAllocs*4, Allocator);
-            VariableSizeAllocationsManager::OffsetType allocs[NumAllocs];
+            VariableSizeAllocationsManager::Allocation allocs[NumAllocs];
             for(size_t a=0; a < NumAllocs; ++a)
             {
-                allocs[a] = ListMgr.Allocate(4);
-                VERIFY_EXPR(allocs[a] == a*4);
+                allocs[a] = ListMgr.Allocate(4, 1);
+                VERIFY_EXPR(allocs[a].UnalignedOffset == a*4 && allocs[a].Size == 4);
             }
             for(size_t a=0; a < NumAllocs; ++a)
             {
-                ListMgr.Free(allocs[ReleaseOrder[a]], 4);
+                ListMgr.Free(std::move(allocs[ReleaseOrder[a]]));
             }
         } while(std::next_permutation(std::begin(ReleaseOrder), std::end(ReleaseOrder)));        
         VERIFY_EXPR(NumPerms == 720);
@@ -146,37 +147,37 @@ VariableSizeAllocationsManagerTest::VariableSizeAllocationsManagerTest() :
 
     {
         VariableSizeGPUAllocationsManager ListMgr(128, Allocator);
-        VariableSizeGPUAllocationsManager::OffsetType off[16];
-        for(size_t o=0; o < _countof(off); ++o)
-            off[o] = ListMgr.Allocate(8);
+        VariableSizeGPUAllocationsManager::Allocation al[16];
+        for(size_t o=0; o < _countof(al); ++o)
+            al[o] = ListMgr.Allocate(8, 4);
         VERIFY_EXPR(ListMgr.IsFull());
 
-        ListMgr.Free(off[1], 8, 0);
-        ListMgr.Free(off[5], 8, 0);
-        ListMgr.Free(off[4], 8, 0);
-        ListMgr.Free(off[3], 8, 0);
+        ListMgr.Free(std::move(al[1]), 0);
+        ListMgr.Free(std::move(al[5]), 0);
+        ListMgr.Free(std::move(al[4]), 0);
+        ListMgr.Free(std::move(al[3]), 0);
 
-        ListMgr.Free(off[10], 8, 1);
-        ListMgr.Free(off[13], 8, 1);
-        ListMgr.Free(off[2], 8, 1);
-        ListMgr.Free(off[8], 8, 1);
+        ListMgr.Free(al[10].UnalignedOffset, al[10].Size, 1);
+        ListMgr.Free(al[13].UnalignedOffset, al[13].Size, 1);
+        ListMgr.Free(al[2].UnalignedOffset, al[2].Size, 1);
+        ListMgr.Free(al[8].UnalignedOffset, al[8].Size, 1);
 
         ListMgr.ReleaseStaleAllocations(1);
 
-        ListMgr.Free(off[14], 8, 2);
-        ListMgr.Free(off[7], 8, 2);
-        ListMgr.Free(off[0], 8, 2);
-        ListMgr.Free(off[9], 8, 2);
+        ListMgr.Free(std::move(al[14]), 2);
+        ListMgr.Free(std::move(al[7]), 2);
+        ListMgr.Free(std::move(al[0]), 2);
+        ListMgr.Free(std::move(al[9]), 2);
 
         ListMgr.ReleaseStaleAllocations(2);
 
-        ListMgr.Free(off[12], 8, 1);
-        ListMgr.Free(off[15], 8, 1);
-        ListMgr.Free(off[6], 8, 1);
-        ListMgr.Free(off[11], 8, 1);
+        ListMgr.Free(std::move(al[12]), 1);
+        ListMgr.Free(std::move(al[15]), 1);
+        ListMgr.Free(std::move(al[6]), 1);
+        ListMgr.Free(std::move(al[11]), 1);
 
         ListMgr.ReleaseStaleAllocations(3);
     }
-    
+
     SetStatus(TestResult::Succeeded);
 }

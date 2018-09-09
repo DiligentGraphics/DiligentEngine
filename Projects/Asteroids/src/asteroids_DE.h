@@ -14,7 +14,7 @@
 #include "SwapChain.h"
 #include "DeviceContext.h"
 #include "RefCntAutoPtr.h"
-#include "LockHelper.h"
+#include "Signal.h"
 #include <map>
 #include <mutex>
 #include <atomic>

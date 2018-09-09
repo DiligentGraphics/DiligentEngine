@@ -25,6 +25,9 @@ void APIENTRY openglCallbackFunction( GLenum source,
     const GLchar* message,
     const void* userParam )
 {
+    if (id == 131185)
+        return;
+
     std::stringstream MessageSS;
 
     MessageSS << "OpenGL debug message (";

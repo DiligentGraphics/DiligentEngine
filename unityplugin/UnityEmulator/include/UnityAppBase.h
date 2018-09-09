@@ -22,6 +22,8 @@
  */
 #pragma once
 
+#include <memory>
+
 #include "NativeAppBase.h"
 #include "RenderDevice.h"
 #include "DeviceContext.h"

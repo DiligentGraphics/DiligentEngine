@@ -532,6 +532,13 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwBuff_Dyn")->Set(pFormattedBuffUAV[3]);
     pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_Dyn")->Set(pFormattedBuffSRVs[2]);
 
+    LOG_INFO_MESSAGE("No worries about 3 errors below: attempting to access variables from inactive shader stage");
+    auto pNonExistingVar = pSRB->GetVariable(SHADER_TYPE_GEOMETRY, "g_NonExistingVar");
+    VERIFY_EXPR(pNonExistingVar == nullptr);
+    pNonExistingVar = pSRB->GetVariable(SHADER_TYPE_GEOMETRY, 4);
+    VERIFY_EXPR(pNonExistingVar == nullptr);
+    VERIFY_EXPR(pSRB->GetVariableCount(SHADER_TYPE_GEOMETRY) == 0);
+
     m_pDeviceContext->SetRenderTargets(1, &pRTV, pDSV);
     float Zero[4] = {};
     m_pDeviceContext->ClearRenderTarget(pRTV, Zero);
