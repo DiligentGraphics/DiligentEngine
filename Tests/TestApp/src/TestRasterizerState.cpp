@@ -110,17 +110,17 @@ TestRasterizerState::TestRasterizerState( IRenderDevice *pDevice, IDeviceContext
         //pScript->GetRasterizerStateByName( "TestRS2", &pRSFromScript2 );
         const auto &PSODesc = pPSOFromScript->GetDesc();
 
-        const auto &RSDesc = PSODesc.GraphicsPipeline.RasterizerDesc;
+        const auto &RSDesc2 = PSODesc.GraphicsPipeline.RasterizerDesc;
 
-        assert( RSDesc.FillMode == FILL_MODE_WIREFRAME );
-        assert( RSDesc.CullMode == CULL_MODE_BACK );
-        assert( RSDesc.FrontCounterClockwise == True );
-        assert( RSDesc.DepthBias == 32 );
-        assert( RSDesc.DepthBiasClamp == 63.0 );
-        assert( RSDesc.SlopeScaledDepthBias == 31.25 );
-        assert( RSDesc.DepthClipEnable == True );
-        assert( RSDesc.ScissorEnable == False );
-        assert( RSDesc.AntialiasedLineEnable == True );
+        assert( RSDesc2.FillMode == FILL_MODE_WIREFRAME );
+        assert( RSDesc2.CullMode == CULL_MODE_BACK );
+        assert( RSDesc2.FrontCounterClockwise == True );
+        assert( RSDesc2.DepthBias == 32 );
+        assert( RSDesc2.DepthBiasClamp == 63.0 );
+        assert( RSDesc2.SlopeScaledDepthBias == 31.25 );
+        assert( RSDesc2.DepthClipEnable == True );
+        assert( RSDesc2.ScissorEnable == False );
+        assert( RSDesc2.AntialiasedLineEnable == True );
     }
 
     {

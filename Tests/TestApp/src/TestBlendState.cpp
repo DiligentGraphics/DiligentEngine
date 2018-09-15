@@ -223,12 +223,12 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         //pScript->GetPipelineStateByName( "TestPSO2", &pPSOFromScript2 );
         //assert( pPSOFromScript == pBSFromScript2 );
         const auto &PSODesc = pPSOFromScript->GetDesc(); 
-        const auto &BSDesc = PSODesc.GraphicsPipeline.BlendDesc;
+        const auto &BSDesc2 = PSODesc.GraphicsPipeline.BlendDesc;
 
         assert( strcmp(PSODesc.Name, "TestPSO_FromScript") == 0 );
-        assert( BSDesc.IndependentBlendEnable == true );
-        assert( BSDesc.AlphaToCoverageEnable == false );
-        const auto &RT1 = BSDesc.RenderTargets[0];
+        assert( BSDesc2.IndependentBlendEnable == true );
+        assert( BSDesc2.AlphaToCoverageEnable == false );
+        const auto &RT1 = BSDesc2.RenderTargets[0];
         assert( RT1.BlendEnable == true); 
         assert( RT1.SrcBlend == BLEND_FACTOR_ZERO); 
         assert( RT1.DestBlend == BLEND_FACTOR_SRC_COLOR); 
@@ -238,7 +238,7 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         assert( RT1.BlendOpAlpha == BLEND_OPERATION_SUBTRACT);
         assert( RT1.RenderTargetWriteMask == (COLOR_MASK_GREEN | COLOR_MASK_RED) );
 
-        const auto& RT3 = BSDesc.RenderTargets[2];
+        const auto& RT3 = BSDesc2.RenderTargets[2];
         assert(RT3.BlendEnable == true); 
         assert(RT3.SrcBlend == BLEND_FACTOR_INV_DEST_ALPHA); 
         assert(RT3.DestBlend == BLEND_FACTOR_INV_DEST_COLOR); 
