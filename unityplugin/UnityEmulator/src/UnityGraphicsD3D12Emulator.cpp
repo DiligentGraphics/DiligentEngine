@@ -383,7 +383,7 @@ bool UnityGraphicsD3D12Impl::IsFenceCompleted(UINT64 FenceValue)
     return FenceValue <= m_CompletedFenceValue;
 }
 
-void UnityGraphicsD3D12Impl::IdleGPU()
+UINT64 UnityGraphicsD3D12Impl::IdleGPU()
 {
     auto SignaledValue = m_NextFenceValue;
 	m_D3D12CmdQueue->Signal(m_D3D12FrameFence, SignaledValue);
@@ -395,12 +395,16 @@ void UnityGraphicsD3D12Impl::IdleGPU()
         m_D3D12FrameFence->SetEventOnCompletion(SignaledValue, m_WaitForGPUEventHandle);
         WaitForSingleObject(m_WaitForGPUEventHandle, INFINITE);
     }
+    return SignaledValue;
 }
 
 UINT64 UnityGraphicsD3D12Impl::ExecuteCommandList(ID3D12CommandList *pCmdList)
 {
-    ID3D12CommandList *CmdLists[] = { pCmdList };
-    m_D3D12CmdQueue->ExecuteCommandLists(1, CmdLists);
+    if (pCmdList != nullptr)
+    {
+        ID3D12CommandList *CmdLists[] = { pCmdList };
+        m_D3D12CmdQueue->ExecuteCommandLists(1, CmdLists);
+    }
     auto FenceValue = m_NextFenceValue;
     m_D3D12CmdQueue->Signal(m_D3D12FrameFence, m_NextFenceValue++);
     return FenceValue;

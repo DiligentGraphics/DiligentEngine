@@ -33,7 +33,7 @@ public:
 
     bool IsFenceCompleted(UINT64 FenceValue);
 
-    void IdleGPU();
+    UINT64 IdleGPU();
 
     IDXGISwapChain3* GetDXGISwapChain() { return m_SwapChain; }
     ID3D12Resource* GetDepthBuffer() { return m_DepthStencilBuffer; }

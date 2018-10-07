@@ -72,11 +72,44 @@ using namespace Diligent;
 TestApp::TestApp() :
     m_AppTitle("Test app")
 {
+    VERIFY_EXPR(PlatformMisc::GetMSB(Uint32{0}) == 32);
     for (Uint32 i = 0; i < 32; ++i)
     {
-        auto MSB = PlatformMisc::GetMSB((1 << i) | 1);
+        auto MSB = PlatformMisc::GetMSB((Uint32{1} << i) | 1);
         VERIFY_EXPR(MSB == i);
     }
+    
+    VERIFY_EXPR(PlatformMisc::GetMSB(Uint64{0}) == 64);
+    for (Uint32 i = 0; i < 64; ++i)
+    {
+        auto MSB = PlatformMisc::GetMSB((Uint64{1} << i) | 1);
+        VERIFY_EXPR(MSB == i);
+    }
+    
+    VERIFY_EXPR(PlatformMisc::GetLSB(Uint32{0}) == 32);
+    for (Uint32 i = 0; i < 32; ++i)
+    {
+        auto LSB = PlatformMisc::GetLSB((Uint32{1} << i) | (Uint32{1}<<31));
+        VERIFY_EXPR(LSB == i);
+    }
+
+    VERIFY_EXPR(PlatformMisc::GetLSB(Uint64{0}) == 64);
+    for (Uint32 i = 0; i < 64; ++i)
+    {
+        auto LSB = PlatformMisc::GetLSB((Uint64{1} << i) | (Uint64{1}<<63));
+        VERIFY_EXPR(LSB == i);
+    }
+
+    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint32{0}) == 0);
+    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint64{0}) == 0);
+    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint32{1}) == 1);
+    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint64{1}) == 1);
+    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint32{7}) == 3);
+    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint64{7}) == 3);
+    VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint32{1}<<31) | (Uint32{1} << 15)) == 2);
+    VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint64{1}<<63) | (Uint32{1} << 31)) == 2);
+    VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint32{1}<<31) - 1) == 31);
+    VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint64{1}<<63) - 1) == 63);
 }
 
 TestApp::~TestApp()
@@ -160,6 +193,12 @@ void TestApp::InitializeDiligentEngine(
             }
 
             EngineD3D12Attribs EngD3D12Attribs;
+            EngD3D12Attribs.CPUDescriptorHeapAllocationSize[0] = 64; // D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
+            EngD3D12Attribs.CPUDescriptorHeapAllocationSize[1] = 32; // D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER
+            EngD3D12Attribs.CPUDescriptorHeapAllocationSize[2] = 16; // D3D12_DESCRIPTOR_HEAP_TYPE_RTV
+            EngD3D12Attribs.CPUDescriptorHeapAllocationSize[3] = 16; // D3D12_DESCRIPTOR_HEAP_TYPE_DSV
+            EngD3D12Attribs.DynamicDescriptorAllocationChunkSize[0] = 8; // D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
+            EngD3D12Attribs.DynamicDescriptorAllocationChunkSize[1] = 8; // D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER
             ppContexts.resize(1 + NumDeferredCtx);
             
             pFactoryD3D12->CreateDeviceAndContextsD3D12(EngD3D12Attribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
@@ -272,6 +311,8 @@ void TestApp::InitializeDiligentEngine(
 
 void TestApp::InitializeRenderers()
 {
+    m_pMTResCreationTest.reset(new MTResourceCreationTest(m_pDevice, m_pImmediateContext, 7));
+    
     TestRasterizerState TestRS{m_pDevice, m_pImmediateContext};
     TestBlendState TestBS{m_pDevice, m_pImmediateContext};
     TestDepthStencilState TestDSS{m_pDevice, m_pImmediateContext};
@@ -283,8 +324,7 @@ void TestApp::InitializeRenderers()
     m_TestGS.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, m_pSwapChain, 0.4f, -0.9f, 0.5f, 0.5f));
-    m_pMTResCreationTest.reset(new MTResourceCreationTest(m_pDevice, m_pImmediateContext, 7));
-    
+        
     TestShaderVarAccess TestShaderVarAccess{m_pDevice, m_pImmediateContext, m_pSwapChain};
     TestShaderResourceLayout TestShaderResLayout{m_pDevice, m_pImmediateContext};
     

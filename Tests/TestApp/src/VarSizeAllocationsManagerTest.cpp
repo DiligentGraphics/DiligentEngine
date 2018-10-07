@@ -63,7 +63,7 @@ VariableSizeAllocationsManagerTest::VariableSizeAllocationsManagerTest() :
         VERIFY_EXPR(a4.UnalignedOffset == 56 && a4.Size == 16);
 
         auto a5 = ListMgr.Allocate(64, 1);
-        VERIFY_EXPR(a5.UnalignedOffset == VariableSizeAllocationsManager::InvalidOffset && a5.Size == 0);
+        VERIFY_EXPR(!a5.IsValid() && a5.Size == 0);
 
         a5 = ListMgr.Allocate(16, 1);
         VERIFY_EXPR(a5.UnalignedOffset == 72 && a5.Size == 16);

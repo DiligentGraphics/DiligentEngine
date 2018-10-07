@@ -1,4 +1,6 @@
 
+#include <array>
+
 #define NOMINMAX
 #include <D3D12.h>
 #include <dxgi1_4.h>
@@ -38,13 +40,13 @@ public:
     IMPLEMENT_QUERY_INTERFACE_IN_PLACE( IID_CommandQueueD3D12, TBase )
 
 	// Returns the fence value that will be signaled next time
-    virtual UINT64 GetNextFenceValue()override final
+    virtual Uint64 GetNextFenceValue()override final
     {
         return m_GraphicsD3D12Impl.GetNextFenceValue();
     }
 
 	// Executes a given command list
-    virtual UINT64 ExecuteCommandList(ID3D12GraphicsCommandList* commandList)override final
+    virtual Uint64 Submit(ID3D12GraphicsCommandList* commandList)override final
     {
         return m_GraphicsD3D12Impl.ExecuteCommandList(commandList);
     }
@@ -56,18 +58,18 @@ public:
     }
 
     /// Returns value of the last completed fence
-    virtual Uint64 GetCompletedFenceValue()
+    virtual Uint64 GetCompletedFenceValue()override final
     {
         return m_GraphicsD3D12Impl.GetCompletedFenceValue();
     }
 
     /// Blocks execution until all pending GPU commands are complete
-    virtual void IdleGPU()
+    virtual Uint64 WaitForIdle()override final
     {
-        m_GraphicsD3D12Impl.IdleGPU();
+        return m_GraphicsD3D12Impl.IdleGPU();
     }
 
-    virtual void SignalFence(ID3D12Fence* pFence, Uint64 Value)
+    virtual void SignalFence(ID3D12Fence* pFence, Uint64 Value)override final
     {
         m_GraphicsD3D12Impl.GetCommandQueue()->Signal(pFence, Value);
     }
@@ -203,7 +205,8 @@ DiligentGraphicsAdapterD3D12::DiligentGraphicsAdapterD3D12(UnityGraphicsD3D12Emu
 
     auto *pFactoryD3D12 = GetEngineFactoryD3D12();
     EngineD3D12Attribs Attribs;
-    pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueue, Attribs, &m_pDevice, &m_pDeviceCtx, 0);
+    std::array<ICommandQueueD3D12*, 1> CmdQueues = {CmdQueue};
+    pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueues.size(), CmdQueues.data(), Attribs, &m_pDevice, &m_pDeviceCtx, 0);
 }
 
 void DiligentGraphicsAdapterD3D12::InitProxySwapChain()
@@ -223,11 +226,11 @@ void DiligentGraphicsAdapterD3D12::PreSwapChainResize()
     auto *pDeviceD3D12 = m_pDevice.RawPtr<IRenderDeviceD3D12>();
     pProxySwapChainD3D12->ReleaseBuffers();
     auto *GraphicsImpl = m_UnityGraphicsD3D12.GetGraphicsImpl();
-    pDeviceD3D12->FinishFrame();
+    pDeviceD3D12->ReleaseStaleResources();
     // We must idle GPU
     GraphicsImpl->IdleGPU();
     // And call FinishFrame() to release references to swap chain resources
-    pDeviceD3D12->FinishFrame();
+    pDeviceD3D12->ReleaseStaleResources();
 }
 
 void DiligentGraphicsAdapterD3D12::PostSwapChainResize()
@@ -259,8 +262,9 @@ void DiligentGraphicsAdapterD3D12::EndFrame()
     pCtxD3D12->TransitionTextureState(pCurrentBackBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
     pCtxD3D12->TransitionTextureState(pDepthBuffer, D3D12_RESOURCE_STATE_DEPTH_WRITE);
     m_pDeviceCtx->Flush();
+    m_pDeviceCtx->FinishFrame();
     m_pDeviceCtx->InvalidateState();
-    m_pDevice.RawPtr<IRenderDeviceD3D12>()->FinishFrame();
+    m_pDevice.RawPtr<IRenderDeviceD3D12>()->ReleaseStaleResources();
 }
 
 bool DiligentGraphicsAdapterD3D12::UsesReverseZ()

@@ -379,6 +379,8 @@ private:
         m_pDeviceContext->Flush();
         // Also call FinishFrame() because otherwise resources will not be released
         m_pDeviceContext->FinishFrame();
+
+        m_pDevice->ReleaseStaleResources();
     }
     
 
