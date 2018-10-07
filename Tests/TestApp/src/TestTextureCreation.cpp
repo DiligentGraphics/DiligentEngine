@@ -145,7 +145,7 @@ public:
         {
             if( TexCaps.bTexture2DMSSupported && (BindFlags & (BIND_RENDER_TARGET|BIND_DEPTH_STENCIL)) != 0 )
             {
-                if( PixelFormatAttribs.SupportsMS )
+                if( PixelFormatAttribs.SampleCounts & 0x04 )
                 {
                     CreateTestTexture( RESOURCE_DIM_TEX_2D, 4 );
                     CreateTestTexture( RESOURCE_DIM_TEX_2D, 4 );
@@ -163,7 +163,7 @@ public:
 
             if( TexCaps.bTexture2DMSArraySupported && (BindFlags & (BIND_RENDER_TARGET|BIND_DEPTH_STENCIL)) != 0 )
             {
-                if( PixelFormatAttribs.SupportsMS )
+                if( PixelFormatAttribs.SampleCounts & 0x04 )
                 {
                     CreateTestTexture( RESOURCE_DIM_TEX_2D_ARRAY, 4 );
                     CreateTestTexture( RESOURCE_DIM_TEX_2D_ARRAY, 4 );
