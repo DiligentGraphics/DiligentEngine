@@ -9,6 +9,7 @@
 #include "DefaultRawMemoryAllocator.h"
 #include "UnityGraphicsD3D11Impl.h"
 #include "DXGITypeConversions.h"
+#include "RenderDeviceD3D11.h"
 
 using namespace Diligent;
 
@@ -35,10 +36,6 @@ public:
         return nullptr;
     }
 
-    virtual ID3D11RenderTargetView *GetRTV()override final{ return m_pRTV; }
-
-    virtual ID3D11DepthStencilView *GetDSV()override final { return m_pDSV; }
-
     virtual void Present(Uint32 SyncInterval)override final
     {
         UNEXPECTED("Present is not expected to be called directly");
@@ -49,17 +46,37 @@ public:
         TBase::Resize(NewWidth, NewHeight, 0);
     }
 
-    void SetSwapChainAttribs(ID3D11RenderTargetView *pRTV, ID3D11DepthStencilView *pDSV, Uint32 Width, Uint32 Height)
+    void ReleaseViews()
     {
-        TBase::Resize(Width, Height, 0);
-        m_pRTV = pRTV;
-        m_pDSV = pDSV;
+        m_pRTV.Release();
+        m_pDSV.Release();
     }
 
-    void ResetSwapChainAttribs()
+    void CreateViews(ID3D11RenderTargetView* pd3d11RTV, ID3D11DepthStencilView* pd3d11DSV)
     {
-        m_pRTV = nullptr;
-        m_pDSV = nullptr;
+        CComPtr<ID3D11Resource> pd3dBackBuffer;
+        pd3d11RTV->GetResource(&pd3dBackBuffer);
+        CComPtr<ID3D11Texture2D> pd3dTex2DBackBuffer;
+        pd3dBackBuffer->QueryInterface(__uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pd3dTex2DBackBuffer));
+
+        CComPtr<ID3D11Resource> pd3dDepthBuffer;
+        pd3d11DSV->GetResource(&pd3dDepthBuffer);
+        CComPtr<ID3D11Texture2D> pd3dTex2DDepthBuffer;
+        pd3dDepthBuffer->QueryInterface(__uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pd3dTex2DDepthBuffer));
+
+        RefCntAutoPtr<IRenderDeviceD3D11> pRenderDeviceD3D11(m_pRenderDevice, IID_RenderDeviceD3D11);
+        RefCntAutoPtr<ITexture> pBackBuffer;
+        pRenderDeviceD3D11->CreateTextureFromD3DResource(pd3dTex2DBackBuffer, &pBackBuffer);
+        TextureViewDesc RTVDesc;
+        RTVDesc.ViewType = TEXTURE_VIEW_RENDER_TARGET;
+        RTVDesc.Format = m_SwapChainDesc.ColorBufferFormat;
+        RefCntAutoPtr<ITextureView> pRTV;
+        pBackBuffer->CreateView(RTVDesc, &pRTV);
+        m_pRTV = RefCntAutoPtr<ITextureViewD3D11>(pRTV, IID_TextureViewD3D11);
+
+        RefCntAutoPtr<ITexture> pDepthBuffer;
+        pRenderDeviceD3D11->CreateTextureFromD3DResource(pd3dTex2DDepthBuffer, &pDepthBuffer);
+        m_pDSV = RefCntAutoPtr<ITextureViewD3D11>(pDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL), IID_TextureViewD3D11);
     }
 
     virtual void SetFullscreenMode(const DisplayModeAttribs &DisplayMode)override final
@@ -72,12 +89,14 @@ public:
         UNEXPECTED("Windowed mode cannot be set through the proxy swap chain");
     }
 
-    virtual ITextureView* GetCurrentBackBufferRTV()override final{return nullptr;}
-    virtual ITextureView* GetDepthBufferDSV()override final{return nullptr;}
+    virtual ITextureViewD3D11* GetCurrentBackBufferRTV()override final{return m_pRTV;}
+    virtual ITextureViewD3D11* GetDepthBufferDSV()      override final{return m_pDSV;}
+    
+    bool BuffersInitialized() const {return m_pRTV && m_pDSV;}
 
 private:
-    ID3D11RenderTargetView *m_pRTV = nullptr;
-    ID3D11DepthStencilView *m_pDSV = nullptr;
+    RefCntAutoPtr<ITextureViewD3D11> m_pRTV;
+    RefCntAutoPtr<ITextureViewD3D11> m_pDSV;
 };
 
 }
@@ -97,9 +116,11 @@ void DiligentGraphicsAdapterD3D11::InitProxySwapChain()
 {
     auto *GraphicsD3D11Impl = m_UnityGraphicsD3D11.GetGraphicsImpl();
     D3D11_RENDER_TARGET_VIEW_DESC RTVDesc;
-    GraphicsD3D11Impl->GetRTV()->GetDesc(&RTVDesc);
+    auto *pBackBufferRTV = GraphicsD3D11Impl->GetRTV();
+    pBackBufferRTV->GetDesc(&RTVDesc);
     D3D11_DEPTH_STENCIL_VIEW_DESC DSVDesc;
-    GraphicsD3D11Impl->GetDSV()->GetDesc(&DSVDesc);
+    auto *pDepthBufferDSV = GraphicsD3D11Impl->GetDSV();
+    pDepthBufferDSV->GetDesc(&DSVDesc);
 
     SwapChainDesc SCDesc;
     SCDesc.ColorBufferFormat = DXGI_FormatToTexFormat(RTVDesc.Format);
@@ -113,24 +134,31 @@ void DiligentGraphicsAdapterD3D11::InitProxySwapChain()
     auto &DefaultAllocator = DefaultRawMemoryAllocator::GetAllocator();
     auto pProxySwapChainD3D11 = NEW_RC_OBJ(DefaultAllocator, "ProxySwapChainD3D11 instance", ProxySwapChainD3D11)(m_pDevice, m_pDeviceCtx, SCDesc);
     pProxySwapChainD3D11->QueryInterface(IID_SwapChain, reinterpret_cast<IObject**>(static_cast<ISwapChain**>(&m_pProxySwapChain)));
+    pProxySwapChainD3D11->CreateViews(pBackBufferRTV, pDepthBufferDSV);
 
     m_pDeviceCtx->SetSwapChain(m_pProxySwapChain);
 }
 
 void DiligentGraphicsAdapterD3D11::BeginFrame()
 {
-    auto *UnityGraphicsD3D11Impl = m_UnityGraphicsD3D11.GetGraphicsImpl();
-    auto *pRTV = UnityGraphicsD3D11Impl->GetRTV();
-    auto *pDSV = UnityGraphicsD3D11Impl->GetDSV();
-    auto Width = UnityGraphicsD3D11Impl->GetBackBufferWidth();
-    auto Height = UnityGraphicsD3D11Impl->GetBackBufferHeight();
-    VERIFY_EXPR(pRTV != nullptr && pDSV != nullptr && Width != 0 && Height != 0);
-    m_pProxySwapChain.RawPtr<ProxySwapChainD3D11>()->SetSwapChainAttribs(pRTV, pDSV, Width, Height);
+}
+
+void DiligentGraphicsAdapterD3D11::PreSwapChainResize()
+{
+    auto *pProxySwapChainD3D11 = m_pProxySwapChain.RawPtr<ProxySwapChainD3D11>();
+    pProxySwapChainD3D11->ReleaseViews();
+}
+
+void DiligentGraphicsAdapterD3D11::PostSwapChainResize()
+{
+    auto *GraphicsD3D11Impl = m_UnityGraphicsD3D11.GetGraphicsImpl();
+    auto *pProxySwapChainD3D11 = m_pProxySwapChain.RawPtr<ProxySwapChainD3D11>();
+    pProxySwapChainD3D11->Resize(GraphicsD3D11Impl->GetBackBufferWidth(), GraphicsD3D11Impl->GetBackBufferHeight());
+    pProxySwapChainD3D11->CreateViews(GraphicsD3D11Impl->GetRTV(), GraphicsD3D11Impl->GetDSV());
 }
     
 void DiligentGraphicsAdapterD3D11::EndFrame()
 {
-    m_pProxySwapChain.RawPtr<ProxySwapChainD3D11>()->ResetSwapChainAttribs();
     m_pDeviceCtx->InvalidateState();
 }
 

@@ -34,6 +34,8 @@ public:
 
     virtual void BeginFrame()override final;
     virtual void EndFrame()override final;
+    virtual void PreSwapChainResize()override final;
+    virtual void PostSwapChainResize()override final;
     virtual bool UsesReverseZ()override final;
 
 private:
