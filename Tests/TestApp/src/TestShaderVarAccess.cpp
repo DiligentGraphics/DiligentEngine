@@ -122,9 +122,10 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     //    pSBUAVs[i] = pStorgeBuffs[i]->GetDefaultView(BUFFER_VIEW_UNORDERED_ACCESS);
     //}
 
-    RefCntAutoPtr<IBuffer> pFormattedBuff0, pFormattedBuff[4];
+    RefCntAutoPtr<IBuffer> pFormattedBuff0, pFormattedBuff[4], pRawBuff[2];
     IDeviceObject *pFormattedBuffSRV = nullptr, *pFormattedBuffUAV[4] = {}, *pFormattedBuffSRVs[4] = {};
     RefCntAutoPtr<IBufferView> spFormattedBuffSRV, spFormattedBuffUAV[4], spFormattedBuffSRVs[4];
+    RefCntAutoPtr<IBufferView> spRawBuffUAV[2], spRawBuffSRVs[2];
     {
         Diligent::BufferDesc TxlBuffDesc;
         TxlBuffDesc.Name = "Uniform texel buffer test";
@@ -156,6 +157,16 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
             ViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
             pFormattedBuff[i]->CreateView(ViewDesc, &(spFormattedBuffSRVs[i]));
             pFormattedBuffSRVs[i] = spFormattedBuffSRVs[i];
+        }
+
+        TxlBuffDesc.Mode = BUFFER_MODE_RAW;
+        ViewDesc.Format.ValueType = VT_UNDEFINED;
+        for(size_t i=0; i < _countof(pRawBuff); ++i)
+        {
+            TxlBuffDesc.Name = "Raw buffer test";
+            pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &(pRawBuff[i]));
+            spRawBuffUAV[i]  = pRawBuff[i]->GetDefaultView(BUFFER_VIEW_UNORDERED_ACCESS);
+            spRawBuffSRVs[i] = pRawBuff[i]->GetDefaultView(BUFFER_VIEW_SHADER_RESOURCE);
         }
     }
  
@@ -315,7 +326,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         auto rwBuff_Static = pPS->GetShaderVariable("g_rwBuff_Static");
         VERIFY_EXPR(rwBuff_Static->GetArraySize() == 1);
         VERIFY_EXPR(rwBuff_Static == pPS->GetShaderVariable(rwBuff_Static->GetName()));
-        rwBuff_Static->Set(pFormattedBuffUAV[0]);
+        rwBuff_Static->Set(spRawBuffUAV[0]);
 
 
         auto tex2D_Mut = pPS->GetShaderVariable("g_tex2D_Mut");
@@ -448,7 +459,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         auto Buffer_Mut = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_Mut");
         VERIFY_EXPR(Buffer_Mut->GetArraySize() == 1);
         VERIFY_EXPR(Buffer_Mut == pSRB->GetVariable(SHADER_TYPE_PIXEL, Buffer_Mut->GetName()));
-        Buffer_Mut->Set(pFormattedBuffSRV);
+        Buffer_Mut->Set(spRawBuffSRVs[1]);
 
         auto Buffer_MutArr = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_MutArr");
         VERIFY_EXPR(Buffer_MutArr->GetArraySize() == 2);

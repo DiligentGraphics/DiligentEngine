@@ -107,7 +107,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
             else if(DevType == DeviceType::Vulkan)
             {
                 EngineVkAttribs Attribs;
-                Attribs.DynamicHeapSize = 32 << 20;
+                Attribs.DynamicHeapSize = 64 << 20;
 #if ENGINE_DLL
                 if(!GetEngineFactoryVulkan)
                     LoadGraphicsEngineVk(GetEngineFactoryVulkan);
