@@ -277,15 +277,26 @@ private:
             RefCntAutoPtr<Diligent::ITexture> pTestTex2;
             m_pDevice->CreateTexture( TexDesc, InitData, &pTestTex2 );
             m_pTestCreateObjFromNativeRes->CreateTexture(pTestTex2);
-            Box SrcBox;
-            SrcBox.MinX = TexDesc.Width/4;
-            SrcBox.MinY = TexDesc.Height/4;
-            SrcBox.MinZ = ( TexDesc.Type == RESOURCE_DIM_TEX_3D ) ? TexDesc.Depth/4 : 0;
-            SrcBox.MaxX = std::max(TexDesc.Width/3, SrcBox.MinX+1);
-            SrcBox.MaxY = std::max(TexDesc.Height/3, SrcBox.MinY+1);
-            SrcBox.MaxZ = ( TexDesc.Type == RESOURCE_DIM_TEX_3D ) ? std::max(TexDesc.Depth/3, SrcBox.MinZ+1) : 1;
-            //pTestTex2->UpdateData(m_pDeviceContext, 0, 0, DstBox, SubResources[0]);
-            pTestTex->CopyData(m_pDeviceContext, pTestTex2, 0, 0, &SrcBox, 0, 0, 0,0,0);
+
+            if(m_pDevice->GetDeviceCaps().DevType == DeviceType::D3D11 && 
+                ((TexDesc.BindFlags & BIND_DEPTH_STENCIL) != 0 || TexDesc.SampleCount > 1) )
+            {
+                // In D3D11 if CopySubresourceRegion is used with Multisampled or D3D11_BIND_DEPTH_STENCIL Resources, 
+                // then the whole Subresource must be copied.
+                pTestTex->CopyData(m_pDeviceContext, pTestTex2, 0, 0, nullptr, 0, 0, 0,0,0);
+            }
+            else
+            {
+                Box SrcBox;
+                SrcBox.MinX = TexDesc.Width/4;
+                SrcBox.MinY = TexDesc.Height/4;
+                SrcBox.MinZ = ( TexDesc.Type == RESOURCE_DIM_TEX_3D ) ? TexDesc.Depth/4 : 0;
+                SrcBox.MaxX = std::max(TexDesc.Width/3, SrcBox.MinX+1);
+                SrcBox.MaxY = std::max(TexDesc.Height/3, SrcBox.MinY+1);
+                SrcBox.MaxZ = ( TexDesc.Type == RESOURCE_DIM_TEX_3D ) ? std::max(TexDesc.Depth/3, SrcBox.MinZ+1) : 1;
+                //pTestTex2->UpdateData(m_pDeviceContext, 0, 0, DstBox, SubResources[0]);
+                pTestTex->CopyData(m_pDeviceContext, pTestTex2, 0, 0, &SrcBox, 0, 0, 0,0,0);
+            }
         }
 
         const auto &DeviceCaps = m_pDevice->GetDeviceCaps();
