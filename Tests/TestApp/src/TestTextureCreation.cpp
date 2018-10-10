@@ -301,7 +301,7 @@ private:
 
         const auto &DeviceCaps = m_pDevice->GetDeviceCaps();
         const auto &TextureCaps = DeviceCaps.TexCaps;
-        if( TextureCaps.bTextureViewSupported )
+        if (TextureCaps.bTextureViewSupported && !m_pDevice->GetTextureFormatInfo(TexDesc.Format).IsTypeless)
         {
             TextureViewDesc ViewDesc;
             ViewDesc.TextureDim = TexDesc.Type;
@@ -432,7 +432,7 @@ private:
 
         const auto &DeviceCaps = m_pDevice->GetDeviceCaps();
         const auto &TextureCaps = DeviceCaps.TexCaps;
-        if( TextureCaps.bTextureViewSupported )
+        if( TextureCaps.bTextureViewSupported && !m_pDevice->GetTextureFormatInfo(TexDesc.Format).IsTypeless )
         {
             TextureViewDesc ViewDesc;
             if( TexDesc.BindFlags & BIND_SHADER_RESOURCE )
@@ -585,6 +585,7 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
     const Uint32 BindSR = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET;
     //const Uint32 BindSD = BIND_SHADER_RESOURCE | BIND_DEPTH_STENCIL;
     const Uint32 BindSU = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
+    const Uint32 BindSD = BIND_SHADER_RESOURCE | BIND_DEPTH_STENCIL;
     const Uint32 BindD = BIND_DEPTH_STENCIL;
     const Uint32 BindS = BIND_SHADER_RESOURCE;
 
@@ -599,9 +600,10 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
 
     const TextureTestAttribs TestAttribs[] =
     {
-        {TEX_FORMAT_RGBA32_FLOAT,   16, BindSRU, true, "RGBA32_FLOAT"},
-        {TEX_FORMAT_RGBA32_UINT,    16, BindSRU, true, "RGBA32_UINT"},
-        {TEX_FORMAT_RGBA32_SINT,    16, BindSRU, true, "RGBA32_SINT"},
+        {TEX_FORMAT_RGBA32_TYPELESS, 16, BindSRU, true, "RGBA32_TYPELESS"},
+        {TEX_FORMAT_RGBA32_FLOAT,    16, BindSRU, true, "RGBA32_FLOAT"},
+        {TEX_FORMAT_RGBA32_UINT,     16, BindSRU, true, "RGBA32_UINT"},
+        {TEX_FORMAT_RGBA32_SINT,     16, BindSRU, true, "RGBA32_SINT"},
         //{TEX_FORMAT_RGB32_TYPELESS,          , 5, "RGB32_TYPELESS"},
 
         // These formats are ill-supported
@@ -609,60 +611,60 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
         //{TEX_FORMAT_RGB32_UINT,     12, BindS, true, "RGB32_UINT"},
         //{TEX_FORMAT_RGB32_SINT,     12, BindS, true, "RGB32_SINT"},
 
-      //{TEX_FORMAT_RGBA16_TYPELESS,   8, BindSRU, true, "RGBA16_TYPELESS"},
+        {TEX_FORMAT_RGBA16_TYPELESS,   8, BindSRU, true, "RGBA16_TYPELESS"},
         {TEX_FORMAT_RGBA16_FLOAT,      8, BindSRU, true, "RGBA16_FLOAT"},
         {TEX_FORMAT_RGBA16_UNORM,      8, BindSRU, true, "RGBA16_UNORM"},
         {TEX_FORMAT_RGBA16_UINT,       8, BindSRU, true, "RGBA16_UINT"},
         {TEX_FORMAT_RGBA16_SNORM,      8, BindSU, true, "RGBA16_SNORM"},
         {TEX_FORMAT_RGBA16_SINT,       8, BindSRU, true, "RGBA16_SINT"},
                                        
-      //{TEX_FORMAT_RG32_TYPELESS,     8, BindSRU, true, "RG32_TYPELESS"},
+        {TEX_FORMAT_RG32_TYPELESS,     8, BindSRU, true, "RG32_TYPELESS"},
         {TEX_FORMAT_RG32_FLOAT,        8, BindSRU, true, "RG32_FLOAT"},
         {TEX_FORMAT_RG32_UINT,         8, BindSRU, true, "RG32_UINT"},
         {TEX_FORMAT_RG32_SINT,         8, BindSRU, true, "RG32_SINT"},
 
-      //{TEX_FORMAT_R32G8X24_TYPELESS,        8, BindD, false, "R32G8X24_TYPELESS"},
+        {TEX_FORMAT_R32G8X24_TYPELESS,        8, BindD, false, "R32G8X24_TYPELESS"},
         {TEX_FORMAT_D32_FLOAT_S8X24_UINT,     8, BindD, false, "D32_FLOAT_S8X24_UINT"},
-      //{TEX_FORMAT_R32_FLOAT_X8X24_TYPELESS, 8, BindD, false, "R32_FLOAT_X8X24_TYPELESS"},
-      //{TEX_FORMAT_X32_TYPELESS_G8X24_UINT,  8, BindD, false, "X32_TYPELESS_G8X24_UINT"},
+        //{TEX_FORMAT_R32_FLOAT_X8X24_TYPELESS, 8, BindD, false, "R32_FLOAT_X8X24_TYPELESS"},
+        //{TEX_FORMAT_X32_TYPELESS_G8X24_UINT,  8, BindD, false, "X32_TYPELESS_G8X24_UINT"},
 
-      //{TEX_FORMAT_RGB10A2_TYPELESS,        4, BindSRU, true, "RGB10A2_TYPELESS"},
-        {TEX_FORMAT_RGB10A2_UNORM,           4, BindSR,   true, "RGB10A2_UNORM"},
-        {TEX_FORMAT_RGB10A2_UINT,            4, BindS,    true, "RGB10A2_UINT"},
+        {TEX_FORMAT_RGB10A2_TYPELESS,        4, BindSR,  true, "RGB10A2_TYPELESS"},
+        {TEX_FORMAT_RGB10A2_UNORM,           4, BindSR,  true, "RGB10A2_UNORM"},
+        {TEX_FORMAT_RGB10A2_UINT,            4, BindS,   true, "RGB10A2_UINT"},
         {TEX_FORMAT_R11G11B10_FLOAT,         4, BindSRU, false, "R11G11B10_FLOAT"},
 
-      //{TEX_FORMAT_RGBA8_TYPELESS,          4, BindSRU, true, "RGBA8_TYPELESS"},
+        {TEX_FORMAT_RGBA8_TYPELESS,          4, BindSRU, true, "RGBA8_TYPELESS"},
         {TEX_FORMAT_RGBA8_UNORM,             4, BindSRU, true, "RGBA8_UNORM"},
         {TEX_FORMAT_RGBA8_UNORM_SRGB,        4, BindSR,  true, "RGBA8_UNORM_SRGB"},
         {TEX_FORMAT_RGBA8_UINT,              4, BindSRU, true, "RGBA8_UINT"},
         {TEX_FORMAT_RGBA8_SNORM,             4, BindSU, true, "RGBA8_SNORM"},
         {TEX_FORMAT_RGBA8_SINT,              4, BindSRU, true, "RGBA8_SINT"},
 
-      //{TEX_FORMAT_RG16_TYPELESS,           4, BindSRU, true, "RG16_TYPELESS"},
+        {TEX_FORMAT_RG16_TYPELESS,           4, BindSRU, true, "RG16_TYPELESS"},
         {TEX_FORMAT_RG16_FLOAT,              4, BindSRU, true, "RG16_FLOAT"},
         {TEX_FORMAT_RG16_UNORM,              4, BindSRU, true, "RG16_UNORM"},
         {TEX_FORMAT_RG16_UINT,               4, BindSRU, true, "RG16_UINT"},
         {TEX_FORMAT_RG16_SNORM,              4, BindSU, true, "RG16_SNORM"},
         {TEX_FORMAT_RG16_SINT,               4, BindSRU, true, "RG16_SINT"},
 
-      //{TEX_FORMAT_R32_TYPELESS,            4, BindSRU, true, "R32_TYPELESS"},
+        {TEX_FORMAT_R32_TYPELESS,            4, BindSRU, true, "R32_TYPELESS"},
         {TEX_FORMAT_D32_FLOAT,               4, BindD,   true, "D32_FLOAT"},
         {TEX_FORMAT_R32_FLOAT,               4, BindSRU, true, "R32_FLOAT"},
         {TEX_FORMAT_R32_UINT,                4, BindSRU, true, "R32_UINT"},
         {TEX_FORMAT_R32_SINT,                4, BindSRU, true, "R32_SINT"},
 
-      //{TEX_FORMAT_R24G8_TYPELESS,          4, BindD, true, "R24G8_TYPELESS"},
-        {TEX_FORMAT_D24_UNORM_S8_UINT,       4, BindD, false,"D24_UNORM_S8_UINT"},
-      //{TEX_FORMAT_R24_UNORM_X8_TYPELESS,   4, BindD, true, "R24_UNORM_X8_TYPELESS"},
-      //{TEX_FORMAT_X24_TYPELESS_G8_UINT,    4, BindD, true, "X24_TYPELESS_G8_UINT"},
+        {TEX_FORMAT_R24G8_TYPELESS,          4, BindSD, false, "R24G8_TYPELESS"},
+        {TEX_FORMAT_D24_UNORM_S8_UINT,       4, BindD,  false, "D24_UNORM_S8_UINT"},
+      //{TEX_FORMAT_R24_UNORM_X8_TYPELESS,   4, BindD,   true, "R24_UNORM_X8_TYPELESS"},
+      //{TEX_FORMAT_X24_TYPELESS_G8_UINT,    4, BindD,   true, "X24_TYPELESS_G8_UINT"},
                                                        
-      //{TEX_FORMAT_RG8_TYPELESS,            2, BindSRU, true, "RG8_TYPELESS"},
+        {TEX_FORMAT_RG8_TYPELESS,            2, BindSRU, true, "RG8_TYPELESS"},
         {TEX_FORMAT_RG8_UNORM,               2, BindSRU, true, "RG8_UNORM"},
         {TEX_FORMAT_RG8_UINT,                2, BindSRU, true, "RG8_UINT"},
-        {TEX_FORMAT_RG8_SNORM,               2, BindSU, true, "RG8_SNORM"},
+        {TEX_FORMAT_RG8_SNORM,               2, BindSU,  true, "RG8_SNORM"},
         {TEX_FORMAT_RG8_SINT,                2, BindSRU, true, "RG8_SINT"},
 
-      //{TEX_FORMAT_R16_TYPELESS,            2, BindSRU, true, "R16_TYPELESS"},
+        {TEX_FORMAT_R16_TYPELESS,            2, BindSRU, true, "R16_TYPELESS"},
         {TEX_FORMAT_R16_FLOAT,               2, BindSRU, true, "R16_FLOAT"},
         {TEX_FORMAT_D16_UNORM,               2, BindD,   true, "D16_UNORM"},
         {TEX_FORMAT_R16_UNORM,               2, BindSRU, true, "R16_UNORM"},
@@ -670,7 +672,7 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
         {TEX_FORMAT_R16_SNORM,               2, BindSU, true, "R16_SNORM"},
         {TEX_FORMAT_R16_SINT,                2, BindSRU, true, "R16_SINT"},
 
-      //{TEX_FORMAT_R8_TYPELESS,             1, BindSRU, true, "R8_TYPELESS"},
+        {TEX_FORMAT_R8_TYPELESS,             1, BindSRU, true, "R8_TYPELESS"},
         {TEX_FORMAT_R8_UNORM,                1, BindSRU, true, "R8_UNORM"},
         {TEX_FORMAT_R8_UINT,                 1, BindSRU, true, "R8_UINT"},
         {TEX_FORMAT_R8_SNORM,                1, BindSU, true, "R8_SNORM"},
@@ -704,8 +706,8 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
       //{TEX_FORMAT_BGRX8_UNORM,             4, BindSRU, true, "BGRX8_UNORM"},
       //{TEX_FORMAT_R10G10B10_XR_BIAS_A2_UNORM, 4, BindS, false, "R10G10B10_XR_BIAS_A2_UNORM"},
 
-      //{TEX_FORMAT_BGRA8_TYPELESS,          4, BindSRU, true, "BGRA8_TYPELESS"},
-      //{TEX_FORMAT_BGRA8_UNORM_SRGB,        4, BindSR,  true, "BGRA8_UNORM_SRGB",},
+      {TEX_FORMAT_BGRA8_TYPELESS,          4, BindSRU, true, "BGRA8_TYPELESS"},
+      {TEX_FORMAT_BGRA8_UNORM_SRGB,        4, BindSR,  true, "BGRA8_UNORM_SRGB",},
       //{TEX_FORMAT_BGRX8_TYPELESS,          4, BindSRU, true, "BGRX8_TYPELESS"},
       //{TEX_FORMAT_BGRX8_UNORM_SRGB,        4, BindSR,  true, "BGRX8_UNORM_SRGB",},
 

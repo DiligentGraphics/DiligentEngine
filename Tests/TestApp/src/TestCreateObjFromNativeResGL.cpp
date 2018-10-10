@@ -109,7 +109,10 @@ void TestCreateObjFromNativeResGL::CreateTexture(Diligent::ITexture *pTexture)
     pDeviceGL->CreateTextureFromGLHandle(GLHandle, TmpTexDesc, &pAttachedTexture);
     ++m_NumTexturesCreated;
     
-    const auto &TestTexDesc = pAttachedTexture->GetDesc();
+    auto TestTexDesc = pAttachedTexture->GetDesc();
+    if (m_pDevice->GetTextureFormatInfo(SrcTexDesc.Format).IsTypeless)
+        TestTexDesc.Format = SrcTexDesc.Format;
+
     VERIFY_EXPR(TestTexDesc == SrcTexDesc);
     RefCntAutoPtr<ITextureGL> pAttachedTextureGL(pAttachedTexture, IID_TextureGL);
     VERIFY_EXPR(pAttachedTextureGL->GetGLTextureHandle() == GLHandle);
