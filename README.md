@@ -50,7 +50,7 @@ Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is fr
 | Linux/MacOS/iOS            | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
-Last Stable Release - [v2.3.a](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.3.a)
+Last Stable Release - [v2.3.a](https://github.com/DiligentGraphics/DiligentEngine/releases/tag/v.2.3.a)
 
 # Clonning the Repository
 
