@@ -50,7 +50,7 @@ Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is fr
 | Linux/MacOS/iOS            | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 
-Last Stable Release - [v2.3](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.3)
+Last Stable Release - [v2.3.a](https://github.com/DiligentGraphics/DiligentEngine/tree/v2.3.a)
 
 # Clonning the Repository
 
@@ -62,7 +62,7 @@ This is the master repository that contains three [submodules](https://git-scm.c
  
  To checkout the last stable release, run the following commands:
  
-* git checkout tags/v2.3
+* git checkout tags/v2.3.a
 
 * git submodule update --init --recursive
 
@@ -352,6 +352,8 @@ endfunction()
 
 
 ## Current Progress
+
+## v2.3.a
 
 * Core
   * Added `IFence` interface and `IDeviceContext::SignalFence()` method to enable CPU-GPU synchronization
