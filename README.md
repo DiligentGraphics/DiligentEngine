@@ -363,6 +363,7 @@ endfunction()
 
 * Samples:
   * Added Tutorial 10 - Data Streaming
+  * Added Tutorial 11 - Resource Updates
 
 ## v2.3
 
