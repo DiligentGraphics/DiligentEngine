@@ -36,6 +36,7 @@ end
 
 MinimalVS = Shader.Create{
 	FilePath =  GetShaderPath("minimal", "vsh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = "SHADER_TYPE_VERTEX",
 		Name = "MinimalVS"
@@ -44,6 +45,7 @@ MinimalVS = Shader.Create{
 
 MinimalInstVS = Shader.Create{
 	FilePath =  GetShaderPath("minimalInst", "vsh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = "SHADER_TYPE_VERTEX",
 		Name = "MinimalInstVS"
@@ -52,6 +54,7 @@ MinimalInstVS = Shader.Create{
 
 UniformBufferPS = Shader.Create{
 	FilePath =  GetShaderPath("UniformBuffer", "psh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = "SHADER_TYPE_PIXEL",
 		Name = "UniformBufferPS"

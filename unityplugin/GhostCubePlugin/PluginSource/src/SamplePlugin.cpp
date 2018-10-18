@@ -63,6 +63,7 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         ShaderCreationAttribs CreationAttribs;
         CreationAttribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
         CreationAttribs.Desc.DefaultVariableType = SHADER_VARIABLE_TYPE_STATIC;
+        CreationAttribs.UseCombinedTextureSamplers = true;
 
         CreateUniformBuffer(pDevice, sizeof(float4x4), "SamplePlugin: VS constants CB", &m_VSConstants);
 

@@ -143,9 +143,9 @@ public:
         if( m_TextureFormat != TEX_FORMAT_RGB9E5_SHAREDEXP && 
             PixelFormatAttribs.ComponentType != COMPONENT_TYPE_COMPRESSED )
         {
-            if( TexCaps.bTexture2DMSSupported && (BindFlags & (BIND_RENDER_TARGET|BIND_DEPTH_STENCIL)) != 0 )
+            if (TexCaps.bTexture2DMSSupported)
             {
-                if( PixelFormatAttribs.SampleCounts & 0x04 )
+                if( (PixelFormatAttribs.SampleCounts & 0x04) != 0 && (BindFlags & (BIND_RENDER_TARGET|BIND_DEPTH_STENCIL)) != 0 )
                 {
                     CreateTestTexture( RESOURCE_DIM_TEX_2D, 4 );
                     CreateTestTexture( RESOURCE_DIM_TEX_2D, 4 );
@@ -153,17 +153,12 @@ public:
             }
             else
             {
-                static bool FirstTime = true;
-                if( FirstTime )
-                {
-                    LOG_WARNING_MESSAGE( "Texture 2D MS is not supported\n" );
-                    FirstTime = false;
-                }
+                LOG_WARNING_MESSAGE_ONCE("Texture 2D MS is not supported\n");
             }
 
-            if( TexCaps.bTexture2DMSArraySupported && (BindFlags & (BIND_RENDER_TARGET|BIND_DEPTH_STENCIL)) != 0 )
+            if (TexCaps.bTexture2DMSArraySupported)
             {
-                if( PixelFormatAttribs.SampleCounts & 0x04 )
+                if( (PixelFormatAttribs.SampleCounts & 0x04) != 0 && (BindFlags & (BIND_RENDER_TARGET|BIND_DEPTH_STENCIL)) != 0)
                 {
                     CreateTestTexture( RESOURCE_DIM_TEX_2D_ARRAY, 4 );
                     CreateTestTexture( RESOURCE_DIM_TEX_2D_ARRAY, 4 );
@@ -171,12 +166,7 @@ public:
             }
             else
             {
-                static bool FirstTime = true;
-                if( FirstTime )
-                {
-                    LOG_WARNING_MESSAGE( "Texture 2D MS Array is not supported\n" );
-                    FirstTime = false;
-                }
+                LOG_WARNING_MESSAGE_ONCE( "Texture 2D MS Array is not supported\n" );
             }
         }
 
@@ -301,6 +291,12 @@ private:
 
         const auto &DeviceCaps = m_pDevice->GetDeviceCaps();
         const auto &TextureCaps = DeviceCaps.TexCaps;
+
+        if (!TextureCaps.bTextureViewSupported)
+        {
+            LOG_WARNING_MESSAGE_ONCE("Texture views are not supported!\n");
+        }
+
         if (TextureCaps.bTextureViewSupported && !m_pDevice->GetTextureFormatInfo(TexDesc.Format).IsTypeless)
         {
             TextureViewDesc ViewDesc;
@@ -374,16 +370,7 @@ private:
                 pTestTex->CreateView( ViewDesc, &pUAV );
             }
         }
-        else
-        {
-            static bool FirstTime = true;
-            if( FirstTime )
-            {
-                LOG_WARNING_MESSAGE("Texture views are not supported!\n");
-                FirstTime = false;
-            }
-        }
-        
+
         // It is necessary to call Flush() to force the driver to release the resources.
         // Without flushing the command buffer, the memory is not released until sometimes 
         // later causing out-of-memory error

@@ -274,24 +274,27 @@ end
 
 QuadVS = Shader.Create{
 	FilePath =  GetShaderPath("RTTest\\QuadVS"),
+    UseCombinedTextureSamplers = true,
 	Desc = {ShaderType = "SHADER_TYPE_VERTEX"}
 }
 
 
 RenderToTexturesPS = Shader.Create{
 	FilePath =  GetShaderPath("RTTest\\RenderToTexturesPS"),
+    UseCombinedTextureSamplers = true,
 	Desc = {ShaderType = "SHADER_TYPE_PIXEL"}
 }
 
 BlendTexturesPS = Shader.Create{
 	FilePath =  GetShaderPath("RTTest\\BlendTexturesPS"),
+    UseCombinedTextureSamplers = true,
 	Desc = 
 	{
 		ShaderType = "SHADER_TYPE_PIXEL",
 		StaticSamplers = 
 		{
 			{
-				TextureName = "g_tex2DTest0",
+				SamplerOrTextureName = "g_tex2DTest0",
 				Desc = 
 				{
 					MinFilter = "FILTER_TYPE_LINEAR", 
@@ -301,7 +304,7 @@ BlendTexturesPS = Shader.Create{
 				}
 			},
 			{
-				TextureName = "g_tex2DTest2",
+				SamplerOrTextureName = "g_tex2DTest2",
 				Desc = 
 				{
 					MinFilter = "FILTER_TYPE_LINEAR", 
@@ -314,7 +317,7 @@ BlendTexturesPS = Shader.Create{
 	}
 }
 assert(BlendTexturesPS.Desc.StaticSamplers[1].Desc.MipFilter == "FILTER_TYPE_POINT");
-assert(BlendTexturesPS.Desc.StaticSamplers[2].TextureName == "g_tex2DTest2");
+assert(BlendTexturesPS.Desc.StaticSamplers[2].SamplerOrTextureName == "g_tex2DTest2");
 
 QuadVS:BindResources(ResMapping)
 RenderToTexturesPS:BindResources(ResMapping)

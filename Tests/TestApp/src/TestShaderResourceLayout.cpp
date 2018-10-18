@@ -43,7 +43,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     BasicShaderSourceStreamFactory BasicSSSFactory("Shaders");
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.EntryPoint = "main";
-
+    CreationAttrs.UseCombinedTextureSamplers = true;
 
     RefCntAutoPtr<ISampler> pSamplers[4];
     IDeviceObject *pSams[4];

@@ -50,6 +50,7 @@ TestPipelineStateBase::TestPipelineStateBase(Diligent::IRenderDevice *pDevice, c
     Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
     Attrs.Desc.Name = "TrivialVS (TestPipelineStateBase)";
     Attrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+    Attrs.UseCombinedTextureSamplers = true;
     m_pDevice->CreateShader(Attrs, &m_pTrivialVS);
 
     Attrs.EntryPoint = "PSMain";

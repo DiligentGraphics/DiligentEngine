@@ -46,6 +46,7 @@ TestBrokenShader::TestBrokenShader(IRenderDevice *pDevice) :
     Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
     Attrs.Desc.Name = "Broken shader test";
     Attrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+    Attrs.UseCombinedTextureSamplers = true;
     RefCntAutoPtr<IShader> pBrokenShader;
     IDataBlob *pErrors = nullptr;
     Attrs.ppCompilerOutput = &pErrors;

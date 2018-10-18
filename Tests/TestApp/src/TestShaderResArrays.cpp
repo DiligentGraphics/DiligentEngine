@@ -42,9 +42,11 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.Desc.TargetProfile = SHADER_PROFILE_DX_5_0;
+    CreationAttrs.UseCombinedTextureSamplers = true;
 
     RefCntAutoPtr<Diligent::IShader> pVS, pPS;
     {
+        CreationAttrs.Desc.Name = "TestShaderResArrays: VS";
         CreationAttrs.FilePath = "Shaders\\ShaderResArrayTest.vsh";
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_VERTEX;
         CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
@@ -52,13 +54,14 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
     }
 
     {
+        CreationAttrs.Desc.Name = "TestShaderResArrays: PS";
         CreationAttrs.FilePath = "Shaders\\ShaderResArrayTest.psh";
         
         StaticSamplerDesc StaticSampler;
         StaticSampler.Desc.MinFilter = FILTER_TYPE_LINEAR;
         StaticSampler.Desc.MagFilter = FILTER_TYPE_LINEAR;
         StaticSampler.Desc.MipFilter = FILTER_TYPE_LINEAR;
-        StaticSampler.TextureName = "g_tex2DTest";
+        StaticSampler.SamplerOrTextureName = "g_tex2DTest";
         CreationAttrs.Desc.NumStaticSamplers = 1;
         CreationAttrs.Desc.StaticSamplers = &StaticSampler;
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_PIXEL;

@@ -98,6 +98,7 @@ void GhostCubeScene::OnGraphicsInitialized()
         CreationAttribs.pShaderSourceStreamFactory = &BasicSSSFactory;
         CreationAttribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
         CreationAttribs.Desc.DefaultVariableType = SHADER_VARIABLE_TYPE_STATIC;
+        CreationAttribs.UseCombinedTextureSamplers = true;
 
         CreateUniformBuffer(pDevice, sizeof(float4x4), "Mirror VS constants CB", &m_pMirrorVSConstants);
 

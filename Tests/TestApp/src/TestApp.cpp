@@ -66,6 +66,8 @@
 #include "TestBrokenShader.h"
 #include "TestShaderResourceLayout.h"
 #include "TestShaderVarAccess.h"
+#include "TestSeparateTextureSampler.h"
+#include "StringTools.h"
 
 using namespace Diligent;
 
@@ -110,6 +112,26 @@ TestApp::TestApp() :
     VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint64{1}<<63) | (Uint32{1} << 31)) == 2);
     VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint32{1}<<31) - 1) == 31);
     VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint64{1}<<63) - 1) == 63);
+
+
+    VERIFY_EXPR(StreqSuff("abc_def","abc", "_def"));
+    VERIFY_EXPR(!StreqSuff("abc","abc", "_def"));
+    VERIFY_EXPR(!StreqSuff("ab","abc", "_def"));
+    VERIFY_EXPR(!StreqSuff("abc_de","abc", "_def"));
+    VERIFY_EXPR(!StreqSuff("abc_def","ab", "_def"));
+    VERIFY_EXPR(!StreqSuff("abc_def","abd", "_def"));
+    VERIFY_EXPR(!StreqSuff("abc_def","abc", "_de"));
+    VERIFY_EXPR(!StreqSuff("abc","abc", "_def"));
+    VERIFY_EXPR(!StreqSuff("abc_def", "", "_def"));
+    VERIFY_EXPR(!StreqSuff("abc_def", "", ""));
+    
+    VERIFY_EXPR(StreqSuff("abc","abc", "_def", true));
+    VERIFY_EXPR(!StreqSuff("abc","abc_", "_def", true));
+    VERIFY_EXPR(!StreqSuff("abc_","abc", "_def", true));
+    VERIFY_EXPR(StreqSuff("abc","abc", nullptr, true));
+    VERIFY_EXPR(StreqSuff("abc","abc", nullptr, false));
+    VERIFY_EXPR(!StreqSuff("ab","abc", nullptr, true));
+    VERIFY_EXPR(!StreqSuff("abc","ab", nullptr, false));
 }
 
 TestApp::~TestApp()
@@ -313,6 +335,7 @@ void TestApp::InitializeRenderers()
 {
     m_pMTResCreationTest.reset(new MTResourceCreationTest(m_pDevice, m_pImmediateContext, 7));
     
+    TestSeparateTextureSampler TestSeparateTexSampler{m_pDevice, m_pImmediateContext};
     TestRasterizerState TestRS{m_pDevice, m_pImmediateContext};
     TestBlendState TestBS{m_pDevice, m_pImmediateContext};
     TestDepthStencilState TestDSS{m_pDevice, m_pImmediateContext};
@@ -320,7 +343,7 @@ void TestApp::InitializeRenderers()
     TestTextureCreation TestTexCreation{m_pDevice, m_pImmediateContext};
     TestPSOCompatibility TestPSOCompat{m_pDevice};
     TestBrokenShader TestBrknShdr{m_pDevice};
-    
+        
     m_TestGS.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, m_pSwapChain, 0.4f, -0.9f, 0.5f, 0.5f));

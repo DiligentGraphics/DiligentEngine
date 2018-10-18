@@ -200,6 +200,7 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
             Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
             Attrs.Desc.Name = "TrivialVS (MTResourceCreationTest)";
             Attrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+            Attrs.UseCombinedTextureSamplers = true;
             m_pDevice->CreateShader(Attrs, &pTrivialVS);
 
             Attrs.EntryPoint = "PSMain";

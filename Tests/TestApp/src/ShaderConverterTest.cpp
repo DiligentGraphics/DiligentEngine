@@ -44,6 +44,7 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
     CreationAttrs.Desc.Name = "Test converted shader";
+    CreationAttrs.UseCombinedTextureSamplers = true;
     RefCntAutoPtr<IHLSL2GLSLConversionStream> pStream;
     CreationAttrs.ppConversionStream = pStream.GetRawDblPtr();
 

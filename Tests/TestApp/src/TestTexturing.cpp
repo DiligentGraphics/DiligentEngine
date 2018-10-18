@@ -170,6 +170,7 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
+    CreationAttrs.UseCombinedTextureSamplers = true;
 
     RefCntAutoPtr<Diligent::IShader> pVS, pPS;
     {
@@ -196,7 +197,7 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
         StaticSampler.Desc.MinFilter = FilterType;
         StaticSampler.Desc.MagFilter = FilterType;
         StaticSampler.Desc.MipFilter = FilterType;
-        StaticSampler.TextureName = "g_tex2DTest";
+        StaticSampler.SamplerOrTextureName = "g_tex2DTest";
         CreationAttrs.Desc.NumStaticSamplers = 1;
         CreationAttrs.Desc.StaticSamplers = &StaticSampler;
         m_pRenderDevice->CreateShader( CreationAttrs, &pPS );

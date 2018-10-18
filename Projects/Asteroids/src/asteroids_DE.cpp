@@ -220,6 +220,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.FilePath = "asteroid_vs.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
             attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
+            attribs.UseCombinedTextureSamplers = true;
             mDevice->CreateShader(attribs, &vs);
             vs->GetShaderVariable("DrawConstantBuffer")->Set(mDrawConstantBuffer);
         }
@@ -232,22 +233,23 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.EntryPoint = "asteroid_ps_d3d11";
             attribs.FilePath = "asteroid_ps_d3d11.hlsl";
             attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
+            attribs.UseCombinedTextureSamplers = true;
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
 
             StaticSamplerDesc samDesc;
-            samDesc.Desc.MagFilter      = FILTER_TYPE_ANISOTROPIC;
-            samDesc.Desc.MinFilter      = FILTER_TYPE_ANISOTROPIC;
-            samDesc.Desc.MipFilter      = FILTER_TYPE_ANISOTROPIC;
-            samDesc.Desc.AddressU       = TEXTURE_ADDRESS_WRAP;
-            samDesc.Desc.AddressV       = TEXTURE_ADDRESS_WRAP;
-            samDesc.Desc.AddressW       = TEXTURE_ADDRESS_WRAP;
-            samDesc.Desc.MinLOD         = -D3D11_FLOAT32_MAX;
-            samDesc.Desc.MaxLOD         = D3D11_FLOAT32_MAX;
-            samDesc.Desc.MipLODBias     = 0.0f;
-            samDesc.Desc.MaxAnisotropy  = TEXTURE_ANISO;
-            samDesc.Desc.ComparisonFunc = COMPARISON_FUNC_NEVER;
-            samDesc.TextureName = "Tex";
-            attribs.Desc.StaticSamplers = &samDesc;
+            samDesc.Desc.MagFilter       = FILTER_TYPE_ANISOTROPIC;
+            samDesc.Desc.MinFilter       = FILTER_TYPE_ANISOTROPIC;
+            samDesc.Desc.MipFilter       = FILTER_TYPE_ANISOTROPIC;
+            samDesc.Desc.AddressU        = TEXTURE_ADDRESS_WRAP;
+            samDesc.Desc.AddressV        = TEXTURE_ADDRESS_WRAP;
+            samDesc.Desc.AddressW        = TEXTURE_ADDRESS_WRAP;
+            samDesc.Desc.MinLOD          = -D3D11_FLOAT32_MAX;
+            samDesc.Desc.MaxLOD          = D3D11_FLOAT32_MAX;
+            samDesc.Desc.MipLODBias      = 0.0f;
+            samDesc.Desc.MaxAnisotropy   = TEXTURE_ANISO;
+            samDesc.Desc.ComparisonFunc  = COMPARISON_FUNC_NEVER;
+            samDesc.SamplerOrTextureName = "Tex";
+            attribs.Desc.StaticSamplers  = &samDesc;
             attribs.Desc.NumStaticSamplers = 1;
 
             mDevice->CreateShader(attribs, &ps);
@@ -319,6 +321,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         attribs.EntryPoint = "skybox_vs";
         attribs.FilePath = "skybox_vs.hlsl";
         attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+        attribs.UseCombinedTextureSamplers = true;
         attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
         mDevice->CreateShader(attribs, &vs);
         vs->GetShaderVariable("SkyboxConstantBuffer")->Set(mSkyboxConstantBuffer);
@@ -329,14 +332,14 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         attribs.Desc.ShaderType = SHADER_TYPE_PIXEL;
 
         StaticSamplerDesc ssdesc;
-        ssdesc.TextureName = "Skybox";
-        ssdesc.Desc.MagFilter      = FILTER_TYPE_ANISOTROPIC;
-        ssdesc.Desc.MinFilter      = FILTER_TYPE_ANISOTROPIC;
-        ssdesc.Desc.MipFilter      = FILTER_TYPE_ANISOTROPIC;
-        ssdesc.Desc.AddressU       = TEXTURE_ADDRESS_WRAP;
-        ssdesc.Desc.AddressV       = TEXTURE_ADDRESS_WRAP;
-        ssdesc.Desc.AddressW       = TEXTURE_ADDRESS_WRAP;
-        ssdesc.Desc.MaxAnisotropy  = TEXTURE_ANISO;
+        ssdesc.SamplerOrTextureName = "Skybox";
+        ssdesc.Desc.MagFilter       = FILTER_TYPE_ANISOTROPIC;
+        ssdesc.Desc.MinFilter       = FILTER_TYPE_ANISOTROPIC;
+        ssdesc.Desc.MipFilter       = FILTER_TYPE_ANISOTROPIC;
+        ssdesc.Desc.AddressU        = TEXTURE_ADDRESS_WRAP;
+        ssdesc.Desc.AddressV        = TEXTURE_ADDRESS_WRAP;
+        ssdesc.Desc.AddressW        = TEXTURE_ADDRESS_WRAP;
+        ssdesc.Desc.MaxAnisotropy   = TEXTURE_ANISO;
         attribs.Desc.StaticSamplers = &ssdesc;
         attribs.Desc.NumStaticSamplers = 1;
         mDevice->CreateShader(attribs, &ps);
@@ -413,6 +416,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.EntryPoint = "sprite_vs";
             attribs.FilePath = "sprite_vs.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+            attribs.UseCombinedTextureSamplers = true;
             attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
             mDevice->CreateShader(attribs, &sprite_vs);
         }
@@ -425,6 +429,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.EntryPoint = "sprite_ps";
             attribs.FilePath = "sprite_ps.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+            attribs.UseCombinedTextureSamplers = true;
             attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
             mDevice->CreateShader(attribs, &sprite_ps);
         }
@@ -437,6 +442,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.EntryPoint = "font_ps";
             attribs.FilePath = "font_ps.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+            attribs.UseCombinedTextureSamplers = true;
             attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
             mDevice->CreateShader(attribs, &font_ps);
             font_ps->GetShaderVariable("Tex")->Set(mFontTextureSRV);

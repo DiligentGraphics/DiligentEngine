@@ -73,6 +73,7 @@ TrivialVS = Shader.Create{
 }]],
 	EntryPoint = "VSMain",
 	SourceLanguage = "SHADER_SOURCE_LANGUAGE_HLSL",
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = "SHADER_TYPE_VERTEX",
 		Name = "TrivialVS (BlendStateTest.lua)"
@@ -93,6 +94,7 @@ TrivialPS = Shader.Create{
 }]],
 	EntryPoint = "PSMain",
 	SourceLanguage = "SHADER_SOURCE_LANGUAGE_HLSL",
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = "SHADER_TYPE_PIXEL",
 		Name = "TrivialPS (BlendStateTest.lua)"

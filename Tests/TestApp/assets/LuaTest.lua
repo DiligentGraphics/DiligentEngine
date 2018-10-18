@@ -167,6 +167,7 @@ end
 
 TestVS = Shader.Create{
 	FilePath =  GetShaderPath("minimalInst", "vsh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = "SHADER_TYPE_VERTEX",
 		Name = "TestVS"
@@ -177,6 +178,7 @@ assert(TestVS.Desc.Name == "TestVS")
 
 TestPS = Shader.Create{
 	FilePath =  GetShaderPath("minimal", "psh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = "SHADER_TYPE_PIXEL",
 		Name = "TestPS",
@@ -187,6 +189,7 @@ assert(TestPS.Desc.Name == "TestPS")
 
 TestPS2 = Shader.Create{
 	FilePath =  GetShaderPath("minimal", "psh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = TestPS.Desc.ShaderType,
 		Name = TestPS.Desc.Name .. "2"
@@ -197,6 +200,7 @@ assert(TestPS2.Desc.Name == "TestPS2")
 
 UniformBuffPS = Shader.Create{
 	FilePath =  GetShaderPath("UniformBuffer", "psh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {
 		ShaderType = "SHADER_TYPE_PIXEL",
 		Name = "Unifrom buffer PS"

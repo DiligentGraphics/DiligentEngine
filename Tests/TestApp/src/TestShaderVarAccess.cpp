@@ -41,6 +41,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     BasicShaderSourceStreamFactory BasicSSSFactory("Shaders");
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.EntryPoint = "main";
+    CreationAttrs.UseCombinedTextureSamplers = true;
 
     RefCntAutoPtr<ISampler> pSamplers[2];
     IDeviceObject *pSams[2];

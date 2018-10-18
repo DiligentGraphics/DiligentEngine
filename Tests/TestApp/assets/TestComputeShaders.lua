@@ -167,6 +167,7 @@ end
 
 FillTextureCS = Shader.Create{
 	FilePath =  GetShaderPath("CSTest\\FillTexture", "csh"),
+    UseCombinedTextureSamplers = true,
 	Desc = 
 	{
 		ShaderType = "SHADER_TYPE_COMPUTE",
@@ -178,31 +179,37 @@ assert(FillTextureCS.Desc.VariableDesc[1].Type == "SHADER_VARIABLE_TYPE_DYNAMIC"
 
 UpdateVertBuffCS = Shader.Create{
 	FilePath =  GetShaderPath("CSTest\\UpdateVertBuff", "csh", true),
+    UseCombinedTextureSamplers = true,
 	Desc = {ShaderType = "SHADER_TYPE_COMPUTE"}
 }
 
 UpdateIndBuffCS = Shader.Create{
 	FilePath =  GetShaderPath("CSTest\\UpdateIndBuff", "csh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {ShaderType = "SHADER_TYPE_COMPUTE"}
 }
 
 UpdateDrawArgsBuffCS = Shader.Create{
 	FilePath =  GetShaderPath("CSTest\\UpdateDrawArgsBuff", "csh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {ShaderType = "SHADER_TYPE_COMPUTE"}
 }
 
 UpdateDispatchArgsBuffCS = Shader.Create{
 	FilePath =  GetShaderPath("CSTest\\UpdateDispatchArgsBuff", "csh"),
+    UseCombinedTextureSamplers = true,
 	Desc = {ShaderType = "SHADER_TYPE_COMPUTE"}
 }
 
 RenderVS = Shader.Create{
 	FilePath =  GetShaderPath("TextureTest", "vsh"),
+    UseCombinedTextureSamplers = true,
 	Desc = { ShaderType = "SHADER_TYPE_VERTEX" }
 }
 
 RenderPS = Shader.Create{
 	FilePath =  GetShaderPath("TextureTest", "psh"),
+    UseCombinedTextureSamplers = true,
 	Desc = { ShaderType = "SHADER_TYPE_PIXEL" }
 }
 
