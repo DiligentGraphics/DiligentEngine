@@ -168,10 +168,10 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
 
     //pVS->BindResources(m_pResourceMapping, 0);
     IDeviceObject *ppSRVs[] = {m_pTextures[3]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE)};
-    pPS->BindResources(pResMapping, BIND_SHADER_RESOURCES_RESET_BINDINGS | BIND_SHADER_RESOURCES_UPDATE_UNRESOLVED);
+    pPS->BindResources(pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING);
     pPS->GetShaderVariable("g_tex2DTest2")->SetArray( ppSRVs, 1, 1);
 
-    m_pSRB->BindResources(SHADER_TYPE_PIXEL, pResMapping, BIND_SHADER_RESOURCES_RESET_BINDINGS | BIND_SHADER_RESOURCES_UPDATE_UNRESOLVED);
+    m_pSRB->BindResources(SHADER_TYPE_PIXEL, pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING | BIND_SHADER_RESOURCES_UPDATE_MUTABLE | BIND_SHADER_RESOURCES_UPDATE_DYNAMIC);
     ppSRVs[0] = m_pTextures[4]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
     m_pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2DTest")->SetArray(ppSRVs, 3, 1);
 }

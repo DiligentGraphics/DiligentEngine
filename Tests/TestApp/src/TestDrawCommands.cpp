@@ -252,9 +252,9 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         m_pRenderDevice->CreateResourceMapping( ResMappingDesc, &m_pResMapping );
     }
 
-    pVS->BindResources(m_pResMapping, BIND_SHADER_RESOURCES_ALL_RESOLVED);
-    pVSInst->BindResources(m_pResMapping, BIND_SHADER_RESOURCES_ALL_RESOLVED);
-    pPS->BindResources(m_pResMapping, BIND_SHADER_RESOURCES_ALL_RESOLVED);
+    pVS->BindResources(m_pResMapping, BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED);
+    pVSInst->BindResources(m_pResMapping, BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED | BIND_SHADER_RESOURCES_UPDATE_STATIC);
+    pPS->BindResources(m_pResMapping, BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED | BIND_SHADER_RESOURCES_UPDATE_ALL);
 }
     
 void TestDrawCommands::Draw()
@@ -265,7 +265,7 @@ void TestDrawCommands::Draw()
     IBuffer *pBuffs[2] = {m_pVertexBuff, m_pInstanceData};
     Uint32 Strides[] = {sizeof(float)*6, sizeof(float)*2};
     Uint32 Offsets[] = {0, 0};
-    m_pDeviceContext->SetVertexBuffers( 0, 1, pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET | BIND_SHADER_RESOURCES_ALL_RESOLVED );
+    m_pDeviceContext->SetVertexBuffers( 0, 1, pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
 
     Uint32 NumTestTrianglesInRow[TriGridSize] = { 0 };
     
