@@ -378,7 +378,7 @@ endfunction()
 	* Replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
       with `PRIMITIVE_TOPOLOGY GraphicsPipelineDesc::PrimitiveTopology`
 	* Removed `DrawAttribs::Topology`
-    * Removed `pStrides` prarameter from `IDeviceContext::SetVertexBuffers()`. Strides are now defined
+    * Removed `pStrides` parameter from `IDeviceContext::SetVertexBuffers()`. Strides are now defined
       through vertex layout.
 * API Changes:
   * Math library functions `SetNearFarClipPlanes()`, `GetNearFarPlaneFromProjMatrix()`, `Projection()`,
@@ -390,7 +390,7 @@ endfunction()
   * Added fullscreen mode selection dialog box
   * Implemented fullscreen mode toggle on UWP with shift + enter
   * Implemented fullscreen window toggle on Win32 with alt + enter
-  * Added tutorial 09 - Quads
+  * Added Tutorial 09 - Quads
 * Fixed the following issues:
   * [Add option to redirect diligent error messages](https://github.com/DiligentGraphics/DiligentEngine/issues/9)
   * [Add ability to run in exclusive fullscreen/vsync mode](https://github.com/DiligentGraphics/DiligentEngine/issues/10)
@@ -404,7 +404,7 @@ endfunction()
   * [Messy #include structure?](https://github.com/DiligentGraphics/DiligentEngine/issues/3) 
   * [Move GetEngineFactoryXXXType and LoadGraphicsEngineXXX to Diligent namespace](https://github.com/DiligentGraphics/DiligentEngine/issues/5)
   * [Customizable build scripts](https://github.com/DiligentGraphics/DiligentEngine/issues/6)
-  * [Win32FileSystem releated functions should use wchar_t (UTF-16)](https://github.com/DiligentGraphics/DiligentEngine/issues/7)
+  * [Win32FileSystem related functions should use wchar_t (UTF-16)](https://github.com/DiligentGraphics/DiligentEngine/issues/7)
 
 ## v2.2
 
@@ -429,7 +429,7 @@ endfunction()
 
 * Interoperability with native API
   * Accessing internal objects and handles
-  * Createing diligent engine buffers/textures from native resources
+  * Creating diligent engine buffers/textures from native resources
   * Attaching to existing D3D11/D3D12 device or GL context
   * Resource state and command queue synchronization for D3D12
 * Integraion with Unity
