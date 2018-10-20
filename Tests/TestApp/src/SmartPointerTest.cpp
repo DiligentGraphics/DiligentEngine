@@ -298,7 +298,14 @@ SmartPointerTest::SmartPointerTest() :
         SmartPtr SP3(SP0);
         SmartPtr SP4(SP2);
         SmartPtr SP5(std::move(SP3));
+        VERIFY_EXPR(!SP3);
         SmartPtr SP6(std::move(SP4));
+        VERIFY_EXPR(!SP4);
+
+        RefCntAutoPtr<DerivedObject> DerivedSP(MakeNewObj<DerivedObject>());
+        SmartPtr SP7(DerivedSP);
+        SmartPtr SP8(std::move(DerivedSP));
+        VERIFY_EXPR(!DerivedSP);
     }
 
     // Test Attach/Detach
@@ -370,10 +377,17 @@ SmartPointerTest::SmartPointerTest() :
         SP4 = SP3;
         SmartPtr SP5;
         SP5 = std::move(SP4);
+        VERIFY_EXPR(!SP4);
 
         SP1 = pRawPtr2;
         SP1 = nullptr;
         SP1 = std::move(SP5);
+        VERIFY_EXPR(!SP5);
+
+        RefCntAutoPtr<DerivedObject> DerivedSP(MakeNewObj<DerivedObject>());
+        SP1 = DerivedSP;
+        SP2 = std::move(DerivedSP);
+        VERIFY_EXPR(!DerivedSP);
     }
 
     // Test logical operators

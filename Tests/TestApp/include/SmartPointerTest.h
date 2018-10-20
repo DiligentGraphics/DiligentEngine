@@ -58,6 +58,16 @@ public:
         int m_Value;
     };
 
+    class DerivedObject : public Object
+    {
+    public:
+        DerivedObject(Diligent::IReferenceCounters *pRefCounters) : 
+            Object(pRefCounters),
+            m_Value2(1)
+        {}
+        int m_Value2;
+    };
+
     typedef Diligent::RefCntAutoPtr<Object> SmartPtr;
     typedef Diligent::RefCntWeakPtr<Object> WeakPtr;
 
@@ -76,9 +86,9 @@ public:
     bool m_bStopThreads = false;
     int m_NumTestsPerformed = 0;
 #ifdef _DEBUG
-    static const int NumThreadInterations = 20;
+    static const int NumThreadInterations = 5;
 #else
-    static const int NumThreadInterations = 50;
+    static const int NumThreadInterations = 10;
 #endif
     std::mutex m_Mtx;
     std::condition_variable m_CondVar;
