@@ -356,22 +356,22 @@ void TestGetDimensions()
         TexCS1.GetDimensions(0, uWidth, uHeight, uMipLevels);
         TexCS1.GetDimensions(uWidth, uHeight);
 
-        TexC_F1.GetDimensions(0, iWidth, iHeight, uMipLevels);
+        TexC_F1.GetDimensions(0, iWidth, iHeight, iMipLevels);
         TexC_F1.GetDimensions(iWidth, iHeight);
-        TexC_I.GetDimensions(0, iWidth, iHeight, uMipLevels);
+        TexC_I.GetDimensions(0, iWidth, iHeight, iMipLevels);
         TexC_I.GetDimensions(iWidth, iHeight);
-        TexC_U.GetDimensions(0, iWidth, iHeight, uMipLevels);
+        TexC_U.GetDimensions(0, iWidth, iHeight, iMipLevels);
         TexC_U.GetDimensions(iWidth, iHeight);
-        TexCS1.GetDimensions(0, iWidth, iHeight, uMipLevels);
+        TexCS1.GetDimensions(0, iWidth, iHeight, iMipLevels);
         TexCS1.GetDimensions(iWidth, iHeight);
 
-        TexC_F1.GetDimensions(0, fWidth, fHeight, uMipLevels);
+        TexC_F1.GetDimensions(0, fWidth, fHeight, fMipLevels);
         TexC_F1.GetDimensions(fWidth, fHeight);
-        TexC_I.GetDimensions(0, fWidth, fHeight, uMipLevels);
+        TexC_I.GetDimensions(0, fWidth, fHeight, fMipLevels);
         TexC_I.GetDimensions(fWidth, fHeight);
-        TexC_U.GetDimensions(0, fWidth, fHeight, uMipLevels);
+        TexC_U.GetDimensions(0, fWidth, fHeight, fMipLevels);
         TexC_U.GetDimensions(fWidth, fHeight);
-        TexCS1.GetDimensions(0, fWidth, fHeight, uMipLevels);
+        TexCS1.GetDimensions(0, fWidth, fHeight, fMipLevels);
         TexCS1.GetDimensions(fWidth, fHeight);
     }
 
@@ -1177,10 +1177,10 @@ void TestPS  ( in VSOutput In,
         f2 = float2(1.0, 2.0);
         f3 = float3(1.0, 2.0, 3.0);
         f4 = float4(1.0,2.0,3.0,4.0);
-        f1 = normalize(f1); f2 = normalize(f2); f3 = normalize(f3); f4 = normalize(f4);
-        f1 = reflect(f1,f1); f2 = reflect(f2,f2); f3 = reflect(f3,f3); f4 = reflect(f4,f4);
-        f1 = refract(f1,f1,1.0); f2 = refract(f2,f2,1.0); f3 = refract(f3,f3,1.0); f4 = refract(f4,f4,1.0);
-        f1 = faceforward(f1,f1,f1); f2 = faceforward(f2,f2,f2); f3 = faceforward(f3,f3,f3); f4 = faceforward(f4,f4,f4);
+        f2 = normalize(f2); f3 = normalize(f3); f4 = normalize(f4);
+        f2 = reflect(f2,f2); f3 = reflect(f3,f3); f4 = reflect(f4,f4);
+        f2 = refract(f2,f2,1.0); f3 = refract(f3,f3,1.0); f4 = refract(f4,f4,1.0);
+        f2 = faceforward(f2,f2,f2); f3 = faceforward(f3,f3,f3); f4 = faceforward(f4,f4,f4);
 
         //f1 = dst(f1,f1); f1 = dst(f2,f2); f1 = dst(f3,f3); f1 = dst(f4,f4);
         f1 = rcp(f1); f2 = rcp(f2); f3 = rcp(f3); f4 = rcp(f4);
@@ -1200,9 +1200,10 @@ void TestPS  ( in VSOutput In,
         sincos(f1,f1,f1_); sincos(f2,f2,f2_); sincos(f3,f3,f3_); sincos(f4,f4,f4_);
 
 #if !GLES30
-        f1 = frexp(f1_, i1); f2 = frexp(f2_, i2); f3 = frexp(f3_, i3); f4 = frexp(f4_, i4);
+        f1 = frexp(f1_, f1); f2 = frexp(f2_, f2); f3 = frexp(f3_, f3); f4 = frexp(f4_, f4);
         f1 = ldexp(f1, i1); f2 = ldexp(f2, i2); f3 = ldexp(f3, i3); f4 = ldexp(f4, i4);
 #endif
+
 
         float4x4 f4x4;
         f4x4[0] = float4(0.0, 1.0/Pos.x, 2.0/Pos.y, 3.0);
