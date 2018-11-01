@@ -36,6 +36,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
 {
     if (pDevice->GetDeviceCaps().DevType != DeviceType::Vulkan)
     {
+        SetStatus(TestResult::Skipped);
         return;
     }
 

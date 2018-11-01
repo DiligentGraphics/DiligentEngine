@@ -209,6 +209,51 @@ Run the command below from the engine's root folder to generate Xcode project co
 Open Xcode project file in cmk_build/IOS folder and build the engine. To run the applications on an iOS device,
 you will need to set the appropriate development team in the project settings.
 
+## Integration with Diligent Engine
+
+If your project uses CMake, adding Diligent Engine requires just few line of code. 
+Suppose that the directory structure looks like this:
+
+|
++-DiligentCore
++-HelloDiligent.cpp
+
+Then what needs to be done is to call `add_subdirectory(DiligentCore)`,
+add *DiligentCore* to the list of include directories, and add dependencies on the 
+shared libraries implementing different backends as in the example below:
+
+```cmake
+cmake_minimum_required (VERSION 3.6)
+
+project(HelloDiligent CXX)
+
+add_subdirectory(DiligentCore)
+
+add_executable(HelloDiligent WIN32 HelloDiligent.cpp)
+target_compile_options(HelloDiligent PRIVATE -DUNICODE -DENGINE_DLL)
+target_include_directories(HelloDiligent PRIVATE "DiligentCore")
+
+add_dependencies(HelloDiligent
+    GraphicsEngineD3D11-shared
+    GraphicsEngineOpenGL-shared
+    GraphicsEngineD3D12-shared
+    GraphicsEngineVk-shared
+)
+copy_required_dlls(HelloDiligent)
+```
+
+`copy_required_dlls()` is a convenience function that copies shared libraries next to
+the executable so that the system can find and load them. Alternatively, you can link against 
+static (as well as shared) versions of libraries using `target_link_libraries()` command. In this case 
+there is no need to explicitly add *DiligentCore* to the list of include directories.
+Please also take a look at getting started tutorials for 
+[Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloWin32) and 
+[Linux](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloLinux).
+
+If your project does not use CMake, it is recommended to build libraries with cmake and add them to your build system.
+Alternatively you can generate build files (such as Visual Studio projects) and add them to your project.
+Build customization described below can help tweak the settings for your specific needs.
+
 ## Customizing Build
 
 Diligent Engine allows clients to customize build settings by providing configuration script file that defines two optional functions:
