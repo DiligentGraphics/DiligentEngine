@@ -214,9 +214,11 @@ you will need to set the appropriate development team in the project settings.
 If your project uses CMake, adding Diligent Engine requires just few line of code. 
 Suppose that the directory structure looks like this:
 
+```
 |
 +-DiligentCore
 +-HelloDiligent.cpp
+```
 
 Then what needs to be done is to call `add_subdirectory(DiligentCore)`,
 add *DiligentCore* to the list of include directories, and add dependencies on the 
