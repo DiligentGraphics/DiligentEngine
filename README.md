@@ -209,9 +209,9 @@ Run the command below from the engine's root folder to generate Xcode project co
 Open Xcode project file in cmk_build/IOS folder and build the engine. To run the applications on an iOS device,
 you will need to set the appropriate development team in the project settings.
 
-## Integration with Diligent Engine
+## Integrating Diligent Engine with Existing Build System
 
-If your project uses CMake, adding Diligent Engine requires just few line of code. 
+If your project uses CMake, adding Diligent Engine requires just few lines of code. 
 Suppose that the directory structure looks like this:
 
 ```
@@ -220,9 +220,12 @@ Suppose that the directory structure looks like this:
 +-HelloDiligent.cpp
 ```
 
-Then what needs to be done is to call `add_subdirectory(DiligentCore)`,
-add *DiligentCore* to the list of include directories, and add dependencies on the 
-shared libraries implementing different backends as in the example below:
+Then the following steps need to be done:
+* Call `add_subdirectory(DiligentCore)`
+* Add *DiligentCore* to the list of include directories
+* Add dependencies on the targets implementing required rendering backends
+
+Below is an example of a CMake file:
 
 ```cmake
 cmake_minimum_required (VERSION 3.6)
@@ -247,7 +250,8 @@ copy_required_dlls(HelloDiligent)
 `copy_required_dlls()` is a convenience function that copies shared libraries next to
 the executable so that the system can find and load them. Alternatively, you can link against 
 static (as well as shared) versions of libraries using `target_link_libraries()` command. In this case 
-there is no need to explicitly add *DiligentCore* to the list of include directories.
+there is no need to explicitly add *DiligentCore* to the list of include directories as the targets export
+all required include paths.
 Please also take a look at getting started tutorials for 
 [Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloWin32) and 
 [Linux](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloLinux).
