@@ -28,6 +28,12 @@ before_install:
       # Check versions of gcc, g++ and cmake
       gcc -v
       g++ -v
+      # Download a recent cmake
+      mkdir $HOME/usr
+      export PATH="$HOME/usr/bin:$PATH"
+      wget https://cmake.org/files/v3.12/cmake-3.12.3-Linux-x86_64.sh
+      chmod +x cmake-3.12.3-Linux-x86_64.sh
+      ./cmake-3.12.3-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
       cmake --version
     fi
 
