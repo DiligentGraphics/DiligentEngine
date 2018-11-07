@@ -37,6 +37,20 @@ public:
         InitializeDiligentEngine(display, reinterpret_cast<void*>(static_cast<size_t>(window)));
         InitializeRenderers();
     }
+
+#if VULKAN_SUPPORTED
+    virtual void InitVulkan(xcb_connection_t* connection, uint32_t window)override final
+    {
+        m_DeviceType = DeviceType::Vulkan;
+        struct XCBInfo
+        {
+            xcb_connection_t* connection;
+            uint32_t window;
+        }xcbInfo = {connection, window};
+        InitializeDiligentEngine(nullptr, &xcbInfo);
+        InitializeRenderers();
+    }
+#endif
 };
 
 NativeAppBase* CreateApplication()

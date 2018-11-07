@@ -39,6 +39,12 @@ public:
         InitGraphics(display, reinterpret_cast<void*>(static_cast<size_t>(window)), 0/*Unused*/, 0/*Unused*/);
         InitScene();
     }
+#if VULKAN_SUPPORTED
+    virtual void InitVulkan(xcb_connection_t* connection, uint32_t window)override final
+    {
+        UNSUPPORTED("Vulkan is not supported for this application");
+    }
+#endif
 };
 
 NativeAppBase* CreateApplication()

@@ -48,6 +48,7 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "utility": "cpp",
-        "*.fxh": "cpp"
+        "*.fxh": "cpp",
+        "xcb.h": "c"
     }
 }

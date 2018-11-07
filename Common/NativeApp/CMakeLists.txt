@@ -322,7 +322,12 @@ elseif(PLATFORM_LINUX)
     PUBLIC 
         include/Linux
     )
-
+    if(VULKAN_SUPPORTED)
+        target_link_libraries(NativeAppBase
+        PRIVATE 
+            xcb
+        )
+    endif()
 elseif(PLATFORM_MACOS)
     target_include_directories(NativeAppBase PUBLIC
         src/MacOS

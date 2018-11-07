@@ -149,6 +149,9 @@ elseif(PLATFORM_LINUX)
     SET(ENGINE_LIBRARIES
         GraphicsEngineOpenGL-shared
     )
+    if(VULKAN_SUPPORTED)
+        list(APPEND ENGINE_LIBRARIES GraphicsEngineVk-shared)
+    endif()
 elseif(PLATFORM_MACOS)
     SET(ENGINE_LIBRARIES
         GraphicsEngineOpenGL-shared

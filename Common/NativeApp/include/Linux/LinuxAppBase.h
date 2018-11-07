@@ -38,6 +38,10 @@
 #   undef False
 #endif
 
+#if VULKAN_SUPPORTED
+#include <xcb/xcb.h>
+#endif
+
 #include "AppBase.h"
 
 class LinuxAppBase : public AppBase
@@ -45,4 +49,9 @@ class LinuxAppBase : public AppBase
 public:
     virtual void OnGLContextCreated(Display* display, Window window) = 0;
     virtual int HandleXEvent(XEvent *xev){}
+
+#if VULKAN_SUPPORTED
+    virtual void InitVulkan(xcb_connection_t* connection, uint32_t window) = 0;
+    virtual void HandleXCBEvent(xcb_generic_event_t* event){}
+#endif
 };

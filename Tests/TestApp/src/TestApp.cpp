@@ -265,7 +265,7 @@ void TestApp::InitializeDiligentEngine(
 #if VULKAN_SUPPORTED
         case DeviceType::Vulkan:
         {
-#if ENGINE_DLL
+#if ENGINE_DLL && PLATFORM_WIN32
             GetEngineFactoryVkType GetEngineFactoryVk = nullptr;
             // Load the dll and import GetEngineFactoryVk() function
             LoadGraphicsEngineVk(GetEngineFactoryVk);

@@ -168,6 +168,12 @@ the following packages:
 * sudo apt-get install mesa-utils
 * sudo apt-get install libgl-dev
 
+To configure Vulkan you will also need to:
+
+* Install latest Vulkan drivers and libraries for your GPU
+* Install [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/)
+  * To make sure that you system is properly configured you can try to build and run samples from the SDK
+
 To generate make files for debug configuration, run the following CMake command from the engine's root folder:
 
 *cmake -H. -B./cmk_build/Linux64 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"* 

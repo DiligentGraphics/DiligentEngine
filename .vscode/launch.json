@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/AntTweakBar/AntTweakBarSample",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Samples/AntTweakBar/assets",
             "environment": [],
@@ -28,7 +28,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/Atmosphere/AtmosphereSample",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Samples/Atmosphere/assets",
             "environment": [],
@@ -47,7 +47,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/unityplugin/GhostCubeScene/GhostCubeScene",
-            "args": [],
+            "args": ["mode=gl"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/unityplugin/GhostCubeScene/assets",
             "environment": [],
@@ -66,7 +66,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial00_HelloLinux/Tutorial00_HelloLinux",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial00_HelloLinux",
             "environment": [],
@@ -79,13 +79,13 @@
                     "ignoreFailures": true
                 }
             ]
-        },        
+        },
         {
             "name": "Tutorial01_HelloTriangle",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/assets",
             "environment": [],
@@ -104,7 +104,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial02_Cube/Tutorial02_Cube",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial02_Cube/assets",
             "environment": [],
@@ -123,7 +123,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial03_Texturing/Tutorial03_Texturing",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial03_Texturing/assets",
             "environment": [],
@@ -142,7 +142,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial04_Instancing/Tutorial04_Instancing",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial04_Instancing/assets",
             "environment": [],
@@ -161,7 +161,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial05_TextureArray/Tutorial05_TextureArray",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial05_TextureArray/assets",
             "environment": [],
@@ -180,7 +180,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial06_Multithreading/Tutorial06_Multithreading",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial06_Multithreading/assets",
             "environment": [],
@@ -199,7 +199,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial07_GeometryShader/Tutorial07_GeometryShader",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial07_GeometryShader/assets",
             "environment": [],
@@ -218,7 +218,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial08_Tessellation/Tutorial08_Tessellation",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial08_Tessellation/assets",
             "environment": [],
@@ -237,9 +237,47 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial09_Quads/Tutorial09_Quads",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial09_Quads/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial10_DataStreaming",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial10_DataStreaming/Tutorial10_DataStreaming",
+            "args": ["mode=vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial10_DataStreaming/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial11_ResourceUpdates",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial11_ResourceUpdates/Tutorial11_ResourceUpdates",
+            "args": ["mode=vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial11_ResourceUpdates/assets",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
@@ -256,7 +294,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/Tests/TestApp/TestApp",
-            "args": [],
+            "args": ["mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/Tests/TestApp/assets",
             "environment": [],
@@ -269,6 +307,6 @@
                     "ignoreFailures": true
                 }
             ]
-        }    
+        }
     ]
 }
