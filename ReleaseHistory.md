@@ -11,8 +11,8 @@
       * When separate samplers are used (`UseCombinedTextureSamplers == false`), samplers are set in the same way as other shader variables
         via shader or SRB objects
     * Removed `BIND_SHADER_RESOURCES_RESET_BINDINGS` flag, renamed `BIND_SHADER_RESOURCES_KEEP_EXISTING` to `BIND_SHADER_RESOURCES_KEEP_EXISTING`.
-	  Added 'BIND_SHADER_RESOURCES_UPDATE_STATIC', 'BIND_SHADER_RESOURCES_UPDATE_MUTABLE', 'BIND_SHADER_RESOURCES_UPDATE_DYNAMIC', and
-	  'BIND_SHADER_RESOURCES_UPDATE_ALL' flags
+	  Added `BIND_SHADER_RESOURCES_UPDATE_STATIC`, `BIND_SHADER_RESOURCES_UPDATE_MUTABLE`, `BIND_SHADER_RESOURCES_UPDATE_DYNAMIC`, and
+	  `BIND_SHADER_RESOURCES_UPDATE_ALL` flags
   * Using glslang to compile HLSL to SPIRV in Vulkan backend instead of relying on HLSL->GLSL converter
 
 
