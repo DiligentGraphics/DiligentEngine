@@ -11,6 +11,9 @@ or any other 3D application, and supports
 [integration with Unity](http://diligentgraphics.com/diligent-engine/integration-with-unity/). 
 Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Chat on gitter](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/diligent-engine)
+
 ## Features
 
 * Cross-platform
@@ -43,9 +46,6 @@ Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is fr
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                      | OpenGLES3.0 (vertex and fragment shaders only) | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 Last Stable Release - [v2.3.a](https://github.com/DiligentGraphics/DiligentEngine/releases/tag/v2.3.a)
-
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Chat on gitter](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/diligent-engine)
 
 # Clonning the Repository
 
