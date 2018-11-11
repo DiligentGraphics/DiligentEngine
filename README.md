@@ -1,4 +1,5 @@
-# Diligent Engine - A Modern Cross-Platform 3D Graphics Library
+# Diligent Engine <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/diligentgraphics-logo.png" height=64 align="right" valign="middle">
+**A Modern Cross-Platform Low-Level 3D Graphics Library**
 
 [Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform abstraction layer between the 
 application and the platform-specific graphics API designed to take advantages of next-generation APIs such as 
