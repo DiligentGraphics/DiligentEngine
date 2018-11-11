@@ -47,7 +47,7 @@ Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is fr
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                    | OpenGL4.1 (No compute shaders)                 | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                      | OpenGLES3.0 (vertex and fragment shaders only) | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
-Last Stable Release - [v2.3.a](https://github.com/DiligentGraphics/DiligentEngine/releases/tag/v2.3.a)
+Last Stable Release - [v2.3.b](https://github.com/DiligentGraphics/DiligentEngine/releases/tag/v2.3.b)
 
 # Clonning the Repository
 
@@ -59,7 +59,7 @@ This is the master repository that contains three [submodules](https://git-scm.c
  
  To checkout the last stable release, run the following commands:
  
-* git checkout tags/v2.3.a
+* git checkout tags/v2.3.b
 
 * git submodule update --init --recursive
 
