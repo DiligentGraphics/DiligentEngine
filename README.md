@@ -405,8 +405,6 @@ See [Release History](ReleaseHistory.md)
 
 ------------------------------
 
-**Copyright 2015-2018 Egor Yusov**
-
 [diligentgraphics.com](http://diligentgraphics.com)
 
 [![Diligent Engine on Twitter](https://github.com/DiligentGraphics/DiligentCore/blob/master/media/twitter.png)](https://twitter.com/diligentengine)
