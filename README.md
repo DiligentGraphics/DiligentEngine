@@ -106,11 +106,11 @@ You can generate Win32 solution that targets Win8.1 SDK using the following comm
 to add quotes to CMake's custom commands, please let me know!)
 
 To enable Vulkan validation layers, you will need to download [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
-variable *VK_LAYER_PATH* that contains path to the Bin directory in VulkanSDK installation folder.
+variable *VK_LAYER_PATH* that contains path to the *Bin* directory in VulkanSDK installation folder.
 
 Make sure that Visual C++ ATL Support is installed via Visual Studio Installer.
 
-Open DiligentEngine.sln file in cmk_build/Win64 folder, select configuration and build the engine. Set the desired project
+Open *DiligentEngine.sln* file in *cmk_build/Win64* folder, select configuration and build the engine. Set the desired project
 as startup project (by default, Asteroids demo will be selected) and run it. 
 
 By default, appplications will run in D3D11 mode. To select D3D12, OpenGL, or Vulkan use the following command line options:
@@ -396,19 +396,14 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 
 # References
 
-[Diligent Engine on the Web](http://diligentgraphics.com)
-
-[Diligent Engine on Twitter](https://twitter.com/diligentengine)
-
-[Diligent Engine on Facebook](https://www.facebook.com/DiligentGraphics/)
-
-[API Reference][1]
+[API Reference](https://cdn.rawgit.com/DiligentGraphics/DiligentCore/4949ec8a/doc/html/index.html)
 
 
 # Release History
 
 See [Release History](ReleaseHistory.md)
 
+------------------------------
 
 **Copyright 2015-2018 Egor Yusov**
 
@@ -416,6 +411,3 @@ See [Release History](ReleaseHistory.md)
 
 [![Diligent Engine on Twitter](https://github.com/DiligentGraphics/DiligentCore/blob/master/media/twitter.png)](https://twitter.com/diligentengine)
 [![Diligent Engine on Facebook](https://github.com/DiligentGraphics/DiligentCore/blob/master/media/facebook.png)](https://www.facebook.com/DiligentGraphics/)
-
-
-[1]: https://cdn.rawgit.com/DiligentGraphics/DiligentCore/4949ec8a/doc/html/index.html
