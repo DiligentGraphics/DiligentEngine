@@ -22,7 +22,7 @@ Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is fr
     * No `#if defined(_WIN32)` ... `#elif defined(LINUX)` ... `#elif defined(ANDROID)` ...
     * No `#if defined(D3D11)` ... `#elif defined(D3D12)` ... `#elif defined(OPENGL)` ...
   * Exact same HLSL shaders run on all platforms and all backends 
-* High performance as key principle
+* High performance
 * Modular design
   * Components are clearly separated logically and physically and can be used as needed
     * Only take what you need for your project (do not want to keep samples and tutorials in your codebase? Simply remove [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule. Only need core functionality? Use only [Core](https://github.com/DiligentGraphics/DiligentCore) submodule)
