@@ -619,7 +619,8 @@ TestDrawAttribs = DrawAttribs.Create{
 	IndirectDrawArgsOffset = 1024,
 	StartVertexLocation = 64,
 	FirstInstanceLocation = 96,
-	pIndirectDrawAttribs = TestBuffer2
+	pIndirectDrawAttribs = TestBuffer2,
+    Flags = {"DRAW_FLAG_TRANSITION_VERTEX_BUFFERS", "DRAW_FLAG_TRANSITION_INDEX_BUFFER", "DRAW_FLAG_TRANSITION_INDIRECT_ARGS_BUFFER"}
 }
 assert( TestDrawAttribs.NumIndices == 128 )
 assert( TestDrawAttribs.IndexType == "VT_UINT16" )

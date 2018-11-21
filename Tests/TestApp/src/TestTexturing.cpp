@@ -290,6 +290,7 @@ void TestTexturing::Draw()
 
     Diligent::DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 4; // Draw quad
+    DrawAttrs.Flags = DRAW_FLAG_TRANSITION_VERTEX_BUFFERS;
     m_pDeviceContext->Draw( DrawAttrs );
     
     SetStatus(TestResult::Succeeded);

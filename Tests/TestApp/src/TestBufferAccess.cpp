@@ -167,9 +167,10 @@ void TestBufferAccess::Draw(float fTime)
     Uint32 Offsets[_countof( pBuffs )] = {0, 0, 0, 0, 0};
     m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
     
-    Diligent::DrawAttribs DrawAttrs;
+    DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 3;
     DrawAttrs.NumInstances = NumInstances;
+    DrawAttrs.Flags = DRAW_FLAG_TRANSITION_VERTEX_BUFFERS;
     m_pDeviceContext->Draw(DrawAttrs);
     
 

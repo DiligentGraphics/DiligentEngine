@@ -267,6 +267,17 @@ void TestDrawCommands::Draw()
     Uint32 Offsets[] = {0, 0};
     m_pDeviceContext->SetVertexBuffers( 0, 1, pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
 
+    StateTransitionDesc Barriers[] =
+    {
+        {m_pVertexBuff, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true},
+        {m_pVertexBuff2, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true},
+        {m_pInstanceData, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true},
+        {m_pIndexBuff, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDEX_BUFFER, true},
+        {m_pIndirectDrawArgs, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDIRECT_ARGUMENT, true},
+        {m_pIndexedIndirectDrawArgs, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDIRECT_ARGUMENT, true}
+    };
+    m_pDeviceContext->TransitionResourceStates(_countof(Barriers), Barriers);
+
     Uint32 NumTestTrianglesInRow[TriGridSize] = { 0 };
     
     

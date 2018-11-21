@@ -181,17 +181,6 @@ UnfiformBuffer1 = Buffer.Create(
       BindFlags = "BIND_UNIFORM_BUFFER", Usage = "USAGE_DYNAMIC", CPUAccessFlags = "CPU_ACCESS_WRITE" }
 )
 
-DrawAttrs1 = DrawAttribs.Create{
-    NumVertices = 3
-}
-
-DrawAttrs2 = DrawAttribs.Create{
-    IsIndexed = true,
-    NumIndices = 3,
-    IndexType = "VT_UINT32",
-    NumInstances = 3
-}
-
 ResMapping = ResourceMapping.Create{
 	{Name = "cbTestBlock", pObject = UnfiformBuffer1}
 }

@@ -106,7 +106,7 @@ void TestCreateObjFromNativeResGL::CreateTexture(Diligent::ITexture *pTexture)
     TmpTexDesc.Height = 0;
     TmpTexDesc.MipLevels = 0;
     TmpTexDesc.Format = TEX_FORMAT_UNKNOWN;
-    pDeviceGL->CreateTextureFromGLHandle(GLHandle, TmpTexDesc, &pAttachedTexture);
+    pDeviceGL->CreateTextureFromGLHandle(GLHandle, TmpTexDesc, RESOURCE_STATE_UNKNOWN, &pAttachedTexture);
     ++m_NumTexturesCreated;
     
     auto TestTexDesc = pAttachedTexture->GetDesc();
@@ -130,7 +130,7 @@ void TestCreateObjFromNativeResGL::CreateBuffer(Diligent::IBuffer *pBuffer)
     auto GLBufferHandle = pBufferGL->GetGLBufferHandle();
   
     RefCntAutoPtr<IBuffer> pBufferFromNativeGLHandle;
-    pDeviceGL->CreateBufferFromGLHandle(GLBufferHandle, SrcBuffDesc, &pBufferFromNativeGLHandle);
+    pDeviceGL->CreateBufferFromGLHandle(GLBufferHandle, SrcBuffDesc, RESOURCE_STATE_UNKNOWN, &pBufferFromNativeGLHandle);
     ++m_NumBuffersCreated;
     
     const auto &TestBufferDesc = pBufferFromNativeGLHandle->GetDesc();

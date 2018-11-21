@@ -1,6 +1,20 @@
 
 ## Current Progress
 
+## v2.3.c (in progress)
+
+* Core
+  * Implemented explicit resource state transitions
+  * API Changes
+    * Added `DRAW_FLAGS` and `DISPATCH_FLAGS` enums that control state transitions of vertex,
+      index and indirect draw arguments buffers
+    * Added `Uint8 Flags` member to `DrawAttribs` structure (values from `DRAW_FLAGS`)
+    * Added `Uint8 Flags` member to `DispatchComputeAttribs` structure (values from `DISPATCH_FLAGS`)
+    * Added `RESOURCE_STATE` enum
+    * Added `StateTransitionDesc` structure that describes resource state transition
+    * Added `IDeviceContext::TransitionResourceStates(Uint32 BarrierCount, StateTransitionDesc* pResourceBarriers)` method
+    * Added `IBuffer::SetState()`, `IBuffer::GetState()`, `ITexture::SetState()`, `ITexture::GetState()` methods
+
 ## v2.3.b
 
 * Core

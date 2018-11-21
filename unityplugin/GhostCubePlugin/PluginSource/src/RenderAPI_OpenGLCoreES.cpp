@@ -83,7 +83,7 @@ void RenderAPI_OpenGLCoreES::CreateRenderTargetAndDepthBuffer()
     RenderTargetDesc.Height = 1024;
     RenderTargetDesc.Format = TEX_FORMAT_RGBA8_UNORM_SRGB;
 #endif
-    pDeviceGL->CreateTextureFromGLHandle(m_GLRenderTargetHandle, RenderTargetDesc, &pRenderTarget);
+    pDeviceGL->CreateTextureFromGLHandle(m_GLRenderTargetHandle, RenderTargetDesc, RESOURCE_STATE_UNKNOWN, &pRenderTarget);
         
     RefCntAutoPtr<ITexture> pDepthBuffer;
     TextureDesc DepthBufferDesc;
@@ -98,7 +98,7 @@ void RenderAPI_OpenGLCoreES::CreateRenderTargetAndDepthBuffer()
     DepthBufferDesc.Height = 1024;
     DepthBufferDesc.Format = TEX_FORMAT_D32_FLOAT;
 #endif
-    pDeviceGL->CreateTextureFromGLHandle(m_GLDepthTextureHandle, DepthBufferDesc, &pDepthBuffer);
+    pDeviceGL->CreateTextureFromGLHandle(m_GLDepthTextureHandle, DepthBufferDesc, RESOURCE_STATE_UNKNOWN, &pDepthBuffer);
 
     CreateTextureViews(pRenderTarget, pDepthBuffer);
 }

@@ -66,7 +66,7 @@ public:
 
         RefCntAutoPtr<IRenderDeviceD3D11> pRenderDeviceD3D11(m_pRenderDevice, IID_RenderDeviceD3D11);
         RefCntAutoPtr<ITexture> pBackBuffer;
-        pRenderDeviceD3D11->CreateTextureFromD3DResource(pd3dTex2DBackBuffer, &pBackBuffer);
+        pRenderDeviceD3D11->CreateTextureFromD3DResource(pd3dTex2DBackBuffer, RESOURCE_STATE_UNDEFINED, &pBackBuffer);
         TextureViewDesc RTVDesc;
         RTVDesc.ViewType = TEXTURE_VIEW_RENDER_TARGET;
         RTVDesc.Format = m_SwapChainDesc.ColorBufferFormat;
@@ -75,7 +75,7 @@ public:
         m_pRTV = RefCntAutoPtr<ITextureViewD3D11>(pRTV, IID_TextureViewD3D11);
 
         RefCntAutoPtr<ITexture> pDepthBuffer;
-        pRenderDeviceD3D11->CreateTextureFromD3DResource(pd3dTex2DDepthBuffer, &pDepthBuffer);
+        pRenderDeviceD3D11->CreateTextureFromD3DResource(pd3dTex2DDepthBuffer, RESOURCE_STATE_UNDEFINED, &pDepthBuffer);
         m_pDSV = RefCntAutoPtr<ITextureViewD3D11>(pDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL), IID_TextureViewD3D11);
     }
 

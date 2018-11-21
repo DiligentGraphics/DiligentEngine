@@ -525,8 +525,9 @@ void TestApp::InitializeRenderers()
         m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr);
         float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
         m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor);
-        Diligent::DrawAttribs DrawAttrs;
+        DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3;
+        DrawAttrs.Flags = DRAW_FLAG_TRANSITION_VERTEX_BUFFERS;
         m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
         
         // This adds transition barrier for pTex1
@@ -653,7 +654,7 @@ void TestApp::Render()
         UniformData[3] = 0;
     }
 
-    Diligent::DrawAttribs DrawAttrs;
+    DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 3;
     m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
 
@@ -661,6 +662,7 @@ void TestApp::Render()
     DrawAttrs.NumIndices = 3;
     DrawAttrs.IndexType = VT_UINT32;
     DrawAttrs.NumInstances = 3;
+    DrawAttrs.Flags = DRAW_FLAG_TRANSITION_INDEX_BUFFER | DRAW_FLAG_TRANSITION_VERTEX_BUFFERS;
     m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
     m_pTestDrawCommands->Draw();
     m_pTestBufferAccess->Draw((float)dCurrTime);

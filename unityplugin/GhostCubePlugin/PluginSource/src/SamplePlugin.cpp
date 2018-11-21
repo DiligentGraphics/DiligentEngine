@@ -169,5 +169,6 @@ void SamplePlugin::Render(Diligent::IDeviceContext *pContext, const float4x4 &Vi
     DrawAttrs.IsIndexed = true;
     DrawAttrs.IndexType = VT_UINT32;
     DrawAttrs.NumIndices = 36;
+    DrawAttrs.Flags = DRAW_FLAG_TRANSITION_INDEX_BUFFER | DRAW_FLAG_TRANSITION_VERTEX_BUFFERS;
     pContext->Draw(DrawAttrs);
 }

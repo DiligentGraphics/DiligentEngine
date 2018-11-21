@@ -163,7 +163,7 @@ public:
             if(FAILED(hr))
                 LOG_ERROR_AND_THROW("Failed to get back buffer ", backbuff," from the swap chain");
             RefCntAutoPtr<ITexture> pBackBuffer;
-            pRenderDeviceD3D12->CreateTextureFromD3DResource(pd3d12BackBuffer, &pBackBuffer);
+            pRenderDeviceD3D12->CreateTextureFromD3DResource(pd3d12BackBuffer, RESOURCE_STATE_UNDEFINED, &pBackBuffer);
             m_BackBuffers.emplace_back( RefCntAutoPtr<ITextureD3D12>(pBackBuffer, IID_TextureD3D12) );
             TextureViewDesc TexViewDesc;
             TexViewDesc.ViewType = TEXTURE_VIEW_RENDER_TARGET;
@@ -174,7 +174,7 @@ public:
         }
 
         RefCntAutoPtr<ITexture> pDepthBuffer;
-        pRenderDeviceD3D12->CreateTextureFromD3DResource(pd3d12DepthBuffer, &pDepthBuffer);
+        pRenderDeviceD3D12->CreateTextureFromD3DResource(pd3d12DepthBuffer, RESOURCE_STATE_UNDEFINED, &pDepthBuffer);
         m_DepthBuffer = RefCntAutoPtr<ITextureD3D12>(pDepthBuffer, IID_TextureD3D12);
         auto *pDSV = m_DepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
         m_DSV = RefCntAutoPtr<ITextureViewD3D12>(pDSV, IID_TextureViewD3D12);

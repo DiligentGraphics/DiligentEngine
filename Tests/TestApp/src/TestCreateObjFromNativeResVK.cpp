@@ -47,7 +47,7 @@ void TestCreateObjFromNativeResVK::CreateTexture(Diligent::ITexture *pTexture)
     RefCntAutoPtr<ITextureVk> pTextureVk(pTexture, IID_TextureVk);
     auto VkHandle = pTextureVk->GetVkImage();
     RefCntAutoPtr<ITexture> pAttachedTexture;
-    pDeviceVk->CreateTextureFromVulkanImage(VkHandle, SrcTexDesc, &pAttachedTexture);
+    pDeviceVk->CreateTextureFromVulkanImage(VkHandle, SrcTexDesc, RESOURCE_STATE_UNKNOWN, &pAttachedTexture);
     ++m_NumTexturesCreated;
     
     const auto& TestTexDesc = pAttachedTexture->GetDesc();
@@ -67,7 +67,7 @@ void TestCreateObjFromNativeResVK::CreateBuffer(Diligent::IBuffer *pBuffer)
     auto VkBufferHandle = pBufferVk->GetVkBuffer();
   
     RefCntAutoPtr<IBuffer> pBufferFromNativeVkHandle;
-    pDeviceVk->CreateBufferFromVulkanResource(VkBufferHandle, SrcBuffDesc, &pBufferFromNativeVkHandle);
+    pDeviceVk->CreateBufferFromVulkanResource(VkBufferHandle, SrcBuffDesc, RESOURCE_STATE_UNKNOWN, &pBufferFromNativeVkHandle);
     ++m_NumBuffersCreated;
     
     const auto &TestBufferDesc = pBufferFromNativeVkHandle->GetDesc();

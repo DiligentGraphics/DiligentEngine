@@ -301,7 +301,8 @@ RenderPS:BindResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"}
 DrawAttrs = DrawAttribs.Create{
     IsIndexed = true,
 	IndexType = "VT_UINT32",
-	pIndirectDrawAttribs = IndirectDrawArgsBuffer
+	pIndirectDrawAttribs = IndirectDrawArgsBuffer,
+    Flags = {"DRAW_FLAG_TRANSITION_VERTEX_BUFFERS", "DRAW_FLAG_TRANSITION_INDEX_BUFFER", "DRAW_FLAG_TRANSITION_INDIRECT_ARGS_BUFFER"}
 }
 
 
@@ -329,7 +330,7 @@ function Dispatch()
 		
 		Context.CommitShaderResources(FillTextureSRB, "COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES" )
 
-		Context.DispatchCompute(NumGroupsX, NumGroupsY)	
+		Context.DispatchCompute(NumGroupsX, NumGroupsY)
 	end
 
 	Context.SetPipelineState(UpdateDispatchArgsBuffPSO)
@@ -339,7 +340,7 @@ function Dispatch()
 
 	Context.SetPipelineState(UpdateDrawArgsBuffPSO)
 	Context.CommitShaderResources("COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
-	Context.DispatchCompute(IndirectDispatchArgsBuffer, 16)
+	Context.DispatchCompute(IndirectDispatchArgsBuffer, 16, "DISPATCH_FLAG_TRANSITION_INDIRECT_ARGS_BUFFER")
 
 	Context.SetPipelineState(UpdateIndBuffPSO)
 	Context.TransitionShaderResources(UpdateIndBuffPSO)

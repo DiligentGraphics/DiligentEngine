@@ -40,18 +40,18 @@ void TestCreateObjFromNativeResD3D11::CreateTexture(Diligent::ITexture *pTexture
     RefCntAutoPtr<ITexture> pTextureFromNativeD3D11Handle;
     if (SrcTexDesc.Type == RESOURCE_DIM_TEX_1D || SrcTexDesc.Type == RESOURCE_DIM_TEX_1D_ARRAY)
     {
-        pDeviceD3D11->CreateTextureFromD3DResource(static_cast<ID3D11Texture1D*>(pd3d11Texture), &pTextureFromNativeD3D11Handle);
+        pDeviceD3D11->CreateTextureFromD3DResource(static_cast<ID3D11Texture1D*>(pd3d11Texture), RESOURCE_STATE_UNKNOWN, &pTextureFromNativeD3D11Handle);
         ++m_NumTexturesCreated;
     }
     else if (SrcTexDesc.Type == RESOURCE_DIM_TEX_2D || SrcTexDesc.Type == RESOURCE_DIM_TEX_2D_ARRAY || 
              SrcTexDesc.Type == RESOURCE_DIM_TEX_CUBE || SrcTexDesc.Type == RESOURCE_DIM_TEX_CUBE_ARRAY)
     {
-        pDeviceD3D11->CreateTextureFromD3DResource(static_cast<ID3D11Texture2D*>(pd3d11Texture), &pTextureFromNativeD3D11Handle);
+        pDeviceD3D11->CreateTextureFromD3DResource(static_cast<ID3D11Texture2D*>(pd3d11Texture), RESOURCE_STATE_UNKNOWN, &pTextureFromNativeD3D11Handle);
         ++m_NumTexturesCreated;
     }
     else if (SrcTexDesc.Type == RESOURCE_DIM_TEX_3D)
     {
-        pDeviceD3D11->CreateTextureFromD3DResource(static_cast<ID3D11Texture3D*>(pd3d11Texture), &pTextureFromNativeD3D11Handle);
+        pDeviceD3D11->CreateTextureFromD3DResource(static_cast<ID3D11Texture3D*>(pd3d11Texture), RESOURCE_STATE_UNKNOWN, &pTextureFromNativeD3D11Handle);
         ++m_NumTexturesCreated;
     }
     else
@@ -80,7 +80,7 @@ void TestCreateObjFromNativeResD3D11::CreateBuffer(Diligent::IBuffer *pBuffer)
     
     {
         RefCntAutoPtr<IBuffer> pBufferFromNativeD3D11Handle;
-        pDeviceD3D11->CreateBufferFromD3DResource(pd3d11Buffer, SrcBuffDesc, &pBufferFromNativeD3D11Handle);
+        pDeviceD3D11->CreateBufferFromD3DResource(pd3d11Buffer, SrcBuffDesc, RESOURCE_STATE_UNKNOWN, &pBufferFromNativeD3D11Handle);
         ++m_NumBuffersCreated;
         
         const auto &TestBufferDesc = pBufferFromNativeD3D11Handle->GetDesc();
@@ -96,7 +96,7 @@ void TestCreateObjFromNativeResD3D11::CreateBuffer(Diligent::IBuffer *pBuffer)
         BuffDesc.Name = "Test buffer from D3D11 buffer";
         BuffDesc.ElementByteStride = SrcBuffDesc.ElementByteStride;
         RefCntAutoPtr<IBuffer> pBufferFromNativeD3D11Handle;
-        pDeviceD3D11->CreateBufferFromD3DResource(pd3d11Buffer, BuffDesc, &pBufferFromNativeD3D11Handle);
+        pDeviceD3D11->CreateBufferFromD3DResource(pd3d11Buffer, BuffDesc, RESOURCE_STATE_UNKNOWN, &pBufferFromNativeD3D11Handle);
         ++m_NumBuffersCreated;
         
         const auto &TestBufferDesc = pBufferFromNativeD3D11Handle->GetDesc();

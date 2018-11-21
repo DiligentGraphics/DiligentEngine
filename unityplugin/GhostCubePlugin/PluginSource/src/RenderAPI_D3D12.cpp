@@ -189,14 +189,14 @@ void RenderAPI_D3D12::AttachToNativeRenderTexture(void *nativeRenderTargetHandle
         {
             auto *pd3d12RenderTarget = reinterpret_cast<ID3D12Resource*>(nativeRenderTargetHandle);
             RefCntAutoPtr<ITexture> pRenderTarget;
-            pDeviceD3D12->CreateTextureFromD3DResource(pd3d12RenderTarget, &pRenderTarget);
+            pDeviceD3D12->CreateTextureFromD3DResource(pd3d12RenderTarget, RESOURCE_STATE_UNDEFINED, &pRenderTarget);
             pRenderTarget->QueryInterface(IID_TextureD3D12, reinterpret_cast<IObject**>(static_cast<ITextureD3D12**>(&m_RenderTarget)));
         }
 
         {
             auto *pd3d12DepthBuffer = reinterpret_cast<ID3D12Resource *>(nativeDepthTextureHandle);
             RefCntAutoPtr<ITexture> pDepthBuffer;
-            pDeviceD3D12->CreateTextureFromD3DResource(pd3d12DepthBuffer, &pDepthBuffer);
+            pDeviceD3D12->CreateTextureFromD3DResource(pd3d12DepthBuffer, RESOURCE_STATE_UNDEFINED, &pDepthBuffer);
             pDepthBuffer->QueryInterface(IID_TextureD3D12, reinterpret_cast<IObject**>(static_cast<ITextureD3D12**>(&m_DepthBuffer)));
         }
         CreateTextureViews(m_RenderTarget, m_DepthBuffer);

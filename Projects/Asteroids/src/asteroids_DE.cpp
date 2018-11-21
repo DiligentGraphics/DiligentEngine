@@ -184,6 +184,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
     
     BasicShaderSourceStreamFactory BasicSSSFactory({"src"});
 
+    std::vector<StateTransitionDesc> Barriers;
     mBackBufferWidth = mSwapChain->GetDesc().Width;
     mBackBufferHeight = mSwapChain->GetDesc().Height;
     // Create draw constant buffer
@@ -195,6 +196,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         desc.BindFlags = BIND_UNIFORM_BUFFER;
         desc.CPUAccessFlags = CPU_ACCESS_WRITE;
         mDevice->CreateBuffer(desc, BufferData(), &mDrawConstantBuffer);
+        Barriers.emplace_back(mDrawConstantBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true);
     }
 
     // create pipeline state
@@ -293,6 +295,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         RefCntAutoPtr<ITexture> skybox;
         CreateTextureFromFile("starbox_1024.dds", loadInfo, mDevice, &skybox);
         mSkyboxSRV = skybox->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+        Barriers.emplace_back(skybox, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true);
     }
 
     // Create skybox constant buffer
@@ -304,6 +307,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         desc.BindFlags = BIND_UNIFORM_BUFFER;
         desc.CPUAccessFlags = CPU_ACCESS_WRITE;
         mDevice->CreateBuffer(desc, BufferData(), &mSkyboxConstantBuffer);
+        Barriers.emplace_back(mSkyboxConstantBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true);
     }
 
     // create skybox pipeline state
@@ -477,7 +481,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             mAsteroidsSRBs[srb]->GetVariable(SHADER_TYPE_PIXEL, "Tex")->Set(mTextureSRVs[srb]);
         }
     }
-   
+    mDeviceCtxt->TransitionResourceStates(static_cast<Uint32>(Barriers.size()), Barriers.data());
 }
 
 Asteroids::~Asteroids()
@@ -507,6 +511,7 @@ void Asteroids::CreateMeshes()
 {
     auto asteroidMeshes = mAsteroids->Meshes();
 
+    std::vector<StateTransitionDesc> Barriers;
     // create vertex buffer
     {
         BufferDesc desc;
@@ -520,6 +525,7 @@ void Asteroids::CreateMeshes()
         data.DataSize = desc.uiSizeInBytes;
 
         mDevice->CreateBuffer(desc, data, &mVertexBuffer);
+        Barriers.emplace_back(mVertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
     }
 
     // create index buffer
@@ -535,6 +541,7 @@ void Asteroids::CreateMeshes()
         data.DataSize = desc.uiSizeInBytes;
 
         mDevice->CreateBuffer(desc, data, &mIndexBuffer);
+        Barriers.emplace_back(mIndexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDEX_BUFFER, true);
     }
 
     std::vector<SkyboxVertex> skyboxVertices;
@@ -554,6 +561,7 @@ void Asteroids::CreateMeshes()
         data.DataSize = desc.uiSizeInBytes;
 
         mDevice->CreateBuffer(desc, data, &mSkyboxVertexBuffer);
+        Barriers.emplace_back(mSkyboxVertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
     }
 
     // create sprite vertex buffer (dynamic)
@@ -566,7 +574,9 @@ void Asteroids::CreateMeshes()
         desc.CPUAccessFlags = CPU_ACCESS_WRITE;
         
         mDevice->CreateBuffer(desc, BufferData(), &mSpriteVertexBuffer);
+        Barriers.emplace_back(mSpriteVertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
     }
+    mDeviceCtxt->TransitionResourceStates(static_cast<Uint32>(Barriers.size()), Barriers.data());
 }
 
 void Asteroids::InitializeTextureData()
@@ -582,6 +592,7 @@ void Asteroids::InitializeTextureData()
     textureDesc.Usage            = USAGE_DEFAULT;
     textureDesc.BindFlags        = BIND_SHADER_RESOURCE;
 
+    std::vector<StateTransitionDesc> Barriers;
     for (UINT t = 0; t < NUM_UNIQUE_TEXTURES; ++t) {
         std::vector<TextureSubResData> subResData(textureDesc.ArraySize*mAsteroids->GetTextureMipLevels());
         auto *texData = mAsteroids->TextureData(t);
@@ -597,7 +608,9 @@ void Asteroids::InitializeTextureData()
         mDevice->CreateTexture(textureDesc, initData, &mTextures[t]);
         mTextureSRVs[t] = mTextures[t]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
         mTextureSRVs[t]->SetSampler(mSamplerState);
+        Barriers.emplace_back(mTextures[t], RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true);
     }
+    mDeviceCtxt->TransitionResourceStates(static_cast<Uint32>(Barriers.size()), Barriers.data());
 }
 
 void Asteroids::CreateGUIResources()
@@ -747,14 +760,6 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr);
     mDeviceCtxt->ClearRenderTarget(nullptr, clearcol);
     mDeviceCtxt->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG, 0.0f, 0);
-
-    if( m_BindingMode == BindingMode::TextureMutable )
-    {
-        for(auto srb=mAsteroidsSRBs.begin(); srb!=mAsteroidsSRBs.end(); ++srb)
-        {
-            mDeviceCtxt->TransitionShaderResources(mAsteroidsPSO, *srb);
-        }
-    }
 
     LONG64 currCounter;
     QueryPerformanceCounter((LARGE_INTEGER*)&currCounter);

@@ -374,7 +374,8 @@ BlendTexPSO = PipelineState.Create
 }
 
 DrawAttrs = DrawAttribs.Create{
-	NumVertices = 4
+	NumVertices = 4,
+    Flags = "DRAW_FLAG_TRANSITION_VERTEX_BUFFERS"
 }
 
 VP = Viewport.Create { 

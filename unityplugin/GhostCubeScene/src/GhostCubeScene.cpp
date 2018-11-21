@@ -189,7 +189,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
         // Call the plugin
         RenderEventFunc(0);
     }
-
+    
     // We need to invalidate the context state since the plugin has used d3d11 context
     pCtx->InvalidateState();
     pCtx->SetRenderTargets(0, nullptr, nullptr);
