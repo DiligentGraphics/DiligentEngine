@@ -44,4 +44,5 @@ private:
     Diligent::RefCntAutoPtr<Diligent::IPipelineState> m_pPSO, m_pPSO_2xStride, m_pPSOInst;
     Diligent::RefCntAutoPtr<Diligent::IBuffer> m_pVertexBuff, m_pVertexBuff2, m_pIndexBuff, m_pInstanceData, m_pIndirectDrawArgs, m_pIndexedIndirectDrawArgs;
     Diligent::RefCntAutoPtr<Diligent::IResourceMapping> m_pResMapping;
+    Diligent::RefCntAutoPtr<Diligent::IShaderResourceBinding> m_pSRB, m_pSRBInst;
 };

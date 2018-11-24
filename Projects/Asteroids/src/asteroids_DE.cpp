@@ -283,7 +283,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         mAsteroidsSRBs.resize(NumSRBs);
         for(size_t srb = 0; srb < mAsteroidsSRBs.size(); ++srb)
         {
-            mAsteroidsPSO->CreateShaderResourceBinding(&mAsteroidsSRBs[srb]);
+            mAsteroidsPSO->CreateShaderResourceBinding(&mAsteroidsSRBs[srb], true);
         }
     }
 
@@ -364,6 +364,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
         mDevice->CreatePipelineState(PSODesc, &mSkyboxPSO);
+        mSkyboxPSO->CreateShaderResourceBinding(&mSkyboxSRB, true);
     }
 
     // Create sampler
@@ -456,11 +457,12 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.pVS = sprite_vs;
         PSODesc.GraphicsPipeline.pPS = sprite_ps;
         mDevice->CreatePipelineState(PSODesc, &mSpritePSO);
-        mSpritePSO->CreateShaderResourceBinding(&mSpriteSRB);
+        mSpritePSO->CreateShaderResourceBinding(&mSpriteSRB, true);
 
         PSODesc.Name = "Font PSO";
         PSODesc.GraphicsPipeline.pPS = font_ps;
         mDevice->CreatePipelineState(PSODesc, &mFontPSO);
+        mFontPSO->CreateShaderResourceBinding(&mFontSRB, true);
     }
 
 
@@ -839,7 +841,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, 0);
 
         mDeviceCtxt->SetPipelineState(mSkyboxPSO);
-        mDeviceCtxt->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+        mDeviceCtxt->CommitShaderResources(mSkyboxSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
 
         DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 6*6;
@@ -874,7 +876,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
             if (control->Visible()) {
                 if (control->TextureFile().length() == 0) { // Font
                     mDeviceCtxt->SetPipelineState(mFontPSO);
-                    mDeviceCtxt->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+                    mDeviceCtxt->CommitShaderResources(mFontSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
                 } else { // Sprite
                     auto textureSRV = mSpriteTextures[control->TextureFile()];
                     mDeviceCtxt->SetPipelineState(mSpritePSO);

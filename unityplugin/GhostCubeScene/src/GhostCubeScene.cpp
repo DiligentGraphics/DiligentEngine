@@ -84,7 +84,7 @@ void GhostCubeScene::OnGraphicsInitialized()
 
         PipelineStateDesc PSODesc;
         PSODesc.IsComputePipeline = false;
-        PSODesc.Name = "Render sample cube PSO";
+        PSODesc.Name = "Mirror PSO";
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
 
         PSODesc.GraphicsPipeline.RTVFormats[0] = SCDesc.ColorBufferFormat == TEX_FORMAT_RGBA8_UNORM ? TEX_FORMAT_RGBA8_UNORM_SRGB : SCDesc.ColorBufferFormat;
@@ -132,6 +132,7 @@ void GhostCubeScene::OnGraphicsInitialized()
         PSODesc.GraphicsPipeline.pVS = pVS;
         PSODesc.GraphicsPipeline.pPS = pPS;
         pDevice->CreatePipelineState(PSODesc, &m_pMirrorPSO);
+        m_pMirrorPSO->CreateShaderResourceBinding(&m_pMirrorSRB, true);
     }
 #if D3D12_SUPPORTED
     m_pStateTransitionHandler.reset(new GhostCubeSceneResTrsnHelper(*this));
@@ -194,7 +195,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     pCtx->InvalidateState();
     pCtx->SetRenderTargets(0, nullptr, nullptr);
     pCtx->SetPipelineState(m_pMirrorPSO);
-    pCtx->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    pCtx->CommitShaderResources(m_pMirrorSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
 
     {
         float4x4 MirrorWorldView = scaleMatrix(5,5,5) * rotationX(PI_F*0.6f) * translationMatrix(0.f, -3.0f, 10.0f);

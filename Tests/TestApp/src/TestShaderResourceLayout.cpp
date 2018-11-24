@@ -321,7 +321,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     VERIFY_EXPR(pTestPSO);
 
     RefCntAutoPtr<IShaderResourceBinding> pSRB;
-    pTestPSO->CreateShaderResourceBinding(&pSRB);
+    pTestPSO->CreateShaderResourceBinding(&pSRB, true);
 
     pSRB->GetVariable(SHADER_TYPE_VERTEX, "UniformBuff_Stat");
     pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_sepTex2DArr_static");

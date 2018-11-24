@@ -39,6 +39,7 @@ private:
     Diligent::RefCntAutoPtr<Diligent::IDeviceContext> m_pDeviceContext;
 
     Diligent::RefCntAutoPtr<Diligent::IPipelineState> m_pPSO;
+    Diligent::RefCntAutoPtr<Diligent::IShaderResourceBinding> m_pSRB;
     Diligent::RefCntAutoPtr<Diligent::IBuffer> m_pVertexBuff;
     Diligent::RefCntAutoPtr<Diligent::ISampler> m_pSampler;
     Diligent::RefCntAutoPtr<Diligent::ITexture> m_pTexture;

@@ -347,7 +347,7 @@ RenderToTexPSO = PipelineState.Create
         PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
 	}
 }
-
+RenderToTexSRB = RenderToTexPSO:CreateShaderResourceBinding(true)
 
 BlendTexPSO = PipelineState.Create
 {
@@ -372,6 +372,7 @@ BlendTexPSO = PipelineState.Create
         PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
 	}
 }
+BlendTexSRB = BlendTexPSO:CreateShaderResourceBinding(true)
 
 DrawAttrs = DrawAttribs.Create{
 	NumVertices = 4,
@@ -399,15 +400,15 @@ SR = ScissorRect.Create
 function RenderToTextures()
 	Context.SetVertexBuffers(FullQuadBuffer, TexcoordBuffer, "SET_VERTEX_BUFFERS_FLAG_RESET")
 	Context.SetPipelineState(RenderToTexPSO)
-	Context.TransitionShaderResources(RenderToTexPSO)
-	Context.CommitShaderResources()
+	Context.TransitionShaderResources(RenderToTexPSO, RenderToTexSRB)
+	Context.CommitShaderResources(RenderToTexSRB)
 	Context.Draw(DrawAttrs)
 end
 
 function BlendTextures()
 	Context.SetVertexBuffers(ScaledQuadBuffer, TexcoordBuffer, "SET_VERTEX_BUFFERS_FLAG_RESET")
 	Context.SetPipelineState(BlendTexPSO)
-	Context.CommitShaderResources("COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
+	Context.CommitShaderResources(BlendTexSRB, "COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
 	Context.Draw(DrawAttrs)
 end
 

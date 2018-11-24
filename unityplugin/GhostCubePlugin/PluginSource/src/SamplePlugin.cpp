@@ -97,6 +97,7 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
         PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof(LayoutElems);
         pDevice->CreatePipelineState(PSODesc, &m_PSO);
+        m_PSO->CreateShaderResourceBinding(&m_SRB, true);
     }
 
     {
@@ -163,7 +164,7 @@ void SamplePlugin::Render(Diligent::IDeviceContext *pContext, const float4x4 &Vi
     pContext->SetIndexBuffer(m_CubeIndexBuffer, 0);
 
     pContext->SetPipelineState(m_PSO);
-    pContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    pContext->CommitShaderResources(m_SRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
 
     DrawAttribs DrawAttrs;
     DrawAttrs.IsIndexed = true;

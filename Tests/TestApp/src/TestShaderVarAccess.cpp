@@ -363,7 +363,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     VERIFY_EXPR(pTestPSO);
 
     RefCntAutoPtr<IShaderResourceBinding> pSRB;
-    pTestPSO->CreateShaderResourceBinding(&pSRB);
+    pTestPSO->CreateShaderResourceBinding(&pSRB, true);
 
     {
         auto tex2D_Mut = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_Mut");

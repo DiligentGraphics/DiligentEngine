@@ -268,10 +268,12 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
     PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
     pDevice->CreatePipelineState(PSODesc, &m_pPSO);
-
+    
     pVS->BindResources(m_pResourceMapping, 0);
     pPS->BindResources(m_pResourceMapping, 0);
     
+    m_pPSO->CreateShaderResourceBinding(&m_pSRB, true);
+
     auto *FmtName = pDevice->GetTextureFormatInfo(TexFormat).Name;
     m_TestName.append(" (");
     m_TestName.append(FmtName);
@@ -281,8 +283,8 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
 void TestTexturing::Draw()
 {
     m_pDeviceContext->SetPipelineState(m_pPSO);
-    m_pDeviceContext->TransitionShaderResources(m_pPSO, nullptr);
-    m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_VERIFY_STATES);
+    m_pDeviceContext->TransitionShaderResources(m_pPSO, m_pSRB);
+    m_pDeviceContext->CommitShaderResources(m_pSRB, COMMIT_SHADER_RESOURCES_FLAG_VERIFY_STATES);
     
     IBuffer *pBuffs[] = {m_pVertexBuff};
     Uint32 Offsets[] = {0};

@@ -58,4 +58,5 @@ private:
     Diligent::RefCntAutoPtr<Diligent::ITexture> m_pDepthBuffer;
     Diligent::RefCntAutoPtr<Diligent::IBuffer> m_pMirrorVSConstants;
     Diligent::RefCntAutoPtr<Diligent::IPipelineState> m_pMirrorPSO;
+    Diligent::RefCntAutoPtr<Diligent::IShaderResourceBinding> m_pMirrorSRB;
 };

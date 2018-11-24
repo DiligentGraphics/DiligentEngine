@@ -233,6 +233,7 @@ UpdateVertBuffPSO = PipelineState.Create
 		pCS = UpdateVertBuffCS
 	}
 }
+UpdateVertBuffSRB = UpdateVertBuffPSO:CreateShaderResourceBinding()
 
 UpdateIndBuffPSO = PipelineState.Create
 {
@@ -243,6 +244,7 @@ UpdateIndBuffPSO = PipelineState.Create
 		pCS = UpdateIndBuffCS
 	}
 }
+UpdateIndBuffSRB = UpdateIndBuffPSO:CreateShaderResourceBinding()
 
 UpdateDrawArgsBuffPSO = PipelineState.Create
 {
@@ -253,6 +255,7 @@ UpdateDrawArgsBuffPSO = PipelineState.Create
 		pCS = UpdateDrawArgsBuffCS
 	}
 }
+UpdateDrawArgsBuffSRB = UpdateDrawArgsBuffPSO:CreateShaderResourceBinding()
 
 UpdateDispatchArgsBuffPSO = PipelineState.Create
 {
@@ -265,6 +268,7 @@ UpdateDispatchArgsBuffPSO = PipelineState.Create
 }
 assert(UpdateDrawArgsBuffPSO:IsCompatibleWith(UpdateDispatchArgsBuffPSO) == true)
 assert(UpdateDispatchArgsBuffPSO:IsCompatibleWith(UpdateDrawArgsBuffPSO) == true)
+UpdateDispatchArgsBuffSRB = UpdateDispatchArgsBuffPSO:CreateShaderResourceBinding()
 
 RenderPSO = PipelineState.Create
 {
@@ -289,6 +293,7 @@ RenderPSO = PipelineState.Create
         PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
 	}
 }
+RenderSRB = RenderPSO:CreateShaderResourceBinding()
 
 UpdateVertBuffCS:BindResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED", "BIND_SHADER_RESOURCES_UPDATE_STATIC"} )
 UpdateIndBuffCS:BindResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED", "BIND_SHADER_RESOURCES_UPDATE_ALL"})
@@ -297,6 +302,12 @@ UpdateDispatchArgsBuffCS:BindResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIF
 RenderVS:BindResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"})
 RenderPS:BindResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"})
 
+FillTextureSRB:InitializeStaticResources()
+UpdateVertBuffSRB:InitializeStaticResources()
+UpdateIndBuffSRB:InitializeStaticResources()
+UpdateDrawArgsBuffSRB:InitializeStaticResources()
+UpdateDispatchArgsBuffSRB:InitializeStaticResources()
+RenderSRB:InitializeStaticResources()
 
 DrawAttrs = DrawAttribs.Create{
     IsIndexed = true,
@@ -309,8 +320,8 @@ DrawAttrs = DrawAttribs.Create{
 
 function Draw()
 	Context.SetPipelineState(RenderPSO)
-	Context.TransitionShaderResources(RenderPSO)
-	Context.CommitShaderResources()
+	Context.TransitionShaderResources(RenderPSO, RenderSRB)
+	Context.CommitShaderResources(RenderSRB)
 	Context.SetVertexBuffers(PositionsBuffer, 0, TexcoordBuffer, TexcoordDataOffset, "SET_VERTEX_BUFFERS_FLAG_RESET")
 	Context.SetIndexBuffer(IndexBuffer)
 	Context.Draw(DrawAttrs)
@@ -334,21 +345,21 @@ function Dispatch()
 	end
 
 	Context.SetPipelineState(UpdateDispatchArgsBuffPSO)
-	Context.TransitionShaderResources(UpdateDispatchArgsBuffPSO)
-	Context.CommitShaderResources()
+	Context.TransitionShaderResources(UpdateDispatchArgsBuffPSO, UpdateDispatchArgsBuffSRB)
+	Context.CommitShaderResources(UpdateDispatchArgsBuffSRB)
 	Context.DispatchCompute(1)
 
 	Context.SetPipelineState(UpdateDrawArgsBuffPSO)
-	Context.CommitShaderResources("COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
+	Context.CommitShaderResources(UpdateDrawArgsBuffSRB, "COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
 	Context.DispatchCompute(IndirectDispatchArgsBuffer, 16, "DISPATCH_FLAG_TRANSITION_INDIRECT_ARGS_BUFFER")
 
 	Context.SetPipelineState(UpdateIndBuffPSO)
-	Context.TransitionShaderResources(UpdateIndBuffPSO)
-	Context.CommitShaderResources()
+	Context.TransitionShaderResources(UpdateIndBuffPSO, UpdateIndBuffSRB)
+	Context.CommitShaderResources(UpdateIndBuffSRB)
 	Context.DispatchCompute(1)
 	
 	Context.SetPipelineState(UpdateVertBuffPSO)
-	Context.CommitShaderResources("COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
+	Context.CommitShaderResources(UpdateVertBuffSRB, "COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
 	Context.DispatchCompute(2)	
 
 	return Draw()

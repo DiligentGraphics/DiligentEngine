@@ -118,12 +118,12 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
 
         RefCntAutoPtr<ISampler> pSampler;
         pDevice->CreateSampler( SamplerDesc{}, &pSampler );
-        
-        RefCntAutoPtr<IShaderResourceBinding> pSRB;
-        pPSO->CreateShaderResourceBinding(&pSRB);
-
         IDeviceObject* ppSamplers[2] = {pSampler, pSampler};
         pPS->GetShaderVariable("g_Sam3")->SetArray(ppSamplers, 0, 2);
+
+        RefCntAutoPtr<IShaderResourceBinding> pSRB;
+        pPSO->CreateShaderResourceBinding(&pSRB, true);
+
         pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Tex")->Set(pTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
         pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Sam")->Set(pSampler);
         pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Sam4")->SetArray(ppSamplers, 0, 2);

@@ -134,6 +134,7 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, I
 
 
     PipelineStateDesc PSODesc;
+    PSODesc.Name = "Test buffer access PSO";
     PSODesc.GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
     PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_NONE;
     PSODesc.GraphicsPipeline.BlendDesc.IndependentBlendEnable = False;
