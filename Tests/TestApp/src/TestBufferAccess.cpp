@@ -184,7 +184,7 @@ void TestBufferAccess::Draw(float fTime)
         instance_offsets[Inst*2] = (1+Inst) * fDX;
         instance_offsets[Inst*2+1] = 1.f * fDY + sin(fTime) * fDY * 0.3f;
     }
-    m_pInstBuff[1]->UpdateData( m_pDeviceContext, sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2] );
+    m_pDeviceContext->UpdateBuffer(m_pInstBuff[1], sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2] );
 
     pBuffs[3] = m_pInstBuff[1];
     m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
@@ -197,8 +197,8 @@ void TestBufferAccess::Draw(float fTime)
         instance_offsets[Inst*2] = (1+Inst) * fDX;
         instance_offsets[Inst*2+1] = 2.f * fDY + sin(fTime*0.8f) * fDY * 0.3f;
     }
-    m_pInstBuff[2]->UpdateData( m_pDeviceContext, sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2] );
-    m_pInstBuff[1]->CopyData( m_pDeviceContext, m_pInstBuff[2], sizeof( float ) * 2, sizeof( float ) * 2, sizeof( float ) * 4 );
+    m_pDeviceContext->UpdateBuffer(m_pInstBuff[2], sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2] );
+    m_pDeviceContext->CopyBuffer(m_pInstBuff[2], m_pInstBuff[1], sizeof( float ) * 2, sizeof( float ) * 2, sizeof( float ) * 4 );
     
     m_pDeviceContext->Draw(DrawAttrs);
 
@@ -225,7 +225,7 @@ void TestBufferAccess::Draw(float fTime)
         MapHelper<float> pStagingData;
         // Test reading data from staging resource
         {
-            m_pInstBuff[4]->CopyData( m_pDeviceContext, m_pInstBuff[3], 0, 0, sizeof( instance_offsets ) );
+            m_pDeviceContext->CopyBuffer(m_pInstBuff[3], m_pInstBuff[4], 0, 0, sizeof( instance_offsets ) );
             pStagingData.Map( m_pDeviceContext, m_pInstBuff[4], MAP_READ, 0 );
             for(int i = 0; i < _countof(instance_offsets); ++i)
                 assert(pStagingData[i] == instance_offsets[i]);
@@ -246,7 +246,7 @@ void TestBufferAccess::Draw(float fTime)
                 pStagingData.Unmap();
             }
 
-            m_pInstBuff[2]->CopyData( m_pDeviceContext, m_pInstBuff[5], 0, 0, sizeof( instance_offsets ) );
+            m_pDeviceContext->CopyBuffer(m_pInstBuff[5], m_pInstBuff[2], 0, 0, sizeof( instance_offsets ) );
             pBuffs[3] = m_pInstBuff[2];
             m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
             m_pDeviceContext->Draw(DrawAttrs);
@@ -266,7 +266,7 @@ void TestBufferAccess::Draw(float fTime)
                 fPrevTime = fTime;
             }*/
 
-            m_pInstBuff[2]->CopyData( m_pDeviceContext, m_pInstBuff[6], 0, 0, sizeof( instance_offsets ) );
+            m_pDeviceContext->CopyBuffer(m_pInstBuff[6], m_pInstBuff[2], 0, 0, sizeof( instance_offsets ) );
             m_pDeviceContext->Draw(DrawAttrs);
         }
     }
