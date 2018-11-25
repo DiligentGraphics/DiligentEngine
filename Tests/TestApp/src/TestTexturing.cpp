@@ -241,6 +241,8 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
         RefCntAutoPtr<ITextureView> pDefaultSRV;
         TextureViewDesc ViewDesc;
         ViewDesc.ViewType = TEXTURE_VIEW_SHADER_RESOURCE;
+        ViewDesc.NumMipLevels = TextureViewDesc::RemainingMipLevels;
+        ViewDesc.NumArraySlices = TextureViewDesc::RemainingArraySlices;
         m_pTexture->CreateView( ViewDesc, &pDefaultSRV );
         pDefaultSRV->SetSampler( m_pSampler );
         ResourceMappingEntry Entries[] = { { "g_tex2DTest", pDefaultSRV }, {nullptr, nullptr} };
