@@ -108,10 +108,11 @@ void TestCopyTexData::Test2DTexture( TEXTURE_FORMAT Format )
     m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
     m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
 
-    pDstTex->CopyData(m_pContext, pSrcTex,
+    m_pContext->CopyTexture(pSrcTex,
                       2, // Src mip
                       0, // Src slice
                       nullptr, // Box
+                      pDstTex,
                       1, // dst mip
                       0, // dst slice
                       32, 16, 0 // XYZ offset 
@@ -122,10 +123,11 @@ void TestCopyTexData::Test2DTexture( TEXTURE_FORMAT Format )
     SrcBox.MaxX = 19;
     SrcBox.MinY = 1;
     SrcBox.MaxY = 32;
-    pDstTex->CopyData(m_pContext, pSrcTex,
+    m_pContext->CopyTexture(pSrcTex,
                       2, // Src mip
                       0, // Src slice
                       &SrcBox, // Box
+                      pDstTex,
                       1, // dst mip
                       0, // dst slice
                       32, 16, 0 // XYZ offset 
@@ -166,10 +168,11 @@ void TestCopyTexData::Test2DTexArray( TEXTURE_FORMAT Format )
     m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
     m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
 
-    pDstTex->CopyData(m_pContext, pSrcTex,
+    m_pContext->CopyTexture(pSrcTex,
                       2, // Src mip
                       3, // Src slice
                       nullptr, // Box
+                      pDstTex,
                       1, // dst mip
                       6, // dst slice
                       32, 16, 0 // XYZ offset 
@@ -180,10 +183,11 @@ void TestCopyTexData::Test2DTexArray( TEXTURE_FORMAT Format )
     SrcBox.MaxX = 19;
     SrcBox.MinY = 1;
     SrcBox.MaxY = 32;
-    pDstTex->CopyData(m_pContext, pSrcTex,
+    m_pContext->CopyTexture(pSrcTex,
                       2, // Src mip
                       3, // Src slice
                       &SrcBox, // Box
+                      pDstTex,
                       1, // dst mip
                       5, // dst slice
                       32, 16, 0 // XYZ offset 
@@ -217,10 +221,11 @@ void TestCopyTexData::Test3DTexture( TEXTURE_FORMAT Format )
     m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
     m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
 
-    pDstTex->CopyData(m_pContext, pSrcTex,
+    m_pContext->CopyTexture(pSrcTex,
                       2, // Src mip
                       0, // Src slice
                       nullptr, // Box
+                      pDstTex,
                       1, // dst mip
                       0, // dst slice
                       16, 8, 0 // XYZ offset 
@@ -231,10 +236,11 @@ void TestCopyTexData::Test3DTexture( TEXTURE_FORMAT Format )
     SrcBox.MaxX = 19;
     SrcBox.MinY = 1;
     SrcBox.MaxY = 32;
-    pDstTex->CopyData(m_pContext, pSrcTex,
+    m_pContext->CopyTexture(pSrcTex,
                       1, // Src mip
                       0, // Src slice
                       &SrcBox, // Box
+                      pDstTex,
                       0, // dst mip
                       0, // dst slice
                       32, 16, 0 // XYZ offset 

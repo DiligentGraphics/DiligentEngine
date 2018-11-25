@@ -639,7 +639,7 @@ void TestApp::Render()
     
     float instance_offsets[] = { -0.3f, (float)sin(dCurrTime + 0.5)*0.1f, 0.0f, (float)sin(dCurrTime)*0.1f, +0.3f, -0.3f + (float)cos(dCurrTime)*0.1f };
     m_pImmediateContext->UpdateBuffer(m_pInstBuff2, sizeof(float) * 1, sizeof(float) * 5, &instance_offsets[1]);
-    m_pImmediateContext->CopyBuffer(m_pInstBuff2, m_pInstBuff, sizeof(float) * 2, sizeof(float) * 2, sizeof(float) * 4);
+    m_pImmediateContext->CopyBuffer(m_pInstBuff2, sizeof(float) * 2, m_pInstBuff, sizeof(float) * 2, sizeof(float) * 4);
     
     {
         MapHelper<float> UniformData(m_pImmediateContext, m_pUniformBuff, MAP_WRITE, MAP_FLAG_DISCARD);
