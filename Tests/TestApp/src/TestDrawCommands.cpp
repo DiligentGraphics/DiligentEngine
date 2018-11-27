@@ -290,6 +290,7 @@ void TestDrawCommands::Draw()
         DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
         m_pDeviceContext->Draw(DrawAttrs);
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
     }
 
     // 2,3: test StartVertex
@@ -297,6 +298,7 @@ void TestDrawCommands::Draw()
         DrawAttribs DrawAttrs;
         DrawAttrs.StartVertexLocation = 2*3;
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -306,6 +308,7 @@ void TestDrawCommands::Draw()
     {
         DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -314,6 +317,7 @@ void TestDrawCommands::Draw()
         DrawAttribs DrawAttrs;
         DrawAttrs.StartVertexLocation = 2*3;
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     
@@ -326,6 +330,7 @@ void TestDrawCommands::Draw()
         DrawAttribs DrawAttrs;
         DrawAttrs.StartVertexLocation = 4*3/2; // Stride is 2x
         DrawAttrs.NumVertices = 2*3; // Draw 2 triangles
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     Strides[0] /= 2;
@@ -349,6 +354,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumIndices = 2*3; // Draw 2 triangles
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     
@@ -360,6 +366,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumIndices = 2*3; // Draw 2 triangles
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -379,6 +386,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.BaseVertex = 10;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -391,6 +399,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.BaseVertex = 10;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     NumTestTrianglesInRow[2] = 4;
@@ -410,6 +419,7 @@ void TestDrawCommands::Draw()
         DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     
@@ -420,6 +430,7 @@ void TestDrawCommands::Draw()
         DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -429,6 +440,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.StartVertexLocation = 2*3;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     NumTestTrianglesInRow[3] = 6;
@@ -447,6 +459,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 0;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -456,6 +469,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -467,6 +481,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -478,6 +493,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     NumTestTrianglesInRow[4] = 8;
@@ -497,6 +513,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -508,6 +525,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -520,6 +538,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -532,6 +551,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -543,6 +563,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.FirstIndexLocation = 2*3;
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     NumTestTrianglesInRow[5] = 10;
@@ -563,6 +584,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     // 2,3
@@ -573,6 +595,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstInstanceLocation = 2;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -585,6 +608,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstInstanceLocation = 2;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -598,6 +622,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstInstanceLocation = 2;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -610,6 +635,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstInstanceLocation = 2;
         DrawAttrs.FirstIndexLocation = 2*3;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     NumTestTrianglesInRow[6] = 10;
@@ -629,6 +655,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -640,6 +667,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.BaseVertex = 2*3;
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     
@@ -652,6 +680,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.BaseVertex = 2*3;
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -665,6 +694,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.BaseVertex = 2*3;
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -677,6 +707,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstIndexLocation = 2*3;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     NumTestTrianglesInRow[7] = 10;
@@ -696,6 +727,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -708,6 +740,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.BaseVertex = 3;
         DrawAttrs.FirstInstanceLocation = 1;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -721,6 +754,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.BaseVertex = 3;
         DrawAttrs.FirstInstanceLocation = 1;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -735,6 +769,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.BaseVertex = 3;
         DrawAttrs.FirstInstanceLocation = 1;
         DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
 
@@ -748,6 +783,7 @@ void TestDrawCommands::Draw()
         DrawAttrs.FirstInstanceLocation = 1;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstIndexLocation = 2*3;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         m_pDeviceContext->Draw(DrawAttrs);
     }
     NumTestTrianglesInRow[8] = 10;
@@ -774,6 +810,7 @@ void TestDrawCommands::Draw()
 
             DrawAttribs DrawAttrs;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
             m_pDeviceContext->Draw(DrawAttrs);
         }
 
@@ -787,6 +824,7 @@ void TestDrawCommands::Draw()
             MappedData.Unmap();
             DrawAttribs DrawAttrs;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
             m_pDeviceContext->Draw(DrawAttrs);
         }
     
@@ -800,6 +838,7 @@ void TestDrawCommands::Draw()
             MappedData.Unmap();
             DrawAttribs DrawAttrs;
             DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
             m_pDeviceContext->Draw(DrawAttrs);
         }
 
@@ -829,6 +868,7 @@ void TestDrawCommands::Draw()
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
             DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
             m_pDeviceContext->Draw(DrawAttrs);
         }
 
@@ -846,6 +886,7 @@ void TestDrawCommands::Draw()
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
             DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
             m_pDeviceContext->Draw(DrawAttrs);
         }
 
@@ -863,6 +904,7 @@ void TestDrawCommands::Draw()
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
             DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
             m_pDeviceContext->Draw(DrawAttrs);
         }
 
@@ -880,6 +922,7 @@ void TestDrawCommands::Draw()
             DrawAttrs.IsIndexed = true;
             DrawAttrs.IndexType = VT_UINT32;
             DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
             m_pDeviceContext->Draw(DrawAttrs);
         }
         NumTestTrianglesInRow[10] = 8;
@@ -895,11 +938,13 @@ void TestDrawCommands::Draw()
 
     {
         DrawAttribs DrawAttrs;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         
         for(int iRow=0; iRow < TriGridSize; ++iRow)
         {
             DrawAttrs.StartVertexLocation = 16*3*iRow + 3*(1+NumTestTrianglesInRow[iRow]);
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
             m_pDeviceContext->Draw(DrawAttrs);
         }
     }

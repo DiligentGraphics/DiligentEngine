@@ -656,6 +656,7 @@ void TestApp::Render()
 
     DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 3;
+    DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
     m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
 
     DrawAttrs.IsIndexed = true;

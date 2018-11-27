@@ -92,6 +92,7 @@ void TestGeometryShader::Draw()
     
     Diligent::DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 2; // Draw 2 triangles
+    DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
     m_pDeviceContext->Draw(DrawAttrs);
     
     SetStatus(TestResult::Succeeded);

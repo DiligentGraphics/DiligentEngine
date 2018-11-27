@@ -135,6 +135,7 @@ void TestTessellation::Draw()
     m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     
     Diligent::DrawAttribs DrawAttrs;
+    DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
     DrawAttrs.NumVertices = 2; // Draw 2 quad patches
     m_pDeviceContext->Draw(DrawAttrs);
 

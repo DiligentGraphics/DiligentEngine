@@ -536,6 +536,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     pContext->CommitShaderResources(pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     
     DrawAttribs DrawAttrs;
+    DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
     DrawAttrs.NumVertices = 3;
     pContext->Draw(DrawAttrs);
 
