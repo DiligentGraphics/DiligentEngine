@@ -141,7 +141,7 @@ function SetRTsHelper(RTVs, DSV)
 	Context.ClearRenderTarget(RTVs[2], 0.25, 0.5, 0.75, 1.0, "CLEAR_RENDER_TARGET_VERIFY_STATE")
 	Context.ClearRenderTarget(RTVs[3], 0.25, 0.5, 0.75, 1.0, "CLEAR_RENDER_TARGET_TRANSITION_STATE")
 	if DSV then
-		Context.ClearDepthStencil(DSV, 1.0)
+		Context.ClearDepthStencil(DSV, "CLEAR_DEPTH_STENCIL_TRANSITION_STATE_FLAG", 1.0)
 		Context.SetRenderTargets(RTVs[1], RTVs[2], DSV, {"SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR", "SET_RENDER_TARGETS_FLAG_TRANSITION_DEPTH"})
 		Context.SetRenderTargets(RTVs[1], DSV, "SET_RENDER_TARGETS_FLAG_VERIFY_STATES")
 		Context.SetRenderTargets(DSV, "SET_RENDER_TARGETS_FLAG_VERIFY_STATES")

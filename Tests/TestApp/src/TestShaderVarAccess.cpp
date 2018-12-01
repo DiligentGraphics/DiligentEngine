@@ -555,7 +555,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     m_pDeviceContext->SetRenderTargets(1, &pRTV, pDSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     float Zero[4] = {};
     m_pDeviceContext->ClearRenderTarget(pRTV, Zero, CLEAR_RENDER_TARGET_VERIFY_STATE);
-    m_pDeviceContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG);
+    m_pDeviceContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG | CLEAR_DEPTH_STENCIL_VERIFY_STATE_FLAG);
 
     pContext->CommitShaderResources(pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
     pContext->Draw(DrawAttrs);
