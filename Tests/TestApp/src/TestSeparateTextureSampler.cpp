@@ -153,7 +153,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         ITextureView* pRTV[] = {pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET)};
         pContext->SetRenderTargets(1, pRTV, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
         float Zero[4] = {};
-        pContext->ClearRenderTarget(pRTV[0], Zero);
+        pContext->ClearRenderTarget(pRTV[0], Zero, CLEAR_RENDER_TARGET_VERIFY_STATE);
         pContext->SetPipelineState(pPSO);
         pContext->CommitShaderResources(pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
         DrawAttribs DrawAttrs;

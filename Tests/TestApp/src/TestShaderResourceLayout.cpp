@@ -87,7 +87,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     auto *pRTV = pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
     m_pDeviceContext->SetRenderTargets(1, &pRTV, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     float Zero[4] = {};
-    m_pDeviceContext->ClearRenderTarget(pRTV, Zero);
+    m_pDeviceContext->ClearRenderTarget(pRTV, Zero, CLEAR_RENDER_TARGET_VERIFY_STATE);
 
     BufferDesc BuffDesc;
     BuffDesc.uiSizeInBytes = 1024;

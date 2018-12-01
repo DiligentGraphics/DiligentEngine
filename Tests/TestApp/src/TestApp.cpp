@@ -524,7 +524,7 @@ void TestApp::InitializeRenderers()
 
         m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
         float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
-        m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor);
+        m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, CLEAR_RENDER_TARGET_VERIFY_STATE);
         DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3;
         DrawAttrs.Flags = DRAW_FLAG_TRANSITION_VERTEX_BUFFERS;
@@ -532,7 +532,7 @@ void TestApp::InitializeRenderers()
         
         // This adds transition barrier for pTex1
         m_pImmediateContext->SetRenderTargets(1, pRTVs, pDSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
-        m_pImmediateContext->ClearRenderTarget(pRTVs[0], ClearColor);
+        m_pImmediateContext->ClearRenderTarget(pRTVs[0], ClearColor, CLEAR_RENDER_TARGET_VERIFY_STATE);
         m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG);
         // Generate draw command to the bound render target
         m_pImmediateContext->Draw(DrawAttrs);
@@ -632,7 +632,7 @@ void TestApp::Render()
 {
     m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
-    m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor);
+    m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, CLEAR_RENDER_TARGET_VERIFY_STATE);
     m_pImmediateContext->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG, 1.f);
     
     double dCurrTime = m_CurrTime;
