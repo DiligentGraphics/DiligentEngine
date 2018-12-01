@@ -442,7 +442,7 @@ void TestApp::InitializeRenderers()
         BuffDesc.uiSizeInBytes = sizeof(UniformData);
         BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
         BuffDesc.Usage = USAGE_DEFAULT;
-        BuffDesc.CPUAccessFlags = 0;
+        BuffDesc.CPUAccessFlags = CPU_ACCESS_NONE;
         Diligent::BufferData BuffData;
         BuffData.pData = UniformData;
         BuffData.DataSize = sizeof(UniformData);
@@ -456,7 +456,7 @@ void TestApp::InitializeRenderers()
         BuffDesc.uiSizeInBytes = sizeof(UniformData);
         BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
         BuffDesc.Usage = USAGE_DEFAULT;
-        BuffDesc.CPUAccessFlags = 0;
+        BuffDesc.CPUAccessFlags = CPU_ACCESS_NONE;
         Diligent::BufferData BuffData;
         BuffData.pData = UniformData;
         BuffData.DataSize = sizeof(UniformData);
@@ -522,7 +522,7 @@ void TestApp::InitializeRenderers()
             UniformData[3] = 0;
         }
 
-        m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr);
+        m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
         float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
         m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor);
         DrawAttribs DrawAttrs;
@@ -531,12 +531,12 @@ void TestApp::InitializeRenderers()
         m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
         
         // This adds transition barrier for pTex1
-        m_pImmediateContext->SetRenderTargets(1, pRTVs, pDSV);
+        m_pImmediateContext->SetRenderTargets(1, pRTVs, pDSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
         m_pImmediateContext->ClearRenderTarget(pRTVs[0], ClearColor);
         m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG);
         // Generate draw command to the bound render target
         m_pImmediateContext->Draw(DrawAttrs);
-        m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr);
+        m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
         // This will destroy texture and put D3D12 resource into release queue
         pTex.Release();
 
@@ -547,7 +547,7 @@ void TestApp::InitializeRenderers()
         BuffDesc.uiSizeInBytes = sizeof(Data);
         BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
         BuffDesc.Usage = USAGE_DEFAULT;
-        BuffDesc.CPUAccessFlags = 0;
+        BuffDesc.CPUAccessFlags = CPU_ACCESS_NONE;
         Diligent::BufferData BuffData;
         BuffData.pData = Data;
         BuffData.DataSize = sizeof(Data);
@@ -630,11 +630,11 @@ void TestApp::Update(double CurrTime, double ElapsedTime)
 
 void TestApp::Render()
 {
-    m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr);
+    m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
     m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor);
     m_pImmediateContext->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG, 1.f);
-
+    
     double dCurrTime = m_CurrTime;
     
     float instance_offsets[] = { -0.3f, (float)sin(dCurrTime + 0.5)*0.1f, 0.0f, (float)sin(dCurrTime)*0.1f, +0.3f, -0.3f + (float)cos(dCurrTime)*0.1f };

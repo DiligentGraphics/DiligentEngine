@@ -52,7 +52,7 @@ public:
     TextureCreationVerifier( IRenderDevice *pDevice, IDeviceContext *pContext ) :
         m_pDevice(pDevice),
         m_pDeviceContext(pContext),
-        m_BindFlags(0),
+        m_BindFlags(BIND_NONE),
         m_TextureFormat(TEX_FORMAT_UNKNOWN),
         m_PixelSize(0),
         m_bTestDataUpload(False)
@@ -91,7 +91,7 @@ public:
     
     void Test(TEXTURE_FORMAT TextureFormat,
               Uint32 PixelSize,      
-              Uint32 BindFlags,
+              BIND_FLAGS BindFlags,
               Bool TestDataUpload)
     {
         m_TextureFormat = TextureFormat;
@@ -554,7 +554,7 @@ private:
     }
     IRenderDevice *m_pDevice;
     IDeviceContext *m_pDeviceContext;
-    Uint32 m_BindFlags;
+    BIND_FLAGS m_BindFlags;
     TEXTURE_FORMAT m_TextureFormat;
     Uint32 m_PixelSize;
     Bool m_bTestDataUpload;
@@ -568,19 +568,19 @@ TestTextureCreation::TestTextureCreation( IRenderDevice *pDevice, IDeviceContext
     TestTextureFormatAttribs();
 
     TextureCreationVerifier Verifier(pDevice, pContext);
-    const Uint32 BindSRU = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET | BIND_UNORDERED_ACCESS;
-    const Uint32 BindSR = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET;
-    //const Uint32 BindSD = BIND_SHADER_RESOURCE | BIND_DEPTH_STENCIL;
-    const Uint32 BindSU = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
-    const Uint32 BindSD = BIND_SHADER_RESOURCE | BIND_DEPTH_STENCIL;
-    const Uint32 BindD = BIND_DEPTH_STENCIL;
-    const Uint32 BindS = BIND_SHADER_RESOURCE;
+    const BIND_FLAGS BindSRU = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET | BIND_UNORDERED_ACCESS;
+    const BIND_FLAGS BindSR = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET;
+    //const BIND_FLAGS BindSD = BIND_SHADER_RESOURCE | BIND_DEPTH_STENCIL;
+    const BIND_FLAGS BindSU = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
+    const BIND_FLAGS BindSD = BIND_SHADER_RESOURCE | BIND_DEPTH_STENCIL;
+    const BIND_FLAGS BindD = BIND_DEPTH_STENCIL;
+    const BIND_FLAGS BindS = BIND_SHADER_RESOURCE;
 
     struct TextureTestAttribs
     {
         TEXTURE_FORMAT Fmt;
         Uint32 PixelSize;
-        Uint32 BindFlags;
+        BIND_FLAGS BindFlags;
         Bool TestDataUpload;
         const char* Name;
     };

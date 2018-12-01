@@ -226,7 +226,7 @@ void TestBufferAccess::Draw(float fTime)
         // Test reading data from staging resource
         {
             m_pDeviceContext->CopyBuffer(m_pInstBuff[3], 0, m_pInstBuff[4], 0, sizeof( instance_offsets ) );
-            pStagingData.Map( m_pDeviceContext, m_pInstBuff[4], MAP_READ, 0 );
+            pStagingData.Map( m_pDeviceContext, m_pInstBuff[4], MAP_READ, MAP_FLAG_NONE );
             for(int i = 0; i < _countof(instance_offsets); ++i)
                 assert(pStagingData[i] == instance_offsets[i]);
             pStagingData.Unmap();
@@ -237,7 +237,7 @@ void TestBufferAccess::Draw(float fTime)
         {
             // Test writing data to staging resource
             {
-                pStagingData.Map( m_pDeviceContext, m_pInstBuff[5], MAP_WRITE, 0 );
+                pStagingData.Map( m_pDeviceContext, m_pInstBuff[5], MAP_WRITE, MAP_FLAG_NONE );
                 for(int Inst = 0; Inst < NumInstances; ++Inst)
                 {
                     pStagingData[Inst*2] = (1+Inst) * fDX;

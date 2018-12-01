@@ -698,7 +698,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
                              Uint32 startIdx, 
                              Uint32 numAsteroids)
 {
-    pCtx->SetRenderTargets(0, nullptr, nullptr);
+    pCtx->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_VERIFY_STATES);
     
     // Frame data
     auto staticAsteroidData = mAsteroids->StaticData();
@@ -709,7 +709,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
     {
         IBuffer* ia_buffers[] = { mVertexBuffer };
         Uint32 ia_offsets[] = { 0 };
-        pCtx->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, 0);
+        pCtx->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, SET_VERTEX_BUFFERS_FLAG_NONE);
         pCtx->SetIndexBuffer(mIndexBuffer, 0);
     }
 
@@ -759,7 +759,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     
     // Clear the render target
     float clearcol[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr);
+    mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     mDeviceCtxt->ClearRenderTarget(nullptr, clearcol);
     mDeviceCtxt->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG, 0.0f, 0);
 
@@ -828,7 +828,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     QueryPerformanceCounter((LARGE_INTEGER*)&currCounter);
     mRenderTicks = currCounter-mRenderTicks;
 
-    mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr);
+    mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     // Draw skybox
     {
         {
@@ -838,7 +838,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
 
         IBuffer* ia_buffers[] = { mSkyboxVertexBuffer };
         UINT ia_offsets[] = { 0 };
-        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, 0);
+        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, SET_VERTEX_BUFFERS_FLAG_NONE);
 
         mDeviceCtxt->SetPipelineState(mSkyboxPSO);
         mDeviceCtxt->CommitShaderResources(mSkyboxSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
@@ -867,7 +867,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
 
         IBuffer* ia_buffers[] = { mSpriteVertexBuffer };
         Uint32 ia_offsets[] = { 0 };
-        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, 0);
+        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, SET_VERTEX_BUFFERS_FLAG_NONE);
 
         // Draw
         UINT vertexStart = 0;

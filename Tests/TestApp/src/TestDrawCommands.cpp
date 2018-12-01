@@ -236,7 +236,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BuffDesc.uiSizeInBytes = sizeof( UniformData );
         BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
         BuffDesc.Usage = USAGE_DEFAULT;
-        BuffDesc.CPUAccessFlags = 0;
+        BuffDesc.CPUAccessFlags = CPU_ACCESS_NONE;
         BufferData BuffData;
         BuffData.pData = UniformData;
         BuffData.DataSize = sizeof( UniformData );

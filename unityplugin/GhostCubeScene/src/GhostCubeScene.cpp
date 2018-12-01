@@ -156,7 +156,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     // In OpenGL, render targets must be bound to the pipeline to be cleared
     ITextureView *pRTVs[] = { m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET) };
     ITextureView *pDSV = m_pDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
-    pCtx->SetRenderTargets(1, pRTVs, pDSV);
+    pCtx->SetRenderTargets(1, pRTVs, pDSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     const float ClearColor[] = { 0.f, 0.2f, 0.5f, 1.0f };
     pCtx->ClearRenderTarget(pRTVs[0], ClearColor);
     pCtx->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, ReverseZ ? 0.f : 1.f, 0);
@@ -193,7 +193,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     
     // We need to invalidate the context state since the plugin has used d3d11 context
     pCtx->InvalidateState();
-    pCtx->SetRenderTargets(0, nullptr, nullptr);
+    pCtx->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     pCtx->SetPipelineState(m_pMirrorPSO);
     pCtx->CommitShaderResources(m_pMirrorSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
 

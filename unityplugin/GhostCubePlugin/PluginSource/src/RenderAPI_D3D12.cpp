@@ -166,7 +166,7 @@ void RenderAPI_D3D12::BeginRendering()
     m_RenderTarget->SetD3D12ResourceState(D3D12_RESOURCE_STATE_RENDER_TARGET);
     m_DepthBuffer->SetD3D12ResourceState(D3D12_RESOURCE_STATE_DEPTH_WRITE);
     ITextureView *RTVs[] = { m_RTV };
-    m_Context->SetRenderTargets(1, RTVs, m_DSV);
+    m_Context->SetRenderTargets(1, RTVs, m_DSV, SET_RENDER_TARGETS_FLAG_VERIFY_STATES);
 }
 
 void RenderAPI_D3D12::EndRendering()

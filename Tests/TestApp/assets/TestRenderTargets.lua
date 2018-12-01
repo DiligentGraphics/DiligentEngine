@@ -131,20 +131,20 @@ Tex2DArr_Slice2DSV = TexDS_2DArr:CreateView{ViewType = "TEXTURE_VIEW_DEPTH_STENC
 Tex2DArr_Slice2Mip2DSV = TexDS_2DArr:CreateView{ViewType = "TEXTURE_VIEW_DEPTH_STENCIL", FirstArraySlice = 2, MostDetailedMip = 2, NumArraySlices = 1}
 
 function SetRTsHelper(RTVs, DSV)
-	Context.SetRenderTargets(RTVs[1])
-	Context.SetRenderTargets(RTVs[1], RTVs[2])
-	Context.SetRenderTargets(RTVs[1], RTVs[2], RTVs[3])
+	Context.SetRenderTargets(RTVs[1], "SET_RENDER_TARGETS_FLAG_TRANSITION_ALL")
+	Context.SetRenderTargets(RTVs[1], RTVs[2], "SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR")
+	Context.SetRenderTargets(RTVs[1], RTVs[2], RTVs[3], "SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR")
 	if DSV then
-		Context.SetRenderTargets(RTVs[1], RTVs[2], RTVs[3], DSV)
+		Context.SetRenderTargets(RTVs[1], RTVs[2], RTVs[3], DSV, {"SET_RENDER_TARGETS_FLAG_TRANSITION_DEPTH", "SET_RENDER_TARGETS_FLAG_VERIFY_STATES"})
 	end
 	Context.ClearRenderTarget(RTVs[1], 0.25, 0.5, 0.75, 1.0)
 	Context.ClearRenderTarget(RTVs[2], 0.25, 0.5, 0.75, 1.0)
 	Context.ClearRenderTarget(RTVs[3], 0.25, 0.5, 0.75, 1.0)
 	if DSV then
 		Context.ClearDepthStencil(DSV, 1.0)
-		Context.SetRenderTargets(RTVs[1], RTVs[2], DSV)
-		Context.SetRenderTargets(RTVs[1], DSV)
-		Context.SetRenderTargets(DSV)
+		Context.SetRenderTargets(RTVs[1], RTVs[2], DSV, {"SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR", "SET_RENDER_TARGETS_FLAG_TRANSITION_DEPTH"})
+		Context.SetRenderTargets(RTVs[1], DSV, "SET_RENDER_TARGETS_FLAG_VERIFY_STATES")
+		Context.SetRenderTargets(DSV, "SET_RENDER_TARGETS_FLAG_VERIFY_STATES")
 	end
 end
 
@@ -174,8 +174,8 @@ function TestSetRenderTargets()
 	-- It is not allowed to mix different resources as render targets. In particular, we cannot
 	-- bind Texture2D & Texture3D at the same time
 	if not IsGLES then
-		Context.SetRenderTargets(Tex2D_DefRTV[3], Tex2DArr_Slice2RTV[1], Tex2DArr_Slice2DSV)
-		Context.SetRenderTargets(Tex2DArr_Slice2Mip2RTV[1], Tex2DArr_Slice2Mip2DSV)
+		Context.SetRenderTargets(Tex2D_DefRTV[3], Tex2DArr_Slice2RTV[1], Tex2DArr_Slice2DSV, "SET_RENDER_TARGETS_FLAG_TRANSITION_ALL")
+		Context.SetRenderTargets(Tex2DArr_Slice2Mip2RTV[1], Tex2DArr_Slice2Mip2DSV, "SET_RENDER_TARGETS_FLAG_TRANSITION_ALL")
 	end
 end
 
@@ -415,24 +415,24 @@ end
 function Render()
 	TestSetRenderTargets()
 	
-	Context.SetRenderTargets(Tex0RTV)				  -- To test FBO cache
-	Context.SetRenderTargets(Tex1RTV)				  -- To test FBO cache
-	Context.SetRenderTargets(TexDepthTexDSV)		  -- To test FBO cache
-	Context.SetRenderTargets(Tex0RTV, TexDepthTexDSV) -- To test FBO cache
-	Context.SetRenderTargets(Tex1RTV, TexDepthTexDSV) -- To test FBO cache
-	Context.SetRenderTargets(Tex0RTV, Tex1RTV, TexDepthTexDSV) -- To test FBO cache
+	Context.SetRenderTargets(Tex0RTV, "SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR")	                    -- To test FBO cache
+	Context.SetRenderTargets(Tex1RTV, "SET_RENDER_TARGETS_FLAG_TRANSITION_ALL")		                    -- To test FBO cache
+	Context.SetRenderTargets(TexDepthTexDSV, "SET_RENDER_TARGETS_FLAG_TRANSITION_DEPTH")		        -- To test FBO cache
+	Context.SetRenderTargets(Tex0RTV, TexDepthTexDSV, "SET_RENDER_TARGETS_FLAG_VERIFY_STATES")          -- To test FBO cache
+	Context.SetRenderTargets(Tex1RTV, TexDepthTexDSV, "SET_RENDER_TARGETS_FLAG_VERIFY_STATES")          -- To test FBO cache
+	Context.SetRenderTargets(Tex0RTV, Tex1RTV, TexDepthTexDSV, "SET_RENDER_TARGETS_FLAG_VERIFY_STATES") -- To test FBO cache
 
 
-	Context.SetRenderTargets(Tex2RTV)		  
+	Context.SetRenderTargets(Tex2RTV, "SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR")  
 	Context.ClearRenderTarget(Tex2RTV, 0, 0, 0.75)
-	Context.SetRenderTargets(Tex0RTV, Tex1RTV)		  
+	Context.SetRenderTargets(Tex0RTV, Tex1RTV, "SET_RENDER_TARGETS_FLAG_TRANSITION_ALL")
 	Context.ClearRenderTarget(Tex0RTV, 0.25)
 	Context.ClearRenderTarget(Tex1RTV, 0.0, 0.5)
 	Context.SetViewports(VP)
 	Context.SetScissorRects(SR)
 	RenderToTextures()
 	
-	Context.SetRenderTargets()
+	Context.SetRenderTargets({"SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR", "SET_RENDER_TARGETS_FLAG_TRANSITION_DEPTH"})
 	Context.SetViewports()
 	BlendTextures()
 end

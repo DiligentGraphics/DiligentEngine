@@ -117,7 +117,7 @@ void RenderAPI_OpenGLCoreES::BeginRendering()
     }
 
     ITextureView *RTVs[] = { m_RTV };
-    m_Context->SetRenderTargets(1, RTVs, m_DSV);
+    m_Context->SetRenderTargets(1, RTVs, m_DSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
 }
 
 void RenderAPI_OpenGLCoreES::AttachToNativeRenderTexture(void *nativeRenderTargetHandle, void *nativeDepthTextureHandle)
