@@ -760,7 +760,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     // Clear the render target
     float clearcol[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
     mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
-    mDeviceCtxt->ClearRenderTarget(nullptr, clearcol);
+    mDeviceCtxt->ClearRenderTarget(nullptr, clearcol, CLEAR_RENDER_TARGET_VERIFY_STATE);
     mDeviceCtxt->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG, 0.0f, 0);
 
     LONG64 currCounter;
