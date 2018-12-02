@@ -137,9 +137,9 @@ function SetRTsHelper(RTVs, DSV)
 	if DSV then
 		Context.SetRenderTargets(RTVs[1], RTVs[2], RTVs[3], DSV, {"SET_RENDER_TARGETS_FLAG_TRANSITION_DEPTH", "SET_RENDER_TARGETS_FLAG_VERIFY_STATES"})
 	end
-	Context.ClearRenderTarget(RTVs[1], 0.25, 0.5, 0.75, 1.0, "CLEAR_RENDER_TARGET_TRANSITION_STATE")
-	Context.ClearRenderTarget(RTVs[2], 0.25, 0.5, 0.75, 1.0, "CLEAR_RENDER_TARGET_VERIFY_STATE")
-	Context.ClearRenderTarget(RTVs[3], 0.25, 0.5, 0.75, 1.0, "CLEAR_RENDER_TARGET_TRANSITION_STATE")
+	Context.ClearRenderTarget(RTVs[1], 0.25, 0.5, 0.75, 1.0, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
+	Context.ClearRenderTarget(RTVs[2], 0.25, 0.5, 0.75, 1.0, "RESOURCE_STATE_TRANSITION_MODE_VERIFY")
+	Context.ClearRenderTarget(RTVs[3], 0.25, 0.5, 0.75, 1.0, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
 	if DSV then
 		Context.ClearDepthStencil(DSV, "CLEAR_DEPTH_STENCIL_TRANSITION_STATE_FLAG", 1.0)
 		Context.SetRenderTargets(RTVs[1], RTVs[2], DSV, {"SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR", "SET_RENDER_TARGETS_FLAG_TRANSITION_DEPTH"})
@@ -424,10 +424,10 @@ function Render()
 
 
 	Context.SetRenderTargets(Tex2RTV, "SET_RENDER_TARGETS_FLAG_TRANSITION_COLOR")  
-	Context.ClearRenderTarget(Tex2RTV, 0, 0, 0.75, "CLEAR_RENDER_TARGET_VERIFY_STATE")
+	Context.ClearRenderTarget(Tex2RTV, 0, 0, 0.75, "RESOURCE_STATE_TRANSITION_MODE_VERIFY")
 	Context.SetRenderTargets(Tex0RTV, Tex1RTV, "SET_RENDER_TARGETS_FLAG_TRANSITION_ALL")
-	Context.ClearRenderTarget(Tex0RTV, 0.25, "CLEAR_RENDER_TARGET_VERIFY_STATE")
-	Context.ClearRenderTarget(Tex1RTV, 0.0, 0.5, "CLEAR_RENDER_TARGET_VERIFY_STATE")
+	Context.ClearRenderTarget(Tex0RTV, 0.25, "RESOURCE_STATE_TRANSITION_MODE_VERIFY")
+	Context.ClearRenderTarget(Tex1RTV, 0.0, 0.5, "RESOURCE_STATE_TRANSITION_MODE_VERIFY")
 	Context.SetViewports(VP)
 	Context.SetScissorRects(SR)
 	RenderToTextures()

@@ -273,7 +273,8 @@ private:
             {
                 // In D3D11 if CopySubresourceRegion is used with Multisampled or D3D11_BIND_DEPTH_STENCIL Resources, 
                 // then the whole Subresource must be copied.
-                m_pDeviceContext->CopyTexture(pTestTex2, 0, 0, nullptr, pTestTex, 0, 0, 0,0,0);
+                CopyTextureAttribs CopyAttribs(pTestTex2, RESOURCE_STATE_TRANSITION_MODE_TRANSITION, pTestTex, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                m_pDeviceContext->CopyTexture(CopyAttribs);
             }
             else
             {
@@ -285,7 +286,9 @@ private:
                 SrcBox.MaxY = std::max(TexDesc.Height/3, SrcBox.MinY+1);
                 SrcBox.MaxZ = ( TexDesc.Type == RESOURCE_DIM_TEX_3D ) ? std::max(TexDesc.Depth/3, SrcBox.MinZ+1) : 1;
                 //pTestTex2->UpdateData(m_pDeviceContext, 0, 0, DstBox, SubResources[0]);
-                m_pDeviceContext->CopyTexture(pTestTex2, 0, 0, &SrcBox, pTestTex, 0, 0, 0,0,0);
+                CopyTextureAttribs CopyAttribs(pTestTex2, RESOURCE_STATE_TRANSITION_MODE_TRANSITION, pTestTex, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                CopyAttribs.pSrcBox = &SrcBox;
+                m_pDeviceContext->CopyTexture(CopyAttribs);
             }
         }
 

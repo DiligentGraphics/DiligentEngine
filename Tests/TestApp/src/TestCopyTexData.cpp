@@ -108,31 +108,27 @@ void TestCopyTexData::Test2DTexture( TEXTURE_FORMAT Format )
     m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
     m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
 
-    m_pContext->CopyTexture(pSrcTex,
-                      2, // Src mip
-                      0, // Src slice
-                      nullptr, // Box
-                      pDstTex,
-                      1, // dst mip
-                      0, // dst slice
-                      32, 16, 0 // XYZ offset 
-                      );
+    CopyTextureAttribs CopyAttribs;
+    CopyAttribs.pSrcTexture = pSrcTex;
+    CopyAttribs.SrcMipLevel = 2;
+    CopyAttribs.pDstTexture = pDstTex;
+    CopyAttribs.DstMipLevel = 1;
+    CopyAttribs.DstX = 32;
+    CopyAttribs.DstY = 16;
+    CopyAttribs.DstZ = 0;
+    CopyAttribs.SrcTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+    CopyAttribs.DstTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+    m_pContext->CopyTexture(CopyAttribs);
 
     Box SrcBox;
     SrcBox.MinX = 3;
     SrcBox.MaxX = 19;
     SrcBox.MinY = 1;
     SrcBox.MaxY = 32;
-    m_pContext->CopyTexture(pSrcTex,
-                      2, // Src mip
-                      0, // Src slice
-                      &SrcBox, // Box
-                      pDstTex,
-                      1, // dst mip
-                      0, // dst slice
-                      32, 16, 0 // XYZ offset 
-                      );
-
+    CopyAttribs.pSrcBox = &SrcBox;
+    CopyAttribs.SrcTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_VERIFY;
+    CopyAttribs.DstTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_VERIFY;
+    m_pContext->CopyTexture(CopyAttribs);
 }
 
 void TestCopyTexData::Test2DTexArray( TEXTURE_FORMAT Format )
@@ -168,30 +164,30 @@ void TestCopyTexData::Test2DTexArray( TEXTURE_FORMAT Format )
     m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
     m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
 
-    m_pContext->CopyTexture(pSrcTex,
-                      2, // Src mip
-                      3, // Src slice
-                      nullptr, // Box
-                      pDstTex,
-                      1, // dst mip
-                      6, // dst slice
-                      32, 16, 0 // XYZ offset 
-                      );
+    CopyTextureAttribs CopyAttribs;
+    CopyAttribs.pSrcTexture = pSrcTex;
+    CopyAttribs.SrcMipLevel = 2;
+    CopyAttribs.SrcSlice = 3;
+    CopyAttribs.pDstTexture = pDstTex;
+    CopyAttribs.DstMipLevel = 1;
+    CopyAttribs.DstSlice = 6;
+    CopyAttribs.DstX = 32;
+    CopyAttribs.DstY = 16;
+    CopyAttribs.DstZ = 0;
+    CopyAttribs.SrcTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+    CopyAttribs.DstTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+    m_pContext->CopyTexture(CopyAttribs);
 
     Box SrcBox;
     SrcBox.MinX = 3;
     SrcBox.MaxX = 19;
     SrcBox.MinY = 1;
     SrcBox.MaxY = 32;
-    m_pContext->CopyTexture(pSrcTex,
-                      2, // Src mip
-                      3, // Src slice
-                      &SrcBox, // Box
-                      pDstTex,
-                      1, // dst mip
-                      5, // dst slice
-                      32, 16, 0 // XYZ offset 
-                      );
+    CopyAttribs.DstSlice = 5;
+    CopyAttribs.pSrcBox = &SrcBox;
+    CopyAttribs.SrcTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_VERIFY;
+    CopyAttribs.DstTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_VERIFY;
+    m_pContext->CopyTexture(CopyAttribs);
 }
 
 void TestCopyTexData::Test3DTexture( TEXTURE_FORMAT Format )
@@ -221,28 +217,29 @@ void TestCopyTexData::Test3DTexture( TEXTURE_FORMAT Format )
     m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
     m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
 
-    m_pContext->CopyTexture(pSrcTex,
-                      2, // Src mip
-                      0, // Src slice
-                      nullptr, // Box
-                      pDstTex,
-                      1, // dst mip
-                      0, // dst slice
-                      16, 8, 0 // XYZ offset 
-                      );
+    CopyTextureAttribs CopyAttribs;
+    CopyAttribs.pSrcTexture = pSrcTex;
+    CopyAttribs.SrcMipLevel = 2;
+    CopyAttribs.pDstTexture = pDstTex;
+    CopyAttribs.DstMipLevel = 1;
+    CopyAttribs.DstX = 16;
+    CopyAttribs.DstY = 8;
+    CopyAttribs.DstZ = 0;
+    CopyAttribs.SrcTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+    CopyAttribs.DstTextureTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+
+    m_pContext->CopyTexture(CopyAttribs);
 
     Box SrcBox;
     SrcBox.MinX = 3;
     SrcBox.MaxX = 19;
     SrcBox.MinY = 1;
     SrcBox.MaxY = 32;
-    m_pContext->CopyTexture(pSrcTex,
-                      1, // Src mip
-                      0, // Src slice
-                      &SrcBox, // Box
-                      pDstTex,
-                      0, // dst mip
-                      0, // dst slice
-                      32, 16, 0 // XYZ offset 
-                      );
+    CopyAttribs.pSrcBox = &SrcBox;
+    CopyAttribs.SrcMipLevel = 1;
+    CopyAttribs.DstMipLevel = 0;
+    CopyAttribs.DstX = 32;
+    CopyAttribs.DstY = 16;
+    CopyAttribs.DstZ = 0;
+    m_pContext->CopyTexture(CopyAttribs);
 }

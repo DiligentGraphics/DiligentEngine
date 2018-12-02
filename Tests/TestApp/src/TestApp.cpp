@@ -524,7 +524,7 @@ void TestApp::InitializeRenderers()
 
         m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
         float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
-        m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, CLEAR_RENDER_TARGET_VERIFY_STATE);
+        m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 3;
         DrawAttrs.Flags = DRAW_FLAG_TRANSITION_VERTEX_BUFFERS;
@@ -532,7 +532,7 @@ void TestApp::InitializeRenderers()
         
         // This adds transition barrier for pTex1
         m_pImmediateContext->SetRenderTargets(1, pRTVs, pDSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
-        m_pImmediateContext->ClearRenderTarget(pRTVs[0], ClearColor, CLEAR_RENDER_TARGET_VERIFY_STATE);
+        m_pImmediateContext->ClearRenderTarget(pRTVs[0], ClearColor, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG | CLEAR_DEPTH_STENCIL_VERIFY_STATE_FLAG);
         // Generate draw command to the bound render target
         m_pImmediateContext->Draw(DrawAttrs);
@@ -632,14 +632,14 @@ void TestApp::Render()
 {
     m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
-    m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, CLEAR_RENDER_TARGET_VERIFY_STATE);
+    m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     m_pImmediateContext->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG| CLEAR_DEPTH_STENCIL_VERIFY_STATE_FLAG, 1.f);
     
     double dCurrTime = m_CurrTime;
     
     float instance_offsets[] = { -0.3f, (float)sin(dCurrTime + 0.5)*0.1f, 0.0f, (float)sin(dCurrTime)*0.1f, +0.3f, -0.3f + (float)cos(dCurrTime)*0.1f };
     m_pImmediateContext->UpdateBuffer(m_pInstBuff2, sizeof(float) * 1, sizeof(float) * 5, &instance_offsets[1], RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-    m_pImmediateContext->CopyBuffer(m_pInstBuff2, sizeof(float) * 2, m_pInstBuff, sizeof(float) * 2, sizeof(float) * 4);
+    m_pImmediateContext->CopyBuffer(m_pInstBuff2, sizeof(float) * 2, RESOURCE_STATE_TRANSITION_MODE_TRANSITION, m_pInstBuff, sizeof(float) * 2, sizeof(float) * 4, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
     {
         MapHelper<float> UniformData(m_pImmediateContext, m_pUniformBuff, MAP_WRITE, MAP_FLAG_DISCARD);
