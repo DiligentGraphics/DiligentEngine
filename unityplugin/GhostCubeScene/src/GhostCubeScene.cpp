@@ -158,7 +158,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     ITextureView *pDSV = m_pDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
     pCtx->SetRenderTargets(1, pRTVs, pDSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     const float ClearColor[] = { 0.f, 0.2f, 0.5f, 1.0f };
-    pCtx->ClearRenderTarget(pRTVs[0], ClearColor, CLEAR_RENDER_TARGET_TRANSITION_STATE);
+    pCtx->ClearRenderTarget(pRTVs[0], ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     pCtx->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG | CLEAR_DEPTH_STENCIL_TRANSITION_STATE_FLAG, ReverseZ ? 0.f : 1.f, 0);
 
     if (DeviceCaps.DevType == DeviceType::D3D12)
