@@ -184,7 +184,7 @@ void TestBufferAccess::Draw(float fTime)
         instance_offsets[Inst*2] = (1+Inst) * fDX;
         instance_offsets[Inst*2+1] = 1.f * fDY + sin(fTime) * fDY * 0.3f;
     }
-    m_pDeviceContext->UpdateBuffer(m_pInstBuff[1], sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2] );
+    m_pDeviceContext->UpdateBuffer(m_pInstBuff[1], sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2], RESOURCE_STATE_TRANSITION_MODE_TRANSITION );
 
     pBuffs[3] = m_pInstBuff[1];
     m_pDeviceContext->SetVertexBuffers( 0, _countof( pBuffs ), pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET );
@@ -197,7 +197,7 @@ void TestBufferAccess::Draw(float fTime)
         instance_offsets[Inst*2] = (1+Inst) * fDX;
         instance_offsets[Inst*2+1] = 2.f * fDY + sin(fTime*0.8f) * fDY * 0.3f;
     }
-    m_pDeviceContext->UpdateBuffer(m_pInstBuff[2], sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2] );
+    m_pDeviceContext->UpdateBuffer(m_pInstBuff[2], sizeof( float ) * 2, sizeof( float ) * 4, &instance_offsets[2], RESOURCE_STATE_TRANSITION_MODE_TRANSITION );
     m_pDeviceContext->CopyBuffer(m_pInstBuff[2], sizeof( float ) * 2, m_pInstBuff[1], sizeof( float ) * 2, sizeof( float ) * 4 );
     
     m_pDeviceContext->Draw(DrawAttrs);
