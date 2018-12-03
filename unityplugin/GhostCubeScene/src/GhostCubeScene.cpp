@@ -195,7 +195,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     pCtx->InvalidateState();
     pCtx->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
     pCtx->SetPipelineState(m_pMirrorPSO);
-    pCtx->CommitShaderResources(m_pMirrorSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    pCtx->CommitShaderResources(m_pMirrorSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     {
         float4x4 MirrorWorldView = scaleMatrix(5,5,5) * rotationX(PI_F*0.6f) * translationMatrix(0.f, -3.0f, 10.0f);

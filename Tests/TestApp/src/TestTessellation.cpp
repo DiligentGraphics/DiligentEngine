@@ -132,7 +132,7 @@ void TestTessellation::Draw()
         return;
 
     m_pDeviceContext->SetPipelineState(m_pQuadPSO);
-    m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    m_pDeviceContext->CommitShaderResources(nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
     Diligent::DrawAttribs DrawAttrs;
     DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
@@ -140,7 +140,7 @@ void TestTessellation::Draw()
     m_pDeviceContext->Draw(DrawAttrs);
 
     m_pDeviceContext->SetPipelineState(m_pTriPSO);
-    m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    m_pDeviceContext->CommitShaderResources(nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     DrawAttrs.NumVertices = 1; // Draw 1 tri patch
     m_pDeviceContext->Draw(DrawAttrs);
     

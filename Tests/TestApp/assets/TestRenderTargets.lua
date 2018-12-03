@@ -408,7 +408,7 @@ end
 function BlendTextures()
 	Context.SetVertexBuffers(ScaledQuadBuffer, TexcoordBuffer, "SET_VERTEX_BUFFERS_FLAG_RESET")
 	Context.SetPipelineState(BlendTexPSO)
-	Context.CommitShaderResources(BlendTexSRB, "COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
+	Context.CommitShaderResources(BlendTexSRB, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
 	Context.Draw(DrawAttrs)
 end
 

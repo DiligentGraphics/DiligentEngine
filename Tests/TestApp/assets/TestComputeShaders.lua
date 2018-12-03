@@ -339,7 +339,7 @@ function Dispatch()
 		local NumGroupsY = math.floor( (bit32.rshift(TestTexture.Height, Mip) + ThreadGroupSizeX - 1) / ThreadGroupSizeY )
 		tex2DTestUAV:Set(UAVs[Mip])
 		
-		Context.CommitShaderResources(FillTextureSRB, "COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES" )
+		Context.CommitShaderResources(FillTextureSRB, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION" )
 
 		Context.DispatchCompute(NumGroupsX, NumGroupsY)
 	end
@@ -350,7 +350,7 @@ function Dispatch()
 	Context.DispatchCompute(1)
 
 	Context.SetPipelineState(UpdateDrawArgsBuffPSO)
-	Context.CommitShaderResources(UpdateDrawArgsBuffSRB, "COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
+	Context.CommitShaderResources(UpdateDrawArgsBuffSRB, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
 	Context.DispatchCompute(IndirectDispatchArgsBuffer, 16, "DISPATCH_FLAG_TRANSITION_INDIRECT_ARGS_BUFFER")
 
 	Context.SetPipelineState(UpdateIndBuffPSO)
@@ -359,7 +359,7 @@ function Dispatch()
 	Context.DispatchCompute(1)
 	
 	Context.SetPipelineState(UpdateVertBuffPSO)
-	Context.CommitShaderResources(UpdateVertBuffSRB, "COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES")
+	Context.CommitShaderResources(UpdateVertBuffSRB, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
 	Context.DispatchCompute(2)	
 
 	return Draw()

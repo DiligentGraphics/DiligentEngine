@@ -88,7 +88,7 @@ void TestGeometryShader::Draw()
         return;
 
     m_pDeviceContext->SetPipelineState(m_pPSO);
-    m_pDeviceContext->CommitShaderResources(nullptr, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    m_pDeviceContext->CommitShaderResources(nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
     Diligent::DrawAttribs DrawAttrs;
     DrawAttrs.NumVertices = 2; // Draw 2 triangles

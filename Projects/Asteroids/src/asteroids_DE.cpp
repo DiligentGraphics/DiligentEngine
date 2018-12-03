@@ -730,15 +730,15 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
         if( m_BindingMode == BindingMode::Dynamic )
         {
             pVar->Set(mTextureSRVs[staticData->textureIndex]);
-            pCtx->CommitShaderResources(mAsteroidsSRBs[SubsetNum], COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+            pCtx->CommitShaderResources(mAsteroidsSRBs[SubsetNum], RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         }
         else if( m_BindingMode == BindingMode::Mutable )
         {
-            pCtx->CommitShaderResources(mAsteroidsSRBs[drawIdx], COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+            pCtx->CommitShaderResources(mAsteroidsSRBs[drawIdx], RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         }
         else if( m_BindingMode == BindingMode::TextureMutable )
         {
-            pCtx->CommitShaderResources(mAsteroidsSRBs[staticData->textureIndex], COMMIT_SHADER_RESOURCES_FLAG_VERIFY_STATES);
+            pCtx->CommitShaderResources(mAsteroidsSRBs[staticData->textureIndex], RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         }
 
         DrawAttribs attribs;
@@ -841,7 +841,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, SET_VERTEX_BUFFERS_FLAG_NONE);
 
         mDeviceCtxt->SetPipelineState(mSkyboxPSO);
-        mDeviceCtxt->CommitShaderResources(mSkyboxSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+        mDeviceCtxt->CommitShaderResources(mSkyboxSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
         DrawAttribs DrawAttrs;
         DrawAttrs.NumVertices = 6*6;
@@ -876,12 +876,12 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
             if (control->Visible()) {
                 if (control->TextureFile().length() == 0) { // Font
                     mDeviceCtxt->SetPipelineState(mFontPSO);
-                    mDeviceCtxt->CommitShaderResources(mFontSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+                    mDeviceCtxt->CommitShaderResources(mFontSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
                 } else { // Sprite
                     auto textureSRV = mSpriteTextures[control->TextureFile()];
                     mDeviceCtxt->SetPipelineState(mSpritePSO);
                     mSpriteSRB->GetVariable(SHADER_TYPE_PIXEL, "Tex")->Set(textureSRV);
-                    mDeviceCtxt->CommitShaderResources(mSpriteSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+                    mDeviceCtxt->CommitShaderResources(mSpriteSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
                 }
                 DrawAttribs DrawAttrs;
                 DrawAttrs.NumVertices = controlVertices[1+i];

@@ -164,7 +164,7 @@ void SamplePlugin::Render(Diligent::IDeviceContext *pContext, const float4x4 &Vi
     pContext->SetIndexBuffer(m_CubeIndexBuffer, 0);
 
     pContext->SetPipelineState(m_PSO);
-    pContext->CommitShaderResources(m_SRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    pContext->CommitShaderResources(m_SRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     DrawAttribs DrawAttrs;
     DrawAttrs.IsIndexed = true;

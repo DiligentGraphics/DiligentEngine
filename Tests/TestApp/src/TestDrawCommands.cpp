@@ -262,7 +262,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
 void TestDrawCommands::Draw()
 {
     m_pDeviceContext->SetPipelineState(m_pPSO);
-    m_pDeviceContext->CommitShaderResources(m_pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    m_pDeviceContext->CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     IBuffer *pBuffs[2] = {m_pVertexBuff, m_pInstanceData};
     Uint32 Strides[] = {sizeof(float)*6, sizeof(float)*2};
@@ -324,7 +324,7 @@ void TestDrawCommands::Draw()
     // 8,9: test strides
     Strides[0] *= 2;
     m_pDeviceContext->SetPipelineState(m_pPSO_2xStride);
-    m_pDeviceContext->CommitShaderResources(m_pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    m_pDeviceContext->CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     m_pDeviceContext->SetVertexBuffers(0, 1, pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
         DrawAttribs DrawAttrs;
@@ -335,7 +335,7 @@ void TestDrawCommands::Draw()
     }
     Strides[0] /= 2;
     m_pDeviceContext->SetPipelineState(m_pPSO);
-    m_pDeviceContext->CommitShaderResources(m_pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    m_pDeviceContext->CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     NumTestTrianglesInRow[0] = 12;
     
@@ -409,7 +409,7 @@ void TestDrawCommands::Draw()
 
     m_pDeviceContext->SetPipelineState(m_pPSOInst);
     m_pDeviceContext->TransitionShaderResources(m_pPSOInst, m_pSRBInst);
-    m_pDeviceContext->CommitShaderResources(m_pSRBInst, COMMIT_SHADER_RESOURCES_FLAG_VERIFY_STATES);
+    m_pDeviceContext->CommitShaderResources(m_pSRBInst, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
 
     Offsets[0] = 3*16*3 * 6*sizeof(float);
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
@@ -934,7 +934,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetVertexBuffers(0, 1, pBuffs, Offsets, SET_VERTEX_BUFFERS_FLAG_RESET);
     
     m_pDeviceContext->SetPipelineState(m_pPSO);
-    m_pDeviceContext->CommitShaderResources(m_pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    m_pDeviceContext->CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     {
         DrawAttribs DrawAttrs;

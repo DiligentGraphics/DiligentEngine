@@ -183,7 +183,7 @@ void TestShaderResArrays::Draw()
     IDeviceObject *ppSRVs[] = {m_pTextures[7]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE)};
     m_pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D")->SetArray(ppSRVs, 1, 1);
 
-    m_pDeviceContext->CommitShaderResources(m_pSRB, COMMIT_SHADER_RESOURCES_FLAG_TRANSITION_RESOURCES);
+    m_pDeviceContext->CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
     IBuffer *pBuffs[] = {m_pVertexBuff};
     Uint32 Offsets[] = {0};
