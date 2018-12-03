@@ -436,9 +436,9 @@ TestBuffer3 = Buffer.Create(
 	}
 )
 
-Context.SetVertexBuffers(1, TestBuffer, 0, TestBuffer3, 16, "SET_VERTEX_BUFFERS_FLAG_RESET")
+Context.SetVertexBuffers(1, TestBuffer, 0, TestBuffer3, 16, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION", "SET_VERTEX_BUFFERS_FLAG_RESET")
 Context.SetVertexBuffers(1, TestBuffer, 0, nil)
-Context.SetVertexBuffers(nil, nil, nil, {"SET_VERTEX_BUFFERS_FLAG_RESET", "SET_VERTEX_BUFFERS_FLAG_RESET"})
+Context.SetVertexBuffers(nil, nil, nil, "RESOURCE_STATE_TRANSITION_MODE_NONE", {"SET_VERTEX_BUFFERS_FLAG_RESET", "SET_VERTEX_BUFFERS_FLAG_RESET"})
 
 TestBuffer3 = Buffer.Create({
     Name = "Test Buffer 3",
@@ -482,7 +482,7 @@ IndexBuffer = Buffer.Create(
 	"VT_UINT32",
 	{0,1,2}
 )
-Context.SetIndexBuffer(IndexBuffer, 4)
+Context.SetIndexBuffer(IndexBuffer, 4, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
 
 TestTexture = Texture.Create{
 	Name = "Test Texture 2D",
@@ -620,7 +620,8 @@ TestDrawAttribs = DrawAttribs.Create{
 	StartVertexLocation = 64,
 	FirstInstanceLocation = 96,
 	pIndirectDrawAttribs = TestBuffer2,
-    Flags = {"DRAW_FLAG_TRANSITION_VERTEX_BUFFERS", "DRAW_FLAG_TRANSITION_INDEX_BUFFER", "DRAW_FLAG_TRANSITION_INDIRECT_ARGS_BUFFER", "DRAW_FLAG_VERIFY_STATES"}
+    IndirectAttribsBufferStateTransitionMode = "RESOURCE_STATE_TRANSITION_MODE_NONE",
+    Flags = {"DRAW_FLAG_VERIFY_STATES"}
 }
 assert( TestDrawAttribs.NumIndices == 128 )
 assert( TestDrawAttribs.IndexType == "VT_UINT16" )
@@ -642,6 +643,7 @@ TestDrawAttribs.IndirectDrawArgsOffset = 234
 TestDrawAttribs.FirstIndexLocation = 264
 TestDrawAttribs.FirstInstanceLocation = 946
 TestDrawAttribs.pIndirectDrawAttribs = TestGlobalBuffer
+TestDrawAttribs.IndirectAttribsBufferStateTransitionMode = "RESOURCE_STATE_TRANSITION_MODE_TRANSITION"
 
 TestDrawAttribs2 = DrawAttribs.Create{
 	pIndirectDrawAttribs = TestDrawAttribs.pIndirectDrawAttribs
@@ -658,6 +660,7 @@ assert( TestDrawAttribs.IndirectDrawArgsOffset == 234 )
 assert( TestDrawAttribs.FirstIndexLocation == 264 )
 assert( TestDrawAttribs.StartVertexLocation == 264 )
 assert( TestDrawAttribs.FirstInstanceLocation == 946 )
+assert( TestDrawAttribs.IndirectAttribsBufferStateTransitionMode == "RESOURCE_STATE_TRANSITION_MODE_TRANSITION" )
 
 
 

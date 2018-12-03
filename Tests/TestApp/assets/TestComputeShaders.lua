@@ -313,7 +313,8 @@ DrawAttrs = DrawAttribs.Create{
     IsIndexed = true,
 	IndexType = "VT_UINT32",
 	pIndirectDrawAttribs = IndirectDrawArgsBuffer,
-    Flags = {"DRAW_FLAG_TRANSITION_VERTEX_BUFFERS", "DRAW_FLAG_TRANSITION_INDEX_BUFFER", "DRAW_FLAG_TRANSITION_INDIRECT_ARGS_BUFFER"}
+    IndirectAttribsBufferStateTransitionMode = "RESOURCE_STATE_TRANSITION_MODE_TRANSITION",
+    Flags = {"DRAW_FLAG_VERIFY_STATES"}
 }
 
 
@@ -322,8 +323,8 @@ function Draw()
 	Context.SetPipelineState(RenderPSO)
 	Context.TransitionShaderResources(RenderPSO, RenderSRB)
 	Context.CommitShaderResources(RenderSRB)
-	Context.SetVertexBuffers(PositionsBuffer, 0, TexcoordBuffer, TexcoordDataOffset, "SET_VERTEX_BUFFERS_FLAG_RESET")
-	Context.SetIndexBuffer(IndexBuffer)
+	Context.SetVertexBuffers(PositionsBuffer, 0, TexcoordBuffer, TexcoordDataOffset, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION", "SET_VERTEX_BUFFERS_FLAG_RESET")
+	Context.SetIndexBuffer(IndexBuffer, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION" )
 	Context.Draw(DrawAttrs)
 end
 
@@ -351,7 +352,7 @@ function Dispatch()
 
 	Context.SetPipelineState(UpdateDrawArgsBuffPSO)
 	Context.CommitShaderResources(UpdateDrawArgsBuffSRB, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
-	Context.DispatchCompute(IndirectDispatchArgsBuffer, 16, "DISPATCH_FLAG_TRANSITION_INDIRECT_ARGS_BUFFER")
+	Context.DispatchCompute(IndirectDispatchArgsBuffer, 16, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
 
 	Context.SetPipelineState(UpdateIndBuffPSO)
 	Context.TransitionShaderResources(UpdateIndBuffPSO, UpdateIndBuffSRB)

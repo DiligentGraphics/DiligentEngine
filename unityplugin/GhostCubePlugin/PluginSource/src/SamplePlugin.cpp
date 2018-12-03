@@ -160,8 +160,8 @@ void SamplePlugin::Render(Diligent::IDeviceContext *pContext, const float4x4 &Vi
 
     Uint32 offset = 0;
     IBuffer *pBuffs[] = {m_CubeVertexBuffer};
-    pContext->SetVertexBuffers(0, 1, pBuffs, &offset, SET_VERTEX_BUFFERS_FLAG_RESET);
-    pContext->SetIndexBuffer(m_CubeIndexBuffer, 0);
+    pContext->SetVertexBuffers(0, 1, pBuffs, &offset, RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAG_RESET);
+    pContext->SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     pContext->SetPipelineState(m_PSO);
     pContext->CommitShaderResources(m_SRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -170,6 +170,6 @@ void SamplePlugin::Render(Diligent::IDeviceContext *pContext, const float4x4 &Vi
     DrawAttrs.IsIndexed = true;
     DrawAttrs.IndexType = VT_UINT32;
     DrawAttrs.NumIndices = 36;
-    DrawAttrs.Flags = DRAW_FLAG_TRANSITION_INDEX_BUFFER | DRAW_FLAG_TRANSITION_VERTEX_BUFFERS;
+    DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
     pContext->Draw(DrawAttrs);
 }

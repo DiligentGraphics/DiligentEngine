@@ -376,7 +376,7 @@ BlendTexSRB = BlendTexPSO:CreateShaderResourceBinding(true)
 
 DrawAttrs = DrawAttribs.Create{
 	NumVertices = 4,
-    Flags = "DRAW_FLAG_TRANSITION_VERTEX_BUFFERS"
+    Flags = "DRAW_FLAG_VERIFY_STATES"
 }
 
 VP = Viewport.Create { 
@@ -398,7 +398,7 @@ SR = ScissorRect.Create
 
 
 function RenderToTextures()
-	Context.SetVertexBuffers(FullQuadBuffer, TexcoordBuffer, "SET_VERTEX_BUFFERS_FLAG_RESET")
+	Context.SetVertexBuffers(FullQuadBuffer, TexcoordBuffer, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION", "SET_VERTEX_BUFFERS_FLAG_RESET")
 	Context.SetPipelineState(RenderToTexPSO)
 	Context.TransitionShaderResources(RenderToTexPSO, RenderToTexSRB)
 	Context.CommitShaderResources(RenderToTexSRB)
@@ -406,7 +406,7 @@ function RenderToTextures()
 end
 
 function BlendTextures()
-	Context.SetVertexBuffers(ScaledQuadBuffer, TexcoordBuffer, "SET_VERTEX_BUFFERS_FLAG_RESET")
+	Context.SetVertexBuffers(ScaledQuadBuffer, TexcoordBuffer, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION", "SET_VERTEX_BUFFERS_FLAG_RESET")
 	Context.SetPipelineState(BlendTexPSO)
 	Context.CommitShaderResources(BlendTexSRB, "RESOURCE_STATE_TRANSITION_MODE_TRANSITION")
 	Context.Draw(DrawAttrs)

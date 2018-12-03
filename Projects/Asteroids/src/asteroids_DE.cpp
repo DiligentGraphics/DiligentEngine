@@ -709,8 +709,8 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
     {
         IBuffer* ia_buffers[] = { mVertexBuffer };
         Uint32 ia_offsets[] = { 0 };
-        pCtx->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, SET_VERTEX_BUFFERS_FLAG_NONE);
-        pCtx->SetIndexBuffer(mIndexBuffer, 0);
+        pCtx->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_NONE);
+        pCtx->SetIndexBuffer(mIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     }
 
     auto pVar = m_BindingMode == BindingMode::Dynamic ? mAsteroidsSRBs[SubsetNum]->GetVariable(SHADER_TYPE_PIXEL, "Tex") : nullptr;
@@ -838,7 +838,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
 
         IBuffer* ia_buffers[] = { mSkyboxVertexBuffer };
         UINT ia_offsets[] = { 0 };
-        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, SET_VERTEX_BUFFERS_FLAG_NONE);
+        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_NONE);
 
         mDeviceCtxt->SetPipelineState(mSkyboxPSO);
         mDeviceCtxt->CommitShaderResources(mSkyboxSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -867,7 +867,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
 
         IBuffer* ia_buffers[] = { mSpriteVertexBuffer };
         Uint32 ia_offsets[] = { 0 };
-        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, SET_VERTEX_BUFFERS_FLAG_NONE);
+        mDeviceCtxt->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_NONE);
 
         // Draw
         UINT vertexStart = 0;
