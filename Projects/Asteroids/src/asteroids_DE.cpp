@@ -698,7 +698,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
                              Uint32 startIdx, 
                              Uint32 numAsteroids)
 {
-    pCtx->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_VERIFY_STATES);
+    pCtx->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     
     // Frame data
     auto staticAsteroidData = mAsteroids->StaticData();
@@ -759,9 +759,9 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     
     // Clear the render target
     float clearcol[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-    mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+    mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     mDeviceCtxt->ClearRenderTarget(nullptr, clearcol, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
-    mDeviceCtxt->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG | CLEAR_DEPTH_STENCIL_VERIFY_STATE_FLAG, 0.0f, 0);
+    mDeviceCtxt->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG, 0.0f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     LONG64 currCounter;
     QueryPerformanceCounter((LARGE_INTEGER*)&currCounter);
@@ -828,7 +828,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     QueryPerformanceCounter((LARGE_INTEGER*)&currCounter);
     mRenderTicks = currCounter-mRenderTicks;
 
-    mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+    mDeviceCtxt->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     // Draw skybox
     {
         {

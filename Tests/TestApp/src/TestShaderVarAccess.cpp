@@ -552,15 +552,15 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     VERIFY_EXPR(pNonExistingVar == nullptr);
     VERIFY_EXPR(pSRB->GetVariableCount(SHADER_TYPE_GEOMETRY) == 0);
 
-    m_pDeviceContext->SetRenderTargets(1, &pRTV, pDSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+    m_pDeviceContext->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     float Zero[4] = {};
     m_pDeviceContext->ClearRenderTarget(pRTV, Zero, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
-    m_pDeviceContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG | CLEAR_DEPTH_STENCIL_VERIFY_STATE_FLAG);
+    m_pDeviceContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, 1, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
 
     pContext->CommitShaderResources(pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     pContext->Draw(DrawAttrs);
 
-    m_pDeviceContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+    m_pDeviceContext->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     SetStatus(TestResult::Succeeded);
 }

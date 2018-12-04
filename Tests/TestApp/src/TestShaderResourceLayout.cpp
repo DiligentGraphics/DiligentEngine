@@ -85,7 +85,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     RefCntAutoPtr<ITexture> pRenderTarget;
     pDevice->CreateTexture(TexDesc, TextureData{}, &pRenderTarget);
     auto *pRTV = pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
-    m_pDeviceContext->SetRenderTargets(1, &pRTV, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+    m_pDeviceContext->SetRenderTargets(1, &pRTV, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     float Zero[4] = {};
     m_pDeviceContext->ClearRenderTarget(pRTV, Zero, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
 

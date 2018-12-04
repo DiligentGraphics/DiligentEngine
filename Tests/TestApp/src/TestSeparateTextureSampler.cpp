@@ -151,7 +151,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         pDevice->CreateTexture(RenderTargetDesc, TextureData{}, &pRenderTarget);
 
         ITextureView* pRTV[] = {pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET)};
-        pContext->SetRenderTargets(1, pRTV, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+        pContext->SetRenderTargets(1, pRTV, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         float Zero[4] = {};
         pContext->ClearRenderTarget(pRTV[0], Zero, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         pContext->SetPipelineState(pPSO);
@@ -161,7 +161,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         DrawAttrs.NumVertices = 3;
         pContext->Draw(DrawAttrs);
         
-        pContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+        pContext->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
         SetStatus(TestResult::Succeeded);
     }

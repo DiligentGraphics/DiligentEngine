@@ -522,7 +522,7 @@ void TestApp::InitializeRenderers()
             UniformData[3] = 0;
         }
 
-        m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+        m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
         m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         DrawAttribs DrawAttrs;
@@ -531,12 +531,12 @@ void TestApp::InitializeRenderers()
         m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
         
         // This adds transition barrier for pTex1
-        m_pImmediateContext->SetRenderTargets(1, pRTVs, pDSV, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+        m_pImmediateContext->SetRenderTargets(1, pRTVs, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         m_pImmediateContext->ClearRenderTarget(pRTVs[0], ClearColor, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
-        m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG | CLEAR_DEPTH_STENCIL_VERIFY_STATE_FLAG);
+        m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, 1, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         // Generate draw command to the bound render target
         m_pImmediateContext->Draw(DrawAttrs);
-        m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+        m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         // This will destroy texture and put D3D12 resource into release queue
         pTex.Release();
 
@@ -630,10 +630,10 @@ void TestApp::Update(double CurrTime, double ElapsedTime)
 
 void TestApp::Render()
 {
-    m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, SET_RENDER_TARGETS_FLAG_TRANSITION_ALL);
+    m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
     m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
-    m_pImmediateContext->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG| CLEAR_DEPTH_STENCIL_VERIFY_STATE_FLAG, 1.f);
+    m_pImmediateContext->ClearDepthStencil(nullptr, CLEAR_DEPTH_FLAG, 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     
     double dCurrTime = m_CurrTime;
     
