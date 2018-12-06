@@ -69,6 +69,7 @@ struct Settings
     bool windowed = true;
     enum RenderMode
     {
+        Undefined,
         NativeD3D11,
         NativeD3D12,
         DiligentD3D11,
