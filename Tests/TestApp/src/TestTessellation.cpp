@@ -134,9 +134,8 @@ void TestTessellation::Draw()
     m_pDeviceContext->SetPipelineState(m_pQuadPSO);
     m_pDeviceContext->CommitShaderResources(nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
-    Diligent::DrawAttribs DrawAttrs;
-    DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
-    DrawAttrs.NumVertices = 2; // Draw 2 quad patches
+    // Draw 2 quad patches
+    Diligent::DrawAttribs DrawAttrs(2, DRAW_FLAG_VERIFY_STATES);
     m_pDeviceContext->Draw(DrawAttrs);
 
     m_pDeviceContext->SetPipelineState(m_pTriPSO);

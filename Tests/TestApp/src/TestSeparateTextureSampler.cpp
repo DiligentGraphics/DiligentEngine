@@ -156,9 +156,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         pContext->ClearRenderTarget(pRTV[0], Zero, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         pContext->SetPipelineState(pPSO);
         pContext->CommitShaderResources(pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-        DrawAttribs DrawAttrs;
-        DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
-        DrawAttrs.NumVertices = 3;
+        DrawAttribs DrawAttrs(3, DRAW_FLAG_VERIFY_STATES);
         pContext->Draw(DrawAttrs);
         
         pContext->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);

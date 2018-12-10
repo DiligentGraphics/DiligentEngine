@@ -741,10 +741,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
             pCtx->CommitShaderResources(mAsteroidsSRBs[staticData->textureIndex], RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         }
 
-        DrawAttribs attribs;
-        attribs.IsIndexed = true;
-        attribs.NumIndices = dynamicData->indexCount;
-        attribs.IndexType = VT_UINT16;
+        DrawAttribs attribs(dynamicData->indexCount, VT_UINT16, DRAW_FLAG_VERIFY_STATES);
         attribs.FirstIndexLocation = dynamicData->indexStart;
         attribs.BaseVertex = staticData->vertexStart;
         pCtx->Draw(attribs);
@@ -843,8 +840,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         mDeviceCtxt->SetPipelineState(mSkyboxPSO);
         mDeviceCtxt->CommitShaderResources(mSkyboxSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-        DrawAttribs DrawAttrs;
-        DrawAttrs.NumVertices = 6*6;
+        DrawAttribs DrawAttrs(6*6, DRAW_FLAG_VERIFY_STATES);
         mDeviceCtxt->Draw(DrawAttrs);
     }
 
@@ -883,8 +879,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
                     mSpriteSRB->GetVariable(SHADER_TYPE_PIXEL, "Tex")->Set(textureSRV);
                     mDeviceCtxt->CommitShaderResources(mSpriteSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
                 }
-                DrawAttribs DrawAttrs;
-                DrawAttrs.NumVertices = controlVertices[1+i];
+                DrawAttribs DrawAttrs(controlVertices[1+i], DRAW_FLAG_VERIFY_STATES);
                 DrawAttrs.StartVertexLocation = vertexStart;
                 mDeviceCtxt->Draw(DrawAttrs);
             }

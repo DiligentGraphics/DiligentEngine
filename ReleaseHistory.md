@@ -1,19 +1,42 @@
 
 ## Current Progress
 
-## v2.3.c (in progress)
+## v2.4
 
-* Core
-  * Implemented explicit resource state transitions
-  * API Changes
-    * Added `DRAW_FLAGS` and `DISPATCH_FLAGS` enums that control state transitions of vertex,
-      index and indirect draw arguments buffers
-    * Added `Uint8 Flags` member to `DrawAttribs` structure (values from `DRAW_FLAGS`)
-    * Added `Uint8 Flags` member to `DispatchComputeAttribs` structure (values from `DISPATCH_FLAGS`)
-    * Added `RESOURCE_STATE` enum
-    * Added `StateTransitionDesc` structure that describes resource state transition
-    * Added `IDeviceContext::TransitionResourceStates(Uint32 BarrierCount, StateTransitionDesc* pResourceBarriers)` method
-    * Added `IBuffer::SetState()`, `IBuffer::GetState()`, `ITexture::SetState()`, `ITexture::GetState()` methods
+Core:
+
+* Implemented explicit resource state transitions
+* API Changes
+  * Added `RESOURCE_STATE` enum that defines the resource state
+  * Added `RESOURCE_STATE_TRANSITION_MODE` enum that controls resource state transition mode
+  * Added `DRAW_FLAGS` enum that controls state validation performed by Draw command
+  * Added `Flags` member to `DrawAttribs` structure (values from `DRAW_FLAGS`)
+  * Added `IndirectAttribsBufferStateTransitionMode` member to `DrawAttribs` and `DispatchComputeAttribs` structures (values from `RESOURCE_STATE_TRANSITION_MODE`)
+  * Added `StateTransitionDesc` structure that describes resource state transition barrier
+  * Added `IDeviceContext::TransitionResourceStates(Uint32 BarrierCount, StateTransitionDesc* pResourceBarriers)` method
+  * Added `IBuffer::SetState()`, `IBuffer::GetState()`, `ITexture::SetState()`, `ITexture::GetState()` methods
+  * Added `IShaderResourceBinding::InitializeStaticResources()` to explicitly initialize static resources and
+    avoid problems in multi-threaded environments
+  * Added `InitStaticResources` parameter to `IPipelineState::CreateShaderResourceBinding()` method to allow
+    immediate initialization of static resources in a SRB
+  * Removed default SRB object
+  * Renamed/moved `IBuffer::UpdateData()` to `IDeviceContext::UpdateBuffer()`
+  * Renamed/moved `IBuffer::CopyData()` to `IDeviceContext::CopyBuffer()`
+  * Renamed/moved `IBuffer::Map()` to `IDeviceContext::MapBuffer()`
+  * Renamed/moved `IBuffer::Unmap()` to `IDeviceContext::UnmapBuffer()`
+    * Removed MapFlags parameter
+  * Renamed/moved `ITexture::UpdateData()` to `IDeviceContext::UpdateTexture()`
+  * Renamed/moved `ITexture::CopyData()` to `IDeviceContext::CopyTexture()`
+  * Renamed/moved `ITexture::Map()` to `IDeviceContext::MapTextureSubresource()`
+  * Renamed/moved `ITexture::Unmap()` to `IDeviceContext::UnmapTextureSubresource()`
+  * Moved `ITextureView::GenerateMips()` to `IDeviceContext::GenerateMips()`
+  * Added state transition mode parameters to `IDeviceContext::UpdateBuffer()`, `IDeviceContext::UpdateTexture()`,
+    `IDeviceContext::CopyBuffer()`, `IDeviceContext::CopyTexture()`, `IDeviceContext::SetVertexBuffers()`, 
+	`IDeviceContext::SetIndexBuffers()`, `IDeviceContext::ClearRenderTargets()`, and `IDeviceContext::ClearDepthStencil()` methods
+  * Replaced `COMMIT_SHADER_RESOURCES_FLAGS` enum with `RESOURCE_STATE_TRANSITION_MODE`
+  * Added `ITextureD3D12::GetD3D12ResourceState()`, `IBufferD3D12::GetD3D12ResourceState()`,
+	`IBufferVk::GetAccessFlags()`, and `ITextureVk::GetLayout()` methods
+  * Added `CopyTextureAttribs` structure that combines all paramters of `IDeviceContext::CopyTexture()` method
 
 ## v2.3.b
 

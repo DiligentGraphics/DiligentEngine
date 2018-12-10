@@ -535,9 +535,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     pContext->SetPipelineState(pTestPSO);
     pContext->CommitShaderResources(pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
-    DrawAttribs DrawAttrs;
-    DrawAttrs.Flags = DRAW_FLAG_VERIFY_STATES;
-    DrawAttrs.NumVertices = 3;
+    DrawAttribs DrawAttrs(3, DRAW_FLAG_VERIFY_STATES);
     pContext->Draw(DrawAttrs);
 
     pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwtex2D_Dyn")->Set(pTexUAVs[7]);
