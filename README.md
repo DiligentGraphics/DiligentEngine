@@ -47,7 +47,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 Last Stable Release - [v2.4](https://github.com/DiligentGraphics/DiligentEngine/releases/tag/v2.4)
 
-# Clonning the Repository
+# Cloning the Repository
 
 This is the master repository that contains three [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules). To get the repository and all submodules, use the following command:
 
