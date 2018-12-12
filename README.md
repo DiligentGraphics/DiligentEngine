@@ -6,11 +6,9 @@ application and the platform-specific graphics API designed to take advantages o
 Direct3D12 and Vulkan, while providing support for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes 
 common front-end for all supported platforms and provides 
 [interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
-[Shader source code converter](http://diligentgraphics.com/diligent-engine/shader-converter/) allows HLSL shaders to be used 
-on all supported platforms and rendering backends. The engine is intended to be used as a graphics subsystem in a game engine
-or any other 3D application, and supports 
-[integration with Unity](http://diligentgraphics.com/diligent-engine/integration-with-unity/). 
-Diligent Engine is distributed under [Apache 2.0 license](License.txt) and is free to use.
+It uses HLSL as a universal shading language for all back-ends and platforms; GLSL can be used with Vulkan/OpenGL.
+The engine is intended to be used as a graphics subsystem in a game engine or any other 3D application. 
+It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](License.txt)
 [![Chat on gitter](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/diligent-engine)
