@@ -100,6 +100,10 @@ You can generate Win32 solution that targets Win8.1 SDK using the following comm
 
 *cmake -D CMAKE_SYSTEM_VERSION=8.1 -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
 
+If you use MinGW, you can generate the make files using the command below:
+
+*cmake -H. -B./cmk_build/MinGW -G "MinGW Makefiles"*
+
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**. (If anybody knows a way
 to add quotes to CMake's custom commands, please let me know!)
 
@@ -111,7 +115,7 @@ Make sure that Visual C++ ATL Support is installed via Visual Studio Installer.
 Open *DiligentEngine.sln* file in *cmk_build/Win64* folder, select configuration and build the engine. Set the desired project
 as startup project (by default, Asteroids demo will be selected) and run it. 
 
-By default, appplications will run in D3D11 mode. To select D3D12, OpenGL, or Vulkan use the following command line options:
+By default, appplications will run in D3D12 mode. To select D3D11, OpenGL, or Vulkan use the following command line options:
 **mode=D3D11**, **mode=D3D12**, **mode=GL**, or **mode=Vk** (do not use spaces!). If you want to run an application outside of Visual Studio environment,
 the application's assets folder must be selected as a working directory. (For Visual Studio, this is automatically configured by 
 CMake). 
@@ -134,7 +138,7 @@ You can target specific SDK version by refining CMAKE_SYSTEM_VERSION, for instan
 
 Set the desired project as startup project (by default, Atmosphere sample will be selected) and run it. 
 
-By default, appplications will run in D3D11 mode. You can select D3D11 or D3D12 using the following command line options:
+By default, appplications will run in D3D12 mode. You can select D3D11 or D3D12 using the following command line options:
 **mode=D3D11**, **mode=D3D12** (do not use spaces!).
 
 Note: you can generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but the solution will fail
