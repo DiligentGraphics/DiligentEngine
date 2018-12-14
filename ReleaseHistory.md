@@ -1,6 +1,8 @@
 
 ## Current Progress
 
+* Enabled MinGW build
+
 ## v2.4
 
 Core:
