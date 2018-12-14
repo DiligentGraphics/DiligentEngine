@@ -51,7 +51,7 @@ else()
     )
 endif()
 
-if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)
+if(MSVC)
     target_sources(GhostCubePlugin-shared 
     PRIVATE	
         src/RenderingPlugin.def
@@ -82,19 +82,20 @@ endif()
 
 set_common_target_properties(GhostCubePlugin-shared)
 
+if(PLATFORM_WIN32)
+    target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_WIN=1)
+elseif(PLATFORM_UNIVERSAL_WINDOWS)
+    target_compile_definitions(GhostCubePlugin-shared PRIVATE WINDOWS_UWP=1 UNITY_METRO=1)
+elseif(PLATFORM_ANDROID)
+    target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_ANDROID=1)
+elseif(PLATFORM_LINUX)
+    target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_LINUX=1)
+endif()
+
 if(MSVC)
     # Disable MSVC-specific warnings
     # - w4201: nonstandard extension used: nameless struct/unio
     target_compile_options(GhostCubePlugin-shared PRIVATE /wd4201)
-    if(PLATFORM_UNIVERSAL_WINDOWS)
-        target_compile_definitions(GhostCubePlugin-shared PRIVATE WINDOWS_UWP UNITY_METRO)
-    endif()
-endif()
-
-if(PLATFORM_ANDROID)
-    target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_ANDROID)
-elseif(PLATFORM_LINUX)
-    target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_LINUX)
 endif()
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR 

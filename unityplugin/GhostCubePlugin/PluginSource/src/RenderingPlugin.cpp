@@ -5,6 +5,10 @@
 #include "RenderAPI.h"
 #include "SamplePlugin.h"
 
+#if PLATFORM_WIN32 || PLATFORM_UNIVERSAL_WINDOWS
+    #include <crtdbg.h>
+#endif
+
 #include <vector>
 
 using namespace Diligent;

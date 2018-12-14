@@ -24,6 +24,7 @@
 #include <memory>
 #include <iomanip>
 #include <Windows.h>
+#include <crtdbg.h>
 #include "NativeAppBase.h"
 #include "StringTools.h"
 #include "Timer.h"
@@ -40,14 +41,20 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
 
     g_pTheApp.reset( CreateApplication() );
 
-    const auto *cmdLine = GetCommandLineA();
+    const auto* cmdLine = GetCommandLineA();
     g_pTheApp->ProcessCommandLine(cmdLine);
 
-    std::wstring Title = Diligent::WidenString(g_pTheApp->GetAppTitle());
+    const auto* AppTitle = g_pTheApp->GetAppTitle();
+
+#ifdef UNICODE
+    const auto* const WindowClassName =   L"SampleApp";
+#else
+    const auto* const WindowClassName =   "SampleApp";
+#endif
 
     // Register our window class
     WNDCLASSEX wcex = { sizeof(WNDCLASSEX), CS_HREDRAW|CS_VREDRAW, MessageProc,
-                        0L, 0L, instance, NULL, NULL, NULL, NULL, L"SampleApp", NULL };
+                        0L, 0L, instance, NULL, NULL, NULL, NULL, WindowClassName, NULL };
     RegisterClassEx(&wcex);
 
     // Create a window
@@ -55,12 +62,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
     LONG WindowHeight = 1024;
     RECT rc = { 0, 0, WindowWidth, WindowHeight };
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-    HWND wnd = CreateWindow(L"SampleApp", Title.c_str(), 
+    HWND wnd = CreateWindowA("SampleApp", AppTitle,
                             WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
                             rc.right-rc.left, rc.bottom-rc.top, NULL, NULL, instance, NULL);
     if (!wnd)
     {
-        MessageBox(NULL, L"Cannot create window", L"Error", MB_OK|MB_ICONERROR);
+        MessageBoxA(NULL, "Cannot create window", "Error", MB_OK|MB_ICONERROR);
         return 0;
     }
     ShowWindow(wnd, cmdShow);
@@ -94,10 +101,10 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
 
             double filterScale = 0.2;
             filteredFrameTime = filteredFrameTime * (1.0 - filterScale) + filterScale * ElapsedTime;
-            std::wstringstream fpsCounterSS;
-            fpsCounterSS << " - " << std::fixed << std::setprecision(1) << filteredFrameTime * 1000;
+            std::stringstream fpsCounterSS;
+            fpsCounterSS << AppTitle << " - " << std::fixed << std::setprecision(1) << filteredFrameTime * 1000;
             fpsCounterSS << " ms (" << 1.0 / filteredFrameTime << " fps)";
-            SetWindowText(wnd, (Title + fpsCounterSS.str()).c_str());
+            SetWindowTextA(wnd, fpsCounterSS.str().c_str());
         }
     }
     

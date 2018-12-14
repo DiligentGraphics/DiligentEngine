@@ -13,16 +13,16 @@
 // UNITY_ANDROID - Android
 // UNITY_METRO - WSA or UWP
 // UNITY_WEBGL - WebGL
-#if _MSC_VER
-	#define UNITY_WIN 1
+#if defined(UNITY_WIN) || defined(UNITY_METRO) || defined(UNITY_ANDROID) || defined(UNITY_LINUX) || defined(UNITY_WEBGL)
+	// these are defined externally
+#elif _MSC_VER
+    #define UNITY_WIN 1
 #elif defined(__APPLE__)
 	#if defined(__arm__) || defined(__arm64__)
 		#define UNITY_IPHONE 1
 	#else
 		#define UNITY_OSX 1
 	#endif
-#elif defined(UNITY_METRO) || defined(UNITY_ANDROID) || defined(UNITY_LINUX) || defined(UNITY_WEBGL)
-	// these are defined externally
 #elif defined(__EMSCRIPTEN__)
 	// this is already defined in Unity 5.6
 	#define UNITY_WEBGL 1

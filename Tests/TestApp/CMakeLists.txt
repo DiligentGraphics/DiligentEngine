@@ -125,43 +125,32 @@ if(MSVC)
     endif()
 endif()
 
+
 if(PLATFORM_WIN32)
-    SET(ENGINE_LIBRARIES
-        GraphicsEngineD3D11-shared
-        GraphicsEngineOpenGL-shared
-    )
-    if(D3D12_SUPPORTED)
-        list(APPEND ENGINE_LIBRARIES GraphicsEngineD3D12-shared)
-    endif()
-    if(VULKAN_SUPPORTED)
-        list(APPEND ENGINE_LIBRARIES GraphicsEngineVk-shared)
-    endif()
-elseif(PLATFORM_ANDROID)
-    SET(ENGINE_LIBRARIES
-        GraphicsEngineOpenGL-shared
-    )
-elseif(PLATFORM_UNIVERSAL_WINDOWS)
-    SET(ENGINE_LIBRARIES
-        GraphicsEngineD3D11-static
-        GraphicsEngineD3D12-static
-    )
-elseif(PLATFORM_LINUX)
-    SET(ENGINE_LIBRARIES
-        GraphicsEngineOpenGL-shared
-    )
-    if(VULKAN_SUPPORTED)
-        list(APPEND ENGINE_LIBRARIES GraphicsEngineVk-shared)
-    endif()
-elseif(PLATFORM_MACOS)
-    SET(ENGINE_LIBRARIES
-        GraphicsEngineOpenGL-shared
-    )
-elseif(PLATFORM_IOS)
-    SET(ENGINE_LIBRARIES
-        GraphicsEngineOpenGL-static
-    )
+	if(MSVC)
+		set(LIB_TYPE "shared")
+	else()
+		set(LIB_TYPE "static")
+	endif()
+elseif(PLATFORM_LINUX OR PLATFORM_ANDROID OR PLATFORM_MACOS)
+    set(LIB_TYPE "shared")
+elseif(PLATFORM_UNIVERSAL_WINDOWS OR PLATFORM_IOS)
+    set(LIB_TYPE "static")
 else()
     message(FATAL_ERROR "Undefined platform")
+endif()
+
+if(D3D11_SUPPORTED)
+	list(APPEND ENGINE_LIBRARIES GraphicsEngineD3D11-${LIB_TYPE})
+endif()
+if(D3D12_SUPPORTED)
+	list(APPEND ENGINE_LIBRARIES GraphicsEngineD3D12-${LIB_TYPE})
+endif()
+if(GL_SUPPORTED OR GLES_SUPPORTED)
+	list(APPEND ENGINE_LIBRARIES GraphicsEngineOpenGL-${LIB_TYPE})
+endif()
+if(VULKAN_SUPPORTED)
+	list(APPEND ENGINE_LIBRARIES GraphicsEngineVk-${LIB_TYPE})
 endif()
 
 target_link_libraries(TestApp 

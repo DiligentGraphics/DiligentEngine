@@ -105,31 +105,38 @@ PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}/CompiledShaders
 )
 
+if(PLATFORM_WIN32)
+    set(LIB_TYPE "shared")
+else()
+    message(FATAL_ERROR "Unsupported platform")
+endif()
+
+if(D3D11_SUPPORTED)
+	list(APPEND ENGINE_LIBRARIES GraphicsEngineD3D11-${LIB_TYPE})
+endif()
+if(D3D12_SUPPORTED)
+	list(APPEND ENGINE_LIBRARIES GraphicsEngineD3D12-${LIB_TYPE})
+endif()
+if(GL_SUPPORTED OR GLES_SUPPORTED)
+	list(APPEND ENGINE_LIBRARIES GraphicsEngineOpenGL-${LIB_TYPE})
+endif()
+if(VULKAN_SUPPORTED)
+	list(APPEND ENGINE_LIBRARIES GraphicsEngineVk-${LIB_TYPE})
+endif()
+
 target_link_libraries(Asteroids
 PRIVATE
     BuildSettings
-    GraphicsEngineD3D11-shared 
-    GraphicsEngineD3D12-shared
-    GraphicsEngineOpenGL-shared
     TargetPlatform
     TextureLoader
     Common
     GraphicsTools
-    d3dcompiler.lib
-    d3d12.lib
-    d3d11.lib
+    ${ENGINE_LIBRARIES}
     ninput.lib
     winmm.lib
     dxgi.lib
     shcore.lib
 )
-
-if(VULKAN_SUPPORTED)
-    target_link_libraries(Asteroids
-    PRIVATE
-        GraphicsEngineVk-shared
-    )
-endif()
 
 set_common_target_properties(Asteroids)
 

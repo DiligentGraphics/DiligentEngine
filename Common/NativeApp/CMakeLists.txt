@@ -13,6 +13,15 @@ if(PLATFORM_WIN32)
 
     function(add_win32_app TARGET_NAME SOURCE INCLUDE ASSETS)
         add_executable(${TARGET_NAME} WIN32 ${SOURCE} ${INCLUDE} ${ASSETS})
+        
+        if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+            # libmingw32 must be included BEFORE NativeAppBase that contains the definition of WinMain.
+            # otherwise WinMain will be stripped out of NativeAppBase and will be unresolved.
+            target_link_libraries(${TARGET_NAME}
+            PRIVATE
+                mingw32
+            )
+        endif()
     endfunction()
 
     function(add_target_platform_app TARGET_NAME SOURCE INCLUDE ASSETS)

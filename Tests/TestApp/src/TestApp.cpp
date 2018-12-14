@@ -596,8 +596,15 @@ void TestApp::ProcessCommandLine(const char *CmdLine)
     }
     else
     {
-        LOG_INFO_MESSAGE("Device type is not specified. Using D3D11 device");
+#if D3D12_SUPPORTED
+        m_DeviceType = DeviceType::D3D12;
+#elif VULKAN_SUPPORTED
+        m_DeviceType = DeviceType::Vulkan;
+#elif D3D11_SUPPORTED
         m_DeviceType = DeviceType::D3D11;
+#elif GL_SUPPORTED || GLES_SUPPORTED
+        m_DeviceType = DeviceType::OpenGL;
+#endif
     }
 
     switch (m_DeviceType)

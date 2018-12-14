@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "DiligentCore/Common/interface/Signal.h"
+#include "DiligentCore/Common/interface/ThreadSignal.h"

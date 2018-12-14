@@ -50,7 +50,7 @@ void* UnityAppBase::LoadPluginFunction(const char* FunctionName)
 {
     auto Func = GetProcAddress(g_DLLHandle, FunctionName);
     VERIFY( Func != nullptr, "Failed to import plugin function \"", FunctionName, "\"." );
-    return Func;
+    return reinterpret_cast<void*>(Func);
 }
 
 bool UnityAppBase::LoadPlugin()
