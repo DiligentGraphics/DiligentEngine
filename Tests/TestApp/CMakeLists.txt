@@ -181,6 +181,14 @@ elseif(PLATFORM_MACOS OR PLATFORM_IOS)
 
 endif()
 
+if(PLATFORM_WIN32 OR PLATFORM_LINUX)
+    # Copy assets to target folder
+    add_custom_command(TARGET TestApp POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+            "\"$<TARGET_FILE_DIR:TestApp>\"")
+endif()
+
 source_group("src" FILES ${SOURCE})
 source_group("include" FILES ${INCLUDE})
 source_group("assets" FILES ${ASSETS})

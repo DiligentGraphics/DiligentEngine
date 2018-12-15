@@ -117,8 +117,8 @@ as startup project (by default, Asteroids demo will be selected) and run it.
 
 By default, appplications will run in D3D12 mode. To select D3D11, OpenGL, or Vulkan use the following command line options:
 **mode=D3D11**, **mode=D3D12**, **mode=GL**, or **mode=Vk** (do not use spaces!). If you want to run an application outside of Visual Studio environment,
-the application's assets folder must be selected as a working directory. (For Visual Studio, this is automatically configured by 
-CMake). 
+the application's assets folder must be set as a working directory. (For Visual Studio, this is automatically configured by 
+CMake). Alternatively, you can navigate to the build target folder and run the executable from there.
 
 ## Universal Windows Platform
 
