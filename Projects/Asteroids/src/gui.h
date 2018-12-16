@@ -19,10 +19,10 @@
 class GUIControl
 {
 protected:
-    int mX;
-    int mY;
-    int mWidth;
-    int mHeight;
+    int mX = 0;
+    int mY = 0;
+    int mWidth  = 0;
+    int mHeight = 0;
     std::string mTextureFile = "";
     bool mVisible = true;;
 

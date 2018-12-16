@@ -124,7 +124,7 @@ void InitializeTexture2D(
             placed.Footprint.RowPitch = Align<UINT>(placed.Footprint.Width * bytesPerPixel, D3D12_TEXTURE_DATA_PITCH_ALIGNMENT);
             placed.Offset = totalSize;
         
-            totalSize = Align<UINT64>(placed.Offset + (placed.Footprint.RowPitch * placed.Footprint.Height),
+            totalSize = Align<UINT64>(placed.Offset + (size_t{placed.Footprint.RowPitch} * size_t{placed.Footprint.Height}),
                                       D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT);
             placedUpload.push_back(placed);
         }
@@ -158,7 +158,7 @@ void InitializeTexture2D(
             UINT height_mip = placed->Footprint.Height;
 
             for (UINT y = 0; y < height_mip; ++y) {
-                memcpy(dataDst + y*rowPitchDst, dataSrc + y*rowPitchSrc, bytesPerPixel * width_mip);
+                memcpy(dataDst + y*size_t{rowPitchDst}, dataSrc + y*size_t{rowPitchSrc}, size_t{bytesPerPixel} * width_mip);
             }
         }
     }
@@ -255,7 +255,7 @@ HRESULT CreateTexture2DFromDDS_XXXX8(
         IID_PPV_ARGS(texture)
     ));
 
-    std::vector<D3D11_SUBRESOURCE_DATA> initialData(desc.MipLevels * arraySize);
+    std::vector<D3D11_SUBRESOURCE_DATA> initialData(size_t{desc.MipLevels} * size_t{arraySize});
     
     BYTE* srcBits = bitData;
     const BYTE *endBits = bitData + bitSize;

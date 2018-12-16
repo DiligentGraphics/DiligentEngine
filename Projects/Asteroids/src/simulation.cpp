@@ -61,7 +61,7 @@ AsteroidsSimulation::AsteroidsSimulation(unsigned int rngSeed, unsigned int aste
                                          unsigned int textureCount)
     : mAsteroidStatic(asteroidCount)
     , mAsteroidDynamic(asteroidCount)
-    , mIndexOffsets(subdivCount + 2) // Mesh subdivs are inclusive on both ends and need forward differencing for count
+    , mIndexOffsets(size_t{subdivCount} + 2) // Mesh subdivs are inclusive on both ends and need forward differencing for count
     , mSubdivCount(subdivCount)
 {
     std::mt19937 rng(rngSeed);
@@ -194,8 +194,8 @@ void AsteroidsSimulation::CreateTextures(unsigned int textureCount, unsigned int
     UINT totalTextureSizeInBytes = texelSizeInBytes * mTextureDim * mTextureDim * mTextureArraySize * extraSpaceForMips;
     totalTextureSizeInBytes = Align(totalTextureSizeInBytes, 64U); // Avoid false sharing
 
-    mTextureDataBuffer.resize(totalTextureSizeInBytes * textureCount);
-    mTextureSubresources.resize(mTextureArraySize * mTextureMipLevels * textureCount);
+    mTextureDataBuffer.resize(size_t{totalTextureSizeInBytes} * size_t{textureCount});
+    mTextureSubresources.resize(size_t{mTextureArraySize} * size_t{mTextureMipLevels} * size_t{textureCount});
     
     // Parallel over textures
     std::vector<unsigned int> rngSeeds(textureCount);
@@ -210,7 +210,7 @@ void AsteroidsSimulation::CreateTextures(unsigned int textureCount, unsigned int
         auto randomNoiseScale = std::uniform_real_distribution<float>(100, 150);
         auto randomPersistence = std::normal_distribution<float>(0.9f, 0.2f);
 
-        BYTE* data = mTextureDataBuffer.data() + t * totalTextureSizeInBytes;
+        BYTE* data = mTextureDataBuffer.data() + t * size_t{totalTextureSizeInBytes};
         for (UINT a = 0; a < mTextureArraySize; ++a) {
             for (UINT m = 0; m < mTextureMipLevels; ++m) {
                 auto width  = mTextureDim >> m;
@@ -221,7 +221,7 @@ void AsteroidsSimulation::CreateTextures(unsigned int textureCount, unsigned int
                 initialData.SysMemPitch = width * texelSizeInBytes;
                 mTextureSubresources[SubresourceIndex(t, a, m)] = initialData;
 
-                data += initialData.SysMemPitch * height;
+                data += size_t{initialData.SysMemPitch} * size_t{height};
             }
         }
 

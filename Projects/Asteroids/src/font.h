@@ -69,9 +69,9 @@ public:
 protected:
     // Setup by derived class
     std::vector<stb_fontchar> mFontData;
-    int mBitmapWidth;
-    int mBitmapHeight;
-    int mFontHeight;
+    int mBitmapWidth  = 0;
+    int mBitmapHeight = 0;
+    int mFontHeight   = 0;
 
     BitmapFont() {}
     BitmapFont(const BitmapFont&) {}

@@ -814,7 +814,7 @@ static HRESULT CreateTextureFromDDS( ID3D11Device* pDev, DDS_HEADER* pHeader, __
         format = MAKE_SRGB( format );
 
     // Create the texture
-    D3D11_SUBRESOURCE_DATA* pInitData = new D3D11_SUBRESOURCE_DATA[ iMipCount * arraySize ];
+    D3D11_SUBRESOURCE_DATA* pInitData = new D3D11_SUBRESOURCE_DATA[ size_t{iMipCount} * size_t{arraySize} ];
     if( !pInitData )
         return E_OUTOFMEMORY;
 
@@ -839,7 +839,7 @@ static HRESULT CreateTextureFromDDS( ID3D11Device* pDev, DDS_HEADER* pHeader, __
             pInitData[index].SysMemSlicePitch = NumBytes;
             ++index;
 
-            if ( pSrcBits + (NumBytes*d) > pEndBits )
+            if ( pSrcBits + (size_t{NumBytes}*d) > pEndBits )
             {
                 SAFE_DELETE_ARRAY( pInitData );
                 return HRESULT_FROM_WIN32( ERROR_HANDLE_EOF );
@@ -907,7 +907,7 @@ static HRESULT CreateTextureFromDDS( ID3D11Device* pDev, DDS_HEADER* pHeader, __
                 }
             }
     
-            pSrcBits += NumBytes * d;
+            pSrcBits += size_t{NumBytes} * d;
 
             w = w >> 1;
             h = h >> 1;

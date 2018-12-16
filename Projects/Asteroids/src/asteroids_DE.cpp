@@ -596,7 +596,7 @@ void Asteroids::InitializeTextureData()
 
     std::vector<StateTransitionDesc> Barriers;
     for (UINT t = 0; t < NUM_UNIQUE_TEXTURES; ++t) {
-        std::vector<TextureSubResData> subResData(textureDesc.ArraySize*mAsteroids->GetTextureMipLevels());
+        std::vector<TextureSubResData> subResData(size_t{textureDesc.ArraySize} * size_t{mAsteroids->GetTextureMipLevels()});
         auto *texData = mAsteroids->TextureData(t);
         for(size_t subRes=0; subRes < subResData.size(); ++subRes)
         {

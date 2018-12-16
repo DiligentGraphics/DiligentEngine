@@ -57,7 +57,7 @@ void TestTexturing::GenerateTextureData(IRenderDevice *pRenderDevice, std::vecto
         Uint32 MipHeight = TexDesc.Height >> Level;
         auto Stride = (MipWidth + 64) * PixelSize;
 
-        Data.resize(Data.size() + Stride * MipHeight);
+        Data.resize(Data.size() + size_t{Stride} * size_t{MipHeight});
         auto *pCurrLevelPtr = &Data[CurrLevelOffset];
         LevelDataOffsets[Level] = CurrLevelOffset;
         SubResouces[Level].Stride = Stride;
@@ -75,7 +75,7 @@ void TestTexturing::GenerateTextureData(IRenderDevice *pRenderDevice, std::vecto
                 {
                     float fCurrCmpCol = Color[iCmp];
                     fCurrCmpCol = fCurrCmpCol - floor(fCurrCmpCol);
-                    void *pDstCmp = pCurrLevelPtr + (i*PixelSize + iCmp * PixelFormatAttribs.ComponentSize + j*Stride);
+                    void *pDstCmp = pCurrLevelPtr + (i*size_t{PixelSize} + iCmp * size_t{PixelFormatAttribs.ComponentSize} + j*size_t{Stride});
                     switch(PixelFormatAttribs.ComponentType)
                     {
                         case COMPONENT_TYPE_FLOAT:
