@@ -36,8 +36,6 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 ## Supported Plaforms and Low-Level Graphics APIs
 
-Build is temporarily failing due to cmake [servers being down](https://cmake.org/)!
-
 | Platform                     | APIs                                        |  Build Status    |
 | ---------------------------- | ------------------------------------------- | ---------------- | 
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Win32 (Windows desktop)| Direct3D11, Direct3D12, OpenGL4.2+, Vulkan     | [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
