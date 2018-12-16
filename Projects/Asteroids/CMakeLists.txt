@@ -105,24 +105,7 @@ PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}/CompiledShaders
 )
 
-if(PLATFORM_WIN32)
-    set(LIB_TYPE "shared")
-else()
-    message(FATAL_ERROR "Unsupported platform")
-endif()
-
-if(D3D11_SUPPORTED)
-	list(APPEND ENGINE_LIBRARIES GraphicsEngineD3D11-${LIB_TYPE})
-endif()
-if(D3D12_SUPPORTED)
-	list(APPEND ENGINE_LIBRARIES GraphicsEngineD3D12-${LIB_TYPE})
-endif()
-if(GL_SUPPORTED OR GLES_SUPPORTED)
-	list(APPEND ENGINE_LIBRARIES GraphicsEngineOpenGL-${LIB_TYPE})
-endif()
-if(VULKAN_SUPPORTED)
-	list(APPEND ENGINE_LIBRARIES GraphicsEngineVk-${LIB_TYPE})
-endif()
+get_supported_backends(ENGINE_LIBRARIES)
 
 target_link_libraries(Asteroids
 PRIVATE
