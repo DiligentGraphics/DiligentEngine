@@ -87,6 +87,7 @@ Master repository includes the following submodules:
 
 Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
 To start using cmake, download the [latest release](https://cmake.org/download/) (3.10 or later is required).
+Another build prerequisite is [Python interpreter](https://www.python.org/downloads/).
 
 ## Win32
 
