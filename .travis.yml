@@ -32,8 +32,8 @@ before_install:
       mkdir $HOME/usr
       export PATH="$HOME/usr/bin:$PATH"
       wget https://github.com/Kitware/CMake/releases/download/v3.13.2/cmake-3.13.2-Linux-x86_64.sh
-      chmod +x cmake-3.12.3-Linux-x86_64.sh
-      ./cmake-3.12.3-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
+      chmod +x cmake-3.13.2-Linux-x86_64.sh
+      ./cmake-3.13.2-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
       cmake --version
     fi
 
