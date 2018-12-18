@@ -263,6 +263,14 @@ Please also take a look at getting started tutorials for
 [Linux](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloLinux).
 
 If your project does not use CMake, it is recommended to build libraries with cmake and add them to your build system.
+To install libraries and header files, run the following CMake command from the build folder:
+
+```cmake
+cmake --build . --target install
+```
+
+To change installation folder, set `DILIGENT_CORE_INSTALL_DIR` cmake variable.
+
 Alternatively you can generate build files (such as Visual Studio projects) and add them to your project.
 Build customization described below can help tweak the settings for your specific needs.
 
