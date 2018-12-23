@@ -400,6 +400,25 @@ public:
 			VERIFY_EXPR( abs(float4( 1, 5,  10,  100)) == float4( 1, 5, 10, 100) );
 		}
 
+        // clamp
+        {
+            VERIFY_EXPR( clamp( -1, 1, 10) == 1 );
+            VERIFY_EXPR( clamp( 11, 1, 10) == 10 );
+            VERIFY_EXPR( clamp(  9, 1, 10) == 9 );
+
+            VERIFY_EXPR( clamp(float2(-10,-11), float2(1,2), float2(10,11)) == float2(1,  2) );
+            VERIFY_EXPR( clamp(float2( 11, 12), float2(1,2), float2(10,11)) == float2(10,11) );
+            VERIFY_EXPR( clamp(float2(  9,  8), float2(1,2), float2(10,11)) == float2(9,  8) );
+
+            VERIFY_EXPR( clamp(float3(-10, -11, -12), float3(1,2,3), float3(10,11,12)) == float3( 1, 2, 3));
+            VERIFY_EXPR( clamp(float3( 11,  12,  13), float3(1,2,3), float3(10,11,12)) == float3(10,11,12));
+            VERIFY_EXPR( clamp(float3(  9,   8,   7), float3(1,2,3), float3(10,11,12)) == float3( 9, 8, 7));
+
+            VERIFY_EXPR( clamp(float4(-10, -11, -12, -13), float4(1,2,3,4), float4(10,11,12,13)) == float4( 1, 2, 3, 4));
+            VERIFY_EXPR( clamp(float4( 11,  12,  13,  14), float4(1,2,3,4), float4(10,11,12,13)) == float4(10,11,12,13));
+            VERIFY_EXPR( clamp(float4(  9,   8,   7,   6), float4(1,2,3,4), float4(10,11,12,13)) == float4( 9, 8, 7, 6));
+        }
+
         // dot
         {
             VERIFY_EXPR( dot( float2( 1, 2 ), float2( 1, 2 ) ) == 5 );
@@ -555,4 +574,4 @@ public:
     }
 };
 
-static MathLibTest MathLibTest;
+static MathLibTest g_TheMathLibTest;
