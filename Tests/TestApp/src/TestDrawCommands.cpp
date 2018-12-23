@@ -69,6 +69,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
 
     {
         BufferDesc BuffDesc;
+        BuffDesc.Name = "Test Draw Commands: VertexBuff";
         BuffDesc.uiSizeInBytes = (Uint32)VertexData.size()*sizeof( float );
         BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
         BuffDesc.Usage = USAGE_STATIC;
@@ -80,6 +81,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
 
     {
         BufferDesc BuffDesc;
+        BuffDesc.Name = "Test Draw Commands: VertexBuff2";
         BuffDesc.uiSizeInBytes = (Uint32)VertexData2.size()*sizeof( float );
         BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
         BuffDesc.Usage = USAGE_STATIC;
@@ -91,6 +93,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
 
     {
         BufferDesc BuffDesc;
+        BuffDesc.Name = "Test Draw Commands: IndexBuff";
         BuffDesc.uiSizeInBytes = (Uint32)IndexData.size() * sizeof( Uint32 );
         BuffDesc.BindFlags = BIND_INDEX_BUFFER;
         BuffDesc.Usage = USAGE_STATIC;
@@ -102,6 +105,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
 
     {
         BufferDesc BuffDesc;
+        BuffDesc.Name = "Test Draw Commands: InstanceData";
         BuffDesc.uiSizeInBytes = (Uint32)InstanceData.size() * sizeof( float );
         BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
         BuffDesc.Usage = USAGE_STATIC;
@@ -271,13 +275,15 @@ void TestDrawCommands::Draw()
 
     StateTransitionDesc Barriers[] =
     {
-        {m_pVertexBuff, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true},
-        {m_pVertexBuff2, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true},
+        {m_pIndirectDrawArgs, m_pIndirectDrawArgs->GetState(), RESOURCE_STATE_INDIRECT_ARGUMENT, false},
+        {m_pIndexedIndirectDrawArgs, m_pIndexedIndirectDrawArgs->GetState(), RESOURCE_STATE_INDIRECT_ARGUMENT, false},
+        {m_pVertexBuff, m_pVertexBuff->GetState(), RESOURCE_STATE_VERTEX_BUFFER, true},
+        {m_pVertexBuff2, m_pVertexBuff2->GetState(), RESOURCE_STATE_VERTEX_BUFFER, true},
         {m_pInstanceData, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true},
-        {m_pIndexBuff, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDEX_BUFFER, true},
-        {m_pIndirectDrawArgs, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDIRECT_ARGUMENT, true},
-        {m_pIndexedIndirectDrawArgs, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDIRECT_ARGUMENT, true}
+        {m_pIndexBuff, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDEX_BUFFER, true}
     };
+    Barriers[0].TransitionType = STATE_TRANSITION_TYPE_BEGIN;
+    Barriers[1].TransitionType = STATE_TRANSITION_TYPE_BEGIN;
     m_pDeviceContext->TransitionResourceStates(_countof(Barriers), Barriers);
 
     Uint32 NumTestTrianglesInRow[TriGridSize] = { 0 };
@@ -383,6 +389,12 @@ void TestDrawCommands::Draw()
     
     
     // 4TH ROW: Instanced non-indexed rendering (glDrawArraysInstanced/DrawInstanced)
+
+    Barriers[0].TransitionType = STATE_TRANSITION_TYPE_END;
+    Barriers[1].TransitionType = STATE_TRANSITION_TYPE_END;
+    Barriers[0].UpdateResourceState = true;
+    Barriers[1].UpdateResourceState = true;
+    m_pDeviceContext->TransitionResourceStates(2, Barriers);
 
     m_pDeviceContext->SetPipelineState(m_pPSOInst);
     m_pDeviceContext->TransitionShaderResources(m_pPSOInst, m_pSRBInst);
