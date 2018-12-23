@@ -25,8 +25,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 * High performance
 * Modular design
   * Components are clearly separated logically and physically and can be used as needed
-    * Only take what you need for your project (do not want to keep samples and tutorials in your codebase? Simply remove [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule. Only need core functionality? Use only [Core](https://github.com/DiligentGraphics/DiligentCore) submodule)
-    * No 15000 lines-of-code files
+  * Only take what you need for your project
 * Clear object-based interface
   * No global states
 * Key graphics features:
