@@ -12,6 +12,8 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](License.txt)
 [![Chat on gitter](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/diligent-engine)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine)
+[![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)
 
 ## Features
 
@@ -47,6 +49,28 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 Last Stable Release - [v2.4](https://github.com/DiligentGraphics/DiligentEngine/releases/tag/v2.4)
 
+# Table of Contents
+
+- [Clonning the Repository](#clonning)
+  - [Repository Structure](#repository_structure)
+- [Build and Run Instructions](#build_and_run)
+  - [Win32](#build_and_run_win32)
+  - [Universal Windows Platform](#build_and_run_uwp)
+  - [Linux](#build_and_run_linux)
+  - [Android](#build_and_run_android)
+  - [MacOS](#build_and_run_macos)
+  - [iOS](#build_and_run_ios)
+  - [Integrating Diligent Engine with Existing Build System](#build_and_run_integration)
+  - [Customizing Build](#build_and_run_customizing)
+- [Getting started with the API](#getting_started)
+- [Tutorials](#tutorials)
+- [Samples](#samples)
+- [Demos](#demos)
+- [Contributing](#contributing)
+- [References](#references)
+- [Releas History](#release_history)
+
+<a name="clonning"></a>
 # Cloning the Repository
 
 This is the master repository that contains three [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules). To get the repository and all submodules, use the following command:
@@ -62,6 +86,7 @@ This is the master repository that contains three [submodules](https://git-scm.c
 * git submodule update --init --recursive
 
 
+<a name="repository_structure"></a>
 ## Repository Structure
 
 Master repository includes the following submodules:
@@ -83,12 +108,14 @@ Master repository includes the following submodules:
   intended to demonstrate the usage of the Diligent Engine API. The module depends on Core and Tools modules.
   
 
+<a name="build_and_run"></a>
 # Build and Run Instructions
 
 Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
 To start using cmake, download the [latest release](https://cmake.org/download/) (3.13 or later is required).
 Another build prerequisite is [Python interpreter](https://www.python.org/downloads/).
 
+<a name="build_and_run_win32"></a>
 ## Win32
 
 To generate build files for Windows desktop platform, use either CMake GUI or command line tool. For example, to generate 
@@ -121,6 +148,8 @@ By default, appplications will run in D3D12 mode. To select D3D11, OpenGL, or Vu
 the application's assets folder must be set as a working directory. (For Visual Studio, this is automatically configured by 
 CMake). Alternatively, you can navigate to the build target folder and run the executable from there.
 
+
+<a name="build_and_run_uwp"></a>
 ## Universal Windows Platform
 
 To generate build files for Universal Windows platform, you need to define the following two cmake variables:
@@ -145,6 +174,8 @@ By default, appplications will run in D3D12 mode. You can select D3D11 or D3D12 
 Note: you can generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but the solution will fail
 to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++11 support.
 
+
+<a name="build_and_run_linux"></a>
 ## Linux
 
 Your Linux environment needs to be set up for c++ development. If it already is, make sure your c++ tools are up to date
@@ -186,6 +217,8 @@ The engine's root folder contains [Visual Studio Code](https://code.visualstudio
 the IDE to build the engine. You can run applications directly from the IDE. To run an application from the command line,
 the app's assets folder must be current directory.
 
+
+<a name="build_and_run_android"></a>
 ## Android
 
 Please make sure that your machine is set up for Android development. Download 
@@ -196,6 +229,8 @@ other required tools. To verify that your environment is properly set up, try bu
 Open *DiligentSamples/Android* or *UnityPlugin/Android* folders with Android Studio to build and run
 the engine samples and Unity emulator on Android.
 
+
+<a name="build_and_run_macos"></a>
 ## MacOS
 
 After you clone the repo, run the following command from the engine's root folder to generate Xcode project
@@ -205,6 +240,8 @@ After you clone the repo, run the following command from the engine's root folde
 
 Open Xcode project file in cmk_build/MacOS folder to build the engine and run the applications. 
 
+
+<a name="build_and_run_ios"></a>
 ## iOS
 
 Run the command below from the engine's root folder to generate Xcode project configured for iOS build
@@ -215,6 +252,8 @@ Run the command below from the engine's root folder to generate Xcode project co
 Open Xcode project file in cmk_build/IOS folder and build the engine. To run the applications on an iOS device,
 you will need to set the appropriate development team in the project settings.
 
+
+<a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
 
 If your project uses CMake, adding Diligent Engine requires just few lines of code. 
@@ -274,6 +313,8 @@ To change installation folder, set `DILIGENT_CORE_INSTALL_DIR` cmake variable.
 Alternatively you can generate build files (such as Visual Studio projects) and add them to your project.
 Build customization described below can help tweak the settings for your specific needs.
 
+
+<a name="build_and_run_customizing"></a>
 ## Customizing Build
 
 Diligent Engine allows clients to customize build settings by providing configuration script file that defines two optional functions:
@@ -370,10 +411,14 @@ function(custom_configure_target TARGET)
     set(TARGET_CONFIGURATION_COMPLETE TRUE PARENT_SCOPE)   
 endfunction()
 ```
+
+<a name="getting_started"></a>
 # Getting started with the API
 
 Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api-basics). Also, tutorials and samples listed below is a good place to start.
 
+
+<a name="tutorials"></a>
 # [Tutorials](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials)
 
 | Tutorial   | Screenshot  | Description          |
@@ -390,6 +435,8 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [10 - Data Streaming](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial10_DataStreaming) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial10_DataStreaming/Screenshot.png) | This tutorial shows dynamic buffer mapping strategy using `MAP_FLAG_DISCARD` and `MAP_FLAG_DO_NOT_SYNCHRONIZE` flags to efficiently stream varying amounts of data to GPU. |
 | [11 - Resource Updates](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial11_ResourceUpdates) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial11_ResourceUpdates/Screenshot.png) | This tutorial demonstrates different ways to update buffers and textures in Diligent Engine and explains important internal details and performance implications related to each method. |
 
+
+<a name="samples"></a>
 # [Samples](https://github.com/DiligentGraphics/DiligentSamples)
 
 | Sample     | Screenshot  | Description          |
@@ -397,19 +444,32 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [AntTweakBar Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/AntTweakBar) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/AntTweakBar/Screenshot.png) | This sample demonstrates how to use [AntTweakBar library](http://anttweakbar.sourceforge.net/doc) to create simple user interface. |
 | [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Atmosphere/Screenshot.png) | The sample implements physically-based atmospheric light scattering model and demonstrates how Diligent Engine can be used to accomplish various rendering tasks: loading textures from files, using complex shaders, rendering to textures, using compute shaders and unordered access views, etc. |
 
-# Projects
+
+<a name="demos"></a>
+# Demos
 
 | Project    | Screenshot  | Description          |
 |------------|-------------|----------------------|
 | [Asteroids Performance Benchmark](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) | ![](Projects/Asteroids/Screenshot.png) | This sample is designed to be a performance benchmark and is based on [this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. It renders 50,000 unique textured asteroids. Every asteroid is a combination of one of 1000 unique meshes and one of 10 unique textures. The sample uses original D3D11 and D3D12 native implementations, and adds implementation using Diligent Engine API to allow comparing performance of different rendering modes. |
-|  [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin) | ![](unityplugin/GhostCubePlugin/Screenshot.png) | This project demonstrates integration of Diligent Engine with Unity |
+| [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin) | ![](unityplugin/GhostCubePlugin/Screenshot.png) | This project demonstrates integration of Diligent Engine with Unity |
 
 
+<a name="contributing"></a>
+# Contributing
+
+To contribute your code, submit a [Pull Request](https://github.com/DiligentGraphics/DiligentEngine/pulls) 
+to this repository. **Diligent Engine** is licensed under the [Apache 2.0 license](License.txt) that guarantees 
+that code in the **DiligentEngine** repository is free of Intellectual Property encumbrances. In submitting code to
+this repository, you are agreeing that the code is free of any Intellectual Property claims.  
+
+
+<a name="references"></a>
 # References
 
 [API Reference](https://cdn.rawgit.com/DiligentGraphics/DiligentCore/4949ec8a/doc/html/index.html)
 
 
+<a name="release_history"></a>
 # Release History
 
 See [Release History](ReleaseHistory.md)
