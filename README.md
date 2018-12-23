@@ -6,7 +6,7 @@ application and the platform-specific graphics API designed to take advantages o
 Direct3D12 and Vulkan, while providing support for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes 
 common front-end for all supported platforms and provides 
 [interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
-It uses HLSL as a universal shading language for all back-ends and platforms; GLSL can be used with Vulkan/OpenGL.
+It uses HLSL as universal shading language for all back-ends and platforms; GLSL can be used with Vulkan/OpenGL.
 The engine is intended to be used as a graphics subsystem in a game engine or any other 3D application. 
 It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
@@ -132,8 +132,7 @@ If you use MinGW, you can generate the make files using the command below:
 
 *cmake -H. -B./cmk_build/MinGW -G "MinGW Makefiles"*
 
-**WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**. (If anybody knows a way
-to add quotes to CMake's custom commands, please let me know!)
+**WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**.
 
 To enable Vulkan validation layers, you will need to download [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
 variable *VK_LAYER_PATH* that contains path to the *Bin* directory in VulkanSDK installation folder.
@@ -179,8 +178,7 @@ to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++1
 ## Linux
 
 Your Linux environment needs to be set up for c++ development. If it already is, make sure your c++ tools are up to date
-as Diligent Engine uses modern c++ features (gcc/g++ 7 or later is recommended). To configure my fresh Ubuntu 17.10, I installed
-the following packages:
+as Diligent Engine uses modern c++ features (gcc/g++ 7 or later is recommended). You may need to install the following packages:
 
 1. gcc, make and other essential c/c++ tools:
 
@@ -450,7 +448,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 
 | Project    | Screenshot  | Description          |
 |------------|-------------|----------------------|
-| [Asteroids Performance Benchmark](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) | ![](Projects/Asteroids/Screenshot.png) | This sample is designed to be a performance benchmark and is based on [this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. It renders 50,000 unique textured asteroids. Every asteroid is a combination of one of 1000 unique meshes and one of 10 unique textures. The sample uses original D3D11 and D3D12 native implementations, and adds implementation using Diligent Engine API to allow comparing performance of different rendering modes. |
+| [Asteroids Performance Benchmark](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) | ![](Projects/Asteroids/Screenshot.png) | This demo is designed to be a performance benchmark and is based on [this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. It renders 50,000 unique textured asteroids. Every asteroid is a combination of one of 1000 unique meshes and one of 10 unique textures. The sample uses original D3D11 and D3D12 native implementations, and adds implementation using Diligent Engine API to allow comparing performance of different rendering modes. |
 | [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin) | ![](unityplugin/GhostCubePlugin/Screenshot.png) | This project demonstrates integration of Diligent Engine with Unity |
 
 
