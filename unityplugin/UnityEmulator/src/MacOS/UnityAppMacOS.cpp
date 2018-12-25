@@ -33,9 +33,13 @@ public:
     {
         m_DeviceType = Diligent::DeviceType::OpenGL;
     }
-    
-    virtual void OnGLContextCreated()override final
+
+    virtual void Initialize(void* view)override final
     {
+        if (view != nullptr)
+        {
+            UNSUPPORTED("This app does not support Vulkan");
+        }
         InitGraphics(nullptr, 0/*Unused*/, 0/*Unused*/);
         InitScene();
     }

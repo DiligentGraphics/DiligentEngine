@@ -31,7 +31,7 @@ class MacOSAppBase : public AppBase
 public:
     using AppBase::Update;
     void Update();
-    virtual void OnGLContextCreated() = 0;
+    virtual void Initialize(void* view) = 0;
     virtual void OnMouseDown(int button){}
     virtual void OnMouseUp(int button){}
     virtual void OnMouseMove(int x, int y){}

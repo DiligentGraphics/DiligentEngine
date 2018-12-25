@@ -34,9 +34,10 @@ public:
         m_DeviceType = DeviceType::OpenGL;
     }
 
-    virtual void OnGLContextCreated()override final
+    virtual void Initialize(void* view)override final
     {
-        InitializeDiligentEngine(nullptr);
+        m_DeviceType = view == nullptr ? DeviceType::OpenGL : DeviceType::Vulkan;
+        InitializeDiligentEngine(view);
         InitializeRenderers();
     }
 };

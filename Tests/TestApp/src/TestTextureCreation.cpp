@@ -328,7 +328,8 @@ private:
                     ViewDesc.FirstDepthSlice = 3;
                     ViewDesc.NumDepthSlices = 4;
                 }
-                else if( DeviceCaps.DevType == DeviceType::Vulkan && ViewDesc.ViewType != TEXTURE_VIEW_RENDER_TARGET && ViewDesc.ViewType != TEXTURE_VIEW_DEPTH_STENCIL || DeviceCaps.DevType != DeviceType::Vulkan)
+                else if( (DeviceCaps.DevType == DeviceType::Vulkan && ViewDesc.ViewType != TEXTURE_VIEW_RENDER_TARGET && ViewDesc.ViewType != TEXTURE_VIEW_DEPTH_STENCIL) ||
+                          DeviceCaps.DevType != DeviceType::Vulkan)
                 {
                     // OpenGL cannot create views for separate depth slices
                     ViewDesc.FirstDepthSlice = 0;

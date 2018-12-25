@@ -140,6 +140,7 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.m
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.mm
         )
         set_source_files_properties(${APPLE_SOURCE} PROPERTIES
             COMPILE_FLAGS "-x objective-c++"
@@ -150,6 +151,7 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.h
         )
 
         set(APPLE_RESOURCES
@@ -183,6 +185,18 @@ elseif(PLATFORM_MACOS)
                 message(FATAL_ERROR "CoreVideo not found")
         endif()
         target_link_libraries(${TARGET_NAME} PRIVATE ${OPENGL_LIBRARY} ${CORE_VIDEO})
+
+        if(VULKAN_SUPPORTED)
+            find_library(METAL_FRAMEWORK Metal)
+            if (NOT METAL_FRAMEWORK)
+                message(FATAL_ERROR "Metal framework not found")
+            endif()
+            find_library(CORE_ANIMATION QuartzCore)
+            if (NOT CORE_ANIMATION)
+                message(FATAL_ERROR "QuartzCore (CoreAnimation) not found")
+            endif()
+            target_link_libraries(${TARGET_NAME} PRIVATE ${METAL_FRAMEWORK} ${CORE_ANIMATION})
+        endif()
 
     endfunction()
 

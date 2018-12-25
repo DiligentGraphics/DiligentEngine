@@ -152,7 +152,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 	// Init the application.
     try
     {
-        _theApp->OnGLContextCreated();
+        _theApp->Initialize(nullptr);
     }
     catch(std::runtime_error &err)
     {
