@@ -12,7 +12,9 @@
 #import "GLView.h"
 #include "NativeAppBase.h"
 
+#ifndef SUPPORT_RETINA_RESOLUTION
 #define SUPPORT_RETINA_RESOLUTION 1
+#endif
 
 @interface GLView ()
 {

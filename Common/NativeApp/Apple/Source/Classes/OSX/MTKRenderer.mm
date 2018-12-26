@@ -21,20 +21,46 @@
  *  of the possibility of such damages.
  */
 
-#import <AppKit/AppKit.h>
+#import <MTKRenderer.h>
 
-#pragma mark -
-#pragma mark MetalViewController
+#include <memory>
+#include "NativeAppBase.h"
 
-// The main view controller for the app storyboard.
-@interface MetalViewController : NSViewController
-@end
+// Main class performing the rendering
+@implementation MTKRenderer
+{
+    std::unique_ptr<NativeAppBase> _theApp;
+}
 
+/// Initialize with the MetalKit view from which we'll obtain our Metal device
+- (nonnull instancetype)initWithMetalKitView:(nonnull MTKView *)mtkView
+{
+    self = [super init];
+    if(self)
+    {
+        _theApp.reset(CreateApplication());
+        _theApp->Initialize(mtkView);
+    }
+    
+    return self;
+}
 
-#pragma mark -
-#pragma mark MetalView
+/// Called whenever view changes orientation or is resized
+- (void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
+{
+    NSRect viewRectPoints = [view bounds];
+    NSRect viewRectPixels = [view convertRectToBacking:viewRectPoints];
+    
+    _theApp->WindowResize(viewRectPixels.size.width, viewRectPixels.size.height);
+}
 
-// The Metal-compatibile view for the app Storyboard.
-@interface MetalView : NSView
+/// Called whenever the view needs to render a frame
+- (void)drawInMTKView:(nonnull MTKView *)view
+{
+    _theApp->Update();
+    _theApp->Render();
+    _theApp->Present();
+}
+
 @end
 

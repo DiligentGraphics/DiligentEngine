@@ -140,7 +140,8 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.m
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.mm
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalViewController.mm
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MTKRenderer.mm
         )
         set_source_files_properties(${APPLE_SOURCE} PROPERTIES
             COMPILE_FLAGS "-x objective-c++"
@@ -151,7 +152,8 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.h
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalViewController.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MTKRenderer.h
         )
 
         set(APPLE_RESOURCES
@@ -184,19 +186,24 @@ elseif(PLATFORM_MACOS)
         if (NOT CORE_VIDEO)
                 message(FATAL_ERROR "CoreVideo not found")
         endif()
-        target_link_libraries(${TARGET_NAME} PRIVATE ${OPENGL_LIBRARY} ${CORE_VIDEO})
+        target_link_libraries(${TARGET_NAME} PRIVATE )
 
-        if(VULKAN_SUPPORTED)
-            find_library(METAL_FRAMEWORK Metal)
-            if (NOT METAL_FRAMEWORK)
-                message(FATAL_ERROR "Metal framework not found")
-            endif()
-            find_library(CORE_ANIMATION QuartzCore)
-            if (NOT CORE_ANIMATION)
-                message(FATAL_ERROR "QuartzCore (CoreAnimation) not found")
-            endif()
-            target_link_libraries(${TARGET_NAME} PRIVATE ${METAL_FRAMEWORK} ${CORE_ANIMATION})
+        find_library(METAL_FRAMEWORK Metal)
+        if (NOT METAL_FRAMEWORK)
+            message(FATAL_ERROR "Metal framework not found")
         endif()
+
+        find_library(CORE_ANIMATION QuartzCore)
+        if (NOT CORE_ANIMATION)
+            message(FATAL_ERROR "QuartzCore (CoreAnimation) not found")
+        endif()
+
+        find_library(METAL_KIT MetalKit)
+        if (NOT METAL_FRAMEWORK)
+            message(FATAL_ERROR "MetalKit framework not found")
+        endif()
+
+        target_link_libraries(${TARGET_NAME} PRIVATE ${OPENGL_LIBRARY} ${CORE_VIDEO} ${METAL_FRAMEWORK} ${CORE_ANIMATION} ${METAL_KIT})
 
     endfunction()
 
