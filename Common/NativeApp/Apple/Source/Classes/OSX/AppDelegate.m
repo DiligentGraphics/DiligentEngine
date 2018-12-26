@@ -7,8 +7,6 @@
  */
 
 #import "AppDelegate.h"
-#import "GLViewController.h"
-#import "MetalViewController.h"
 
 @interface AppDelegate ()
 
@@ -18,25 +16,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     NSWindow* mainWindow = [[NSApplication sharedApplication]mainWindow];
-
-    NSString* error = [[mainWindow contentViewController] getError];
-    if(error != nil)
-    {
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert addButtonWithTitle:@"OK"];
-        [alert setMessageText:@"Failed to start the application"];
-        [alert setInformativeText:error];
-        [alert setAlertStyle:NSAlertStyleCritical];
-        [alert runModal];
-        [NSApp terminate:self];
-    }
-
     [mainWindow setAcceptsMouseMovedEvents:YES];
-    NSString *name =  [[mainWindow contentViewController] getAppName];
-    if(name != nil)
-    {
-        [mainWindow setTitle:name];
-    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

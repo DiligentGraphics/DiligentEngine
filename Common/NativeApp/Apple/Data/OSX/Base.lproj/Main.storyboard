@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -126,7 +127,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="WindowController" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Diligent Engine" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -137,7 +138,7 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="VWH-wR-9QD" kind="relationship" relationship="window.shadowedContentViewController" id="emZ-jG-HLe"/>
+                        <segue destination="lYj-9Z-eqp" kind="relationship" relationship="window.shadowedContentViewController" id="aXj-gz-HUq"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -168,6 +169,50 @@
                 </viewController>
                 <customObject id="CmR-bq-0b7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Mode Selection View Controller-->
+        <scene sceneID="rTr-Qo-t8b">
+            <objects>
+                <viewController id="lYj-9Z-eqp" customClass="ModeSelectionViewController" sceneMemberID="viewController">
+                    <view key="view" id="SPq-vc-rSb">
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="253"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FNk-f7-1ho">
+                                <rect key="frame" x="129" y="60" width="92" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="xCk-Gq-MrX"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Vulkan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nsa-CK-D42">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="systemSemibold" size="16"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="goVulkan:" target="lYj-9Z-eqp" id="bnQ-Bu-l9T"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zva-9q-Xj2">
+                                <rect key="frame" x="124" y="143" width="102" height="32"/>
+                                <buttonCell key="cell" type="push" title="OpenGL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xhq-D1-XDx">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="systemSemibold" size="16"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="goOpenGL:" target="lYj-9Z-eqp" id="eDU-k4-Qyl"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="zva-9q-Xj2" firstAttribute="centerX" secondItem="SPq-vc-rSb" secondAttribute="centerX" id="6Je-LA-wKz"/>
+                            <constraint firstItem="zva-9q-Xj2" firstAttribute="top" secondItem="SPq-vc-rSb" secondAttribute="top" constant="82" id="RKY-jP-kug"/>
+                            <constraint firstItem="zva-9q-Xj2" firstAttribute="centerX" secondItem="FNk-f7-1ho" secondAttribute="centerX" id="bGn-rh-tGz"/>
+                            <constraint firstItem="FNk-f7-1ho" firstAttribute="top" secondItem="zva-9q-Xj2" secondAttribute="bottom" constant="51" id="sTn-Gq-zp6"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="IGK-9x-tXY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="220" y="828.5"/>
         </scene>
     </scenes>
 </document>

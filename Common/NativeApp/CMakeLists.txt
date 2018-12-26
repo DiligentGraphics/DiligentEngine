@@ -121,7 +121,7 @@ elseif(PLATFORM_LINUX)
         add_linux_app("${TARGET_NAME}" "${SOURCE}" "${INCLUDE}" "${ASSETS}")
     endfunction()
 
-    
+
 elseif(PLATFORM_MACOS)
 
     set(SOURCE
@@ -145,6 +145,7 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLViewController.mm
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MTKRenderer.mm
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewControllerBase.mm
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ModeSelectionViewController.mm
         )
         set_source_files_properties(${APPLE_SOURCE} PROPERTIES
             COMPILE_FLAGS "-x objective-c++"
@@ -160,6 +161,7 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLViewController.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MTKRenderer.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewControllerBase.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ModeSelectionViewController.h
         )
 
         set(APPLE_RESOURCES
