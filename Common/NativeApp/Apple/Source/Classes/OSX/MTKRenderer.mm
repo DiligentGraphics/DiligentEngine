@@ -48,10 +48,7 @@
 /// Called whenever view changes orientation or is resized
 - (void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-    NSRect viewRectPoints = [view bounds];
-    NSRect viewRectPixels = [view convertRectToBacking:viewRectPoints];
-
-    _theApp->WindowResize(viewRectPixels.size.width, viewRectPixels.size.height);
+    _theApp->WindowResize(size.width, size.height);
 }
 
 /// Called whenever the view needs to render a frame

@@ -29,7 +29,7 @@
 @interface MTKRenderer : NSObject<MTKViewDelegate>
 
 - (nonnull instancetype)initWithMetalKitView:(nonnull MTKView *)mtkView;
-- (NativeAppBase*)getApp;
+- (NativeAppBase* _Nullable)getApp;
 
 @end
 

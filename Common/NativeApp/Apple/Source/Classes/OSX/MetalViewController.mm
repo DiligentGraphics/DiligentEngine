@@ -36,6 +36,10 @@
     [super viewDidLoad];
 
     _view = (MTKView *)self.view;
+    NSScreen* screen = [NSScreen mainScreen];
+    auto scaleFactor = [screen backingScaleFactor];
+    auto layer = [_view layer];
+    layer.contentsScale = scaleFactor;
 
     _renderer = [[MTKRenderer alloc] initWithMetalKitView:_view];
     _theApp = [_renderer getApp];
