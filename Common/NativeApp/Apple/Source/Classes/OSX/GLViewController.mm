@@ -21,11 +21,27 @@
  *  of the possibility of such damages.
  */
 
-#import "ViewControllerBase.h"
+#import "GLViewController.h"
+#import "GLView.h"
 
-@interface MetalViewController : ViewControllerBase
+@implementation GLViewController
 
--(NSString*)getAppName;
--(NSString*)getError;
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    _theApp = [(GLView*)self.view getApp];
+}
+
+-(NSString*)getAppName
+{
+    return [NSString stringWithFormat:@"%s (OpenGL)", _theApp ? _theApp->GetAppTitle() : ""];
+}
+
+-(NSString*)getError
+{
+    return [(GLView*)self.view getError];
+}
 
 @end
+

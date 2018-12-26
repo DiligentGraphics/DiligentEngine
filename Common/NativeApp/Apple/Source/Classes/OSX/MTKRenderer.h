@@ -23,11 +23,13 @@
 
 #import <AppKit/AppKit.h>
 #import <MetalKit/MetalKit.h>
+#include "NativeAppBase.h"
 
 // Implementation of MTKViewDelegate
 @interface MTKRenderer : NSObject<MTKViewDelegate>
 
 - (nonnull instancetype)initWithMetalKitView:(nonnull MTKView *)mtkView;
+- (NativeAppBase*)getApp;
 
 @end
 

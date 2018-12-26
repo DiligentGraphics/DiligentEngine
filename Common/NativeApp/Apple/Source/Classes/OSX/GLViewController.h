@@ -23,7 +23,7 @@
 
 #import "ViewControllerBase.h"
 
-@interface MetalViewController : ViewControllerBase
+@interface GLViewController : ViewControllerBase
 
 -(NSString*)getAppName;
 -(NSString*)getError;

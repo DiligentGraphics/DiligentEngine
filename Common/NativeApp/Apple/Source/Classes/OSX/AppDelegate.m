@@ -7,7 +7,8 @@
  */
 
 #import "AppDelegate.h"
-#import "GLView.h"
+#import "GLViewController.h"
+#import "MetalViewController.h"
 
 @interface AppDelegate ()
 
@@ -18,7 +19,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     NSWindow* mainWindow = [[NSApplication sharedApplication]mainWindow];
 
-    NSString* error = [[mainWindow contentView] getError];
+    NSString* error = [[mainWindow contentViewController] getError];
     if(error != nil)
     {
         NSAlert *alert = [[NSAlert alloc] init];
@@ -31,8 +32,11 @@
     }
 
     [mainWindow setAcceptsMouseMovedEvents:YES];
-    NSString *Name =  [[mainWindow contentView] getAppName];
-    [mainWindow setTitle:Name];
+    NSString *name =  [[mainWindow contentViewController] getAppName];
+    if(name != nil)
+    {
+        [mainWindow setTitle:name];
+    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

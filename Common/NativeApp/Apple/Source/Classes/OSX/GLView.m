@@ -10,7 +10,6 @@
 #include <string>
 
 #import "GLView.h"
-#include "NativeAppBase.h"
 
 #ifndef SUPPORT_RETINA_RESOLUTION
 #define SUPPORT_RETINA_RESOLUTION 1
@@ -267,64 +266,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     [super dealloc];
 }
 
-- (void)mouseMove:(NSEvent *)theEvent {
-    NSPoint curPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-#if SUPPORT_RETINA_RESOLUTION
-    curPoint = [self convertPointToBacking:curPoint];
-#endif
-    if(_theApp)
-        _theApp->OnMouseMove(curPoint.x, _viewRectPixels.size.height-1 - curPoint.y);
-}
-
-- (void)mouseDown:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-    if(_theApp)
-        _theApp->OnMouseDown(1);
-}
-
-- (void)mouseUp:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-    if(_theApp)
-        _theApp->OnMouseUp(1);
-}
-
-- (void)rightMouseDown:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-    if(_theApp)
-        _theApp->OnMouseDown(3);
-}
-
-- (void)rightMouseUp:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-    if(_theApp)
-        _theApp->OnMouseUp(3);
-}
-
-- (void)mouseMoved:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-}
-
-- (void)mouseDragged:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-}
-
-- (void)keyDown:(NSEvent *)theEvent {
-    unichar c = [[theEvent charactersIgnoringModifiers] characterAtIndex:0];
-    int key = 0;
-    switch(c){
-        case NSLeftArrowFunctionKey: key = 260; break;
-        case NSRightArrowFunctionKey: key = 262; break;
-        case 0x7F: key = '\b'; break;
-        default: key = c;
-    }
-    if(_theApp)
-        _theApp->OnKeyPressed(key);
-
-    [super keyDown:theEvent];
-}
-
 - (BOOL)acceptsFirstResponder {
-    return YES;
+    return YES; // To make keyboard events work
 }
 
 - (void)stopDisplayLink
@@ -337,14 +280,14 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     CVDisplayLinkStart(displayLink);
 }
 
-- (NSString*)getAppName
-{
-    return [NSString stringWithFormat:@"%s", _theApp ? _theApp->GetAppTitle() : ""];
-}
-
 - (NSString*)getError
 {
     return _error.empty() ? nil : [NSString stringWithFormat:@"%s", _error.c_str()];
+}
+
+- (NativeAppBase*)getApp
+{
+    return _theApp.get();
 }
 
 @end

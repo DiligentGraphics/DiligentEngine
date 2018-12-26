@@ -140,8 +140,11 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.m
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalViewController.mm
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLViewController.mm
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MTKRenderer.mm
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewControllerBase.mm
         )
         set_source_files_properties(${APPLE_SOURCE} PROPERTIES
             COMPILE_FLAGS "-x objective-c++"
@@ -152,8 +155,11 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/AppDelegate.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalViewController.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLViewController.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MTKRenderer.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewControllerBase.h
         )
 
         set(APPLE_RESOURCES

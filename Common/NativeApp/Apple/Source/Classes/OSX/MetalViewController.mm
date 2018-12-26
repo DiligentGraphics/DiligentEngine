@@ -21,6 +21,7 @@
  *  of the possibility of such damages.
  */
 
+#import "MetalView.h"
 #import "MetalViewController.h"
 #import "MTKRenderer.h"
 
@@ -33,23 +34,32 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
-    // Set the view to use the default device
+
     _view = (MTKView *)self.view;
-    
+
     _renderer = [[MTKRenderer alloc] initWithMetalKitView:_view];
-    
+    _theApp = [_renderer getApp];
+
     if(!_renderer)
     {
         NSLog(@"Renderer failed initialization");
         return;
     }
-    
+
     // Initialize our renderer with the view size
     [_renderer mtkView:_view drawableSizeWillChange:_view.drawableSize];
-    
+
     _view.delegate = _renderer;
 }
 
-@end
+-(NSString*)getAppName
+{
+    return [NSString stringWithFormat:@"%s (Vulkan)", _theApp ? _theApp->GetAppTitle() : ""];
+}
 
+-(NSString*)getError
+{
+    return nil;
+}
+
+@end

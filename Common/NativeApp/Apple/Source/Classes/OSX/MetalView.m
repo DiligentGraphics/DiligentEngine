@@ -21,11 +21,16 @@
  *  of the possibility of such damages.
  */
 
-#import "ViewControllerBase.h"
+#import "MetalView.h"
 
-@interface MetalViewController : ViewControllerBase
+@interface MetalView ()
 
--(NSString*)getAppName;
--(NSString*)getError;
+@end
+
+@implementation MetalView
+
+- (BOOL)acceptsFirstResponder {
+    return YES; // To make keyboard events work
+}
 
 @end

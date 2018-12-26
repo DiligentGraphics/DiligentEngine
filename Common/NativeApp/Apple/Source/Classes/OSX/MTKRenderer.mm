@@ -41,7 +41,7 @@
         _theApp.reset(CreateApplication());
         _theApp->Initialize(mtkView);
     }
-    
+
     return self;
 }
 
@@ -50,7 +50,7 @@
 {
     NSRect viewRectPoints = [view bounds];
     NSRect viewRectPixels = [view convertRectToBacking:viewRectPoints];
-    
+
     _theApp->WindowResize(viewRectPixels.size.width, viewRectPixels.size.height);
 }
 
@@ -60,6 +60,11 @@
     _theApp->Update();
     _theApp->Render();
     _theApp->Present();
+}
+
+- (NativeAppBase*)getApp
+{
+    return _theApp.get();
 }
 
 @end
