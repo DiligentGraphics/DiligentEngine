@@ -2,6 +2,11 @@
 ## Current Progress
 
 * Enabled MinGW build
+* Enabled Vulkan on MacOS
+* Implemented split barriers (https://github.com/DiligentGraphics/DiligentCore/issues/43)
+  * Added `STATE_TRANSITION_TYPE` enum and `STATE_TRANSITION_TYPE TransitionType` member to `StateTransitionDesc` structure
+* Samples:
+  * Added rendering backend selection dialog on Win32 and Mac
 
 ## v2.4
 

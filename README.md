@@ -141,10 +141,10 @@ Make sure that Visual C++ ATL Support is installed via Visual Studio Installer.
 Open *DiligentEngine.sln* file in *cmk_build/Win64* folder, select configuration and build the engine. Set the desired project
 as startup project (by default, Asteroids demo will be selected) and run it. 
 
-By default, appplications will run in D3D12 mode. To select D3D11, OpenGL, or Vulkan use the following command line options:
-**mode=D3D11**, **mode=D3D12**, **mode=GL**, or **mode=Vk** (do not use spaces!). If you want to run an application outside of Visual Studio environment,
-the application's assets folder must be set as a working directory. (For Visual Studio, this is automatically configured by 
-CMake). Alternatively, you can navigate to the build target folder and run the executable from there.
+By default, appplications will show rendering backend selection dialog box. Use the following command line options to force D3D11, D3D12,
+OpenGL, or Vulkan mode: **mode=D3D11**, **mode=D3D12**, **mode=GL**, or **mode=Vk** (do not use spaces!). If you want to run an application
+outside of Visual Studio environment, the application's assets folder must be set as a working directory. (For Visual Studio, this 
+is automatically configured by CMake). Alternatively, you can navigate to the build target or install folder and run the executable from there.
 
 
 <a name="build_and_run_uwp"></a>
