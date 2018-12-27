@@ -3,7 +3,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -174,45 +173,42 @@
         <scene sceneID="rTr-Qo-t8b">
             <objects>
                 <viewController id="lYj-9Z-eqp" customClass="ModeSelectionViewController" sceneMemberID="viewController">
-                    <view key="view" id="SPq-vc-rSb">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="253"/>
+                    <view key="view" autoresizesSubviews="NO" id="SPq-vc-rSb">
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="255"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FNk-f7-1ho">
-                                <rect key="frame" x="129" y="60" width="92" height="43"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="xCk-Gq-MrX"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Vulkan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nsa-CK-D42">
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zEs-tf-G2z" userLabel="OpenGL">
+                                <rect key="frame" x="59" y="143" width="233" height="82"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="opengl-logo" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="I5f-XW-9L1">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="systemSemibold" size="16"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="goOpenGL:" target="lYj-9Z-eqp" id="Sg7-XX-Ktg"/>
+                                    </connections>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="goVulkan:" target="lYj-9Z-eqp" id="bnQ-Bu-l9T"/>
-                                </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zva-9q-Xj2">
-                                <rect key="frame" x="124" y="143" width="102" height="32"/>
-                                <buttonCell key="cell" type="push" title="OpenGL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xhq-D1-XDx">
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mhf-V7-TKz" userLabel="Vulkan">
+                                <rect key="frame" x="59" y="32" width="233" height="82"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="vulkan-logo" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="PWi-41-bCy">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="systemSemibold" size="16"/>
+                                    <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="goOpenGL:" target="lYj-9Z-eqp" id="eDU-k4-Qyl"/>
+                                    <action selector="goVulkan:" target="lYj-9Z-eqp" id="Vj9-0Y-bjn"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="zva-9q-Xj2" firstAttribute="centerX" secondItem="SPq-vc-rSb" secondAttribute="centerX" id="6Je-LA-wKz"/>
-                            <constraint firstItem="zva-9q-Xj2" firstAttribute="top" secondItem="SPq-vc-rSb" secondAttribute="top" constant="82" id="RKY-jP-kug"/>
-                            <constraint firstItem="zva-9q-Xj2" firstAttribute="centerX" secondItem="FNk-f7-1ho" secondAttribute="centerX" id="bGn-rh-tGz"/>
-                            <constraint firstItem="FNk-f7-1ho" firstAttribute="top" secondItem="zva-9q-Xj2" secondAttribute="bottom" constant="51" id="sTn-Gq-zp6"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="IGK-9x-tXY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="220" y="828.5"/>
+            <point key="canvasLocation" x="171" y="1214"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="opengl-logo" width="900" height="375"/>
+        <image name="vulkan-logo" width="975" height="375"/>
+    </resources>
 </document>

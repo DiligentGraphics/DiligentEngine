@@ -167,6 +167,8 @@ elseif(PLATFORM_MACOS)
         set(APPLE_RESOURCES
             ${NATIVE_APP_SOURCE_DIR}/Apple/Data/OSX/Base.lproj/Main.storyboard
             ${NATIVE_APP_SOURCE_DIR}/Apple/Data/OSX/Images.xcassets/AppIcon.appiconset/dg.icns
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Data/OSX/Images.xcassets/opengl-logo.png
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Data/OSX/Images.xcassets/vulkan-logo.png
         )
 
         set(APPLE_INFO_PLIST
