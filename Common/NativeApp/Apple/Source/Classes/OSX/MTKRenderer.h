@@ -30,6 +30,7 @@
 
 - (nonnull instancetype)initWithMetalKitView:(nonnull MTKView *)mtkView;
 - (NativeAppBase* _Nullable)getApp;
+- (NSString* _Nullable)getError;
 
 @end
 

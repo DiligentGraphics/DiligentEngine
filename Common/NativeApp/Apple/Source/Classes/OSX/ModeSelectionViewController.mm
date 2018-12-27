@@ -49,28 +49,29 @@
 - (IBAction)goOpenGL:(id)sender
 {
     GLViewController* glViewController = [self.storyboard instantiateControllerWithIdentifier:@"GLViewControllerID"];
+    self.view.window.contentViewController = glViewController;
+
     NSString* error = [glViewController getError];
     if(error != nil)
     {
         [self terminateApp:error];
     }
-    
-    self.view.window.contentViewController = glViewController;
 
     NSString* name =  [glViewController getAppName];
     [self setWindowTitle:name];
 }
-                                             
+
 - (IBAction)goVulkan:(id)sender
 {
     MetalViewController* metalViewController = [self.storyboard instantiateControllerWithIdentifier:@"MetalViewControllerID"];
+    self.view.window.contentViewController = metalViewController;
+
     NSString* error = [metalViewController getError];
     if(error != nil)
     {
         [self terminateApp:error];
     }
-    
-    self.view.window.contentViewController = metalViewController;
+
     NSString* name =  [metalViewController getAppName];
     [self setWindowTitle:name];
 }

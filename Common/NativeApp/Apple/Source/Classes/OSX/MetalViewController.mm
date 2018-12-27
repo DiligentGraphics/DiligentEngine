@@ -63,7 +63,7 @@
 
 -(NSString*)getError
 {
-    return nil;
+    return [_renderer getError];
 }
 
 @end

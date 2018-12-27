@@ -24,12 +24,15 @@
 #import <MTKRenderer.h>
 
 #include <memory>
+#include <string>
+
 #include "NativeAppBase.h"
 
 // Main class performing the rendering
 @implementation MTKRenderer
 {
     std::unique_ptr<NativeAppBase> _theApp;
+    std::string _error;
 }
 
 /// Initialize with the MetalKit view from which we'll obtain our Metal device
@@ -38,8 +41,16 @@
     self = [super init];
     if(self)
     {
-        _theApp.reset(CreateApplication());
-        _theApp->Initialize(mtkView);
+        try
+        {
+            _theApp.reset(CreateApplication());
+            _theApp->Initialize(mtkView);
+        }
+        catch(std::runtime_error &err)
+        {
+            _error = err.what();
+            _theApp.reset();
+        }
     }
 
     return self;
@@ -48,20 +59,31 @@
 /// Called whenever view changes orientation or is resized
 - (void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-    _theApp->WindowResize(size.width, size.height);
+    if (_theApp)
+    {
+        _theApp->WindowResize(size.width, size.height);
+    }
 }
 
 /// Called whenever the view needs to render a frame
 - (void)drawInMTKView:(nonnull MTKView *)view
 {
-    _theApp->Update();
-    _theApp->Render();
-    _theApp->Present();
+    if (_theApp)
+    {
+        _theApp->Update();
+        _theApp->Render();
+        _theApp->Present();
+    }
 }
 
 - (NativeAppBase*)getApp
 {
     return _theApp.get();
+}
+
+- (NSString*)getError
+{
+    return _error.empty() ? nil : [NSString stringWithFormat:@"%s", _error.c_str()];
 }
 
 @end
