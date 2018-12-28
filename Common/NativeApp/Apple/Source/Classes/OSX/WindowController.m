@@ -42,11 +42,21 @@
 		//...don't do anything
 		return;
 	}
+
+    GLView* glView = nil;
+    if ([self.window.contentView isKindOfClass: [GLView class]])
+    {
+        glView = (GLView *)self.window.contentView;
+    }
+
     // We must stop the display link while
     // switching the windows to make sure
     // that render commands are not issued
     // from another thread
-    [self.window.contentView stopDisplayLink];
+    if (glView != nil)
+    {
+        [glView stopDisplayLink];
+    }
 
 	// Allocate a new fullscreen window
     [self setFullscreenWindow: [[FullscreenWindow alloc] init]];
@@ -76,7 +86,10 @@
 	[[self fullscreenWindow] makeKeyAndOrderFront:self];
 
     // Restore display link
-    [self.window.contentView startDisplayLink];
+    if (glView != nil)
+    {
+        [glView startDisplayLink];
+    }
 }
 
 - (void) goWindow
@@ -87,11 +100,21 @@
 		//...app is already windowed so don't do anything
 		return;
 	}
+
+    GLView* glView = nil;
+    if ([self.window.contentView isKindOfClass: [GLView class]])
+    {
+        glView = (GLView *)self.window.contentView;
+    }
+
     // We must stop the display link while
     // switching the windows to make sure
     // that render commands are not issued
     // from another thread
-    [self.window.contentView stopDisplayLink];
+    if (glView)
+    {
+        [glView stopDisplayLink];
+    }
 
 	// Get the rectangle of the original window
 	NSRect viewRect = [[self standardWindow] frame];
@@ -117,7 +140,10 @@
     [self setFullscreenWindow: nil];
 
     // Restore display link
-    [self.window.contentView startDisplayLink];
+    if (glView)
+    {
+        [glView startDisplayLink];
+    }
 }
 
 
