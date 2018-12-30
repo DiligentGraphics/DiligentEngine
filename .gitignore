@@ -37,6 +37,7 @@ doc/latex
 Debug
 Release
 /cmk_build
+/build
 *.db-shm
 *.db-wal
 *.vspx

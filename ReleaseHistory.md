@@ -1,5 +1,5 @@
 
-## Current Progress
+## v2.4.a
 
 * Enabled MinGW build
 * Enabled Vulkan on MacOS

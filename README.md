@@ -1,13 +1,12 @@
 # Diligent Engine <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/diligentgraphics-logo.png" height=64 align="right" valign="middle">
 **A Modern Cross-Platform Low-Level 3D Graphics Library** [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=An%20easy-to-use%20cross-platform%20graphics%20library%20that%20takes%20full%20advantage%20of%20%23Direct3D12%20and%20%23VulkanAPI&url=https://github.com/DiligentGraphics/DiligentEngine)
 
-[Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform abstraction layer between the 
-application and the platform-specific graphics API designed to take advantages of next-generation APIs such as 
-Direct3D12 and Vulkan, while providing support for older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes 
-common front-end for all supported platforms and provides 
-[interoperability with underlying native API](http://diligentgraphics.com/diligent-engine/native-api-interoperability/).  
-It uses HLSL as universal shading language for all back-ends and platforms; GLSL can be used with Vulkan/OpenGL.
-The engine is intended to be used as a graphics subsystem in a game engine or any other 3D application. 
+[Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform graphics
+API abstraction library. It is designed to take full advantage of Direct3D12, Vulkan and Metal, while
+supporting older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common front-end 
+API and uses HLSL as universal shading language on all platforms and rendering back-ends. Platform-specific 
+shader representations (GLSL, DX bytecode or SPIRV) can be used with corresponding back-ends.
+The engine is intended to be used as graphics subsystem in a game engine or any other 3D application. 
 It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](License.txt)
@@ -21,15 +20,15 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * Exact same client code for all supported platforms and rendering backends
     * No `#if defined(_WIN32)` ... `#elif defined(LINUX)` ... `#elif defined(ANDROID)` ...
     * No `#if defined(D3D11)` ... `#elif defined(D3D12)` ... `#elif defined(OPENGL)` ...
-  * Exact same HLSL shaders run on all platforms and all backends 
+  * Exact same HLSL shaders run on all platforms and all back-ends 
 * High performance
 * Modular design
   * Components are clearly separated logically and physically and can be used as needed
   * Only take what you need for your project
 * Clear object-based interface
-  * No global states
+  * No hidden global states
 * Key graphics features:
-  * Automatic shader resource binding designed to leverage the next-generation rendering APIs
+  * Automatic shader resource binding designed to leverage next-generation graphics APIs
   * Multithreaded command buffer generation
     * [50,000 draw calls at 300 fps](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) with D3D12/Vulkan backend
   * Descriptor, memory and resource state management
@@ -74,30 +73,29 @@ Last Stable Release - [v2.4](https://github.com/DiligentGraphics/DiligentEngine/
 
 This is the master repository that contains three [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules). To get the repository and all submodules, use the following command:
 
- git clone --recursive https://github.com/DiligentGraphics/DiligentEngine.git 
- 
- Alternatively, you can get master repository fisrt, and then individually clone all submodules into the engine's root folder.
- 
- To checkout the last stable release, run the following commands:
- 
-* git checkout tags/v2.4
+```
+git clone --recursive https://github.com/DiligentGraphics/DiligentEngine.git
+```
 
-* git submodule update --init --recursive
+Alternatively, you can get master repository fisrt, and then individually clone all submodules into the engine's root folder.
+ 
+To checkout the last stable release, run the following commands:
 
+```
+git checkout tags/v2.4
+git submodule update --init --recursive
+```
 
 <a name="repository_structure"></a>
 ## Repository Structure
 
 Master repository includes the following submodules:
 
-* [Core](https://github.com/DiligentGraphics/DiligentCore) submodule provides basic engine functionality. 
-  It implements the engine API using 
+* [Core](https://github.com/DiligentGraphics/DiligentCore) submodule implements 
   [Direct3D11](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D11), 
   [Direct3D12](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D12),
   [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL), and
-  [Vulkan](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineVulkan)
-  It also implements 
-  [HLSL to GLSL source code converter](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/HLSL2GLSLConverterLib).
+  [Vulkan](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineVulkan) back-ends.
   The module is self-contained and can be built by its own.
 * [Tools](https://github.com/DiligentGraphics/DiligentTools) submodule contains 
   [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader) and 
@@ -121,29 +119,35 @@ To generate build files for Windows desktop platform, use either CMake GUI or co
 [Visual Studio 2017](https://www.visualstudio.com/vs/community) 64-bit solution and project files in *cmk_build/Win64* folder, 
 navigate to the engine's root folder and run the following command:
 
-*cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
+```
+cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+```
 
 You can generate Win32 solution that targets Win8.1 SDK using the following command:
 
-*cmake -D CMAKE_SYSTEM_VERSION=8.1 -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
+```
+cmake -D CMAKE_SYSTEM_VERSION=8.1 -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+```
 
 If you use MinGW, you can generate the make files using the command below:
 
-*cmake -H. -B./cmk_build/MinGW -G "MinGW Makefiles"*
+```
+cmake -H. -B./cmk_build/MinGW -G "MinGW Makefiles"
+```
 
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**.
 
 To enable Vulkan validation layers, you will need to download [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
-variable *VK_LAYER_PATH* that contains path to the *Bin* directory in VulkanSDK installation folder.
+variable `VK_LAYER_PATH` that contains path to the *Bin* directory in VulkanSDK installation folder.
 
 Make sure that Visual C++ ATL Support is installed via Visual Studio Installer.
 
 Open *DiligentEngine.sln* file in *cmk_build/Win64* folder, select configuration and build the engine. Set the desired project
 as startup project (by default, Asteroids demo will be selected) and run it. 
 
-By default, appplications will show rendering backend selection dialog box. Use the following command line options to force D3D11, D3D12,
-OpenGL, or Vulkan mode: **mode=D3D11**, **mode=D3D12**, **mode=GL**, or **mode=Vk** (do not use spaces!). If you want to run an application
-outside of Visual Studio environment, the application's assets folder must be set as a working directory. (For Visual Studio, this 
+By default, sample and tutorial applications will show rendering backend selection dialog box. Use the following command line options to force
+D3D11, D3D12, OpenGL, or Vulkan mode: **mode=D3D11**, **mode=D3D12**, **mode=GL**, or **mode=Vk** (do not use spaces!). If you want to run an application
+outside of Visual Studio environment, the application's assets folder must be set as working directory. (For Visual Studio, this 
 is automatically configured by CMake). Alternatively, you can navigate to the build target or install folder and run the executable from there.
 
 
@@ -152,24 +156,28 @@ is automatically configured by CMake). Alternatively, you can navigate to the bu
 
 To generate build files for Universal Windows platform, you need to define the following two cmake variables:
 
-* CMAKE_SYSTEM_NAME=WindowsStore 
-* CMAKE_SYSTEM_VERSION=< Windows SDK Version >
+* `CMAKE_SYSTEM_NAME=WindowsStore`
+* `CMAKE_SYSTEM_VERSION=< Windows SDK Version >`
 
 For example, to generate Visual Studio 2017 64-bit solution and project files in *cmk_build/UWP64* folder, run the following command
 from the engine's root folder:
 
-*cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"*
+```
+cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"
+```
 
 You can target specific SDK version by refining CMAKE_SYSTEM_VERSION, for instance:
 
-*cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.15063.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"*
+```
+cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.16299.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"
+```
 
 Set the desired project as startup project (by default, Atmosphere sample will be selected) and run it. 
 
 By default, appplications will run in D3D12 mode. You can select D3D11 or D3D12 using the following command line options:
 **mode=D3D11**, **mode=D3D12** (do not use spaces!).
 
-Note: you can generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but the solution will fail
+Note: it is possible to generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but it will fail
 to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++11 support.
 
 
@@ -181,20 +189,26 @@ as Diligent Engine uses modern c++ features (gcc/g++ 7 or later is recommended).
 
 1. gcc, make and other essential c/c++ tools:
 
-* sudo apt-get update
-* sudo apt-get upgrade
-* sudo apt-get install build-essential
+```
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install build-essential
+```
 
 2. cmake
 
-* sudo apt-get install cmake
+```
+sudo apt-get install cmake
+```
 
 3. Other required packages:
 
-* sudo apt-get install libx11-dev
-* sudo apt-get install mesa-common-dev
-* sudo apt-get install mesa-utils
-* sudo apt-get install libgl-dev
+```
+sudo apt-get install libx11-dev
+sudo apt-get install mesa-common-dev
+sudo apt-get install mesa-utils
+sudo apt-get install libgl-dev
+```
 
 To configure Vulkan you will also need to:
 
@@ -204,11 +218,15 @@ To configure Vulkan you will also need to:
 
 To generate make files for debug configuration, run the following CMake command from the engine's root folder:
 
-*cmake -H. -B./cmk_build/Linux64 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"* 
+```
+cmake -H. -B./cmk_build/Linux64 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+```
 
 To build the engine, run the following command:
 
-*cmake --build ./cmk_build/Linux64*
+```
+cmake --build ./cmk_build/Linux64
+```
 
 The engine's root folder contains [Visual Studio Code](https://code.visualstudio.com/) settings files that configure
 the IDE to build the engine. You can run applications directly from the IDE. To run an application from the command line,
@@ -233,7 +251,9 @@ the engine samples and Unity emulator on Android.
 After you clone the repo, run the following command from the engine's root folder to generate Xcode project
 (you need to have [CMake](https://cmake.org/) installed on the system):
 
-*cmake -H. -B./cmk_build/MacOS -G "Xcode"*
+```
+cmake -H. -B./cmk_build/MacOS -G "Xcode"
+```
 
 Open Xcode project file in cmk_build/MacOS folder to build the engine and run the applications. 
 
@@ -244,10 +264,12 @@ Open Xcode project file in cmk_build/MacOS folder to build the engine and run th
 Run the command below from the engine's root folder to generate Xcode project configured for iOS build
 (you need to have [CMake](https://cmake.org/) installed on your Mac):
 
-*cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -H. -Bcmk_build/IOS -GXcode*
+```
+cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -H. -Bcmk_build/IOS -GXcode
+```
 
-Open Xcode project file in cmk_build/IOS folder and build the engine. To run the applications on an iOS device,
-you will need to set the appropriate development team in the project settings.
+Open Xcode project file in *cmk_build/IOS* folder and build the engine. To run the applications on an iOS device,
+you will need to set an appropriate development team in the project settings.
 
 
 <a name="build_and_run_integration"></a>
@@ -314,7 +336,8 @@ Build customization described below can help tweak the settings for your specifi
 <a name="build_and_run_customizing"></a>
 ## Customizing Build
 
-Diligent Engine allows clients to customize build settings by providing configuration script file that defines two optional functions:
+Diligent Engine allows clients to customize build settings by providing configuration script file that defines two optional 
+[cmake functions](https://cmake.org/cmake/help/v3.13/command/function.html):
 
 * `custom_configure_build()` - defines global build properties such as build configurations, c/c++ compile flags, link flags etc.
 * `custom_configure_target()` - defines custom settings for every target in the build.
@@ -322,7 +345,9 @@ Diligent Engine allows clients to customize build settings by providing configur
 The path to the configuration script should be provided through `BUILD_CONFIGURATION_FILE` variable when running 
 cmake and must be relative to the cmake root folder, for example:
 
-*cmake -D BUILD_CONFIGURATION_FILE=BuildConfig.cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"*
+```
+cmake -D BUILD_CONFIGURATION_FILE=BuildConfig.cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+```
 
 ### Customizing global build settings with custom_configure_build() function
 
@@ -391,8 +416,8 @@ If defined, `custom_configure_target()` is called for every target created by th
 allows configuring target-specific properties.
 
 By default, the build system sets some target properties. If `custom_configure_target()` sets all required properties,
-it can tell the build system that no further processing is required by setting `TARGET_CONFIGURATION_COMPLETE` parent
-scope variable to `TRUE`:
+it can tell the build system that no further processing is required by setting `TARGET_CONFIGURATION_COMPLETE`
+[parent scope](https://cmake.org/cmake/help/v3.13/command/set.html#set-normal-variable) variable to `TRUE`:
 
 ```cmake
 set(TARGET_CONFIGURATION_COMPLETE TRUE PARENT_SCOPE)
