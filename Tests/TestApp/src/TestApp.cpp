@@ -46,6 +46,10 @@
 #   include "RenderDeviceFactoryVk.h"
 #endif
 
+#if METAL_SUPPORTED
+#   include "RenderDeviceFactoryMtl.h"
+#endif
+
 #include "FileSystem.h"
 #include "MapHelper.h"
 #include "RenderScriptTest.h"
@@ -292,7 +296,7 @@ void TestApp::InitializeDiligentEngine(
             Features.imageCubeArray                 = true;
             Features.textureCompressionBC           = true;
             Features.vertexPipelineStoresAndAtomics = true;
-            Features.fragmentStoresAndAtomics       = true;            
+            Features.fragmentStoresAndAtomics       = true;
 
             ppContexts.resize(1 + NumDeferredCtx);
             auto *pFactoryVk = GetEngineFactoryVk();
@@ -303,6 +307,22 @@ void TestApp::InitializeDiligentEngine(
         }
         break;
 #endif
+
+#if METAL_SUPPORTED
+        case DeviceType::Metal:
+        {
+            EngineMtlAttribs MtlAttribs;
+
+            ppContexts.resize(1 + NumDeferredCtx);
+            auto *pFactoryMtl = GetEngineFactoryMtl();
+            pFactoryMtl->CreateDeviceAndContextsMtl(MtlAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
+
+            if (!m_pSwapChain && NativeWindowHandle != nullptr)
+                pFactoryMtl->CreateSwapChainMtl(m_pDevice, ppContexts[0], SCDesc, NativeWindowHandle, &m_pSwapChain);
+        }
+        break;
+#endif
+
         default:
             LOG_ERROR_AND_THROW("Unknown device type");
             break;

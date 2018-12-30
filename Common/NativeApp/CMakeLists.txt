@@ -194,23 +194,23 @@ elseif(PLATFORM_MACOS)
 
         find_library(CORE_VIDEO CoreVideo)
         if (NOT CORE_VIDEO)
-                message(FATAL_ERROR "CoreVideo not found")
+                message(FATAL_ERROR "CoreVideo is not found")
         endif()
         target_link_libraries(${TARGET_NAME} PRIVATE )
 
         find_library(METAL_FRAMEWORK Metal)
         if (NOT METAL_FRAMEWORK)
-            message(FATAL_ERROR "Metal framework not found")
+            message(FATAL_ERROR "Metal framework is not found")
         endif()
 
         find_library(CORE_ANIMATION QuartzCore)
         if (NOT CORE_ANIMATION)
-            message(FATAL_ERROR "QuartzCore (CoreAnimation) not found")
+            message(FATAL_ERROR "QuartzCore (CoreAnimation) is not found")
         endif()
 
         find_library(METAL_KIT MetalKit)
         if (NOT METAL_FRAMEWORK)
-            message(FATAL_ERROR "MetalKit framework not found")
+            message(FATAL_ERROR "MetalKit framework is not found")
         endif()
 
         target_link_libraries(${TARGET_NAME} PRIVATE ${OPENGL_LIBRARY} ${CORE_VIDEO} ${METAL_FRAMEWORK} ${CORE_ANIMATION} ${METAL_KIT})
@@ -276,17 +276,17 @@ elseif(PLATFORM_IOS)
 
         find_library(OPENGLES OpenGLES)
             if (NOT OPENGLES)
-                message(FATAL_ERROR "OpenGLES not found")
+                message(FATAL_ERROR "OpenGLES is not found")
             endif()
 
         find_library(UIKIT UIKit)
         if (NOT UIKIT)
-                message(FATAL_ERROR "UIKIT not found")
+                message(FATAL_ERROR "UIKIT is not found")
         endif()
 
         find_library(CORE_ANIMATION QuartzCore)
         if (NOT CORE_ANIMATION)
-            message(FATAL_ERROR "QuartzCore (CoreAnimation) not found")
+            message(FATAL_ERROR "QuartzCore (CoreAnimation) is not found")
         endif()
 
         target_link_libraries(${TARGET_NAME} PRIVATE ${OPENGLES} ${UIKIT} ${CORE_ANIMATION})
