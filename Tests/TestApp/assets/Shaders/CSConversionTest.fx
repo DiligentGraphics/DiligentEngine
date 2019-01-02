@@ -264,7 +264,8 @@ void TestStore()
     }
 }
 
-void TestImageArgs1(RWTexture2D</* format = r32i */int> in_RWTex, int2 Location)
+/*
+void TestImageArgs1(RWTexture2D</* format = r32i * /int> in_RWTex, int2 Location)
 {
     int Width, Height;
     in_RWTex.GetDimensions (Width, Height );
@@ -273,13 +274,14 @@ void TestImageArgs1(RWTexture2D</* format = r32i */int> in_RWTex, int2 Location)
     int i  = in_RWTex.Load(Location.xy);
 }
 
-void TestImageArgs2(RWTexture3D<float/*format=r32f*/> in_RWTex)
+void TestImageArgs2(RWTexture3D<float/*format=r32f* /> in_RWTex)
 {
     int Width, Height, Depth;
     in_RWTex.GetDimensions (Width, Height, Depth );
     float f  = in_RWTex.Load(int3(10,11,23));
     in_RWTex[int3(1,2,3)] = float4(10.0, 25.0, 26.0, 27.0);
 }
+*/
 
 int2 GetCoords( uint x, uint y )
 {
@@ -413,6 +415,6 @@ void TestCS(CSInput In,
     AllMemoryBarrier();
     AllMemoryBarrierWithGroupSync();
 
-    TestImageArgs1(Tex2D_I1, int2(GTid.xy));
-    TestImageArgs2( Tex3D_F2 );
+    //TestImageArgs1(Tex2D_I1, int2(GTid.xy));
+    //TestImageArgs2( Tex3D_F2 );
 }
