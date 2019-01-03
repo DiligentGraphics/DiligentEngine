@@ -95,14 +95,14 @@ elseif(PLATFORM_MACOS)
         src/MacOS/TestAppMacOS.cpp
     )
     target_sources(TestApp PRIVATE ${MAC_SOURCE})
-    source_group("src\\McOS" FILES ${MAC_SOURCE})
+    source_group("src\\MacOS" FILES ${MAC_SOURCE})
 
 elseif(PLATFORM_IOS)
     set(IOS_SOURCE
         src/IOS/TestAppIOS.cpp
     )
     target_sources(TestApp PRIVATE ${IOS_SOURCE})
-    source_group("src\\McOS" FILES ${IOS_SOURCE})
+    source_group("src\\MacOS" FILES ${IOS_SOURCE})
 endif()
 
 set_common_target_properties(TestApp)
