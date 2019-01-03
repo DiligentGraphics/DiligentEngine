@@ -143,7 +143,6 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalViewController.mm
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLViewController.mm
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MTKRenderer.mm
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewControllerBase.mm
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ModeSelectionViewController.mm
         )
@@ -159,7 +158,6 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalViewController.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLViewController.h
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MTKRenderer.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewControllerBase.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ModeSelectionViewController.h
         )
@@ -208,12 +206,7 @@ elseif(PLATFORM_MACOS)
             message(FATAL_ERROR "QuartzCore (CoreAnimation) is not found")
         endif()
 
-        find_library(METAL_KIT MetalKit)
-        if (NOT METAL_FRAMEWORK)
-            message(FATAL_ERROR "MetalKit framework is not found")
-        endif()
-
-        target_link_libraries(${TARGET_NAME} PRIVATE ${OPENGL_LIBRARY} ${CORE_VIDEO} ${METAL_FRAMEWORK} ${CORE_ANIMATION} ${METAL_KIT})
+        target_link_libraries(${TARGET_NAME} PRIVATE ${OPENGL_LIBRARY} ${CORE_VIDEO} ${METAL_FRAMEWORK} ${CORE_ANIMATION})
 
     endfunction()
 

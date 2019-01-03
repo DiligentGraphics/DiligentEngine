@@ -21,12 +21,10 @@
  *  of the possibility of such damages.
  */
 
+#import <AppKit/AppKit.h>
 
-#import <MetalKit/MetalKit.h>
 #include "NativeAppBase.h"
 
-@interface MetalView : MTKView
-{
-}
+@interface MetalView : NSView
 
 @end

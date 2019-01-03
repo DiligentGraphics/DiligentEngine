@@ -21,39 +21,110 @@
  *  of the possibility of such damages.
  */
 
+#include <memory>
+#include <string>
+
 #import "MetalView.h"
 #import "MetalViewController.h"
-#import "MTKRenderer.h"
+#import <QuartzCore/CAMetalLayer.h>
+
+#include "NativeAppBase.h"
 
 @implementation MetalViewController
 {
-    MTKView *_view;
-    MTKRenderer *_renderer;
+    MetalView *_view;
+    CVDisplayLinkRef    _displayLink;
+    std::unique_ptr<NativeAppBase> _theApp2;
+    std::string _error;
+    NSRecursiveLock* appLock;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    _view = (MTKView *)self.view;
-    NSScreen* screen = [NSScreen mainScreen];
-    auto scaleFactor = [screen backingScaleFactor];
-    auto layer = [_view layer];
-    layer.contentsScale = scaleFactor;
+    _view = (MetalView *)self.view;
 
-    _renderer = [[MTKRenderer alloc] initWithMetalKitView:_view];
-    _theApp = [_renderer getApp];
+    // Back the view with a layer created by the makeBackingLayer method.
+    _view.wantsLayer = YES;
 
-    if(!_renderer)
+    try
     {
-        NSLog(@"Renderer failed initialization");
-        return;
+        _theApp2.reset(CreateApplication());
+        _theApp2->Initialize(_view);
     }
+    catch(std::runtime_error &err)
+    {
+        _error = err.what();
+        _theApp2.reset();
+    }
+    _theApp = _theApp2.get();
 
-    // Initialize our renderer with the view size
-    [_renderer mtkView:_view drawableSizeWillChange:_view.drawableSize];
+    appLock = [[NSRecursiveLock alloc] init];
 
-    _view.delegate = _renderer;
+    CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
+    CVDisplayLinkSetOutputCallback(_displayLink, &DisplayLinkCallback, (__bridge void*)self);
+    CVDisplayLinkStart(_displayLink);
+
+    [_view setPostsBoundsChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boundsDidChange:) name:NSViewBoundsDidChangeNotification object:_view];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boundsDidChange:) name:NSViewFrameDidChangeNotification object:_view];
+}
+
+-(void)render
+{
+    [appLock lock];
+    if (_theApp)
+    {
+        _theApp->Update();
+        _theApp->Render();
+        _theApp->Present();
+    }
+    [appLock unlock];
+}
+
+-(void)boundsDidChange:(NSNotification *)notification
+{
+    [appLock lock];
+    if (_theApp)
+    {
+        //CVDisplayLinkStop(_displayLink);
+        NSRect viewRectPoints = [_view bounds];
+        NSRect viewRectPixels = [_view convertRectToBacking:viewRectPoints];
+        _theApp->WindowResize(viewRectPixels.size.width, viewRectPixels.size.height);
+        //CVDisplayLinkStart(_displayLink);
+    }
+    [appLock unlock];
+}
+
+
+// Rendering loop callback function for use with a CVDisplayLink.
+static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
+                                    const CVTimeStamp* now,
+                                    const CVTimeStamp* outputTime,
+                                    CVOptionFlags flagsIn,
+                                    CVOptionFlags* flagsOut,
+                                    void* target)
+{
+    MetalViewController* viewController = (MetalViewController*)target;
+    [viewController render];
+    return kCVReturnSuccess;
+}
+
+-(void) dealloc
+{
+    // Stop the display link BEFORE releasing anything in the view
+    // otherwise the display link thread may call into the view and crash
+    // when it encounters something that has been released
+    CVDisplayLinkStop(_displayLink);
+
+    CVDisplayLinkRelease(_displayLink);
+
+    _theApp2.reset();
+
+    [appLock release];
+
+    [super dealloc];
 }
 
 -(NSString*)getAppName
@@ -63,7 +134,7 @@
 
 -(NSString*)getError
 {
-    return [_renderer getError];
+    return _error.empty() ? nil : [NSString stringWithFormat:@"%s", _error.c_str()];
 }
 
 @end
