@@ -8,7 +8,6 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import "GLView.h"
 
 @interface WindowController : NSWindowController
 

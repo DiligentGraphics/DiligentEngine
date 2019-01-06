@@ -21,12 +21,22 @@
  *  of the possibility of such damages.
  */
 
-
-#import <AppKit/AppKit.h>
 #include "NativeAppBase.h"
 
-@interface ViewControllerBase : NSViewController
-{
-    NativeAppBase* _theApp;
-}
+#import <AppKit/AppKit.h>
+#import <QuartzCore/CVDisplayLink.h>
+#import <Cocoa/Cocoa.h>
+
+@interface ViewBase : NSOpenGLView
+
+@property CVDisplayLinkRef displayLink;
+
+-(void)initApp:(NSView*) view;
+-(void)destroyApp;
+-(NSString*)getError;
+-(NativeAppBase*)lockApp;
+-(void)unlockApp;
+-(void)stopDisplayLink;
+-(void)startDisplayLink;
+
 @end

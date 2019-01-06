@@ -21,57 +21,72 @@
  *  of the possibility of such damages.
  */
 
-#import "ViewControllerBase.h"
-#import "GLView.h"
-#import "MetalView.h"
+#import "ViewController.h"
+#import "ViewBase.h"
 
-#ifndef SUPPORT_RETINA_RESOLUTION
-#define SUPPORT_RETINA_RESOLUTION 1
-#endif
+@implementation ViewController
 
-@implementation ViewControllerBase
-{
-    
-}
 
 - (void)mouseMove:(NSEvent *)theEvent {
     NSPoint curPoint = [self.view convertPoint:[theEvent locationInWindow] fromView:nil];
     
     NSRect viewRectPoints = [self.view bounds];
-#if SUPPORT_RETINA_RESOLUTION
     NSRect viewRectPixels = [self.view convertRectToBacking:viewRectPoints];
     curPoint = [self.view convertPointToBacking:curPoint];
-#else
-    // Points:Pixels is always 1:1 when not supporting retina resolutions
-    NSRect viewRectPixels = viewRectPoints;
-#endif
     
-    if(_theApp)
-        _theApp->OnMouseMove(curPoint.x, viewRectPixels.size.height-1 - curPoint.y);
+    auto* view = (ViewBase*)self.view;
+    auto* theApp = [view lockApp];
+    if(theApp)
+        theApp->OnMouseMove(curPoint.x, viewRectPixels.size.height-1 - curPoint.y);
+    [view unlockApp];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
     [self mouseMove: theEvent];
-    if(_theApp)
-        _theApp->OnMouseDown(1);
+    
+    {
+        auto* view = (ViewBase*)self.view;
+        auto* theApp = [view lockApp];
+        if(theApp)
+            theApp->OnMouseDown(1);
+        [view unlockApp];
+    }
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
     [self mouseMove: theEvent];
-    if(_theApp)
-        _theApp->OnMouseUp(1);
+    
+    {
+        auto* view = (ViewBase*)self.view;
+        auto* theApp = [view lockApp];
+        if(theApp)
+            theApp->OnMouseUp(1);
+        [view unlockApp];
+    }
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent {
     [self mouseMove: theEvent];
-    if(_theApp)
-        _theApp->OnMouseDown(3);
+    
+    {
+        auto* view = (ViewBase*)self.view;
+        auto* theApp = [view lockApp];
+        if(theApp)
+            theApp->OnMouseDown(3);
+        [view unlockApp];
+    }
 }
 
 - (void)rightMouseUp:(NSEvent *)theEvent {
     [self mouseMove: theEvent];
-    if(_theApp)
-        _theApp->OnMouseUp(3);
+    
+    {
+        auto* view = (ViewBase*)self.view;
+        auto* theApp = [view lockApp];
+        if(theApp)
+            theApp->OnMouseUp(3);
+        [view unlockApp];
+    }
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
@@ -91,10 +106,20 @@
         case 0x7F:                    key = '\b'; break;
         default:                      key = c;
     }
-    if(_theApp)
-        _theApp->OnKeyPressed(key);
+    
+    {
+        auto* view = (ViewBase*)self.view;
+        auto* theApp = [view lockApp];
+        if(theApp)
+            theApp->OnKeyPressed(key);
+        [view unlockApp];
+    }
     
     [super keyDown:theEvent];
+}
+
+- (BOOL)acceptsFirstResponder {
+    return YES;
 }
 
 @end

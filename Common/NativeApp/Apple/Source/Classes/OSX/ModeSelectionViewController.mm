@@ -22,8 +22,10 @@
  */
 
 #import "ModeSelectionViewController.h"
-#import "GLViewController.h"
-#import "MetalViewController.h"
+#import "GLView.h"
+#import "MetalView.h"
+#import "ViewController.h"
+
 
 @implementation ModeSelectionViewController
 {
@@ -48,31 +50,33 @@
 
 - (IBAction)goOpenGL:(id)sender
 {
-    GLViewController* glViewController = [self.storyboard instantiateControllerWithIdentifier:@"GLViewControllerID"];
+    ViewController* glViewController = [self.storyboard instantiateControllerWithIdentifier:@"GLViewControllerID"];
     self.view.window.contentViewController = glViewController;
 
-    NSString* error = [glViewController getError];
+    GLView* glView = (GLView*)[glViewController view];
+    NSString* error = [glView getError];
     if(error != nil)
     {
         [self terminateApp:error];
     }
 
-    NSString* name =  [glViewController getAppName];
+    NSString* name =  [glView getAppName];
     [self setWindowTitle:name];
 }
 
 - (IBAction)goVulkan:(id)sender
 {
-    MetalViewController* metalViewController = [self.storyboard instantiateControllerWithIdentifier:@"MetalViewControllerID"];
+    ViewController* metalViewController = [self.storyboard instantiateControllerWithIdentifier:@"MetalViewControllerID"];
     self.view.window.contentViewController = metalViewController;
 
-    NSString* error = [metalViewController getError];
+    MetalView* mtlView = (MetalView*)[metalViewController view];
+    NSString* error = [mtlView getError];
     if(error != nil)
     {
         [self terminateApp:error];
     }
 
-    NSString* name =  [metalViewController getAppName];
+    NSString* name =  [mtlView getAppName];
     [self setWindowTitle:name];
 }
 

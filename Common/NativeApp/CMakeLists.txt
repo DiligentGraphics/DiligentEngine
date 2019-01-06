@@ -141,9 +141,8 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.m
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.m
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalViewController.mm
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLViewController.mm
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewControllerBase.mm
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewBase.m
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewController.mm
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ModeSelectionViewController.mm
         )
         set_source_files_properties(${APPLE_SOURCE} PROPERTIES
@@ -156,9 +155,8 @@ elseif(PLATFORM_MACOS)
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/FullscreenWindow.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLView.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalView.h
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/MetalViewController.h
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/GLViewController.h
-            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewControllerBase.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewBase.h
+            ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ViewController.h
             ${NATIVE_APP_SOURCE_DIR}/Apple/Source/Classes/OSX/ModeSelectionViewController.h
         )
 

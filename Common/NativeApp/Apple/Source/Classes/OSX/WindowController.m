@@ -8,6 +8,7 @@
 
 #import "WindowController.h"
 #import "FullscreenWindow.h"
+#import "ViewBase.h"
 
 @interface WindowController ()
 
@@ -43,26 +44,19 @@
 		return;
 	}
 
-    GLView* glView = nil;
-    if ([self.window.contentView isKindOfClass: [GLView class]])
-    {
-        glView = (GLView *)self.window.contentView;
-    }
+    ViewBase* view = (ViewBase*)self.window.contentView;
 
     // We must stop the display link while
     // switching the windows to make sure
     // that render commands are not issued
     // from another thread
-    if (glView != nil)
-    {
-        [glView stopDisplayLink];
-    }
+    [view stopDisplayLink];
 
 	// Allocate a new fullscreen window
     [self setFullscreenWindow: [[FullscreenWindow alloc] init]];
-    
+
     [[self fullscreenWindow] setAcceptsMouseMovedEvents:YES];
-    
+
 	// Resize the view to screensize
 	NSRect viewRect = [[self fullscreenWindow] frame];
 
@@ -86,10 +80,7 @@
 	[[self fullscreenWindow] makeKeyAndOrderFront:self];
 
     // Restore display link
-    if (glView != nil)
-    {
-        [glView startDisplayLink];
-    }
+    [view startDisplayLink];
 }
 
 - (void) goWindow
@@ -101,20 +92,13 @@
 		return;
 	}
 
-    GLView* glView = nil;
-    if ([self.window.contentView isKindOfClass: [GLView class]])
-    {
-        glView = (GLView *)self.window.contentView;
-    }
+    ViewBase* view = (ViewBase*)self.window.contentView;
 
     // We must stop the display link while
     // switching the windows to make sure
     // that render commands are not issued
     // from another thread
-    if (glView)
-    {
-        [glView stopDisplayLink];
-    }
+    [view stopDisplayLink];
 
 	// Get the rectangle of the original window
 	NSRect viewRect = [[self standardWindow] frame];
@@ -140,10 +124,7 @@
     [self setFullscreenWindow: nil];
 
     // Restore display link
-    if (glView)
-    {
-        [glView startDisplayLink];
-    }
+    [view startDisplayLink];
 }
 
 

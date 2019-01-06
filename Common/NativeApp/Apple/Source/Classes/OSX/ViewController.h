@@ -21,12 +21,10 @@
  *  of the possibility of such damages.
  */
 
+
 #import <AppKit/AppKit.h>
+#include "NativeAppBase.h"
 
-#include "ViewBase.h"
-
-@interface MetalView : ViewBase
-
--(NSString*)getAppName;
+@interface ViewController : NSViewController
 
 @end

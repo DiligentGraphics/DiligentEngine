@@ -8,16 +8,10 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import <QuartzCore/CVDisplayLink.h>
-#include "NativeAppBase.h"
+#import "ViewBase.h"
 
-@interface GLView : NSOpenGLView {
-	CVDisplayLinkRef displayLink;
-}
+@interface GLView : ViewBase
 
--(void)stopDisplayLink;
--(void)startDisplayLink;
--(NSString*)getError;
--(NativeAppBase*)getApp;
+-(NSString*)getAppName;
 
 @end

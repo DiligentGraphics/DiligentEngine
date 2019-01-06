@@ -7,19 +7,12 @@
  */
 
 #include <memory>
-#include <string>
 
 #import "GLView.h"
 
-#ifndef SUPPORT_RETINA_RESOLUTION
-#define SUPPORT_RETINA_RESOLUTION 1
-#endif
-
 @interface GLView ()
 {
-    std::unique_ptr<NativeAppBase> _theApp;
     NSRect _viewRectPixels;
-    std::string _error;
 }
 @end
 
@@ -86,24 +79,21 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     
     [self setOpenGLContext:context];
     
-#if SUPPORT_RETINA_RESOLUTION
     // Opt-In to Retina resolution
     [self setWantsBestResolutionOpenGLSurface:YES];
-#endif // SUPPORT_RETINA_RESOLUTION
-    
-    _theApp.reset(CreateApplication());
 }
 
 - (void) prepareOpenGL
 {
 	[super prepareOpenGL];
 	
-	// Make all the OpenGL calls to setup rendering  
-	//  and build the necessary rendering objects
+	// Application must be initialized befor display link is started
 	[self initGL];
 	
+    CVDisplayLinkRef displayLink;
 	// Create a display link capable of being used with all active displays
 	CVDisplayLinkCreateWithActiveCGDisplays(&displayLink);
+    [self setDisplayLink:displayLink];
 	
 	// Set the renderer output callback function
 	CVDisplayLinkSetOutputCallback(displayLink, &MyDisplayLinkCallback, (__bridge void*)self);
@@ -115,26 +105,12 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 	
 	// Activate the display link
 	CVDisplayLinkStart(displayLink);
-	
-	// Register to be notified when the window closes so we can stop the displaylink
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(windowWillClose:)
-												 name:NSWindowWillCloseNotification
-											   object:[self window]];
-}
-
-- (void) windowWillClose:(NSNotification*)notification
-{
-	// Stop the display link when the window is closing because default
-	// OpenGL render buffers will be destroyed.  If display link continues to
-	// fire without renderbuffers, OpenGL draw calls will set errors.
-
-	CVDisplayLinkStop(displayLink);
-    // Stop the display link BEFORE releasing anything in the view
-    // otherwise the display link thread may call into the view and crash
-    // when it encounters something that has been released
-
-    _theApp.reset();
+    
+    // Register to be notified when the window closes so we can stop the displaylink
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(windowWillClose:)
+                                                 name:NSWindowWillCloseNotification
+                                               object:[self window]];
 }
 
 - (void) initGL
@@ -151,15 +127,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 	[[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
 	// Init the application.
-    try
-    {
-        _theApp->Initialize(nullptr);
-    }
-    catch(std::runtime_error &err)
-    {
-        _error = err.what();
-        _theApp.reset();
-    }
+    [self initApp:nil];
 }
 
 - (void)reshape
@@ -175,8 +143,6 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 	// Get the view size in Points
 	NSRect viewRectPoints = [self bounds];
     
-#if SUPPORT_RETINA_RESOLUTION
-
     // Rendering at retina resolutions will reduce aliasing, but at the potential
     // cost of framerate and battery life due to the GPU needing to render more
     // pixels.
@@ -189,22 +155,14 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     // viewRectPixels will be larger than viewRectPoints for retina displays.
     // viewRectPixels will be the same as viewRectPoints for non-retina displays
     _viewRectPixels = [self convertRectToBacking:viewRectPoints];
-    
-#else //if !SUPPORT_RETINA_RESOLUTION
-    
-    // App will typically render faster and use less power rendering at
-    // non-retina resolutions since the GPU needs to render less pixels.
-    // There is the cost of more aliasing, but it will be no-worse than
-    // on a Mac without a retina display.
-    
-    // Points:Pixels is always 1:1 when not supporting retina resolutions
-    _viewRectPixels = viewRectPoints;
-    
-#endif // !SUPPORT_RETINA_RESOLUTION
-    
+
 	// Set the new dimensions in our renderer
-    if(_theApp)
-        _theApp->WindowResize(_viewRectPixels.size.width, _viewRectPixels.size.height);
+    auto* theApp = [self lockApp];
+    if(theApp)
+    {
+        theApp->WindowResize(_viewRectPixels.size.width, _viewRectPixels.size.height);
+    }
+    [self unlockApp];
 
 	CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
@@ -233,61 +191,41 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 }
 
 - (void) drawView
-{	 
-	[[self openGLContext] makeCurrentContext];
-
-	// We draw on a secondary thread through the display link
-	// When resizing the view, -reshape is called automatically on the main
-	// thread. Add a mutex around to avoid the threads accessing the context
-	// simultaneously when resizing
-	CGLLockContext([[self openGLContext] CGLContextObj]);
-
-    if(_theApp)
+{
+    auto* glContext = [self openGLContext];
+    
+    [glContext makeCurrentContext];
+    
+    // We draw on a secondary thread through the display link
+    // When resizing the view, -reshape is called automatically on the main
+    // thread. Add a mutex around to avoid the threads accessing the context
+    // simultaneously when resizing
+    CGLLockContext([glContext CGLContextObj]);
+    
+    auto* theApp = [self lockApp];
+    if(theApp)
     {
-        _theApp->Update();
-        _theApp->Render();
+        theApp->Update();
+        theApp->Render();
     }
+    [self unlockApp];
 
-	CGLFlushDrawable([[self openGLContext] CGLContextObj]);
-	CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    CGLFlushDrawable([glContext CGLContextObj]);
+    CGLUnlockContext([glContext CGLContextObj]);
 }
 
-- (void) dealloc
+- (void) windowWillClose:(NSNotification*)notification
 {
-	// Stop the display link BEFORE releasing anything in the view
-    // otherwise the display link thread may call into the view and crash
-    // when it encounters something that has been released
-	CVDisplayLinkStop(displayLink);
-
-	CVDisplayLinkRelease(displayLink);
-
-	_theApp.reset();
-	
-    [super dealloc];
+    [self destroyApp];
 }
 
-- (BOOL)acceptsFirstResponder {
-    return YES; // To make keyboard events work
-}
 
-- (void)stopDisplayLink
+-(NSString*)getAppName
 {
-    CVDisplayLinkStop(displayLink);
-}
-
-- (void)startDisplayLink
-{
-    CVDisplayLinkStart(displayLink);
-}
-
-- (NSString*)getError
-{
-    return _error.empty() ? nil : [NSString stringWithFormat:@"%s", _error.c_str()];
-}
-
-- (NativeAppBase*)getApp
-{
-    return _theApp.get();
+    auto* theApp = [self lockApp];
+    auto Title = [NSString stringWithFormat:@"%s (OpenGL)", theApp ? theApp->GetAppTitle() : ""];
+    [self unlockApp];
+    return Title;
 }
 
 @end
