@@ -42,11 +42,17 @@
     [self setDisplayLink:displayLink];
     CVDisplayLinkSetOutputCallback(displayLink, &DisplayLinkCallback, (__bridge void*)self);
     CVDisplayLinkStart(displayLink);
-    
+
     [self setPostsBoundsChangedNotifications:YES];
     [self setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boundsDidChange:) name:NSViewBoundsDidChangeNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boundsDidChange:) name:NSViewFrameDidChangeNotification object:self];
+
+    // Register to be notified when the window closes so we can stop the displaylink
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(windowWillClose:)
+                                                 name:NSWindowWillCloseNotification
+                                               object:[self window]];
 }
 
 // Indicates that the view wants to draw using the backing
@@ -117,17 +123,17 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
     // Cube demo from MoltenVK ignores any window resize notifications and
     // recreates the swap chain if Present or AcquireNextImage fails, causing
     // jagged transitions.
-    
+
     // According to this thread, there is no solution for flickering during
     // resize in Metal:
     // https://forums.developer.apple.com/thread/77901
-    
+
     // Calling WindowResize() causes flickering.
     //   Even if [self render] is called ater WindowResize()
     //   Similar results when using Metal kit view
     // Calling [self render] alone produces jagged transitions but no flickering.
     // Calling nothing causes the app to crash during resize.
-    
+
     NSRect viewRectPoints = [self bounds];
     NSRect viewRectPixels = [self convertRectToBacking:viewRectPoints];
     auto* theApp = [self lockApp];
@@ -138,6 +144,12 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
     [self unlockApp];
 }
 
+
+- (void) windowWillClose:(NSNotification*)notification
+{
+    // Somehow this method is also called when exiting full screen
+    //[self destroyApp];
+}
 
 -(NSString*)getAppName
 {
