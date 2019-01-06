@@ -40,8 +40,16 @@
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-    
+
     _theApp.reset(CreateApplication());
+
+    // [self window] is nil here
+    auto* mainWindow = [[NSApplication sharedApplication] mainWindow];
+    // Register to be notified when the main window closes so we can stop the displaylink
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(windowWillClose:)
+                                                 name:NSWindowWillCloseNotification
+                                               object:mainWindow];
 }
 
 -(void)initApp:(NSView*) view
@@ -83,7 +91,7 @@
     {
         CVDisplayLinkStop(displayLink);
     }
-    
+
     [appLock lock];
     _theApp.reset();
     [appLock unlock];
@@ -92,11 +100,11 @@
 -(void) dealloc
 {
     [self destroyApp];
-    
+
     CVDisplayLinkRelease(displayLink);
-    
+
     [appLock release];
-    
+
     [super dealloc];
 }
 
@@ -120,6 +128,11 @@
     {
         CVDisplayLinkStart(displayLink);
     }
+}
+
+- (void) windowWillClose:(NSNotification*)notification
+{
+    [self destroyApp];
 }
 
 @end

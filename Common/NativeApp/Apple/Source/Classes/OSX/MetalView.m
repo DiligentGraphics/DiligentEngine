@@ -47,12 +47,6 @@
     [self setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boundsDidChange:) name:NSViewBoundsDidChangeNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boundsDidChange:) name:NSViewFrameDidChangeNotification object:self];
-
-    // Register to be notified when the window closes so we can stop the displaylink
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(windowWillClose:)
-                                                 name:NSWindowWillCloseNotification
-                                               object:[self window]];
 }
 
 // Indicates that the view wants to draw using the backing
@@ -142,13 +136,6 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
         theApp->WindowResize(viewRectPixels.size.width, viewRectPixels.size.height);
     }
     [self unlockApp];
-}
-
-
-- (void) windowWillClose:(NSNotification*)notification
-{
-    // Somehow this method is also called when exiting full screen
-    //[self destroyApp];
 }
 
 -(NSString*)getAppName
