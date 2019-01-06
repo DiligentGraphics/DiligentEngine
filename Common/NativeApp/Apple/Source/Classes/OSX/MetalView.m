@@ -109,8 +109,6 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
     return result;
 }
 
-
-
 -(void)boundsDidChange:(NSNotification *)notification
 {
     // It is not clear what the proper way to handle window resize is.

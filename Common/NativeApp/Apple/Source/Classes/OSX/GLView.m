@@ -180,7 +180,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 {
 	// Called during resize operations
 
-	// Avoid flickering during resize by drawiing	
+	// Avoid flickering during resize by drawing	
 	[self drawView];
 }
 
