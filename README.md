@@ -20,7 +20,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * Exact same client code for all supported platforms and rendering backends
     * No `#if defined(_WIN32)` ... `#elif defined(LINUX)` ... `#elif defined(ANDROID)` ...
     * No `#if defined(D3D11)` ... `#elif defined(D3D12)` ... `#elif defined(OPENGL)` ...
-  * Exact same HLSL shaders run on all platforms and all back-ends 
+  * Exact same HLSL shaders (VS, PS, GS, HS, DS, CS) run on all platforms and all back-ends 
 * High performance
 * Modular design
   * Components are clearly separated logically and physically and can be used as needed
@@ -28,10 +28,11 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 * Clear object-based interface
   * No hidden global states
 * Key graphics features:
-  * Automatic shader resource binding designed to leverage next-generation graphics APIs
+  * [Automatic shader resource binding](http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/) designed to leverage next-generation graphics APIs
   * Multithreaded command buffer generation
     * [50,000 draw calls at 300 fps](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) with D3D12/Vulkan backend
-  * Descriptor, memory and resource state management
+  * [Explicit conotrol over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
+  * Descriptor and memory management
 * Modern c++ features to make code fast and reliable
 
 ## Supported Plaforms and Low-Level Graphics APIs
