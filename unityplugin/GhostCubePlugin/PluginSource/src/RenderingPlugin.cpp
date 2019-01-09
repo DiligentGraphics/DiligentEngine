@@ -98,7 +98,7 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API RegisterPlugin()
 
 void CreateRenderAPI(UnityGfxRenderer apiType)
 {
-#	if SUPPORT_D3D11
+#	if D3D11_SUPPORTED
 	if (apiType == kUnityGfxRendererD3D11)
 	{
 		extern RenderAPI* CreateRenderAPI_D3D11();
@@ -113,7 +113,7 @@ void CreateRenderAPI(UnityGfxRenderer apiType)
 	}
 #	endif // if SUPPORT_D3D9
 
-#	if SUPPORT_D3D12
+#	if D3D12_SUPPORTED
 	if (apiType == kUnityGfxRendererD3D12)
 	{
 		extern RenderAPI* CreateRenderAPI_D3D12();
@@ -122,7 +122,7 @@ void CreateRenderAPI(UnityGfxRenderer apiType)
 #	endif // if SUPPORT_D3D9
 
 
-#	if SUPPORT_OPENGL_UNIFIED
+#	if GL_SUPPORTED || GLES_SUPPORTED
 	if (apiType == kUnityGfxRendererOpenGLCore || apiType == kUnityGfxRendererOpenGLES30)
 	{
 		extern RenderAPI* CreateRenderAPI_OpenGLCoreES(UnityGfxRenderer apiType);
@@ -137,7 +137,7 @@ void CreateRenderAPI(UnityGfxRenderer apiType)
 	}
 #	endif // if SUPPORT_OPENGL_LEGACY
 
-#	if SUPPORT_METAL
+#	if METAL_SUPPORTED
 	if (apiType == kUnityGfxRendererMetal)
 	{
         UNSUPPORTED("Metal not supported");

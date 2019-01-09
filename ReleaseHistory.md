@@ -1,4 +1,8 @@
 
+## Current progress
+
+* Added cmake options to disable specific back-ends and glslang
+
 ## v2.4.a
 
 * Enabled MinGW build

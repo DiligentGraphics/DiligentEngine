@@ -115,6 +115,8 @@ PRIVATE
     Common
     GraphicsTools
     ${ENGINE_LIBRARIES}
+    d3d11.lib
+    d3d12.lib
     ninput.lib
     winmm.lib
     dxgi.lib

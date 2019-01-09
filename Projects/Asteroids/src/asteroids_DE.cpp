@@ -21,9 +21,19 @@
 #include <codecvt>
 
 #include "asteroids_DE.h"
+
+#if D3D11_SUPPORTED
 #include "RenderDeviceFactoryD3D11.h"
+#endif
+
+#if D3D12_SUPPORTED
 #include "RenderDeviceFactoryD3D12.h"
+#endif
+
+
+#if GL_SUPPORTED
 #include "RenderDeviceFactoryOpenGL.h"
+#endif
 
 #if VULKAN_SUPPORTED
 #include "RenderDeviceFactoryVk.h"
@@ -44,12 +54,21 @@ using namespace Diligent;
 namespace Diligent
 {
 #if ENGINE_DLL
-    GetEngineFactoryD3D11Type GetEngineFactoryD3D11 = nullptr;
-    GetEngineFactoryD3D12Type GetEngineFactoryD3D12 = nullptr;
-    GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = nullptr;
-#if VULKAN_SUPPORTED
-    GetEngineFactoryVkType GetEngineFactoryVulkan = nullptr;
-#endif
+#   if D3D11_SUPPORTED
+        GetEngineFactoryD3D11Type GetEngineFactoryD3D11 = nullptr;
+#   endif
+        
+#   if D3D12_SUPPORTED
+        GetEngineFactoryD3D12Type GetEngineFactoryD3D12 = nullptr;
+#   endif
+
+#   if GL_SUPPORTED
+        GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = nullptr;
+#   endif
+
+#   if VULKAN_SUPPORTED
+        GetEngineFactoryVkType GetEngineFactoryVulkan = nullptr;
+#   endif
 #endif
 }
 
@@ -65,71 +84,70 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
     SwapChainDesc.ColorBufferFormat = TEX_FORMAT_RGBA8_UNORM_SRGB;
     SwapChainDesc.DepthBufferFormat = TEX_FORMAT_D32_FLOAT;
     SwapChainDesc.DefaultDepthValue = 0.f;
+
+    std::vector<IDeviceContext*> ppContexts(mNumSubsets);
+
     switch (DevType)
     {
-        case DeviceType::Vulkan:
-        case DeviceType::D3D12:
+#if D3D11_SUPPORTED
         case DeviceType::D3D11:
         {
-            std::vector<IDeviceContext*> ppContexts(mNumSubsets);
-            if(DevType == DeviceType::D3D11)
-            {
-                EngineD3D11Attribs DeviceAttribs;
-                DeviceAttribs.DebugFlags = (Uint32)EngineD3D11DebugFlags::VerifyCommittedShaderResources |
-                                           (Uint32)EngineD3D11DebugFlags::VerifyCommittedResourceRelevance;
+            EngineD3D11Attribs DeviceAttribs;
+            DeviceAttribs.DebugFlags = (Uint32)EngineD3D11DebugFlags::VerifyCommittedShaderResources |
+                                        (Uint32)EngineD3D11DebugFlags::VerifyCommittedResourceRelevance;
 
 #if ENGINE_DLL
-                if(!GetEngineFactoryD3D11)
-                    LoadGraphicsEngineD3D11(GetEngineFactoryD3D11);
+            if(!GetEngineFactoryD3D11)
+                LoadGraphicsEngineD3D11(GetEngineFactoryD3D11);
 #endif
-                auto *pFactoryD3D11 = GetEngineFactoryD3D11();
-                pFactoryD3D11->CreateDeviceAndContextsD3D11( DeviceAttribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
-                pFactoryD3D11->CreateSwapChainD3D11( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
-            }
-            else if(DevType == DeviceType::D3D12)
-            {
-                EngineD3D12Attribs Attribs;
-                Attribs.GPUDescriptorHeapDynamicSize[0] = 65536*4;
-                Attribs.GPUDescriptorHeapSize[0] = 65536; // For mutable mode
-                Attribs.NumCommandsToFlushCmdList = 1024;
-#ifndef _DEBUG
-                Attribs.DynamicDescriptorAllocationChunkSize[0] = 8192;
-#endif
-#if ENGINE_DLL
-                if(!GetEngineFactoryD3D12)
-                    LoadGraphicsEngineD3D12(GetEngineFactoryD3D12);
-#endif
-                auto *pFactoryD3D12 = GetEngineFactoryD3D12();
-                pFactoryD3D12->CreateDeviceAndContextsD3D12( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
-                pFactoryD3D12->CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
-            }
-#if VULKAN_SUPPORTED
-            else if(DevType == DeviceType::Vulkan)
-            {
-                EngineVkAttribs Attribs;
-                Attribs.DynamicHeapSize = 64 << 20;
-#if ENGINE_DLL
-                if(!GetEngineFactoryVulkan)
-                    LoadGraphicsEngineVk(GetEngineFactoryVulkan);
-#endif
-                auto *pFactoryVk = GetEngineFactoryVulkan();
-                pFactoryVk->CreateDeviceAndContextsVk( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
-                pFactoryVk->CreateSwapChainVk( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
-            }
-#endif
-            else
-            {
-                UNEXPECTED("Unexpected device type");
-            }
-
-            
-            mDeviceCtxt.Attach(ppContexts[0]);
-            mDeferredCtxt.resize(mNumSubsets-1);
-            for(size_t ctx=0; ctx < mNumSubsets-1; ++ctx)
-                mDeferredCtxt[ctx].Attach(ppContexts[1+ctx]);
+            auto *pFactoryD3D11 = GetEngineFactoryD3D11();
+            pFactoryD3D11->CreateDeviceAndContextsD3D11( DeviceAttribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+            pFactoryD3D11->CreateSwapChainD3D11( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
         }
         break;
+#endif
 
+
+#if D3D12_SUPPORTED
+        case DeviceType::D3D12:
+        {
+            EngineD3D12Attribs Attribs;
+            Attribs.GPUDescriptorHeapDynamicSize[0] = 65536*4;
+            Attribs.GPUDescriptorHeapSize[0] = 65536; // For mutable mode
+            Attribs.NumCommandsToFlushCmdList = 1024;
+#ifndef _DEBUG
+            Attribs.DynamicDescriptorAllocationChunkSize[0] = 8192;
+#endif
+#if ENGINE_DLL
+            if(!GetEngineFactoryD3D12)
+                LoadGraphicsEngineD3D12(GetEngineFactoryD3D12);
+#endif
+            auto *pFactoryD3D12 = GetEngineFactoryD3D12();
+            pFactoryD3D12->CreateDeviceAndContextsD3D12( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+            pFactoryD3D12->CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
+        }
+        break;
+#endif
+
+
+#if VULKAN_SUPPORTED
+        case DeviceType::Vulkan:
+        {
+            EngineVkAttribs Attribs;
+            Attribs.DynamicHeapSize = 64 << 20;
+#if ENGINE_DLL
+            if(!GetEngineFactoryVulkan)
+                LoadGraphicsEngineVk(GetEngineFactoryVulkan);
+#endif
+            auto *pFactoryVk = GetEngineFactoryVulkan();
+            pFactoryVk->CreateDeviceAndContextsVk( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+            pFactoryVk->CreateSwapChainVk( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
+        }
+        break;
+#endif
+
+
+#if GL_SUPPORTED
         case DeviceType::OpenGL:
         {
 #if ENGINE_DLL
@@ -144,10 +162,20 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 CreationAttribs, &mDevice, &mDeviceCtxt, SwapChainDesc, &mSwapChain);
         }
         break;
+#endif
+
 
         default:
             LOG_ERROR_AND_THROW("Unknown device type");
         break;
+    }
+
+    if (DevType == DeviceType::D3D11 || DevType == DeviceType::D3D12 || DevType == DeviceType::Vulkan)
+    {
+        mDeviceCtxt.Attach(ppContexts[0]);
+        mDeferredCtxt.resize(mNumSubsets-1);
+        for(size_t ctx=0; ctx < mNumSubsets-1; ++ctx)
+            mDeferredCtxt[ctx].Attach(ppContexts[1+ctx]);
     }
 }
 

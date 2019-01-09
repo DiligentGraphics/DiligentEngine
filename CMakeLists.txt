@@ -9,7 +9,10 @@ add_subdirectory(DiligentTools)
 add_subdirectory(Common)
 add_subdirectory(DiligentSamples)
 add_subdirectory(Projects)
-add_subdirectory(unityplugin)
+
+if(D3D11_SUPPORTED OR D3D12_SUPPORTED OR GL_SUPPORTED OR GLES_SUPPORTED)
+    add_subdirectory(unityplugin)
+endif()
 
 if(ENABLE_TESTS)
     add_subdirectory(Tests)

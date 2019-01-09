@@ -60,6 +60,7 @@ Last Stable Release - [v2.4.a](https://github.com/DiligentGraphics/DiligentEngin
   - [MacOS](#build_and_run_macos)
   - [iOS](#build_and_run_ios)
   - [Integrating Diligent Engine with Existing Build System](#build_and_run_integration)
+  - [Build Options](#build_option)
   - [Customizing Build](#build_and_run_customizing)
 - [Getting started with the API](#getting_started)
 - [Tutorials](#tutorials)
@@ -328,10 +329,27 @@ To install libraries and header files, run the following CMake command from the 
 cmake --build . --target install
 ```
 
-To change installation folder, set `DILIGENT_CORE_INSTALL_DIR` cmake variable.
+Global cmake installation directory is controlled by `CMAKE_INTALL_PREFIX` variable. Within that directory,
+`DILIGENT_CORE_INSTALL_DIR` defines the subdirectory where libraries and headers will be installed.
 
 Alternatively you can generate build files (such as Visual Studio projects) and add them to your project.
 Build customization described below can help tweak the settings for your specific needs.
+
+
+<a name="build_option"></a>
+## Build Options
+
+By default, all back-ends available on current platform are built. To disable specific back-ends,
+use the following options: `NO_DIRECT3D11`, `NO_DIRECT3D12`, `NO_OPENGL`, `NO_VULKAN`, `NO_METAL`.
+The options can be set through cmake UI or from the command line as in the example below:
+
+```
+cmake -D NO_DIRECT3D11=TRUE -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+```
+
+By default Vulkan back-end is linked with glslang that enables compiling HLSL and GLSL shaders to SPIRV at run time.
+If run-time compilation is not required, glslang can be disabled with `NO_GLSLANG` cmake option. This will significantly 
+reduce the size of the Vulkan back-end binary.
 
 
 <a name="build_and_run_customizing"></a>
