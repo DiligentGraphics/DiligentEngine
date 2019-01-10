@@ -13,7 +13,7 @@
 // UNITY_ANDROID - Android
 // UNITY_METRO - WSA or UWP
 // UNITY_WEBGL - WebGL
-#if defined(UNITY_WIN) || defined(UNITY_METRO) || defined(UNITY_ANDROID) || defined(UNITY_LINUX) || defined(UNITY_WEBGL)
+#if defined(UNITY_WIN) || defined(UNITY_METRO) || defined(UNITY_ANDROID) || defined(UNITY_LINUX) || defined(UNITY_WEBGL) || defined(UNITY_OSX) || defined(UNITY_IPHONE)
 	// these are defined externally
 #elif _MSC_VER
     #define UNITY_WIN 1
