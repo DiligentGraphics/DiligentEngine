@@ -59,8 +59,7 @@ if(MSVC)
     source_group("src" FILES src/RenderingPlugin.def)
 endif()
 
-target_link_libraries(GhostCubePlugin-shared
-PRIVATE
+set(PRIVATE_DEPENDENCIES
     BuildSettings
     TargetPlatform
     Common
@@ -69,18 +68,32 @@ PRIVATE
 )
 
 if(D3D11_SUPPORTED)
-    target_link_libraries(GhostCubePlugin-shared PRIVATE GraphicsEngineD3D11-static)
+    list(APPEND PRIVATE_DEPENDENCIES GraphicsEngineD3D11-static)
 endif()
 
 if(D3D12_SUPPORTED)
-    target_link_libraries(GhostCubePlugin-shared PRIVATE GraphicsEngineD3D12-static)
+    list(APPEND PRIVATE_DEPENDENCIES GraphicsEngineD3D12-static)
 endif()
 
 if(GL_SUPPORTED OR GLES_SUPPORTED)
-    target_link_libraries(GhostCubePlugin-shared PRIVATE GraphicsEngineOpenGL-static)
+    list(APPEND PRIVATE_DEPENDENCIES GraphicsEngineOpenGL-static)
 endif()
 
+target_link_libraries(GhostCubePlugin-shared PRIVATE ${PRIVATE_DEPENDENCIES})
 set_common_target_properties(GhostCubePlugin-shared)
+
+if(PLATFORM_MACOS)
+    # Unity wants plugin be packaged as bundle on MacOS
+    add_library(GhostCubePlugin-bundle MODULE
+        ${SOURCE} ${INCLUDE} ${UNITY_INTERFACES}
+    )
+    set_target_properties(GhostCubePlugin-bundle PROPERTIES
+        BUNDLE TRUE
+        FOLDER Unity
+    )
+    target_link_libraries(GhostCubePlugin-bundle PRIVATE ${PRIVATE_DEPENDENCIES})
+    set_common_target_properties(GhostCubePlugin-bundle)
+endif()
 
 if(PLATFORM_WIN32)
     target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_WIN=1)
@@ -92,6 +105,7 @@ elseif(PLATFORM_LINUX)
     target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_LINUX=1)
 elseif(PLATFORM_MACOS)
     target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_OSX=1)
+    target_compile_definitions(GhostCubePlugin-bundle PRIVATE UNITY_OSX=1)
 elseif(PLATFORM_IOS)
     target_compile_definitions(GhostCubePlugin-shared PRIVATE UNITY_IPHONE=1)
 endif()
@@ -129,16 +143,22 @@ elseif(PLATFORM_ANDROID)
 elseif(PLATFORM_LINUX)
     set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/libGhostCubePlugin.so)
 elseif(PLATFORM_MACOS)
-    set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/MacOS/libGhostCubePlugin.so)
+    set(UNITY_PLUGIN_PATH ${UNITY_PLUGIN_PATH}/MacOS/GhostCubePlugin.bundle)
 elseif(PLATFORM_IOS)
     message(WARNING "No unity plugin path specified")
 else()
     message(FATAL_ERROR "Unsupported platform")
 endif()
 
-add_custom_command(TARGET GhostCubePlugin-shared POST_BUILD
+if(PLATFORM_MACOS)
+    set(PLUGIN_TARGET GhostCubePlugin-bundle)
+else()
+    set(PLUGIN_TARGET GhostCubePlugin-shared)
+endif()
+
+add_custom_command(TARGET ${PLUGIN_TARGET} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "\"$<TARGET_FILE:GhostCubePlugin-shared>\""
+        "\"$<TARGET_FILE:${PLUGIN_TARGET}>\""
         "${UNITY_PLUGIN_PATH}"
 )
 
