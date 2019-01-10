@@ -98,31 +98,31 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API RegisterPlugin()
 
 void CreateRenderAPI(UnityGfxRenderer apiType)
 {
-#	if D3D11_SUPPORTED
+#	if SUPPORT_D3D11
 	if (apiType == kUnityGfxRendererD3D11)
 	{
 		extern RenderAPI* CreateRenderAPI_D3D11();
 		s_CurrentAPI.reset( CreateRenderAPI_D3D11() );
 	}
-    #	endif // if SUPPORT_D3D11
+#	endif // if SUPPORT_D3D11
 
 #	if SUPPORT_D3D9
 	if (apiType == kUnityGfxRendererD3D9)
 	{
-        UNSUPPORTED("D3D9 not supported")
+        UNSUPPORTED("D3D9 is not supported")
 	}
 #	endif // if SUPPORT_D3D9
 
-#	if D3D12_SUPPORTED
+#	if SUPPORT_D3D12
 	if (apiType == kUnityGfxRendererD3D12)
 	{
 		extern RenderAPI* CreateRenderAPI_D3D12();
 		s_CurrentAPI.reset( CreateRenderAPI_D3D12() );
 	}
-#	endif // if SUPPORT_D3D9
+#	endif // if SUPPORT_D3D12
 
 
-#	if GL_SUPPORTED || GLES_SUPPORTED
+#	if SUPPORT_OPENGL_UNIFIED
 	if (apiType == kUnityGfxRendererOpenGLCore || apiType == kUnityGfxRendererOpenGLES30)
 	{
 		extern RenderAPI* CreateRenderAPI_OpenGLCoreES(UnityGfxRenderer apiType);
@@ -133,14 +133,14 @@ void CreateRenderAPI(UnityGfxRenderer apiType)
 #	if SUPPORT_OPENGL_LEGACY
 	if (apiType == kUnityGfxRendererOpenGL)
 	{
-        UNSUPPORTED("Legacy Opengl not supported");
+        UNSUPPORTED("Legacy Opengl is not supported");
 	}
 #	endif // if SUPPORT_OPENGL_LEGACY
 
-#	if METAL_SUPPORTED
+#	if SUPPORT_METAL
 	if (apiType == kUnityGfxRendererMetal)
 	{
-        UNSUPPORTED("Metal not supported");
+        UNSUPPORTED("Metal is not supported");
 	}
 #	endif // if SUPPORT_METAL
 }
