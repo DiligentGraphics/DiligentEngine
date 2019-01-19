@@ -327,6 +327,7 @@ Please also take a look at getting started tutorials for
 ### Your Project Does Not Use Cmake
 
 If your project doesn't use CMake, it is recommended to build libraries with CMake and add them to your build system.
+For Windows platforms, you can download the latest build artifacts from [appveyor](https://ci.appveyor.com/project/DiligentGraphics/diligentcore).
 To install libraries and header files, run the following CMake command from the build folder:
 
 ```cmake
@@ -335,8 +336,8 @@ cmake --build . --target install
 
 Global cmake installation directory is controlled by `CMAKE_INTALL_PREFIX` variable. Within that directory,
 `DILIGENT_CORE_INSTALL_DIR` defines the subdirectory where libraries and headers will be installed.
-Note that on Windows by default CMake will be attempting to install to *Program Files* directory, which is likely 
-not what you want. Use `-D CMAKE_INSTALL_PREFIX=install` to use local *install* folder instead.
+Note that by default CMake will be attempting to install to a system directory (such as *Program Files* on Windows),
+which is likely not what you want. Use `-D CMAKE_INSTALL_PREFIX=install` to use local *install* folder instead.
 
 DiligentCore installation directory will contain everything required to integrate the engine:
 
@@ -351,6 +352,8 @@ For Windows platform, the list of libraries your project will need to link again
 ```
 DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib SPIRVCross.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
 ```
+
+Vulkan libraries can be found in [DiligentCore/External/vulkan/libs](https://github.com/DiligentGraphics/DiligentCore/tree/master/External/vulkan/libs) directory.
 
 Another way to intergrate the engine is to generate build files (such as Visual Studio projects) and add them to your
 build system. Build customization described below can help tweak the settings for your specific needs.
