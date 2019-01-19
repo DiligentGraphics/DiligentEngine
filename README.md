@@ -345,15 +345,15 @@ Diligent Core installation directory will contain everything required to integra
 * *bin* subdirectory will contain dynamic libraries.
 
 When linking statically, you will need to list DiligentCore as well as all third-party libraries used
-by the engine. Besides that you may also need to specify platform-specific system libraries. 
-In case of Windows the full list of libraries your project will need to link against may look like this:
+by the engine. Besides that, you will also need to specify platform-specific system libraries. 
+For Windows platform, the list of libraries your project will need to link against may look like this:
 
 ```
-DiligentCore.lib glslangd.lib HLSLd.lib OGLCompilerd.lib OSDependentd.lib SPIRVCross.lib SPIRVd.lib SPIRV-Tools.lib SPIRV-Tools-opt.lib glew-static.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
+DiligentCore.lib glslangd.lib HLSL.lib OGLCompilerd.lib OSDependent.lib SPIRVCross.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
 ```
 
-Another way is to generate build files (such as Visual Studio projects) and add them to your build system.
-Build customization described below can help tweak the settings for your specific needs.
+Another way to intergrate the engine is to generate build files (such as Visual Studio projects) and add them to your
+build system. Build customization described below can help tweak the settings for your specific needs.
 
 
 <a name="build_option"></a>
