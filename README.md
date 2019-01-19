@@ -360,15 +360,16 @@ build system. Build customization described below can help tweak the settings fo
 ## Build Options
 
 By default, all back-ends available on current platform are built. To disable specific back-ends,
-use the following options: `NO_DIRECT3D11`, `NO_DIRECT3D12`, `NO_OPENGL`, `NO_VULKAN`, `NO_METAL`.
+use the following options: `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `DILIGENT_NO_OPENGL`,
+`DILIGENT_NO_VULKAN`, `DILIGENT_NO_METAL`.
 The options can be set through cmake UI or from the command line as in the example below:
 
 ```
-cmake -D NO_DIRECT3D11=TRUE -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+cmake -D DILIGENT_NO_DIRECT3D11=TRUE -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
 ```
 
 By default Vulkan back-end is linked with glslang that enables compiling HLSL and GLSL shaders to SPIRV at run time.
-If run-time compilation is not required, glslang can be disabled with `NO_GLSLANG` cmake option. This will significantly 
+If run-time compilation is not required, glslang can be disabled with `DILIGENT_NO_GLSLANG` cmake option. This will significantly 
 reduce the size of the Vulkan back-end binary.
 
 
