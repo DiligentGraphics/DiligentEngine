@@ -338,7 +338,7 @@ Global cmake installation directory is controlled by `CMAKE_INTALL_PREFIX` varia
 Note that on Windows by default CMake will be attempting to install to *Program Files* directory, which is likely 
 not what you want. Use `-D CMAKE_INSTALL_PREFIX=install` to use local *install* folder instead.
 
-Diligent Core installation directory will contain everything required to integrate the engine:
+DiligentCore installation directory will contain everything required to integrate the engine:
 
 * *headers* subdirectory will contain all required header files. Add this directory to your include search directories.
 * *lib* subdirectory will contain static libraries.
@@ -349,7 +349,7 @@ by the engine. Besides that, you will also need to specify platform-specific sys
 For Windows platform, the list of libraries your project will need to link against may look like this:
 
 ```
-DiligentCore.lib glslangd.lib HLSL.lib OGLCompilerd.lib OSDependent.lib SPIRVCross.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
+DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib SPIRVCross.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
 ```
 
 Another way to intergrate the engine is to generate build files (such as Visual Studio projects) and add them to your
