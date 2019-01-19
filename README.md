@@ -336,7 +336,7 @@ cmake --build . --target install
 Global cmake installation directory is controlled by `CMAKE_INTALL_PREFIX` variable. Within that directory,
 `DILIGENT_CORE_INSTALL_DIR` defines the subdirectory where libraries and headers will be installed.
 Note that on Windows by default CMake will be attempting to install to *Program Files* directory, which is likely 
-not what you want. Use `-D DILIGENT_CORE_INSTALL_DIR=install` to use local *install* folder instead.
+not what you want. Use `-D CMAKE_INSTALL_PREFIX=install` to use local *install* folder instead.
 
 Diligent Core installation directory will contain everything required to integrate the engine:
 
