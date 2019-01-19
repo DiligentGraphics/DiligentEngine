@@ -277,6 +277,8 @@ you will need to set an appropriate development team in the project settings.
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
 
+### Your Project Uses Cmake
+
 If your project uses CMake, adding Diligent Engine requires just few lines of code. 
 Suppose that the directory structure looks like this:
 
@@ -322,7 +324,9 @@ Please also take a look at getting started tutorials for
 [Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloWin32) and 
 [Linux](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloLinux).
 
-If your project does not use CMake, it is recommended to build libraries with cmake and add them to your build system.
+### Your Project Does Not Use Cmake
+
+If your project doesn't use CMake, it is recommended to build libraries with CMake and add them to your build system.
 To install libraries and header files, run the following CMake command from the build folder:
 
 ```cmake
@@ -331,8 +335,24 @@ cmake --build . --target install
 
 Global cmake installation directory is controlled by `CMAKE_INTALL_PREFIX` variable. Within that directory,
 `DILIGENT_CORE_INSTALL_DIR` defines the subdirectory where libraries and headers will be installed.
+Note that on Windows by default CMake will be attempting to install to *Program Files* directory, which is likely 
+not what you want. Use `-D DILIGENT_CORE_INSTALL_DIR=install` to use local *install* folder instead.
 
-Alternatively you can generate build files (such as Visual Studio projects) and add them to your project.
+Diligent Core installation directory will contain everything required to integrate the engine:
+
+* *headers* subdirectory will contain all required header files. Add this directory to your include search directories.
+* *lib* subdirectory will contain static libraries.
+* *bin* subdirectory will contain dynamic libraries.
+
+When linking statically, you will need to list DiligentCore as well as all third-party libraries used
+by the engine. Besides that you may also need to specify platform-specific system libraries. 
+In case of Windows the full list of libraries your project will need to link against may look like this:
+
+```
+DiligentCore.lib glslangd.lib HLSLd.lib OGLCompilerd.lib OSDependentd.lib SPIRVCross.lib SPIRVd.lib SPIRV-Tools.lib SPIRV-Tools-opt.lib glew-static.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
+```
+
+Another way is to generate build files (such as Visual Studio projects) and add them to your build system.
 Build customization described below can help tweak the settings for your specific needs.
 
 
