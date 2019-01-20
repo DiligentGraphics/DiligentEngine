@@ -2,6 +2,7 @@
 ## Current progress
 
 * Added cmake options to disable specific back-ends and glslang
+* Improved DiligentCore installation
 
 ## v2.4.a
 
