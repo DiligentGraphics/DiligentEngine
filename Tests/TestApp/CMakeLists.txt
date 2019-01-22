@@ -137,6 +137,7 @@ PUBLIC
     TargetPlatform
     RenderScript
     GraphicsAccessories
+    HLSL2GLSLConverterLib
     ${ENGINE_LIBRARIES}
 )
 
