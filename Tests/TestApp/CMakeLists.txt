@@ -137,9 +137,12 @@ PUBLIC
     TargetPlatform
     RenderScript
     GraphicsAccessories
-    HLSL2GLSLConverterLib
     ${ENGINE_LIBRARIES}
 )
+
+if(GL_SUPPORTED OR GLES_SUPPORTED)
+    target_link_libraries(TestApp PRIVATE HLSL2GLSLConverterLib)
+endif()
 
 if(GL_SUPPORTED)
     target_link_libraries(TestApp PRIVATE glew-static)
