@@ -26,6 +26,7 @@
 
 #include "pch.h"
 #include "BasicMath.h"
+#include "AdvancedMath.h"
 #include "DebugUtilities.h"
 #include "UnitTestBase.h"
 
@@ -568,6 +569,17 @@ public:
                 auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
             }
+        }
+
+        {
+            Plane3D plane = {};
+            std::hash<Plane3D>()(plane);
+            
+            ViewFrustum frustum = {};
+            std::hash<ViewFrustum>()(frustum);
+
+            ViewFrustumExt frustm_ext = {};
+            std::hash<ViewFrustumExt>()(frustm_ext);
         }
 
         SetStatus(TestResult::Succeeded);
