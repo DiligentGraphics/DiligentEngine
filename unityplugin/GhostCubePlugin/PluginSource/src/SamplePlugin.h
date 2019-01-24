@@ -10,7 +10,7 @@ class SamplePlugin
 {
 public:
     SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, Diligent::TEXTURE_FORMAT RTVFormat, Diligent::TEXTURE_FORMAT DSVFormat);
-    void Render(Diligent::IDeviceContext *pContext, const float4x4 &ViewProjMatrix);
+    void Render(Diligent::IDeviceContext *pContext, const Diligent::float4x4 &ViewProjMatrix);
 
 private:
     Diligent::RefCntAutoPtr<Diligent::IBuffer> m_CubeVertexBuffer;

@@ -52,7 +52,7 @@ private:
 
     TSetMatrixFromUnity SetMatrixFromUnity = nullptr;
     TSetTexturesFromUnity SetTexturesFromUnity = nullptr;
-    float4x4 m_CubeWorldView;
+    Diligent::float4x4 m_CubeWorldView;
 
     Diligent::RefCntAutoPtr<Diligent::ITexture> m_pRenderTarget;
     Diligent::RefCntAutoPtr<Diligent::ITexture> m_pDepthBuffer;
