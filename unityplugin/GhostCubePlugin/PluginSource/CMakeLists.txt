@@ -116,11 +116,6 @@ if(MSVC)
     target_compile_options(GhostCubePlugin-shared PRIVATE /wd4201)
 endif()
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR 
-	CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    set_target_properties(GhostCubePlugin-shared PROPERTIES CXX_VISIBILITY_PRESET hidden) # -fvisibility=hidden
-endif()
-
 
 set(UNITY_PLUGIN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../UnityProject/Assets/Plugins)
 if(PLATFORM_WIN32 OR PLATFORM_UNIVERSAL_WINDOWS)

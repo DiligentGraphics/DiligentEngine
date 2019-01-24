@@ -242,7 +242,7 @@ void TestApp::InitializeDiligentEngine(
 #if !PLATFORM_MACOS
             VERIFY_EXPR(NativeWindowHandle != nullptr);
 #endif
-#if ENGINE_DLL && (PLATFORM_WIN32 || PLATFORM_UNIVERSAL_WINDOWS)
+#if EXPLICITLY_LOAD_ENGINE_GL_DLL
             // Declare function pointer
             GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = nullptr;
             // Load the dll and import GetEngineFactoryOpenGL() function
@@ -269,7 +269,7 @@ void TestApp::InitializeDiligentEngine(
 #if VULKAN_SUPPORTED
         case DeviceType::Vulkan:
         {
-#if ENGINE_DLL && PLATFORM_WIN32
+#if EXPLICITLY_LOAD_ENGINE_VK_DLL
             GetEngineFactoryVkType GetEngineFactoryVk = nullptr;
             // Load the dll and import GetEngineFactoryVk() function
             LoadGraphicsEngineVk(GetEngineFactoryVk);
