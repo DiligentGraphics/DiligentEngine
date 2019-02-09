@@ -65,7 +65,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     IDeviceObject *pSRVs[4];
     for(int i=0; i < 4; ++i)
     {
-        pDevice->CreateTexture(TexDesc, TextureData{}, &(pTex[i]));
+        pDevice->CreateTexture(TexDesc, nullptr, &(pTex[i]));
         auto *pSRV = pTex[i]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
         pSRV->SetSampler(pSamplers[i]);
         pSRVs[i] = pSRV;
@@ -77,13 +77,13 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     IDeviceObject *pUAVs[4];
     for (int i = 0; i < 4; ++i)
     {
-        pDevice->CreateTexture(TexDesc, TextureData{}, &(pStorageTex[i]));
+        pDevice->CreateTexture(TexDesc, nullptr, &(pStorageTex[i]));
         pUAVs[i] = pStorageTex[i]->GetDefaultView(TEXTURE_VIEW_UNORDERED_ACCESS);
     }
 
     TexDesc.BindFlags = BIND_RENDER_TARGET;
     RefCntAutoPtr<ITexture> pRenderTarget;
-    pDevice->CreateTexture(TexDesc, TextureData{}, &pRenderTarget);
+    pDevice->CreateTexture(TexDesc, nullptr, &pRenderTarget);
     auto *pRTV = pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
     m_pDeviceContext->SetRenderTargets(1, &pRTV, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     float Zero[4] = {};
@@ -96,7 +96,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     IDeviceObject *pUBs[4];
     for (int i = 0; i < 4; ++i)
     {
-        pDevice->CreateBuffer(BuffDesc, BufferData{}, &(pUniformBuffs[i]));
+        pDevice->CreateBuffer(BuffDesc, nullptr, &(pUniformBuffs[i]));
         pUBs[i] = pUniformBuffs[i];
     }
 
@@ -107,7 +107,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     IDeviceObject *pSBUAVs[4];
     for (int i = 0; i < 4; ++i)
     {
-        pDevice->CreateBuffer(BuffDesc, BufferData{}, &(pStorgeBuffs[i]));
+        pDevice->CreateBuffer(BuffDesc, nullptr, &(pStorgeBuffs[i]));
         pSBUAVs[i] = pStorgeBuffs[i]->GetDefaultView(BUFFER_VIEW_UNORDERED_ACCESS);
     }
 
@@ -121,7 +121,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         TxlBuffDesc.Usage = USAGE_DEFAULT;
         TxlBuffDesc.ElementByteStride = 16;
         TxlBuffDesc.Mode = BUFFER_MODE_FORMATTED;
-        pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &pUniformTexelBuff);
+        pDevice->CreateBuffer(TxlBuffDesc, nullptr, &pUniformTexelBuff);
 
         BufferViewDesc TxlBuffViewDesc;
         TxlBuffViewDesc.Name = "Uniform texel buffer SRV";
@@ -133,7 +133,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
 
         TxlBuffDesc.Name = "Storage texel buffer test";
         TxlBuffDesc.BindFlags = BIND_UNORDERED_ACCESS;
-        pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &pStorageTexelBuff);
+        pDevice->CreateBuffer(TxlBuffDesc, nullptr, &pStorageTexelBuff);
         
         TxlBuffViewDesc.Name = "Storage texel buffer UAV";
         TxlBuffViewDesc.ViewType = BUFFER_VIEW_UNORDERED_ACCESS;

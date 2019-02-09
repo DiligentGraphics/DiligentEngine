@@ -252,7 +252,8 @@ private:
         TexDesc.SampleCount = SampleCount;
 
         RefCntAutoPtr<Diligent::ITexture> pTestTex;
-        m_pDevice->CreateTexture( TexDesc, TextureData(), &pTestTex );
+        TextureData NullData;
+        m_pDevice->CreateTexture( TexDesc, &NullData, &pTestTex );
         m_pTestCreateObjFromNativeRes->CreateTexture(pTestTex);
         TexDesc.MipLevels = pTestTex->GetDesc().MipLevels;
         if( SampleCount == 1 && m_bTestDataUpload )
@@ -265,7 +266,7 @@ private:
 
             TexDesc.Name = "TestTexture2";
             RefCntAutoPtr<Diligent::ITexture> pTestTex2;
-            m_pDevice->CreateTexture( TexDesc, InitData, &pTestTex2 );
+            m_pDevice->CreateTexture( TexDesc, &InitData, &pTestTex2 );
             m_pTestCreateObjFromNativeRes->CreateTexture(pTestTex2);
 
             if(m_pDevice->GetDeviceCaps().DevType == DeviceType::D3D11 && 
@@ -401,7 +402,7 @@ private:
         TexDesc.SampleCount = 1;
 
         RefCntAutoPtr<Diligent::ITexture> pTestCubemap, pTestCubemapArr;
-        m_pDevice->CreateTexture( TexDesc, TextureData(), &pTestCubemap );
+        m_pDevice->CreateTexture( TexDesc, nullptr, &pTestCubemap );
         m_pTestCreateObjFromNativeRes->CreateTexture(pTestCubemap);
         TexDesc.MipLevels = pTestCubemap->GetDesc().MipLevels;
 
@@ -417,7 +418,7 @@ private:
             InitData.pSubResources = SubResources.data();
             TexDesc.Name = "TestCubemap2";
             pTestCubemap.Release();
-            m_pDevice->CreateTexture( TexDesc, InitData, &pTestCubemap );
+            m_pDevice->CreateTexture( TexDesc, &InitData, &pTestCubemap );
             m_pTestCreateObjFromNativeRes->CreateTexture(pTestCubemap);
         }
 
@@ -547,7 +548,7 @@ private:
 
             TexDesc.Name = "TestCubemapArray";
 
-            m_pDevice->CreateTexture( TexDesc, InitData, &pTestCubemapArr );
+            m_pDevice->CreateTexture( TexDesc, &InitData, &pTestCubemapArr );
             m_pTestCreateObjFromNativeRes->CreateTexture(pTestCubemapArr);
         }
 

@@ -76,7 +76,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BufferData BuffData;
         BuffData.pData = VertexData.data();
         BuffData.DataSize = (Uint32)VertexData.size()*sizeof( float );
-        m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &m_pVertexBuff );
+        m_pRenderDevice->CreateBuffer( BuffDesc, &BuffData, &m_pVertexBuff );
     }
 
     {
@@ -88,7 +88,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BufferData BuffData;
         BuffData.pData = VertexData2.data();
         BuffData.DataSize = (Uint32)VertexData2.size()*sizeof( float );
-        m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &m_pVertexBuff2 );
+        m_pRenderDevice->CreateBuffer( BuffDesc, &BuffData, &m_pVertexBuff2 );
     }
 
     {
@@ -100,7 +100,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BufferData BuffData;
         BuffData.pData = IndexData.data();
         BuffData.DataSize = BuffDesc.uiSizeInBytes;
-        m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &m_pIndexBuff );
+        m_pRenderDevice->CreateBuffer( BuffDesc, &BuffData, &m_pIndexBuff );
     }
 
     {
@@ -112,7 +112,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BufferData BuffData;
         BuffData.pData = InstanceData.data();
         BuffData.DataSize = BuffDesc.uiSizeInBytes;
-        m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &m_pInstanceData );
+        m_pRenderDevice->CreateBuffer( BuffDesc, &BuffData, &m_pInstanceData );
     }
 
     if( m_pRenderDevice->GetDeviceCaps().bIndirectRenderingSupported )
@@ -132,7 +132,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BuffDesc.BindFlags = BIND_INDIRECT_DRAW_ARGS | BIND_VERTEX_BUFFER;
         BuffDesc.Usage = USAGE_DYNAMIC;
         BuffDesc.CPUAccessFlags = CPU_ACCESS_WRITE;
-        m_pRenderDevice->CreateBuffer( BuffDesc, BufferData(), &m_pIndirectDrawArgs );
+        m_pRenderDevice->CreateBuffer( BuffDesc, nullptr, &m_pIndirectDrawArgs );
     }
 
     {
@@ -152,7 +152,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BuffDesc.BindFlags = BIND_INDIRECT_DRAW_ARGS | BIND_VERTEX_BUFFER;
         BuffDesc.Usage = USAGE_DYNAMIC;
         BuffDesc.CPUAccessFlags = CPU_ACCESS_WRITE;
-        m_pRenderDevice->CreateBuffer( BuffDesc, BufferData(), &m_pIndexedIndirectDrawArgs );
+        m_pRenderDevice->CreateBuffer( BuffDesc, nullptr, &m_pIndexedIndirectDrawArgs );
     }
 
 
@@ -208,8 +208,8 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         InputLayoutDesc LayoutDesc;
         LayoutElement Elems[] =
         {
-            LayoutElement( 0, 0, 3, VT_FLOAT32, false, 0 ),
-            LayoutElement( 1, 0, 3, VT_FLOAT32, false, sizeof( float ) * 3 )
+            LayoutElement{ 0, 0, 3, VT_FLOAT32, false, 0 },
+            LayoutElement{ 1, 0, 3, VT_FLOAT32, false, sizeof( float ) * 3 }
         };
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
         PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
@@ -225,9 +225,9 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         InputLayoutDesc LayoutDesc;
         LayoutElement Elems[] =
         {
-            LayoutElement( 0, 0, 3, VT_FLOAT32, false, 0 ),
-            LayoutElement( 1, 0, 3, VT_FLOAT32, false, sizeof( float ) * 3 ),
-            LayoutElement( 2, 1, 2, VT_FLOAT32, false, 0, 0, LayoutElement::FREQUENCY_PER_INSTANCE )
+            LayoutElement{ 0, 0, 3, VT_FLOAT32, false, 0 },
+            LayoutElement{ 1, 0, 3, VT_FLOAT32, false, sizeof( float ) * 3 },
+            LayoutElement{ 2, 1, 2, VT_FLOAT32, false, 0, 0, LayoutElement::FREQUENCY_PER_INSTANCE }
         };
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
         PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
@@ -246,9 +246,9 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         BuffData.DataSize = sizeof( UniformData );
         RefCntAutoPtr<IBuffer> pUniformBuff3, pUniformBuff4;
         BuffDesc.Name = "Test Constant Buffer 3";
-        m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &pUniformBuff3 );
+        m_pRenderDevice->CreateBuffer( BuffDesc, &BuffData, &pUniformBuff3 );
         BuffDesc.Name = "Test Constant Buffer 4";
-        m_pRenderDevice->CreateBuffer( BuffDesc, BuffData, &pUniformBuff4 );
+        m_pRenderDevice->CreateBuffer( BuffDesc, &BuffData, &pUniformBuff4 );
 
         ResourceMappingDesc ResMappingDesc;
         ResourceMappingEntry pEtries[] = { { "cbTestBlock3", pUniformBuff3 }, { "cbTestBlock4", pUniformBuff4 }, { nullptr, nullptr } };

@@ -223,16 +223,17 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         desc.uiSizeInBytes = (Uint32) sizeof(DrawConstantBuffer);
         desc.BindFlags = BIND_UNIFORM_BUFFER;
         desc.CPUAccessFlags = CPU_ACCESS_WRITE;
-        mDevice->CreateBuffer(desc, BufferData(), &mDrawConstantBuffer);
+        mDevice->CreateBuffer(desc, nullptr, &mDrawConstantBuffer);
         Barriers.emplace_back(mDrawConstantBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true);
     }
 
     // create pipeline state
     {
         PipelineStateDesc PSODesc;
-        LayoutElement inputDesc[] = {
-            LayoutElement( 0, 0, 3, VT_FLOAT32, false, 0, sizeof(Vertex)),
-            LayoutElement( 1, 0, 3, VT_FLOAT32)
+        LayoutElement inputDesc[] =
+        {
+            LayoutElement{ 0, 0, 3, VT_FLOAT32, false, 0, sizeof(Vertex)},
+            LayoutElement{ 1, 0, 3, VT_FLOAT32}
         };
 
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = inputDesc;
@@ -334,15 +335,15 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         desc.uiSizeInBytes = sizeof(SkyboxConstantBuffer);
         desc.BindFlags = BIND_UNIFORM_BUFFER;
         desc.CPUAccessFlags = CPU_ACCESS_WRITE;
-        mDevice->CreateBuffer(desc, BufferData(), &mSkyboxConstantBuffer);
+        mDevice->CreateBuffer(desc, nullptr, &mSkyboxConstantBuffer);
         Barriers.emplace_back(mSkyboxConstantBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true);
     }
 
     // create skybox pipeline state
     {
         LayoutElement inputDesc[] = {
-            LayoutElement( 0, 0, 3, VT_FLOAT32),
-            LayoutElement( 1, 0, 3, VT_FLOAT32)
+            LayoutElement{0, 0, 3, VT_FLOAT32},
+            LayoutElement{1, 0, 3, VT_FLOAT32}
         };
 
         RefCntAutoPtr<IShader> vs, ps;
@@ -418,8 +419,8 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
     {
         PipelineStateDesc PSODesc;
         LayoutElement inputDesc[] = {
-            LayoutElement( 0, 0, 2, VT_FLOAT32),
-            LayoutElement( 1, 0, 2, VT_FLOAT32)
+            LayoutElement{0, 0, 2, VT_FLOAT32},
+            LayoutElement{1, 0, 2, VT_FLOAT32}
         };
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = inputDesc;
         PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof(inputDesc);
@@ -554,7 +555,7 @@ void Asteroids::CreateMeshes()
         data.pData = asteroidMeshes->vertices.data();
         data.DataSize = desc.uiSizeInBytes;
 
-        mDevice->CreateBuffer(desc, data, &mVertexBuffer);
+        mDevice->CreateBuffer(desc, &data, &mVertexBuffer);
         Barriers.emplace_back(mVertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
     }
 
@@ -570,7 +571,7 @@ void Asteroids::CreateMeshes()
         data.pData = asteroidMeshes->indices.data();
         data.DataSize = desc.uiSizeInBytes;
 
-        mDevice->CreateBuffer(desc, data, &mIndexBuffer);
+        mDevice->CreateBuffer(desc, &data, &mIndexBuffer);
         Barriers.emplace_back(mIndexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDEX_BUFFER, true);
     }
 
@@ -590,7 +591,7 @@ void Asteroids::CreateMeshes()
         data.pData = skyboxVertices.data();
         data.DataSize = desc.uiSizeInBytes;
 
-        mDevice->CreateBuffer(desc, data, &mSkyboxVertexBuffer);
+        mDevice->CreateBuffer(desc, &data, &mSkyboxVertexBuffer);
         Barriers.emplace_back(mSkyboxVertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
     }
 
@@ -603,7 +604,7 @@ void Asteroids::CreateMeshes()
         desc.Usage = USAGE_DYNAMIC;
         desc.CPUAccessFlags = CPU_ACCESS_WRITE;
         
-        mDevice->CreateBuffer(desc, BufferData(), &mSpriteVertexBuffer);
+        mDevice->CreateBuffer(desc, nullptr, &mSpriteVertexBuffer);
         Barriers.emplace_back(mSpriteVertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
     }
     mDeviceCtxt->TransitionResourceStates(static_cast<Uint32>(Barriers.size()), Barriers.data());
@@ -635,7 +636,7 @@ void Asteroids::InitializeTextureData()
         TextureData initData;
         initData.NumSubresources = (Uint32)subResData.size();
         initData.pSubResources = subResData.data();
-        mDevice->CreateTexture(textureDesc, initData, &mTextures[t]);
+        mDevice->CreateTexture(textureDesc, &initData, &mTextures[t]);
         mTextureSRVs[t] = mTextures[t]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
         mTextureSRVs[t]->SetSampler(mSamplerState);
         Barriers.emplace_back(mTextures[t], RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true);
@@ -664,7 +665,7 @@ void Asteroids::CreateGUIResources()
     initialData.NumSubresources = _countof(subresources);
 
     RefCntAutoPtr<ITexture> texture;
-    mDevice->CreateTexture(textureDesc, initialData, &texture);
+    mDevice->CreateTexture(textureDesc, &initialData, &texture);
     mFontTextureSRV = texture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
     mFontTextureSRV->SetSampler(mSamplerState);
 

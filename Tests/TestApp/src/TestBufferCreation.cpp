@@ -89,7 +89,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         InitData.DataSize = BuffDesc.uiSizeInBytes;
         std::vector<Uint8> DummyData(InitData.DataSize);
         InitData.pData = DummyData.data();
-        pDevice->CreateBuffer(BuffDesc, InitData, &pBuffer);
+        pDevice->CreateBuffer(BuffDesc, &InitData, &pBuffer);
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
@@ -102,7 +102,8 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         BuffDesc.uiSizeInBytes = 256;
         BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
         RefCntAutoPtr<IBuffer> pBuffer;
-        pDevice->CreateBuffer(BuffDesc, BufferData(), &pBuffer);
+        BufferData NullData;
+        pDevice->CreateBuffer(BuffDesc, &NullData, &pBuffer);
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
@@ -118,7 +119,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         BuffDesc.Mode = BUFFER_MODE_FORMATTED;
         BuffDesc.ElementByteStride = 16;
         RefCntAutoPtr<IBuffer> pBuffer;
-        pDevice->CreateBuffer(BuffDesc, BufferData(), &pBuffer);
+        pDevice->CreateBuffer(BuffDesc, nullptr, &pBuffer);
         VERIFY_EXPR(pBuffer);
 
         BufferViewDesc ViewDesc;
@@ -147,7 +148,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         BuffDesc.Mode = BUFFER_MODE_STRUCTURED;
         BuffDesc.ElementByteStride = 16;
         RefCntAutoPtr<IBuffer> pBuffer;
-        pDevice->CreateBuffer(BuffDesc, BufferData(), &pBuffer);
+        pDevice->CreateBuffer(BuffDesc, nullptr, &pBuffer);
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
@@ -160,7 +161,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         BuffDesc.uiSizeInBytes = 256;
         BuffDesc.BindFlags =  BIND_UNIFORM_BUFFER;
         RefCntAutoPtr<IBuffer> pBuffer;
-        pDevice->CreateBuffer(BuffDesc, BufferData(), &pBuffer);
+        pDevice->CreateBuffer(BuffDesc, nullptr, &pBuffer);
         VERIFY_EXPR(pBuffer);
 
         pTestCreateObjFromNativeRes->CreateBuffer(pBuffer);
@@ -175,7 +176,7 @@ TestBufferCreation::TestBufferCreation(Diligent::IRenderDevice *pDevice, Diligen
         BuffDesc.Mode = BUFFER_MODE_RAW;
         BuffDesc.ElementByteStride = 16;
         RefCntAutoPtr<IBuffer> pBuffer;
-        pDevice->CreateBuffer(BuffDesc, BufferData(), &pBuffer);
+        pDevice->CreateBuffer(BuffDesc, nullptr, &pBuffer);
         VERIFY_EXPR(pBuffer);
 
         BufferViewDesc ViewDesc;

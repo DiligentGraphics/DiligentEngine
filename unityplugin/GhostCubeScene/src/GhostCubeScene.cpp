@@ -69,13 +69,13 @@ void GhostCubeScene::OnGraphicsInitialized()
     TexDesc.ClearValue.Color[1] = 0.2f;
     TexDesc.ClearValue.Color[2] = 0.5f;
     TexDesc.ClearValue.Color[3] = 1.0f;
-    pDevice->CreateTexture(TexDesc, TextureData(), &m_pRenderTarget);
+    pDevice->CreateTexture(TexDesc, nullptr, &m_pRenderTarget);
 
     TexDesc.Name = "Mirror depth buffer";
     TexDesc.Format = TEX_FORMAT_D32_FLOAT;
     TexDesc.BindFlags = BIND_DEPTH_STENCIL | BIND_SHADER_RESOURCE;
     TexDesc.ClearValue.DepthStencil.Depth = 0.f;
-    pDevice->CreateTexture(TexDesc, TextureData(), &m_pDepthBuffer);
+    pDevice->CreateTexture(TexDesc, nullptr, &m_pDepthBuffer);
 
     //auto deviceType = pDevice->GetDeviceCaps().DevType;
     {

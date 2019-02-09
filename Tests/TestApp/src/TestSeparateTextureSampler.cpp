@@ -114,7 +114,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         TexDesc.Usage = USAGE_DEFAULT;
         TexDesc.BindFlags = BIND_SHADER_RESOURCE;
         RefCntAutoPtr<ITexture> pTexture;
-        pDevice->CreateTexture( TexDesc, TextureData(), &pTexture );
+        pDevice->CreateTexture( TexDesc, nullptr, &pTexture );
 
         RefCntAutoPtr<ISampler> pSampler;
         pDevice->CreateSampler( SamplerDesc{}, &pSampler );
@@ -148,7 +148,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         RenderTargetDesc.Format = TEX_FORMAT_RGBA8_UNORM;
         RenderTargetDesc.Name = "TestSeparateTextureSampler: test render target";
         RefCntAutoPtr<ITexture> pRenderTarget;
-        pDevice->CreateTexture(RenderTargetDesc, TextureData{}, &pRenderTarget);
+        pDevice->CreateTexture(RenderTargetDesc, nullptr, &pRenderTarget);
 
         ITextureView* pRTV[] = {pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET)};
         pContext->SetRenderTargets(1, pRTV, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);

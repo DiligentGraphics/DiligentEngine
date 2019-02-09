@@ -88,8 +88,8 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
 
         LayoutElement LayoutElems[] =
         {
-            LayoutElement(0, 0, 3, VT_FLOAT32, False),
-            LayoutElement(1, 0, 4, VT_FLOAT32, False)
+            LayoutElement{0, 0, 3, VT_FLOAT32, False},
+            LayoutElement{1, 0, 4, VT_FLOAT32, False}
         };
 
         PSODesc.GraphicsPipeline.pVS = pVS;
@@ -126,7 +126,7 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         BufferData VBData;
         VBData.pData = CubeVerts;
         VBData.DataSize = sizeof(CubeVerts);
-        pDevice->CreateBuffer(VertBuffDesc, VBData, &m_CubeVertexBuffer);
+        pDevice->CreateBuffer(VertBuffDesc, &VBData, &m_CubeVertexBuffer);
     }
 
     {
@@ -147,7 +147,7 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         BufferData IBData;
         IBData.pData = Indices;
         IBData.DataSize = sizeof(Indices);
-        pDevice->CreateBuffer(IndBuffDesc, IBData, &m_CubeIndexBuffer);
+        pDevice->CreateBuffer(IndBuffDesc, &IBData, &m_CubeIndexBuffer);
     }
 }
 

@@ -64,7 +64,7 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, I
         Diligent::BufferData BuffData;
         BuffData.pData = vertices;
         BuffData.DataSize = BuffDesc.uiSizeInBytes;
-        m_pRenderDevice->CreateBuffer(BuffDesc, BuffData, &m_pVertexBuff);
+        m_pRenderDevice->CreateBuffer(BuffDesc, &BuffData, &m_pVertexBuff);
     }
 
     for(int InstBuff = 0; InstBuff < _countof(m_pInstBuff); ++InstBuff)
@@ -109,7 +109,7 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, I
             BuffData.pData = instance_offsets;
             BuffData.DataSize = sizeof(instance_offsets);
         }
-        m_pRenderDevice->CreateBuffer(BuffDesc, BuffData, &m_pInstBuff[InstBuff]);
+        m_pRenderDevice->CreateBuffer(BuffDesc, &BuffData, &m_pInstBuff[InstBuff]);
     }
 
     ShaderCreationAttribs CreationAttrs;
@@ -147,9 +147,9 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, I
 
     LayoutElement Elems[] =
     {
-        LayoutElement( 0, 1, 3, Diligent::VT_FLOAT32, false, 0 ),
-        LayoutElement( 1, 1, 3, Diligent::VT_FLOAT32, false, sizeof( float ) * 3, sizeof( float ) * 6),
-        LayoutElement( 2, 3, 2, Diligent::VT_FLOAT32, false, 0, 0, LayoutElement::FREQUENCY_PER_INSTANCE )
+        LayoutElement{ 0, 1, 3, Diligent::VT_FLOAT32, false, 0 },
+        LayoutElement{ 1, 1, 3, Diligent::VT_FLOAT32, false, sizeof( float ) * 3, sizeof( float ) * 6   },
+        LayoutElement{ 2, 3, 2, Diligent::VT_FLOAT32, false, 0, 0, LayoutElement::FREQUENCY_PER_INSTANCE }
     };
     PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
     PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );

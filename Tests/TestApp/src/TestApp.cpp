@@ -436,7 +436,7 @@ void TestApp::InitializeRenderers()
         //Diligent::BufferData BuffData;
         //BuffData.pData = instance_offsets;
         //BuffData.DataSize = sizeof(instance_offsets);
-        m_pDevice->CreateBuffer(BuffDesc, Diligent::BufferData(), &m_pInstBuff2);
+        m_pDevice->CreateBuffer(BuffDesc, nullptr, &m_pInstBuff2);
     }
     
 
@@ -452,7 +452,7 @@ void TestApp::InitializeRenderers()
         BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
         BuffDesc.Usage = USAGE_DYNAMIC;
         BuffDesc.CPUAccessFlags = CPU_ACCESS_WRITE;
-        m_pDevice->CreateBuffer(BuffDesc, BufferData(), &m_pUniformBuff2);
+        m_pDevice->CreateBuffer(BuffDesc, nullptr, &m_pUniformBuff2);
     }
 
     {
@@ -466,7 +466,7 @@ void TestApp::InitializeRenderers()
         Diligent::BufferData BuffData;
         BuffData.pData = UniformData;
         BuffData.DataSize = sizeof(UniformData);
-        m_pDevice->CreateBuffer(BuffDesc, BuffData, &m_pUniformBuff3);
+        m_pDevice->CreateBuffer(BuffDesc, &BuffData, &m_pUniformBuff3);
     }
 
     {
@@ -480,7 +480,7 @@ void TestApp::InitializeRenderers()
         Diligent::BufferData BuffData;
         BuffData.pData = UniformData;
         BuffData.DataSize = sizeof(UniformData);
-        m_pDevice->CreateBuffer(BuffDesc, BuffData, &m_pUniformBuff4);
+        m_pDevice->CreateBuffer(BuffDesc, &BuffData, &m_pUniformBuff4);
     }
 
     {
@@ -502,10 +502,10 @@ void TestApp::InitializeRenderers()
         TexDesc.BindFlags = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET | BIND_UNORDERED_ACCESS;
         TexDesc.Name = "UniqueTexture";
 
-        m_pDevice->CreateTexture(TexDesc, TextureData(), &m_pTestTex);
+        m_pDevice->CreateTexture(TexDesc, nullptr, &m_pTestTex);
 
         m_pTestTex.Release();
-        m_pDevice->CreateTexture(TexDesc, TextureData(), &m_pTestTex);
+        m_pDevice->CreateTexture(TexDesc, nullptr, &m_pTestTex);
     }
 
     {
@@ -520,13 +520,13 @@ void TestApp::InitializeRenderers()
         TexDesc.BindFlags = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET;
         TexDesc.Name = "UniqueTexture";
         RefCntAutoPtr<ITexture> pTex;
-        m_pDevice->CreateTexture(TexDesc, TextureData(), &pTex);
+        m_pDevice->CreateTexture(TexDesc, nullptr, &pTex);
         ITextureView *pRTVs[] = { pTex->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET) };
 
         TexDesc.Format = m_pSwapChain->GetDesc().DepthBufferFormat;
         RefCntAutoPtr<ITexture> pDepthTex;
         TexDesc.BindFlags = BIND_DEPTH_STENCIL;
-        m_pDevice->CreateTexture(TexDesc, TextureData(), &pDepthTex);
+        m_pDevice->CreateTexture(TexDesc, nullptr, &pDepthTex);
         auto* pDSV = pDepthTex->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
 
         {
@@ -573,7 +573,7 @@ void TestApp::InitializeRenderers()
         BuffData.DataSize = sizeof(Data);
         // This will result in creating and executing another command list
         RefCntAutoPtr<IBuffer> pBuff;
-        m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuff);
+        m_pDevice->CreateBuffer(BuffDesc, &BuffData, &pBuff);
 
         // This may cause D3D12 error
         m_pImmediateContext->Flush();

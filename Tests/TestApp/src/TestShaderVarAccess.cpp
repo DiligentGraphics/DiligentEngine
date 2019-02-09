@@ -62,7 +62,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     IDeviceObject *pSRVs[2];
     for(size_t i=0; i < _countof(pSRVs); ++i)
     {
-        pDevice->CreateTexture(TexDesc, TextureData{}, &(pTex[i]));
+        pDevice->CreateTexture(TexDesc, nullptr, &(pTex[i]));
         auto *pSRV = pTex[i]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
         pSRV->SetSampler(pSamplers[i]);
         pSRVs[i] = pSRV;
@@ -75,7 +75,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     TexDesc.Format = TEX_FORMAT_RGBA32_FLOAT;
     for(size_t i=0; i < _countof(pRWTex); ++i)
     {
-        pDevice->CreateTexture(TexDesc, TextureData{}, &(pRWTex[i]));
+        pDevice->CreateTexture(TexDesc, nullptr, &(pRWTex[i]));
         pTexUAVs[i] = pRWTex[i]->GetDefaultView(TEXTURE_VIEW_UNORDERED_ACCESS);
         pRWTexSRVs[i] = pRWTex[i]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
     }
@@ -92,13 +92,13 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     TexDesc.Format = pSwapChain->GetDesc().ColorBufferFormat;
     TexDesc.BindFlags = BIND_RENDER_TARGET | BIND_SHADER_RESOURCE;
     RefCntAutoPtr<ITexture> pRenderTarget;
-    pDevice->CreateTexture(TexDesc, TextureData{}, &pRenderTarget);
+    pDevice->CreateTexture(TexDesc, nullptr, &pRenderTarget);
     auto *pRTV = pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
 
     TexDesc.Format = pSwapChain->GetDesc().DepthBufferFormat;
     TexDesc.BindFlags = BIND_DEPTH_STENCIL;
     RefCntAutoPtr<ITexture> pDepthTex;
-    pDevice->CreateTexture(TexDesc, TextureData{}, &pDepthTex);
+    pDevice->CreateTexture(TexDesc, nullptr, &pDepthTex);
     auto *pDSV = pDepthTex->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
 
     BufferDesc BuffDesc;
@@ -108,7 +108,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     IDeviceObject *pUBs[2];
     for (int i = 0; i < _countof(pUniformBuffs); ++i)
     {
-        pDevice->CreateBuffer(BuffDesc, BufferData{}, &(pUniformBuffs[i]));
+        pDevice->CreateBuffer(BuffDesc, nullptr, &(pUniformBuffs[i]));
         pUBs[i] = pUniformBuffs[i];
     }
 
@@ -135,7 +135,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         TxlBuffDesc.Usage = USAGE_DEFAULT;
         TxlBuffDesc.ElementByteStride = 16;
         TxlBuffDesc.Mode = BUFFER_MODE_FORMATTED;
-        pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &pFormattedBuff0);
+        pDevice->CreateBuffer(TxlBuffDesc, nullptr, &pFormattedBuff0);
         
         Diligent::BufferViewDesc ViewDesc;
         ViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
@@ -149,7 +149,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         {
             TxlBuffDesc.Name = "UAV buffer test";
             TxlBuffDesc.BindFlags = BIND_SHADER_RESOURCE | BIND_UNORDERED_ACCESS;
-            pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &(pFormattedBuff[i]));
+            pDevice->CreateBuffer(TxlBuffDesc, nullptr, &(pFormattedBuff[i]));
             
             ViewDesc.ViewType = BUFFER_VIEW_UNORDERED_ACCESS;
             pFormattedBuff[i]->CreateView(ViewDesc, &(spFormattedBuffUAV[i]));
@@ -165,7 +165,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         for(size_t i=0; i < _countof(pRawBuff); ++i)
         {
             TxlBuffDesc.Name = "Raw buffer test";
-            pDevice->CreateBuffer(TxlBuffDesc, BufferData{}, &(pRawBuff[i]));
+            pDevice->CreateBuffer(TxlBuffDesc, nullptr, &(pRawBuff[i]));
             spRawBuffUAV[i]  = pRawBuff[i]->GetDefaultView(BUFFER_VIEW_UNORDERED_ACCESS);
             spRawBuffSRVs[i] = pRawBuff[i]->GetDefaultView(BUFFER_VIEW_SHADER_RESOURCE);
         }
@@ -264,10 +264,10 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         }
     }
 
-    VarDesc.emplace_back( "g_rwtex2D_Mut", SHADER_VARIABLE_TYPE_MUTABLE );
-    VarDesc.emplace_back( "g_rwtex2D_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC );
-    VarDesc.emplace_back( "g_rwBuff_Mut", SHADER_VARIABLE_TYPE_MUTABLE );
-    VarDesc.emplace_back( "g_rwBuff_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC );
+    VarDesc.emplace_back( ShaderVariableDesc{"g_rwtex2D_Mut", SHADER_VARIABLE_TYPE_MUTABLE} );
+    VarDesc.emplace_back( ShaderVariableDesc{"g_rwtex2D_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC} );
+    VarDesc.emplace_back( ShaderVariableDesc{"g_rwBuff_Mut", SHADER_VARIABLE_TYPE_MUTABLE} );
+    VarDesc.emplace_back( ShaderVariableDesc{"g_rwBuff_Dyn", SHADER_VARIABLE_TYPE_DYNAMIC} );
 
     RefCntAutoPtr<IShader> pPS;
     {

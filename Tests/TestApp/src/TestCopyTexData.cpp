@@ -105,8 +105,8 @@ void TestCopyTexData::Test2DTexture( TEXTURE_FORMAT Format )
         SubResData[mip] = TextureSubResData{DummyData.data(), (TexDesc.Width >> mip) * TexelSize, 0};
     }
     InitData.pSubResources = SubResData.data();
-    m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
-    m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
+    m_pDevice->CreateTexture( TexDesc, &InitData, &pSrcTex );
+    m_pDevice->CreateTexture( TexDesc, nullptr, &pDstTex );
 
     CopyTextureAttribs CopyAttribs;
     CopyAttribs.pSrcTexture = pSrcTex;
@@ -161,8 +161,8 @@ void TestCopyTexData::Test2DTexArray( TEXTURE_FORMAT Format )
     VERIFY_EXPR(subres == InitData.NumSubresources);
     InitData.pSubResources = SubResData.data();
 
-    m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
-    m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
+    m_pDevice->CreateTexture( TexDesc, &InitData, &pSrcTex );
+    m_pDevice->CreateTexture( TexDesc, nullptr, &pDstTex );
 
     CopyTextureAttribs CopyAttribs;
     CopyAttribs.pSrcTexture = pSrcTex;
@@ -214,8 +214,8 @@ void TestCopyTexData::Test3DTexture( TEXTURE_FORMAT Format )
         SubResData[mip] = TextureSubResData{DummyData.data(), (TexDesc.Width >> mip) * TexelSize, (TexDesc.Width >> mip) * (TexDesc.Height >> mip) * TexelSize};
     }
     InitData.pSubResources = SubResData.data();
-    m_pDevice->CreateTexture( TexDesc, InitData, &pSrcTex );
-    m_pDevice->CreateTexture( TexDesc, TextureData(), &pDstTex );
+    m_pDevice->CreateTexture( TexDesc, &InitData, &pSrcTex );
+    m_pDevice->CreateTexture( TexDesc, nullptr, &pDstTex );
 
     CopyTextureAttribs CopyAttribs;
     CopyAttribs.pSrcTexture = pSrcTex;

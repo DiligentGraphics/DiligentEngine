@@ -112,12 +112,12 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
             BuffData.DataSize = BuffDesc.uiSizeInBytes;
             BuffData.pData = RawBufferData;
 
-            m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer1);
+            m_pDevice->CreateBuffer(BuffDesc, &BuffData, &pBuffer1);
 
             BuffDesc.Mode = BUFFER_MODE_FORMATTED;
             BuffDesc.ElementByteStride = 16;
             BuffDesc.BindFlags = BIND_SHADER_RESOURCE|BIND_UNORDERED_ACCESS;
-            m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer2);
+            m_pDevice->CreateBuffer(BuffDesc, &BuffData, &pBuffer2);
 
             BufferViewDesc ViewDesc;
             ViewDesc.ViewType = BUFFER_VIEW_SHADER_RESOURCE;
@@ -128,13 +128,13 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
             pBuffer2->CreateView(ViewDesc, &pBufferSRV);
 
             BuffDesc.BindFlags = BIND_VERTEX_BUFFER | BIND_UNORDERED_ACCESS;
-            m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer3);
+            m_pDevice->CreateBuffer(BuffDesc, &BuffData, &pBuffer3);
             ViewDesc.ViewType = BUFFER_VIEW_UNORDERED_ACCESS;
             pBuffer3->CreateView(ViewDesc, &pBufferUAV);
 
             BuffDesc.Mode = BUFFER_MODE_RAW;
             BuffDesc.BindFlags = BIND_INDEX_BUFFER|BIND_UNORDERED_ACCESS;
-            m_pDevice->CreateBuffer(BuffDesc, BuffData, &pBuffer4);
+            m_pDevice->CreateBuffer(BuffDesc, &BuffData, &pBuffer4);
             
             m_NumBuffersCreated += 4;
 
@@ -175,7 +175,7 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
             TexData.NumSubresources = 1;
             TexData.pSubResources = &SubResData;
 
-            m_pDevice->CreateTexture(TexDesc, TexData, &pTexture);
+            m_pDevice->CreateTexture(TexDesc, &TexData, &pTexture);
             ++m_NumTexturesCreated;
 
             ++m_NumThreadsCompleted;

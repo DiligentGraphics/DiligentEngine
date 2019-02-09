@@ -92,8 +92,8 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
     PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
     LayoutElement Elems[] =
     {
-        LayoutElement( 0, 0, 3, Diligent::VT_FLOAT32, false, 0 ),
-        LayoutElement( 1, 0, 2, Diligent::VT_FLOAT32, false, sizeof( float ) * 3 )
+        LayoutElement{ 0, 0, 3, Diligent::VT_FLOAT32, false, 0 },
+        LayoutElement{ 1, 0, 2, Diligent::VT_FLOAT32, false, sizeof( float ) * 3 }
     };
     PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
     PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
@@ -121,7 +121,7 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
         Diligent::BufferData BuffData;
         BuffData.pData = Vertices;
         BuffData.DataSize = BuffDesc.uiSizeInBytes;
-        m_pRenderDevice->CreateBuffer(BuffDesc, BuffData, &m_pVertexBuff);
+        m_pRenderDevice->CreateBuffer(BuffDesc, &BuffData, &m_pVertexBuff);
     }
 
     RefCntAutoPtr<ISampler> pSampler;
@@ -147,7 +147,7 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
         TexData.pSubResources = SubResouces.data();
         TexData.NumSubresources = (Uint32)SubResouces.size();
 
-        m_pRenderDevice->CreateTexture( TexDesc, TexData, &m_pTextures[t] );
+        m_pRenderDevice->CreateTexture( TexDesc, &TexData, &m_pTextures[t] );
         m_pTextures[t]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE)->SetSampler(pSampler);
     }
 

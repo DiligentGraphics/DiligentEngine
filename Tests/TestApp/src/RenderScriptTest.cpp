@@ -53,7 +53,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         TexDesc.Usage = USAGE_DYNAMIC;
         TexDesc.BindFlags = BIND_SHADER_RESOURCE;
         TexDesc.CPUAccessFlags = CPU_ACCESS_WRITE;
-        pRenderDevice->CreateTexture( TexDesc, TextureData(), &pTestGlobalTexture );
+        pRenderDevice->CreateTexture( TexDesc, nullptr, &pTestGlobalTexture );
     }
 
     auto pScript = CreateRenderScriptFromFile( "LuaTest.lua", pRenderDevice, pContext, [&]( Diligent::ScriptParser *pScriptParser )
@@ -71,7 +71,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
             BuffDesc.Usage = USAGE_DYNAMIC;
             BuffDesc.CPUAccessFlags = CPU_ACCESS_WRITE;
             RefCntAutoPtr<IBuffer> pBuffer;
-            pRenderDevice->CreateBuffer( BuffDesc, Diligent::BufferData(), &pBuffer );
+            pRenderDevice->CreateBuffer( BuffDesc, nullptr, &pBuffer );
             pScriptParser->SetGlobalVariable( "TestGlobalBuffer", pBuffer );
         }
 
@@ -84,7 +84,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
             BuffDesc.ElementByteStride = 16;
             BuffDesc.Mode = BUFFER_MODE_STRUCTURED;
             RefCntAutoPtr<IBuffer> pBuffer;
-            pRenderDevice->CreateBuffer( BuffDesc, Diligent::BufferData(), &pBuffer );
+            pRenderDevice->CreateBuffer( BuffDesc, nullptr, &pBuffer );
             pScriptParser->SetGlobalVariable( "TestGlobalBufferWithUAV", pBuffer );
 
             auto *pUAV = pBuffer->GetDefaultView( BUFFER_VIEW_UNORDERED_ACCESS );
