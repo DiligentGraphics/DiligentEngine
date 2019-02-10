@@ -7,3 +7,6 @@
 [submodule "DiligentSamples"]
 	path = DiligentSamples
 	url = https://github.com/DiligentGraphics/DiligentSamples.git
+[submodule "DiligentFX"]
+	path = DiligentFX
+	url = https://github.com/DiligentGraphics/DiligentFX.git

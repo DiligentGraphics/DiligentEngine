@@ -7,6 +7,7 @@ project(DiligentEngine)
 add_subdirectory(DiligentCore)
 add_subdirectory(DiligentTools)
 add_subdirectory(Common)
+add_subdirectory(DiligentFX)
 add_subdirectory(DiligentSamples)
 add_subdirectory(Projects)
 
