@@ -48,17 +48,17 @@
 
 
 #define MAX_CASCADES 8
-struct CascadeAttribs
+struct ShadowCascadeInfo
 {
 	float4 f4LightSpaceScale;
 	float4 f4LightSpaceScaledBias;
     float4 f4StartEndZ;
 };
 #ifdef __cplusplus
-static_assert( (sizeof(CascadeAttribs) % 16) == 0, "sizeof(CascadeAttribs) is not multiple of 16" );
+static_assert( (sizeof(ShadowCascadeInfo) % 16) == 0, "sizeof(ShadowCascadeInfo) is not multiple of 16" );
 #endif
 
-struct ShadowMapAttribs
+struct ShadowMapInfo
 {
     // 0
 #ifdef __cplusplus
@@ -67,7 +67,7 @@ struct ShadowMapAttribs
     matrix mWorldToLightView;  // Transform from view space to light projection space
 #endif
     // 16
-    CascadeAttribs Cascades[MAX_CASCADES];
+    ShadowCascadeInfo Cascades[MAX_CASCADES];
 
 #ifdef __cplusplus
     float fCascadeCamSpaceZEnd[MAX_CASCADES];
@@ -83,7 +83,7 @@ struct ShadowMapAttribs
     float3 f3Padding;
 };
 #ifdef __cplusplus
-static_assert( (sizeof(ShadowMapAttribs) % 16) == 0, "sizeof(ShadowMapAttribs) is not multiple of 16" );
+static_assert( (sizeof(ShadowMapInfo) % 16) == 0, "sizeof(ShadowMapInfo) is not multiple of 16" );
 #endif
 
 
@@ -97,7 +97,7 @@ struct LightAttribs
     BOOL bIsLightOnScreen;
     float3 f3Dummy;
 
-    ShadowMapAttribs ShadowAttribs;
+    ShadowMapInfo ShadowAttribs;
 };
 CHECK_STRUCT_ALIGNMENT(LightAttribs)
 
@@ -158,24 +158,24 @@ CHECK_STRUCT_ALIGNMENT(CameraAttribs)
 
 struct PostProcessingAttribs
 {
-    uint m_uiNumEpipolarSlices;
-    uint m_uiMaxSamplesInSlice;
-    uint m_uiInitialSampleStepInSlice;
-    uint m_uiEpipoleSamplingDensityFactor;
+    uint uiNumEpipolarSlices;
+    uint uiMaxSamplesInSlice;
+    uint uiInitialSampleStepInSlice;
+    uint uiEpipoleSamplingDensityFactor;
 
-    float m_fRefinementThreshold;
+    float fRefinementThreshold;
     // do not use bool, because sizeof(bool)==1 and as a result bool variables
     // will be incorrectly mapped on GPU constant buffer
-    BOOL m_bShowSampling; 
-    BOOL m_bCorrectScatteringAtDepthBreaks; 
-    BOOL m_bShowDepthBreaks; 
+    BOOL bShowSampling; 
+    BOOL bCorrectScatteringAtDepthBreaks; 
+    BOOL bShowDepthBreaks; 
 
-    BOOL m_bShowLightingOnly;
-    BOOL m_bOptimizeSampleLocations;
-    BOOL m_bEnableLightShafts;
-    uint m_uiInstrIntegralSteps;
+    BOOL bShowLightingOnly;
+    BOOL bOptimizeSampleLocations;
+    BOOL bEnableLightShafts;
+    uint uiInstrIntegralSteps;
     
-    float2 m_f2ShadowMapTexelSize;
+    float2 f2ShadowMapTexelSize;
     uint m_uiShadowMapResolution;
     uint m_uiMinMaxShadowMapResolution;
 
@@ -192,44 +192,44 @@ struct PostProcessingAttribs
     uint m_uiCascadeProcessingMode;
     uint m_uiRefinementCriterion;
     BOOL m_bIs32BitMinMaxMipMap;
-    uint m_uiMultipleScatteringMode;
+    uint uiMultipleScatteringMode;
 
-    uint m_uiSingleScatteringMode;
-    BOOL m_bAutoExposure;
-    uint m_uiToneMappingMode;
-    BOOL m_bLightAdaptation;
+    uint uiSingleScatteringMode;
+    BOOL bAutoExposure;
+    uint uiToneMappingMode;
+    BOOL bLightAdaptation;
     
-    float m_fWhitePoint;
-    float m_fLuminanceSaturation;
+    float fWhitePoint;
+    float fLuminanceSaturation;
     float2 f2Dummy;
     
-    uint m_uiExtinctionEvalMode;
-    BOOL m_bUseCustomSctrCoeffs;
-    float m_fAerosolDensityScale;
-    float m_fAerosolAbsorbtionScale;
+    uint uiExtinctionEvalMode;
+    BOOL bUseCustomSctrCoeffs;
+    float fAerosolDensityScale;
+    float fAerosolAbsorbtionScale;
 
-    float4 m_f4CustomRlghBeta;
-    float4 m_f4CustomMieBeta;
+    float4 f4CustomRlghBeta;
+    float4 f4CustomMieBeta;
 
 #ifdef __cplusplus
     PostProcessingAttribs() : 
-        m_uiNumEpipolarSlices(512),
-        m_uiMaxSamplesInSlice(256),
-        m_uiInitialSampleStepInSlice(16),
+        uiNumEpipolarSlices(512),
+        uiMaxSamplesInSlice(256),
+        uiInitialSampleStepInSlice(16),
         // Note that sampling near the epipole is very cheap since only a few steps
         // required to perform ray marching
-        m_uiEpipoleSamplingDensityFactor(2),
-        m_fRefinementThreshold(0.03f),
-        m_bShowSampling(FALSE),
-        m_bCorrectScatteringAtDepthBreaks(FALSE),
-        m_bShowDepthBreaks(FALSE),
-        m_bShowLightingOnly(FALSE),
-        m_bOptimizeSampleLocations(TRUE),
-        m_bEnableLightShafts(TRUE),
-        m_uiInstrIntegralSteps(30),
+        uiEpipoleSamplingDensityFactor(2),
+        fRefinementThreshold(0.03f),
+        bShowSampling(FALSE),
+        bCorrectScatteringAtDepthBreaks(FALSE),
+        bShowDepthBreaks(FALSE),
+        bShowLightingOnly(FALSE),
+        bOptimizeSampleLocations(TRUE),
+        bEnableLightShafts(TRUE),
+        uiInstrIntegralSteps(30),
         m_bUse1DMinMaxTree(TRUE),
         m_fMaxShadowMapStep(16.f),
-        m_f2ShadowMapTexelSize(0,0),
+        f2ShadowMapTexelSize(0,0),
         m_uiMinMaxShadowMapResolution(0),
         m_fMiddleGray(.18f),
         m_uiLightSctrTechnique(LIGHT_SCTR_TECHNIQUE_EPIPOLAR_SAMPLING),
@@ -240,19 +240,19 @@ struct PostProcessingAttribs
         m_uiCascadeProcessingMode(CASCADE_PROCESSING_MODE_SINGLE_PASS),
         m_uiRefinementCriterion(REFINEMENT_CRITERION_INSCTR_DIFF),
         m_bIs32BitMinMaxMipMap(FALSE),
-        m_uiMultipleScatteringMode(MULTIPLE_SCTR_MODE_UNOCCLUDED),
-        m_uiSingleScatteringMode(SINGLE_SCTR_MODE_LUT),
-        m_bAutoExposure(TRUE),
-        m_uiToneMappingMode(TONE_MAPPING_MODE_UNCHARTED2),
-        m_bLightAdaptation(TRUE),
-        m_fWhitePoint(3e+0f),
-        m_fLuminanceSaturation(1e+0),
-        m_uiExtinctionEvalMode(EXTINCTION_EVAL_MODE_EPIPOLAR),
-        m_bUseCustomSctrCoeffs(FALSE),
-        m_fAerosolDensityScale(1.f),
-        m_fAerosolAbsorbtionScale(0.1f),
-        m_f4CustomRlghBeta( 5.8e-6f, 13.5e-6f, 33.1e-6f, 0.f ),
-        m_f4CustomMieBeta(2.e-5f, 2.e-5f, 2.e-5f, 0.f)
+        uiMultipleScatteringMode(MULTIPLE_SCTR_MODE_UNOCCLUDED),
+        uiSingleScatteringMode(SINGLE_SCTR_MODE_LUT),
+        bAutoExposure(TRUE),
+        uiToneMappingMode(TONE_MAPPING_MODE_UNCHARTED2),
+        bLightAdaptation(TRUE),
+        fWhitePoint(3e+0f),
+        fLuminanceSaturation(1e+0),
+        uiExtinctionEvalMode(EXTINCTION_EVAL_MODE_EPIPOLAR),
+        bUseCustomSctrCoeffs(FALSE),
+        fAerosolDensityScale(1.f),
+        fAerosolAbsorbtionScale(0.1f),
+        f4CustomRlghBeta( 5.8e-6f, 13.5e-6f, 33.1e-6f, 0.f ),
+        f4CustomMieBeta(2.e-5f, 2.e-5f, 2.e-5f, 0.f)
         {}
 #endif
 };
