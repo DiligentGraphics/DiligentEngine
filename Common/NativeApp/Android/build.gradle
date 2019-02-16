@@ -10,7 +10,7 @@ android {
         externalNativeBuild {
             cmake {
                 arguments '-DANDROID_PLATFORM=android-21',
-                        '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=gnustl_static', '-DENABLE_TESTS=TRUE'
+                        '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_static', '-DENABLE_TESTS=TRUE'
             }
         }
     }
