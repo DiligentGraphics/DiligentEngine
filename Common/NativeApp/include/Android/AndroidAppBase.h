@@ -31,19 +31,23 @@
 #include "NDKHelper.h"
 
 struct android_app;
+
+namespace Diligent
+{
+
 class AndroidAppBase : public AppBase
 {
 public:
     int InitDisplay();
-    void SetState( android_app* state );
+    void SetState(android_app* state);
     void InitSensors();
     void ProcessSensors( int32_t id );
     void DrawFrame();    
     bool IsReady();
     virtual void TrimMemory() = 0;
     virtual void TermDisplay() = 0;
-    static int32_t HandleInput( android_app* app, AInputEvent* event );
-    static void HandleCmd( struct android_app* app, int32_t cmd );
+    static int32_t HandleInput(android_app* app, AInputEvent* event);
+    static void HandleCmd(android_app* app, int32_t cmd);
     bool CheckWindowSizeChanged()
     {
         auto new_window_width_ = ANativeWindow_getWidth(app_->window);
@@ -102,3 +106,5 @@ private:
     const ASensor* accelerometer_sensor_ = nullptr;
     ASensorEventQueue* sensor_event_queue_ = nullptr;
 };
+
+}

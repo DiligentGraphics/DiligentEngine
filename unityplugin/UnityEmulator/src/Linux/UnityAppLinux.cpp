@@ -47,9 +47,14 @@ public:
 #endif
 };
 
+namespace Diligent
+{
+
 NativeAppBase* CreateApplication()
 {
     return new UnityAppLinux();
+}
+
 }
 
 // The function must be defined in the plugin

@@ -31,6 +31,7 @@
 
 #define HELPER_CLASS_NAME "com/android/helper/NDKHelper" //Class name of helper function
 
+using namespace Diligent;
 
 // This is the main entry point of a native application that is using
 // android_native_app_glue.  It runs in its own thread, with its own

@@ -30,9 +30,23 @@
 
 #include "AppBase.h"
 
+namespace Diligent
+{
+
 class Win32AppBase : public AppBase
 {
 public:
-    virtual void OnWindowCreated(HWND hWnd, LONG WindowWidth, LONG WindowHeight) = 0;
-    virtual LRESULT HandleWin32Message(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) { return 0; }
+    virtual void OnWindowCreated(HWND hWnd,
+                                 LONG WindowWidth,
+                                 LONG WindowHeight) = 0;
+
+    virtual LRESULT HandleWin32Message(HWND     hWnd,
+                                       UINT     message,
+                                       WPARAM   wParam,
+                                       LPARAM   lParam)
+    {
+        return 0;
+    }
 };
+
+}

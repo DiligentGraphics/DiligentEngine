@@ -23,6 +23,9 @@
 
 #include "MacOSAppBase.h"
 
+namespace Diligent
+{
+
 void MacOSAppBase::Update()
 {
     // Render the scene
@@ -32,3 +35,4 @@ void MacOSAppBase::Update()
     Update(CurrTime, ElapsedTime);
 }
 
+}

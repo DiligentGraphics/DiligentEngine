@@ -23,6 +23,9 @@
 
 #include "IOSAppBase.h"
 
+namespace Diligent
+{
+
 void IOSAppBase::Update()
 {
     // Render the scene
@@ -32,3 +35,4 @@ void IOSAppBase::Update()
     Update(CurrTime, ElapsedTime);
 }
 
+}

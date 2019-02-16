@@ -24,7 +24,8 @@
 #include <queue>
 #include "TestApp.h"
 
-using namespace Diligent;
+namespace Diligent
+{
 
 class TestAppMacOS final : public TestApp
 {
@@ -45,4 +46,6 @@ public:
 NativeAppBase* CreateApplication()
 {
     return new TestAppMacOS;
+}
+
 }

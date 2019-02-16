@@ -24,7 +24,8 @@
 #include "TestApp.h"
 #include "RenderDeviceGLES.h"
 
-using namespace Diligent;
+namespace Diligent
+{
 
 class TestAppAndroid final : public TestApp
 {
@@ -66,4 +67,6 @@ private:
 NativeAppBase* CreateApplication()
 {
     return new TestAppAndroid;
+}
+
 }

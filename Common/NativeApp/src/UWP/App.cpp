@@ -37,6 +37,7 @@
 #include <ppltasks.h>
 
 using namespace SampleApp;
+using namespace Diligent;
 
 using namespace concurrency;
 using namespace Windows::ApplicationModel;

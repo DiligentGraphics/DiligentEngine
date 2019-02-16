@@ -22,7 +22,9 @@
 */
 
 #include "TestApp.h"
-using namespace Diligent;
+
+namespace Diligent
+{
 
 class TestAppLinux final : public TestApp
 {
@@ -56,4 +58,6 @@ public:
 NativeAppBase* CreateApplication()
 {
     return new TestAppLinux;
+}
+
 }

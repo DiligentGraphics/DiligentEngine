@@ -41,9 +41,14 @@ public:
     }
 };
 
+namespace Diligent
+{
+
 NativeAppBase* CreateApplication()
 {
     return new UnityAppWin32();
+}
+
 }
 
 void* UnityAppBase::LoadPluginFunction(const char* FunctionName)

@@ -25,37 +25,57 @@
 #if PLATFORM_WIN32
 
     #include "Win32AppBase.h"
-    using NativeAppBase = Win32AppBase;
+    namespace Diligent
+    {
+        using NativeAppBase = Win32AppBase;
+    }
 
 #elif PLATFORM_UNIVERSAL_WINDOWS
 
     #include "UWPAppBase.h"
-    using NativeAppBase = UWPAppBase;
+    namespace Diligent
+    {
+        using NativeAppBase = UWPAppBase;
+    }
 
 #elif PLATFORM_LINUX
 
     #include "LinuxAppBase.h"
-    using NativeAppBase = LinuxAppBase;
+    namespace Diligent
+    {
+        using NativeAppBase = LinuxAppBase;
+    }
 
 #elif PLATFORM_ANDROID
 
     #include "AndroidAppBase.h"
-    using NativeAppBase = AndroidAppBase;
+    namespace Diligent
+    {
+        using NativeAppBase = AndroidAppBase;
+    }
 
 #elif PLATFORM_MACOS
 
     #include "MacOSAppBase.h"
-    using NativeAppBase = MacOSAppBase;
+    namespace Diligent
+    {
+        using NativeAppBase = MacOSAppBase;
+    }
 
 #elif PLATFORM_IOS
 
     #include "IOSAppBase.h"
-    using NativeAppBase = IOSAppBase;
-
+    namespace Diligent
+    {
+        using NativeAppBase = IOSAppBase;
+    }
 #else
 
 #   error Usnupported paltform
 
 #endif
 
-extern NativeAppBase* CreateApplication();
+namespace Diligent
+{
+    extern NativeAppBase* CreateApplication();
+}

@@ -26,17 +26,22 @@
 #include "AppBase.h"
 #include "Timer.h"
 
+namespace Diligent
+{
+
 class IOSAppBase : public AppBase
 {
 public:
     using AppBase::Update;
     void Update();
-    virtual void OnGLContextCreated(void *eaglLayer) = 0;
+    virtual void OnGLContextCreated(void* eaglLayer) = 0;
     virtual void OnTouchBegan(float x, float y){}
     virtual void OnTouchMoved(float x, float y){}
     virtual void OnTouchEnded(float x, float y){}
 
 protected:
-    Diligent::Timer timer;
+    Timer timer;
     double PrevTime = 0.0;
 };
+
+}

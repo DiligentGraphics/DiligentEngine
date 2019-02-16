@@ -41,9 +41,14 @@ public:
     }
 };
 
+namespace Diligent
+{
+
 NativeAppBase* CreateApplication()
 {
     return new UnityAppIOS();
+}
+
 }
 
 // The function must be defined in the plugin

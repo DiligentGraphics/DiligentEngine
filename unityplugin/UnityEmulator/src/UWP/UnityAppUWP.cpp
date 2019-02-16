@@ -216,10 +216,14 @@ private:
     bool m_SceneInitialized = false;
 };
 
+namespace Diligent
+{
 
 NativeAppBase* CreateApplication()
 {
     return new UnityAppUWP;
+}
+
 }
 
 

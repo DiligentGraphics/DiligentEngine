@@ -34,7 +34,7 @@
 -(void)initApp:(NSView*) view;
 -(void)destroyApp;
 -(NSString*)getError;
--(NativeAppBase*)lockApp;
+-(Diligent::NativeAppBase*)lockApp;
 -(void)unlockApp;
 -(void)stopDisplayLink;
 -(void)startDisplayLink;

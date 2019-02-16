@@ -23,6 +23,9 @@
 
 #include "UWPAppBase.h"
 
+namespace Diligent
+{
+
 UWPAppBase::UWPAppBase()
 {
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
@@ -42,4 +45,6 @@ void UWPAppBase::Update()
         auto ElapsedTime = m_timer.GetElapsedSeconds();
         Update(CurrTime, ElapsedTime);
     });
+}
+
 }

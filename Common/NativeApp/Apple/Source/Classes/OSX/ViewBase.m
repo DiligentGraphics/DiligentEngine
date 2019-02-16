@@ -28,7 +28,7 @@
 
 @implementation ViewBase
 {
-    std::unique_ptr<NativeAppBase> _theApp;
+    std::unique_ptr<Diligent::NativeAppBase> _theApp;
     std::string _error;
     NSRecursiveLock* appLock;
 }
@@ -41,7 +41,7 @@
 {
     [super awakeFromNib];
 
-    _theApp.reset(CreateApplication());
+    _theApp.reset(Diligent::CreateApplication());
 
     // [self window] is nil here
     auto* mainWindow = [[NSApplication sharedApplication] mainWindow];
@@ -66,7 +66,7 @@
     }
 }
 
--(NativeAppBase*)lockApp
+-(Diligent::NativeAppBase*)lockApp
 {
     [appLock lock];
     return _theApp.get();

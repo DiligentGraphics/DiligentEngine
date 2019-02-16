@@ -30,6 +30,9 @@
 #include <android/native_window_jni.h>
 //#include <cpu-features.h>
 
+namespace Diligent
+{
+
 int AndroidAppBase::InitDisplay()
 {
     if( !initialized_resources_ )
@@ -257,4 +260,6 @@ void AndroidAppBase::UpdateFPS( float fFPS )
 
     app_->activity->vm->DetachCurrentThread();
     return;
+}
+
 }

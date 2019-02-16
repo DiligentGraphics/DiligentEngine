@@ -29,6 +29,8 @@
 #include "StringTools.h"
 #include "Timer.h"
 
+using namespace Diligent;
+
 std::unique_ptr<NativeAppBase> g_pTheApp;
 
 LRESULT CALLBACK MessageProc(HWND, UINT, WPARAM, LPARAM);

@@ -24,7 +24,8 @@
 #include <queue>
 #include "TestApp.h"
 
-using namespace Diligent;
+namespace Diligent
+{
 
 class TestAppIOS final : public TestApp
 {
@@ -46,4 +47,6 @@ private:
 NativeAppBase* CreateApplication()
 {
     return new TestAppIOS;
+}
+
 }

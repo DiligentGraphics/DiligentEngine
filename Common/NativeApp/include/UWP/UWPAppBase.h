@@ -34,6 +34,9 @@
 #include "Common/StepTimer.h"
 #include "Common/DeviceResources.h"
 
+namespace Diligent
+{
+
 class UWPAppBase : public AppBase
 {
 public:
@@ -69,3 +72,5 @@ protected:
     DX::StepTimer m_timer;
     bool m_bFrameReady = false;
 };
+
+}

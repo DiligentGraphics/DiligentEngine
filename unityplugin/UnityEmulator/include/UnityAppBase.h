@@ -35,7 +35,7 @@
 
 typedef void* (*TLoadPluginFunction)(const char *FunctionName);
 
-class UnityAppBase : public NativeAppBase
+class UnityAppBase : public Diligent::NativeAppBase
 {
 public:
     UnityAppBase();

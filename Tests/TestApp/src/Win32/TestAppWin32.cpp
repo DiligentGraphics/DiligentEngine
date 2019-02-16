@@ -23,6 +23,9 @@
 
 #include "TestApp.h"
 
+namespace Diligent
+{
+
 class TestAppWin32 final : public TestApp
 {
 public:
@@ -36,4 +39,6 @@ public:
 NativeAppBase* CreateApplication()
 {
     return new TestAppWin32;
+}
+
 }

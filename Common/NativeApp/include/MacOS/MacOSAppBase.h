@@ -26,6 +26,9 @@
 #include "AppBase.h"
 #include "Timer.h"
 
+namespace Diligent
+{
+
 class MacOSAppBase : public AppBase
 {
 public:
@@ -38,6 +41,8 @@ public:
     virtual void OnKeyPressed(int key){}
 
 protected:
-    Diligent::Timer timer;
+    Timer timer;
     double PrevTime = 0.0;
 };
+
+}

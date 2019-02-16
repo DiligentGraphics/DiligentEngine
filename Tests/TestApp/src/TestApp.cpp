@@ -73,7 +73,8 @@
 #include "TestSeparateTextureSampler.h"
 #include "StringTools.h"
 
-using namespace Diligent;
+namespace Diligent
+{
 
 TestApp::TestApp() :
     m_AppTitle("Test app")
@@ -719,4 +720,6 @@ void TestApp::Render()
 void TestApp::Present()
 {
     m_pSwapChain->Present(0);
+}
+
 }

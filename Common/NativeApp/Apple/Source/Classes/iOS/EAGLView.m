@@ -14,7 +14,7 @@
 
 @interface EAGLView ()
 {
-    std::unique_ptr<NativeAppBase> _theApp;
+    std::unique_ptr<Diligent::NativeAppBase> _theApp;
     EAGLContext* _context;
     NSInteger _animationFrameInterval;
     CADisplayLink* _displayLink;
@@ -52,7 +52,7 @@
 		
         try
         {
-            _theApp.reset(CreateApplication());
+            _theApp.reset(Diligent::CreateApplication());
             // Init our renderer.
             _theApp->OnGLContextCreated((__bridge void*)self.layer);
         }

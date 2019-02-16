@@ -62,7 +62,7 @@ namespace SampleApp
 
 	private:
         std::shared_ptr<DX::DeviceResources> GetDeviceResources();
-        std::unique_ptr<NativeAppBase> m_Main;
+        std::unique_ptr<Diligent::NativeAppBase> m_Main;
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		bool m_windowClosed = false;
 		bool m_windowVisible = false;

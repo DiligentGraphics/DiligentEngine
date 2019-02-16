@@ -45,9 +45,14 @@ public:
     }
 };
 
+namespace Diligent
+{
+
 NativeAppBase* CreateApplication()
 {
     return new UnityAppMacOS();
+}
+
 }
 
 // The function must be defined in the plugin

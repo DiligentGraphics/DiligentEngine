@@ -46,6 +46,9 @@
 #include "TestGeometryShader.h"
 #include "TestTessellation.h"
 
+namespace Diligent
+{
+
 class TestApp : public NativeAppBase
 {
 public:
@@ -67,11 +70,11 @@ protected:
     );
     void InitializeRenderers();
 
-    Diligent::DeviceType m_DeviceType = Diligent::DeviceType::Undefined;
-    Diligent::RefCntAutoPtr<Diligent::IRenderDevice> m_pDevice;
-    Diligent::RefCntAutoPtr<Diligent::IDeviceContext> m_pImmediateContext;
-    std::vector<Diligent::RefCntAutoPtr<Diligent::IDeviceContext> > m_pDeferredContexts;
-    Diligent::RefCntAutoPtr<Diligent::ISwapChain> m_pSwapChain;
+    DeviceType m_DeviceType = DeviceType::Undefined;
+    RefCntAutoPtr<IRenderDevice> m_pDevice;
+    RefCntAutoPtr<IDeviceContext> m_pImmediateContext;
+    std::vector<RefCntAutoPtr<IDeviceContext> > m_pDeferredContexts;
+    RefCntAutoPtr<ISwapChain> m_pSwapChain;
     std::string m_AppTitle;
 
     std::unique_ptr<TestDrawCommands> m_pTestDrawCommands;
@@ -84,12 +87,14 @@ protected:
     TestGeometryShader m_TestGS;
     TestTessellation m_TestTessellation;
 
-    Diligent::RefCntAutoPtr<Diligent::IBuffer> m_pInstBuff, m_pInstBuff2, m_pUniformBuff, m_pUniformBuff2, m_pUniformBuff3, m_pUniformBuff4;
-    Diligent::RefCntAutoPtr<Diligent::ITexture> m_pTestTex;
-    Diligent::RefCntAutoPtr<Diligent::ScriptParser> m_pRenderScript;
-    Diligent::RefCntAutoPtr<Diligent::IFence> m_pFence;
-    Diligent::Uint64 m_NextFenceValue = 1;
+    RefCntAutoPtr<IBuffer> m_pInstBuff, m_pInstBuff2, m_pUniformBuff, m_pUniformBuff2, m_pUniformBuff3, m_pUniformBuff4;
+    RefCntAutoPtr<ITexture> m_pTestTex;
+    RefCntAutoPtr<ScriptParser> m_pRenderScript;
+    RefCntAutoPtr<IFence> m_pFence;
+    Uint64 m_NextFenceValue = 1;
 
     SmartPointerTest m_SmartPointerTest;
     double m_CurrTime = 0;
 };
+
+}

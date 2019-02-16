@@ -23,16 +23,20 @@
 
 #pragma once 
 
+namespace Diligent
+{
+
 class AppBase
 {
 public:
     virtual ~AppBase() {}
 
-    virtual void ProcessCommandLine(const char *CmdLine) = 0;
+    virtual void ProcessCommandLine(const char* CmdLine) = 0;
     virtual const char* GetAppTitle()const = 0;
     virtual void Update(double CurrTime, double ElapsedTime) {};
-    virtual void Render() = 0;
+    virtual void Render()  = 0;
     virtual void Present() = 0;
     virtual void WindowResize(int width, int height) = 0;
 };
 
+}
