@@ -103,8 +103,10 @@ Master repository includes the following submodules:
   [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader) and 
   [Render Script](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderScript), a Lua-based run-time 
   graphics resource managing system. Tools module depends on Core module.
+* [DiligentFX](https://github.com/DiligentGraphics/DiligentFX) is a high-level rendering framework that implements
+  various rendering components. The module depends on Core and Tools modules.
 * [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule contains several simple graphics applications 
-  intended to demonstrate the usage of the Diligent Engine API. The module depends on Core and Tools modules.
+  intended to demonstrate the usage of the Diligent Engine API. The module depends on Core, Tools and DiligentFX modules.
   
 
 <a name="build_and_run"></a>
@@ -516,7 +518,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | Sample     | Screenshot  | Description          |
 |------------|-------------|----------------------|
 | [AntTweakBar Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/AntTweakBar) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/AntTweakBar/Screenshot.png) | This sample demonstrates how to use [AntTweakBar library](http://anttweakbar.sourceforge.net/doc) to create simple user interface. |
-| [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Atmosphere/Screenshot.png) | The sample implements physically-based atmospheric light scattering model and demonstrates how Diligent Engine can be used to accomplish various rendering tasks: loading textures from files, using complex shaders, rendering to textures, using compute shaders and unordered access views, etc. |
+| [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Atmosphere/Screenshot.png) | This sample demonstrates how to integrate [Epipolar Light Scattering](https://github.com/DiligentGraphics/DiligentFX/tree/master/Postprocess/EpipolarLightScattering) post-processing effect into an application to render physically-based atmosphere. |
 
 
 <a name="demos"></a>
