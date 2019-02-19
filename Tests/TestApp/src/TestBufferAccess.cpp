@@ -147,9 +147,9 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, I
 
     LayoutElement Elems[] =
     {
-        LayoutElement{ 0, 1, 3, Diligent::VT_FLOAT32, false, 0 },
-        LayoutElement{ 1, 1, 3, Diligent::VT_FLOAT32, false, sizeof( float ) * 3, sizeof( float ) * 6   },
-        LayoutElement{ 2, 3, 2, Diligent::VT_FLOAT32, false, 0, 0, LayoutElement::FREQUENCY_PER_INSTANCE }
+        LayoutElement{ 1, 1, 3, Diligent::VT_FLOAT32, false, sizeof(float) * 3, sizeof(float) * 6 },
+        LayoutElement{ 0, 1, 3, Diligent::VT_FLOAT32, false,                 0, sizeof(float) * 6 },
+        LayoutElement{ 2, 3, 2, Diligent::VT_FLOAT32, false, LayoutElement::AutoOffset, LayoutElement::AutoStride, LayoutElement::FREQUENCY_PER_INSTANCE }
     };
     PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
     PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );

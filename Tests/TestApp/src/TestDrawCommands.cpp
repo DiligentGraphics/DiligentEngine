@@ -227,7 +227,7 @@ void TestDrawCommands::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         {
             LayoutElement{ 0, 0, 3, VT_FLOAT32, false, 0 },
             LayoutElement{ 1, 0, 3, VT_FLOAT32, false, sizeof( float ) * 3 },
-            LayoutElement{ 2, 1, 2, VT_FLOAT32, false, 0, 0, LayoutElement::FREQUENCY_PER_INSTANCE }
+            LayoutElement{ 2, 1, 2, VT_FLOAT32, false, LayoutElement::AutoOffset, LayoutElement::AutoStride, LayoutElement::FREQUENCY_PER_INSTANCE }
         };
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
         PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );

@@ -120,7 +120,7 @@ PSOInst = PipelineState.Create
 		{
 			{ InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = "VT_FLOAT32", IsNormalized = false, Stride = 4*3},
 			{ InputIndex = 1, BufferSlot = 1, NumComponents = 4, ValueType = "VT_UINT8",   IsNormalized = true, Stride = 4*1},
-			{ InputIndex = 2, BufferSlot = 2, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false, Frequency = "FREQUENCY_PER_INSTANCE", Stride = 0},
+			{ InputIndex = 2, BufferSlot = 2, NumComponents = 2, ValueType = "VT_FLOAT32", IsNormalized = false, Frequency = "FREQUENCY_PER_INSTANCE"},
 		},
 		PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_LIST",
 		pVS = MinimalInstVS,
