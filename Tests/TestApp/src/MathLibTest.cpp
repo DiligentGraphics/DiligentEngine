@@ -582,6 +582,12 @@ public:
             std::hash<ViewFrustumExt>()(frustm_ext);
         }
 
+        {
+            float4 vec4(1,2,3,4);
+            float3 vec3 = vec4;
+            VERIFY_EXPR(vec3== float3(1, 2, 3));
+        }
+
         SetStatus(TestResult::Succeeded);
     }
 };
