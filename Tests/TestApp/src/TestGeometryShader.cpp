@@ -41,7 +41,7 @@ void TestGeometryShader::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCo
 
     m_pDeviceContext = pDeviceContext;
 
-    ShaderCreationAttribs CreationAttrs;
+    ShaderCreateInfo CreationAttrs;
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;

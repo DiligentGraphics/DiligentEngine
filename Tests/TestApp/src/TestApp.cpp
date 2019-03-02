@@ -372,7 +372,7 @@ void TestApp::InitializeRenderers()
     TestShaderVarAccess TestShaderVarAccess{m_pDevice, m_pImmediateContext, m_pSwapChain};
     TestShaderResourceLayout TestShaderResLayout{m_pDevice, m_pImmediateContext};
     
-#if GL_SUPPORTED || GLES_SUPPORTED || VULKAN_SUPPORTED
+#if GL_SUPPORTED || GLES_SUPPORTED
     ShaderConverterTest ConverterTest{m_pDevice, m_pImmediateContext};
 #endif
     

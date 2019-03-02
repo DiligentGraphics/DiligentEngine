@@ -194,7 +194,7 @@ void MTResourceCreationTest::ThreadWorkerFunc(bool bIsMasterThread)
         RefCntAutoPtr<IShader> pTrivialVS, pTrivialPS;
         RefCntAutoPtr<IPipelineState> pPSO;
         {
-            ShaderCreationAttribs Attrs;
+            ShaderCreateInfo Attrs;
             Attrs.Source = g_ShaderSource;
             Attrs.EntryPoint = "VSMain";
             Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;

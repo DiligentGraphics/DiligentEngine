@@ -207,9 +207,9 @@ UniformBuffPS = Shader.Create{
 	}
 }
 
-svTestBlock = UniformBuffPS:GetShaderVariable("cbTestBlock")
-svTestBlock2 = ShaderVariable.Create(UniformBuffPS, "cbTestBlock2")
-svTestBlock2:Set(nil)
+--svTestBlock = UniformBuffPS:GetShaderVariable("cbTestBlock")
+--svTestBlock2 = ShaderVariable.Create(UniformBuffPS, "cbTestBlock2")
+--svTestBlock2:Set(nil)
 --Test = svTestBlock2["Error"]
 --svTestBlock2["Error"] = 0
 

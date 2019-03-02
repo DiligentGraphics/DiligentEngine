@@ -191,9 +191,8 @@ function AddConstBufferToMapping(Name, NewConstBuff)
 end
 
 function BindShaderResources()
-	MinimalVS:BindResources(ResMapping)
-	MinimalInstVS:BindResources(ResMapping)
-	UniformBufferPS:BindResources(ResMapping)
+	PSO:BindStaticResources(ResMapping)
+	PSOInst:BindStaticResources(ResMapping)
     SRB:InitializeStaticResources(PSO)
     SRBInst:InitializeStaticResources()
 end

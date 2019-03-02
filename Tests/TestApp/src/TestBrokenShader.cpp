@@ -40,7 +40,7 @@ void VSMain(out float4 pos : SV_POSITION)
 TestBrokenShader::TestBrokenShader(IRenderDevice *pDevice) : 
     UnitTestBase("Broken shader test")
 {
-    ShaderCreationAttribs Attrs;
+    ShaderCreateInfo Attrs;
     Attrs.Source = g_BrokenShaderSource;
     Attrs.EntryPoint = "VSMain";
     Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;

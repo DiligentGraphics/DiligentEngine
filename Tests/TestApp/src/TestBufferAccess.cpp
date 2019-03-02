@@ -112,7 +112,7 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, I
         m_pRenderDevice->CreateBuffer(BuffDesc, &BuffData, &m_pInstBuff[InstBuff]);
     }
 
-    ShaderCreationAttribs CreationAttrs;
+    ShaderCreateInfo CreationAttrs;
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;

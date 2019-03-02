@@ -166,7 +166,7 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     
     auto PixelFormatAttribs = m_pRenderDevice->GetTextureFormatInfoExt(m_TextureFormat);
 
-    ShaderCreationAttribs CreationAttrs;
+    ShaderCreateInfo CreationAttrs;
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
@@ -187,19 +187,6 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
         else
             CreationAttrs.FilePath = bUseGLSL ? "Shaders\\TextureTestGL.psh" : "Shaders\\TextureTestDX.psh";
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_PIXEL;
-        
-        StaticSamplerDesc StaticSampler;
-        // On Intel HW, only point filtering sampler correctly works with an integer texture.
-        // If the sampler defines linear filtering, the texture is not properly bound to the
-        // sampler unit and zero is always returned.
-        // Note that on NVidia HW this works fine.
-        auto FilterType = bIsIntTexture ? FILTER_TYPE_POINT : FILTER_TYPE_LINEAR;
-        StaticSampler.Desc.MinFilter = FilterType;
-        StaticSampler.Desc.MagFilter = FilterType;
-        StaticSampler.Desc.MipFilter = FilterType;
-        StaticSampler.SamplerOrTextureName = "g_tex2DTest";
-        CreationAttrs.Desc.NumStaticSamplers = 1;
-        CreationAttrs.Desc.StaticSamplers = &StaticSampler;
         m_pRenderDevice->CreateShader( CreationAttrs, &pPS );
     }
 
@@ -269,10 +256,24 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     };
     PSODesc.GraphicsPipeline.InputLayout.LayoutElements = Elems;
     PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof( Elems );
+
+    StaticSamplerDesc StaticSampler;
+    // On Intel HW, only point filtering sampler correctly works with an integer texture.
+    // If the sampler defines linear filtering, the texture is not properly bound to the
+    // sampler unit and zero is always returned.
+    // Note that on NVidia HW this works fine.
+    auto FilterType = bIsIntTexture ? FILTER_TYPE_POINT : FILTER_TYPE_LINEAR;
+    StaticSampler.Desc.MinFilter = FilterType;
+    StaticSampler.Desc.MagFilter = FilterType;
+    StaticSampler.Desc.MipFilter = FilterType;
+    StaticSampler.ShaderStages = SHADER_TYPE_PIXEL;
+    StaticSampler.SamplerOrTextureName = "g_tex2DTest";
+    PSODesc.ResourceLayout.NumStaticSamplers = 1;
+    PSODesc.ResourceLayout.StaticSamplers = &StaticSampler;
+
     pDevice->CreatePipelineState(PSODesc, &m_pPSO);
     
-    pVS->BindResources(m_pResourceMapping, 0);
-    pPS->BindResources(m_pResourceMapping, 0);
+    m_pPSO->BindStaticResources(m_pResourceMapping, 0);
     
     m_pPSO->CreateShaderResourceBinding(&m_pSRB, true);
 

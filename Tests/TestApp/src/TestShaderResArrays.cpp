@@ -38,7 +38,7 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pDeviceContext;
     
-    ShaderCreationAttribs CreationAttrs;
+    ShaderCreateInfo CreationAttrs;
     BasicShaderSourceStreamFactory BasicSSSFactory;
     CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
     CreationAttrs.Desc.TargetProfile = SHADER_PROFILE_DX_5_0;
@@ -56,29 +56,28 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
     {
         CreationAttrs.Desc.Name = "TestShaderResArrays: PS";
         CreationAttrs.FilePath = "Shaders\\ShaderResArrayTest.psh";
-        
-        StaticSamplerDesc StaticSampler;
-        StaticSampler.Desc.MinFilter = FILTER_TYPE_LINEAR;
-        StaticSampler.Desc.MagFilter = FILTER_TYPE_LINEAR;
-        StaticSampler.Desc.MipFilter = FILTER_TYPE_LINEAR;
-        StaticSampler.SamplerOrTextureName = "g_tex2DTest";
-        CreationAttrs.Desc.NumStaticSamplers = 1;
-        CreationAttrs.Desc.StaticSamplers = &StaticSampler;
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_PIXEL;
         CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-        ShaderVariableDesc Vars[] = 
-        {
-            {"g_tex2DTest", SHADER_VARIABLE_TYPE_MUTABLE},
-            {"g_tex2DTest2", SHADER_VARIABLE_TYPE_STATIC},
-            {"g_tex2D", SHADER_VARIABLE_TYPE_DYNAMIC}
-        };
-        CreationAttrs.Desc.VariableDesc = Vars;
-        CreationAttrs.Desc.NumVariables = _countof(Vars);
-
         m_pRenderDevice->CreateShader( CreationAttrs, &pPS );
     }
 
     PipelineStateDesc PSODesc;
+    StaticSamplerDesc StaticSampler;
+    StaticSampler.Desc.MinFilter = FILTER_TYPE_LINEAR;
+    StaticSampler.Desc.MagFilter = FILTER_TYPE_LINEAR;
+    StaticSampler.Desc.MipFilter = FILTER_TYPE_LINEAR;
+    StaticSampler.ShaderStages  = SHADER_TYPE_PIXEL;
+    StaticSampler.SamplerOrTextureName = "g_tex2DTest";
+    PSODesc.ResourceLayout.NumStaticSamplers = 1;
+    PSODesc.ResourceLayout.StaticSamplers = &StaticSampler;
+    ShaderResourceVariableDesc Vars[] = 
+    {
+        {SHADER_TYPE_PIXEL, "g_tex2DTest", SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE},
+        {SHADER_TYPE_PIXEL, "g_tex2DTest2", SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
+        {SHADER_TYPE_PIXEL, "g_tex2D", SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
+    };
+    PSODesc.ResourceLayout.Variables = Vars;
+    PSODesc.ResourceLayout.NumVariables = _countof(Vars);
     PSODesc.GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
     PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_NONE;
     PSODesc.GraphicsPipeline.BlendDesc.IndependentBlendEnable = False;
@@ -168,8 +167,8 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
 
     //pVS->BindResources(m_pResourceMapping, 0);
     IDeviceObject *ppSRVs[] = {m_pTextures[3]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE)};
-    pPS->BindResources(pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING);
-    pPS->GetShaderVariable("g_tex2DTest2")->SetArray( ppSRVs, 1, 1);
+    m_pPSO->BindStaticResources(pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING);
+    m_pPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2DTest2")->SetArray( ppSRVs, 1, 1);
 
     m_pSRB->InitializeStaticResources();
     m_pSRB->BindResources(SHADER_TYPE_PIXEL, pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING | BIND_SHADER_RESOURCES_UPDATE_MUTABLE | BIND_SHADER_RESOURCES_UPDATE_DYNAMIC);

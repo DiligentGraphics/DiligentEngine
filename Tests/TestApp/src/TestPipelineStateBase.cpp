@@ -44,7 +44,7 @@ TestPipelineStateBase::TestPipelineStateBase(Diligent::IRenderDevice *pDevice, c
     UnitTestBase(Name),
     m_pDevice(pDevice)
 {
-    ShaderCreationAttribs Attrs;
+    ShaderCreateInfo Attrs;
     Attrs.Source = g_ShaderSource;
     Attrs.EntryPoint = "VSMain";
     Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
