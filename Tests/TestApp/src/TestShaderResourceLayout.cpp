@@ -279,7 +279,6 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_StorageTexelBuff")->Set(pStorageTexelBuffUAV);
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_Mut");
         LOG_INFO_MESSAGE("The above 2 warnings and 1 errors about missing shader resources are part of the test");
-        pTestPSO->BindStaticResources(pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING | BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED | BIND_SHADER_RESOURCES_UPDATE_STATIC);
 
         auto NumVSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_VERTEX);
         for(Uint32 v=0; v < NumVSVars; ++v)
@@ -307,7 +306,6 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_StorageTexelBuff")->Set(pStorageTexelBuffUAV);
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "storageBuff_Dyn");
         LOG_INFO_MESSAGE("The above 2 warnings and 1 errors about missing shader resources are part of the test");
-        pTestPSO->BindStaticResources(pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING | BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED | BIND_SHADER_RESOURCES_UPDATE_STATIC);
 
         auto NumPSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_PIXEL);
         for(Uint32 v=0; v < NumPSVars; ++v)
@@ -319,6 +317,8 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             VERIFY_EXPR(pVar == pVar2);
         }
     }
+
+    pTestPSO->BindStaticResources(pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING | BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED | BIND_SHADER_RESOURCES_UPDATE_STATIC);
 
     RefCntAutoPtr<IShaderResourceBinding> pSRB;
     pTestPSO->CreateShaderResourceBinding(&pSRB, true);
