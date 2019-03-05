@@ -191,8 +191,8 @@ function AddConstBufferToMapping(Name, NewConstBuff)
 end
 
 function BindShaderResources()
-	PSO:BindStaticResources(ResMapping)
-	PSOInst:BindStaticResources(ResMapping)
+	PSO:BindStaticResources({"SHADER_TYPE_VERTEX", "SHADER_TYPE_PIXEL"}, ResMapping)
+	PSOInst:BindStaticResources({"SHADER_TYPE_VERTEX", "SHADER_TYPE_PIXEL"}, ResMapping)
     SRB:InitializeStaticResources(PSO)
     SRBInst:InitializeStaticResources()
 end

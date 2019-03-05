@@ -273,7 +273,7 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
 
     pDevice->CreatePipelineState(PSODesc, &m_pPSO);
     
-    m_pPSO->BindStaticResources(m_pResourceMapping, 0);
+    m_pPSO->BindStaticResources(SHADER_TYPE_VERTEX | SHADER_TYPE_PIXEL, m_pResourceMapping, 0);
     
     m_pPSO->CreateShaderResourceBinding(&m_pSRB, true);
 

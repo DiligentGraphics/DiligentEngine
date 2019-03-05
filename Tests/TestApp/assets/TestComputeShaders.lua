@@ -298,13 +298,13 @@ RenderPSO = PipelineState.Create
         PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
 	}
 }
-RenderPSO:BindStaticResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"})
+RenderPSO:BindStaticResources({"SHADER_TYPE_VERTEX", "SHADER_TYPE_PIXEL"}, ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"})
 RenderSRB = RenderPSO:CreateShaderResourceBinding()
 
-UpdateVertBuffPSO:BindStaticResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED", "BIND_SHADER_RESOURCES_UPDATE_STATIC"} )
-UpdateIndBuffPSO:BindStaticResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED", "BIND_SHADER_RESOURCES_UPDATE_ALL"})
-UpdateDrawArgsBuffPSO:BindStaticResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"})
-UpdateDispatchArgsBuffPSO:BindStaticResources(ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"})
+UpdateVertBuffPSO:BindStaticResources("SHADER_TYPE_COMPUTE", ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED", "BIND_SHADER_RESOURCES_UPDATE_STATIC"} )
+UpdateIndBuffPSO:BindStaticResources("SHADER_TYPE_COMPUTE", ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED", "BIND_SHADER_RESOURCES_UPDATE_ALL"})
+UpdateDrawArgsBuffPSO:BindStaticResources("SHADER_TYPE_COMPUTE", ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"})
+UpdateDispatchArgsBuffPSO:BindStaticResources("SHADER_TYPE_COMPUTE", ResMapping, {"BIND_SHADER_RESOURCES_VERIFY_ALL_RESOLVED"})
 
 FillTextureSRB:InitializeStaticResources()
 UpdateVertBuffSRB:InitializeStaticResources()

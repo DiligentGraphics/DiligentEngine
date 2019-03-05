@@ -167,7 +167,7 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
 
     //pVS->BindResources(m_pResourceMapping, 0);
     IDeviceObject *ppSRVs[] = {m_pTextures[3]->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE)};
-    m_pPSO->BindStaticResources(pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING);
+    m_pPSO->BindStaticResources(SHADER_TYPE_VERTEX | SHADER_TYPE_PIXEL, pResMapping, BIND_SHADER_RESOURCES_KEEP_EXISTING);
     m_pPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2DTest2")->SetArray( ppSRVs, 1, 1);
 
     m_pSRB->InitializeStaticResources();

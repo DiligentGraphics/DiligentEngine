@@ -317,7 +317,7 @@ RenderToTexPSO = PipelineState.Create
         PrimitiveTopology = "PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP"
 	}
 }
-RenderToTexPSO:BindStaticResources(ResMapping)
+RenderToTexPSO:BindStaticResources({"SHADER_TYPE_VERTEX", "SHADER_TYPE_PIXEL"}, ResMapping)
 RenderToTexSRB = RenderToTexPSO:CreateShaderResourceBinding(true)
 
 BlendTexPSO = PipelineState.Create
@@ -375,7 +375,7 @@ assert(BlendTexPSO.ResourceLayout.StaticSamplers[1].ShaderStages[1] == "SHADER_T
 assert(BlendTexPSO.ResourceLayout.StaticSamplers[1].Desc.MipFilter == "FILTER_TYPE_POINT");
 assert(BlendTexPSO.ResourceLayout.StaticSamplers[2].SamplerOrTextureName == "g_tex2DTest2");
 
-BlendTexPSO:BindStaticResources(ResMapping)
+BlendTexPSO:BindStaticResources({"SHADER_TYPE_VERTEX", "SHADER_TYPE_PIXEL"}, ResMapping)
 BlendTexSRB = BlendTexPSO:CreateShaderResourceBinding(true)
 
 DrawAttrs = DrawAttribs.Create{
