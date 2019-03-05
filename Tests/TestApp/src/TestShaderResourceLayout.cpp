@@ -261,7 +261,10 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     PSODesc.SRBAllocationGranularity = 16;
 
     RefCntAutoPtr<IPipelineState> pTestPSO;
+    LOG_INFO_MESSAGE("The 2 warnings below about missing shader resources are part of the test");
     pDevice->CreatePipelineState(PSODesc, &pTestPSO);
+   
+
     VERIFY_EXPR(pTestPSO);
 
     {
@@ -278,7 +281,9 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_UniformTexelBuff")->Set(pUniformTexelBuffSRV);
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_StorageTexelBuff")->Set(pStorageTexelBuffUAV);
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_Mut");
-        LOG_INFO_MESSAGE("The above 2 warnings and 1 errors about missing shader resources are part of the test");
+        auto* pStaticSam = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_Sam_static");
+        VERIFY_EXPR(pStaticSam == nullptr);
+        
 
         auto NumVSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_VERTEX);
         for(Uint32 v=0; v < NumVSVars; ++v)
@@ -305,7 +310,9 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_UniformTexelBuff")->Set(pUniformTexelBuffSRV);
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_StorageTexelBuff")->Set(pStorageTexelBuffUAV);
         pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "storageBuff_Dyn");
-        LOG_INFO_MESSAGE("The above 2 warnings and 1 errors about missing shader resources are part of the test");
+        auto* pStaticSam = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_Sam_static");
+        VERIFY_EXPR(pStaticSam == nullptr);
+
 
         auto NumPSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_PIXEL);
         for(Uint32 v=0; v < NumPSVars; ++v)
