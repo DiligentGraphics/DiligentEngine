@@ -8,7 +8,7 @@ struct VSOut
 };
 
 Texture2DArray<float4> Tex;// : register(t0);
-SamplerState Tex_sampler;// : register(s0);
+SamplerState           Tex_sampler;// : register(s0);
 
 void asteroid_ps_d3d11(in float4 position : SV_Position,
                        in VSOut vs_output,

@@ -243,48 +243,55 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
 
         RefCntAutoPtr<IShader> vs, ps;
         {
-            ShaderCreationAttribs attribs;
-            attribs.Desc.DefaultVariableType = SHADER_VARIABLE_TYPE_STATIC;
+            ShaderCreateInfo attribs;
             attribs.Desc.ShaderType = SHADER_TYPE_VERTEX;
-            attribs.Desc.Name = "Asteroids VS";
+            attribs.Desc.Name  = "Asteroids VS";
             attribs.EntryPoint = "asteroid_vs";
-            attribs.FilePath = "asteroid_vs.hlsl";
+            attribs.FilePath   = "asteroid_vs.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
             attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
             attribs.UseCombinedTextureSamplers = true;
             mDevice->CreateShader(attribs, &vs);
-            vs->GetShaderVariable("DrawConstantBuffer")->Set(mDrawConstantBuffer);
         }
 
         {
-            ShaderCreationAttribs attribs;
-            attribs.Desc.DefaultVariableType = m_BindingMode == BindingMode::Dynamic ? SHADER_VARIABLE_TYPE_DYNAMIC : SHADER_VARIABLE_TYPE_MUTABLE;
+            ShaderCreateInfo attribs;
             attribs.Desc.ShaderType = SHADER_TYPE_PIXEL;
-            attribs.Desc.Name = "Asteroids PS";
+            attribs.Desc.Name  = "Asteroids PS";
             attribs.EntryPoint = "asteroid_ps_d3d11";
-            attribs.FilePath = "asteroid_ps_d3d11.hlsl";
+            attribs.FilePath   = "asteroid_ps_d3d11.hlsl";
             attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
             attribs.UseCombinedTextureSamplers = true;
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-
-            StaticSamplerDesc samDesc;
-            samDesc.Desc.MagFilter       = FILTER_TYPE_ANISOTROPIC;
-            samDesc.Desc.MinFilter       = FILTER_TYPE_ANISOTROPIC;
-            samDesc.Desc.MipFilter       = FILTER_TYPE_ANISOTROPIC;
-            samDesc.Desc.AddressU        = TEXTURE_ADDRESS_WRAP;
-            samDesc.Desc.AddressV        = TEXTURE_ADDRESS_WRAP;
-            samDesc.Desc.AddressW        = TEXTURE_ADDRESS_WRAP;
-            samDesc.Desc.MinLOD          = -D3D11_FLOAT32_MAX;
-            samDesc.Desc.MaxLOD          = D3D11_FLOAT32_MAX;
-            samDesc.Desc.MipLODBias      = 0.0f;
-            samDesc.Desc.MaxAnisotropy   = TEXTURE_ANISO;
-            samDesc.Desc.ComparisonFunc  = COMPARISON_FUNC_NEVER;
-            samDesc.SamplerOrTextureName = "Tex";
-            attribs.Desc.StaticSamplers  = &samDesc;
-            attribs.Desc.NumStaticSamplers = 1;
-
             mDevice->CreateShader(attribs, &ps);
         }
+
+        StaticSamplerDesc samDesc;
+        samDesc.ShaderStages         = SHADER_TYPE_PIXEL;
+        samDesc.Desc.MagFilter       = FILTER_TYPE_ANISOTROPIC;
+        samDesc.Desc.MinFilter       = FILTER_TYPE_ANISOTROPIC;
+        samDesc.Desc.MipFilter       = FILTER_TYPE_ANISOTROPIC;
+        samDesc.Desc.AddressU        = TEXTURE_ADDRESS_WRAP;
+        samDesc.Desc.AddressV        = TEXTURE_ADDRESS_WRAP;
+        samDesc.Desc.AddressW        = TEXTURE_ADDRESS_WRAP;
+        samDesc.Desc.MinLOD          = -D3D11_FLOAT32_MAX;
+        samDesc.Desc.MaxLOD          = D3D11_FLOAT32_MAX;
+        samDesc.Desc.MipLODBias      = 0.0f;
+        samDesc.Desc.MaxAnisotropy   = TEXTURE_ANISO;
+        samDesc.Desc.ComparisonFunc  = COMPARISON_FUNC_NEVER;
+        samDesc.SamplerOrTextureName = "Tex";
+
+        PSODesc.ResourceLayout.StaticSamplers    = &samDesc;
+        PSODesc.ResourceLayout.NumStaticSamplers = 1;
+
+        ShaderResourceVariableDesc Variables[] =
+        {
+            {SHADER_TYPE_PIXEL, "Tex", m_BindingMode == BindingMode::Dynamic ? SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC : SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE}
+        };
+        PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+        PSODesc.ResourceLayout.Variables           = Variables;
+        PSODesc.ResourceLayout.NumVariables        = _countof(Variables);
+
         PSODesc.GraphicsPipeline.RTVFormats[0] = mSwapChain->GetDesc().ColorBufferFormat;
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
         PSODesc.GraphicsPipeline.DSVFormat = mSwapChain->GetDesc().DepthBufferFormat;
@@ -309,6 +316,8 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             NumSRBs = NUM_UNIQUE_TEXTURES;
         }
         mDevice->CreatePipelineState(PSODesc, &mAsteroidsPSO);
+        mAsteroidsPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "DrawConstantBuffer")->Set(mDrawConstantBuffer);
+
         mAsteroidsSRBs.resize(NumSRBs);
         for(size_t srb = 0; srb < mAsteroidsSRBs.size(); ++srb)
         {
@@ -347,8 +356,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         };
 
         RefCntAutoPtr<IShader> vs, ps;
-        ShaderCreationAttribs attribs;
-        attribs.Desc.DefaultVariableType = SHADER_VARIABLE_TYPE_STATIC;
+        ShaderCreateInfo attribs;
         attribs.Desc.ShaderType = SHADER_TYPE_VERTEX;
         attribs.Desc.Name = "Skybox VS";
         attribs.EntryPoint = "skybox_vs";
@@ -357,14 +365,18 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         attribs.UseCombinedTextureSamplers = true;
         attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
         mDevice->CreateShader(attribs, &vs);
-        vs->GetShaderVariable("SkyboxConstantBuffer")->Set(mSkyboxConstantBuffer);
 
         attribs.Desc.Name = "Skybox PS";
         attribs.EntryPoint = "skybox_ps";
         attribs.FilePath = "skybox_ps.hlsl";
         attribs.Desc.ShaderType = SHADER_TYPE_PIXEL;
+        mDevice->CreateShader(attribs, &ps);
 
+        PipelineStateDesc PSODesc;
+        PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+        
         StaticSamplerDesc ssdesc;
+        ssdesc.ShaderStages         = SHADER_TYPE_PIXEL;
         ssdesc.SamplerOrTextureName = "Skybox";
         ssdesc.Desc.MagFilter       = FILTER_TYPE_ANISOTROPIC;
         ssdesc.Desc.MinFilter       = FILTER_TYPE_ANISOTROPIC;
@@ -373,12 +385,9 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         ssdesc.Desc.AddressV        = TEXTURE_ADDRESS_WRAP;
         ssdesc.Desc.AddressW        = TEXTURE_ADDRESS_WRAP;
         ssdesc.Desc.MaxAnisotropy   = TEXTURE_ANISO;
-        attribs.Desc.StaticSamplers = &ssdesc;
-        attribs.Desc.NumStaticSamplers = 1;
-        mDevice->CreateShader(attribs, &ps);
-        ps->GetShaderVariable("Skybox")->Set(mSkyboxSRV);
+        PSODesc.ResourceLayout.StaticSamplers = &ssdesc;
+        PSODesc.ResourceLayout.NumStaticSamplers = 1;
 
-        PipelineStateDesc PSODesc;
         PSODesc.Name = "Skybox PSO";
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = inputDesc;
         PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof(inputDesc);
@@ -393,6 +402,8 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
         mDevice->CreatePipelineState(PSODesc, &mSkyboxPSO);
+        mSkyboxPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "SkyboxConstantBuffer")->Set(mSkyboxConstantBuffer);
+        mSkyboxPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "Skybox")->Set(mSkyboxSRV);
         mSkyboxPSO->CreateShaderResourceBinding(&mSkyboxSRB, true);
     }
 
@@ -443,8 +454,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         
         RefCntAutoPtr<IShader> sprite_vs, sprite_ps, font_ps;
         {
-            ShaderCreationAttribs attribs;
-            attribs.Desc.DefaultVariableType = SHADER_VARIABLE_TYPE_STATIC;
+            ShaderCreateInfo attribs;
             attribs.Desc.ShaderType = SHADER_TYPE_VERTEX;
             attribs.Desc.Name = "Sprite VS";
             attribs.EntryPoint = "sprite_vs";
@@ -456,8 +466,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         }
 
         {
-            ShaderCreationAttribs attribs;
-            attribs.Desc.DefaultVariableType = SHADER_VARIABLE_TYPE_DYNAMIC;
+            ShaderCreateInfo attribs;
             attribs.Desc.ShaderType = SHADER_TYPE_PIXEL;
             attribs.Desc.Name = "Sprite PS";
             attribs.EntryPoint = "sprite_ps";
@@ -469,8 +478,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         }
 
         {
-            ShaderCreationAttribs attribs;
-            attribs.Desc.DefaultVariableType = SHADER_VARIABLE_TYPE_STATIC;
+            ShaderCreateInfo attribs;
             attribs.Desc.ShaderType = SHADER_TYPE_PIXEL;
             attribs.Desc.Name = "Font PS";
             attribs.EntryPoint = "font_ps";
@@ -479,18 +487,20 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.UseCombinedTextureSamplers = true;
             attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
             mDevice->CreateShader(attribs, &font_ps);
-            font_ps->GetShaderVariable("Tex")->Set(mFontTextureSRV);
         }
-
+        
         PSODesc.Name = "Sprite PSO";
+        PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC;
         PSODesc.GraphicsPipeline.pVS = sprite_vs;
         PSODesc.GraphicsPipeline.pPS = sprite_ps;
         mDevice->CreatePipelineState(PSODesc, &mSpritePSO);
         mSpritePSO->CreateShaderResourceBinding(&mSpriteSRB, true);
 
         PSODesc.Name = "Font PSO";
+        PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
         PSODesc.GraphicsPipeline.pPS = font_ps;
         mDevice->CreatePipelineState(PSODesc, &mFontPSO);
+        mFontPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "Tex")->Set(mFontTextureSRV);
         mFontPSO->CreateShaderResourceBinding(&mFontSRB, true);
     }
 
