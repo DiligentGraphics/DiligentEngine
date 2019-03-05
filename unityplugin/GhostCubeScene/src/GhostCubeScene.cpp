@@ -93,45 +93,46 @@ void GhostCubeScene::OnGraphicsInitialized()
         PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
         PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
 
-        ShaderCreationAttribs CreationAttribs;
+        ShaderCreateInfo ShaderCI;
         BasicShaderSourceStreamFactory BasicSSSFactory("shaders");
-        CreationAttribs.pShaderSourceStreamFactory = &BasicSSSFactory;
-        CreationAttribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-        CreationAttribs.Desc.DefaultVariableType = SHADER_VARIABLE_TYPE_STATIC;
-        CreationAttribs.UseCombinedTextureSamplers = true;
+        ShaderCI.pShaderSourceStreamFactory = &BasicSSSFactory;
+        ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+        ShaderCI.UseCombinedTextureSamplers = true;
 
         CreateUniformBuffer(pDevice, sizeof(float4x4), "Mirror VS constants CB", &m_pMirrorVSConstants);
 
         RefCntAutoPtr<IShader> pVS;
         {
-            CreationAttribs.Desc.ShaderType = SHADER_TYPE_VERTEX;
-            CreationAttribs.EntryPoint = "main";
-            CreationAttribs.Desc.Name = "Mirror VS";
-            CreationAttribs.FilePath = "Mirror.vsh";
-            pDevice->CreateShader(CreationAttribs, &pVS);
-            pVS->GetShaderVariable("Constants")->Set(m_pMirrorVSConstants);
+            ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Mirror VS";
+            ShaderCI.FilePath = "Mirror.vsh";
+            pDevice->CreateShader(ShaderCI, &pVS);
         }
 
         
         RefCntAutoPtr<IShader> pPS;
         {
-            CreationAttribs.Desc.ShaderType = SHADER_TYPE_PIXEL;
-            CreationAttribs.EntryPoint = "main";
-            CreationAttribs.Desc.Name = "Mirror PS";
-            CreationAttribs.FilePath = "Mirror.psh";
-            StaticSamplerDesc StaticSamplers[] =
-            {
-                {"g_tex2Reflection", Sam_Aniso4xClamp}
-            };
-            CreationAttribs.Desc.StaticSamplers = StaticSamplers;
-            CreationAttribs.Desc.NumStaticSamplers = _countof(StaticSamplers);
-            pDevice->CreateShader(CreationAttribs, &pPS);
-            pPS->GetShaderVariable("g_tex2Reflection")->Set(m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
+            ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Mirror PS";
+            ShaderCI.FilePath = "Mirror.psh";
+            pDevice->CreateShader(ShaderCI, &pPS);
         }
+
+        PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+        StaticSamplerDesc StaticSamplers[] =
+        {
+            {SHADER_TYPE_PIXEL, "g_tex2Reflection", Sam_Aniso4xClamp}
+        };
+        PSODesc.ResourceLayout.StaticSamplers    = StaticSamplers;
+        PSODesc.ResourceLayout.NumStaticSamplers = _countof(StaticSamplers);
 
         PSODesc.GraphicsPipeline.pVS = pVS;
         PSODesc.GraphicsPipeline.pPS = pPS;
         pDevice->CreatePipelineState(PSODesc, &m_pMirrorPSO);
+        m_pMirrorPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "Constants")->Set(m_pMirrorVSConstants);
+        m_pMirrorPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2Reflection")->Set(m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
         m_pMirrorPSO->CreateShaderResourceBinding(&m_pMirrorSRB, true);
     }
 #if D3D12_SUPPORTED
