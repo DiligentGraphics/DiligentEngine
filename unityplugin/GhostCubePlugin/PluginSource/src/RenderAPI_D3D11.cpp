@@ -9,7 +9,7 @@
 
 #include "RenderAPI.h"
 #include "Unity/IUnityGraphicsD3D11.h"
-#include "RenderDeviceFactoryD3D11.h"
+#include "EngineFactoryD3D11.h"
 #include "RenderDeviceD3D11.h"
 
 using namespace Diligent;
@@ -50,7 +50,7 @@ void RenderAPI_D3D11::ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInt
             CComPtr<ID3D11DeviceContext> d3d11ImmediateContext;
             m_d3d11Device->GetImmediateContext(&d3d11ImmediateContext);
             auto *pFactoryD3d11 = GetEngineFactoryD3D11();
-            EngineD3D11Attribs Attribs;
+            EngineD3D11CreateInfo Attribs;
             pFactoryD3d11->AttachToD3D11Device(m_d3d11Device, d3d11ImmediateContext, Attribs, &m_Device, &m_Context, 0);
             break;
         }

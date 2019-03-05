@@ -31,19 +31,19 @@
 #include "StringTools.h"
 
 #if D3D11_SUPPORTED
-#   include "RenderDeviceFactoryD3D11.h"
+#   include "EngineFactoryD3D11.h"
 #endif
 
 #if D3D12_SUPPORTED
-#   include "RenderDeviceFactoryD3D12.h"
+#   include "EngineFactoryD3D12.h"
 #endif
 
 #if GL_SUPPORTED || GLES_SUPPORTED
-#   include "RenderDeviceFactoryOpenGL.h"
+#   include "EngineFactoryOpenGL.h"
 #endif
 
 #if VULKAN_SUPPORTED
-#   include "RenderDeviceFactoryVk.h"
+#   include "EngineFactoryVk.h"
 #endif
 
 #if METAL_SUPPORTED
@@ -164,7 +164,7 @@ void TestApp::InitializeDiligentEngine(
 #if D3D11_SUPPORTED
         case DeviceType::D3D11:
         {
-            EngineD3D11Attribs DeviceAttribs;
+            EngineD3D11CreateInfo DeviceAttribs;
 #if ENGINE_DLL
             GetEngineFactoryD3D11Type GetEngineFactoryD3D11 = nullptr;
             // Load the dll and import GetEngineFactoryD3D11() function
@@ -219,7 +219,7 @@ void TestApp::InitializeDiligentEngine(
                 AdapterDisplayModes.emplace_back(std::move(DisplayModes));
             }
 
-            EngineD3D12Attribs EngD3D12Attribs;
+            EngineD3D12CreateInfo EngD3D12Attribs;
             EngD3D12Attribs.CPUDescriptorHeapAllocationSize[0] = 64; // D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
             EngD3D12Attribs.CPUDescriptorHeapAllocationSize[1] = 32; // D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER
             EngD3D12Attribs.CPUDescriptorHeapAllocationSize[2] = 16; // D3D12_DESCRIPTOR_HEAP_TYPE_RTV
@@ -275,11 +275,11 @@ void TestApp::InitializeDiligentEngine(
             // Load the dll and import GetEngineFactoryVk() function
             LoadGraphicsEngineVk(GetEngineFactoryVk);
 #endif
-            EngineVkAttribs EngVkAttribs;
+            EngineVkCreateInfo EngVkAttribs;
 
             EngVkAttribs.EnableValidation = true;
-            EngVkAttribs.MainDescriptorPoolSize = EngineVkAttribs::DescriptorPoolSize{ 64, 64, 256, 256, 64, 32, 32, 32, 32 };
-            EngVkAttribs.DynamicDescriptorPoolSize = EngineVkAttribs::DescriptorPoolSize{ 64, 64, 256, 256, 64, 32, 32, 32, 32 };
+            EngVkAttribs.MainDescriptorPoolSize = EngineVkCreateInfo::DescriptorPoolSize{ 64, 64, 256, 256, 64, 32, 32, 32, 32 };
+            EngVkAttribs.DynamicDescriptorPoolSize = EngineVkCreateInfo::DescriptorPoolSize{ 64, 64, 256, 256, 64, 32, 32, 32, 32 };
             EngVkAttribs.UploadHeapPageSize = 32*1024;
             //EngVkAttribs.DeviceLocalMemoryReserveSize = 32 << 20;
             //EngVkAttribs.HostVisibleMemoryReserveSize = 48 << 20;
@@ -364,7 +364,7 @@ void TestApp::InitializeRenderers()
     TestTextureCreation TestTexCreation{m_pDevice, m_pImmediateContext};
     TestPSOCompatibility TestPSOCompat{m_pDevice};
     TestBrokenShader TestBrknShdr{m_pDevice};
-        
+
     m_TestGS.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, m_pSwapChain, 0.4f, -0.9f, 0.5f, 0.5f));

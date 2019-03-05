@@ -13,7 +13,7 @@
 #include "RenderDeviceD3D12.h"
 #include "DeviceContextD3D12.h"
 #include "CommandQueueD3D12.h"
-#include "RenderDeviceFactoryD3D12.h"
+#include "EngineFactoryD3D12.h"
 #include "SwapChainBase.h"
 #include "DefaultRawMemoryAllocator.h"
 #include "DXGITypeConversions.h"
@@ -204,7 +204,7 @@ DiligentGraphicsAdapterD3D12::DiligentGraphicsAdapterD3D12(UnityGraphicsD3D12Emu
     auto CmdQueue = NEW_RC_OBJ(DefaultAllocator, "UnityCommandQueueImpl instance", ProxyCommandQueueD3D12)(*GraphicsImpl);
 
     auto *pFactoryD3D12 = GetEngineFactoryD3D12();
-    EngineD3D12Attribs Attribs;
+    EngineD3D12CreateInfo Attribs;
     std::array<ICommandQueueD3D12*, 1> CmdQueues = {CmdQueue};
     pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueues.size(), CmdQueues.data(), Attribs, &m_pDevice, &m_pDeviceCtx, 0);
 }

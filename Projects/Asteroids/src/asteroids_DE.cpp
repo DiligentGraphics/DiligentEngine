@@ -23,20 +23,20 @@
 #include "asteroids_DE.h"
 
 #if D3D11_SUPPORTED
-#include "RenderDeviceFactoryD3D11.h"
+#include "EngineFactoryD3D11.h"
 #endif
 
 #if D3D12_SUPPORTED
-#include "RenderDeviceFactoryD3D12.h"
+#include "EngineFactoryD3D12.h"
 #endif
 
 
 #if GL_SUPPORTED
-#include "RenderDeviceFactoryOpenGL.h"
+#include "EngineFactoryOpenGL.h"
 #endif
 
 #if VULKAN_SUPPORTED
-#include "RenderDeviceFactoryVk.h"
+#include "EngineFactoryVk.h"
 #endif
 
 #include "BasicShaderSourceStreamFactory.h"
@@ -92,7 +92,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #if D3D11_SUPPORTED
         case DeviceType::D3D11:
         {
-            EngineD3D11Attribs DeviceAttribs;
+            EngineD3D11CreateInfo DeviceAttribs;
             DeviceAttribs.DebugFlags = (Uint32)EngineD3D11DebugFlags::VerifyCommittedShaderResources |
                                         (Uint32)EngineD3D11DebugFlags::VerifyCommittedResourceRelevance;
 
@@ -111,7 +111,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #if D3D12_SUPPORTED
         case DeviceType::D3D12:
         {
-            EngineD3D12Attribs Attribs;
+            EngineD3D12CreateInfo Attribs;
             Attribs.GPUDescriptorHeapDynamicSize[0] = 65536*4;
             Attribs.GPUDescriptorHeapSize[0] = 65536; // For mutable mode
             Attribs.NumCommandsToFlushCmdList = 1024;
@@ -133,7 +133,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #if VULKAN_SUPPORTED
         case DeviceType::Vulkan:
         {
-            EngineVkAttribs Attribs;
+            EngineVkCreateInfo Attribs;
             Attribs.DynamicHeapSize = 64 << 20;
 #if ENGINE_DLL
             if(!GetEngineFactoryVulkan)

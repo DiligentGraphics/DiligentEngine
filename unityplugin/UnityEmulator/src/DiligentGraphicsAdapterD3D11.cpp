@@ -3,7 +3,7 @@
 
 #include "DiligentGraphicsAdapterD3D11.h"
 #include "UnityGraphicsD3D11Emulator.h"
-#include "RenderDeviceFactoryD3D11.h"
+#include "EngineFactoryD3D11.h"
 #include "SwapChainBase.h"
 #include "SwapChainD3D11.h"
 #include "DefaultRawMemoryAllocator.h"
@@ -108,7 +108,7 @@ DiligentGraphicsAdapterD3D11::DiligentGraphicsAdapterD3D11(const UnityGraphicsD3
     ID3D11Device *pd3d11Device = GraphicsD3D11Impl->GetD3D11Device();
     ID3D11DeviceContext *pd3d11Context = GraphicsD3D11Impl->GetD3D11Context();
     auto *pFactoryD3d11 = GetEngineFactoryD3D11();
-    EngineD3D11Attribs Attribs;
+    EngineD3D11CreateInfo Attribs;
     pFactoryD3d11->AttachToD3D11Device(pd3d11Device, pd3d11Context, Attribs, &m_pDevice, &m_pDeviceCtx, 0);
 }
 

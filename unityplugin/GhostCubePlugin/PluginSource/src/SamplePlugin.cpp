@@ -94,11 +94,10 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         PSODesc.GraphicsPipeline.pVS = pVS;
         PSODesc.GraphicsPipeline.pPS = pPS;
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
-        PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof(LayoutElems);
+        PSODesc.GraphicsPipeline.InputLayout.NumElements    = _countof(LayoutElems);
         pDevice->CreatePipelineState(PSODesc, &m_PSO);
-        m_PSO->CreateShaderResourceBinding(&m_SRB, true);
-
         m_PSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
+        m_PSO->CreateShaderResourceBinding(&m_SRB, true);
     }
 
     {
