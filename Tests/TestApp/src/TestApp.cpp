@@ -47,7 +47,7 @@
 #endif
 
 #if METAL_SUPPORTED
-#   include "RenderDeviceFactoryMtl.h"
+#   include "EngineFactoryMtl.h"
 #endif
 
 #include "FileSystem.h"
@@ -312,7 +312,7 @@ void TestApp::InitializeDiligentEngine(
 #if METAL_SUPPORTED
         case DeviceType::Metal:
         {
-            EngineMtlAttribs MtlAttribs;
+            EngineMtlCreateInfo MtlAttribs;
 
             ppContexts.resize(1 + NumDeferredCtx);
             auto *pFactoryMtl = GetEngineFactoryMtl();
