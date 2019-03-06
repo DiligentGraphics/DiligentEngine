@@ -156,7 +156,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 LoadGraphicsEngineOpenGL(GetEngineFactoryOpenGL);
             }
 #endif
-            EngineGLAttribs CreationAttribs;
+            EngineGLCreateInfo CreationAttribs;
             CreationAttribs.pNativeWndHandle = hWnd;
             GetEngineFactoryOpenGL()->CreateDeviceAndSwapChainGL(
                 CreationAttribs, &mDevice, &mDeviceCtxt, SwapChainDesc, &mSwapChain);

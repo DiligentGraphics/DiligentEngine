@@ -38,29 +38,29 @@ using namespace Diligent;
 ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceContext *pContext ) :
     UnitTestBase("Shader Converter Test")
 {
-    ShaderCreationAttribs CreationAttrs;
-    CreationAttrs.FilePath = "Shaders\\ConverterTest.fx";
+    ShaderCreateInfo ShaderCI;
+    ShaderCI.FilePath = "Shaders\\ConverterTest.fx";
     BasicShaderSourceStreamFactory BasicSSSFactory("Shaders");
-    CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
-    CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-    CreationAttrs.Desc.Name = "Test converted shader";
-    CreationAttrs.UseCombinedTextureSamplers = pRenderDevice->GetDeviceCaps().IsGLDevice();
+    ShaderCI.pShaderSourceStreamFactory = &BasicSSSFactory;
+    ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+    ShaderCI.Desc.Name = "Test converted shader";
+    ShaderCI.UseCombinedTextureSamplers = pRenderDevice->GetDeviceCaps().IsGLDevice();
     RefCntAutoPtr<IHLSL2GLSLConversionStream> pStream;
-    CreationAttrs.ppConversionStream = pStream.GetRawDblPtr();
+    ShaderCI.ppConversionStream = pStream.GetRawDblPtr();
 
     {
-        CreationAttrs.Desc.ShaderType = SHADER_TYPE_PIXEL;
-        CreationAttrs.EntryPoint = "TestPS";
+        ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
+        ShaderCI.EntryPoint = "TestPS";
         RefCntAutoPtr<IShader> pShader;
-        pRenderDevice->CreateShader( CreationAttrs, &pShader );
+        pRenderDevice->CreateShader( ShaderCI, &pShader );
         VERIFY_EXPR( pShader );
     }
 
     {
-        CreationAttrs.EntryPoint = "TestVS";
-        CreationAttrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
+        ShaderCI.EntryPoint = "TestVS";
+        ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
         RefCntAutoPtr<IShader> pShader;
-        pRenderDevice->CreateShader( CreationAttrs, &pShader );
+        pRenderDevice->CreateShader( ShaderCI, &pShader );
         VERIFY_EXPR( pShader );
     }
 
@@ -68,11 +68,11 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
     if(pRenderDevice->GetDeviceCaps().bComputeShadersSupported)
     {
 #if PLATFORM_LINUX
-        CreationAttrs.FilePath = "Shaders\\CSConversionTest.fx";
-        CreationAttrs.EntryPoint = "TestCS";
-        CreationAttrs.Desc.ShaderType = SHADER_TYPE_COMPUTE;
+        ShaderCI.FilePath = "Shaders\\CSConversionTest.fx";
+        ShaderCI.EntryPoint = "TestCS";
+        ShaderCI.Desc.ShaderType = SHADER_TYPE_COMPUTE;
         RefCntAutoPtr<IShader> pShader;
-        pRenderDevice->CreateShader( CreationAttrs, &pShader );
+        pRenderDevice->CreateShader( ShaderCI, &pShader );
         VERIFY_EXPR( pShader );
 #elif PLATFORM_WIN32
         status = "Skipped compute shader conversion test as on Win32, only 8 image uniforms are allowed. Besides, an error is generated when passing image as a function argument.";

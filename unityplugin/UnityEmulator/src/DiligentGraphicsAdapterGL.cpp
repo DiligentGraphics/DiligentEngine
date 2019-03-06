@@ -3,7 +3,7 @@
 #if GL_SUPPORTED || GLES_SUPPORTED
 
 #include "UnityGraphicsGLCoreES_Emulator.h"
-#include "RenderDeviceFactoryOpenGL.h"
+#include "EngineFactoryOpenGL.h"
 #include "SwapChainBase.h"
 #include "DefaultRawMemoryAllocator.h"
 
@@ -69,7 +69,7 @@ DiligentGraphicsAdapterGL::DiligentGraphicsAdapterGL(const UnityGraphicsGLCoreES
     auto *UnityGraphicsGLImpl = UnityGraphicsGL.GetGraphicsImpl();
 
     auto *pFactoryGL = GetEngineFactoryOpenGL();
-    EngineGLAttribs Attribs;
+    EngineGLCreateInfo Attribs;
     pFactoryGL->AttachToActiveGLContext(Attribs, &m_pDevice, &m_pDeviceCtx);
 
     auto BackBufferGLFormat = UnityGraphicsGLImpl->GetBackBufferFormat();

@@ -6,7 +6,7 @@
 #if SUPPORT_OPENGL_UNIFIED
 
 #include "RenderAPI.h"
-#include "RenderDeviceFactoryOpenGL.h"
+#include "EngineFactoryOpenGL.h"
 #include "DeviceContextGL.h"
 #include "RenderDeviceGL.h"
 
@@ -49,7 +49,7 @@ void RenderAPI_OpenGLCoreES::ProcessDeviceEvent(UnityGfxDeviceEventType type, IU
     if (type == kUnityGfxDeviceEventInitialize)
     {
         auto *pFactoryGL = GetEngineFactoryOpenGL();
-        EngineGLAttribs Attribs;
+        EngineGLCreateInfo Attribs;
         pFactoryGL->AttachToActiveGLContext(Attribs, &m_Device, &m_Context);
         if (m_Context)
         {

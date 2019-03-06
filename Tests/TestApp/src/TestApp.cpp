@@ -249,8 +249,8 @@ void TestApp::InitializeDiligentEngine(
             // Load the dll and import GetEngineFactoryOpenGL() function
             LoadGraphicsEngineOpenGL(GetEngineFactoryOpenGL);
 #endif
-            auto *pFactoryOpenGL = GetEngineFactoryOpenGL();
-            EngineGLAttribs CreationAttribs;
+            auto* pFactoryOpenGL = GetEngineFactoryOpenGL();
+            EngineGLCreateInfo CreationAttribs;
             CreationAttribs.pNativeWndHandle = NativeWindowHandle;
 #if PLATFORM_LINUX
             CreationAttribs.pDisplay = display;
