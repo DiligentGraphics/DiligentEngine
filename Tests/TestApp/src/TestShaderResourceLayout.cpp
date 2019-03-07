@@ -30,6 +30,8 @@
 
 using namespace Diligent;
 
+void PrintShaderResources(IShader* pShader);
+
 TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDeviceContext *pContext ) :
     UnitTestBase("Shader resource layout initialization test"),
     m_pDeviceContext(pContext)
@@ -201,6 +203,8 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
 
         pDevice->CreateShader(CreationAttrs, &pPS);
         VERIFY_EXPR(pPS);
+
+        PrintShaderResources(pPS);
     }
 
     PipelineStateDesc PSODesc;

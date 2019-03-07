@@ -27,8 +27,26 @@
 #include "pch.h"
 #include "TestShaderVarAccess.h"
 #include "BasicShaderSourceStreamFactory.h"
+#include "GraphicsAccessories.h"
 
 using namespace Diligent;
+
+void PrintShaderResources(IShader* pShader)
+{
+    std::stringstream ss;
+    ss << "Resources of shader '" << pShader->GetDesc().Name << "':" << std::endl;
+    for (Uint32 res=0; res < pShader->GetResourceCount(); ++res)
+    {
+        auto ResDec = pShader->GetResource(res);
+        std::stringstream name_ss;
+        name_ss << ResDec.Name;
+        if(ResDec.ArraySize > 1)
+            name_ss << "[" << ResDec.ArraySize << "]";
+        ss << std::setw(2) << std::right << res << ": " << std::setw(24) << std::left << name_ss.str()
+            << "   " << GetShaderResourceTypeLiteralName(ResDec.Type) << std::endl;
+    }
+    LOG_INFO_MESSAGE(ss.str());
+}
 
 TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext *pContext, Diligent::ISwapChain* pSwapChain ) :
     UnitTestBase("Shader variable access test"),
@@ -180,6 +198,8 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
 
         pDevice->CreateShader(CreationAttrs, &pVS);
         VERIFY_EXPR(pVS);
+
+        PrintShaderResources(pVS);
     }
 
     std::vector<ShaderResourceVariableDesc> VarDesc = 
@@ -220,6 +240,8 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         CreationAttrs.FilePath = pDevice->GetDeviceCaps().IsD3DDevice() ? "Shaders\\ShaderVarAccessTestDX.psh" : "Shaders\\ShaderVarAccessTestGL.psh";
         pDevice->CreateShader(CreationAttrs, &pPS);
         VERIFY_EXPR(pPS);
+
+        PrintShaderResources(pPS);
     }
 
 
