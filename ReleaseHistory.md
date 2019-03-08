@@ -121,6 +121,7 @@ m_pPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConsta
 ### Samples and Tutorials
 
 * Added [Tutorial12 - Render target](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial12_RenderTarget)
+  (credits to @dolphineye for contribution)
 
 ## v2.4.a
 
