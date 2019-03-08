@@ -27,7 +27,15 @@
 #include "pch.h"
 #include "TestSeparateTextureSampler.h"
 
-static const char g_ShaderSource[] = 
+static const char g_VSShaderSource[] = 
+R"(
+void VSMain(out float4 pos : SV_POSITION)
+{
+	pos = float4(0.0, 0.0, 0.0, 0.0);
+}
+)";
+
+static const char g_PSShaderSource[] = 
 R"(
 
 Texture2D g_Tex;
@@ -36,11 +44,6 @@ Texture2D g_Tex2;
 SamplerState g_Sam2;
 SamplerState g_Sam3[2];
 SamplerState g_Sam4[2];
-
-void VSMain(out float4 pos : SV_POSITION)
-{
-	pos = float4(0.0, 0.0, 0.0, 0.0);
-}
 
 void PSMain(out float4 col : SV_TARGET)
 {
@@ -58,10 +61,10 @@ using namespace Diligent;
 TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, IDeviceContext *pContext) : 
     UnitTestBase("Test separate texture sampler")
 {
-    if (pDevice->GetDeviceCaps().IsD3DDevice() /*|| pDevice->GetDeviceCaps().IsVulkanDevice()*/)
+    if (pDevice->GetDeviceCaps().IsD3DDevice() || pDevice->GetDeviceCaps().IsVulkanDevice())
     {
         ShaderCreateInfo Attrs;
-        Attrs.Source = g_ShaderSource;
+        Attrs.Source = g_VSShaderSource;
         Attrs.EntryPoint = "VSMain";
         Attrs.Desc.ShaderType = SHADER_TYPE_VERTEX;
         Attrs.Desc.Name = "VSMain (TestSeparateTextureSampler)";
@@ -69,6 +72,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         RefCntAutoPtr<IShader> pVS;
         pDevice->CreateShader(Attrs, &pVS);
 
+        Attrs.Source = g_PSShaderSource;
         Attrs.EntryPoint = "PSMain";
         Attrs.Desc.ShaderType = SHADER_TYPE_PIXEL;
         Attrs.Desc.Name = "PSMain (TestSeparateTextureSampler)";
@@ -129,6 +133,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Sam")->Set(pSampler);
         pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Sam4")->SetArray(ppSamplers, 0, 2);
         pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Tex2")->Set(pTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
+        VERIFY_EXPR(pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Sam2") == nullptr);
 
         auto VarCount = pSRB->GetVariableCount(SHADER_TYPE_PIXEL);
         VERIFY_EXPR(VarCount == 4);
@@ -137,7 +142,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
             auto* pVar = pSRB->GetVariable(SHADER_TYPE_PIXEL, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
-            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_PIXEL, pVar->GetName());
+            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
 

@@ -20,14 +20,4 @@
  *  all other commercial damages or losses), even if such Contributor has been advised 
  *  of the possibility of such damages.
  */
-
-#ifndef NOMINMAX
-#   define NOMINMAX
-#endif
-#include <Windows.h>
-
-#ifndef ENGINE_DLL 
-#   define ENGINE_DLL 1
-#endif
-
-#include "DiligentCore/Graphics/GraphicsEngineD3D11/interface/RenderDeviceFactoryD3D11.h"
+#include "DiligentCore/Graphics/GraphicsEngineD3DBase/interface/ShaderResourceVariableD3D.h"

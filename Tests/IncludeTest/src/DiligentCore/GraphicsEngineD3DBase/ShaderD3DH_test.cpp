@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/DeviceContextGL.h"
+#include "DiligentCore/Graphics/GraphicsEngineD3DBase/interface/ShaderD3D.h"

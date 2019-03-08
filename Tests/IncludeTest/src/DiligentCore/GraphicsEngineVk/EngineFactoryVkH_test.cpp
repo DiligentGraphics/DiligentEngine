@@ -21,5 +21,15 @@
  *  of the possibility of such damages.
  */
 
-#include <d3d11.h>
-#include "DiligentCore/Graphics/GraphicsEngineD3D11/interface/EngineD3D11Attribs.h"
+#if PLATFORM_WIN32
+#   ifndef NOMINMAX
+#       define NOMINMAX
+#   endif
+#   include <Windows.h>
+#endif
+
+#ifndef ENGINE_DLL 
+#   define ENGINE_DLL 1
+#endif
+
+#include "DiligentCore/Graphics/GraphicsEngineVulkan/interface/EngineFactoryVk.h"

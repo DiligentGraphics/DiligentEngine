@@ -295,7 +295,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             auto pVar = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_STATIC);
-            auto pVar2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, pVar->GetName());
+            auto pVar2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
     }
@@ -324,7 +324,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             auto pVar = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_STATIC);
-            auto pVar2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, pVar->GetName());
+            auto pVar2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
     }
@@ -422,7 +422,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             auto pVar = pSRB->GetVariable(SHADER_TYPE_VERTEX, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
-            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_VERTEX, pVar->GetName());
+            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_VERTEX, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
     }
@@ -434,7 +434,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             auto pVar = pSRB->GetVariable(SHADER_TYPE_PIXEL, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
-            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_PIXEL, pVar->GetName());
+            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
     }

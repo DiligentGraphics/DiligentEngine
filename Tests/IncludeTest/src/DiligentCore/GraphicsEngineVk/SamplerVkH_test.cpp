@@ -21,13 +21,5 @@
  *  of the possibility of such damages.
  */
 
-#ifndef NOMINMAX
-#   define NOMINMAX
-#endif
-#include <Windows.h>
-
-#ifndef ENGINE_DLL 
-#   define ENGINE_DLL 1
-#endif
-
-#include "DiligentCore/Graphics/GraphicsEngineD3D12/interface/RenderDeviceFactoryD3D12.h"
+#include "DiligentCore/External/vulkan/vulkan.h"
+#include "DiligentCore/Graphics/GraphicsEngineVulkan/interface/SamplerVk.h"
