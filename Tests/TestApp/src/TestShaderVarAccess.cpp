@@ -28,7 +28,7 @@
 #include "TestShaderVarAccess.h"
 #include "BasicShaderSourceStreamFactory.h"
 #include "GraphicsAccessories.h"
-#include "ShaderD3D.h"
+#include "../../../DiligentCore/Graphics/GraphicsEngineD3DBase/interface/ShaderD3D.h"
 
 using namespace Diligent;
 
