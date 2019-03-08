@@ -1,8 +1,126 @@
 
-## Current progress
+## v2.4.b
+
+### General
 
 * Added cmake options to disable specific back-ends and glslang
-* Improved DiligentCore installation
+* Improved engine support of GLES3.0 devices
+* Added new module - [DiligentFX](https://github.com/DiligentGraphics/DiligentFX), a high-level rendering framework
+  * Reworked light scattering post-processing effect to be ready-to-use component
+
+### API changes
+
+* Updated `IRenderDevice::CreateTexture()` and `IRenderDevice::CreateBuffer()` to take pointer
+  to initialization data rather than references.
+* Added `LayoutElement::AutoOffset` and `LayoutElement::AutoOffset` values to use instead of 0 when
+  automatically computing input layout elements offset and strides.
+* Renamed factory interfaces and headers:
+  * `IRenderDeviceFactoryD3D11` -> `IEngineFactoryD3D11`, RenderDeviceFactoryD3D11.h -> EngineFactoryD3D11.h
+  * `IRenderDeviceFactoryD3D12` -> `IEngineFactoryD3D12`, RenderDeviceFactoryD3D12.h -> EngineFactoryD3D12.h
+  * `IRenderDeviceFactoryOpenGL` -> `IEngineFactoryOpenGL`, RenderDeviceFactoryOpenGL.h -> EngineFactoryOpenGL.h
+  * `IRenderDeviceFactoryVk` -> `IEngineFactoryVk`, RenderDeviceFactoryVk.h -> EngineFactoryVk.h
+  * `IRenderDeviceFactoryMtl` -> `IEngineFactoryMtl`, RenderDeviceFactoryMtl.h -> EngineFactoryMtl.h
+* Renamed `IShaderVariable` -> `IShaderResourceVariable`
+* Renamed `SHADER_VARIABLE_TYPE` -> `SHADER_RESOURCE_VARIABLE_TYPE`
+* Renamed `ShaderVariableDesc` -> `ShaderResourceVariableDesc`
+* Added `SHADER_RESOURCE_TYPE` enum
+* Moved shader variable type and static sampler definition from shader creation to PSO creation stage:
+  * Removed `IShader::GetVariable`, `IShader::GetVariableCount`, and `IShader::BindResources` methods
+  * Added `IPipelineState::BindStaticResoruces`, `IPipelineState::BindStaticResoruces`, `IPipelineState::GetStaticVariableCount`,
+    and `IPipelineState::GetStaticShaderVariable` methods
+  * Added `PipelineResourceLayoutDesc` structure and `ResourceLayout` member to `PipelineStateDesc`
+* Added `ShaderResourceDesc` structure
+* Added `IShader::GetResourceCount` and `IShader::GetResource` methods
+* Replaced `IShaderVariable::GetArraySize` and `IShaderVariable::GetName` methods with `IShaderResourceVariable::GetResourceDesc` method
+* Added `HLSLShaderResourceDesc` structure as well as `IShaderResourceVariableD3D` and `IShaderResourceVariableD3D` interfaces 
+  to query HLSL-specific shader resource description (shader register)
+
+With the new API, shader initialization and pipeline state creation changed as shown below.
+
+Old API:
+
+```cpp
+RefCntAutoPtr<IShader> pVS;
+{
+    CreationAttribs.Desc.ShaderType = SHADER_TYPE_VERTEX;
+    CreationAttribs.EntryPoint = "main";
+    CreationAttribs.Desc.Name  = "Cube VS";
+    CreationAttribs.FilePath   = "cube.vsh";
+    pDevice->CreateShader(CreationAttribs, &pVS);
+    pVS->GetShaderVariable("Constants")->Set(m_VSConstants);
+}
+RefCntAutoPtr<IShader> pPS;
+{
+    CreationAttribs.Desc.ShaderType = SHADER_TYPE_PIXEL;
+    CreationAttribs.EntryPoint = "main";
+    CreationAttribs.Desc.Name  = "Cube PS";
+    CreationAttribs.FilePath   = "cube.psh";
+    ShaderVariableDesc Vars[] = 
+    {
+        {"g_Texture", SHADER_VARIABLE_TYPE_MUTABLE}
+    };
+    CreationAttribs.Desc.VariableDesc = Vars;
+    CreationAttribs.Desc.NumVariables = _countof(Vars);
+
+    SamplerDesc SamLinearClampDesc( FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR, 
+                                    TEXTURE_ADDRESS_CLAMP, TEXTURE_ADDRESS_CLAMP, TEXTURE_ADDRESS_CLAMP);
+    StaticSamplerDesc StaticSamplers[] = 
+    {
+        {"g_Texture", SamLinearClampDesc}
+    };
+    CreationAttribs.Desc.StaticSamplers = StaticSamplers;
+    CreationAttribs.Desc.NumStaticSamplers = _countof(StaticSamplers);
+
+    pDevice->CreateShader(CreationAttribs, &pPS);
+}
+// ...
+pDevice->CreatePipelineState(PSODesc, &m_pPSO);
+```
+
+New API:
+
+```cpp
+RefCntAutoPtr<IShader> pVS;
+{
+    ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
+    ShaderCI.EntryPoint      = "main";
+    ShaderCI.Desc.Name       = "Cube VS";
+    ShaderCI.FilePath        = "cube.vsh";
+    pDevice->CreateShader(ShaderCI, &pVS);
+}
+RefCntAutoPtr<IShader> pVS;
+{
+    ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
+    ShaderCI.EntryPoint      = "main";
+    ShaderCI.Desc.Name       = "Cube VS";
+    ShaderCI.FilePath        = "cube.vsh";
+    pDevice->CreateShader(ShaderCI, &pVS);
+}
+// ...
+ShaderResourceVariableDesc Vars[] = 
+{
+    {SHADER_TYPE_PIXEL, "g_Texture", SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE}
+};
+PSODesc.ResourceLayout.Variables    = Vars;
+PSODesc.ResourceLayout.NumVariables = _countof(Vars);
+
+// Define static sampler for g_Texture. Static samplers should be used whenever possible
+SamplerDesc SamLinearClampDesc( FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR, 
+                                TEXTURE_ADDRESS_CLAMP, TEXTURE_ADDRESS_CLAMP, TEXTURE_ADDRESS_CLAMP);
+StaticSamplerDesc StaticSamplers[] = 
+{
+    {SHADER_TYPE_PIXEL, "g_Texture", SamLinearClampDesc}
+};
+PSODesc.ResourceLayout.StaticSamplers    = StaticSamplers;
+PSODesc.ResourceLayout.NumStaticSamplers = _countof(StaticSamplers);
+
+pDevice->CreatePipelineState(PSODesc, &m_pPSO);
+m_pPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
+```
+
+### Samples and Tutorials
+
+* Added [Tutorial12 - Render target](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial12_RenderTarget)
 
 ## v2.4.a
 
