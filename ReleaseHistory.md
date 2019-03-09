@@ -26,7 +26,7 @@
 * Added `SHADER_RESOURCE_TYPE` enum
 * Moved shader variable type and static sampler definition from shader creation to PSO creation stage:
   * Removed `IShader::GetVariable`, `IShader::GetVariableCount`, and `IShader::BindResources` methods
-  * Added `IPipelineState::BindStaticResoruces`, `IPipelineState::BindStaticResoruces`, `IPipelineState::GetStaticVariableCount`,
+  * Added `IPipelineState::BindStaticResoruces`, `IPipelineState::GetStaticVariableCount`,
     and `IPipelineState::GetStaticShaderVariable` methods
   * Added `PipelineResourceLayoutDesc` structure and `ResourceLayout` member to `PipelineStateDesc`
 * Added `ShaderResourceDesc` structure
