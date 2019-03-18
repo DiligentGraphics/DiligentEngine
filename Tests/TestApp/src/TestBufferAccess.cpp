@@ -86,25 +86,25 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, I
         }
         else if( InstBuff == 4 )
         {
-            BuffDesc.Usage = USAGE_CPU_ACCESSIBLE;
+            BuffDesc.Usage = USAGE_STAGING;
             BuffDesc.BindFlags = BIND_NONE;
             BuffDesc.CPUAccessFlags = CPU_ACCESS_READ;
         }
         else if( InstBuff == 5 )
         {
-            BuffDesc.Usage = USAGE_CPU_ACCESSIBLE;
+            BuffDesc.Usage = USAGE_STAGING;
             BuffDesc.BindFlags = BIND_NONE;
             BuffDesc.CPUAccessFlags = CPU_ACCESS_WRITE;
         }
         else if( InstBuff == 6 )
         {
-            BuffDesc.Usage = USAGE_CPU_ACCESSIBLE;
+            BuffDesc.Usage = USAGE_STAGING;
             BuffDesc.BindFlags = BIND_NONE;
             BuffDesc.CPUAccessFlags = CPU_ACCESS_READ;
         }
 
         Diligent::BufferData BuffData;
-        if(BuffDesc.Usage != USAGE_DYNAMIC && !(BuffDesc.Usage == USAGE_CPU_ACCESSIBLE && (BuffDesc.CPUAccessFlags & CPU_ACCESS_WRITE) != 0))
+        if(BuffDesc.Usage != USAGE_DYNAMIC && !(BuffDesc.Usage == USAGE_STAGING && (BuffDesc.CPUAccessFlags & CPU_ACCESS_WRITE) != 0))
         {
             BuffData.pData = instance_offsets;
             BuffData.DataSize = sizeof(instance_offsets);

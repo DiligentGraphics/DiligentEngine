@@ -416,12 +416,12 @@ end
 
 TestBuffer2 = Buffer.Create({
 	Name = "Test Buffer2",
-    Usage = "USAGE_CPU_ACCESSIBLE",
+    Usage = "USAGE_STAGING",
 	CPUAccessFlags = {"CPU_ACCESS_WRITE"},
 	uiSizeInBytes = 256
 })
 assert(TestBuffer2.Name == "Test Buffer2")
-assert(TestBuffer2.Usage == "USAGE_CPU_ACCESSIBLE")
+assert(TestBuffer2.Usage == "USAGE_STAGING")
 assert(TestBuffer2.Mode == "BUFFER_MODE_UNDEFINED")
 assert(TestBuffer2.CPUAccessFlags[1] == "CPU_ACCESS_WRITE")
 
