@@ -206,7 +206,7 @@ DiligentGraphicsAdapterD3D12::DiligentGraphicsAdapterD3D12(UnityGraphicsD3D12Emu
     auto *pFactoryD3D12 = GetEngineFactoryD3D12();
     EngineD3D12CreateInfo Attribs;
     std::array<ICommandQueueD3D12*, 1> CmdQueues = {CmdQueue};
-    pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueues.size(), CmdQueues.data(), Attribs, &m_pDevice, &m_pDeviceCtx, 0);
+    pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueues.size(), CmdQueues.data(), Attribs, &m_pDevice, &m_pDeviceCtx);
 }
 
 void DiligentGraphicsAdapterD3D12::InitProxySwapChain()

@@ -146,7 +146,7 @@ void RenderAPI_D3D12::ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInt
             auto *pFactoryD3D12 = GetEngineFactoryD3D12();
             EngineD3D12CreateInfo Attribs;
             std::array<ICommandQueueD3D12*, 1> CmdQueues = {m_CmdQueue};
-            pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueues.size(), CmdQueues.data(), Attribs, &m_Device, &m_Context, 0);
+            pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueues.size(), CmdQueues.data(), Attribs, &m_Device, &m_Context);
             m_Device->QueryInterface(IID_RenderDeviceD3D12, reinterpret_cast<IObject**>(static_cast<IRenderDeviceD3D12**>(&m_RenderDeviceD3D12)));
         }
         break;

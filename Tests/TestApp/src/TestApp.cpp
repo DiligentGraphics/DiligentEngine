@@ -186,8 +186,9 @@ void TestApp::InitializeDiligentEngine(
                 AdapterDisplayModes.emplace_back(std::move(DisplayModes));
             }
 
+            DeviceAttribs.NumDeferredContexts = NumDeferredCtx;
             ppContexts.resize(1 + NumDeferredCtx);
-            pFactoryD3D11->CreateDeviceAndContextsD3D11(DeviceAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
+            pFactoryD3D11->CreateDeviceAndContextsD3D11(DeviceAttribs, &m_pDevice, ppContexts.data());
 
             if(NativeWindowHandle != nullptr)
                 pFactoryD3D11->CreateSwapChainD3D11(m_pDevice, ppContexts[0], SCDesc, FullScreenModeDesc{}, NativeWindowHandle, &m_pSwapChain);
@@ -228,7 +229,8 @@ void TestApp::InitializeDiligentEngine(
             EngD3D12Attribs.DynamicDescriptorAllocationChunkSize[1] = 8; // D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER
             ppContexts.resize(1 + NumDeferredCtx);
             
-            pFactoryD3D12->CreateDeviceAndContextsD3D12(EngD3D12Attribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
+            EngD3D12Attribs.NumDeferredContexts = NumDeferredCtx;
+            pFactoryD3D12->CreateDeviceAndContextsD3D12(EngD3D12Attribs, &m_pDevice, ppContexts.data());
 
             if (!m_pSwapChain && NativeWindowHandle != nullptr)
                 pFactoryD3D12->CreateSwapChainD3D12(m_pDevice, ppContexts[0], SCDesc, FullScreenModeDesc{}, NativeWindowHandle, &m_pSwapChain);
@@ -299,9 +301,10 @@ void TestApp::InitializeDiligentEngine(
             Features.vertexPipelineStoresAndAtomics = true;
             Features.fragmentStoresAndAtomics       = true;
 
+            EngVkAttribs.NumDeferredContexts = NumDeferredCtx;
             ppContexts.resize(1 + NumDeferredCtx);
             auto *pFactoryVk = GetEngineFactoryVk();
-            pFactoryVk->CreateDeviceAndContextsVk(EngVkAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
+            pFactoryVk->CreateDeviceAndContextsVk(EngVkAttribs, &m_pDevice, ppContexts.data());
 
             if (!m_pSwapChain && NativeWindowHandle != nullptr)
                 pFactoryVk->CreateSwapChainVk(m_pDevice, ppContexts[0], SCDesc, NativeWindowHandle, &m_pSwapChain);
@@ -314,9 +317,10 @@ void TestApp::InitializeDiligentEngine(
         {
             EngineMtlCreateInfo MtlAttribs;
 
+            MtlAttribs.NumDeferredContexts = NumDeferredCtx;
             ppContexts.resize(1 + NumDeferredCtx);
             auto *pFactoryMtl = GetEngineFactoryMtl();
-            pFactoryMtl->CreateDeviceAndContextsMtl(MtlAttribs, &m_pDevice, ppContexts.data(), NumDeferredCtx);
+            pFactoryMtl->CreateDeviceAndContextsMtl(MtlAttribs, &m_pDevice, ppContexts.data());
 
             if (!m_pSwapChain && NativeWindowHandle != nullptr)
                 pFactoryMtl->CreateSwapChainMtl(m_pDevice, ppContexts[0], SCDesc, NativeWindowHandle, &m_pSwapChain);

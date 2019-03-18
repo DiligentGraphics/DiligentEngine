@@ -109,7 +109,7 @@ DiligentGraphicsAdapterD3D11::DiligentGraphicsAdapterD3D11(const UnityGraphicsD3
     ID3D11DeviceContext *pd3d11Context = GraphicsD3D11Impl->GetD3D11Context();
     auto *pFactoryD3d11 = GetEngineFactoryD3D11();
     EngineD3D11CreateInfo Attribs;
-    pFactoryD3d11->AttachToD3D11Device(pd3d11Device, pd3d11Context, Attribs, &m_pDevice, &m_pDeviceCtx, 0);
+    pFactoryD3d11->AttachToD3D11Device(pd3d11Device, pd3d11Context, Attribs, &m_pDevice, &m_pDeviceCtx);
 }
 
 void DiligentGraphicsAdapterD3D11::InitProxySwapChain()

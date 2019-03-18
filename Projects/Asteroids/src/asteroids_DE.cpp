@@ -92,16 +92,17 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #if D3D11_SUPPORTED
         case DeviceType::D3D11:
         {
-            EngineD3D11CreateInfo DeviceAttribs;
-            DeviceAttribs.DebugFlags = (Uint32)EngineD3D11DebugFlags::VerifyCommittedShaderResources |
-                                        (Uint32)EngineD3D11DebugFlags::VerifyCommittedResourceRelevance;
+            EngineD3D11CreateInfo EngineCI;
+            EngineCI.NumDeferredContexts = mNumSubsets-1;
+            EngineCI.DebugFlags = (Uint32)EngineD3D11DebugFlags::VerifyCommittedShaderResources |
+                                  (Uint32)EngineD3D11DebugFlags::VerifyCommittedResourceRelevance;
 
 #if ENGINE_DLL
             if(!GetEngineFactoryD3D11)
                 LoadGraphicsEngineD3D11(GetEngineFactoryD3D11);
 #endif
             auto *pFactoryD3D11 = GetEngineFactoryD3D11();
-            pFactoryD3D11->CreateDeviceAndContextsD3D11( DeviceAttribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+            pFactoryD3D11->CreateDeviceAndContextsD3D11( EngineCI, &mDevice, ppContexts.data() );
             pFactoryD3D11->CreateSwapChainD3D11( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
         }
         break;
@@ -111,19 +112,20 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #if D3D12_SUPPORTED
         case DeviceType::D3D12:
         {
-            EngineD3D12CreateInfo Attribs;
-            Attribs.GPUDescriptorHeapDynamicSize[0] = 65536*4;
-            Attribs.GPUDescriptorHeapSize[0] = 65536; // For mutable mode
-            Attribs.NumCommandsToFlushCmdList = 1024;
+            EngineD3D12CreateInfo EngineCI;
+            EngineCI.NumDeferredContexts = mNumSubsets-1;
+            EngineCI.GPUDescriptorHeapDynamicSize[0] = 65536*4;
+            EngineCI.GPUDescriptorHeapSize[0] = 65536; // For mutable mode
+            EngineCI.NumCommandsToFlushCmdList = 1024;
 #ifndef _DEBUG
-            Attribs.DynamicDescriptorAllocationChunkSize[0] = 8192;
+            EngineCI.DynamicDescriptorAllocationChunkSize[0] = 8192;
 #endif
 #if ENGINE_DLL
             if(!GetEngineFactoryD3D12)
                 LoadGraphicsEngineD3D12(GetEngineFactoryD3D12);
 #endif
             auto *pFactoryD3D12 = GetEngineFactoryD3D12();
-            pFactoryD3D12->CreateDeviceAndContextsD3D12( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+            pFactoryD3D12->CreateDeviceAndContextsD3D12( EngineCI, &mDevice, ppContexts.data() );
             pFactoryD3D12->CreateSwapChainD3D12( mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain );
         }
         break;
@@ -133,14 +135,15 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 #if VULKAN_SUPPORTED
         case DeviceType::Vulkan:
         {
-            EngineVkCreateInfo Attribs;
-            Attribs.DynamicHeapSize = 64 << 20;
+            EngineVkCreateInfo EngineCI;
+            EngineCI.NumDeferredContexts = mNumSubsets-1;
+            EngineCI.DynamicHeapSize = 64 << 20;
 #if ENGINE_DLL
             if(!GetEngineFactoryVulkan)
                 LoadGraphicsEngineVk(GetEngineFactoryVulkan);
 #endif
             auto *pFactoryVk = GetEngineFactoryVulkan();
-            pFactoryVk->CreateDeviceAndContextsVk( Attribs, &mDevice, ppContexts.data(), mNumSubsets-1 );
+            pFactoryVk->CreateDeviceAndContextsVk( EngineCI, &mDevice, ppContexts.data() );
             pFactoryVk->CreateSwapChainVk( mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain );
         }
         break;

@@ -51,7 +51,7 @@ void RenderAPI_D3D11::ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInt
             m_d3d11Device->GetImmediateContext(&d3d11ImmediateContext);
             auto *pFactoryD3d11 = GetEngineFactoryD3D11();
             EngineD3D11CreateInfo Attribs;
-            pFactoryD3d11->AttachToD3D11Device(m_d3d11Device, d3d11ImmediateContext, Attribs, &m_Device, &m_Context, 0);
+            pFactoryD3d11->AttachToD3D11Device(m_d3d11Device, d3d11ImmediateContext, Attribs, &m_Device, &m_Context);
             break;
         }
 
