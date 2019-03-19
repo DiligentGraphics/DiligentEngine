@@ -4,14 +4,29 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project(DiligentEngine)
 
+option(DILIGENT_BUILD_FX "Build DiligentFX module" ON)
+option(DILIGENT_BUILD_SAMPLES "Build DiligentSamples module" ON)
+option(DILIGENT_BUILD_DEMOS "Build demo projects" ON)
+option(DILIGENT_BUILD_UNITY_PLUGIN "Build Unity plugin" ON)
+option(DILIGENT_BUILD_RENDER_SCRIPT "Build render script" ON)
+
 add_subdirectory(DiligentCore)
 add_subdirectory(DiligentTools)
 add_subdirectory(Common)
-add_subdirectory(DiligentFX)
-add_subdirectory(DiligentSamples)
-add_subdirectory(Projects)
 
-if(D3D11_SUPPORTED OR D3D12_SUPPORTED OR GL_SUPPORTED OR GLES_SUPPORTED)
+if(${DILIGENT_BUILD_FX})
+    add_subdirectory(DiligentFX)
+endif()
+
+if(${DILIGENT_BUILD_SAMPLES})
+    add_subdirectory(DiligentSamples)
+endif()
+
+if(${DILIGENT_BUILD_DEMOS})
+    add_subdirectory(Projects)
+endif()
+
+if(${DILIGENT_BUILD_UNITY_PLUGIN} AND (D3D11_SUPPORTED OR D3D12_SUPPORTED OR GL_SUPPORTED OR GLES_SUPPORTED))
     add_subdirectory(unityplugin)
 endif()
 

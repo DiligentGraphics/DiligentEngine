@@ -382,6 +382,10 @@ The options can be set through cmake UI or from the command line as in the examp
 cmake -D DILIGENT_NO_DIRECT3D11=TRUE -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
 ```
 
+Additionally, individual engine components can be enabled or disabled using the following options:
+`DILIGENT_BUILD_FX`, `DILIGENT_BUILD_SAMPLES`, `DILIGENT_BUILD_DEMOS`, `DILIGENT_BUILD_UNITY_PLUGIN`,
+`DILIGENT_BUILD_RENDER_SCRIPT`.
+
 By default Vulkan back-end is linked with glslang that enables compiling HLSL and GLSL shaders to SPIRV at run time.
 If run-time compilation is not required, glslang can be disabled with `DILIGENT_NO_GLSLANG` cmake option. This will significantly 
 reduce the size of the Vulkan back-end binary.
