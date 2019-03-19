@@ -8,7 +8,6 @@ option(DILIGENT_BUILD_FX "Build DiligentFX module" ON)
 option(DILIGENT_BUILD_SAMPLES "Build DiligentSamples module" ON)
 option(DILIGENT_BUILD_DEMOS "Build demo projects" ON)
 option(DILIGENT_BUILD_UNITY_PLUGIN "Build Unity plugin" ON)
-option(DILIGENT_BUILD_RENDER_SCRIPT "Build render script" ON)
 
 add_subdirectory(DiligentCore)
 add_subdirectory(DiligentTools)
