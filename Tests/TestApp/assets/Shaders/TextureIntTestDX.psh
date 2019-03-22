@@ -1,5 +1,5 @@
 
-Texture2D<uint4> g_tex2DTest : register(t4);
+Texture2D<DATA_TYPE> g_tex2DTest : register(t4);
 
 struct VSOut
 {

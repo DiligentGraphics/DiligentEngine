@@ -29,6 +29,7 @@
 #include "TestTexturing.h"
 #include "GraphicsUtilities.h"
 #include "BasicShaderSourceStreamFactory.h"
+#include "ShaderMacroHelper.h"
 
 using namespace Diligent;
 
@@ -179,14 +180,32 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
         m_pRenderDevice->CreateShader( CreationAttrs, &pVS );
     }
 
-    bool bIsIntTexture = PixelFormatAttribs.ComponentType == COMPONENT_TYPE_UINT ||
-                         PixelFormatAttribs.ComponentType == COMPONENT_TYPE_SINT;
+    bool bIsIntTexture = false;
     {
-        if( bIsIntTexture )
-            CreationAttrs.FilePath = bUseGLSL ? "Shaders\\TextureIntTestGL.psh" : "Shaders\\TextureIntTestDX.psh";
+        ShaderMacroHelper Macros;
+        if (PixelFormatAttribs.ComponentType == COMPONENT_TYPE_UINT || 
+            PixelFormatAttribs.ComponentType == COMPONENT_TYPE_SINT)
+        {
+            if (bUseGLSL)
+            {
+                CreationAttrs.FilePath = "Shaders\\TextureIntTestGL.psh";
+                Macros.AddShaderMacro("SAMPLER_TYPE", PixelFormatAttribs.ComponentType == COMPONENT_TYPE_UINT ? "usampler2D" : "isampler2D");
+            }
+            else
+            {
+                CreationAttrs.FilePath = "Shaders\\TextureIntTestDX.psh";
+                Macros.AddShaderMacro("DATA_TYPE", PixelFormatAttribs.ComponentType == COMPONENT_TYPE_UINT ? "uint4" : "int4");
+            }
+               
+            bIsIntTexture = true;
+        }
         else
+        {
             CreationAttrs.FilePath = bUseGLSL ? "Shaders\\TextureTestGL.psh" : "Shaders\\TextureTestDX.psh";
+            bIsIntTexture = false;
+        }
         CreationAttrs.Desc.ShaderType =  SHADER_TYPE_PIXEL;
+        CreationAttrs.Macros = Macros;
         m_pRenderDevice->CreateShader( CreationAttrs, &pPS );
     }
 
