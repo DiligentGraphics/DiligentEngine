@@ -259,7 +259,36 @@ After you clone the repo, run the following command from the engine's root folde
 cmake -H. -B./cmk_build/MacOS -G "Xcode"
 ```
 
-Open Xcode project file in cmk_build/MacOS folder to build the engine and run the applications. 
+The project will be located in `cmk_build/MacOS` folder.
+
+### Configuring Vulkan Build Environment
+
+By default there is no Vulkan implementation on MacOS. Diligent Engine links against Vulkan loader
+and can use any implementation such as [MoltenVK](https://github.com/KhronosGroup/MoltenVK)
+or [Vulkan Portability](https://github.com/gfx-rs/portability). Install [VulkanSDK](https://vulkan.lunarg.com/sdk/home#mac)
+and make sure that your system is properly configured as described [here](https://vulkan.lunarg.com/doc/sdk/latest/mac/getting_started.html).
+In particular, you may need to define the following environment variables (assuming that Vulkan SDK is installed at
+`~/LunarG/vulkansdk-macos`):
+
+```
+export VULKAN_SDK=~/LunarG/vulkansdk-macos/macOS
+export PATH=$VULKAN_SDK/bin:$PATH
+export DYLD_LIBRARY_PATH=$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH
+export VK_ICD_FILENAMES=$VULKAN_SDK/etc/vulkan/icd.d/MoltenVK_icd.json
+export VK_LAYER_PATH=$VULKAN_SDK/etc/vulkan/explicit_layer.d
+```
+
+Note that environment variables set in the shell are not seen by the applications launched from Launchpad
+or other desktop GUI. Thus to make sure that an application finds Vulkan libraries, it needs to be started from 
+the command line. Due to the same reason, the xcode project file should also be opened from the shell using 
+`open` command. With Xcode versions 7 and later, this behavior may need to be enabled first using the
+following command:
+
+```
+defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
+```
+
+Please refer to [this page](https://vulkan.lunarg.com/doc/sdk/latest/mac/getting_started.html) for more details.
 
 
 <a name="build_and_run_ios"></a>
