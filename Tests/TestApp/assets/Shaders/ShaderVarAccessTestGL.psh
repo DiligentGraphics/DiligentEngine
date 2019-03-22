@@ -45,12 +45,12 @@ layout(std140) buffer g_rwBuff_Dyn
 	vec4 data[];
 }rwBuff_Dyn;
 
-uniform samplerBuffer g_Buffer_Static;
-uniform samplerBuffer g_Buffer_StaticArr[2];
-uniform samplerBuffer g_Buffer_Mut;
-uniform samplerBuffer g_Buffer_MutArr[2];
-uniform samplerBuffer g_Buffer_Dyn;
-uniform samplerBuffer g_Buffer_DynArr[2];
+uniform samplerBuffer  g_Buffer_Static;
+uniform samplerBuffer  g_Buffer_StaticArr[2];
+uniform usamplerBuffer g_Buffer_Mut;
+uniform samplerBuffer  g_Buffer_MutArr[2];
+uniform samplerBuffer  g_Buffer_Dyn;
+uniform samplerBuffer  g_Buffer_DynArr[2];
 
 layout(location = 0) in vec4 f4Color;
  
