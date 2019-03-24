@@ -271,7 +271,7 @@ and can use a Vulkan Portability implementation such as [MoltenVK](https://githu
 or [gfx-portability](https://github.com/gfx-rs/portability). Install [VulkanSDK](https://vulkan.lunarg.com/sdk/home#mac)
 and make sure that your system is properly configured as described [here](https://vulkan.lunarg.com/doc/sdk/latest/mac/getting_started.html).
 In particular, you may need to define the following environment variables (assuming that Vulkan SDK is installed at
-`~/LunarG/vulkansdk-macos`):
+`~/LunarG/vulkansdk-macos` and you want to use MoltenVK):
 
 ```
 export VULKAN_SDK=~/LunarG/vulkansdk-macos/macOS
