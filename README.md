@@ -31,8 +31,11 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * [Automatic shader resource binding](http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/) designed to leverage next-generation graphics APIs
   * Multithreaded command buffer generation
     * [50,000 draw calls at 300 fps](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) with D3D12/Vulkan backend
-  * [Explicit conotrol over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
+  * Multithreaded resource creation
+  * [Automatic or explicit conotrol over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
   * Descriptor and memory management
+  * Shader resource reflection
+* Extensive validation and error reporting
 * Modern c++ features to make code fast and reliable
 
 ## Supported Plaforms and Low-Level Graphics APIs
