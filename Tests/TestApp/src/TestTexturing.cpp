@@ -287,7 +287,7 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     StaticSampler.Desc.MipFilter = FilterType;
     StaticSampler.ShaderStages = SHADER_TYPE_PIXEL;
     StaticSampler.SamplerOrTextureName = "g_tex2DTest";
-    PSODesc.ResourceLayout.NumStaticSamplers = 1;
+    PSODesc.ResourceLayout.NumStaticSamplers = !(bIsIntTexture && pDevice->GetDeviceCaps().IsD3DDevice()) ? 1 : 0;
     PSODesc.ResourceLayout.StaticSamplers = &StaticSampler;
 
     pDevice->CreatePipelineState(PSODesc, &m_pPSO);
