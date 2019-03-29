@@ -259,6 +259,7 @@ elseif(PLATFORM_IOS)
             RESOURCE "${APPLE_RESOURCES}"
             XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
             # XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "Dev Team"
+            BUILD_RPATH "@executable_path"
         )
         source_group("iOS" FILES ${APPLE_SOURCE})
         source_group("iOS" FILES ${APPLE_INCLUDE})
