@@ -1,14 +1,17 @@
 #import "MetalView.h"
-#import <QuartzCore/CAMetalLayer.h>
+
+//#import <QuartzCore/CAMetalLayer.h>
 
 #include "DeviceCaps.h"
 
 @implementation MetalView
 
+/*
 + (Class) layerClass
 {
     return [CAMetalLayer class];
 }
+*/
 
 - (instancetype) initWithCoder:(NSCoder*)coder
 {
