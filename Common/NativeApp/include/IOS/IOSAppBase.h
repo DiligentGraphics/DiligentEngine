@@ -34,7 +34,7 @@ class IOSAppBase : public AppBase
 public:
     using AppBase::Update;
     void Update();
-    virtual void OnGLContextCreated(void* eaglLayer) = 0;
+    virtual void Initialize(int deviceType, void* layer) = 0;
     virtual void OnTouchBegan(float x, float y){}
     virtual void OnTouchMoved(float x, float y){}
     virtual void OnTouchEnded(float x, float y){}

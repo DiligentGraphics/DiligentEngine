@@ -9,9 +9,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class EAGLView;
-@class MainViewController;
-
 @interface AppDelegate : NSObject <UIApplicationDelegate> {
 }
 

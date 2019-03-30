@@ -35,9 +35,10 @@ public:
         m_DeviceType = DeviceType::OpenGLES;
     }
 
-    virtual void OnGLContextCreated(void *eaglLayer)override final
+    virtual void Initialize(int deviceType, void* layer)override final
     {
-        InitializeDiligentEngine(eaglLayer);
+        m_DeviceType = static_cast<Diligent::DeviceType>(deviceType);
+        InitializeDiligentEngine(layer);
         InitializeRenderers();
     }
 

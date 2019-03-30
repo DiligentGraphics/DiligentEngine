@@ -7,7 +7,7 @@
 */
  
 #import "AppDelegate.h"
-#import "EAGLView.h"
+#import "BaseView.h"
 
 @implementation AppDelegate
 
@@ -15,19 +15,12 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
+{
     // Override point for customization after application launch.
-    
-    [self.window makeKeyAndVisible];
-    
-    NSString *error = [(EAGLView*)self.window.rootViewController.view getError];
-    if(error != nil)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed to start the application" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Whatever", nil];
-        [alert show];
-    }
 
-	[(EAGLView*)self.window.rootViewController.view startAnimation];
+    [self.window makeKeyAndVisible];
+
+	[(BaseView*)self.window.rootViewController.view startAnimation];
 
     return YES;
 }
@@ -40,7 +33,7 @@
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
 
-	[(EAGLView*)self.window.rootViewController.view stopAnimation];
+	[(BaseView*)self.window.rootViewController.view stopAnimation];
 }
 
 
@@ -50,7 +43,7 @@
      If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
      */
 	
-	[(EAGLView*)self.window.rootViewController.view stopAnimation];
+	[(BaseView*)self.window.rootViewController.view stopAnimation];
 }
 
 
@@ -59,7 +52,7 @@
      Called as part of transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
      */
 	
-	[(EAGLView*)self.window.rootViewController.view startAnimation];
+	[(BaseView*)self.window.rootViewController.view startAnimation];
 }
 
 
@@ -69,7 +62,7 @@
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
 	
-	[(EAGLView*)self.window.rootViewController.view startAnimation];
+	[(BaseView*)self.window.rootViewController.view startAnimation];
 }
 
 
@@ -79,8 +72,8 @@
      See also applicationDidEnterBackground:.
      */
 	
-	[(EAGLView*)self.window.rootViewController.view stopAnimation];
-    [(EAGLView*)self.window.rootViewController.view terminate];
+	[(BaseView*)self.window.rootViewController.view stopAnimation];
+    [(BaseView*)self.window.rootViewController.view terminate];
 }
 
 
