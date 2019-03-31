@@ -313,7 +313,7 @@ To enable Vulkan on iOS, download and install [VulkanSDK](https://vulkan.lunarg.
 on iOS, and Diligent Engine links directly with MoltenVK dynamic library that implements Vulkan on Metal.
 Note that iOS simulator does not currently support Metal, and MoltenVK libraries are only available for arm64 architecture.
 To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK when running CMake, for example (assuming
-that Vulan SDK is installed at `/LunarG/vulkansdk-macos`):
+that Vulkan SDK is installed at `/LunarG/vulkansdk-macos`):
 
 ```cmake
 cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -DIOS_ARCH=arm64 -DVULKAN_SDK=/LunarG/vulkansdk-macos -H. -Bcmk_build/IOS -GXcode
@@ -324,7 +324,7 @@ For every executable target, the following manual steps have to be performed:
 
 * Open *Build Phases* tab and add a new *Copy Files* phase.
 * Select  `Executables` in the `Destination` list.
-* Drag `MoltenVK/iOS/dynamic/libMoltenVK.dylib` dynamic library from VulkanSDK into the copy files list.
+* Drag `MoltenVK/iOS/dynamic/libMoltenVK.dylib` dynamic library from Vulkan SDK into the copy files list.
 * Make sure that *Code Sign On Copy* checkbox is marked.
 
 Please refer to [MoltenVK user guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install)
