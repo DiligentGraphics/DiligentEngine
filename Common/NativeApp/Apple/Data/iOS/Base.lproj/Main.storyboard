@@ -21,20 +21,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CtC-44-7bh" userLabel="OpenGLES">
-                                <rect key="frame" x="43" y="270" width="289" height="119"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="opengles-logo.png"/>
-                                <connections>
-                                    <action selector="goOpenGLES:" destination="XIi-06-RrN" eventType="touchUpInside" id="Mad-GE-H0I"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exn-mx-E3B" userLabel="Vulkan">
-                                <rect key="frame" x="36" y="425" width="302" height="120"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="37" y="543" width="302" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="vulkan-logo.png"/>
                                 <connections>
                                     <action selector="goVulkan:" destination="XIi-06-RrN" eventType="touchUpInside" id="jsv-Uc-EF5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CtC-44-7bh" userLabel="OpenGLES">
+                                <rect key="frame" x="43" y="198" width="289" height="119"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="opengles-logo.png"/>
+                                <connections>
+                                    <action selector="goOpenGLES:" destination="XIi-06-RrN" eventType="touchUpInside" id="Mad-GE-H0I"/>
                                 </connections>
                             </button>
                         </subviews>
