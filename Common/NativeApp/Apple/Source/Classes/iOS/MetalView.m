@@ -1,17 +1,19 @@
 #import "MetalView.h"
 
-//#import <QuartzCore/CAMetalLayer.h>
+#if VULKAN_SUPPORTED
+#import <QuartzCore/CAMetalLayer.h>
+#endif
 
 #include "DeviceCaps.h"
 
 @implementation MetalView
 
-/*
+#if VULKAN_SUPPORTED
 + (Class) layerClass
 {
     return [CAMetalLayer class];
 }
-*/
+#endif
 
 - (instancetype) initWithCoder:(NSCoder*)coder
 {
@@ -19,7 +21,7 @@
 	{
         [self initApp:(int)Diligent::DeviceType::Vulkan];
     }
-	
+
     return self;
 }
 
