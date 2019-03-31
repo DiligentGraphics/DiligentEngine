@@ -47,7 +47,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                    | OpenGL4.2+, Vulkan                             | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android                | OpenGLES3.0+                                   |																																					    |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                    | OpenGL4.1, Vulkan (via [MoltenVK](https://github.com/KhronosGroup/MoltenVK)) | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                      | OpenGLES3.0                                    | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                      | OpenGLES3.0, Vulkan (via [MoltenVK](https://github.com/KhronosGroup/MoltenVK)) | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
 Last Stable Release - [v2.4.b](https://github.com/DiligentGraphics/DiligentEngine/releases/tag/v2.4.b)
 
@@ -300,13 +300,35 @@ Please refer to [this page](https://vulkan.lunarg.com/doc/sdk/latest/mac/getting
 Run the command below from the engine's root folder to generate Xcode project configured for iOS build
 (you need to have [CMake](https://cmake.org/) installed on your Mac):
 
-```
+```cmake
 cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -H. -Bcmk_build/IOS -GXcode
 ```
 
-Open Xcode project file in *cmk_build/IOS* folder and build the engine. To run the applications on an iOS device,
-you will need to set an appropriate development team in the project settings.
+Open Xcode project file in `cmk_build/IOS` folder and build the engine. To run the applications on an iOS device,
+you will need to set appropriate development team in the project settings.
 
+### Configuring Vulkan Build Environment
+
+To enable Vulkan on iOS, download [VulkanSDK](https://vulkan.lunarg.com/sdk/home#mac). There is no Vulkan loader
+on iOS, and Diligent Engine links directly with MoltenVK dynamic library that implements Vulkan on Metal.
+Notice that iOS simulator does not currently support Metal, and MoltenVK libraries are only available for arm64 architecture.
+To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK when running CMake, for example (assuming
+that Vulan SDK is installed at `/LunarG/vulkansdk-macos`):
+
+```cmake
+cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -DIOS_ARCH=arm64 -DVULKAN_SDK=/LunarG/vulkansdk-macos -H. -Bcmk_build/IOS -GXcode
+```
+
+Xcode project [cannot be completely configured by CMake](https://github.com/DiligentGraphics/DiligentSamples/issues/9).
+For every executable project, the following manual steps have to be performed:
+
+* Open *Build Phases* tab and add a new *Copy Files* phase.
+* Select  `Executables` in the `Destination` list.
+* Drag `MoltenVK/iOS/dynamic/libMoltenVK.dylib` into the copy files list.
+* Make sure that *Code Sign On Copy* checkbox is marked.
+
+Please refer to [MoltenVK user guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install)
+for more details. 
 
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
