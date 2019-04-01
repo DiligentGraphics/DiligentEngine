@@ -59,9 +59,12 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
                         0L, 0L, instance, NULL, NULL, NULL, NULL, WindowClassName, NULL };
     RegisterClassEx(&wcex);
 
+    int DesiredWidth = 0;
+    int DesiredHeight = 0;
+    g_pTheApp->GetDesiredInitialWindowSize(DesiredWidth, DesiredHeight);
     // Create a window
-    LONG WindowWidth = 1280;
-    LONG WindowHeight = 1024;
+    LONG WindowWidth  = DesiredWidth  > 0 ? DesiredWidth  : 1280;
+    LONG WindowHeight = DesiredHeight > 0 ? DesiredHeight : 1024;
     RECT rc = { 0, 0, WindowWidth, WindowHeight };
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
     HWND wnd = CreateWindowA("SampleApp", AppTitle,

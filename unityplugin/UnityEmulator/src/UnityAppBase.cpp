@@ -65,8 +65,8 @@ UnityAppBase::~UnityAppBase()
 
 void UnityAppBase::ProcessCommandLine(const char *CmdLine)
 {
-    const auto* Key = "mode=";
-    const auto *pos = strstr(CmdLine, Key);
+    const auto* Key = "-mode ";
+    const auto* pos = strstr(CmdLine, Key);
     if (pos != nullptr)
     {
         pos += strlen(Key);

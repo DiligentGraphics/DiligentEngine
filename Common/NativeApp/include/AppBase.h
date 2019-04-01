@@ -37,6 +37,11 @@ public:
     virtual void Render()  = 0;
     virtual void Present() = 0;
     virtual void WindowResize(int width, int height) = 0;
+    virtual void GetDesiredInitialWindowSize(int& width, int& height)
+    {
+        width  = 0;
+        height = 0;
+    }
 };
 
 }
