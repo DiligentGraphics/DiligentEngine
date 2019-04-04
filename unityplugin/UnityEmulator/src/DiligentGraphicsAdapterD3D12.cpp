@@ -230,6 +230,7 @@ void DiligentGraphicsAdapterD3D12::PreSwapChainResize()
     // We must idle GPU
     GraphicsImpl->IdleGPU();
     // And call FinishFrame() to release references to swap chain resources
+    m_pDeviceCtx->FinishFrame();
     pDeviceD3D12->ReleaseStaleResources();
 }
 
