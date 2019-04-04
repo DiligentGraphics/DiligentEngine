@@ -32,7 +32,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * Multithreaded command buffer generation
     * [50,000 draw calls at 300 fps](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) with D3D12/Vulkan backend
   * Multithreaded resource creation
-  * [Automatic or explicit conotrol over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
+  * [Automatic or explicit control over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
   * Descriptor and memory management
   * Shader resource reflection
 * Extensive validation and error reporting

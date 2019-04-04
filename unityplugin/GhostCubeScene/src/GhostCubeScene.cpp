@@ -142,7 +142,7 @@ void GhostCubeScene::OnGraphicsInitialized()
 
 void GhostCubeScene::Update(double CurrTime, double ElapsedTime)
 {
-    m_CubeWorldView = scaleMatrix(1, 2, 1) * rotationY(-static_cast<float>(CurrTime) * 2.0f) * rotationX(-PI_F * 0.3f) * translationMatrix(0.f, 0.0f, 10.0f);
+    m_CubeWorldView = scaleMatrix(1, 2, 1) * rotationY(static_cast<float>(CurrTime) * 2.0f) * rotationX(PI_F * 0.3f) * translationMatrix(0.f, 0.0f, 10.0f);
 }
 
 
@@ -199,7 +199,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     pCtx->CommitShaderResources(m_pMirrorSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     {
-        float4x4 MirrorWorldView = scaleMatrix(5,5,5) * rotationX(PI_F*0.6f) * translationMatrix(0.f, -3.0f, 10.0f);
+        float4x4 MirrorWorldView = scaleMatrix(5,5,5) * rotationX(-PI_F*0.6f) * translationMatrix(0.f, -3.0f, 10.0f);
         float NearPlane = 0.3f;
         float FarPlane = 1000.f;
         if (ReverseZ)
