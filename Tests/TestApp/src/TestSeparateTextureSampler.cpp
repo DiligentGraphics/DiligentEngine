@@ -124,25 +124,25 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
         RefCntAutoPtr<ISampler> pSampler;
         pDevice->CreateSampler( SamplerDesc{}, &pSampler );
         IDeviceObject* ppSamplers[2] = {pSampler, pSampler};
-        pPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_Sam3")->SetArray(ppSamplers, 0, 2);
+        pPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_Sam3")->SetArray(ppSamplers, 0, 2);
 
         RefCntAutoPtr<IShaderResourceBinding> pSRB;
         pPSO->CreateShaderResourceBinding(&pSRB, true);
 
-        pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Tex")->Set(pTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
-        pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Sam")->Set(pSampler);
-        pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Sam4")->SetArray(ppSamplers, 0, 2);
-        pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Tex2")->Set(pTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
-        VERIFY_EXPR(pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Sam2") == nullptr);
+        pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Tex")->Set(pTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
+        pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Sam")->Set(pSampler);
+        pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Sam4")->SetArray(ppSamplers, 0, 2);
+        pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Tex2")->Set(pTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
+        VERIFY_EXPR(pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Sam2") == nullptr);
 
         auto VarCount = pSRB->GetVariableCount(SHADER_TYPE_PIXEL);
         VERIFY_EXPR(VarCount == 4);
         for(Uint32 v=0; v < VarCount; ++v)
         {
-            auto* pVar = pSRB->GetVariable(SHADER_TYPE_PIXEL, v);
+            auto* pVar = pSRB->GetVariableByIndex(SHADER_TYPE_PIXEL, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
-            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
+            auto pVar2 = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
 

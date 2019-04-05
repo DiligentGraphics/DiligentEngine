@@ -333,7 +333,7 @@ function Draw()
 end
 
 
-tex2DTestUAV = FillTextureSRB:GetVariable("SHADER_TYPE_COMPUTE", "g_tex2DTestUAV")
+tex2DTestUAV = FillTextureSRB:GetVariableByName("SHADER_TYPE_COMPUTE", "g_tex2DTestUAV")
 
 function Dispatch()
 

@@ -276,61 +276,61 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     {
         VERIFY_EXPR(pTestPSO->GetStaticVariableCount(SHADER_TYPE_VERTEX) == 6);
         
-        auto tex2D_Static = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_Static");
+        auto tex2D_Static = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Static");
         VERIFY_EXPR(tex2D_Static->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(tex2D_Static == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, tex2D_Static->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_Static == pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, tex2D_Static->GetResourceDesc().Name));
         tex2D_Static->Set(pSRVs[0]);
 
-        auto tex2D_Static_sampler = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_Static_sampler");
+        auto tex2D_Static_sampler = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Static_sampler");
         VERIFY_EXPR(tex2D_Static_sampler == nullptr);
 
-        auto tex2D_StaticArr = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_StaticArr");
+        auto tex2D_StaticArr = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_StaticArr");
         VERIFY_EXPR(tex2D_StaticArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(tex2D_StaticArr == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, tex2D_StaticArr->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_StaticArr == pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, tex2D_StaticArr->GetResourceDesc().Name));
         tex2D_StaticArr->SetArray(pSRVs, 0, 2);
 
-        auto tex2D_StaticArr_sampler = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_StaticArr_sampler");
+        auto tex2D_StaticArr_sampler = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_StaticArr_sampler");
         VERIFY_EXPR(tex2D_StaticArr_sampler == nullptr);
 
-        auto UniformBuff_Stat = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "UniformBuff_Stat");
+        auto UniformBuff_Stat = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "UniformBuff_Stat");
         VERIFY_EXPR(UniformBuff_Stat->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(UniformBuff_Stat == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, UniformBuff_Stat->GetResourceDesc().Name));
+        VERIFY_EXPR(UniformBuff_Stat == pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, UniformBuff_Stat->GetResourceDesc().Name));
         UniformBuff_Stat->Set(pUBs[0]);
 
-        auto UniformBuff_Stat2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "UniformBuff_Stat2");
+        auto UniformBuff_Stat2 = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "UniformBuff_Stat2");
         VERIFY_EXPR(UniformBuff_Stat2->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(UniformBuff_Stat2 == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, UniformBuff_Stat2->GetResourceDesc().Name));
+        VERIFY_EXPR(UniformBuff_Stat2 == pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, UniformBuff_Stat2->GetResourceDesc().Name));
         UniformBuff_Stat2->Set(pUBs[0]);
 
-        auto Buffer_Static = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_Buffer_Static");
+        auto Buffer_Static = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_Buffer_Static");
         VERIFY_EXPR(Buffer_Static->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(Buffer_Static == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, Buffer_Static->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_Static == pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, Buffer_Static->GetResourceDesc().Name));
         Buffer_Static->Set(pFormattedBuffSRV);
 
-        auto Buffer_StaticArr = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_Buffer_StaticArr");
+        auto Buffer_StaticArr = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_Buffer_StaticArr");
         VERIFY_EXPR(Buffer_StaticArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(Buffer_StaticArr == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, Buffer_StaticArr->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_StaticArr == pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, Buffer_StaticArr->GetResourceDesc().Name));
         Buffer_StaticArr->SetArray(&pFormattedBuffSRV,0,1);
         Buffer_StaticArr->SetArray(&pFormattedBuffSRV,1,1);
         
 
-        auto tex2D_Mut = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_Mut");
+        auto tex2D_Mut = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Mut");
         VERIFY_EXPR(tex2D_Mut == nullptr);
-        auto tex2D_Dyn = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_Dyn");
+        auto tex2D_Dyn = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Dyn");
         VERIFY_EXPR(tex2D_Dyn == nullptr);
-        auto tex2D_Mut_sampler = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_Mut_sampler");
+        auto tex2D_Mut_sampler = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Mut_sampler");
         VERIFY_EXPR(tex2D_Mut_sampler == nullptr);
-        auto tex2D_Dyn_sampler = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "g_tex2D_DynArr_sampler");
+        auto tex2D_Dyn_sampler = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_DynArr_sampler");
         VERIFY_EXPR(tex2D_Dyn_sampler == nullptr);
 
 
         auto NumVSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_VERTEX);
         for(Uint32 v=0; v < NumVSVars; ++v)
         {
-            auto pVar = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, v);
+            auto pVar = pTestPSO->GetStaticVariableByIndex(SHADER_TYPE_VERTEX, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_STATIC);
-            auto pVar2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, pVar->GetResourceDesc().Name);
+            auto pVar2 = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
     }
@@ -339,76 +339,76 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     {
         VERIFY_EXPR(pTestPSO->GetStaticVariableCount(SHADER_TYPE_PIXEL) == 9);
 
-        auto tex2D_Static = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2D_Static");
+        auto tex2D_Static = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Static");
         VERIFY_EXPR(tex2D_Static->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(tex2D_Static == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, tex2D_Static->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_Static == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, tex2D_Static->GetResourceDesc().Name));
         tex2D_Static->Set(pSRVs[0]);
 
-        auto tex2D_Static_sampler = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2D_Static_sampler");
+        auto tex2D_Static_sampler = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Static_sampler");
         VERIFY_EXPR(tex2D_Static_sampler == nullptr);
 
-        auto tex2D_StaticArr = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2D_StaticArr");
+        auto tex2D_StaticArr = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_StaticArr");
         VERIFY_EXPR(tex2D_StaticArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(tex2D_StaticArr == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, tex2D_StaticArr->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_StaticArr == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, tex2D_StaticArr->GetResourceDesc().Name));
         tex2D_StaticArr->SetArray(pSRVs, 0, 2);
-        auto tex2D_StaticArr_sampler = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2D_StaticArr_sampler");
+        auto tex2D_StaticArr_sampler = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_StaticArr_sampler");
         VERIFY_EXPR(tex2D_StaticArr_sampler == nullptr);
         
-        auto UniformBuff_Stat = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "UniformBuff_Stat");
+        auto UniformBuff_Stat = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "UniformBuff_Stat");
         VERIFY_EXPR(UniformBuff_Stat->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(UniformBuff_Stat == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, UniformBuff_Stat->GetResourceDesc().Name));
+        VERIFY_EXPR(UniformBuff_Stat == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, UniformBuff_Stat->GetResourceDesc().Name));
         UniformBuff_Stat->Set(pUBs[0]);
 
-        auto UniformBuff_Stat2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "UniformBuff_Stat2");
+        auto UniformBuff_Stat2 = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "UniformBuff_Stat2");
         VERIFY_EXPR(UniformBuff_Stat2->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(UniformBuff_Stat2 == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, UniformBuff_Stat2->GetResourceDesc().Name));
+        VERIFY_EXPR(UniformBuff_Stat2 == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, UniformBuff_Stat2->GetResourceDesc().Name));
         UniformBuff_Stat2->Set(pUBs[0]);
 
-        auto Buffer_Static = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_Buffer_Static");
+        auto Buffer_Static = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_Buffer_Static");
         VERIFY_EXPR(Buffer_Static->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(Buffer_Static == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, Buffer_Static->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_Static == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, Buffer_Static->GetResourceDesc().Name));
         Buffer_Static->Set(pFormattedBuffSRV);
 
-        auto Buffer_StaticArr = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_Buffer_StaticArr");
+        auto Buffer_StaticArr = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_Buffer_StaticArr");
         VERIFY_EXPR(Buffer_StaticArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(Buffer_StaticArr == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, Buffer_StaticArr->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_StaticArr == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, Buffer_StaticArr->GetResourceDesc().Name));
         Buffer_StaticArr->SetArray(&pFormattedBuffSRV,0,1);
         Buffer_StaticArr->SetArray(&pFormattedBuffSRV,1,1);
         
 
-        auto rwtex2D_Static = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_rwtex2D_Static");
+        auto rwtex2D_Static = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_rwtex2D_Static");
         VERIFY_EXPR(rwtex2D_Static->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(rwtex2D_Static == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, rwtex2D_Static->GetResourceDesc().Name));
+        VERIFY_EXPR(rwtex2D_Static == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, rwtex2D_Static->GetResourceDesc().Name));
         rwtex2D_Static->Set(pTexUAVs[0]);
 
-        auto rwtex2D_Static2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_rwtex2D_Static2");
+        auto rwtex2D_Static2 = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_rwtex2D_Static2");
         VERIFY_EXPR(rwtex2D_Static2->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(rwtex2D_Static2 == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, rwtex2D_Static2->GetResourceDesc().Name));
+        VERIFY_EXPR(rwtex2D_Static2 == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, rwtex2D_Static2->GetResourceDesc().Name));
         rwtex2D_Static2->Set(pTexUAVs[1]);
 
-        auto rwBuff_Static = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_rwBuff_Static");
+        auto rwBuff_Static = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_rwBuff_Static");
         VERIFY_EXPR(rwBuff_Static->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(rwBuff_Static == pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, rwBuff_Static->GetResourceDesc().Name));
+        VERIFY_EXPR(rwBuff_Static == pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, rwBuff_Static->GetResourceDesc().Name));
         rwBuff_Static->Set(spRawBuffUAV[0]);
 
 
-        auto tex2D_Mut = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2D_Mut");
+        auto tex2D_Mut = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Mut");
         VERIFY_EXPR(tex2D_Mut == nullptr);
-        auto tex2D_Dyn = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2D_Dyn");
+        auto tex2D_Dyn = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Dyn");
         VERIFY_EXPR(tex2D_Dyn == nullptr);
-        auto tex2D_Mut_sampler = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2D_Mut_sampler");
+        auto tex2D_Mut_sampler = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Mut_sampler");
         VERIFY_EXPR(tex2D_Mut_sampler == nullptr);
-        auto tex2D_Dyn_sampler = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2D_DynArr_sampler");
+        auto tex2D_Dyn_sampler = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_DynArr_sampler");
         VERIFY_EXPR(tex2D_Dyn_sampler == nullptr);
 
 
         auto NumPSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_PIXEL);
         for(Uint32 v=0; v < NumPSVars; ++v)
         {
-            auto pVar = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, v);
+            auto pVar = pTestPSO->GetStaticVariableByIndex(SHADER_TYPE_PIXEL, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_STATIC);
-            auto pVar2 = pTestPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
+            auto pVar2 = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
     }
@@ -417,167 +417,167 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     pTestPSO->CreateShaderResourceBinding(&pSRB, true);
 
     {
-        auto tex2D_Mut = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_Mut");
+        auto tex2D_Mut = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Mut");
         VERIFY_EXPR(tex2D_Mut->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(tex2D_Mut == pSRB->GetVariable(SHADER_TYPE_VERTEX, tex2D_Mut->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_Mut == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, tex2D_Mut->GetResourceDesc().Name));
         tex2D_Mut->Set(pSRVs[0]);
 
-        auto tex2D_Mut_sampler = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_Mut_sampler");
+        auto tex2D_Mut_sampler = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Mut_sampler");
         VERIFY_EXPR(tex2D_Mut_sampler == nullptr);
 
-        auto tex2D_MutArr = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_MutArr");
+        auto tex2D_MutArr = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_MutArr");
         VERIFY_EXPR(tex2D_MutArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(tex2D_MutArr == pSRB->GetVariable(SHADER_TYPE_VERTEX, tex2D_MutArr->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_MutArr == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, tex2D_MutArr->GetResourceDesc().Name));
         tex2D_MutArr->SetArray(pSRVs, 0, 2);
 
-        auto tex2D_MutArr_sampler = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_MutArr_sampler");
+        auto tex2D_MutArr_sampler = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_MutArr_sampler");
         VERIFY_EXPR(tex2D_MutArr_sampler == nullptr);
 
-        auto tex2D_Dyn = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_Dyn");
+        auto tex2D_Dyn = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Dyn");
         VERIFY_EXPR(tex2D_Dyn->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(tex2D_Dyn == pSRB->GetVariable(SHADER_TYPE_VERTEX, tex2D_Dyn->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_Dyn == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, tex2D_Dyn->GetResourceDesc().Name));
         tex2D_Dyn->Set(pSRVs[0]);
 
-        auto tex2D_Dyn_sampler = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_Dyn_sampler");
+        auto tex2D_Dyn_sampler = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Dyn_sampler");
         VERIFY_EXPR(tex2D_Dyn_sampler == nullptr);
 
-        auto tex2D_DynArr = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_DynArr");
+        auto tex2D_DynArr = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_DynArr");
         VERIFY_EXPR(tex2D_DynArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(tex2D_DynArr == pSRB->GetVariable(SHADER_TYPE_VERTEX, tex2D_DynArr->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_DynArr == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, tex2D_DynArr->GetResourceDesc().Name));
         tex2D_DynArr->SetArray(pSRVs, 0, 2);
 
-        auto tex2D_DynArr_sampler = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_DynArr_sampler");
+        auto tex2D_DynArr_sampler = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_DynArr_sampler");
         VERIFY_EXPR(tex2D_DynArr_sampler == nullptr);
 
-        auto UniformBuff_Mut = pSRB->GetVariable(SHADER_TYPE_VERTEX, "UniformBuff_Mut");
+        auto UniformBuff_Mut = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "UniformBuff_Mut");
         VERIFY_EXPR(UniformBuff_Mut->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(UniformBuff_Mut == pSRB->GetVariable(SHADER_TYPE_VERTEX, UniformBuff_Mut->GetResourceDesc().Name));
+        VERIFY_EXPR(UniformBuff_Mut == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, UniformBuff_Mut->GetResourceDesc().Name));
         UniformBuff_Mut->Set(pUBs[0]);
 
-        auto UniformBuff_Dyn = pSRB->GetVariable(SHADER_TYPE_VERTEX, "UniformBuff_Dyn");
+        auto UniformBuff_Dyn = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "UniformBuff_Dyn");
         VERIFY_EXPR(UniformBuff_Dyn->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(UniformBuff_Dyn == pSRB->GetVariable(SHADER_TYPE_VERTEX, UniformBuff_Dyn->GetResourceDesc().Name));
+        VERIFY_EXPR(UniformBuff_Dyn == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, UniformBuff_Dyn->GetResourceDesc().Name));
         UniformBuff_Dyn->Set(pUBs[0]);
 
-        auto Buffer_Mut = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_Buffer_Mut");
+        auto Buffer_Mut = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_Buffer_Mut");
         VERIFY_EXPR(Buffer_Mut->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(Buffer_Mut == pSRB->GetVariable(SHADER_TYPE_VERTEX, Buffer_Mut->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_Mut == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, Buffer_Mut->GetResourceDesc().Name));
         Buffer_Mut->Set(pFormattedBuffSRV);
 
-        auto Buffer_MutArr = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_Buffer_MutArr");
+        auto Buffer_MutArr = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_Buffer_MutArr");
         VERIFY_EXPR(Buffer_MutArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(Buffer_MutArr == pSRB->GetVariable(SHADER_TYPE_VERTEX, Buffer_MutArr->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_MutArr == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, Buffer_MutArr->GetResourceDesc().Name));
         Buffer_MutArr->SetArray(&pFormattedBuffSRV, 0, 1);
         Buffer_MutArr->SetArray(&pFormattedBuffSRV, 1, 1);
 
-        auto Buffer_Dyn = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_Buffer_Dyn");
+        auto Buffer_Dyn = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_Buffer_Dyn");
         VERIFY_EXPR(Buffer_Dyn->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(Buffer_Dyn == pSRB->GetVariable(SHADER_TYPE_VERTEX, Buffer_Dyn->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_Dyn == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, Buffer_Dyn->GetResourceDesc().Name));
         Buffer_Dyn->Set(pFormattedBuffSRV);
 
-        auto Buffer_DynArr = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_Buffer_DynArr");
+        auto Buffer_DynArr = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_Buffer_DynArr");
         VERIFY_EXPR(Buffer_DynArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(Buffer_DynArr == pSRB->GetVariable(SHADER_TYPE_VERTEX, Buffer_DynArr->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_DynArr == pSRB->GetVariableByName(SHADER_TYPE_VERTEX, Buffer_DynArr->GetResourceDesc().Name));
         Buffer_DynArr->SetArray(&pFormattedBuffSRV, 0, 1);
         Buffer_DynArr->SetArray(&pFormattedBuffSRV, 1, 1);
 
-        auto tex2D_Static = pSRB->GetVariable(SHADER_TYPE_VERTEX, "g_tex2D_Static");
+        auto tex2D_Static = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Static");
         VERIFY_EXPR(tex2D_Static == nullptr);
-        auto UniformBuff_Stat = pSRB->GetVariable(SHADER_TYPE_VERTEX, "UniformBuff_Stat");
+        auto UniformBuff_Stat = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, "UniformBuff_Stat");
         VERIFY_EXPR(UniformBuff_Stat == nullptr);
     }
 
 
 
     {
-        auto tex2D_Mut = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_Mut");
+        auto tex2D_Mut = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Mut");
         VERIFY_EXPR(tex2D_Mut->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(tex2D_Mut == pSRB->GetVariable(SHADER_TYPE_PIXEL, tex2D_Mut->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_Mut == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, tex2D_Mut->GetResourceDesc().Name));
         tex2D_Mut->Set(pRWTexSRVs[4]);
 
-        auto tex2D_Mut_sampler = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_Mut_sampler");
+        auto tex2D_Mut_sampler = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Mut_sampler");
         VERIFY_EXPR(tex2D_Mut_sampler == nullptr);
 
-        auto tex2D_MutArr = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_MutArr");
+        auto tex2D_MutArr = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_MutArr");
         VERIFY_EXPR(tex2D_MutArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(tex2D_MutArr == pSRB->GetVariable(SHADER_TYPE_PIXEL, tex2D_MutArr->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_MutArr == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, tex2D_MutArr->GetResourceDesc().Name));
         tex2D_MutArr->SetArray(pRWTexSRVs+5, 0, 2);
 
-        auto tex2D_MutArr_sampler = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_MutArr_sampler");
+        auto tex2D_MutArr_sampler = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_MutArr_sampler");
         VERIFY_EXPR(tex2D_MutArr_sampler == nullptr);
 
-        auto tex2D_Dyn = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_Dyn");
+        auto tex2D_Dyn = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Dyn");
         VERIFY_EXPR(tex2D_Dyn->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(tex2D_Dyn == pSRB->GetVariable(SHADER_TYPE_PIXEL, tex2D_Dyn->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_Dyn == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, tex2D_Dyn->GetResourceDesc().Name));
         tex2D_Dyn->Set(pRWTexSRVs[7]);
 
-        auto tex2D_Dyn_sampler = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_Dyn_sampler");
+        auto tex2D_Dyn_sampler = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Dyn_sampler");
         VERIFY_EXPR(tex2D_Dyn_sampler == nullptr);
 
-        auto tex2D_DynArr = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_DynArr");
+        auto tex2D_DynArr = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_DynArr");
         VERIFY_EXPR(tex2D_DynArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(tex2D_DynArr == pSRB->GetVariable(SHADER_TYPE_PIXEL, tex2D_DynArr->GetResourceDesc().Name));
+        VERIFY_EXPR(tex2D_DynArr == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, tex2D_DynArr->GetResourceDesc().Name));
         tex2D_DynArr->SetArray(pSRVs, 0, 2);
 
-        auto tex2D_DynArr_sampler = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_DynArr_sampler");
+        auto tex2D_DynArr_sampler = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_DynArr_sampler");
         VERIFY_EXPR(tex2D_DynArr_sampler == nullptr);
 
 
-        auto UniformBuff_Mut = pSRB->GetVariable(SHADER_TYPE_PIXEL, "UniformBuff_Mut");
+        auto UniformBuff_Mut = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "UniformBuff_Mut");
         VERIFY_EXPR(UniformBuff_Mut->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(UniformBuff_Mut == pSRB->GetVariable(SHADER_TYPE_PIXEL, UniformBuff_Mut->GetResourceDesc().Name));
+        VERIFY_EXPR(UniformBuff_Mut == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, UniformBuff_Mut->GetResourceDesc().Name));
         UniformBuff_Mut->Set(pUBs[0]);
 
-        auto UniformBuff_Dyn = pSRB->GetVariable(SHADER_TYPE_PIXEL, "UniformBuff_Dyn");
+        auto UniformBuff_Dyn = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "UniformBuff_Dyn");
         VERIFY_EXPR(UniformBuff_Dyn->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(UniformBuff_Dyn == pSRB->GetVariable(SHADER_TYPE_PIXEL, UniformBuff_Dyn->GetResourceDesc().Name));
+        VERIFY_EXPR(UniformBuff_Dyn == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, UniformBuff_Dyn->GetResourceDesc().Name));
         UniformBuff_Dyn->Set(pUBs[0]);
 
-        auto Buffer_Mut = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_Mut");
+        auto Buffer_Mut = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Buffer_Mut");
         VERIFY_EXPR(Buffer_Mut->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(Buffer_Mut == pSRB->GetVariable(SHADER_TYPE_PIXEL, Buffer_Mut->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_Mut == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, Buffer_Mut->GetResourceDesc().Name));
         Buffer_Mut->Set(spRawBuffSRVs[1]);
 
-        auto Buffer_MutArr = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_MutArr");
+        auto Buffer_MutArr = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Buffer_MutArr");
         VERIFY_EXPR(Buffer_MutArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(Buffer_MutArr == pSRB->GetVariable(SHADER_TYPE_PIXEL, Buffer_MutArr->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_MutArr == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, Buffer_MutArr->GetResourceDesc().Name));
         Buffer_MutArr->SetArray(&pFormattedBuffSRV, 0, 1);
         Buffer_MutArr->SetArray(&pFormattedBuffSRV, 1, 1);
 
-        auto Buffer_Dyn = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_Dyn");
+        auto Buffer_Dyn = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Buffer_Dyn");
         VERIFY_EXPR(Buffer_Dyn->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(Buffer_Dyn == pSRB->GetVariable(SHADER_TYPE_PIXEL, Buffer_Dyn->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_Dyn == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, Buffer_Dyn->GetResourceDesc().Name));
         Buffer_Dyn->Set(pFormattedBuffSRVs[3]);
 
-        auto Buffer_DynArr = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_DynArr");
+        auto Buffer_DynArr = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Buffer_DynArr");
         VERIFY_EXPR(Buffer_DynArr->GetResourceDesc().ArraySize == 2);
-        VERIFY_EXPR(Buffer_DynArr == pSRB->GetVariable(SHADER_TYPE_PIXEL, Buffer_DynArr->GetResourceDesc().Name));
+        VERIFY_EXPR(Buffer_DynArr == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, Buffer_DynArr->GetResourceDesc().Name));
         Buffer_DynArr->SetArray(&pFormattedBuffSRV, 0, 1);
         Buffer_DynArr->SetArray(&pFormattedBuffSRV, 1, 1);
 
-        auto rwtex2D_Mut = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwtex2D_Mut");
+        auto rwtex2D_Mut = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_rwtex2D_Mut");
         VERIFY_EXPR(rwtex2D_Mut->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(rwtex2D_Mut == pSRB->GetVariable(SHADER_TYPE_PIXEL, rwtex2D_Mut->GetResourceDesc().Name));
+        VERIFY_EXPR(rwtex2D_Mut == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, rwtex2D_Mut->GetResourceDesc().Name));
         rwtex2D_Mut->Set(pTexUAVs[2]);
 
-        auto rwtex2D_Dyn = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwtex2D_Dyn");
+        auto rwtex2D_Dyn = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_rwtex2D_Dyn");
         VERIFY_EXPR(rwtex2D_Dyn->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(rwtex2D_Dyn == pSRB->GetVariable(SHADER_TYPE_PIXEL, rwtex2D_Dyn->GetResourceDesc().Name));
+        VERIFY_EXPR(rwtex2D_Dyn == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, rwtex2D_Dyn->GetResourceDesc().Name));
         rwtex2D_Dyn->Set(pTexUAVs[3]);
 
-        auto rwBuff_Mut = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwBuff_Mut");
+        auto rwBuff_Mut = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_rwBuff_Mut");
         VERIFY_EXPR(rwBuff_Mut->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(rwBuff_Mut == pSRB->GetVariable(SHADER_TYPE_PIXEL, rwBuff_Mut->GetResourceDesc().Name));
+        VERIFY_EXPR(rwBuff_Mut == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, rwBuff_Mut->GetResourceDesc().Name));
         rwBuff_Mut->Set(pFormattedBuffUAV[1]);
 
-        auto rwBuff_Dyn = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwBuff_Dyn");
+        auto rwBuff_Dyn = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_rwBuff_Dyn");
         VERIFY_EXPR(rwBuff_Dyn->GetResourceDesc().ArraySize == 1);
-        VERIFY_EXPR(rwBuff_Dyn == pSRB->GetVariable(SHADER_TYPE_PIXEL, rwBuff_Dyn->GetResourceDesc().Name));
+        VERIFY_EXPR(rwBuff_Dyn == pSRB->GetVariableByName(SHADER_TYPE_PIXEL, rwBuff_Dyn->GetResourceDesc().Name));
         rwBuff_Dyn->Set(pFormattedBuffUAV[2]);
         
-        auto tex2D_Static = pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_Static");
+        auto tex2D_Static = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Static");
         VERIFY_EXPR(tex2D_Static == nullptr);
-        auto UniformBuff_Stat = pSRB->GetVariable(SHADER_TYPE_PIXEL, "UniformBuff_Stat");
+        auto UniformBuff_Stat = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "UniformBuff_Stat");
         VERIFY_EXPR(UniformBuff_Stat == nullptr);
     }
 
@@ -587,10 +587,10 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         auto NumVSVars = pSRB->GetVariableCount(SHADER_TYPE_VERTEX);
         for(Uint32 v=0; v < NumVSVars; ++v)
         {
-            auto pVar = pSRB->GetVariable(SHADER_TYPE_VERTEX, v);
+            auto pVar = pSRB->GetVariableByIndex(SHADER_TYPE_VERTEX, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
-            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_VERTEX, pVar->GetResourceDesc().Name);
+            auto pVar2 = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
     }
@@ -599,10 +599,10 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
         auto NumPSVars = pSRB->GetVariableCount(SHADER_TYPE_PIXEL);
         for(Uint32 v=0; v < NumPSVars; ++v)
         {
-            auto pVar = pSRB->GetVariable(SHADER_TYPE_PIXEL, v);
+            auto pVar = pSRB->GetVariableByIndex(SHADER_TYPE_PIXEL, v);
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
-            auto pVar2 = pSRB->GetVariable(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
+            auto pVar2 = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
         }
     }
@@ -614,15 +614,15 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
     DrawAttribs DrawAttrs(3, DRAW_FLAG_VERIFY_STATES);
     pContext->Draw(DrawAttrs);
 
-    pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwtex2D_Dyn")->Set(pTexUAVs[7]);
-    pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_tex2D_Dyn")->Set(pRWTexSRVs[3]);
-    pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_rwBuff_Dyn")->Set(pFormattedBuffUAV[3]);
-    pSRB->GetVariable(SHADER_TYPE_PIXEL, "g_Buffer_Dyn")->Set(pFormattedBuffSRVs[2]);
+    pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_rwtex2D_Dyn")->Set(pTexUAVs[7]);
+    pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_tex2D_Dyn")->Set(pRWTexSRVs[3]);
+    pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_rwBuff_Dyn")->Set(pFormattedBuffUAV[3]);
+    pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Buffer_Dyn")->Set(pFormattedBuffSRVs[2]);
 
     LOG_INFO_MESSAGE("No worries about 3 errors below: attempting to access variables from inactive shader stage");
-    auto pNonExistingVar = pSRB->GetVariable(SHADER_TYPE_GEOMETRY, "g_NonExistingVar");
+    auto pNonExistingVar = pSRB->GetVariableByName(SHADER_TYPE_GEOMETRY, "g_NonExistingVar");
     VERIFY_EXPR(pNonExistingVar == nullptr);
-    pNonExistingVar = pSRB->GetVariable(SHADER_TYPE_GEOMETRY, 4);
+    pNonExistingVar = pSRB->GetVariableByIndex(SHADER_TYPE_GEOMETRY, 4);
     VERIFY_EXPR(pNonExistingVar == nullptr);
     VERIFY_EXPR(pSRB->GetVariableCount(SHADER_TYPE_GEOMETRY) == 0);
 

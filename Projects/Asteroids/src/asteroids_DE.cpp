@@ -319,7 +319,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             NumSRBs = NUM_UNIQUE_TEXTURES;
         }
         mDevice->CreatePipelineState(PSODesc, &mAsteroidsPSO);
-        mAsteroidsPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "DrawConstantBuffer")->Set(mDrawConstantBuffer);
+        mAsteroidsPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "DrawConstantBuffer")->Set(mDrawConstantBuffer);
 
         mAsteroidsSRBs.resize(NumSRBs);
         for(size_t srb = 0; srb < mAsteroidsSRBs.size(); ++srb)
@@ -405,8 +405,8 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
         mDevice->CreatePipelineState(PSODesc, &mSkyboxPSO);
-        mSkyboxPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "SkyboxConstantBuffer")->Set(mSkyboxConstantBuffer);
-        mSkyboxPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "Skybox")->Set(mSkyboxSRV);
+        mSkyboxPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "SkyboxConstantBuffer")->Set(mSkyboxConstantBuffer);
+        mSkyboxPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "Skybox")->Set(mSkyboxSRV);
         mSkyboxPSO->CreateShaderResourceBinding(&mSkyboxSRB, true);
     }
 
@@ -503,7 +503,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
         PSODesc.GraphicsPipeline.pPS = font_ps;
         mDevice->CreatePipelineState(PSODesc, &mFontPSO);
-        mFontPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "Tex")->Set(mFontTextureSRV);
+        mFontPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "Tex")->Set(mFontTextureSRV);
         mFontPSO->CreateShaderResourceBinding(&mFontSRB, true);
     }
 
@@ -515,14 +515,14 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         for(size_t srb = 0; srb < NUM_ASTEROIDS; ++srb)
         {
             auto staticData = &mAsteroids->StaticData()[srb];
-            mAsteroidsSRBs[srb]->GetVariable(SHADER_TYPE_PIXEL, "Tex")->Set(mTextureSRVs[staticData->textureIndex]);
+            mAsteroidsSRBs[srb]->GetVariableByName(SHADER_TYPE_PIXEL, "Tex")->Set(mTextureSRVs[staticData->textureIndex]);
         }
     }
     else if( m_BindingMode == BindingMode::TextureMutable )
     {
         for(size_t srb = 0; srb < NUM_UNIQUE_TEXTURES; ++srb)
         {
-            mAsteroidsSRBs[srb]->GetVariable(SHADER_TYPE_PIXEL, "Tex")->Set(mTextureSRVs[srb]);
+            mAsteroidsSRBs[srb]->GetVariableByName(SHADER_TYPE_PIXEL, "Tex")->Set(mTextureSRVs[srb]);
         }
     }
     mDeviceCtxt->TransitionResourceStates(static_cast<Uint32>(Barriers.size()), Barriers.data());
@@ -755,7 +755,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
         pCtx->SetIndexBuffer(mIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     }
 
-    auto pVar = m_BindingMode == BindingMode::Dynamic ? mAsteroidsSRBs[SubsetNum]->GetVariable(SHADER_TYPE_PIXEL, "Tex") : nullptr;
+    auto pVar = m_BindingMode == BindingMode::Dynamic ? mAsteroidsSRBs[SubsetNum]->GetVariableByName(SHADER_TYPE_PIXEL, "Tex") : nullptr;
     auto viewProjection = camera.ViewProjection();
     for (UINT drawIdx = startIdx; drawIdx < startIdx+numAsteroids; ++drawIdx)
     {
@@ -918,7 +918,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
                 } else { // Sprite
                     auto textureSRV = mSpriteTextures[control->TextureFile()];
                     mDeviceCtxt->SetPipelineState(mSpritePSO);
-                    mSpriteSRB->GetVariable(SHADER_TYPE_PIXEL, "Tex")->Set(textureSRV);
+                    mSpriteSRB->GetVariableByName(SHADER_TYPE_PIXEL, "Tex")->Set(textureSRV);
                     mDeviceCtxt->CommitShaderResources(mSpriteSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
                 }
                 DrawAttribs DrawAttrs(controlVertices[1+i], DRAW_FLAG_VERIFY_STATES);

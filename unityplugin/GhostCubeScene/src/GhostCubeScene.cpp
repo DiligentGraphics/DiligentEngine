@@ -131,8 +131,8 @@ void GhostCubeScene::OnGraphicsInitialized()
         PSODesc.GraphicsPipeline.pVS = pVS;
         PSODesc.GraphicsPipeline.pPS = pPS;
         pDevice->CreatePipelineState(PSODesc, &m_pMirrorPSO);
-        m_pMirrorPSO->GetStaticShaderVariable(SHADER_TYPE_VERTEX, "Constants")->Set(m_pMirrorVSConstants);
-        m_pMirrorPSO->GetStaticShaderVariable(SHADER_TYPE_PIXEL, "g_tex2Reflection")->Set(m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
+        m_pMirrorPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_pMirrorVSConstants);
+        m_pMirrorPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2Reflection")->Set(m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
         m_pMirrorPSO->CreateShaderResourceBinding(&m_pMirrorSRB, true);
     }
 #if D3D12_SUPPORTED
