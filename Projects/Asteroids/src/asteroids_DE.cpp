@@ -39,7 +39,6 @@
 #include "EngineFactoryVk.h"
 #endif
 
-#include "BasicShaderSourceStreamFactory.h"
 #include "MapHelper.h"
 
 #include "util.h"
@@ -213,7 +212,8 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
     }
     mSprite.reset( new GUISprite(5, 10, 140, 50, spriteFile) );
     
-    BasicShaderSourceStreamFactory BasicSSSFactory({"src"});
+    RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
+    mDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory("src", &pShaderSourceFactory);
 
     std::vector<StateTransitionDesc> Barriers;
     mBackBufferWidth = mSwapChain->GetDesc().Width;
@@ -252,7 +252,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.EntryPoint = "asteroid_vs";
             attribs.FilePath   = "asteroid_vs.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-            attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
+            attribs.pShaderSourceStreamFactory = pShaderSourceFactory;
             attribs.UseCombinedTextureSamplers = true;
             mDevice->CreateShader(attribs, &vs);
         }
@@ -263,7 +263,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.Desc.Name  = "Asteroids PS";
             attribs.EntryPoint = "asteroid_ps_d3d11";
             attribs.FilePath   = "asteroid_ps_d3d11.hlsl";
-            attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
+            attribs.pShaderSourceStreamFactory = pShaderSourceFactory;
             attribs.UseCombinedTextureSamplers = true;
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
             mDevice->CreateShader(attribs, &ps);
@@ -366,7 +366,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         attribs.FilePath = "skybox_vs.hlsl";
         attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
         attribs.UseCombinedTextureSamplers = true;
-        attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
+        attribs.pShaderSourceStreamFactory = pShaderSourceFactory;
         mDevice->CreateShader(attribs, &vs);
 
         attribs.Desc.Name = "Skybox PS";
@@ -464,7 +464,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.FilePath = "sprite_vs.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
             attribs.UseCombinedTextureSamplers = true;
-            attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
+            attribs.pShaderSourceStreamFactory = pShaderSourceFactory;
             mDevice->CreateShader(attribs, &sprite_vs);
         }
 
@@ -476,7 +476,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.FilePath = "sprite_ps.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
             attribs.UseCombinedTextureSamplers = true;
-            attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
+            attribs.pShaderSourceStreamFactory = pShaderSourceFactory;
             mDevice->CreateShader(attribs, &sprite_ps);
         }
 
@@ -488,7 +488,7 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.FilePath = "font_ps.hlsl";
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
             attribs.UseCombinedTextureSamplers = true;
-            attribs.pShaderSourceStreamFactory = &BasicSSSFactory;
+            attribs.pShaderSourceStreamFactory = pShaderSourceFactory;
             mDevice->CreateShader(attribs, &font_ps);
         }
         

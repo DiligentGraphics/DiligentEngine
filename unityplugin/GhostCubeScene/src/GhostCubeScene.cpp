@@ -25,7 +25,6 @@
 #include "PlatformDefinitions.h"
 #include "BasicMath.h"
 #include <algorithm>
-#include "BasicShaderSourceStreamFactory.h"
 #include "GraphicsUtilities.h"
 #include "MapHelper.h"
 #include "CommonlyUsedStates.h"
@@ -94,8 +93,9 @@ void GhostCubeScene::OnGraphicsInitialized()
         PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
 
         ShaderCreateInfo ShaderCI;
-        BasicShaderSourceStreamFactory BasicSSSFactory("shaders");
-        ShaderCI.pShaderSourceStreamFactory = &BasicSSSFactory;
+        RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
+        pDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory("shaders", &pShaderSourceFactory);
+        ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
         ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
         ShaderCI.UseCombinedTextureSamplers = true;
 

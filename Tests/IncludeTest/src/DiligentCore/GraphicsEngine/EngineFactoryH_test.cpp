@@ -21,28 +21,4 @@
  *  of the possibility of such damages.
  */
 
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
-
-#pragma once
-
-#include <list>
-#include <algorithm>
-#include <cassert>
-#include <memory>
-#include <chrono>
-#include <vector>
-
-#include "PlatformDefinitions.h"
-
-#include "BasicTypes.h"
-
-#include "RefCntAutoPtr.h"
-#include "DebugUtilities.h"
-#include "EngineFactory.h"
-#include "RenderDevice.h"
-#include "DeviceContext.h"
-#include "SwapChain.h"
-
+#include "DiligentCore/Graphics/GraphicsEngine/interface/EngineFactory.h"

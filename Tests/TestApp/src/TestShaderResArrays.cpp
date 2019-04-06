@@ -27,7 +27,6 @@
 #include "pch.h"
 #include "TestShaderResArrays.h"
 #include "GraphicsUtilities.h"
-#include "BasicShaderSourceStreamFactory.h"
 #include "TestTexturing.h"
 
 using namespace Diligent;
@@ -39,8 +38,9 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
     m_pDeviceContext = pDeviceContext;
     
     ShaderCreateInfo CreationAttrs;
-    BasicShaderSourceStreamFactory BasicSSSFactory;
-    CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
+    RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
+    pDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
+    CreationAttrs.pShaderSourceStreamFactory = pShaderSourceFactory;
     CreationAttrs.Desc.TargetProfile = SHADER_PROFILE_DX_5_0;
     CreationAttrs.UseCombinedTextureSamplers = true;
 

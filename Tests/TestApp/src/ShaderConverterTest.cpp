@@ -30,7 +30,6 @@
 #include "Errors.h"
 #include "ScriptParser.h"
 #include "ConvenienceFunctions.h"
-#include "BasicShaderSourceStreamFactory.h"
 #include "HLSL2GLSLConverter.h"
 
 using namespace Diligent;
@@ -40,8 +39,9 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
 {
     ShaderCreateInfo ShaderCI;
     ShaderCI.FilePath = "Shaders\\ConverterTest.fx";
-    BasicShaderSourceStreamFactory BasicSSSFactory("Shaders");
-    ShaderCI.pShaderSourceStreamFactory = &BasicSSSFactory;
+    RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
+    pRenderDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory("Shaders", &pShaderSourceFactory);
+    ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
     ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
     ShaderCI.Desc.Name = "Test converted shader";
     ShaderCI.UseCombinedTextureSamplers = pRenderDevice->GetDeviceCaps().IsGLDevice();

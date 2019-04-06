@@ -27,7 +27,6 @@
 #include "pch.h"
 #include "TestTessellation.h"
 #include "MapHelper.h"
-#include "BasicShaderSourceStreamFactory.h"
 
 using namespace Diligent;
 
@@ -42,8 +41,9 @@ void TestTessellation::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     m_pDeviceContext = pDeviceContext;
 
     ShaderCreateInfo CreationAttrs;
-    BasicShaderSourceStreamFactory BasicSSSFactory;
-    CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
+    RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
+    pDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory("Shaders", &pShaderSourceFactory);
+    CreationAttrs.pShaderSourceStreamFactory = pShaderSourceFactory;
     CreationAttrs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
     CreationAttrs.UseCombinedTextureSamplers = true;
 

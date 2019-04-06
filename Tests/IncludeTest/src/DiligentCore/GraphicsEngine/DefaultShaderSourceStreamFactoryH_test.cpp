@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "DiligentCore/Graphics/GraphicsTools/include/BasicShaderSourceStreamFactory.h"
+#include "DiligentCore/Graphics/GraphicsEngine/include/DefaultShaderSourceStreamFactory.h"

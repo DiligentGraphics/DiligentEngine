@@ -28,7 +28,6 @@
 #include <math.h>
 #include "TestTexturing.h"
 #include "GraphicsUtilities.h"
-#include "BasicShaderSourceStreamFactory.h"
 #include "ShaderMacroHelper.h"
 
 using namespace Diligent;
@@ -168,8 +167,9 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     auto PixelFormatAttribs = m_pRenderDevice->GetTextureFormatInfoExt(m_TextureFormat);
 
     ShaderCreateInfo CreationAttrs;
-    BasicShaderSourceStreamFactory BasicSSSFactory;
-    CreationAttrs.pShaderSourceStreamFactory = &BasicSSSFactory;
+    RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
+    pDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory("Shaders", &pShaderSourceFactory);
+    CreationAttrs.pShaderSourceStreamFactory = pShaderSourceFactory;
     CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
     CreationAttrs.UseCombinedTextureSamplers = true;
 
