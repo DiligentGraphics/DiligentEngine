@@ -380,7 +380,7 @@ BlendTexSRB = BlendTexPSO:CreateShaderResourceBinding(true)
 
 DrawAttrs = DrawAttribs.Create{
 	NumVertices = 4,
-    Flags = "DRAW_FLAG_VERIFY_STATES"
+    Flags = "DRAW_FLAG_VERIFY_ALL"
 }
 
 VP = Viewport.Create { 

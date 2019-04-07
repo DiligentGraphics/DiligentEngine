@@ -621,7 +621,7 @@ TestDrawAttribs = DrawAttribs.Create{
 	FirstInstanceLocation = 96,
 	pIndirectDrawAttribs = TestBuffer2,
     IndirectAttribsBufferStateTransitionMode = "RESOURCE_STATE_TRANSITION_MODE_NONE",
-    Flags = {"DRAW_FLAG_VERIFY_STATES"}
+    Flags = {"DRAW_FLAG_VERIFY_STATES", "DRAW_FLAG_VERIFY_DRAW_ATTRIBS", "DRAW_FLAG_VERIFY_RENDER_TARGETS"}
 }
 assert( TestDrawAttribs.NumIndices == 128 )
 assert( TestDrawAttribs.IndexType == "VT_UINT16" )

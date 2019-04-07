@@ -91,7 +91,7 @@ void TestGeometryShader::Draw()
     m_pDeviceContext->CommitShaderResources(nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
     // Draw 2 triangles
-    Diligent::DrawAttribs DrawAttrs(2, DRAW_FLAG_VERIFY_STATES);
+    Diligent::DrawAttribs DrawAttrs(2, DRAW_FLAG_VERIFY_ALL);
     m_pDeviceContext->Draw(DrawAttrs);
     
     SetStatus(TestResult::Succeeded);

@@ -211,6 +211,6 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
         *CBConstants = transposeMatrix(wvp);
     }
 
-    DrawAttribs DrawAttrs(4, DRAW_FLAG_VERIFY_STATES);
+    DrawAttribs DrawAttrs(4, DRAW_FLAG_VERIFY_ALL);
     pCtx->Draw(DrawAttrs);
 }

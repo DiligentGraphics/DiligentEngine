@@ -403,7 +403,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
     pContext->SetPipelineState(pTestPSO);
     pContext->CommitShaderResources(pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
-    DrawAttribs DrawAttrs(3, DRAW_FLAG_VERIFY_STATES);
+    DrawAttribs DrawAttrs(3, DRAW_FLAG_VERIFY_ALL);
     pContext->Draw(DrawAttrs);
 
     pSRB->GetVariableByName(SHADER_TYPE_PIXEL, "storageBuff_Dyn")->Set(pSBUAVs[1]);

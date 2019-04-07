@@ -313,7 +313,7 @@ void TestTexturing::Draw()
     m_pDeviceContext->SetVertexBuffers( 0, 1, pBuffs, Offsets, RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAG_RESET );
 
     // Draw quad
-    Diligent::DrawAttribs DrawAttrs(4, DRAW_FLAG_VERIFY_STATES);
+    Diligent::DrawAttribs DrawAttrs(4, DRAW_FLAG_VERIFY_ALL);
     m_pDeviceContext->Draw( DrawAttrs );
     
     SetStatus(TestResult::Succeeded);

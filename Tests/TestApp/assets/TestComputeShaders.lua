@@ -318,7 +318,7 @@ DrawAttrs = DrawAttribs.Create{
 	IndexType = "VT_UINT32",
 	pIndirectDrawAttribs = IndirectDrawArgsBuffer,
     IndirectAttribsBufferStateTransitionMode = "RESOURCE_STATE_TRANSITION_MODE_TRANSITION",
-    Flags = {"DRAW_FLAG_VERIFY_STATES"}
+    Flags = {"DRAW_FLAG_VERIFY_ALL"}
 }
 
 
