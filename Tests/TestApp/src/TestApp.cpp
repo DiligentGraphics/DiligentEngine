@@ -65,6 +65,7 @@
     #include "ShaderConverterTest.h"
 #endif
 #include "TestCopyTexData.h"
+#include "TestMipMapsGeneration.h"
 #include "PlatformMisc.h"
 #include "TestBufferCreation.h"
 #include "TestBrokenShader.h"
@@ -416,6 +417,7 @@ void TestApp::InitializeRenderers()
         }
 
     TestCopyTexData TestCopyData(m_pDevice, m_pImmediateContext);
+    TestMipMapsGeneration TestMipsGen(m_pDevice, m_pImmediateContext);
 
     TestVPAndSR TestVPAndSR(m_pDevice, m_pImmediateContext);
 
