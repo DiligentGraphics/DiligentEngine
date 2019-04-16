@@ -8,9 +8,11 @@
 // Intel does not assume any responsibility for any errors which may appear in this software
 // nor any responsibility to update it.
 
+#include <algorithm>
+#include <cmath>
+
 #include "camera.h"
 #include "util.h"
-#include <algorithm>
 
 using namespace DirectX;
 
