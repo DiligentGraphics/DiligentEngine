@@ -22,5 +22,5 @@
  */
 
 #if D3D12_SUPPORTED
-#include "DiligentCore/Graphics/GraphicsTools/include/TextureUploaderD3D12.h"
+#include "DiligentCore/Graphics/GraphicsTools/include/TextureUploaderD3D12_Vk.h"
 #endif

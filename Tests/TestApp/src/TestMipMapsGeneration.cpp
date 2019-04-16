@@ -45,16 +45,26 @@ TestMipMapsGeneration::TestMipMapsGeneration( IRenderDevice *pDevice, IDeviceCon
         TextureDesc TexDesc;
         TexDesc.Type = RESOURCE_DIM_TEX_2D;
         TexDesc.Format = TestFormats[f];
-        TexDesc.Width = 128;
-        TexDesc.Height = 128;
+        TexDesc.Width = 128 + 6;
+        TexDesc.Height = 128 + 5;
         TexDesc.BindFlags = BIND_SHADER_RESOURCE;
         TexDesc.MipLevels = 6;
         TexDesc.Usage = USAGE_DEFAULT;
         TexDesc.MiscFlags = MISC_TEXTURE_FLAG_GENERATE_MIPS;
 
+        std::vector<Uint8> NullData(TexDesc.Width * TexDesc.Height * 16);
+        
         {
             RefCntAutoPtr<ITexture> pTex;
-            pDevice->CreateTexture(TexDesc, nullptr, &pTex);
+            std::vector<TextureSubResData> SubresData(TexDesc.MipLevels);
+            for(auto& MipLevelData : SubresData)
+            {
+                MipLevelData.pData  = NullData.data();
+                MipLevelData.Stride = TexDesc.Width * 16;
+            }
+            TextureData InitData{SubresData.data(), TexDesc.MipLevels};
+
+            pDevice->CreateTexture(TexDesc, &InitData, &pTex);
             pContext->GenerateMips(pTex->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
 
             TextureViewDesc ViewDesc(TEXTURE_VIEW_SHADER_RESOURCE, RESOURCE_DIM_TEX_2D_ARRAY);
