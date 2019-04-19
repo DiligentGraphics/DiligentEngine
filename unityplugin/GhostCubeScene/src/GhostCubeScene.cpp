@@ -86,7 +86,7 @@ void GhostCubeScene::OnGraphicsInitialized()
         PSODesc.Name = "Mirror PSO";
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
 
-        PSODesc.GraphicsPipeline.RTVFormats[0] = SCDesc.ColorBufferFormat == TEX_FORMAT_RGBA8_UNORM ? TEX_FORMAT_RGBA8_UNORM_SRGB : SCDesc.ColorBufferFormat;
+        PSODesc.GraphicsPipeline.RTVFormats[0] = SCDesc.ColorBufferFormat;
         PSODesc.GraphicsPipeline.DSVFormat = SCDesc.DepthBufferFormat;
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
         PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;

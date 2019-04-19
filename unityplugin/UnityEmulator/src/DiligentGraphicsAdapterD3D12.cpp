@@ -149,6 +149,9 @@ public:
         m_SwapChainDesc.Width = SwapChainDesc.Width;
         m_SwapChainDesc.Height = SwapChainDesc.Height;
         m_SwapChainDesc.ColorBufferFormat = DXGI_FormatToTexFormat(SwapChainDesc.Format);
+        if (m_SwapChainDesc.ColorBufferFormat == TEX_FORMAT_RGBA8_UNORM)
+            m_SwapChainDesc.ColorBufferFormat = TEX_FORMAT_RGBA8_UNORM_SRGB;
+
         const auto DepthBufferDesc = pd3d12DepthBuffer->GetDesc();
         m_SwapChainDesc.DepthBufferFormat = DXGI_FormatToTexFormat(DepthBufferDesc.Format);
 
