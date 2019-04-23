@@ -445,7 +445,7 @@ public:
                         m1[1][0] == 5 && m1[1][1] == 6);
 
             VERIFY_EXPR(m1 == m2);
-            auto t = transposeMatrix(transposeMatrix(m1));
+            auto t = m1.Transpose().Transpose();
             VERIFY_EXPR(t == m1);
         }
 
@@ -465,7 +465,7 @@ public:
                         m1[2][0] ==  9 && m1[2][1] == 10 && m1[2][2] == 11 );
 
             VERIFY_EXPR( m1 == m2 );
-            auto t = transposeMatrix( transposeMatrix( m1 ) );
+            auto t = m1.Transpose().Transpose();
             VERIFY_EXPR( t == m1 );
         }
 
@@ -489,7 +489,7 @@ public:
                         m1[3][0] == 13 && m1[3][1] == 14 && m1[3][2] == 15 && m1[3][3] == 16 );
 
             VERIFY_EXPR( m1 == m2 );
-            auto t = transposeMatrix( transposeMatrix( m1 ) );
+            auto t = m1.Transpose().Transpose();
             VERIFY_EXPR( t == m1 );
         }
 
@@ -499,7 +499,7 @@ public:
                         5,  1,  4,  9,
                         5, 11,  7,  2,
                        13,  4, 19,  8);
-            auto inv = inverseMatrix( m );
+            auto inv = m.Inverse();
             auto identity = m * inv;
             for( int j = 0; j < 4; ++j)
                 for( int i = 0; i < 4; ++i )
@@ -516,7 +516,7 @@ public:
                          5,  6,  7,  8,
                          9, 10, 11, 12,
                         13, 14, 15, 16);
-            auto det = determinant(m1);
+            auto det = m1.Determinant();
             VERIFY_EXPR( det == 0 );
         }
 
@@ -543,28 +543,28 @@ public:
         // Test ortho projection matrix
         {
             {
-                float4x4 OrthoProj = Ortho(2.f, 4.f, -4.f, 12.f, false);
+                float4x4 OrthoProj = float4x4::OrthoD3D(2.f, 4.f, -4.f, 12.f, false);
                 auto c0 = float3(-1.f, -2.f, -4.f) * OrthoProj;
                 auto c1 = float3(+1.f, +2.f, +12.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, 0) && c1 == float3(+1,+1,+1) );
             }
 
             {
-                float4x4 OrthoProj = Ortho(2.f, 4.f, -4.f, 12.f, true);
+                float4x4 OrthoProj = float4x4::OrthoD3D(2.f, 4.f, -4.f, 12.f, true);
                 auto c0 = float3(-1.f, -2.f, -4.f) * OrthoProj;
                 auto c1 = float3(+1.f, +2.f, +12.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
             }
 
             {
-                float4x4 OrthoProj = OrthoOffCenter(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, false);
+                float4x4 OrthoProj = float4x4::OrthoOffCenterD3D(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, false);
                 auto c0 = float3(-2.f, -4.f, -6.f) * OrthoProj;
                 auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, 0) && c1 == float3(+1, +1, +1));
             }
 
             {
-                float4x4 OrthoProj = OrthoOffCenter(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, true);
+                float4x4 OrthoProj = float4x4::OrthoOffCenterD3D(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, true);
                 auto c0 = float3(-2.f, -4.f, -6.f) * OrthoProj;
                 auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
@@ -588,6 +588,25 @@ public:
             VERIFY_EXPR(vec3== float3(1, 2, 3));
         }
 
+        {
+            double data[] = {1,2,3,4,
+                             5,6,7,8,
+                             9,10,11,12,
+                             13,14,15,16};
+            VERIFY_EXPR(float2::MakeVector(data) == float2(1, 2));
+            VERIFY_EXPR(float3::MakeVector(data) == float3(1, 2, 3));
+            VERIFY_EXPR(float4::MakeVector(data) == float4(1, 2, 3, 4));
+            VERIFY_EXPR(Quaternion::MakeQuaternion(data) == Quaternion(1,2,3,4));
+            VERIFY_EXPR(float4x4::MakeMatrix(data) == float4x4(1,2,3,4,
+                                                               5,6,7,8,
+                                                               9,10,11,12,
+                                                               13,14,15,16));
+            VERIFY_EXPR(float3x3::MakeMatrix(data) == float3x3(1,2,3,
+                                                               4,5,6,
+                                                               7,8,9));
+            VERIFY_EXPR(float2x2::MakeMatrix(data) == float2x2(1,2,
+                                                               3,4));
+        }
         SetStatus(TestResult::Succeeded);
     }
 };

@@ -155,7 +155,7 @@ void SamplePlugin::Render(Diligent::IDeviceContext *pContext, const float4x4 &Vi
 {
     {
         MapHelper<float4x4> CBConstants(pContext, m_VSConstants, MAP_WRITE, MAP_FLAG_DISCARD);
-        *CBConstants = transposeMatrix(ViewProjMatrix);
+        *CBConstants = ViewProjMatrix.Transpose();
     }
 
     Uint32 offset = 0;

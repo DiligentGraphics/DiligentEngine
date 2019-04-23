@@ -142,7 +142,7 @@ void GhostCubeScene::OnGraphicsInitialized()
 
 void GhostCubeScene::Update(double CurrTime, double ElapsedTime)
 {
-    m_CubeWorldView = scaleMatrix(1, 2, 1) * rotationY(static_cast<float>(CurrTime) * 2.0f) * rotationX(PI_F * 0.3f) * translationMatrix(0.f, 0.0f, 10.0f);
+    m_CubeWorldView = float4x4::Scale(1, 2, 1) * float4x4::RotationY_D3D(static_cast<float>(CurrTime) * 2.0f) * float4x4::RotationX_D3D(PI_F * 0.3f) * float4x4::TranslationD3D(0.f, 0.0f, 10.0f);
 }
 
 
@@ -178,13 +178,13 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
         if (ReverseZ)
             std::swap(NearPlane, FarPlane);
         float aspectRatio = 1.0f;
-        float4x4 ReflectionCameraProj = Projection(PI_F / 4.f, aspectRatio, NearPlane, FarPlane, bIsGL);
+        float4x4 ReflectionCameraProj = float4x4::ProjectionD3D(PI_F / 4.f, aspectRatio, NearPlane, FarPlane, bIsGL);
         auto wvp = m_CubeWorldView * ReflectionCameraProj;
         float fReverseZ = bIsGL ? +1.f : -1.f;
-        SetMatrixFromUnity(wvp._m00, fReverseZ * wvp._m01, wvp._m02, wvp._m03, 
-                           wvp._m10, fReverseZ * wvp._m11, wvp._m12, wvp._m13,
-                           wvp._m20, fReverseZ * wvp._m21, wvp._m22, wvp._m23,
-                           wvp._m30, fReverseZ * wvp._m31, wvp._m32, wvp._m33);
+        SetMatrixFromUnity(wvp.m00, fReverseZ * wvp.m01, wvp.m02, wvp.m03, 
+                           wvp.m10, fReverseZ * wvp.m11, wvp.m12, wvp.m13,
+                           wvp.m20, fReverseZ * wvp.m21, wvp.m22, wvp.m23,
+                           wvp.m30, fReverseZ * wvp.m31, wvp.m32, wvp.m33);
 
         SetTexturesFromUnity(m_pRenderTarget->GetNativeHandle(), m_pDepthBuffer->GetNativeHandle());
 
@@ -199,16 +199,16 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     pCtx->CommitShaderResources(m_pMirrorSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     {
-        float4x4 MirrorWorldView = scaleMatrix(5,5,5) * rotationX(-PI_F*0.6f) * translationMatrix(0.f, -3.0f, 10.0f);
+        float4x4 MirrorWorldView = float4x4::Scale(5,5,5) * float4x4::RotationX_D3D(-PI_F*0.6f) * float4x4::TranslationD3D(0.f, -3.0f, 10.0f);
         float NearPlane = 0.3f;
         float FarPlane = 1000.f;
         if (ReverseZ)
             std::swap(NearPlane, FarPlane);
         float AspectRatio = static_cast<float>(m_WindowWidth) / static_cast<float>(std::max(m_WindowHeight, 1));
-        float4x4 MainCameraProj = Projection(PI_F / 3.f, AspectRatio, NearPlane, FarPlane, bIsGL);
+        float4x4 MainCameraProj = float4x4::ProjectionD3D(PI_F / 3.f, AspectRatio, NearPlane, FarPlane, bIsGL);
         auto wvp = MirrorWorldView * MainCameraProj;
         MapHelper<float4x4> CBConstants(pCtx, m_pMirrorVSConstants, MAP_WRITE, MAP_FLAG_DISCARD);
-        *CBConstants = transposeMatrix(wvp);
+        *CBConstants = wvp.Transpose();
     }
 
     DrawAttribs DrawAttrs(4, DRAW_FLAG_VERIFY_ALL);
