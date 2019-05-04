@@ -142,7 +142,7 @@ void GhostCubeScene::OnGraphicsInitialized()
 
 void GhostCubeScene::Update(double CurrTime, double ElapsedTime)
 {
-    m_CubeWorldView = float4x4::Scale(1, 2, 1) * float4x4::RotationY_D3D(static_cast<float>(CurrTime) * 2.0f) * float4x4::RotationX_D3D(PI_F * 0.3f) * float4x4::TranslationD3D(0.f, 0.0f, 10.0f);
+    m_CubeWorldView = float4x4::Scale(1, 2, 1) * float4x4::RotationY(static_cast<float>(CurrTime) * 2.0f) * float4x4::RotationX(PI_F * 0.3f) * float4x4::Translation(0.f, 0.0f, 10.0f);
 }
 
 
@@ -178,7 +178,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
         if (ReverseZ)
             std::swap(NearPlane, FarPlane);
         float aspectRatio = 1.0f;
-        float4x4 ReflectionCameraProj = float4x4::ProjectionD3D(PI_F / 4.f, aspectRatio, NearPlane, FarPlane, bIsGL);
+        float4x4 ReflectionCameraProj = float4x4::Projection(PI_F / 4.f, aspectRatio, NearPlane, FarPlane, bIsGL);
         auto wvp = m_CubeWorldView * ReflectionCameraProj;
         float fReverseZ = bIsGL ? +1.f : -1.f;
         SetMatrixFromUnity(wvp.m00, fReverseZ * wvp.m01, wvp.m02, wvp.m03, 
@@ -199,13 +199,13 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     pCtx->CommitShaderResources(m_pMirrorSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     {
-        float4x4 MirrorWorldView = float4x4::Scale(5,5,5) * float4x4::RotationX_D3D(-PI_F*0.6f) * float4x4::TranslationD3D(0.f, -3.0f, 10.0f);
+        float4x4 MirrorWorldView = float4x4::Scale(5,5,5) * float4x4::RotationX(-PI_F*0.6f) * float4x4::Translation(0.f, -3.0f, 10.0f);
         float NearPlane = 0.3f;
         float FarPlane = 1000.f;
         if (ReverseZ)
             std::swap(NearPlane, FarPlane);
         float AspectRatio = static_cast<float>(m_WindowWidth) / static_cast<float>(std::max(m_WindowHeight, 1));
-        float4x4 MainCameraProj = float4x4::ProjectionD3D(PI_F / 3.f, AspectRatio, NearPlane, FarPlane, bIsGL);
+        float4x4 MainCameraProj = float4x4::Projection(PI_F / 3.f, AspectRatio, NearPlane, FarPlane, bIsGL);
         auto wvp = MirrorWorldView * MainCameraProj;
         MapHelper<float4x4> CBConstants(pCtx, m_pMirrorVSConstants, MAP_WRITE, MAP_FLAG_DISCARD);
         *CBConstants = wvp.Transpose();

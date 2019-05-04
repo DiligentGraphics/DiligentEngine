@@ -543,28 +543,28 @@ public:
         // Test ortho projection matrix
         {
             {
-                float4x4 OrthoProj = float4x4::OrthoD3D(2.f, 4.f, -4.f, 12.f, false);
+                float4x4 OrthoProj = float4x4::Ortho(2.f, 4.f, -4.f, 12.f, false);
                 auto c0 = float3(-1.f, -2.f, -4.f) * OrthoProj;
                 auto c1 = float3(+1.f, +2.f, +12.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, 0) && c1 == float3(+1,+1,+1) );
             }
 
             {
-                float4x4 OrthoProj = float4x4::OrthoD3D(2.f, 4.f, -4.f, 12.f, true);
+                float4x4 OrthoProj = float4x4::Ortho(2.f, 4.f, -4.f, 12.f, true);
                 auto c0 = float3(-1.f, -2.f, -4.f) * OrthoProj;
                 auto c1 = float3(+1.f, +2.f, +12.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
             }
 
             {
-                float4x4 OrthoProj = float4x4::OrthoOffCenterD3D(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, false);
+                float4x4 OrthoProj = float4x4::OrthoOffCenter(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, false);
                 auto c0 = float3(-2.f, -4.f, -6.f) * OrthoProj;
                 auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, 0) && c1 == float3(+1, +1, +1));
             }
 
             {
-                float4x4 OrthoProj = float4x4::OrthoOffCenterD3D(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, true);
+                float4x4 OrthoProj = float4x4::OrthoOffCenter(-2.f, 6.f, -4.f, +12.f, -6.f, 10.f, true);
                 auto c0 = float3(-2.f, -4.f, -6.f) * OrthoProj;
                 auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
@@ -606,6 +606,42 @@ public:
                                                                7,8,9));
             VERIFY_EXPR(float2x2::MakeMatrix(data) == float2x2(1,2,
                                                                3,4));
+        }
+
+        {
+            {
+                float2x2 m1(1,2,
+                            3,4);
+                float2x2 m2(5,6,
+                            7,8);
+                auto m = m1;
+                m *= m2;
+                VERIFY_EXPR(m == m1*m2);
+            }
+            {
+                float3x3 m1(1,2,3,
+                            4,5,6,
+                            7,8,9);
+                float3x3 m2(10,11,12,
+                            13,14,15,
+                            16,17,18);
+                auto m = m1;
+                m *= m2;
+                VERIFY_EXPR(m == m1*m2);
+            }
+            {
+                float4x4 m1(1,2,3,4,
+                            5,6,7,8,
+                            9,10,11,12,
+                            13,14,15,16);
+                float4x4 m2(17,18,19,20,
+                            21,22,23,24,
+                            25,26,27,28,
+                            29,30,31,32);
+                auto m = m1;
+                m *= m2;
+                VERIFY_EXPR(m == m1*m2);
+            }
         }
         SetStatus(TestResult::Succeeded);
     }
