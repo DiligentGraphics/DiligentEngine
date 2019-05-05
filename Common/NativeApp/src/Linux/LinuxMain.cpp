@@ -438,11 +438,12 @@ int main (int argc, char ** argv)
     UseVulkan = true;
     if (argc > 1)
     {
-        const auto* Key = "mode=";
+        const auto* Key = "-mode ";
         const auto* pos = strstr(argv[1], Key);
         if (pos != nullptr)
         {
             pos += strlen(Key);
+            while(*pos != 0 && *pos == ' ')++pos;
             if (strcasecmp(pos, "GL") == 0)
             {
                 UseVulkan = false;
