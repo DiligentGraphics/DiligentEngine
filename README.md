@@ -613,7 +613,7 @@ The following components are now available:
 |||
 |-----------------|-----------------|
 | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/damaged_helmet.jpg) | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/flight_helmet.jpg) |
-| ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/mr_spheres.jpg)     | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/cesium_man_large.gif)  |
+| ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/mr_spheres.jpg)     | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/GLTFViewer/screenshots/cesium_man_large.gif)  |
 
 
 <a name="contributing"></a>
