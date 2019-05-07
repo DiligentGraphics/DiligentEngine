@@ -607,6 +607,7 @@ The following components are now available:
 
 * [Tone mapping shader utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
 
+<a name="gltf_loader_and_renderer"></a>
 * [GLTF2.0 Loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader)
   and [Physically-based renderer with image-based lighting](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer).
   
