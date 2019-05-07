@@ -2,10 +2,10 @@
 **A Modern Cross-Platform Low-Level 3D Graphics Library** [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=An%20easy-to-use%20cross-platform%20graphics%20library%20that%20takes%20full%20advantage%20of%20%23Direct3D12%20and%20%23VulkanAPI&url=https://github.com/DiligentGraphics/DiligentEngine)
 
 [Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform graphics
-API abstraction library. It is designed to take full advantage of Direct3D12, Vulkan and Metal, while
-supporting older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common front-end 
-API and uses HLSL as universal shading language on all platforms and rendering back-ends. Platform-specific 
-shader representations (GLSL, DX bytecode or SPIRV) can be used with corresponding back-ends.
+API abstraction library and rendering framework. It is designed to take full advantage of Direct3D12, Vulkan
+and Metal, while supporting older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common
+front-end  API and uses HLSL as universal shading language on all platforms and rendering back-ends. 
+Platform-specific shader representations (GLSL, DX bytecode or SPIRV) can be used with corresponding back-ends.
 The engine is intended to be used as graphics subsystem in a game engine or any other 3D application. 
 It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
@@ -38,6 +38,13 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 * Extensive validation and error reporting
 * Modern c++ features to make code fast and reliable
 
+## High-level Rendering components
+
+* [Atmospheric light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/Postprocess/EpipolarLightScattering)
+* [Tone mapping utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
+* [Physically-based GLTF2.0 renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer)
+
+
 ## Supported Plaforms and Low-Level Graphics APIs
 
 | Platform                     | APIs                                        |  Build Status    |
@@ -69,9 +76,10 @@ Last Stable Release - [v2.4.b](https://github.com/DiligentGraphics/DiligentEngin
 - [Tutorials](#tutorials)
 - [Samples](#samples)
 - [Demos](#demos)
+- [High-Level Rendering Components](#high_level_components)
 - [Contributing](#contributing)
 - [References](#references)
-- [Releas History](#release_history)
+- [Release History](#release_history)
 
 <a name="clonning"></a>
 # Cloning the Repository
@@ -578,7 +586,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 |------------|-------------|----------------------|
 | [AntTweakBar Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/AntTweakBar) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/AntTweakBar/Animation_Small.gif) | This sample demonstrates how to use [AntTweakBar library](http://anttweakbar.sourceforge.net/doc) to create simple user interface. |
 | [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Atmosphere/Animation_Small.gif) | This sample demonstrates how to integrate [Epipolar Light Scattering](https://github.com/DiligentGraphics/DiligentFX/tree/master/Postprocess/EpipolarLightScattering) post-processing effect into an application to render physically-based atmosphere. |
-| [GLTF Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer) | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/flight_helmet.jpg) | This sample demonstrates how to use the [Asset Loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader) and [GLTF PBR Renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer) to load and render GLTF models. |
+| [GLTF Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer) | <img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/flight_helmet.jpg" width=240> | This sample demonstrates how to use the [Asset Loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader) and [GLTF PBR Renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer) to load and render GLTF models. |
 
 <a name="demos"></a>
 # Demos
@@ -587,6 +595,25 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 |------------|-------------|----------------------|
 | [Asteroids Performance Benchmark](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) | ![](Projects/Asteroids/Screenshot.png) | This demo is designed to be a performance benchmark and is based on [this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. It renders 50,000 unique textured asteroids. Every asteroid is a combination of one of 1000 unique meshes and one of 10 unique textures. The sample uses original D3D11 and D3D12 native implementations, and adds implementation using Diligent Engine API to allow comparing performance of different rendering modes. |
 | [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin) | ![](unityplugin/GhostCubePlugin/Screenshot.png) | This project demonstrates integration of Diligent Engine with Unity |
+
+<a name="high_level_components"></a>
+# High-Level Rendering Components
+
+High-level rendering functionality is implemented by [DiligentFX module](https://github.com/DiligentGraphics/DiligentFX).
+The following components are now available:
+
+* [Epipolar light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/Postprocess/EpipolarLightScattering)
+<img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/Postprocess/EpipolarLightScattering/media/LightScattering.png" width=240>
+
+* [Tone mapping shader utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
+
+* [GLTF2.0 Loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader)
+  and [Physically-based renderer with image-based lighting](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer).
+  
+|||
+|-----------------|-----------------|
+| ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/damaged_helmet.jpg) | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/flight_helmet.jpg) |
+| ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/mr_spheres.jpg)     | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/cesium_man_large.gif)  |
 
 
 <a name="contributing"></a>
