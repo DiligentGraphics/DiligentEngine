@@ -158,7 +158,7 @@ variable `VK_LAYER_PATH` that contains path to the *Bin* directory in VulkanSDK 
 Make sure that Visual C++ ATL Support is installed via Visual Studio Installer.
 
 Open *DiligentEngine.sln* file in *cmk_build/Win64* folder, select configuration and build the engine. Set the desired project
-as startup project (by default, Asteroids demo will be selected) and run it. 
+as startup project (by default, GLTF Viewer will be selected) and run it. 
 
 By default, sample and tutorial applications will show rendering backend selection dialog box. Use the following command line options to force
 D3D11, D3D12, OpenGL, or Vulkan mode: **-mode D3D11**, **-mode D3D12**, **-mode GL**, or **-mode Vk**. If you want to run an application
@@ -187,7 +187,7 @@ You can target specific SDK version by refining CMAKE_SYSTEM_VERSION, for instan
 cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.16299.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"
 ```
 
-Set the desired project as startup project (by default, Atmosphere sample will be selected) and run it. 
+Set the desired project as startup project (by default, GLTF Viewer will be selected) and run it. 
 
 By default, appplications will run in D3D12 mode. You can select D3D11 or D3D12 using the following command line options:
 **-mode D3D11**, **-mode D3D12**.
