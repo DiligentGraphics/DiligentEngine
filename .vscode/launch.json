@@ -24,7 +24,7 @@
             ]
         },
         {
-            "name": "AntmosphereSample",
+            "name": "AtmosphereSample",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/Atmosphere/AtmosphereSample",
