@@ -21,6 +21,8 @@
 *  of the possibility of such damages.
 */
 
+#include "AndroidFileSystem.h"
+#include "EngineFactoryOpenGL.h"
 #include "TestApp.h"
 #include "RenderDeviceGLES.h"
 
@@ -35,10 +37,12 @@ public:
         m_DeviceType = DeviceType::OpenGLES;
     }
 
-    virtual void Initialize(ANativeWindow* window)override final
+    virtual void Initialize()override final
     {
-        TestApp::Initialize(window);
-        InitializeDiligentEngine(window);
+        GetEngineFactoryOpenGL()->InitAndroidFileSystem(app_->activity, native_activity_class_name_.c_str());
+        AndroidFileSystem::Init(app_->activity, native_activity_class_name_.c_str());
+        TestApp::Initialize();
+        InitializeDiligentEngine(app_->window);
         m_RenderDeviceGLES = RefCntAutoPtr<IRenderDeviceGLES>(m_pDevice, IID_RenderDeviceGLES);
         InitializeRenderers();
     }

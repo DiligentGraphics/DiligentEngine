@@ -1,5 +1,10 @@
 cmake_minimum_required (VERSION 3.6)
 
+if(PLATFORM_ANDROID)
+    add_subdirectory(Android)
+endif()
+
+
 project(NativeAppBase)
 
 if(PLATFORM_WIN32)
@@ -92,7 +97,13 @@ elseif(PLATFORM_ANDROID)
         target_link_libraries(${TARGET_NAME} 
         PRIVATE 
             android
-            NativeAppGlue
+            native_app_glue
+        )
+        # Export ANativeActivity_onCreate(),
+        # Refer to: https://github.com/android-ndk/ndk/issues/381.
+        set_target_properties(${TARGET_NAME}
+        PROPERTIES
+          LINK_FLAGS "-u ANativeActivity_onCreate"
         )
         #target_include_directories(${TARGET_NAME} 
         #PRIVATE
@@ -350,7 +361,7 @@ elseif(PLATFORM_UNIVERSAL_WINDOWS)
     )
 
 elseif(PLATFORM_ANDROID)
-    target_link_libraries(NativeAppBase PUBLIC NDKHelper NativeAppGlue PRIVATE android)
+    target_link_libraries(NativeAppBase PUBLIC NDKHelper native_app_glue PRIVATE android)
     target_include_directories(NativeAppBase
     PUBLIC
         include/Android

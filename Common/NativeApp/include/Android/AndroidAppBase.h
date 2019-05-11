@@ -39,10 +39,10 @@ class AndroidAppBase : public AppBase
 {
 public:
     int InitDisplay();
-    void SetState(android_app* state);
+    void SetState(android_app* state, const char* native_activity_class_name);
     void InitSensors();
     void ProcessSensors( int32_t id );
-    void DrawFrame();    
+    void DrawFrame();
     bool IsReady();
     virtual void TrimMemory() = 0;
     virtual void TermDisplay() = 0;
@@ -61,14 +61,15 @@ public:
         else
             return false;
     }
+
 protected:
-    virtual void Initialize(ANativeWindow* window)
+    virtual void Initialize()
     {
         CheckWindowSizeChanged();
     }
 
     virtual int Resume(ANativeWindow* window) = 0;
-    
+
     virtual int32_t HandleInput(AInputEvent* event ){return 0;}
 
     virtual void LoadResources()
@@ -88,6 +89,8 @@ protected:
     ndk_helper::PerfMonitor monitor_;
 
     //ndk_helper::TapCamera tap_camera_;
+    android_app* app_ = nullptr;
+    std::string  native_activity_class_name_;
 
 private:
     void UpdatePosition( AInputEvent* event, int32_t iIndex, float& fX, float& fY );
@@ -96,14 +99,13 @@ private:
     void ShowUI();
     void UpdateFPS( float fFPS );
 
-    android_app* app_ = nullptr;
     bool initialized_resources_ = false;
-    bool has_focus_ = false;
-    int32_t window_width_ = 0;
-    int32_t window_height_ = 0;
-    
-    ASensorManager* sensor_manager_ = nullptr;
-    const ASensor* accelerometer_sensor_ = nullptr;
+    bool has_focus_             = false;
+    int32_t window_width_       = 0;
+    int32_t window_height_      = 0;
+
+    ASensorManager* sensor_manager_        = nullptr;
+    const ASensor* accelerometer_sensor_   = nullptr;
     ASensorEventQueue* sensor_event_queue_ = nullptr;
 };
 

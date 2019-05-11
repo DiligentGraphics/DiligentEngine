@@ -30,6 +30,7 @@
 
 
 #define HELPER_CLASS_NAME "com/android/helper/NDKHelper" //Class name of helper function
+#define NATIVEACTIVITY_CLASS_NAME "android/app/NativeActivity"
 
 using namespace Diligent;
 
@@ -38,11 +39,8 @@ using namespace Diligent;
 // event loop for receiving input events and doing other things.
 void android_main( android_app* state )
 {
-    // Despite the deprecation warning, removing call to app_dummy causes the app to crash!
-    app_dummy();
-
     std::unique_ptr<AndroidAppBase> theApp(CreateApplication());
-    theApp->SetState( state );
+    theApp->SetState( state, NATIVEACTIVITY_CLASS_NAME );
 
     //Init helper functions
     ndk_helper::JNIHelper::Init( state->activity, HELPER_CLASS_NAME );

@@ -35,10 +35,10 @@ public:
         m_DeviceType = Diligent::DeviceType::OpenGLES;
     }
 
-    virtual void Initialize(ANativeWindow* window)override final
+    virtual void Initialize()override final
     {
-        UnityAppBase::Initialize(window);
-        InitGraphics(window, 0/*Unused*/, 0/*Unused*/);
+        UnityAppBase::Initialize();
+        InitGraphics(app_->window, 0/*Unused*/, 0/*Unused*/);
         InitScene();
     }
 
@@ -46,7 +46,7 @@ public:
     {
         return ((UnityGraphicsGLCoreES_Emulator*)m_GraphicsEmulator)->GetGraphicsImpl()->Resume( window );
     }
-    
+
     virtual void TermDisplay()override final
     {
         ((UnityGraphicsGLCoreES_Emulator*)m_GraphicsEmulator)->GetGraphicsImpl()->Suspend();

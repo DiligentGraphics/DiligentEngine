@@ -161,7 +161,7 @@ endif()
 if(PLATFORM_UNIVERSAL_WINDOWS)
     target_link_libraries(UnityEmulator PRIVATE dxguid.lib)
 elseif(PLATFORM_ANDROID)
-    target_link_libraries(UnityEmulator PRIVATE NDKHelper GLESv3 android PUBLIC NativeAppGlue)
+    target_link_libraries(UnityEmulator PRIVATE NDKHelper GLESv3 android PUBLIC native_app_glue)
     target_include_directories(UnityEmulator PRIVATE
         ${ANDROID_NDK}/sources/android/cpufeatures
     )
