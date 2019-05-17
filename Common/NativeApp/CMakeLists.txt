@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 3.6)
 
 if(PLATFORM_ANDROID)
     add_subdirectory(Android)
+elseif(PLATFORM_LINUX)
+    add_subdirectory(Linux)
 endif()
 
 
