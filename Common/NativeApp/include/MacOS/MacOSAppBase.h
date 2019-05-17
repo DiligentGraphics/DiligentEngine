@@ -39,6 +39,7 @@ public:
     virtual void OnMouseUp(int button){}
     virtual void OnMouseMove(int x, int y){}
     virtual void OnKeyPressed(int key){}
+    virtual void OnKeyReleased(int key){}
 
 protected:
     Timer timer;

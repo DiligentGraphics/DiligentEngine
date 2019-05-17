@@ -97,7 +97,8 @@
     [self mouseMove: theEvent];
 }
 
-- (void)keyDown:(NSEvent *)theEvent {
+- (void)keyEvent:(NSEvent *)theEvent isKeyPressed:(bool)keyPressed
+{
     unichar c = [[theEvent charactersIgnoringModifiers] characterAtIndex:0];
     int key = 0;
     switch(c){
@@ -106,16 +107,33 @@
         case 0x7F:                    key = '\b'; break;
         default:                      key = c;
     }
-    
+
     {
         auto* view = (ViewBase*)self.view;
         auto* theApp = [view lockApp];
         if(theApp)
-            theApp->OnKeyPressed(key);
+        {
+            if (keyPressed)
+                theApp->OnKeyPressed(key);
+            else
+                theApp->OnKeyReleased(key);
+        }
         [view unlockApp];
     }
-    
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+    [self keyEvent:theEvent isKeyPressed:true];
+
     [super keyDown:theEvent];
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    [self keyEvent:theEvent isKeyPressed:false];
+
+    [super keyUp:theEvent];
 }
 
 - (BOOL)acceptsFirstResponder {
