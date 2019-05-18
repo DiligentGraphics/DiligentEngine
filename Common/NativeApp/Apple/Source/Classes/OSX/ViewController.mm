@@ -136,6 +136,26 @@
     [super keyUp:theEvent];
 }
 
+// Informs the receiver that the user has pressed or released a
+// modifier key (Shift, Control, and so on)
+- (void)flagsChanged:(NSEvent *)event
+{
+    auto modifierFlags = [event modifierFlags];
+    {
+        auto* view = (ViewBase*)self.view;
+        auto* theApp = [view lockApp];
+        if(theApp)
+        {
+            theApp->OnFlagsChanged(modifierFlags & NSEventModifierFlagShift,
+                                   modifierFlags & NSEventModifierFlagControl,
+                                   modifierFlags & NSEventModifierFlagOption);
+        }
+        [view unlockApp];
+    }
+
+    [super flagsChanged:event];
+}
+
 - (BOOL)acceptsFirstResponder {
     return YES;
 }
