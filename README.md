@@ -90,14 +90,20 @@ This is the master repository that contains four [submodules](https://git-scm.co
 git clone --recursive https://github.com/DiligentGraphics/DiligentEngine.git
 ```
 
-Alternatively, you can get master repository fisrt, and then individually clone all submodules into the engine's root folder.
- 
 To checkout the last stable release, run the following commands:
 
 ```
 git checkout tags/v2.4.a
 git submodule update --init --recursive
 ```
+
+When updating existing repository, don't forget to update all submodules:
+
+```
+git submodule update --recursive
+```
+
+It is also a good idea to re-run CMake and perform clean rebuild after getting the latest version.
 
 <a name="repository_structure"></a>
 ## Repository Structure
