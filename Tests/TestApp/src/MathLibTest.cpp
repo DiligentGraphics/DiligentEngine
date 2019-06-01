@@ -643,6 +643,13 @@ public:
                 VERIFY_EXPR(m == m1*m2);
             }
         }
+        
+        {
+            VERIFY_EXPR(float2(1,2).Recast<int>() == Vector2<int>(1,2));
+            VERIFY_EXPR(float3(1,2,3).Recast<int>() == Vector3<int>(1,2,3));
+            VERIFY_EXPR(float4(1,2,3,4).Recast<int>() == Vector4<int>(1,2,3,4));
+        }
+
         SetStatus(TestResult::Succeeded);
     }
 };
