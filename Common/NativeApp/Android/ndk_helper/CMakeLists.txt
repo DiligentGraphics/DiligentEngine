@@ -29,7 +29,7 @@ PUBLIC
 
 target_link_libraries(NDKHelper 
 PRIVATE 
-	BuildSettings
+	Diligent-BuildSettings
 PUBLIC
     native_app_glue
 )

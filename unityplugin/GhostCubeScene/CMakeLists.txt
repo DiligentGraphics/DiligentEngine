@@ -86,10 +86,10 @@ PRIVATE
 
 target_link_libraries(GhostCubeScene
 PRIVATE
-    BuildSettings
+    Diligent-BuildSettings
     NativeAppBase
     UnityEmulator
-    TargetPlatform
+    Diligent-TargetPlatform
 )
 if(PLATFORM_ANDROID)
     target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared)

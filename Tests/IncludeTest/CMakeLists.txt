@@ -42,7 +42,7 @@ if(VULKAN_SUPPORTED)
 endif()
 
 target_include_directories(IncludeTest PRIVATE ../..)
-target_link_libraries(IncludeTest PRIVATE BuildSettings)
+target_link_libraries(IncludeTest PRIVATE Diligent-BuildSettings)
 set_common_target_properties(IncludeTest)
 
 if(MSVC)

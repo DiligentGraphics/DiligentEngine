@@ -60,23 +60,23 @@ if(MSVC)
 endif()
 
 set(PRIVATE_DEPENDENCIES
-    BuildSettings
-    TargetPlatform
-    Common
-    GraphicsAccessories
-    GraphicsTools
+    Diligent-BuildSettings
+    Diligent-TargetPlatform
+    Diligent-Common
+    Diligent-GraphicsAccessories
+    Diligent-GraphicsTools
 )
 
 if(D3D11_SUPPORTED)
-    list(APPEND PRIVATE_DEPENDENCIES GraphicsEngineD3D11-static)
+    list(APPEND PRIVATE_DEPENDENCIES Diligent-GraphicsEngineD3D11-static)
 endif()
 
 if(D3D12_SUPPORTED)
-    list(APPEND PRIVATE_DEPENDENCIES GraphicsEngineD3D12-static)
+    list(APPEND PRIVATE_DEPENDENCIES Diligent-GraphicsEngineD3D12-static)
 endif()
 
 if(GL_SUPPORTED OR GLES_SUPPORTED)
-    list(APPEND PRIVATE_DEPENDENCIES GraphicsEngineOpenGL-static)
+    list(APPEND PRIVATE_DEPENDENCIES Diligent-GraphicsEngineOpenGL-static)
 endif()
 
 target_link_libraries(GhostCubePlugin-shared PRIVATE ${PRIVATE_DEPENDENCIES})

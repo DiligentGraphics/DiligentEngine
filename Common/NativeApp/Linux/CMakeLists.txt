@@ -20,7 +20,7 @@ source_group("interface" FILES ${INTERFACE})
 
 target_link_libraries(XCBKeySyms 
 PRIVATE 
-    BuildSettings 
+    Diligent-BuildSettings 
 )
 
 set_target_properties(XCBKeySyms PROPERTIES

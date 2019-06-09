@@ -368,11 +368,12 @@ add_executable(HelloDiligent WIN32 HelloDiligent.cpp)
 target_compile_options(HelloDiligent PRIVATE -DUNICODE -DENGINE_DLL)
 target_include_directories(HelloDiligent PRIVATE "DiligentCore")
 
-add_dependencies(HelloDiligent
-    GraphicsEngineD3D11-shared
-    GraphicsEngineOpenGL-shared
-    GraphicsEngineD3D12-shared
-    GraphicsEngineVk-shared
+target_link_libraries(HelloDiligent
+PRIVATE
+    Diligent-GraphicsEngineD3D11-shared
+    Diligent-GraphicsEngineOpenGL-shared
+    Diligent-GraphicsEngineD3D12-shared
+    Diligent-GraphicsEngineVk-shared
 )
 copy_required_dlls(HelloDiligent)
 ```
