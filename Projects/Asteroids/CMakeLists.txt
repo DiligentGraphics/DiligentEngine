@@ -109,11 +109,11 @@ get_supported_backends(ENGINE_LIBRARIES)
 
 target_link_libraries(Asteroids
 PRIVATE
-    BuildSettings
-    TargetPlatform
-    TextureLoader
-    Common
-    GraphicsTools
+    Diligent-BuildSettings
+    Diligent-TargetPlatform
+    Diligent-TextureLoader
+    Diligent-Common
+    Diligent-GraphicsTools
     ${ENGINE_LIBRARIES}
     d3d11.lib
     d3d12.lib

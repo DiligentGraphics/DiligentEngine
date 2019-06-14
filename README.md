@@ -56,8 +56,6 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                    | OpenGL4.1, Vulkan (via [MoltenVK](https://github.com/KhronosGroup/MoltenVK)) | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                      | OpenGLES3.0, Vulkan (via [MoltenVK](https://github.com/KhronosGroup/MoltenVK)) | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
-Last Stable Release - [v2.4.b](https://github.com/DiligentGraphics/DiligentEngine/releases/tag/v2.4.b)
-
 # Table of Contents
 
 - [Clonning the Repository](#clonning)
@@ -90,16 +88,10 @@ This is the master repository that contains four [submodules](https://git-scm.co
 git clone --recursive https://github.com/DiligentGraphics/DiligentEngine.git
 ```
 
-To checkout the last stable release, run the following commands:
-
-```
-git checkout tags/v2.4.a
-git submodule update --init --recursive
-```
-
 When updating existing repository, don't forget to update all submodules:
 
 ```
+git pull
 git submodule update --recursive
 ```
 
@@ -376,11 +368,12 @@ add_executable(HelloDiligent WIN32 HelloDiligent.cpp)
 target_compile_options(HelloDiligent PRIVATE -DUNICODE -DENGINE_DLL)
 target_include_directories(HelloDiligent PRIVATE "DiligentCore")
 
-add_dependencies(HelloDiligent
-    GraphicsEngineD3D11-shared
-    GraphicsEngineOpenGL-shared
-    GraphicsEngineD3D12-shared
-    GraphicsEngineVk-shared
+target_link_libraries(HelloDiligent
+PRIVATE
+    Diligent-GraphicsEngineD3D11-shared
+    Diligent-GraphicsEngineOpenGL-shared
+    Diligent-GraphicsEngineD3D12-shared
+    Diligent-GraphicsEngineVk-shared
 )
 copy_required_dlls(HelloDiligent)
 ```

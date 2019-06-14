@@ -133,13 +133,13 @@ endif()
 
 target_link_libraries(UnityEmulator 
 PRIVATE 
-    BuildSettings
+    Diligent-BuildSettings
 PUBLIC
     NativeAppBase
-    Common 
-    GraphicsEngine
-    GraphicsTools
-    TargetPlatform
+    Diligent-Common 
+    Diligent-GraphicsEngine
+    Diligent-GraphicsTools
+    Diligent-TargetPlatform
 )
 
 if(GL_SUPPORTED)
@@ -147,15 +147,15 @@ if(GL_SUPPORTED)
 endif()
 
 if(GL_SUPPORTED OR GLES_SUPPORTED)
-    target_link_libraries(UnityEmulator PUBLIC GraphicsEngineOpenGL-static)
+    target_link_libraries(UnityEmulator PUBLIC Diligent-GraphicsEngineOpenGL-static)
 endif()
 
 if(D3D11_SUPPORTED)
-    target_link_libraries(UnityEmulator PUBLIC GraphicsEngineD3DBase GraphicsEngineD3D11-static)
+    target_link_libraries(UnityEmulator PUBLIC Diligent-GraphicsEngineD3DBase Diligent-GraphicsEngineD3D11-static)
 endif()
 
 if(D3D12_SUPPORTED)
-    target_link_libraries(UnityEmulator PUBLIC GraphicsEngineD3DBase GraphicsEngineD3D12-static)
+    target_link_libraries(UnityEmulator PUBLIC Diligent-GraphicsEngineD3DBase Diligent-GraphicsEngineD3D12-static)
 endif()
 
 if(PLATFORM_UNIVERSAL_WINDOWS)

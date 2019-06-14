@@ -343,8 +343,8 @@ endif()
 
 target_link_libraries(NativeAppBase 
 PRIVATE 
-    BuildSettings
-    Common
+    Diligent-BuildSettings
+    Diligent-Common
 )
 
 if(PLATFORM_WIN32)
