@@ -650,6 +650,15 @@ public:
             VERIFY_EXPR(float4(1,2,3,4).Recast<int>() == Vector4<int>(1,2,3,4));
         }
 
+        {
+            VERIFY_EXPR(std::floor(float2(0.1f, 1.2f)) == float2(0,1));
+            VERIFY_EXPR(std::floor(float3(0.1f, 1.2f, 2.3f)) == float3(0,1,2));
+            VERIFY_EXPR(std::floor(float4(0.1f, 1.2f, 2.3f, 3.4f)) == float4(0,1,2,3));
+            VERIFY_EXPR(std::ceil(float2(0.1f, 1.2f)) == float2(1,2));
+            VERIFY_EXPR(std::ceil(float3(0.1f, 1.2f, 2.3f)) == float3(1,2,3));
+            VERIFY_EXPR(std::ceil(float4(0.1f, 1.2f, 2.3f, 3.4f)) == float4(1,2,3,4));
+        }
+
         SetStatus(TestResult::Succeeded);
     }
 };
