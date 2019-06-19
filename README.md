@@ -620,10 +620,9 @@ The following components are now available:
 <a name="products"></a>
 # Products using Diligent Engine
 
-We would appreciate it if you could send us a link or submit a [PR](https://github.com/DiligentGraphics/DiligentEngine/pulls)
-in case your product uses Diligent Engine. 
+We would appreciate it if you could send us a link in case your product uses Diligent Engine.
 
-* Your product here!
+* Your product here (please submit a [PR](https://github.com/DiligentGraphics/DiligentEngine/pulls))!
 
 
 <a name="license"></a>
