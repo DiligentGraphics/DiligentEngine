@@ -75,6 +75,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 - [Samples](#samples)
 - [Demos](#demos)
 - [High-Level Rendering Components](#high_level_components)
+- [License](#license)
 - [Contributing](#contributing)
 - [References](#references)
 - [Release History](#release_history)
@@ -614,6 +615,39 @@ The following components are now available:
 |-----------------|-----------------|
 | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/damaged_helmet.jpg) | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/flight_helmet.jpg) |
 | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/mr_spheres.jpg)     | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/GLTFViewer/screenshots/cesium_man_large.gif)  |
+
+
+<a name="products"></a>
+# Products using Diligent Engine
+
+We would appreciate it if you could send us a link or submit a [PR](https://github.com/DiligentGraphics/DiligentEngine/pulls)
+in case your product uses Diligent Engine. 
+
+* Your product here!
+
+
+<a name="license"></a>
+# License
+
+See [Apache 2.0 license](License.txt).
+
+This project has some third-party dependencies, each of which may have independent licensing:
+
+* Core module:
+  * [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross): SPIRV parsing and cross-compilation tools.
+  * [SPIRV-Headers](https://github.com/KhronosGroup/SPIRV-Headers): SPIRV header files.
+  * [SPIRV-Tools](https://github.com/KhronosGroup/SPIRV-Tools): SPIRV optimization and validation tools.
+  * [glslang](https://github.com/KhronosGroup/glslang): Khronos reference compiler and validator for GLSL, ESSL, and HLSL.
+  * [glew](http://glew.sourceforge.net/): OpenGL Extension Wrangler Library.
+* Tools module:
+  * [libjpeg](http://libjpeg.sourceforge.net/): C library for reading and writing JPEG image files.
+  * [libtiff](http://www.libtiff.org/): TIFF Library and Utilities.
+  * [libpng](http://www.libpng.org/pub/png/libpng.html): Official PNG reference library.
+  * [zlib](https://zlib.net/): A compression library.
+  * [lua](https://www.lua.org/): Lua programming language run time.
+  * [tinygltf](https://github.com/syoyo/tinygltf): A header only C++11 glTF 2.0 library.
+* Samples module:
+  * [AntTweakBar](http://anttweakbar.sourceforge.net/doc): A simple user interface library.
 
 
 <a name="contributing"></a>
