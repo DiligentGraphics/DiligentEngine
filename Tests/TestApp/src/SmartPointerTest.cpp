@@ -770,7 +770,7 @@ SmartPointerTest::SmartPointerTest() :
             {
             }
 
-            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
+            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface )override final{}
 
             inline virtual Atomics::Long Release()override final
             {
