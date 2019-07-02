@@ -84,15 +84,15 @@ script:
   - cd cmk_build
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then 
-      cmake .. -G "Unix Makefiles" -DENABLE_TESTS=TRUE -DCMAKE_BUILD_TYPE=${CONFIG}
+      cmake .. -G "Unix Makefiles" -DDILIGENT_ENABLE_TESTS=TRUE -DCMAKE_BUILD_TYPE=${CONFIG}
       cmake --build .
     fi
   - |
     if [ "$TRAVIS_OS_NAME" = "osx" ]; then 
       if [ "$IOS" = "true" ]; then 
-        cmake .. -DCMAKE_TOOLCHAIN_FILE=../DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=SIMULATOR64 -DENABLE_TESTS=TRUE -G "Xcode"
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=../DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=SIMULATOR64 -DDILIGENT_ENABLE_TESTS=TRUE -G "Xcode"
       else
-        cmake .. -DENABLE_TESTS=TRUE -G "Xcode"
+        cmake .. -DDILIGENT_ENABLE_TESTS=TRUE -G "Xcode"
       fi
       cmake --build . --config ${CONFIG}
     fi
