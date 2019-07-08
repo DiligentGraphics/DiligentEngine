@@ -659,6 +659,9 @@ public:
             VERIFY_EXPR(std::ceil(float4(0.1f, 1.2f, 2.3f, 3.4f)) == float4(1,2,3,4));
         }
 
+        HermiteSpline(float3(1,2,3), float3(4,5,6), float3(7,8,9), float3(10, 11, 12), 0.1f);
+        HermiteSpline(double3(1,2,3), double3(4,5,6), double3(7,8,9), double3(10, 11, 12), 0.1);
+
         SetStatus(TestResult::Succeeded);
     }
 };
