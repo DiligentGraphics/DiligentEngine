@@ -37,6 +37,11 @@ before_install:
       chmod +x cmake-${CMAKE_VERSION}-Linux-x86_64.sh
       ./cmake-${CMAKE_VERSION}-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
       cmake --version
+      sudo apt-get update
+      sudo apt-get install libx11-dev
+      sudo apt-get install mesa-common-dev
+      sudo apt-get install mesa-utils
+      sudo apt-get install libgl-dev
     fi
 
 addons:
