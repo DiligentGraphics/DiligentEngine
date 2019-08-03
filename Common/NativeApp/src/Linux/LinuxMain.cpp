@@ -434,7 +434,7 @@ int main (int argc, char ** argv)
 {
     bool UseVulkan = false;
 
-#ifdef VULKAN_SUPPORTED
+#if VULKAN_SUPPORTED
     UseVulkan = true;
     if (argc > 1)
     {
