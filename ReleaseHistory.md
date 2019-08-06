@@ -4,6 +4,10 @@
 * Added [GLTF2.0 loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader)
   and [PBR renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer)
 * Added [GLTF Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer)
+* Added [Shadowing Component](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows)
+  and [Shadows Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows)
+* Added [Tutorial13 - Shadow Map](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial13_ShadowMap)
+* Removed AntTweakBar sample
 
 ## v2.4.b
 
