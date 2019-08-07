@@ -12,6 +12,9 @@ git submodule update --recursive
 * Make sure your build environment is up-to-date:
   * When using gcc, make sure the compiler version is at least 7.4
   * Make sure you build your project with c++11 features enabled
+  * When including Diligent headers, make sure that exactly one of `PLATFORM_WIN32`,
+	`PLATFORM_UNIVERSAL_WINDOWS`, `PLATFORM_ANDROID`, `PLATFORM_LINUX`, `PLATFORM_MACOS`, and
+	`PLATFORM_IOS` macros is defined as `1`.
 
 ### Projects don't run
 
