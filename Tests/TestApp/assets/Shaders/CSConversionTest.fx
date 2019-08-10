@@ -60,6 +60,10 @@ RWTexture3D< int /* format = r8i */>    Tex3D_I;
 RWTexture3D< uint2 /* format = rg8ui */>  Tex3D_U;
 RWTexture3D< float/*format = r32f*/> Tex3D_F2;
 
+RWBuffer</* format = r32f */ float >      TexBuff_F;
+RWBuffer</* format = rg16i */ int2 >      TexBuff_I;
+RWBuffer</* format = rgba16ui */ uint4 >  TexBuff_U;
+
 
 int GlobalIntVar;Texture2D Tex2D_Test1;Texture2D Tex2D_Test2;/*Comment* / *//* /** Comment2*/Texture2D Tex2D_Test3 /*Cmnt*/,
 //  Comment
@@ -174,6 +178,16 @@ void TestGetDimensions()
         Tex3D_U.GetDimensions(fWidth,fHeight,fDepth);
         Tex3D_I.GetDimensions ( fWidth , fHeight , fDepth );
     }
+
+    //RWBuffer
+    {
+        uint uWidth;
+        int iWidth;
+        float fWidth;
+        TexBuff_F.GetDimensions(uWidth);
+        TexBuff_I.GetDimensions(iWidth);
+        TexBuff_U.GetDimensions(fWidth);
+    }
 }
 
 void TestLoad()
@@ -216,6 +230,13 @@ void TestLoad()
         float4 f4 = Tex3D_F.Load(Location.xyz).xyzw;
         uint2  u2 = Tex3D_U.Load(Location.xyz).xy;
         int    i  = Tex3D_I.Load(Location.xyz);
+    }
+
+    //Buffer
+    {
+        TexBuff_F.Load(Location.x);
+        TexBuff_I.Load(Location.x);
+        TexBuff_U.Load(Location.x);
     }
 }
 
@@ -261,6 +282,13 @@ void TestStore()
         Tex3D_F[Location.xyz] = float4(10.0, 25.0, 26.0, 27.0);
         Tex3D_U[Location.xyz] = uint2(0,6);
         Tex3D_I[Location.xyz] = -5;
+    }
+
+    //Buffer
+    {
+        TexBuff_F[Location.x] = 1.0;
+        TexBuff_I[Location.x] = int2(1,2);
+        TexBuff_U[Location.x] = uint4(1,2,3,4);
     }
 }
 
