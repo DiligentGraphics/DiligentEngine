@@ -5,25 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "AntTweakBarSample",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/AntTweakBar/AntTweakBarSample",
-            "args": ["-mode vk"],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/DiligentSamples/Samples/AntTweakBar/assets",
-            "environment": [],
-            "externalConsole": true,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-        {
             "name": "AtmosphereSample",
             "type": "cppdbg",
             "request": "launch",
@@ -47,9 +28,28 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/GLTFViewer/GLTFViewer",
-            "args": ["-mode vk"],
+            "args": ["-mode gl"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Samples/GLTFViewer/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "ShadowsSample",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/Shadows/ShadowsSample",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/ShadowsSample/assets",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
@@ -316,6 +316,44 @@
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial12_RenderTarget/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial13_ShadowMap",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial13_ShadowMap/Tutorial13_ShadowMap",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial13_ShadowMap/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial14_ComputeShader",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial14_ComputeShader/Tutorial14_ComputeShader",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial14_ComputeShader/assets",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
