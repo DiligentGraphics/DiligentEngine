@@ -579,6 +579,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [12 - Render Target](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial12_RenderTarget) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial12_RenderTarget/Animation_Small.gif) | This tutorial demonstrates how to render a 3d cube into an offscreen render target and do a simple post-processing effect. |
 | [13 - Shadow Map](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial13_ShadowMap) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial13_ShadowMap/Animation_Small.gif) | This tutorial demonstrates how to render basic shadows using a shadow map. |
 | [14 - Compute Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial14_ComputeShader) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial14_ComputeShader/Animation_Small.gif) | This tutorial shows how to implement a simple particle simulation system using compute shaders. |
+| [15 - Multiple Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial15_MultipleWindows) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial15_MultipleWindows/Screenshot.png) | This tutorial demonstrates how to use Diligent Engine to render to multiple windows. |
 
 
 <a name="samples"></a>

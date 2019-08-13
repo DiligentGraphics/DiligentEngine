@@ -8,6 +8,7 @@
   and [Shadows Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows)
 * Added [Tutorial13 - Shadow Map](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial13_ShadowMap)
 * Added [Tutorial14 - Compute Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial14_ComputeShader)
+* Added [Tutorial15 - Multiple Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial15_MultipleWindows)
 * Removed AntTweakBar sample
 
 ## v2.4.b
