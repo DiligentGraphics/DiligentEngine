@@ -459,11 +459,11 @@ void TestGetDimensions()
     // Buffer
     {
         uint uWidth;
-        int iWidth;
-        float fWidth;
+        //int iWidth;
+        //float fWidth;
         TexBuffer_F1.GetDimensions(uWidth);
-        TexBuffer_F4.GetDimensions(iWidth);
-        TexBuffer_I.GetDimensions(fWidth);
+        //TexBuffer_F4.GetDimensions(iWidth);
+        //TexBuffer_I.GetDimensions(fWidth);
     }
 }
 
