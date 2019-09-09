@@ -25,6 +25,8 @@
 #include <math.h>
 #include <iomanip>
 
+#include <cstdlib>
+
 #include "PlatformDefinitions.h"
 #include "TestApp.h"
 #include "Errors.h"
@@ -304,7 +306,7 @@ void TestApp::InitializeDiligentEngine(
 
             EngVkAttribs.NumDeferredContexts = NumDeferredCtx;
             ppContexts.resize(1 + NumDeferredCtx);
-            auto *pFactoryVk = GetEngineFactoryVk();
+            auto* pFactoryVk = GetEngineFactoryVk();
             pFactoryVk->CreateDeviceAndContextsVk(EngVkAttribs, &m_pDevice, ppContexts.data());
 
             if (!m_pSwapChain && NativeWindowHandle != nullptr)
@@ -710,17 +712,41 @@ void TestApp::Render()
     m_pTestRT->Draw();
     m_pTestShaderResArrays->Draw();
     m_TestGS.Draw();
-    m_TestTessellation.Draw();
     
     auto CompletedFenceValue = m_pFence->GetCompletedValue();
     VERIFY_EXPR(CompletedFenceValue < m_NextFenceValue);
     m_pImmediateContext->SignalFence(m_pFence, m_NextFenceValue++);
 
-    m_pImmediateContext->Flush();
-    m_pImmediateContext->InvalidateState();
-    
     CompletedFenceValue = m_pFence->GetCompletedValue();
     VERIFY_EXPR(CompletedFenceValue < m_NextFenceValue);
+
+    if (rand() % 10 == 0)
+    {
+        if (rand() % 2 == 0)
+        {
+            m_pImmediateContext->Flush();
+            m_pImmediateContext->SignalFence(m_pFence, m_NextFenceValue++);
+        }
+
+        m_pImmediateContext->WaitForFence(m_pFence, m_NextFenceValue-1, true);
+        CompletedFenceValue = m_pFence->GetCompletedValue();
+        VERIFY_EXPR(CompletedFenceValue >= m_NextFenceValue-1);
+    }
+
+    if (rand() % 30 == 0)
+    {
+        m_pImmediateContext->WaitForIdle();
+    }
+
+    if (rand() % 60 == 0)
+    {
+        m_pDevice->IdleGPU();
+    }
+
+    m_TestTessellation.Draw();
+
+    m_pImmediateContext->Flush();
+    m_pImmediateContext->InvalidateState();
 }
 
 void TestApp::Present()
