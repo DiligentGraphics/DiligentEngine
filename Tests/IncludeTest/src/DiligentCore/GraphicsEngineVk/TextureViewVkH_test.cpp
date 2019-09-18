@@ -21,5 +21,5 @@
  *  of the possibility of such damages.
  */
 
-#include "DiligentCore/External/vulkan/vulkan.h"
+#include "DiligentCore/ThirdParty/vulkan/vulkan.h"
 #include "DiligentCore/Graphics/GraphicsEngineVulkan/interface/TextureViewVk.h"

@@ -108,7 +108,7 @@ endif()
 set_common_target_properties(TestApp)
 target_include_directories(TestApp
 PRIVATE
-    ../../DiligentCore/External/vulkan
+    ../../DiligentCore/ThirdParty/vulkan
 PUBLIC
     include
 )
