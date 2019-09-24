@@ -130,23 +130,23 @@ Another build prerequisite is [Python interpreter](https://www.python.org/downlo
 ## Win32
 
 To generate build files for Windows desktop platform, use either CMake GUI or command line tool. For example, to generate 
-[Visual Studio 2017](https://www.visualstudio.com/vs/community) 64-bit solution and project files in *cmk_build/Win64* folder, 
+[Visual Studio 2017](https://www.visualstudio.com/vs/community) 64-bit solution and project files in *build/Win64* folder, 
 navigate to the engine's root folder and run the following command:
 
 ```
-cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+cmake -S . -B ./build/Win64 -G "Visual Studio 15 2017 Win64"
 ```
 
 You can generate Win32 solution that targets Win8.1 SDK using the following command:
 
 ```
-cmake -D CMAKE_SYSTEM_VERSION=8.1 -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+cmake -D CMAKE_SYSTEM_VERSION=8.1 -S . -B ./build/Win64 -G "Visual Studio 15 2017 Win64"
 ```
 
 If you use MinGW, you can generate the make files using the command below (please be aware of some [known build issues](https://github.com/DiligentGraphics/DiligentEngine/issues/31)):
 
 ```
-cmake -H. -B./cmk_build/MinGW -G "MinGW Makefiles"
+cmake -S . -B ./build/MinGW -G "MinGW Makefiles"
 ```
 
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**.
@@ -156,7 +156,7 @@ variable `VK_LAYER_PATH` that contains path to the *Bin* directory in VulkanSDK 
 
 Make sure that Visual C++ ATL Support is installed via Visual Studio Installer.
 
-Open *DiligentEngine.sln* file in *cmk_build/Win64* folder, select configuration and build the engine. Set the desired project
+Open *DiligentEngine.sln* file in *build/Win64* folder, select configuration and build the engine. Set the desired project
 as startup project (by default, GLTF Viewer will be selected) and run it. 
 
 By default, sample and tutorial applications will show rendering backend selection dialog box. Use the following command line options to force
@@ -173,17 +173,17 @@ To generate build files for Universal Windows platform, you need to define the f
 * `CMAKE_SYSTEM_NAME=WindowsStore`
 * `CMAKE_SYSTEM_VERSION=< Windows SDK Version >`
 
-For example, to generate Visual Studio 2017 64-bit solution and project files in *cmk_build/UWP64* folder, run the following command
+For example, to generate Visual Studio 2017 64-bit solution and project files in *build/UWP64* folder, run the following command
 from the engine's root folder:
 
 ```
-cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"
+cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0 -S . -B ./build/UWP64 -G "Visual Studio 15 2017 Win64"
 ```
 
 You can target specific SDK version by refining CMAKE_SYSTEM_VERSION, for instance:
 
 ```
-cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.16299.0 -H. -B./cmk_build/UWP64 -G "Visual Studio 15 2017 Win64"
+cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.16299.0 -S . -B ./build/UWP64 -G "Visual Studio 15 2017 Win64"
 ```
 
 Set the desired project as startup project (by default, GLTF Viewer will be selected) and run it. 
@@ -233,13 +233,13 @@ To configure Vulkan you will also need to:
 To generate make files for debug configuration, run the following CMake command from the engine's root folder:
 
 ```
-cmake -H. -B./cmk_build/Linux64 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+cmake -S . -B ./build/Linux64 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
 ```
 
 To build the engine, run the following command:
 
 ```
-cmake --build ./cmk_build/Linux64
+cmake --build ./build/Linux64
 ```
 
 The engine's root folder contains [Visual Studio Code](https://code.visualstudio.com/) settings files that configure
@@ -266,10 +266,10 @@ After you clone the repo, run the following command from the engine's root folde
 (you need to have [CMake](https://cmake.org/) installed on the system):
 
 ```
-cmake -H. -B./cmk_build/MacOS -G "Xcode"
+cmake -S . -B ./build/MacOS -G "Xcode"
 ```
 
-The project will be located in `cmk_build/MacOS` folder.
+The project will be located in `build/MacOS` folder.
 
 ### Configuring Vulkan Build Environment
 
@@ -308,10 +308,10 @@ Run the command below from the engine's root folder to generate Xcode project co
 (you need to have [CMake](https://cmake.org/) installed on your Mac):
 
 ```cmake
-cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -H. -Bcmk_build/IOS -GXcode
+cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -H. -Bbuild/IOS -GXcode
 ```
 
-Open Xcode project file in `cmk_build/IOS` folder and build the engine. To run the applications on an iOS device,
+Open Xcode project file in `build/IOS` folder and build the engine. To run the applications on an iOS device,
 you will need to set appropriate development team in the project settings.
 
 ### Configuring Vulkan Build Environment
@@ -323,7 +323,7 @@ To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK when 
 that Vulkan SDK is installed at `/LunarG/vulkansdk-macos`):
 
 ```cmake
-cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -DIOS_ARCH=arm64 -DVULKAN_SDK=/LunarG/vulkansdk-macos -H. -Bcmk_build/IOS -GXcode
+cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -DIOS_ARCH=arm64 -DVULKAN_SDK=/LunarG/vulkansdk-macos -H. -Bbuild/IOS -GXcode
 ```
 
 Xcode project [cannot be completely configured by CMake](https://github.com/DiligentGraphics/DiligentSamples/issues/9).
@@ -400,7 +400,7 @@ to `/usr/local` on UNIX and `c:/Program Files/${PROJECT_NAME}` on Windows, which
 Use `-D CMAKE_INSTALL_PREFIX=install` to use local `install` folder instead:
 
 ```
-cmake -H. -B./cmk_build/Win64 -D CMAKE_INSTALL_PREFIX=install -G "Visual Studio 15 2017 Win64"
+cmake -S . -B ./build/Win64 -D CMAKE_INSTALL_PREFIX=install -G "Visual Studio 15 2017 Win64"
 ```
 
 To install libraries and header files, run the following CMake command from the build folder:
@@ -441,7 +441,7 @@ use the following options: `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `
 The options can be set through cmake UI or from the command line as in the example below:
 
 ```
-cmake -D DILIGENT_NO_DIRECT3D11=TRUE -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+cmake -D DILIGENT_NO_DIRECT3D11=TRUE -S . -B ./build/Win64 -G "Visual Studio 15 2017 Win64"
 ```
 
 Additionally, individual engine components can be enabled or disabled using the following options:
@@ -466,7 +466,7 @@ The path to the configuration script should be provided through `BUILD_CONFIGURA
 cmake and must be relative to the cmake root folder, for example:
 
 ```
-cmake -D BUILD_CONFIGURATION_FILE=BuildConfig.cmake -H. -B./cmk_build/Win64 -G "Visual Studio 15 2017 Win64"
+cmake -D BUILD_CONFIGURATION_FILE=BuildConfig.cmake -S . -B ./build/Win64 -G "Visual Studio 15 2017 Win64"
 ```
 
 ### Customizing global build settings with custom_configure_build() function
