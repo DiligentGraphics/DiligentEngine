@@ -69,7 +69,7 @@ before_build:
   - cd c:\projects\diligentengine
   - echo %generator%
   - echo %cmake_args%
-  - cmake -D DILIGENT_ENABLE_TESTS=TRUE %cmake_args% -S . -B. /cmk_build -G %generator%
+  - cmake -D DILIGENT_ENABLE_TESTS=TRUE %cmake_args% -S . -B ./cmk_build -G %generator%
 
 build:
   project: c:\projects\diligentengine\cmk_build\DiligentEngine.sln
