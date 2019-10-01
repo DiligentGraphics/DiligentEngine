@@ -72,6 +72,10 @@
     [self handleEvent:theEvent];
 }
 
+- (void)rightMouseDragged:(NSEvent *)theEvent {
+    [self handleEvent:theEvent];
+}
+
 - (void)keyEvent:(NSEvent *)theEvent isKeyPressed:(bool)keyPressed
 {
     [self handleEvent:theEvent];
