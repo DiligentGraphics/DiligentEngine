@@ -35,12 +35,7 @@ public:
     using AppBase::Update;
     void Update();
     virtual void Initialize(void* view) = 0;
-    virtual void OnMouseDown(int button){}
-    virtual void OnMouseUp(int button){}
-    virtual void OnMouseMove(int x, int y){}
-    virtual void OnKeyPressed(int key){}
-    virtual void OnKeyReleased(int key){}
-    virtual void OnFlagsChanged(bool ShiftPressed, bool ControlPressed, bool AltPressed){}
+    virtual void HandleOSXEvent(void* event, void* view){};
 
 protected:
     Timer timer;
