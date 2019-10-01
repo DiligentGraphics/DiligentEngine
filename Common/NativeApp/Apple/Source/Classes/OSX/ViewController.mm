@@ -26,6 +26,18 @@
 
 @implementation ViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    // Add a tracking area in order to receive mouse events whenever the mouse is within the bounds of our view
+    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
+                                                                options:NSTrackingMouseMoved | NSTrackingInVisibleRect | NSTrackingActiveAlways
+                                                                  owner:self
+                                                               userInfo:nil];
+    [self.view addTrackingArea:trackingArea];
+}
+
 - (void)handleEvent : (NSEvent *)theEvent {
     auto* view = (ViewBase*)self.view;
     auto* theApp = [view lockApp];
@@ -35,9 +47,6 @@
     [view unlockApp];
 }
 
-- (void)mouseMove:(NSEvent *)theEvent {
-    [self handleEvent:theEvent];
-}
 
 - (void)mouseDown:(NSEvent *)theEvent {
     [self handleEvent:theEvent];
