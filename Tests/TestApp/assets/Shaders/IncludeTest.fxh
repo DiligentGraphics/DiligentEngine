@@ -48,17 +48,17 @@
 
 
 #define MAX_CASCADES 8
-struct ShadowCascadeInfo
+struct ShadowCascadeInfoTest
 {
 	float4 f4LightSpaceScale;
 	float4 f4LightSpaceScaledBias;
     float4 f4StartEndZ;
 };
 #ifdef __cplusplus
-static_assert( (sizeof(ShadowCascadeInfo) % 16) == 0, "sizeof(ShadowCascadeInfo) is not multiple of 16" );
+static_assert( (sizeof(ShadowCascadeInfoTest) % 16) == 0, "sizeof(ShadowCascadeInfo) is not multiple of 16" );
 #endif
 
-struct ShadowMapInfo
+struct ShadowMapInfoTest
 {
     // 0
 #ifdef __cplusplus
@@ -67,7 +67,7 @@ struct ShadowMapInfo
     matrix mWorldToLightView;  // Transform from view space to light projection space
 #endif
     // 16
-    ShadowCascadeInfo Cascades[MAX_CASCADES];
+    ShadowCascadeInfoTest Cascades[MAX_CASCADES];
 
 #ifdef __cplusplus
     float fCascadeCamSpaceZEnd[MAX_CASCADES];
@@ -83,11 +83,11 @@ struct ShadowMapInfo
     float3 f3Padding;
 };
 #ifdef __cplusplus
-static_assert( (sizeof(ShadowMapInfo) % 16) == 0, "sizeof(ShadowMapInfo) is not multiple of 16" );
+static_assert( (sizeof(ShadowMapInfoTest) % 16) == 0, "sizeof(ShadowMapInfo) is not multiple of 16" );
 #endif
 
 
-struct LightAttribs
+struct LightAttribsTest
 {
     float4 f4DirOnLight;
     float4 f4AmbientLight;
@@ -97,11 +97,11 @@ struct LightAttribs
     BOOL bIsLightOnScreen;
     float3 f3Dummy;
 
-    ShadowMapInfo ShadowAttribs;
+    ShadowMapInfoTest ShadowAttribs;
 };
-CHECK_STRUCT_ALIGNMENT(LightAttribs)
+CHECK_STRUCT_ALIGNMENT(LightAttribsTest)
 
-struct CameraAttribs
+struct CameraAttribsTest
 {
     float4 f4CameraPos;            ///< Camera world position
     float fNearPlaneZ; 
@@ -120,7 +120,7 @@ struct CameraAttribs
     matrix mViewProjInv;
 #endif
 };
-CHECK_STRUCT_ALIGNMENT(CameraAttribs)
+CHECK_STRUCT_ALIGNMENT(CameraAttribsTest)
 
 #define LIGHT_SCTR_TECHNIQUE_EPIPOLAR_SAMPLING 0
 #define LIGHT_SCTR_TECHNIQUE_BRUTE_FORCE 1
@@ -156,7 +156,7 @@ CHECK_STRUCT_ALIGNMENT(CameraAttribs)
 #define TONE_MAPPING_ADAPTIVE_LOG 6
 
 
-struct PostProcessingAttribs
+struct PostProcessingAttribsTest
 {
     uint uiNumEpipolarSlices;
     uint uiMaxSamplesInSlice;
@@ -212,7 +212,7 @@ struct PostProcessingAttribs
     float4 f4CustomMieBeta;
 
 #ifdef __cplusplus
-    PostProcessingAttribs() : 
+    PostProcessingAttribsTest() : 
         uiNumEpipolarSlices(512),
         uiMaxSamplesInSlice(256),
         uiInitialSampleStepInSlice(16),
@@ -256,9 +256,9 @@ struct PostProcessingAttribs
         {}
 #endif
 };
-CHECK_STRUCT_ALIGNMENT(PostProcessingAttribs)
+CHECK_STRUCT_ALIGNMENT(PostProcessingAttribsTest)
 
-struct AirScatteringAttribs
+struct AirScatteringAttribsTest
 {
     // Angular Rayleigh scattering coefficient contains all the terms exepting 1 + cos^2(Theta):
     // Pi^2 * (n^2-1)^2 / (2*N) * (6+3*Pn)/(6-7*Pn)
@@ -293,7 +293,7 @@ struct AirScatteringAttribs
 
 
 #ifdef __cplusplus
-    AirScatteringAttribs():        
+    AirScatteringAttribsTest():        
         f2ParticleScaleHeight(7994.f, 1200.f),
         // Air molecules and aerosols are assumed to be distributed
         // between 6360 km and 6420 km
@@ -307,9 +307,9 @@ struct AirScatteringAttribs
 #endif
 };
 
-CHECK_STRUCT_ALIGNMENT(AirScatteringAttribs)
+CHECK_STRUCT_ALIGNMENT(AirScatteringAttribsTest)
 
-struct MiscDynamicParams
+struct MiscDynamicParamsTest
 {
     float fMaxStepsAlongRay;   // Maximum number of steps during ray tracing
     float fCascadeInd;
@@ -328,6 +328,6 @@ struct MiscDynamicParams
     uint4 ui4SrcDstMinMaxLevelOffset;
 #endif
 };
-CHECK_STRUCT_ALIGNMENT(MiscDynamicParams)
+CHECK_STRUCT_ALIGNMENT(MiscDynamicParamsTest)
 
 #endif //_STRCUTURES_FXH_
