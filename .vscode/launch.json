@@ -28,7 +28,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/GLTFViewer/GLTFViewer",
-            "args": ["-mode gl"],
+            "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Samples/GLTFViewer/assets",
             "environment": [],
@@ -49,7 +49,26 @@
             "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/Shadows/ShadowsSample",
             "args": ["-mode vk"],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/DiligentSamples/Samples/ShadowsSample/assets",
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/Shadows/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "ImguiDemo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/ImguiDemo/ImguiDemo",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/ImguiDemo/assets",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",

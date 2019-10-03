@@ -653,8 +653,7 @@ This project has some third-party dependencies, each of which may have independe
   * [zlib](https://zlib.net/): A compression library.
   * [lua](https://www.lua.org/): Lua programming language run time.
   * [tinygltf](https://github.com/syoyo/tinygltf): A header only C++11 glTF 2.0 library.
-* Samples module:
-  * [AntTweakBar](http://anttweakbar.sourceforge.net/doc): A simple user interface library.
+  * [dear imgui](https://github.com/ocornut/imgui): A bloat-free immediate mode graphical user interface library.
 
 
 <a name="contributing"></a>
