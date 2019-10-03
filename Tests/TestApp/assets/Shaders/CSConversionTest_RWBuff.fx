@@ -2,6 +2,14 @@ RWBuffer</* format = r32f */ float >      TexBuff_F;
 RWBuffer</* format = rg16i */ int2 >      TexBuff_I;
 RWBuffer</* format = rgba16ui */ uint4 >  TexBuff_U;
 
+struct StorageBufferStruct
+{
+    float4 Data;
+};
+
+RWStructuredBuffer<StorageBufferStruct> RWStructBuff0;
+RWStructuredBuffer<StorageBufferStruct> RWStructBuff1;
+RWStructuredBuffer<StorageBufferStruct> RWStructBuff2;
 
 void TestGetDimensions()
 {
@@ -11,8 +19,8 @@ void TestGetDimensions()
         int iWidth;
         float fWidth;
         TexBuff_F.GetDimensions(uWidth);
-        TexBuff_I.GetDimensions(iWidth);
-        TexBuff_U.GetDimensions(fWidth);
+        //TexBuff_I.GetDimensions(iWidth);
+        //TexBuff_U.GetDimensions(fWidth);
     }
 }
 
@@ -27,6 +35,9 @@ void TestLoad()
         TexBuff_I.Load(Location.x);
         TexBuff_U.Load(Location.x);
     }
+    StorageBufferStruct Data0 = RWStructBuff0[Location.x];
+    StorageBufferStruct Data1 = RWStructBuff1[Location.y];
+    StorageBufferStruct Data3 = RWStructBuff2[Location.w];
 }
 
 
@@ -41,6 +52,12 @@ void TestStore()
         TexBuff_I[Location.x] = int2(1,2);
         TexBuff_U[Location.x] = uint4(1,2,3,4);
     }
+    StorageBufferStruct Data0;
+    Data0.Data = float4(0.0, 1.0, 2.0, 3.0);
+    RWStructBuff0[Location.x] = Data0;
+    RWStructBuff1[Location.z] = Data0;
+    RWStructBuff2[Location.w] = Data0;
+
 }
 
 struct CSInputSubstr
