@@ -50,6 +50,7 @@
                                              selector:@selector(windowWillClose:)
                                                  name:NSWindowWillCloseNotification
                                                object:mainWindow];
+    mainWindow.minSize = NSSize{320, 240};
 }
 
 -(void)initApp:(NSView*) view
