@@ -49,8 +49,10 @@
 
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, int, const int*);
 
-static constexpr uint16_t WindowWidth = 1024;
-static constexpr uint16_t WindowHeight = 768;
+static constexpr uint16_t WindowWidth     = 1024;
+static constexpr uint16_t WindowHeight    = 768;
+static constexpr uint16_t MinWindowWidth  = 320;
+static constexpr uint16_t MinWindowHeight = 240;
 
 using namespace Diligent;
 
@@ -83,6 +85,35 @@ private:
 }
 
 #if VULKAN_SUPPORTED
+
+// https://code.woboq.org/qt5/include/xcb/xcb_icccm.h.html
+enum XCB_SIZE_HINT
+{
+    XCB_SIZE_HINT_US_POSITION     = 1 << 0,
+    XCB_SIZE_HINT_US_SIZE         = 1 << 1,
+    XCB_SIZE_HINT_P_POSITION      = 1 << 2,
+    XCB_SIZE_HINT_P_SIZE          = 1 << 3,
+    XCB_SIZE_HINT_P_MIN_SIZE      = 1 << 4,
+    XCB_SIZE_HINT_P_MAX_SIZE      = 1 << 5,
+    XCB_SIZE_HINT_P_RESIZE_INC    = 1 << 6,
+    XCB_SIZE_HINT_P_ASPECT        = 1 << 7,
+    XCB_SIZE_HINT_BASE_SIZE       = 1 << 8,
+    XCB_SIZE_HINT_P_WIN_GRAVITY   = 1 << 9
+};
+
+struct xcb_size_hints_t
+{
+    uint32_t flags;                         /** User specified flags */
+    int32_t x, y;                           /** User-specified position */
+    int32_t width, height;                  /** User-specified size */
+    int32_t min_width, min_height;          /** Program-specified minimum size */
+    int32_t max_width, max_height;          /** Program-specified maximum size */
+    int32_t width_inc, height_inc;          /** Program-specified resize increments */
+    int32_t min_aspect_num, min_aspect_den; /** Program-specified minimum aspect ratios */
+    int32_t max_aspect_num, max_aspect_den; /** Program-specified maximum aspect ratios */
+    int32_t base_width, base_height;        /** Program-specified base size */
+    uint32_t win_gravity;                   /** Program-specified window gravity */
+};
 
 struct XCBInfo
 {
@@ -146,6 +177,14 @@ XCBInfo InitXCBConnectionAndWindow(const std::string& Title)
 
     xcb_change_property(info.connection, XCB_PROP_MODE_REPLACE, info.window, XCB_ATOM_WM_NAME, XCB_ATOM_STRING,
                         8, Title.length(), Title.c_str() );
+
+    // https://stackoverflow.com/a/27771295
+    xcb_size_hints_t hints = {};
+    hints.flags = XCB_SIZE_HINT_P_MIN_SIZE;
+    hints.min_width = MinWindowWidth;
+    hints.min_height = MinWindowHeight;
+    xcb_change_property(info.connection, XCB_PROP_MODE_REPLACE, info.window, XCB_ATOM_WM_NORMAL_HINTS, XCB_ATOM_WM_SIZE_HINTS,
+                        32, sizeof(xcb_size_hints_t), &hints);
 
     xcb_map_window(info.connection, info.window);
 
@@ -324,6 +363,15 @@ int x_main()
         return -1;
     }
  
+    {
+        auto SizeHints = XAllocSizeHints();
+        SizeHints->flags = PMinSize;
+        SizeHints->min_width = MinWindowWidth;
+        SizeHints->min_height = MinWindowHeight;
+        XSetWMNormalHints(display, win, SizeHints);
+        XFree(SizeHints);
+    }
+
     XMapWindow(display, win);
  
     glXCreateContextAttribsARBProc glXCreateContextAttribsARB = nullptr;
