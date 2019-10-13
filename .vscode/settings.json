@@ -1,6 +1,6 @@
 {
-    "cmake.buildDirectory": "${workspaceRoot}/cmk_build",
-    "cmake.configureSettings": { "ENABLE_TESTS": "TRUE"},
+    "cmake.buildDirectory": "${workspaceRoot}/build",
+    "cmake.configureSettings": { "DILIGENT_ENABLE_TESTS": "TRUE"},
     "files.associations": {
         "*.tcc": "cpp",
         "ostream": "cpp",
@@ -49,6 +49,24 @@
         "type_traits": "cpp",
         "utility": "cpp",
         "*.fxh": "cpp",
-        "xcb.h": "c"
+        "xcb.h": "c",
+        "xcb_keysyms.h": "c",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "valarray": "cpp",
+        "bitset": "cpp",
+        "cstdarg": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "memory_resource": "cpp",
+        "random": "cpp",
+        "set": "cpp",
+        "cfenv": "cpp"
     }
 }
