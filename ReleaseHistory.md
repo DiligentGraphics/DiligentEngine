@@ -1,15 +1,43 @@
-## Current Progress
+## v2.4.c
+
+### General
 
 * Enabled Vulkan on iOS
+* Replaced AntTweakBar UI library with dear imgui
 * Added [GLTF2.0 loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader)
   and [PBR renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer)
 * Added [GLTF Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer)
 * Added [Shadowing Component](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows)
   and [Shadows Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows)
+* Added [Dear Imgui demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo)
 * Added [Tutorial13 - Shadow Map](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial13_ShadowMap)
 * Added [Tutorial14 - Compute Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial14_ComputeShader)
 * Added [Tutorial15 - Multiple Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial15_MultipleWindows)
 * Removed AntTweakBar sample
+
+### API changes
+
+* Moved `NumDeferredContexts` parameter from factory functions `IEngineFactoryD3D11::CreateDeviceAndContextsD3D11`,
+  `IEngineFactoryD3D12::CreateDeviceAndContextsD3D12` and `IEngineFactoryVk::CreateDeviceAndContextsVk` to
+  `EngineCreateInfo` struct.
+* Renamed `USAGE_CPU_ACCESSIBLE` -> `USAGE_STAGING`
+* Added `SWAP_CHAIN_USAGE_FLAGS` enum
+* Replaced overloaded `IPipelineState::GetStaticShaderVariable()` with `IPipelineState::GetStaticVariableByName()` and `IPipelineState::GetStaticVariableByIndex()`
+* Replaced overloaded `IShaderResourceBinding::GetVariable()` with `IShaderResourceBinding::GetVariableByName()` and `IShaderResourceBinding::GetVariableByIndex()`
+* Made `IShaderSourceInputStreamFactory` derived from `IObject`;
+  added `IEngineFactory::CreateDefaultShaderSourceStreamFactory()` method;
+  added `IRenderDevice::GetEngineFactory()` method (API Version 240021)
+* Added `DRAW_FLAG_VERIFY_DRAW_ATTRIBS`, `DRAW_FLAG_VERIFY_RENDER_TARGETS`, and `DRAW_FLAG_VERIFY_ALL` flags (API Version 240022)
+* `TEXTURE_VIEW_FLAGS` enum and `Flags` member to `TextureViewDesc` structure (API Version 240023)
+* Added `IShaderResourceVariable::IsBound()` method (API Version 240024)
+* Added `Diligent-` prefix to project names to avoid name conflicts.
+* Added `IDeviceContextD3D12::GetD3D12CommandList` method
+* Added `IDeviceContext::WaitForFence()` method (API Version 240027)
+* Added `IDeviceContext::WaitForIdle()` method (API Version 240028)
+* Added `IRenderDevice::IdleGPU()` method (API Version 240029)
+* Added `EngineD3D12CreateInfo::EnableDebugLayer` member (API Version 240030)
+* Added `EngineD3D12CreateInfo::BreakOnError` and `EngineD3D12CreateInfo::BreakOnCorruption` members (API Version 240031)
+
 
 ## v2.4.b
 
