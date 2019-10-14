@@ -43,7 +43,8 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 * [Atmospheric light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/Postprocess/EpipolarLightScattering)
 * [Tone mapping utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
 * [Physically-based GLTF2.0 renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer)
-
+* [Shadows](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows)
+* [Integration with Dear Imgui](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo)
 
 ## Supported Plaforms and Low-Level Graphics APIs
 
