@@ -31,6 +31,7 @@ struct DrawConstantBuffer {
     float unused0;
     DirectX::XMFLOAT3 mDeepColor;
     float unused1;
+    UINT unused2[4];
 };
 
 struct SkyboxConstantBuffer {

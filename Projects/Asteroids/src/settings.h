@@ -77,7 +77,7 @@ struct Settings
         DiligentVulkan
     }mode = DiligentD3D11;
        
-    int resourceBindingMode = 2; // Only for DiligentD3D12 mode
+    int resourceBindingMode = 3;  // Only for DiligentD3D12 and DiligentVk modes
 
     bool lockFrameRate = false;
     bool animate = true;

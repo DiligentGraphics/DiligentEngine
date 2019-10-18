@@ -28,19 +28,6 @@
 
 namespace AsteroidsDE {
 
-struct DrawConstantBuffer {
-    DirectX::XMFLOAT4X4 mWorld;
-    DirectX::XMFLOAT4X4 mViewProjection;
-    DirectX::XMFLOAT3 mSurfaceColor;
-    float unused0;
-    DirectX::XMFLOAT3 mDeepColor;
-    float unused1;
-};
-
-struct SkyboxConstantBuffer {
-    DirectX::XMFLOAT4X4 mViewProjection;
-};
-
 class Asteroids {
 public:
     Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::DeviceType DevType);
@@ -62,8 +49,9 @@ private:
     enum class BindingMode
     {
         Dynamic = 0,
-        Mutable = 1,
-        TextureMutable = 2
+        Mutable,
+        TextureMutable,
+        Bindless
     }m_BindingMode = BindingMode::TextureMutable;
 
     AsteroidsSimulation*        mAsteroids = nullptr;

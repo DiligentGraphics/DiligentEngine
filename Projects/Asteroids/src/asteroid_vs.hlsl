@@ -12,6 +12,7 @@ struct VSOut
 	float3 positionModel : POSITIONMODEL;
 	float3 normalWorld   : NORMAL;
 	float3 albedo        : ALBEDO; // Alternatively, can pass just "ao" to PS and read cbuffer in PS
+    uint   textureId     : TEXTURE_ID;
 };
 
 float linstep(float min, float max, float s)
@@ -33,4 +34,6 @@ void asteroid_vs(in	float3 in_pos : ATTRIB0,
     
     float depth = linstep(0.5f, 0.7f, length(in_pos.xyz));
     vs_output.albedo = lerp(mDeepColor.xyz, mSurfaceColor.xyz, depth);
+
+    vs_output.textureId = mTextureIndex;
 }
