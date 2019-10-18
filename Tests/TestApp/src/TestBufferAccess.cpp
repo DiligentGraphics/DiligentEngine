@@ -115,7 +115,6 @@ void TestBufferAccess::Init( IRenderDevice *pDevice, IDeviceContext *pContext, I
     RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
     pDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
     CreationAttrs.pShaderSourceStreamFactory = pShaderSourceFactory;
-    CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
     CreationAttrs.UseCombinedTextureSamplers = true;
 
     RefCntAutoPtr<Diligent::IShader> pVSInst, pPS;
