@@ -110,8 +110,8 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
         {
             EngineD3D11CreateInfo EngineCI;
             EngineCI.NumDeferredContexts = mNumSubsets-1;
-            EngineCI.DebugFlags = (Uint32)EngineD3D11DebugFlags::VerifyCommittedShaderResources |
-                                  (Uint32)EngineD3D11DebugFlags::VerifyCommittedResourceRelevance;
+            EngineCI.DebugFlags = D3D11_DEBUG_FLAG_CREATE_DEBUG_DEVICE |
+                                  D3D11_DEBUG_FLAG_VERIFY_COMMITTED_SHADER_RESOURCES;
 
 #if ENGINE_DLL
             if(!GetEngineFactoryD3D11)

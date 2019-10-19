@@ -173,6 +173,11 @@ void TestApp::InitializeDiligentEngine(
             // Load the dll and import GetEngineFactoryD3D11() function
             LoadGraphicsEngineD3D11(GetEngineFactoryD3D11);
 #endif
+#ifdef _DEBUG
+            DeviceAttribs.DebugFlags = D3D11_DEBUG_FLAG_CREATE_DEBUG_DEVICE |
+                                       D3D11_DEBUG_FLAG_VERIFY_COMMITTED_RESOURCE_RELEVANCE |
+                                       D3D11_DEBUG_FLAG_VERIFY_COMMITTED_SHADER_RESOURCES;
+#endif
             auto *pFactoryD3D11 = GetEngineFactoryD3D11();
             Uint32 NumAdapters = 0;
             pFactoryD3D11->EnumerateHardwareAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, 0);
