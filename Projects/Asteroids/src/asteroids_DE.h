@@ -83,6 +83,8 @@ private:
 
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mIndexBuffer;
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mVertexBuffer;
+    Diligent::RefCntAutoPtr<Diligent::IBuffer>  mInstanceIDBuffer;
+    std::vector<Diligent::RefCntAutoPtr<Diligent::IBuffer>>  mAsteroidsDataBuffers;
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mDrawConstantBuffer;
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mSpriteVertexBuffer;
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mSkyboxConstantBuffer;

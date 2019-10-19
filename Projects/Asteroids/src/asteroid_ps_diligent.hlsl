@@ -1,12 +1,5 @@
 #include "common_defines.h"
-
-struct VSOut
-{
-	float3 positionModel : POSITIONMODEL;
-	float3 normalWorld   : NORMAL;
-	float3 albedo        : ALBEDO; // Alternatively, can pass just "ao" to PS and read cbuffer in PS
-    uint   textureId     : TEXTURE_ID;
-};
+#include "shader_common.h"
 
 #ifdef BINDLESS
 

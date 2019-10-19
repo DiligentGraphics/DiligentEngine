@@ -691,17 +691,19 @@ void TestApp::Render()
         UniformData[3] = 0;
     }
 
-    DrawAttribs DrawAttrs;
-    DrawAttrs.NumVertices = 3;
-    DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-    m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
+    {
+        DrawAttribs DrawAttrs{3, DRAW_FLAG_VERIFY_ALL};
+        m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
+    }
 
-    DrawAttrs.IsIndexed = true;
-    DrawAttrs.NumIndices = 3;
-    DrawAttrs.IndexType = VT_UINT32;
-    DrawAttrs.NumInstances = 3;
-    DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-    m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
+    {
+        DrawIndexedAttribs DrawAttrs{};
+        DrawAttrs.NumIndices = 3;
+        DrawAttrs.IndexType = VT_UINT32;
+        DrawAttrs.NumInstances = 3;
+        DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
+        m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
+    }
     m_pTestDrawCommands->Draw();
     m_pTestBufferAccess->Draw((float)dCurrTime);
 

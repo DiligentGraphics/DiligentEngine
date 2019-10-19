@@ -1,5 +1,5 @@
-#include "asteroid_vs.hlsl"
 #include "common_defines.h"
+#include "shader_common.h"
 
 // Apparently tools don't like unbounded/bindless texture arrays, so use the real constant for now
 Texture2DArray<float4> Tex[NUM_UNIQUE_TEXTURES] : register(t0);
@@ -31,9 +31,9 @@ float4 asteroid_ps(in float4 position : SV_Position,
     // and forward substituting the above and then refusing to compile "divergent"
     // coordinates...
     float3 detailTex = 0.0f;
-    detailTex += blendWeights.x * Tex[mTextureIndex].Sample(Sampler, coords1).xyz;
-    detailTex += blendWeights.y * Tex[mTextureIndex].Sample(Sampler, coords2).xyz;
-    detailTex += blendWeights.z * Tex[mTextureIndex].Sample(Sampler, coords3).xyz;
+    detailTex += blendWeights.x * Tex[vs_output.textureId].Sample(Sampler, coords1).xyz;
+    detailTex += blendWeights.y * Tex[vs_output.textureId].Sample(Sampler, coords2).xyz;
+    detailTex += blendWeights.z * Tex[vs_output.textureId].Sample(Sampler, coords3).xyz;
 
     float wrap = 0.0f;
     float wrap_diffuse = saturate((dot(normal, normalize(lightPos)) + wrap) / (1.0f + wrap));

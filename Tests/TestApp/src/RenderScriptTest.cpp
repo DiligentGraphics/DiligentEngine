@@ -119,10 +119,9 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         }
 
         {
-            DrawAttribs GlobalDrawAttribs;
+            ScriptParser::CombinedDrawAttribs GlobalDrawAttribs;
             GlobalDrawAttribs.NumVertices = 123;
             GlobalDrawAttribs.IndexType = VT_UINT16;
-            GlobalDrawAttribs.IsIndexed = True;
             GlobalDrawAttribs.NumInstances = 19;
             GlobalDrawAttribs.BaseVertex = 97;
             GlobalDrawAttribs.IndirectDrawArgsOffset = 120;
@@ -330,15 +329,14 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
     }
 
     {
-        DrawAttribs DrawAttribs;
-        DrawAttribs.NumVertices = 34;
-        DrawAttribs.IndexType = VT_UINT16;
-        DrawAttribs.IsIndexed = True;
-        DrawAttribs.NumInstances = 139;
-        DrawAttribs.BaseVertex = 937;
-        DrawAttribs.IndirectDrawArgsOffset = 1205;
-        DrawAttribs.StartVertexLocation = 198;
-        pScript->Run( "TestDrawAttribsArg", DrawAttribs );
+        ScriptParser::CombinedDrawAttribs Attribs;
+        Attribs.NumVertices = 34;
+        Attribs.IndexType = VT_UINT16;
+        Attribs.NumInstances = 139;
+        Attribs.BaseVertex = 937;
+        Attribs.IndirectDrawArgsOffset = 1205;
+        Attribs.StartVertexLocation = 198;
+        pScript->Run( "TestDrawAttribsArg", Attribs );
     }
 
     {

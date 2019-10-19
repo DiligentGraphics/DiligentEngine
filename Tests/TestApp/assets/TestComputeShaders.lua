@@ -312,7 +312,6 @@ UpdateDispatchArgsBuffSRB:InitializeStaticResources()
 RenderSRB:InitializeStaticResources()
 
 DrawAttrs = DrawAttribs.Create{
-    IsIndexed = true,
 	IndexType = "VT_UINT32",
 	pIndirectDrawAttribs = IndirectDrawArgsBuffer,
     IndirectAttribsBufferStateTransitionMode = "RESOURCE_STATE_TRANSITION_MODE_TRANSITION",

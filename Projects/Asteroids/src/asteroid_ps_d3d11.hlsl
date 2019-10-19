@@ -1,5 +1,4 @@
-#include "asteroid_vs.hlsl"
-#include "common_defines.h"
+#include "shader_common.h"
 
 Texture2DArray<float4> Tex : register(t0);
 sampler Sampler : register(s0);

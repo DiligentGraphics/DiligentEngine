@@ -237,14 +237,47 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
     std::vector<StateTransitionDesc> Barriers;
     mBackBufferWidth = mSwapChain->GetDesc().Width;
     mBackBufferHeight = mSwapChain->GetDesc().Height;
-    // Create draw constant buffer
+    const auto MaxAsteroidsInSubset = (NUM_ASTEROIDS + mNumSubsets - 1) / mNumSubsets;
+
+    if (m_BindingMode == BindingMode::Bindless)
+    {
+        {
+            BufferDesc desc;
+            desc.Name      = "Instance ID buffer";
+            desc.Usage     = USAGE_STATIC;
+            desc.BindFlags = BIND_VERTEX_BUFFER;
+            desc.uiSizeInBytes = static_cast<Uint32>(sizeof(Uint32)) * MaxAsteroidsInSubset;
+            std::vector<Uint32> Ids(MaxAsteroidsInSubset);
+            for (Uint32 i=0; i < Ids.size(); ++i)
+                Ids[i] = i;
+            BufferData Data(Ids.data(), desc.uiSizeInBytes);
+            mDevice->CreateBuffer(desc, &Data, &mInstanceIDBuffer);
+            Barriers.emplace_back(mInstanceIDBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
+        }
+        {
+            BufferDesc desc;
+            desc.Name      = "Asteroids data buffer";
+            desc.Usage     = USAGE_DYNAMIC;
+            desc.BindFlags = BIND_SHADER_RESOURCE;
+            desc.Mode      = BUFFER_MODE_STRUCTURED;
+            desc.CPUAccessFlags = CPU_ACCESS_WRITE;
+            desc.ElementByteStride = static_cast<Uint32>(sizeof(DrawConstantBuffer));
+            desc.uiSizeInBytes = desc.ElementByteStride * MaxAsteroidsInSubset;
+            mAsteroidsDataBuffers.resize(mNumSubsets);
+            for(Uint32 i=0; i < mNumSubsets; ++i)
+            {
+                mDevice->CreateBuffer(desc, nullptr, &mAsteroidsDataBuffers[i]);
+            }
+        }
+    }
+    else
     {
         BufferDesc desc;
-        desc.Name = "draw constant buffer (dynamic)";
-        desc.Usage = USAGE_DYNAMIC;
-        desc.uiSizeInBytes = (Uint32) sizeof(DrawConstantBuffer);
-        desc.BindFlags = BIND_UNIFORM_BUFFER;
+        desc.Name           = "Asteroids constant buffer";
+        desc.Usage          = USAGE_DYNAMIC;
         desc.CPUAccessFlags = CPU_ACCESS_WRITE;
+        desc.BindFlags      = BIND_UNIFORM_BUFFER;
+        desc.uiSizeInBytes  = (Uint32) sizeof(DrawConstantBuffer);
         mDevice->CreateBuffer(desc, nullptr, &mDrawConstantBuffer);
         Barriers.emplace_back(mDrawConstantBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true);
     }
@@ -255,11 +288,12 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         LayoutElement inputDesc[] =
         {
             LayoutElement{ 0, 0, 3, VT_FLOAT32, false, 0, sizeof(Vertex)},
-            LayoutElement{ 1, 0, 3, VT_FLOAT32}
+            LayoutElement{ 1, 0, 3, VT_FLOAT32},
+            LayoutElement{ 2, 1, 1, VT_UINT32, False, LayoutElement::FREQUENCY_PER_INSTANCE}
         };
 
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = inputDesc;
-        PSODesc.GraphicsPipeline.InputLayout.NumElements = _countof(inputDesc);
+        PSODesc.GraphicsPipeline.InputLayout.NumElements = (m_BindingMode == BindingMode::Bindless) ? 3 : 2;
 
         PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = COMPARISON_FUNC_GREATER_EQUAL;
 
@@ -273,6 +307,11 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
             attribs.pShaderSourceStreamFactory = pShaderSourceFactory;
             attribs.UseCombinedTextureSamplers = true;
+
+            ShaderMacro Macros[] = {{"BINDLESS", "1"}, {}};
+            if (m_BindingMode == BindingMode::Bindless)
+                attribs.Macros = Macros;
+
             mDevice->CreateShader(attribs, &vs);
         }
 
@@ -286,17 +325,11 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
             attribs.UseCombinedTextureSamplers = true;
             attribs.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
 
-            if(m_BindingMode == BindingMode::Bindless)
-            {
-                ShaderMacro Macros[] = {{"BINDLESS", "1"}, {}};
+            ShaderMacro Macros[] = {{"BINDLESS", "1"}, {}};
+            if (m_BindingMode == BindingMode::Bindless)
                 attribs.Macros = Macros;
-                mDevice->CreateShader(attribs, &ps);
-                attribs.Macros = nullptr;
-            }
-            else
-            {
-                mDevice->CreateShader(attribs, &ps);
-            }
+
+            mDevice->CreateShader(attribs, &ps);
         }
 
         StaticSamplerDesc samDesc;
@@ -317,13 +350,16 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         PSODesc.ResourceLayout.StaticSamplers    = &samDesc;
         PSODesc.ResourceLayout.NumStaticSamplers = 1;
 
-        ShaderResourceVariableDesc Variables[] =
+        std::vector<ShaderResourceVariableDesc> Variables =
         {
             {SHADER_TYPE_PIXEL, "Tex", m_BindingMode == BindingMode::Dynamic ? SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC : SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE}
         };
+        if (m_BindingMode == BindingMode::Bindless)
+            Variables.emplace_back(SHADER_TYPE_VERTEX, "g_Data", SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE);
+
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-        PSODesc.ResourceLayout.Variables           = Variables;
-        PSODesc.ResourceLayout.NumVariables        = _countof(Variables);
+        PSODesc.ResourceLayout.Variables           = Variables.data();
+        PSODesc.ResourceLayout.NumVariables        = static_cast<Uint32>(Variables.size());
 
         PSODesc.GraphicsPipeline.RTVFormats[0] = mSwapChain->GetDesc().ColorBufferFormat;
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
@@ -350,10 +386,11 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         }
         else if(m_BindingMode == BindingMode::Bindless)
         {
-            NumSRBs = 1;
+            NumSRBs = mNumSubsets;
         }
         mDevice->CreatePipelineState(PSODesc, &mAsteroidsPSO);
-        mAsteroidsPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "DrawConstantBuffer")->Set(mDrawConstantBuffer);
+        if (m_BindingMode != BindingMode::Bindless)
+            mAsteroidsPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "DrawConstantBuffer")->Set(mDrawConstantBuffer);
 
         mAsteroidsSRBs.resize(NumSRBs);
         for(size_t srb = 0; srb < mAsteroidsSRBs.size(); ++srb)
@@ -564,7 +601,11 @@ Asteroids::Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, G
         IDeviceObject* SRVArray[NUM_UNIQUE_TEXTURES];
         for(Uint32 t = 0; t < NUM_UNIQUE_TEXTURES; ++t)
             SRVArray[t] = mTextureSRVs[t];
-        mAsteroidsSRBs[0]->GetVariableByName(SHADER_TYPE_PIXEL, "Tex")->SetArray(SRVArray, 0, NUM_UNIQUE_TEXTURES);
+        for(Uint32 i = 0; i < mNumSubsets; ++i)
+        {
+            mAsteroidsSRBs[i]->GetVariableByName(SHADER_TYPE_PIXEL, "Tex")->SetArray(SRVArray, 0, NUM_UNIQUE_TEXTURES);
+            mAsteroidsSRBs[i]->GetVariableByName(SHADER_TYPE_VERTEX, "g_Data")->Set(mAsteroidsDataBuffers[i]->GetDefaultView(BUFFER_VIEW_SHADER_RESOURCE));
+        }
     }
     mDeviceCtxt->TransitionResourceStates(static_cast<Uint32>(Barriers.size()), Barriers.data());
 }
@@ -790,24 +831,41 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
     pCtx->SetPipelineState(mAsteroidsPSO);
 
     {
-        IBuffer* ia_buffers[] = { mVertexBuffer };
-        Uint32 ia_offsets[] = { 0 };
-        pCtx->SetVertexBuffers(0, 1, ia_buffers, ia_offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_NONE);
+        IBuffer* ia_buffers[] = { mVertexBuffer, mInstanceIDBuffer };
+        Uint32 ia_offsets[_countof(ia_buffers)] = {};
+        pCtx->SetVertexBuffers(0, (m_BindingMode == BindingMode::Bindless) ? 2 : 1, ia_buffers, ia_offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_NONE);
         pCtx->SetIndexBuffer(mIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     }
 
-    auto pVar = m_BindingMode == BindingMode::Dynamic ? mAsteroidsSRBs[SubsetNum]->GetVariableByName(SHADER_TYPE_PIXEL, "Tex") : nullptr;
-    if( m_BindingMode == BindingMode::Bindless)
-    {
-        pCtx->CommitShaderResources(mAsteroidsSRBs[0], RESOURCE_STATE_TRANSITION_MODE_VERIFY);
-    }
-
     auto viewProjection = camera.ViewProjection();
+    
+    if (m_BindingMode == BindingMode::Bindless)
+    {
+        {
+            MapHelper<DrawConstantBuffer> drawConstants(pCtx, mAsteroidsDataBuffers[SubsetNum], MAP_WRITE, MAP_FLAG_DISCARD);
+            UINT i=0;
+            for (UINT drawIdx = startIdx; drawIdx < startIdx+numAsteroids; ++drawIdx, ++i)
+            {
+                const auto staticData = &staticAsteroidData[drawIdx];
+                const auto dynamicData = &dynamicAsteroidData[drawIdx];
+
+                XMStoreFloat4x4(&drawConstants[i].mWorld,          dynamicData->world);
+                XMStoreFloat4x4(&drawConstants[i].mViewProjection, viewProjection);
+                drawConstants[i].mSurfaceColor = staticData->surfaceColor;
+                drawConstants[i].mDeepColor    = staticData->deepColor;
+                drawConstants[i].mTextureIndex = staticData->textureIndex;
+            }
+        }
+        pCtx->CommitShaderResources(mAsteroidsSRBs[SubsetNum], RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+    }
+       
+    auto pVar = m_BindingMode == BindingMode::Dynamic ? mAsteroidsSRBs[SubsetNum]->GetVariableByName(SHADER_TYPE_PIXEL, "Tex") : nullptr;
     for (UINT drawIdx = startIdx; drawIdx < startIdx+numAsteroids; ++drawIdx)
     {
-        auto staticData = &staticAsteroidData[drawIdx];
-        auto dynamicData = &dynamicAsteroidData[drawIdx];
+        const auto staticData = &staticAsteroidData[drawIdx];
+        const auto dynamicData = &dynamicAsteroidData[drawIdx];
 
+        if( m_BindingMode != BindingMode::Bindless )
         {
             MapHelper<DrawConstantBuffer> drawConstants(pCtx, mDrawConstantBuffer, MAP_WRITE, MAP_FLAG_DISCARD);
             XMStoreFloat4x4(&drawConstants->mWorld,          dynamicData->world);
@@ -816,6 +874,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
             drawConstants->mDeepColor    = staticData->deepColor;
             drawConstants->mTextureIndex = staticData->textureIndex;
         }
+
         if( m_BindingMode == BindingMode::Dynamic )
         {
             pVar->Set(mTextureSRVs[staticData->textureIndex]);
@@ -830,10 +889,11 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
             pCtx->CommitShaderResources(mAsteroidsSRBs[staticData->textureIndex], RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         }
 
-        DrawAttribs attribs(dynamicData->indexCount, VT_UINT16, DRAW_FLAG_VERIFY_ALL);
+        DrawIndexedAttribs attribs(dynamicData->indexCount, VT_UINT16, DRAW_FLAG_VERIFY_ALL);
         attribs.FirstIndexLocation = dynamicData->indexStart;
         attribs.BaseVertex = staticData->vertexStart;
-        pCtx->Draw(attribs);
+        attribs.FirstInstanceLocation = drawIdx - startIdx;
+        pCtx->DrawIndexed(attribs);
     }
 }
 
@@ -853,7 +913,7 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
     QueryPerformanceCounter((LARGE_INTEGER*)&currCounter);
     mUpdateTicks = currCounter;
         
-    auto SubsetSize = NUM_ASTEROIDS / (settings.multithreadedRendering ? mNumSubsets : 1);
+    auto SubsetSize = NUM_ASTEROIDS / mNumSubsets;
     
     if (settings.multithreadedRendering)
     {
@@ -861,7 +921,9 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         mUpdateSubsetsSignal.Trigger(true);
     }
 
-    mAsteroids->Update(frameTime, camera.Eye(), settings, 0, SubsetSize);
+
+    for(Uint32 i=0; i < (!settings.multithreadedRendering ? mNumSubsets : 1); ++i)
+        mAsteroids->Update(frameTime, camera.Eye(), settings, SubsetSize * i, SubsetSize);
 
     if (settings.multithreadedRendering)
     {
@@ -885,7 +947,8 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         mRenderSubsetsSignal.Trigger(true);
     }
 
-    RenderSubset(0, mDeviceCtxt, camera, 0, SubsetSize);
+    for(Uint32 i=0; i < (!settings.multithreadedRendering ? mNumSubsets : 1); ++i)
+        RenderSubset(i, mDeviceCtxt, camera, SubsetSize * i, SubsetSize);
 
     if (settings.multithreadedRendering)
     {

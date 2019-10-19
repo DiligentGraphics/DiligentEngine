@@ -348,16 +348,16 @@ void TestDrawCommands::Draw()
 
     // 0,1
     {
-        DrawAttribs DrawAttrs(2*3, VT_UINT32, DRAW_FLAG_VERIFY_ALL);// Draw 2 triangles
-        m_pDeviceContext->Draw(DrawAttrs);
+        DrawIndexedAttribs DrawAttrs(2*3, VT_UINT32, DRAW_FLAG_VERIFY_ALL);// Draw 2 triangles
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
     
     // 2,3: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ), RESOURCE_STATE_TRANSITION_MODE_VERIFY );
     
     {
-        DrawAttribs DrawAttrs(2*3, VT_UINT32, DRAW_FLAG_VERIFY_ALL);// Draw 2 triangles
-        m_pDeviceContext->Draw(DrawAttrs);
+        DrawIndexedAttribs DrawAttrs(2*3, VT_UINT32, DRAW_FLAG_VERIFY_ALL);// Draw 2 triangles
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     NumTestTrianglesInRow[1] = 4;
@@ -371,18 +371,18 @@ void TestDrawCommands::Draw()
     
     // 0,1
     {
-        DrawAttribs DrawAttrs(2*3, VT_UINT32, DRAW_FLAG_VERIFY_ALL);// Draw 2 triangles
+        DrawIndexedAttribs DrawAttrs(2*3, VT_UINT32, DRAW_FLAG_VERIFY_ALL);// Draw 2 triangles
         DrawAttrs.BaseVertex = 10;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 2,3: index buffer offset & Base Vertex
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ), RESOURCE_STATE_TRANSITION_MODE_VERIFY );
     
     {
-        DrawAttribs DrawAttrs(2*3, VT_UINT32, DRAW_FLAG_VERIFY_ALL);// Draw 2 triangles
+        DrawIndexedAttribs DrawAttrs(2*3, VT_UINT32, DRAW_FLAG_VERIFY_ALL);// Draw 2 triangles
         DrawAttrs.BaseVertex = 10;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
     NumTestTrianglesInRow[2] = 4;
     
@@ -444,7 +444,7 @@ void TestDrawCommands::Draw()
     // 0,1
     {
         DrawAttribs DrawAttrs;
-        DrawAttrs.NumIndices = 3; // Draw 1 triangle
+        DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 0;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
@@ -454,7 +454,7 @@ void TestDrawCommands::Draw()
     // 2,3
     {
         DrawAttribs DrawAttrs;
-        DrawAttrs.NumIndices = 3; // Draw 1 triangle
+        DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
@@ -466,7 +466,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
         DrawAttribs DrawAttrs;
-        DrawAttrs.NumIndices = 3; // Draw 1 triangle
+        DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
@@ -478,7 +478,7 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
         DrawAttribs DrawAttrs;
-        DrawAttrs.NumIndices = 3; // Draw 1 triangle
+        DrawAttrs.NumVertices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstInstanceLocation = 2;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
@@ -496,63 +496,58 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     // 0,1
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 2,3: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ), RESOURCE_STATE_TRANSITION_MODE_VERIFY );
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 4,5: test vertex buffer offset
     Offsets[0] += 2*3 * Strides[0];
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 6,7: test instance buffer offset
     Offsets[1] += 2 * Strides[1];
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 8,9: test first index location
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.FirstIndexLocation = 2*3;
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
     NumTestTrianglesInRow[5] = 10;
 
@@ -567,64 +562,59 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     // 0,1
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
     // 2,3
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstInstanceLocation = 2;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 4,5: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ), RESOURCE_STATE_TRANSITION_MODE_VERIFY );
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstInstanceLocation = 2;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 6,7: test instance buffer offset
     Offsets[1] += Strides[1] * 2;
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstInstanceLocation = 2;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 8,9: test first index location
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstInstanceLocation = 2;
         DrawAttrs.FirstIndexLocation = 2*3;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
     NumTestTrianglesInRow[6] = 10;
 
@@ -638,65 +628,60 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     // 0,1
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 2,3
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.BaseVertex = 2*3;
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
     
     // 4,5: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ), RESOURCE_STATE_TRANSITION_MODE_VERIFY );
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.BaseVertex = 2*3;
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 6,7: test instance buffer offset
     Offsets[1] += Strides[1] * 2;
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.BaseVertex = 2*3;
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 8,9: Test first index location
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
         DrawAttrs.BaseVertex = 2*3;
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstIndexLocation = 2*3;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
     NumTestTrianglesInRow[7] = 10;
 
@@ -710,69 +695,64 @@ void TestDrawCommands::Draw()
     m_pDeviceContext->SetIndexBuffer(m_pIndexBuff, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
     // 0,1
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 2,3
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.BaseVertex = 3;
         DrawAttrs.FirstInstanceLocation = 1;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 4,5: test index buffer offset
     m_pDeviceContext->SetIndexBuffer( m_pIndexBuff, 2 * 3 * sizeof( Uint32 ), RESOURCE_STATE_TRANSITION_MODE_VERIFY );
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.BaseVertex = 3;
         DrawAttrs.FirstInstanceLocation = 1;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 6,7: test instance buffer offset
     Offsets[1] += Strides[1] * 2;
     m_pDeviceContext->SetVertexBuffers(0, 2, pBuffs, Offsets, RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAG_RESET);
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.BaseVertex = 3;
         DrawAttrs.FirstInstanceLocation = 1;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
 
     // 8,9: test first index location
     {
-        DrawAttribs DrawAttrs;
+        DrawIndexedAttribs DrawAttrs;
         DrawAttrs.NumIndices = 3; // Draw 1 triangle
         DrawAttrs.NumInstances = 2; // Draw 2 instances
-        DrawAttrs.IsIndexed = true;
         DrawAttrs.BaseVertex = 3;
         DrawAttrs.FirstInstanceLocation = 1;
         DrawAttrs.IndexType = VT_UINT32;
         DrawAttrs.FirstIndexLocation = 2*3;
         DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pDeviceContext->Draw(DrawAttrs);
+        m_pDeviceContext->DrawIndexed(DrawAttrs);
     }
     NumTestTrianglesInRow[8] = 10;
 
@@ -796,8 +776,8 @@ void TestDrawCommands::Draw()
             MappedData[3] = 0; // Start instance
             MappedData.Unmap();
 
-            DrawAttribs DrawAttrs(m_pIndirectDrawArgs, DRAW_FLAG_VERIFY_ALL, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            m_pDeviceContext->Draw(DrawAttrs);
+            DrawIndirectAttribs DrawAttrs(DRAW_FLAG_VERIFY_ALL, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pDeviceContext->DrawIndirect(DrawAttrs, m_pIndirectDrawArgs);
         }
 
         // 2,3: test first vertex location
@@ -808,8 +788,8 @@ void TestDrawCommands::Draw()
             MappedData[2] = 3*2;  // Start vertex
             MappedData[3] = 0;    // Start instance
             MappedData.Unmap();
-            DrawAttribs DrawAttrs(m_pIndirectDrawArgs, DRAW_FLAG_VERIFY_ALL, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            m_pDeviceContext->Draw(DrawAttrs);
+            DrawIndirectAttribs DrawAttrs(DRAW_FLAG_VERIFY_ALL, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pDeviceContext->DrawIndirect(DrawAttrs, m_pIndirectDrawArgs);
         }
     
         // 4,5: test first instance location
@@ -820,11 +800,10 @@ void TestDrawCommands::Draw()
             MappedData[2] = 3*2; // Start vertex
             MappedData[3] = 2;   // Start instance
             MappedData.Unmap();
-            DrawAttribs DrawAttrs;
-            DrawAttrs.pIndirectDrawAttribs = m_pIndirectDrawArgs;
+            DrawIndirectAttribs DrawAttrs;
             DrawAttrs.IndirectAttribsBufferStateTransitionMode = RESOURCE_STATE_TRANSITION_MODE_VERIFY;
             DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-            m_pDeviceContext->Draw(DrawAttrs);
+            m_pDeviceContext->DrawIndirect(DrawAttrs, m_pIndirectDrawArgs);
         }
 
         NumTestTrianglesInRow[9] = 6;
@@ -849,8 +828,8 @@ void TestDrawCommands::Draw()
             MappedData[4] = 0; // Start instance
             MappedData.Unmap();
 
-            DrawAttribs DrawAttrs(m_pIndexedIndirectDrawArgs, VT_UINT32, DRAW_FLAG_VERIFY_ALL, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
-            m_pDeviceContext->Draw(DrawAttrs);
+            DrawIndexedIndirectAttribs DrawAttrs(VT_UINT32, DRAW_FLAG_VERIFY_ALL, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
+            m_pDeviceContext->DrawIndexedIndirect(DrawAttrs, m_pIndexedIndirectDrawArgs);
         }
 
         // 2,3: test start index location
@@ -863,13 +842,11 @@ void TestDrawCommands::Draw()
             MappedData[4] = 0;  // Start instance
             MappedData.Unmap();
 
-            DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndexed = true;
+            DrawIndexedIndirectAttribs DrawAttrs;
             DrawAttrs.IndexType = VT_UINT32;
-            DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
             DrawAttrs.IndirectAttribsBufferStateTransitionMode = RESOURCE_STATE_TRANSITION_MODE_VERIFY;
             DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-            m_pDeviceContext->Draw(DrawAttrs);
+            m_pDeviceContext->DrawIndexedIndirect(DrawAttrs, m_pIndexedIndirectDrawArgs);
         }
 
         // 4,5: test base vertex
@@ -882,13 +859,11 @@ void TestDrawCommands::Draw()
             MappedData[4] = 0;  // Start instance
             MappedData.Unmap();
 
-            DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndexed = true;
+            DrawIndexedIndirectAttribs DrawAttrs;
             DrawAttrs.IndexType = VT_UINT32;
-            DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
             DrawAttrs.IndirectAttribsBufferStateTransitionMode = RESOURCE_STATE_TRANSITION_MODE_VERIFY;
             DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-            m_pDeviceContext->Draw(DrawAttrs);
+            m_pDeviceContext->DrawIndexedIndirect(DrawAttrs, m_pIndexedIndirectDrawArgs);
         }
 
         // 6,7: test start instance
@@ -901,13 +876,11 @@ void TestDrawCommands::Draw()
             MappedData[4] = 2;  // Start instance
             MappedData.Unmap();
 
-            DrawAttribs DrawAttrs;
-            DrawAttrs.IsIndexed = true;
+            DrawIndexedIndirectAttribs DrawAttrs;
             DrawAttrs.IndexType = VT_UINT32;
-            DrawAttrs.pIndirectDrawAttribs = m_pIndexedIndirectDrawArgs;
             DrawAttrs.IndirectAttribsBufferStateTransitionMode = RESOURCE_STATE_TRANSITION_MODE_VERIFY;
             DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-            m_pDeviceContext->Draw(DrawAttrs);
+            m_pDeviceContext->DrawIndexedIndirect(DrawAttrs, m_pIndexedIndirectDrawArgs);
         }
         NumTestTrianglesInRow[10] = 8;
     }

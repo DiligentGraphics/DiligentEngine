@@ -87,6 +87,7 @@ if(WIN32)
         ${MEDIA}
         SDK/Include/d3dx12.h
         src/common_defines.h
+        src/shader_common.h
         readme.md
     )
     set_target_properties(Asteroids PROPERTIES 
