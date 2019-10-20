@@ -480,10 +480,10 @@ int main(int argc, char** argv)
 
     if (gSettings.mode == Settings::RenderMode::Undefined)
     {
-        if (gVulkanAvailable)
-            gSettings.mode = Settings::RenderMode::DiligentVulkan;
-        else if (gd3d12Available)
+        if (gd3d12Available)
             gSettings.mode = Settings::RenderMode::DiligentD3D12;
+        else if (gVulkanAvailable)
+            gSettings.mode = Settings::RenderMode::DiligentVulkan;
         else
             gSettings.mode = Settings::RenderMode::DiligentD3D11;
     }

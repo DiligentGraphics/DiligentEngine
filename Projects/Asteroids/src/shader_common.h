@@ -9,17 +9,4 @@ struct VSOut
     uint   textureId     : TEXTURE_ID;
 };
 
-struct AsteroidData
-{
-	float4x4 World;
-	float4x4 ViewProjection;
-	float4 SurfaceColor;
-	float4 DeepColor;
-
-	uint TextureIndex;
-    uint Padding0;
-    uint Padding1;
-    uint Padding2;
-};
-
 #endif

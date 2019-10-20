@@ -45,6 +45,7 @@ set(PIXEL_SHADERS
 
 set(VERTEX_SHADERS
     src/asteroid_vs.hlsl
+    src/asteroid_vs_diligent.hlsl
     src/skybox_vs.hlsl
     src/sprite_vs.hlsl
 )
@@ -141,6 +142,7 @@ source_group("include" FILES ${INCLUDE})
 source_group("shaders" FILES 
     ${SHADERS}
     src/common_defines.h
+    src/shader_common.h
 )
 source_group("SDK" FILES SDK/Include/d3dx12.h)
 source_group("GUI" FILES ${GUI})
