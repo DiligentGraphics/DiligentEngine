@@ -924,7 +924,7 @@ void Asteroids::RenderSubset(Diligent::Uint32 SubsetNum,
         {
             // It is very important to speciy this flag to make sure the engine does not do extra
             // work processing buffers that stay intact.
-            attribs.Flags |= DRAW_FLAG_DYNAMIC_BUFFERS_INTACT;
+            attribs.Flags |= DRAW_FLAG_DYNAMIC_RESOURCE_BUFFERS_INTACT;
             attribs.FirstInstanceLocation = drawIdx - startIdx;
         }
 
