@@ -42,7 +42,7 @@ TestShaderResArrays::TestShaderResArrays(IRenderDevice *pDevice, IDeviceContext 
     pDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
     CreationAttrs.pShaderSourceStreamFactory = pShaderSourceFactory;
     CreationAttrs.UseCombinedTextureSamplers = true;
-
+    CreationAttrs.HLSLVersion = ShaderCreateInfo::ShaderVersion{5, 0};
     RefCntAutoPtr<Diligent::IShader> pVS, pPS;
     {
         CreationAttrs.Desc.Name = "TestShaderResArrays: VS";
