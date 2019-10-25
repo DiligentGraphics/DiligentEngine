@@ -43,18 +43,21 @@ public:
             float2 f2( 1, 2 );
             VERIFY_EXPR( f2.x == 1 && f2.y == 2 );
             VERIFY_EXPR( f2.x == f2[0] && f2.y == f2[1] );
+            (void)f2;
         }
 
         {
             float3 f3( 1, 2, 3 );
             VERIFY_EXPR( f3.x == 1 && f3.y == 2 && f3.z == 3 );
             VERIFY_EXPR( f3.x == f3[0] && f3.y == f3[1] && f3.z == f3[2] );
+            (void)f3;
         }
 
         {
             float4 f4( 1, 2, 3, 4 );
             VERIFY_EXPR( f4.x == 1 && f4.y == 2 && f4.z == 3 && f4.w == 4 );
             VERIFY_EXPR( f4.x == f4[0] && f4.y == f4[1] && f4.z == f4[2] && f4.w == f4[3] );
+            (void)f4;
         }
 
 
@@ -62,16 +65,19 @@ public:
         {
             auto v = float2( 5, 3 ) - float2( 1, 2 );
             VERIFY_EXPR( v.x == 4 && v.y == 1 );
+            (void)v;
         }
 
         {
             auto v = float3( 5, 3, 20 ) - float3( 1, 2, 10 );
             VERIFY_EXPR( v.x == 4 && v.y == 1 && v.z == 10);
+            (void)v;
         }
 
         {
             auto v = float4( 5, 3, 20, 200 ) - float4( 1, 2, 10, 100 );
             VERIFY_EXPR( v.x == 4 && v.y == 1 && v.z == 10 && v.w == 100);
+            (void)v;
         }
 
         // a -= b
@@ -79,34 +85,40 @@ public:
             auto v = float2( 5, 3 ); 
             v -= float2( 1, 2 );
             VERIFY_EXPR( v.x == 4 && v.y == 1 );
+            (void)v;
         }
 
         {
             auto v = float3( 5, 3, 20 ); 
             v -= float3( 1, 2, 10 );
             VERIFY_EXPR( v.x == 4 && v.y == 1 && v.z == 10);
+            (void)v;
         }
 
         {
             auto v = float4( 5, 3, 20, 200 ); 
             v -= float4( 1, 2, 10, 100 );
             VERIFY_EXPR( v.x == 4 && v.y == 1 && v.z == 10 && v.w == 100);
+            (void)v;
         }
 
         // -a
         {
             auto v = -float2( 1, 2 );
             VERIFY_EXPR( v.x == -1 && v.y == -2 );
+            (void)v;
         }
 
         {
             auto v = -float3( 1, 2, 3 );
             VERIFY_EXPR( v.x == -1 && v.y == -2 && v.z == -3 );
+            (void)v;
         }
 
         {
             auto v = -float4( 1, 2, 3, 4 );
             VERIFY_EXPR( v.x == -1 && v.y == -2 && v.z == -3 && v.w == -4 );
+            (void)v;
         }
 
 
@@ -114,16 +126,19 @@ public:
         {
             auto v = float2( 5, 3 ) + float2( 1, 2 );
             VERIFY_EXPR( v.x == 6 && v.y == 5 );
+            (void)v;
         }
 
         {
             auto v = float3( 5, 3, 20 ) + float3( 1, 2, 10 );
             VERIFY_EXPR( v.x == 6 && v.y == 5 && v.z == 30);
+            (void)v;
         }
 
         {
             auto v = float4( 5, 3, 20, 200 ) + float4( 1, 2, 10, 100 );
             VERIFY_EXPR( v.x == 6 && v.y == 5 && v.z == 30 && v.w == 300);
+            (void)v;
         }
 
         // a += b
@@ -131,34 +146,40 @@ public:
             auto v = float2( 5, 3 ); 
             v += float2( 1, 2 );
             VERIFY_EXPR( v.x == 6 && v.y == 5 );
+            (void)v;
         }
 
         {
             auto v = float3( 5, 3, 20 ); 
             v+=float3( 1, 2, 10 );
             VERIFY_EXPR( v.x == 6 && v.y == 5 && v.z == 30);
+            (void)v;
         }
 
         {
             auto v = float4( 5, 3, 20, 200 ); 
             v+=float4( 1, 2, 10, 100 );
             VERIFY_EXPR( v.x == 6 && v.y == 5 && v.z == 30 && v.w == 300);
+            (void)v;
         }
 
         // a * b
         {
             auto v = float2( 5, 3 ) * float2( 1, 2 );
             VERIFY_EXPR( v.x == 5 && v.y == 6 );
+            (void)v;
         }
 
         {
             auto v = float3( 5, 3, 20 ) * float3( 1, 2, 3 );
             VERIFY_EXPR( v.x == 5 && v.y == 6 && v.z == 60);
+            (void)v;
         }
 
         {
             auto v = float4( 5, 3, 20, 200 ) * float4( 1, 2, 3, 4 );
             VERIFY_EXPR( v.x == 5 && v.y == 6 && v.z == 60 && v.w == 800);
+            (void)v;
         }
 
         // a *= b
@@ -166,34 +187,40 @@ public:
             auto v = float2( 5, 3 );
             v*=float2( 1, 2 );
             VERIFY_EXPR( v.x == 5 && v.y == 6 );
+            (void)v;
         }
 
         {
             auto v = float3( 5, 3, 20 );
             v*=float3( 1, 2, 3 );
             VERIFY_EXPR( v.x == 5 && v.y == 6 && v.z == 60);
+            (void)v;
         }
 
         {
             auto v = float4( 5, 3, 20, 200 );
             v*=float4( 1, 2, 3, 4 );
             VERIFY_EXPR( v.x == 5 && v.y == 6 && v.z == 60 && v.w == 800);
+            (void)v;
         }
 
         // a * s
         {
             auto v = float2( 5, 3 )*2;
             VERIFY_EXPR( v.x == 10 && v.y == 6 );
+            (void)v;
         }
 
         {
             auto v = float3( 5, 3, 20 )*2;
             VERIFY_EXPR( v.x == 10 && v.y == 6 && v.z == 40);
+            (void)v;
         }
 
         {
             auto v = float4( 5, 3, 20, 200 ) * 2;
             VERIFY_EXPR( v.x == 10 && v.y == 6 && v.z == 40 && v.w == 400);
+            (void)v;
         }
 
         // a *= s
@@ -201,50 +228,59 @@ public:
             auto v = float2( 5, 3 );
             v*=2;
             VERIFY_EXPR( v.x == 10 && v.y == 6 );
+            (void)v;
         }
 
         {
             auto v = float3( 5, 3, 20 );
             v*=2;
             VERIFY_EXPR( v.x == 10 && v.y == 6 && v.z == 40);
+            (void)v;
         }
 
         {
             auto v = float4( 5, 3, 20, 200 );
             v*=2;
             VERIFY_EXPR( v.x == 10 && v.y == 6 && v.z == 40 && v.w == 400);
+            (void)v;
         }
 
         // s * a
         {
             auto v = 2.f * float2( 5, 3 );
             VERIFY_EXPR( v.x == 10 && v.y == 6 );
+            (void)v;
         }
 
         {
             auto v = 2.f * float3( 5, 3, 20 );
             VERIFY_EXPR( v.x == 10 && v.y == 6 && v.z == 40);
+            (void)v;
         }
 
         {
             auto v = 2.f * float4( 5, 3, 20, 200 );
             VERIFY_EXPR( v.x == 10 && v.y == 6 && v.z == 40 && v.w == 400);
+            (void)v;
         }
 
         // a / s
         {
             auto v = float2( 10, 6 )/2;
             VERIFY_EXPR( v.x == 5 && v.y == 3 );
+            (void)v;
         }
 
         {
             auto v = float3( 10, 6, 40 )/2;
             VERIFY_EXPR( v.x == 5 && v.y == 3 && v.z == 20);
+            (void)v;
         }
 
         {
             auto v = float4( 10, 6, 40, 400 ) / 2;
             VERIFY_EXPR( v.x == 5 && v.y == 3 && v.z == 20 && v.w == 200);
+            (void)v;
         }
         
 
@@ -252,16 +288,19 @@ public:
         {
             auto v = float2( 6, 4 ) / float2( 1, 2 );
             VERIFY_EXPR( v.x == 6 && v.y == 2 );
+            (void)v;
         }
 
         {
             auto v = float3( 6, 3, 20 ) / float3( 3, 1, 5 );
             VERIFY_EXPR( v.x == 2 && v.y == 3 && v.z == 4);
+            (void)v;
         }
 
         {
             auto v = float4( 6, 3, 20, 200 ) / float4( 3, 1, 5, 40 );
             VERIFY_EXPR( v.x == 2 && v.y == 3 && v.z == 4 && v.w == 5);
+            (void)v;
         }
 
         // a /= b
@@ -269,18 +308,21 @@ public:
             auto v = float2( 6, 4 );
             v/=float2( 1, 2 );
             VERIFY_EXPR( v.x == 6 && v.y == 2 );
+            (void)v;
         }
 
         {
             auto v = float3( 6, 3, 20 );
             v/=float3( 3, 1, 5 );
             VERIFY_EXPR( v.x == 2 && v.y == 3 && v.z == 4);
+            (void)v;
         }
 
         {
             auto v = float4( 6, 3, 20, 200 );
             v/=float4( 3, 1, 5, 40 );
             VERIFY_EXPR( v.x == 2 && v.y == 3 && v.z == 4 && v.w == 5);
+            (void)v;
         }
 
         // a /= s
@@ -288,50 +330,59 @@ public:
             auto v = float2( 6, 4 );
             v/=2;
             VERIFY_EXPR( v.x == 3 && v.y == 2 );
+            (void)v;
         }
 
         {
             auto v = float3( 4, 6, 20 );
             v/=2;
             VERIFY_EXPR( v.x == 2 && v.y == 3 && v.z == 10);
+            (void)v;
         }
 
         {
             auto v = float4( 4, 6, 20, 200 );
             v/=2;
             VERIFY_EXPR( v.x == 2 && v.y == 3 && v.z == 10 && v.w == 100);
+            (void)v;
         }
 
         // max
         {
             auto v = std::max( float2( 6, 4 ), float2( 1, 40 ) );
             VERIFY_EXPR( v.x == 6 && v.y == 40 );
+            (void)v;
         }
 
         {
             auto v = std::max( float3( 4, 6, 20 ), float3( 40, 3, 23 ) );
             VERIFY_EXPR( v.x == 40 && v.y == 6 && v.z == 23);
+            (void)v;
         }
 
         {
             auto v = std::max( float4( 4, 6, 20, 100 ), float4( 40, 3, 23, 50 ) );
             VERIFY_EXPR( v.x == 40 && v.y == 6 && v.z == 23 && v.w == 100);
+            (void)v;
         }
 
         // min
         {
             auto v = std::min( float2( 6, 4 ), float2( 1, 40 ) );
             VERIFY_EXPR( v.x == 1 && v.y == 4 );
+            (void)v;
         }
 
         {
             auto v = std::min( float3( 4, 6, 20 ), float3( 40, 3, 23 ) );
             VERIFY_EXPR( v.x == 4 && v.y == 3 && v.z == 20);
+            (void)v;
         }
 
         {
             auto v = std::min( float4( 4, 6, 20, 100 ), float4( 40, 3, 23, 50 ) );
             VERIFY_EXPR( v.x == 4 && v.y == 3 && v.z == 20 && v.w == 50);
+            (void)v;
         }
 
 
@@ -431,6 +482,7 @@ public:
         {
             auto l = length( float2(3,4) );
             VERIFY_EXPR( l >= 5.f - 1e-6f && l <= 5.f + 1e+6f );
+            (void)l;
         }
 
         // Matrix 3x3
@@ -447,6 +499,7 @@ public:
             VERIFY_EXPR(m1 == m2);
             auto t = m1.Transpose().Transpose();
             VERIFY_EXPR(t == m1);
+            (void)t;
         }
 
         // Matrix 3x3
@@ -467,6 +520,7 @@ public:
             VERIFY_EXPR( m1 == m2 );
             auto t = m1.Transpose().Transpose();
             VERIFY_EXPR( t == m1 );
+            (void)t;
         }
 
         // Matrix 4x4
@@ -491,6 +545,7 @@ public:
             VERIFY_EXPR( m1 == m2 );
             auto t = m1.Transpose().Transpose();
             VERIFY_EXPR( t == m1 );
+            (void)t;
         }
 
         // Inverse
@@ -507,6 +562,7 @@ public:
                     float ref = i == j ? 1.f : 0.f;
                     auto val = identity[i][j];
                     VERIFY_EXPR( fabs( val - ref ) < 1e-6f );
+                    (void)ref;(void)val;
                 }
         }
 
@@ -518,6 +574,7 @@ public:
                         13, 14, 15, 16);
             auto det = m1.Determinant();
             VERIFY_EXPR( det == 0 );
+            (void)det;
         }
 
         {
@@ -547,6 +604,7 @@ public:
                 auto c0 = float3(-1.f, -2.f, -4.f) * OrthoProj;
                 auto c1 = float3(+1.f, +2.f, +12.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, 0) && c1 == float3(+1,+1,+1) );
+                (void)c0;(void)c1;
             }
 
             {
@@ -554,6 +612,7 @@ public:
                 auto c0 = float3(-1.f, -2.f, -4.f) * OrthoProj;
                 auto c1 = float3(+1.f, +2.f, +12.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
+                (void)c0;(void)c1;
             }
 
             {
@@ -561,6 +620,7 @@ public:
                 auto c0 = float3(-2.f, -4.f, -6.f) * OrthoProj;
                 auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, 0) && c1 == float3(+1, +1, +1));
+                (void)c0;(void)c1;
             }
 
             {
@@ -568,6 +628,7 @@ public:
                 auto c0 = float3(-2.f, -4.f, -6.f) * OrthoProj;
                 auto c1 = float3(+6.f, +12.f, +10.f) * OrthoProj;
                 VERIFY_EXPR(c0 == float3(-1, -1, -1) && c1 == float3(+1, +1, +1));
+                (void)c0;(void)c1;
             }
         }
 
@@ -586,6 +647,7 @@ public:
             float4 vec4(1,2,3,4);
             float3 vec3 = vec4;
             VERIFY_EXPR(vec3== float3(1, 2, 3));
+            (void)vec3;
         }
 
         {
@@ -606,6 +668,7 @@ public:
                                                                7,8,9));
             VERIFY_EXPR(float2x2::MakeMatrix(data) == float2x2(1,2,
                                                                3,4));
+            (void)data;
         }
 
         {

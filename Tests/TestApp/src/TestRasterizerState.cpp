@@ -121,6 +121,7 @@ TestRasterizerState::TestRasterizerState( IRenderDevice *pDevice, IDeviceContext
         assert( RSDesc2.DepthClipEnable == True );
         assert( RSDesc2.ScissorEnable == False );
         assert( RSDesc2.AntialiasedLineEnable == True );
+        (void)RSDesc2;
     }
 
     {

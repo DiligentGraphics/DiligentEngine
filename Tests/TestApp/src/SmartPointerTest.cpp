@@ -397,7 +397,7 @@ SmartPointerTest::SmartPointerTest() :
         SmartPtr SP0, SP1(pRawPtr1), SP2(pRawPtr1), SP3(pRawPtr2);
         assert( !SP0 );
         bool b1 = SP0.operator bool();
-        assert( !b1 );
+        assert( !b1 ); (void)b1;
         if(SP0)
             assert( false );
 

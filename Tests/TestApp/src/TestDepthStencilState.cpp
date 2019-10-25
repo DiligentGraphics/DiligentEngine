@@ -40,6 +40,9 @@ void TestDepthStencilState::CreateTestDSS( DepthStencilStateDesc &DSSDesc )
     pPSO->CreateShaderResourceBinding(&pSRB);
     auto PSVarCount = pSRB->GetVariableCount(SHADER_TYPE_PIXEL);
     auto VSVarCount = pSRB->GetVariableCount(SHADER_TYPE_VERTEX);
+    (void)PSVarCount;
+    (void)VSVarCount;
+
 #if 0
     DSSDesc.Name = "TestDSS2";
     m_pDevice->CreateDepthStencilState( DSSDesc, &pDSState2 );

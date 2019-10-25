@@ -86,28 +86,28 @@ TestApp::TestApp() :
     for (Uint32 i = 0; i < 32; ++i)
     {
         auto MSB = PlatformMisc::GetMSB((Uint32{1} << i) | 1);
-        VERIFY_EXPR(MSB == i);
+        VERIFY_EXPR(MSB == i); (void)MSB;
     }
     
     VERIFY_EXPR(PlatformMisc::GetMSB(Uint64{0}) == 64);
     for (Uint32 i = 0; i < 64; ++i)
     {
         auto MSB = PlatformMisc::GetMSB((Uint64{1} << i) | 1);
-        VERIFY_EXPR(MSB == i);
+        VERIFY_EXPR(MSB == i); (void)MSB;
     }
     
     VERIFY_EXPR(PlatformMisc::GetLSB(Uint32{0}) == 32);
     for (Uint32 i = 0; i < 32; ++i)
     {
         auto LSB = PlatformMisc::GetLSB((Uint32{1} << i) | (Uint32{1}<<31));
-        VERIFY_EXPR(LSB == i);
+        VERIFY_EXPR(LSB == i); (void)LSB;
     }
 
     VERIFY_EXPR(PlatformMisc::GetLSB(Uint64{0}) == 64);
     for (Uint32 i = 0; i < 64; ++i)
     {
         auto LSB = PlatformMisc::GetLSB((Uint64{1} << i) | (Uint64{1}<<63));
-        VERIFY_EXPR(LSB == i);
+        VERIFY_EXPR(LSB == i); (void)LSB;
     }
 
     VERIFY_EXPR(PlatformMisc::CountOneBits(Uint32{0}) == 0);
