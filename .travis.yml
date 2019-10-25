@@ -99,5 +99,5 @@ script:
       else
         cmake .. -DDILIGENT_ENABLE_TESTS=TRUE -G "Xcode"
       fi
-      cmake --build . --config ${CONFIG}
+      xcodebuild -configuration ${CONFIG} | xcpretty
     fi
