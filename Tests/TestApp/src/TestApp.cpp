@@ -230,6 +230,7 @@ void TestApp::InitializeDiligentEngine(
 
             EngineD3D12CreateInfo EngD3D12Attribs;
             EngD3D12Attribs.EnableDebugLayer = true;
+            //EngD3D12Attribs.EnableGPUBasedValidation = true;
             EngD3D12Attribs.CPUDescriptorHeapAllocationSize[0] = 64; // D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
             EngD3D12Attribs.CPUDescriptorHeapAllocationSize[1] = 32; // D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER
             EngD3D12Attribs.CPUDescriptorHeapAllocationSize[2] = 16; // D3D12_DESCRIPTOR_HEAP_TYPE_RTV

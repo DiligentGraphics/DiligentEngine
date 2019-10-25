@@ -126,6 +126,7 @@ Master repository includes the following submodules:
 Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
 To start using cmake, download the [latest release](https://cmake.org/download/) (3.13 or later is required).
 Another build prerequisite is [Python interpreter](https://www.python.org/downloads/) (3.0 or later is required).
+If after following the instuctions below you have build/run issues, please take a look at [troubleshooting](Troubleshooting.md).
 
 <a name="build_and_run_win32"></a>
 ## Win32
@@ -581,7 +582,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [13 - Shadow Map](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial13_ShadowMap) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial13_ShadowMap/Animation_Small.gif) | This tutorial demonstrates how to render basic shadows using a shadow map. |
 | [14 - Compute Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial14_ComputeShader) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial14_ComputeShader/Animation_Small.gif) | This tutorial shows how to implement a simple particle simulation system using compute shaders. |
 | [15 - Multiple Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial15_MultipleWindows) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial15_MultipleWindows/Screenshot.png) | This tutorial demonstrates how to use Diligent Engine to render to multiple windows. |
-
+| [16 - Bindless Resources](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial16_BindlessResources) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial16_BindlessResources/Animation_Small.gif) | This tutorial shows how to implement bindless resources, a technique that leverages dynamic shader resource indexing feature enabled by the next-gen APIs to significantly improve rendering performance. |
 
 <a name="samples"></a>
 # [Samples](https://github.com/DiligentGraphics/DiligentSamples)
