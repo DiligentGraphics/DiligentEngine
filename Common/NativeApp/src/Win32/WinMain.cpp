@@ -79,6 +79,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
     UpdateWindow(wnd);
     
     g_pTheApp->OnWindowCreated(wnd, WindowWidth, WindowHeight);
+    AppTitle = g_pTheApp->GetAppTitle();
 
     Diligent::Timer Timer;
     auto PrevTime = Timer.GetElapsedTime();

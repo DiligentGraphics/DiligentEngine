@@ -147,7 +147,9 @@ void App::Run()
 		{
 			CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
 
-            auto commandQueue = GetDeviceResources();//->GetCommandQueue();
+            // Initialize device resources
+            GetDeviceResources();
+
 			//PIXBeginEvent(commandQueue, 0, L"Update");
 			{
 				m_Main->Update();
@@ -224,8 +226,11 @@ void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
 
 void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ args)
 {
-	GetDeviceResources()->SetLogicalSize(Size(sender->Bounds.Width, sender->Bounds.Height));
-	m_Main->OnWindowSizeChanged();
+    if (auto DeviceResources = GetDeviceResources())
+    {
+	    DeviceResources->SetLogicalSize(Size(sender->Bounds.Width, sender->Bounds.Height));
+	    m_Main->OnWindowSizeChanged();
+    }
 }
 
 void App::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args)
@@ -246,19 +251,28 @@ void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 	// if it is being scaled for high resolution devices. Once the DPI is set on DeviceResources,
 	// you should always retrieve it using the GetDpi method.
 	// See DeviceResources.cpp for more details.
-	GetDeviceResources()->SetDpi(sender->LogicalDpi);
-	m_Main->OnWindowSizeChanged();
+    if (auto DeviceResources = GetDeviceResources())
+    {
+	    DeviceResources->SetDpi(sender->LogicalDpi);
+    	m_Main->OnWindowSizeChanged();
+    }
 }
 
 void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 {
-	GetDeviceResources()->SetCurrentOrientation(sender->CurrentOrientation);
-	m_Main->OnWindowSizeChanged();
+    if (auto DeviceResources = GetDeviceResources())
+    {
+    	DeviceResources->SetCurrentOrientation(sender->CurrentOrientation);
+    	m_Main->OnWindowSizeChanged();
+    }
 }
 
 void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
 {
-	GetDeviceResources()->ValidateDevice();
+    if (auto DeviceResources = GetDeviceResources())
+    {
+    	DeviceResources->ValidateDevice();
+    }
 }
 
 void App::OnKeyDown(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args)
@@ -324,9 +338,14 @@ std::shared_ptr<DX::DeviceResources> App::GetDeviceResources()
 	if (m_deviceResources == nullptr)
 	{
 		m_deviceResources = m_Main->InitDeviceResources();
-		m_deviceResources->SetWindow(CoreWindow::GetForCurrentThread());
-        m_Main->OnWindowSizeChanged();
-		m_Main->CreateRenderers();
+        if (m_deviceResources)
+        {
+		    m_deviceResources->SetWindow(CoreWindow::GetForCurrentThread());
+            auto Title = Diligent::WidenString(m_Main->GetAppTitle());
+            Windows::UI::ViewManagement::ApplicationView::GetForCurrentView()->Title = ref new Platform::String(Title.c_str());
+            m_Main->OnWindowSizeChanged();
+		    m_Main->CreateRenderers();
+        }
 	}
 	return m_deviceResources;
 }
