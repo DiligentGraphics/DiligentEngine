@@ -55,7 +55,7 @@ install:
   - git submodule update --init --recursive
 
   # Install a recent CMake
-  - set CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.13.2/cmake-3.13.2-win64-x64.zip"
+  - set CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.15.4/cmake-3.15.4-win64-x64.zip"
   - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
   - 7z x cmake.zip -oC:\projects\deps > nul
   - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
@@ -63,13 +63,13 @@ install:
   - cmake --version
   - python --version
   - echo %PLATFORM%
-  - if "%PLATFORM%"=="x64" ( set generator="Visual Studio 15 2017 Win64" ) else ( set generator="Visual Studio 15 2017" )
+  - if "%PLATFORM%"=="x64" ( set generator_arch=x64 ) else ( set generator_arch=Win32 )
   
 before_build:
   - cd c:\projects\diligentengine
-  - echo %generator%
+  - echo %generator_arch%
   - echo %cmake_args%
-  - cmake -D DILIGENT_ENABLE_TESTS=TRUE %cmake_args% -S . -B ./cmk_build -G %generator%
+  - cmake -D DILIGENT_ENABLE_TESTS=TRUE %cmake_args% -S . -B ./cmk_build -G "Visual Studio 15 2017" -A %generator_arch%
 
 build:
   project: c:\projects\diligentengine\cmk_build\DiligentEngine.sln
