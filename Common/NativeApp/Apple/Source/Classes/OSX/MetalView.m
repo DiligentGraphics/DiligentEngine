@@ -136,12 +136,4 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink,
     [self unlockApp];
 }
 
--(NSString*)getAppName
-{
-    auto* theApp = [self lockApp];
-    auto Title = [NSString stringWithFormat:@"%s (Vulkan)", theApp ? theApp->GetAppTitle() : ""];
-    [self unlockApp];
-    return Title;
-}
-
 @end

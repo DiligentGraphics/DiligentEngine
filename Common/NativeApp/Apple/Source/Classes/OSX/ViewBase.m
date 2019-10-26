@@ -136,4 +136,12 @@
     [self destroyApp];
 }
 
+-(NSString*)getAppName
+{
+    auto* theApp = [self lockApp];
+    auto Title = [NSString stringWithFormat:@"%s", theApp ? theApp->GetAppTitle() : ""];
+    [self unlockApp];
+    return Title;
+}
+
 @end

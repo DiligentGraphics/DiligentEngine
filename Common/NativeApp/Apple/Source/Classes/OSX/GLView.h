@@ -12,6 +12,4 @@
 
 @interface GLView : ViewBase
 
--(NSString*)getAppName;
-
 @end
