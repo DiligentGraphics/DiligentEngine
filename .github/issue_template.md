@@ -1,13 +1,14 @@
-If you have build or run problems, please read
-[troubleshooting](https://github.com/DiligentGraphics/DiligentEngine/blob/master/Troubleshooting.md) first.
+(Click "Preview" to turn any URL into a clickable link)
 
-Please double-check that your
-[code is up-to-date, including all submodules](https://github.com/DiligentGraphics/DiligentEngine#cloning-the-repository).
+If you have build or run problems, please read [troubleshooting](https://github.com/DiligentGraphics/DiligentEngine/blob/master/Troubleshooting.md) first.
 
-For performance questions, please make sure you are running release builds.
-Debug builds may be significantly slower, especially on Windows.
+Please double-check that your [code is up-to-date, including all submodules](https://github.com/DiligentGraphics/DiligentEngine#cloning-the-repository).
 
-For GPU-related issues, please make sure you have up-to-date drivers.
+If you have a question that does not require creating an issue, you may ask it on [gitter](https://gitter.im/diligent-engine/Lobby).
+
+For performance issues, please make sure you are running release builds. Debug builds may be significantly slower, especially on Windows.
+
+For GPU-related problems, please make sure you have up-to-date drivers.
 
 Please provide the following information:
 
