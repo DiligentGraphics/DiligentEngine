@@ -12,6 +12,10 @@ git submodule update --recursive
 * Make sure your build environment is up-to-date and properly configured:
   * When building with Visual Studio, make sure you have C++ build tools and Visual C++ ATL Support installed.
   * When building for UWP, make sure you have UWP build tools.
+  * When building for Android, make sure all your tools are up to date, you have
+    [NDK and CMake installed](https://developer.android.com/studio/projects/install-ndk).
+    If you are not using CMake version bundled with Android Studio, make sure your build files are
+    [properly configured](https://developer.android.com/studio/projects/add-native-code.html#use_a_custom_cmake_version).
   * When using gcc, make sure the compiler version is at least 7.4.
   * Make sure you build your project with c++11 features enabled.
 

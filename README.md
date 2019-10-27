@@ -253,8 +253,11 @@ the app's assets folder must be current directory.
 ## Android
 
 Please make sure that your machine is set up for Android development. Download 
-[Android Studio](https://developer.android.com/studio/index.html), [Android NDK](https://developer.android.com/ndk/downloads/index.html) and
-other required tools. To verify that your environment is properly set up, try building 
+[Android Studio](https://developer.android.com/studio/index.html),
+[install and configure the NDK and CMake](https://developer.android.com/studio/projects/install-ndk)
+and other required tools. If you are not using CMake version bundled with Android Studio, make sure
+your build files are [properly configured](https://developer.android.com/studio/projects/add-native-code.html#use_a_custom_cmake_version).
+To verify that your environment is properly set up, try building the
 [teapots sample](https://github.com/googlesamples/android-ndk/tree/master/teapots).
 
 Open *DiligentSamples/Android* or *UnityPlugin/Android* folders with Android Studio to build and run
