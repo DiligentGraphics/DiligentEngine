@@ -66,14 +66,14 @@ public:
 [Platform::MTAThread]
 int main(Platform::Array<Platform::String^>^)
 {
-	auto direct3DApplicationSource = ref new ApplicationSource();
-	CoreApplication::Run(direct3DApplicationSource);
-	return 0;
+    auto direct3DApplicationSource = ref new ApplicationSource();
+    CoreApplication::Run(direct3DApplicationSource);
+    return 0;
 }
 
 App::App() :
-	m_windowClosed(false),
-	m_windowVisible(true)
+    m_windowClosed(false),
+    m_windowVisible(true)
 {
 }
 
@@ -81,29 +81,29 @@ App::App() :
 // The first method called when the IFrameworkView is being created.
 void App::Initialize(CoreApplicationView^ applicationView)
 {
-	// Register event handlers for app lifecycle. This example includes Activated, so that we
-	// can make the CoreWindow active and start rendering on the window.
-	applicationView->Activated +=
-		ref new TypedEventHandler<CoreApplicationView^, IActivatedEventArgs^>(this, &App::OnActivated);
+    // Register event handlers for app lifecycle. This example includes Activated, so that we
+    // can make the CoreWindow active and start rendering on the window.
+    applicationView->Activated +=
+        ref new TypedEventHandler<CoreApplicationView^, IActivatedEventArgs^>(this, &App::OnActivated);
     
-	CoreApplication::Suspending +=
-		ref new EventHandler<SuspendingEventArgs^>(this, &App::OnSuspending);
+    CoreApplication::Suspending +=
+        ref new EventHandler<SuspendingEventArgs^>(this, &App::OnSuspending);
 
-	CoreApplication::Resuming +=
-		ref new EventHandler<Platform::Object^>(this, &App::OnResuming);
+    CoreApplication::Resuming +=
+        ref new EventHandler<Platform::Object^>(this, &App::OnResuming);
 }
 
 // Called when the CoreWindow object is created (or re-created).
 void App::SetWindow(CoreWindow^ window)
 {
-	window->SizeChanged += 
-		ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(this, &App::OnWindowSizeChanged);
+    window->SizeChanged += 
+        ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(this, &App::OnWindowSizeChanged);
 
-	window->VisibilityChanged +=
-		ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &App::OnVisibilityChanged);
+    window->VisibilityChanged +=
+        ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &App::OnVisibilityChanged);
 
-	window->Closed += 
-		ref new TypedEventHandler<CoreWindow^, CoreWindowEventArgs^>(this, &App::OnWindowClosed);
+    window->Closed += 
+        ref new TypedEventHandler<CoreWindow^, CoreWindowEventArgs^>(this, &App::OnWindowClosed);
 
     window->KeyDown += 
         ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(this, &App::OnKeyDown);
@@ -111,16 +111,16 @@ void App::SetWindow(CoreWindow^ window)
     window->KeyUp +=
         ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(this, &App::OnKeyUp);
 
-	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
+    DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
-	currentDisplayInformation->DpiChanged +=
-		ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnDpiChanged);
+    currentDisplayInformation->DpiChanged +=
+        ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnDpiChanged);
 
-	currentDisplayInformation->OrientationChanged +=
-		ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnOrientationChanged);
+    currentDisplayInformation->OrientationChanged +=
+        ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnOrientationChanged);
 
-	DisplayInformation::DisplayContentsInvalidated +=
-		ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnDisplayContentsInvalidated);
+    DisplayInformation::DisplayContentsInvalidated +=
+        ref new TypedEventHandler<DisplayInformation^, Object^>(this, &App::OnDisplayContentsInvalidated);
 
     if (m_Main)
     {
@@ -131,46 +131,46 @@ void App::SetWindow(CoreWindow^ window)
 // Initializes scene resources, or loads a previously saved app state.
 void App::Load(Platform::String^ entryPoint)
 {
-	if (m_Main == nullptr)
-	{
+    if (m_Main == nullptr)
+    {
         m_Main.reset(CreateApplication());
         m_Main->OnSetWindow(CoreWindow::GetForCurrentThread());
-	}
+    }
 }
 
 // This method is called after the window becomes active.
 void App::Run()
 {
-	while (!m_windowClosed)
-	{
-		if (m_windowVisible)
-		{
-			CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
+    while (!m_windowClosed)
+    {
+        if (m_windowVisible)
+        {
+            CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
 
             // Initialize device resources
             GetDeviceResources();
 
-			//PIXBeginEvent(commandQueue, 0, L"Update");
-			{
-				m_Main->Update();
-			}
-			//PIXEndEvent(commandQueue);
+            //PIXBeginEvent(commandQueue, 0, L"Update");
+            {
+                m_Main->Update();
+            }
+            //PIXEndEvent(commandQueue);
 
-			//PIXBeginEvent(commandQueue, 0, L"Render");
-			{
+            //PIXBeginEvent(commandQueue, 0, L"Render");
+            {
                 m_Main->Render();
-				if (m_Main->IsFrameReady())
-				{
+                if (m_Main->IsFrameReady())
+                {
                     m_Main->Present();
-				}
-			}
-			//PIXEndEvent(commandQueue);
-		}
-		else
-		{
-			CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessOneAndAllPending);
-		}
-	}
+                }
+            }
+            //PIXEndEvent(commandQueue);
+        }
+        else
+        {
+            CoreWindow::GetForCurrentThread()->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessOneAndAllPending);
+        }
+    }
 }
 
 // Required for IFrameworkView.
@@ -200,26 +200,26 @@ void App::OnActivated(CoreApplicationView^ applicationView, IActivatedEventArgs^
 
 void App::OnSuspending(Platform::Object^ sender, SuspendingEventArgs^ args)
 {
-	// Save app state asynchronously after requesting a deferral. Holding a deferral
-	// indicates that the application is busy performing suspending operations. Be
-	// aware that a deferral may not be held indefinitely. After about five seconds,
-	// the app will be forced to exit.
-	SuspendingDeferral^ deferral = args->SuspendingOperation->GetDeferral();
+    // Save app state asynchronously after requesting a deferral. Holding a deferral
+    // indicates that the application is busy performing suspending operations. Be
+    // aware that a deferral may not be held indefinitely. After about five seconds,
+    // the app will be forced to exit.
+    SuspendingDeferral^ deferral = args->SuspendingOperation->GetDeferral();
 
-	create_task([this, deferral]()
-	{
-		m_Main->OnSuspending();
-		deferral->Complete();
-	});
+    create_task([this, deferral]()
+    {
+        m_Main->OnSuspending();
+        deferral->Complete();
+    });
 }
 
 void App::OnResuming(Platform::Object^ sender, Platform::Object^ args)
 {
-	// Restore any data or state that was unloaded on suspend. By default, data
-	// and state are persisted when resuming from suspend. Note that this event
-	// does not occur if the app was previously terminated.
+    // Restore any data or state that was unloaded on suspend. By default, data
+    // and state are persisted when resuming from suspend. Note that this event
+    // does not occur if the app was previously terminated.
 
-	m_Main->OnResuming();
+    m_Main->OnResuming();
 }
 
 // Window event handlers.
@@ -228,33 +228,33 @@ void App::OnWindowSizeChanged(CoreWindow^ sender, WindowSizeChangedEventArgs^ ar
 {
     if (auto DeviceResources = GetDeviceResources())
     {
-	    DeviceResources->SetLogicalSize(Size(sender->Bounds.Width, sender->Bounds.Height));
-	    m_Main->OnWindowSizeChanged();
+        DeviceResources->SetLogicalSize(Size(sender->Bounds.Width, sender->Bounds.Height));
+        m_Main->OnWindowSizeChanged();
     }
 }
 
 void App::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args)
 {
-	m_windowVisible = args->Visible;
+    m_windowVisible = args->Visible;
 }
 
 void App::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
 {
-	m_windowClosed = true;
+    m_windowClosed = true;
 }
 
 // DisplayInformation event handlers.
 
 void App::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 {
-	// Note: The value for LogicalDpi retrieved here may not match the effective DPI of the app
-	// if it is being scaled for high resolution devices. Once the DPI is set on DeviceResources,
-	// you should always retrieve it using the GetDpi method.
-	// See DeviceResources.cpp for more details.
+    // Note: The value for LogicalDpi retrieved here may not match the effective DPI of the app
+    // if it is being scaled for high resolution devices. Once the DPI is set on DeviceResources,
+    // you should always retrieve it using the GetDpi method.
+    // See DeviceResources.cpp for more details.
     if (auto DeviceResources = GetDeviceResources())
     {
-	    DeviceResources->SetDpi(sender->LogicalDpi);
-    	m_Main->OnWindowSizeChanged();
+        DeviceResources->SetDpi(sender->LogicalDpi);
+        m_Main->OnWindowSizeChanged();
     }
 }
 
@@ -262,8 +262,8 @@ void App::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
 {
     if (auto DeviceResources = GetDeviceResources())
     {
-    	DeviceResources->SetCurrentOrientation(sender->CurrentOrientation);
-    	m_Main->OnWindowSizeChanged();
+        DeviceResources->SetCurrentOrientation(sender->CurrentOrientation);
+        m_Main->OnWindowSizeChanged();
     }
 }
 
@@ -271,7 +271,7 @@ void App::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
 {
     if (auto DeviceResources = GetDeviceResources())
     {
-    	DeviceResources->ValidateDevice();
+        DeviceResources->ValidateDevice();
     }
 }
 
@@ -318,34 +318,34 @@ void App::OnKeyUp(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyE
 
 std::shared_ptr<DX::DeviceResources> App::GetDeviceResources()
 {
-	if (m_deviceResources != nullptr && m_deviceResources->IsDeviceRemoved())
-	{
-		// All references to the existing D3D device must be released before a new device
-		// can be created.
+    if (m_deviceResources != nullptr && m_deviceResources->IsDeviceRemoved())
+    {
+        // All references to the existing D3D device must be released before a new device
+        // can be created.
 
-		m_deviceResources = nullptr;
-		m_Main->OnDeviceRemoved();
+        m_deviceResources = nullptr;
+        m_Main->OnDeviceRemoved();
 
 #if defined(_DEBUG)
-		ComPtr<IDXGIDebug1> dxgiDebug;
-		if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug))))
-		{
-			dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
-		}
+        ComPtr<IDXGIDebug1> dxgiDebug;
+        if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug))))
+        {
+            dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
+        }
 #endif
-	}
+    }
 
-	if (m_deviceResources == nullptr)
-	{
-		m_deviceResources = m_Main->InitDeviceResources();
+    if (m_deviceResources == nullptr)
+    {
+        m_deviceResources = m_Main->InitDeviceResources();
         if (m_deviceResources)
         {
-		    m_deviceResources->SetWindow(CoreWindow::GetForCurrentThread());
+            m_deviceResources->SetWindow(CoreWindow::GetForCurrentThread());
             auto Title = Diligent::WidenString(m_Main->GetAppTitle());
             Windows::UI::ViewManagement::ApplicationView::GetForCurrentView()->Title = ref new Platform::String(Title.c_str());
             m_Main->OnWindowSizeChanged();
-		    m_Main->CreateRenderers();
+            m_Main->CreateRenderers();
         }
-	}
-	return m_deviceResources;
+    }
+    return m_deviceResources;
 }
