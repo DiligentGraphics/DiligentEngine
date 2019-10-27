@@ -213,7 +213,6 @@ int xcb_main()
     std::unique_ptr<NativeAppBase> TheApp(CreateApplication());
 
     std::string Title = TheApp->GetAppTitle();
-    Title += " (Vulkan)";
     auto xcbInfo = InitXCBConnectionAndWindow(Title);
     TheApp->InitVulkan(xcbInfo.connection, xcbInfo.window);
 
@@ -221,6 +220,7 @@ int xcb_main()
 
     Timer timer;
     auto PrevTime = timer.GetElapsedTime();
+    Title = TheApp->GetAppTitle();
     WindowTitleHelper TitleHelper(Title);
 
     while (true)
@@ -417,7 +417,6 @@ int x_main()
     glXMakeCurrent(display, win, ctx);
     TheApp->OnGLContextCreated(display, win);
     std::string Title = TheApp->GetAppTitle();
-    Title += " (OpenGL)";
  
     Timer timer;
     auto PrevTime = timer.GetElapsedTime();
