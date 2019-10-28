@@ -214,7 +214,8 @@ int xcb_main()
 
     std::string Title = TheApp->GetAppTitle();
     auto xcbInfo = InitXCBConnectionAndWindow(Title);
-    TheApp->InitVulkan(xcbInfo.connection, xcbInfo.window);
+    if(!TheApp->InitVulkan(xcbInfo.connection, xcbInfo.window))
+        return -1;
 
     xcb_flush(xcbInfo.connection);
 
@@ -509,7 +510,15 @@ int main (int argc, char ** argv)
 
     if (UseVulkan)
     {
-        return xcb_main();
+        auto ret = xcb_main();
+        if (ret >= 0)
+        {
+            return ret;
+        }
+        else
+        {
+            LOG_ERROR_MESSAGE("Failed to initialize the engine in Vulkan mode. Attempting to use OpenGL");
+        }
     }
 #endif
 

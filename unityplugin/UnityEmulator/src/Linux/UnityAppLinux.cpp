@@ -40,9 +40,10 @@ public:
         InitScene();
     }
 #if VULKAN_SUPPORTED
-    virtual void InitVulkan(xcb_connection_t* connection, uint32_t window)override final
+    virtual bool InitVulkan(xcb_connection_t* connection, uint32_t window)override final
     {
         UNSUPPORTED("Vulkan is not supported for this application");
+        return false;
     }
 #endif
 };
