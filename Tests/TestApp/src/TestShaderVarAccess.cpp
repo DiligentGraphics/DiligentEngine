@@ -612,7 +612,7 @@ TestShaderVarAccess::TestShaderVarAccess( IRenderDevice *pDevice, IDeviceContext
             VERIFY_EXPR(pVar->GetIndex() == v);
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
             auto pVar2 = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
-            VERIFY_EXPR(pVar == pVar2);
+            VERIFY_EXPR(pVar == pVar2); (void)pVar2; (void)pVar;
         }
     }
 

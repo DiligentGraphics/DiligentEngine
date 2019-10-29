@@ -286,7 +286,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_StorageTexelBuff")->Set(pStorageTexelBuffUAV);
         pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Mut");
         auto* pStaticSam = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_Sam_static");
-        VERIFY_EXPR(pStaticSam == nullptr);
+        VERIFY_EXPR(pStaticSam == nullptr); (void)pStaticSam;
         
 
         auto NumVSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_VERTEX);
