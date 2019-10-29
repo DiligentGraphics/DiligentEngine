@@ -373,7 +373,8 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
             assert( Desc.NumMipLevels == 2 );
             assert( Desc.FirstArraySlice == 3 );
             assert( Desc.NumArraySlices == 4 );
-
+            (void)Desc;
+            
             pScript->Run( "TestTextureViewArg", pTestTestTextureView );
         }
     }

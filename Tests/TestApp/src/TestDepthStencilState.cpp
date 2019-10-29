@@ -158,6 +158,7 @@ TestDepthStencilState::TestDepthStencilState( IRenderDevice *pDevice, IDeviceCon
         assert( DSSDesc2.BackFace.StencilDepthFailOp == STENCIL_OP_DECR_SAT );
         assert( DSSDesc2.BackFace.StencilPassOp == STENCIL_OP_INVERT );
         assert( DSSDesc2.BackFace.StencilFunc == COMPARISON_FUNC_NOT_EQUAL );
+        (void)DSSDesc2;
     }
 
     {
