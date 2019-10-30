@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -67,15 +67,35 @@ ShaderConverterTest::ShaderConverterTest( IRenderDevice *pRenderDevice, IDeviceC
     std::string status;
     if(pRenderDevice->GetDeviceCaps().bComputeShadersSupported)
     {
-#if PLATFORM_LINUX
-        ShaderCI.FilePath = "Shaders\\CSConversionTest.fx";
+#if PLATFORM_WIN32 || PLATFORM_LINUX
         ShaderCI.EntryPoint = "TestCS";
         ShaderCI.Desc.ShaderType = SHADER_TYPE_COMPUTE;
-        RefCntAutoPtr<IShader> pShader;
-        pRenderDevice->CreateShader( ShaderCI, &pShader );
-        VERIFY_EXPR( pShader );
-#elif PLATFORM_WIN32
-        status = "Skipped compute shader conversion test as on Win32, only 8 image uniforms are allowed. Besides, an error is generated when passing image as a function argument.";
+        ShaderCI.ppConversionStream = nullptr;
+        if (pRenderDevice->GetDeviceCaps().DevType != DeviceType::OpenGLES)
+        {
+            ShaderCI.FilePath = "Shaders\\CSConversionTest_RWTex1D.fx";
+            RefCntAutoPtr<IShader> pShader;
+            pRenderDevice->CreateShader( ShaderCI, &pShader );
+            VERIFY_EXPR( pShader );
+        }
+        {
+            ShaderCI.FilePath = "Shaders\\CSConversionTest_RWTex2D_1.fx";
+            RefCntAutoPtr<IShader> pShader;
+            pRenderDevice->CreateShader( ShaderCI, &pShader );
+            VERIFY_EXPR( pShader );
+        }
+        {
+            ShaderCI.FilePath = "Shaders\\CSConversionTest_RWTex2D_2.fx";
+            RefCntAutoPtr<IShader> pShader;
+            pRenderDevice->CreateShader( ShaderCI, &pShader );
+            VERIFY_EXPR( pShader );
+        }
+        {
+            ShaderCI.FilePath = "Shaders\\CSConversionTest_RWBuff.fx";
+            RefCntAutoPtr<IShader> pShader;
+            pRenderDevice->CreateShader( ShaderCI, &pShader );
+            VERIFY_EXPR( pShader );
+        }
 #else
         status = "Skipped compute shader conversion test";
 #endif

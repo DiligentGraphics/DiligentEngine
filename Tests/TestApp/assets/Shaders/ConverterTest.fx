@@ -149,6 +149,11 @@ TextureCubeArray <float> TexCAS2;
 SamplerComparisonState TexCAS2_sampler;
 #endif
 
+Buffer TexBuffer_F1;
+Buffer<float4>TexBuffer_F4;
+Buffer<int3>TexBuffer_I;
+Buffer<uint4>TexBuffer_U;
+
 int intvar1;SamplerState Dummy;int intvar2;
 
 int Texture2D_fake, Texture2DArray_fake, fakeTexture2D, fakeTexture2DArray;
@@ -450,6 +455,16 @@ void TestGetDimensions()
         Tex2DMS_I_A.GetDimensions(iWidth, iHeight, iElems, iNumSamples);
     }
 #endif
+
+    // Buffer
+    {
+        uint uWidth;
+        //int iWidth;
+        //float fWidth;
+        TexBuffer_F1.GetDimensions(uWidth);
+        //TexBuffer_F4.GetDimensions(iWidth);
+        //TexBuffer_I.GetDimensions(fWidth);
+    }
 }
 
 
@@ -803,6 +818,14 @@ void TestLoad()
         Tex2DMS_U_A.Load(Location.xyz, 1, Offset.xy);
     }
 #endif
+
+    // Buffer
+    {
+        TexBuffer_F1.Load(Location.x);
+        TexBuffer_F4.Load(Location.x);
+        TexBuffer_I.Load(Location.x);
+        TexBuffer_U.Load(Location.x);
+    }
 }
 
 

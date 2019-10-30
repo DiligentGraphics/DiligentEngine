@@ -37,6 +37,7 @@ set(INCLUDE
 set(PIXEL_SHADERS
     src/asteroid_ps.hlsl
     src/asteroid_ps_d3d11.hlsl
+    src/asteroid_ps_diligent.hlsl
     src/font_ps.hlsl
     src/skybox_ps.hlsl
     src/sprite_ps.hlsl
@@ -44,6 +45,7 @@ set(PIXEL_SHADERS
 
 set(VERTEX_SHADERS
     src/asteroid_vs.hlsl
+    src/asteroid_vs_diligent.hlsl
     src/skybox_vs.hlsl
     src/sprite_vs.hlsl
 )
@@ -86,6 +88,7 @@ if(WIN32)
         ${MEDIA}
         SDK/Include/d3dx12.h
         src/common_defines.h
+        src/shader_common.h
         readme.md
     )
     set_target_properties(Asteroids PROPERTIES 
@@ -139,6 +142,7 @@ source_group("include" FILES ${INCLUDE})
 source_group("shaders" FILES 
     ${SHADERS}
     src/common_defines.h
+    src/shader_common.h
 )
 source_group("SDK" FILES SDK/Include/d3dx12.h)
 source_group("GUI" FILES ${GUI})

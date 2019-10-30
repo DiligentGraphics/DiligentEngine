@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -119,10 +119,9 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         }
 
         {
-            DrawAttribs GlobalDrawAttribs;
+            ScriptParser::CombinedDrawAttribs GlobalDrawAttribs;
             GlobalDrawAttribs.NumVertices = 123;
             GlobalDrawAttribs.IndexType = VT_UINT16;
-            GlobalDrawAttribs.IsIndexed = True;
             GlobalDrawAttribs.NumInstances = 19;
             GlobalDrawAttribs.BaseVertex = 97;
             GlobalDrawAttribs.IndirectDrawArgsOffset = 120;
@@ -176,6 +175,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         assert( SamplerDesc.BorderColor[1] == 0.f );
         assert( SamplerDesc.BorderColor[2] == 0.f );
         assert( SamplerDesc.BorderColor[3] == 1.f );
+        (void)SamplerDesc;
     }
 
     {
@@ -186,6 +186,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         assert( SamplerDesc.BorderColor[1] == 0.f );
         assert( SamplerDesc.BorderColor[2] == 0.f );
         assert( SamplerDesc.BorderColor[3] == 1.f );
+        (void)SamplerDesc;
     }
 
     {
@@ -208,6 +209,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         assert( SamplerDesc.BorderColor[1] == 0.f );
         assert( SamplerDesc.BorderColor[2] == 0.f );
         assert( SamplerDesc.BorderColor[3] == 1.f );
+        (void)SamplerDesc;
     }
 
 
@@ -230,6 +232,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         assert( SamDesc.BorderColor[1] == SamplerDesc().BorderColor[1] );
         assert( SamDesc.BorderColor[2] == SamplerDesc().BorderColor[2] );
         assert( SamDesc.BorderColor[3] == SamplerDesc().BorderColor[3] );
+        (void)SamDesc;
     }
     
     for( int iVertLayout = 0; iVertLayout < 3; ++iVertLayout )
@@ -265,6 +268,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         assert( Desc.LayoutElements[2].IsNormalized == false );
         assert( Desc.LayoutElements[2].Frequency == LayoutElement::FREQUENCY_PER_INSTANCE );
         assert( Desc.LayoutElements[2].InstanceDataStepRate == 1 );
+        (void)Desc;
     }
 
     {
@@ -273,6 +277,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         const auto &Desc = pTestVS->GetDesc();
         assert( strcmp(Desc.Name, "TestVS") == 0 );
         assert( Desc.ShaderType == SHADER_TYPE_VERTEX );
+        (void)Desc;
     }
 
     {
@@ -281,6 +286,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         const auto &Desc = pTestPS->GetDesc();
         assert( strcmp(Desc.Name, "TestPS") == 0 );
         assert( Desc.ShaderType == SHADER_TYPE_PIXEL );
+        (void)Desc;
     }
 
     {
@@ -289,6 +295,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         const auto &Desc = pTestPS2->GetDesc();
         assert( strcmp(Desc.Name, "TestPS2") == 0 );
         assert( Desc.ShaderType == SHADER_TYPE_PIXEL );
+        (void)Desc;
     }
 
     Int32 MagicNumber1 = 123;
@@ -321,6 +328,7 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
         assert( strcmp(Desc.Name, "Test Buffer") == 0 );
         assert( Desc.Usage == USAGE_DEFAULT );
         assert( Desc.BindFlags == (BIND_VERTEX_BUFFER | BIND_SHADER_RESOURCE) );
+        (void)Desc;
 
         pScript->Run( "TestBufferArg", pTestBuffer );
     }
@@ -330,15 +338,14 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
     }
 
     {
-        DrawAttribs DrawAttribs;
-        DrawAttribs.NumVertices = 34;
-        DrawAttribs.IndexType = VT_UINT16;
-        DrawAttribs.IsIndexed = True;
-        DrawAttribs.NumInstances = 139;
-        DrawAttribs.BaseVertex = 937;
-        DrawAttribs.IndirectDrawArgsOffset = 1205;
-        DrawAttribs.StartVertexLocation = 198;
-        pScript->Run( "TestDrawAttribsArg", DrawAttribs );
+        ScriptParser::CombinedDrawAttribs Attribs;
+        Attribs.NumVertices = 34;
+        Attribs.IndexType = VT_UINT16;
+        Attribs.NumInstances = 139;
+        Attribs.BaseVertex = 937;
+        Attribs.IndirectDrawArgsOffset = 1205;
+        Attribs.StartVertexLocation = 198;
+        pScript->Run( "TestDrawAttribsArg", Attribs );
     }
 
     {
@@ -366,7 +373,8 @@ RenderScriptTest::RenderScriptTest( IRenderDevice *pRenderDevice, IDeviceContext
             assert( Desc.NumMipLevels == 2 );
             assert( Desc.FirstArraySlice == 3 );
             assert( Desc.NumArraySlices == 4 );
-
+            (void)Desc;
+            
             pScript->Run( "TestTextureViewArg", pTestTestTextureView );
         }
     }

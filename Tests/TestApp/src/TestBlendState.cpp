@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -237,6 +237,7 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         assert( RT1.DestBlendAlpha == BLEND_FACTOR_INV_SRC_ALPHA); 
         assert( RT1.BlendOpAlpha == BLEND_OPERATION_SUBTRACT);
         assert( RT1.RenderTargetWriteMask == (COLOR_MASK_GREEN | COLOR_MASK_RED) );
+        (void)RT1;
 
         const auto& RT3 = BSDesc2.RenderTargets[2];
         assert(RT3.BlendEnable == true); 
@@ -247,6 +248,7 @@ TestBlendState::TestBlendState( IRenderDevice *pDevice, IDeviceContext *pContext
         assert(RT3.DestBlendAlpha == BLEND_FACTOR_INV_SRC_ALPHA); 
         assert(RT3.BlendOpAlpha == BLEND_OPERATION_SUBTRACT);
         assert(RT3.RenderTargetWriteMask == (COLOR_MASK_BLUE | COLOR_MASK_ALPHA) );
+        (void)RT3;
     }
 
     {

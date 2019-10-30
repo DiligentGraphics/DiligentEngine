@@ -37,6 +37,7 @@ CBUFFER_ALIGN struct DrawConstantBuffer {
     DirectX::XMFLOAT3 mDeepColor;
     float unused1;
     UINT mTextureIndex;
+    UINT unused2[3];
 };
 
 CBUFFER_ALIGN struct SkyboxConstantBuffer {

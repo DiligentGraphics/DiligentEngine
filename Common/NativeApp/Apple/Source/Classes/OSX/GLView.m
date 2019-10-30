@@ -208,12 +208,4 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     CGLUnlockContext([glContext CGLContextObj]);
 }
 
--(NSString*)getAppName
-{
-    auto* theApp = [self lockApp];
-    auto Title = [NSString stringWithFormat:@"%s (OpenGL)", theApp ? theApp->GetAppTitle() : ""];
-    [self unlockApp];
-    return Title;
-}
-
 @end

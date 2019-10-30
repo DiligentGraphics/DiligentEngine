@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -170,7 +170,6 @@ void TestTexturing::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceContext
     RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
     pDevice->GetEngineFactory()->CreateDefaultShaderSourceStreamFactory("Shaders", &pShaderSourceFactory);
     CreationAttrs.pShaderSourceStreamFactory = pShaderSourceFactory;
-    CreationAttrs.Desc.TargetProfile = bUseGLSL ? SHADER_PROFILE_GL_4_2 : SHADER_PROFILE_DX_5_0;
     CreationAttrs.UseCombinedTextureSamplers = true;
 
     RefCntAutoPtr<Diligent::IShader> pVS, pPS;

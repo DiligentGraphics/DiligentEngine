@@ -21,6 +21,9 @@
 @end
 
 @implementation WindowController
+{
+    bool CommandKeyPressed;
+}
 
 - (instancetype)initWithWindow:(NSWindow *)window
 {
@@ -31,6 +34,8 @@
 		// Initialize to nil since it indicates app is not fullscreen
         _fullscreenWindow = nil;
     }
+
+    CommandKeyPressed = false;
 
 	return self;
 }
@@ -141,21 +146,36 @@
 				[self goWindow];
 			}
 			return;
-		// Have f key toggle fullscreen
+
+		// Have Command+f or Command+Enter toggle fullscreen
+        case 13:
 		case 'f':
-			if([self fullscreenWindow] == nil)
-			{
-				[self goFullscreen];
-			}
-			else
-			{
-				[self goWindow];
-			}
+            if (CommandKeyPressed)
+            {
+                if([self fullscreenWindow] == nil)
+                {
+                    [self goFullscreen];
+                }
+                else
+                {
+                    [self goWindow];
+                }
+            }
 			return;
 	}
 
 	// Allow other character to be handled (or not and beep)
 	//[super keyDown:event];
+}
+
+// Informs the receiver that the user has pressed or released a
+// modifier key (Shift, Control, and so on)
+- (void)flagsChanged:(NSEvent *)event
+{
+    auto modifierFlags = [event modifierFlags];
+    CommandKeyPressed = modifierFlags & NSEventModifierFlagCommand;
+
+    [super flagsChanged:event];
 }
 
 @end

@@ -41,7 +41,7 @@ public:
     }
 
 #if VULKAN_SUPPORTED
-    virtual void InitVulkan(xcb_connection_t* connection, uint32_t window)override final
+    virtual bool InitVulkan(xcb_connection_t* connection, uint32_t window)override final
     {
         m_DeviceType = DeviceType::Vulkan;
         struct XCBInfo
@@ -51,6 +51,7 @@ public:
         }xcbInfo = {connection, window};
         InitializeDiligentEngine(nullptr, &xcbInfo);
         InitializeRenderers();
+        return true;
     }
 #endif
 };

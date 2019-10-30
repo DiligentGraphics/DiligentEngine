@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -55,6 +55,7 @@ void TestCreateObjFromNativeResVK::CreateTexture(Diligent::ITexture *pTexture)
     RefCntAutoPtr<ITextureVk> pAttachedTextureVk(pAttachedTexture, IID_TextureVk);
     VERIFY_EXPR(pAttachedTextureVk->GetVkImage() == VkHandle);
     VERIFY_EXPR( reinterpret_cast<VkImage>(pAttachedTextureVk->GetNativeHandle()) == VkHandle);
+    (void)TestTexDesc;
 #endif
 }
 
@@ -72,6 +73,7 @@ void TestCreateObjFromNativeResVK::CreateBuffer(Diligent::IBuffer *pBuffer)
     
     const auto &TestBufferDesc = pBufferFromNativeVkHandle->GetDesc();
     VERIFY_EXPR(TestBufferDesc == SrcBuffDesc);
+    (void)TestBufferDesc;
 
     RefCntAutoPtr<IBufferVk> pTestBufferVk(pBufferFromNativeVkHandle, IID_BufferVk);
     VERIFY_EXPR(pTestBufferVk->GetVkBuffer() == VkBufferHandle);

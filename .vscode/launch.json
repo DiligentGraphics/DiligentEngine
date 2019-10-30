@@ -5,29 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "AntTweakBarSample",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/AntTweakBar/AntTweakBarSample",
-            "args": ["-mode vk"],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/DiligentSamples/Samples/AntTweakBar/assets",
-            "environment": [],
-            "externalConsole": true,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-        {
             "name": "AtmosphereSample",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/Atmosphere/AtmosphereSample",
+            "program": "${workspaceFolder}/build/DiligentSamples/Samples/Atmosphere/AtmosphereSample",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Samples/Atmosphere/assets",
@@ -46,7 +27,7 @@
             "name": "GLTFViewer",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/GLTFViewer/GLTFViewer",
+            "program": "${workspaceFolder}/build/DiligentSamples/Samples/GLTFViewer/GLTFViewer",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Samples/GLTFViewer/assets",
@@ -62,10 +43,67 @@
             ]
         },
         {
+            "name": "ShadowsSample",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Samples/Shadows/ShadowsSample",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/Shadows/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "ImguiDemo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Samples/ImguiDemo/ImguiDemo",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/ImguiDemo/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "NuklearDemo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Samples/NuklearDemo/NuklearDemo",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/NuklearDemo/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "GhostCubeScene",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/unityplugin/GhostCubeScene/GhostCubeScene",
+            "program": "${workspaceFolder}/build/unityplugin/GhostCubeScene/GhostCubeScene",
             "args": ["-mode gl"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/unityplugin/GhostCubeScene/assets",
@@ -84,10 +122,10 @@
             "name": "Tutorial00_HelloLinux",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial00_HelloLinux/Tutorial00_HelloLinux",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial00_HelloLinux/Tutorial00_HelloLinux",
             "args": ["-mode vk"],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial00_HelloLinux",
+            "cwd": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial00_HelloLinux",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
@@ -103,7 +141,7 @@
             "name": "Tutorial01_HelloTriangle",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/assets",
@@ -122,7 +160,7 @@
             "name": "Tutorial02_Cube",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial02_Cube/Tutorial02_Cube",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial02_Cube/Tutorial02_Cube",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial02_Cube/assets",
@@ -141,7 +179,7 @@
             "name": "Tutorial03_Texturing",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial03_Texturing/Tutorial03_Texturing",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial03_Texturing/Tutorial03_Texturing",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial03_Texturing/assets",
@@ -160,7 +198,7 @@
             "name": "Tutorial04_Instancig",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial04_Instancing/Tutorial04_Instancing",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial04_Instancing/Tutorial04_Instancing",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial04_Instancing/assets",
@@ -179,7 +217,7 @@
             "name": "Tutorial05_TextureArray",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial05_TextureArray/Tutorial05_TextureArray",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial05_TextureArray/Tutorial05_TextureArray",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial05_TextureArray/assets",
@@ -198,7 +236,7 @@
             "name": "Tutorial06_Multithreading",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial06_Multithreading/Tutorial06_Multithreading",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial06_Multithreading/Tutorial06_Multithreading",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial06_Multithreading/assets",
@@ -217,7 +255,7 @@
             "name": "Tutorial07_GeometryShader",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial07_GeometryShader/Tutorial07_GeometryShader",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial07_GeometryShader/Tutorial07_GeometryShader",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial07_GeometryShader/assets",
@@ -236,7 +274,7 @@
             "name": "Tutorial08_Tessellation",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial08_Tessellation/Tutorial08_Tessellation",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial08_Tessellation/Tutorial08_Tessellation",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial08_Tessellation/assets",
@@ -255,7 +293,7 @@
             "name": "Tutorial09_Quads",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial09_Quads/Tutorial09_Quads",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial09_Quads/Tutorial09_Quads",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial09_Quads/assets",
@@ -274,7 +312,7 @@
             "name": "Tutorial10_DataStreaming",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial10_DataStreaming/Tutorial10_DataStreaming",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial10_DataStreaming/Tutorial10_DataStreaming",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial10_DataStreaming/assets",
@@ -293,7 +331,7 @@
             "name": "Tutorial11_ResourceUpdates",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial11_ResourceUpdates/Tutorial11_ResourceUpdates",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial11_ResourceUpdates/Tutorial11_ResourceUpdates",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial11_ResourceUpdates/assets",
@@ -312,7 +350,7 @@
             "name": "Tutorial12_RenderTarget",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial12_RenderTarget/Tutorial12_RenderTarget",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial12_RenderTarget/Tutorial12_RenderTarget",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial12_RenderTarget/assets",
@@ -328,10 +366,67 @@
             ]
         },
         {
+            "name": "Tutorial13_ShadowMap",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial13_ShadowMap/Tutorial13_ShadowMap",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial13_ShadowMap/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial14_ComputeShader",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial14_ComputeShader/Tutorial14_ComputeShader",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial14_ComputeShader/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial16_BindlessResources",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial16_BindlessResources/Tutorial16_BindlessResources",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial16_BindlessResources/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "TestApp",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/cmk_build/Tests/TestApp/TestApp",
+            "program": "${workspaceFolder}/build/Tests/TestApp/TestApp",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/Tests/TestApp/assets",

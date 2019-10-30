@@ -26,112 +26,71 @@
 
 @implementation ViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
 
-- (void)mouseMove:(NSEvent *)theEvent {
-    NSPoint curPoint = [self.view convertPoint:[theEvent locationInWindow] fromView:nil];
-    
-    NSRect viewRectPoints = [self.view bounds];
-    NSRect viewRectPixels = [self.view convertRectToBacking:viewRectPoints];
-    curPoint = [self.view convertPointToBacking:curPoint];
-    
+    // Add a tracking area in order to receive mouse events whenever the mouse is within the bounds of our view
+    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
+                                                                options:NSTrackingMouseMoved | NSTrackingInVisibleRect | NSTrackingActiveAlways
+                                                                  owner:self
+                                                               userInfo:nil];
+    [self.view addTrackingArea:trackingArea];
+}
+
+- (void)handleEvent : (NSEvent *)theEvent {
     auto* view = (ViewBase*)self.view;
     auto* theApp = [view lockApp];
-    if(theApp)
-        theApp->OnMouseMove(curPoint.x, viewRectPixels.size.height-1 - curPoint.y);
+    if(theApp){
+        theApp->HandleOSXEvent(theEvent, view);
+    }
     [view unlockApp];
 }
 
+
 - (void)mouseDown:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-    
-    {
-        auto* view = (ViewBase*)self.view;
-        auto* theApp = [view lockApp];
-        if(theApp)
-            theApp->OnMouseDown(1);
-        [view unlockApp];
-    }
+    [self handleEvent:theEvent];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-    
-    {
-        auto* view = (ViewBase*)self.view;
-        auto* theApp = [view lockApp];
-        if(theApp)
-            theApp->OnMouseUp(1);
-        [view unlockApp];
-    }
+    [self handleEvent:theEvent];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-    
-    {
-        auto* view = (ViewBase*)self.view;
-        auto* theApp = [view lockApp];
-        if(theApp)
-            theApp->OnMouseDown(3);
-        [view unlockApp];
-    }
+    [self handleEvent:theEvent];
 }
 
 - (void)rightMouseUp:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
-    
-    {
-        auto* view = (ViewBase*)self.view;
-        auto* theApp = [view lockApp];
-        if(theApp)
-            theApp->OnMouseUp(3);
-        [view unlockApp];
-    }
+    [self handleEvent:theEvent];
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
+    [self handleEvent:theEvent];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-    [self mouseMove: theEvent];
+    [self handleEvent:theEvent];
+}
+
+- (void)rightMouseDragged:(NSEvent *)theEvent {
+    [self handleEvent:theEvent];
 }
 
 - (void)keyEvent:(NSEvent *)theEvent isKeyPressed:(bool)keyPressed
 {
-    unichar c = [[theEvent charactersIgnoringModifiers] characterAtIndex:0];
-    int key = 0;
-    switch(c){
-        case NSLeftArrowFunctionKey:  key = 260;  break;
-        case NSRightArrowFunctionKey: key = 262;  break;
-        case 0x7F:                    key = '\b'; break;
-        default:                      key = c;
-    }
-
-    {
-        auto* view = (ViewBase*)self.view;
-        auto* theApp = [view lockApp];
-        if(theApp)
-        {
-            if (keyPressed)
-                theApp->OnKeyPressed(key);
-            else
-                theApp->OnKeyReleased(key);
-        }
-        [view unlockApp];
-    }
+    [self handleEvent:theEvent];
 }
 
 - (void)keyDown:(NSEvent *)theEvent
 {
-    [self keyEvent:theEvent isKeyPressed:true];
+    [self handleEvent:theEvent];
 
     [super keyDown:theEvent];
 }
 
 - (void)keyUp:(NSEvent *)theEvent
 {
-    [self keyEvent:theEvent isKeyPressed:false];
+    [self handleEvent:theEvent];
 
     [super keyUp:theEvent];
 }
@@ -140,20 +99,14 @@
 // modifier key (Shift, Control, and so on)
 - (void)flagsChanged:(NSEvent *)event
 {
-    auto modifierFlags = [event modifierFlags];
-    {
-        auto* view = (ViewBase*)self.view;
-        auto* theApp = [view lockApp];
-        if(theApp)
-        {
-            theApp->OnFlagsChanged(modifierFlags & NSEventModifierFlagShift,
-                                   modifierFlags & NSEventModifierFlagControl,
-                                   modifierFlags & NSEventModifierFlagOption);
-        }
-        [view unlockApp];
-    }
+    [self handleEvent:event];
 
     [super flagsChanged:event];
+}
+
+- (void)scrollWheel:(NSEvent *)event
+{
+    [self handleEvent:event];
 }
 
 - (BOOL)acceptsFirstResponder {

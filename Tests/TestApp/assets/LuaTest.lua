@@ -613,7 +613,6 @@ end
 TestDrawAttribs = DrawAttribs.Create{
 	NumIndices = 128,
 	IndexType = "VT_UINT16",
-	IsIndexed = true,
 	NumInstances = 32,
 	BaseVertex = 48,
 	IndirectDrawArgsOffset = 1024,
@@ -625,7 +624,6 @@ TestDrawAttribs = DrawAttribs.Create{
 }
 assert( TestDrawAttribs.NumIndices == 128 )
 assert( TestDrawAttribs.IndexType == "VT_UINT16" )
-assert( TestDrawAttribs.IsIndexed == true )
 assert( TestDrawAttribs.NumInstances == 32 )
 assert( TestDrawAttribs.BaseVertex == 48 )
 assert( TestDrawAttribs.IndirectDrawArgsOffset == 1024 )
@@ -636,7 +634,6 @@ assert( TestDrawAttribs.FirstInstanceLocation == 96 )
 
 TestDrawAttribs.NumVertices = 92
 TestDrawAttribs.IndexType = "VT_UINT32"
-TestDrawAttribs.IsIndexed = false
 TestDrawAttribs.NumInstances = 19
 TestDrawAttribs.BaseVertex = 498
 TestDrawAttribs.IndirectDrawArgsOffset = 234
@@ -653,7 +650,6 @@ assert( TestDrawAttribs.pIndirectDrawAttribs.Name == TestDrawAttribs2.pIndirectD
 assert( TestDrawAttribs.NumIndices == 92 )
 assert( TestDrawAttribs.NumVertices == 92 )
 assert( TestDrawAttribs.IndexType == "VT_UINT32" )
-assert( TestDrawAttribs.IsIndexed == false )
 assert( TestDrawAttribs.NumInstances == 19 )
 assert( TestDrawAttribs.BaseVertex == 498 )
 assert( TestDrawAttribs.IndirectDrawArgsOffset == 234 )
@@ -667,7 +663,6 @@ assert( TestDrawAttribs.IndirectAttribsBufferStateTransitionMode == "RESOURCE_ST
 assert( TestGlobalDrawAttribs.NumVertices == 123 );
 assert( TestGlobalDrawAttribs.NumIndices == 123 );
 assert( TestGlobalDrawAttribs.IndexType == "VT_UINT16" );
-assert( TestGlobalDrawAttribs.IsIndexed == true );
 assert( TestGlobalDrawAttribs.NumInstances == 19 );
 assert( TestGlobalDrawAttribs.BaseVertex == 97 );
 assert( TestGlobalDrawAttribs.IndirectDrawArgsOffset == 120 );
@@ -678,7 +673,6 @@ function TestDrawAttribsArg(DrawAttrs)
 	assert( DrawAttrs.NumVertices == 34 );
 	assert( DrawAttrs.NumIndices == 34 );
 	assert( DrawAttrs.IndexType == "VT_UINT16" );
-	assert( DrawAttrs.IsIndexed == true );
 	assert( DrawAttrs.NumInstances == 139 );
 	assert( DrawAttrs.BaseVertex == 937 );
 	assert( DrawAttrs.IndirectDrawArgsOffset == 1205 );

@@ -50,6 +50,7 @@
                                              selector:@selector(windowWillClose:)
                                                  name:NSWindowWillCloseNotification
                                                object:mainWindow];
+    mainWindow.minSize = NSSize{320, 240};
 }
 
 -(void)initApp:(NSView*) view
@@ -133,6 +134,14 @@
 - (void) windowWillClose:(NSNotification*)notification
 {
     [self destroyApp];
+}
+
+-(NSString*)getAppName
+{
+    auto* theApp = [self lockApp];
+    auto Title = [NSString stringWithFormat:@"%s", theApp ? theApp->GetAppTitle() : ""];
+    [self unlockApp];
+    return Title;
 }
 
 @end

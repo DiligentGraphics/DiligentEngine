@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -734,7 +734,7 @@ void TestTextureCreation::CheckFormatSize(TEXTURE_FORMAT *begin, TEXTURE_FORMAT 
     for(auto fmt = begin; fmt != end; ++fmt)
     {
         auto FmtAttrs = m_pDevice->GetTextureFormatInfo(*fmt);
-        assert(Uint32{FmtAttrs.ComponentSize} * Uint32{FmtAttrs.NumComponents} == RefSize);
+        assert(Uint32{FmtAttrs.ComponentSize} * Uint32{FmtAttrs.NumComponents} == RefSize); (void)FmtAttrs;
     }
 }
 
@@ -743,7 +743,7 @@ void TestTextureCreation::CheckNumComponents(TEXTURE_FORMAT *begin, TEXTURE_FORM
     for(auto fmt = begin; fmt != end; ++fmt)
     {
         auto FmtAttrs = m_pDevice->GetTextureFormatInfo(*fmt);
-        assert(FmtAttrs.NumComponents == RefComponents);
+        assert(FmtAttrs.NumComponents == RefComponents); (void)FmtAttrs;
     }
 }
 
@@ -752,7 +752,7 @@ void TestTextureCreation::CheckComponentType(TEXTURE_FORMAT *begin, TEXTURE_FORM
     for(auto fmt = begin; fmt != end; ++fmt)
     {
         auto FmtAttrs = m_pDevice->GetTextureFormatInfo(*fmt);
-        assert(FmtAttrs.ComponentType == RefType);
+        assert(FmtAttrs.ComponentType == RefType); (void)FmtAttrs;
     }
 }
 

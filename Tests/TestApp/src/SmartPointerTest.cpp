@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -397,7 +397,7 @@ SmartPointerTest::SmartPointerTest() :
         SmartPtr SP0, SP1(pRawPtr1), SP2(pRawPtr1), SP3(pRawPtr2);
         assert( !SP0 );
         bool b1 = SP0.operator bool();
-        assert( !b1 );
+        assert( !b1 ); (void)b1;
         if(SP0)
             assert( false );
 
@@ -552,9 +552,9 @@ SmartPointerTest::SmartPointerTest() :
                 wpSelf( this )
             {}
 
-            virtual void QueryInterface( const Diligent::INTERFACE_ID &IID, IObject **ppInterface ){}
+            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
         private:
-            Diligent::RefCntWeakPtr<SelfRefTest> wpSelf;
+            RefCntWeakPtr<SelfRefTest> wpSelf;
         };
 
         SelfRefTest *pSelfRefTest = MakeNewObj<SelfRefTest>();
@@ -573,9 +573,9 @@ SmartPointerTest::SmartPointerTest() :
                 throw std::runtime_error("test exception");
             }
 
-            virtual void QueryInterface( const Diligent::INTERFACE_ID &IID, IObject **ppInterface ){}
+            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
         private:
-            Diligent::RefCntWeakPtr<ExceptionTest1> wpSelf;
+            RefCntWeakPtr<ExceptionTest1> wpSelf;
         };
 
         try
@@ -600,9 +600,9 @@ SmartPointerTest::SmartPointerTest() :
                 throw std::runtime_error("test exception");
             }
 
-            virtual void QueryInterface( const Diligent::INTERFACE_ID &IID, IObject **ppInterface ){}
+            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
         private:
-            Diligent::RefCntWeakPtr<ExceptionTest2> wpSelf;
+            RefCntWeakPtr<ExceptionTest2> wpSelf;
         };
 
         try
@@ -635,9 +635,9 @@ SmartPointerTest::SmartPointerTest() :
                     throw std::runtime_error("test exception");
                 }
             private:
-                Diligent::RefCntWeakPtr<ExceptionTest3> wpSelf;
+                RefCntWeakPtr<ExceptionTest3> wpSelf;
             };
-            virtual void QueryInterface( const Diligent::INTERFACE_ID &IID, IObject **ppInterface ){}
+            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
         private:
             Subclass m_Member;
         };
@@ -672,7 +672,7 @@ SmartPointerTest::SmartPointerTest() :
 
                 }
             }
-            virtual void QueryInterface( const Diligent::INTERFACE_ID &IID, IObject **ppInterface ){}
+            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
 
             class ExceptionTest4 : public RefCountedObject<IObject>
             {
@@ -693,10 +693,10 @@ SmartPointerTest::SmartPointerTest() :
                         throw std::runtime_error("test exception");
                     }
                 private:
-                    Diligent::RefCntWeakPtr<ExceptionTest4> wpParent;
-                    Diligent::RefCntWeakPtr<OwnerObject> wpOwner;
+                    RefCntWeakPtr<ExceptionTest4> wpParent;
+                    RefCntWeakPtr<OwnerObject> wpOwner;
                 };
-                virtual void QueryInterface( const Diligent::INTERFACE_ID &IID, IObject **ppInterface ){}
+                virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
             private:
                 Subclass m_Member;
             };
@@ -719,7 +719,7 @@ SmartPointerTest::SmartPointerTest() :
                 m_pMember = NEW_RC_OBJ( DefaultRawMemoryAllocator::GetAllocator(), "Test object", ExceptionTest4, this)(*this);
             }
 
-            virtual void QueryInterface( const Diligent::INTERFACE_ID &IID, IObject **ppInterface ){}
+            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
 
             class ExceptionTest4 : public RefCountedObject<IObject>
             {
@@ -740,10 +740,10 @@ SmartPointerTest::SmartPointerTest() :
                         throw std::runtime_error("test exception");
                     }
                 private:
-                    Diligent::RefCntWeakPtr<ExceptionTest4> wpParent;
-                    Diligent::RefCntWeakPtr<OwnerObject> wpOwner;
+                    RefCntWeakPtr<ExceptionTest4> wpParent;
+                    RefCntWeakPtr<OwnerObject> wpOwner;
                 };
-                virtual void QueryInterface( const Diligent::INTERFACE_ID &IID, IObject **ppInterface ){}
+                virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface ){}
             private:
                 Subclass m_Member;
             };
@@ -759,6 +759,36 @@ SmartPointerTest::SmartPointerTest() :
         {
 
         }
+    }
+
+    {
+        class TestObject : public RefCountedObject<IObject>
+        {
+        public:
+            TestObject(IReferenceCounters *pRefCounters) : 
+                RefCountedObject<IObject>(pRefCounters)
+            {
+            }
+
+            virtual void QueryInterface( const INTERFACE_ID &IID, IObject **ppInterface )override final{}
+
+            inline virtual Atomics::Long Release()override final
+            {
+                return RefCountedObject<IObject>::Release(
+                                [&]()
+                                {
+                                    ppWeakPtr->Release();
+                                }
+                              );
+            }
+            RefCntWeakPtr<TestObject>* ppWeakPtr = nullptr;
+        };
+
+        RefCntAutoPtr<TestObject> pObj( NEW_RC_OBJ( DefaultRawMemoryAllocator::GetAllocator(), "Test object", TestObject)() );
+        RefCntWeakPtr<TestObject> pWeakPtr(pObj);
+
+        pObj->ppWeakPtr = &pWeakPtr;
+        pObj.Release();
     }
 
     StartConcurrencyTest();

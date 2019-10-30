@@ -27,6 +27,4 @@
 
 @interface MetalView : ViewBase
 
--(NSString*)getAppName;
-
 @end

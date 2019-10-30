@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -286,7 +286,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_StorageTexelBuff")->Set(pStorageTexelBuffUAV);
         pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_tex2D_Mut");
         auto* pStaticSam = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "g_Sam_static");
-        VERIFY_EXPR(pStaticSam == nullptr);
+        VERIFY_EXPR(pStaticSam == nullptr); (void)pStaticSam;
         
 
         auto NumVSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_VERTEX);
@@ -297,6 +297,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_STATIC);
             auto pVar2 = pTestPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
+            (void)pVar2;
         }
     }
 
@@ -316,7 +317,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
         pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "storageBuff_Dyn");
         auto* pStaticSam = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_Sam_static");
         VERIFY_EXPR(pStaticSam == nullptr);
-
+        (void)pStaticSam;
 
         auto NumPSVars = pTestPSO->GetStaticVariableCount(SHADER_TYPE_PIXEL);
         for(Uint32 v=0; v < NumPSVars; ++v)
@@ -326,6 +327,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_STATIC);
             auto pVar2 = pTestPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
+            (void)pVar2;
         }
     }
 
@@ -424,6 +426,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
             auto pVar2 = pSRB->GetVariableByName(SHADER_TYPE_VERTEX, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
+            (void)pVar2;
         }
     }
 
@@ -436,6 +439,7 @@ TestShaderResourceLayout::TestShaderResourceLayout( IRenderDevice *pDevice, IDev
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
             auto pVar2 = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
+            (void)pVar2;
         }
     }
 

@@ -38,5 +38,6 @@
 -(void)unlockApp;
 -(void)stopDisplayLink;
 -(void)startDisplayLink;
+-(NSString*)getAppName;
 
 @end

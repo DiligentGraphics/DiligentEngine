@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -40,6 +40,9 @@ void TestDepthStencilState::CreateTestDSS( DepthStencilStateDesc &DSSDesc )
     pPSO->CreateShaderResourceBinding(&pSRB);
     auto PSVarCount = pSRB->GetVariableCount(SHADER_TYPE_PIXEL);
     auto VSVarCount = pSRB->GetVariableCount(SHADER_TYPE_VERTEX);
+    (void)PSVarCount;
+    (void)VSVarCount;
+
 #if 0
     DSSDesc.Name = "TestDSS2";
     m_pDevice->CreateDepthStencilState( DSSDesc, &pDSState2 );
@@ -155,6 +158,7 @@ TestDepthStencilState::TestDepthStencilState( IRenderDevice *pDevice, IDeviceCon
         assert( DSSDesc2.BackFace.StencilDepthFailOp == STENCIL_OP_DECR_SAT );
         assert( DSSDesc2.BackFace.StencilPassOp == STENCIL_OP_INVERT );
         assert( DSSDesc2.BackFace.StencilFunc == COMPARISON_FUNC_NOT_EQUAL );
+        (void)DSSDesc2;
     }
 
     {

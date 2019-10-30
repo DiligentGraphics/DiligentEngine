@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -79,6 +79,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
     UpdateWindow(wnd);
     
     g_pTheApp->OnWindowCreated(wnd, WindowWidth, WindowHeight);
+    AppTitle = g_pTheApp->GetAppTitle();
 
     Diligent::Timer Timer;
     auto PrevTime = Timer.GetElapsedTime();

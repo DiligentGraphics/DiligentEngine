@@ -9,7 +9,7 @@ notifications:
 
 env:
   global:
-    - CMAKE_VERSION=3.13.2
+    - CMAKE_VERSION=3.15.4
 
 before_install:
   - |
@@ -37,6 +37,11 @@ before_install:
       chmod +x cmake-${CMAKE_VERSION}-Linux-x86_64.sh
       ./cmake-${CMAKE_VERSION}-Linux-x86_64.sh --prefix=$HOME/usr --exclude-subdir --skip-license
       cmake --version
+      sudo apt-get update
+      sudo apt-get install libx11-dev
+      sudo apt-get install mesa-common-dev
+      sudo apt-get install mesa-utils
+      sudo apt-get install libgl-dev
     fi
 
 addons:
@@ -84,15 +89,15 @@ script:
   - cd cmk_build
   - |
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then 
-      cmake .. -G "Unix Makefiles" -DENABLE_TESTS=TRUE -DCMAKE_BUILD_TYPE=${CONFIG}
+      cmake .. -G "Unix Makefiles" -DDILIGENT_ENABLE_TESTS=TRUE -DCMAKE_BUILD_TYPE=${CONFIG}
       cmake --build .
     fi
   - |
     if [ "$TRAVIS_OS_NAME" = "osx" ]; then 
       if [ "$IOS" = "true" ]; then 
-        cmake .. -DCMAKE_TOOLCHAIN_FILE=../DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=SIMULATOR64 -DENABLE_TESTS=TRUE -G "Xcode"
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=../DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=SIMULATOR64 -DDILIGENT_ENABLE_TESTS=TRUE -G "Xcode"
       else
-        cmake .. -DENABLE_TESTS=TRUE -G "Xcode"
+        cmake .. -DDILIGENT_ENABLE_TESTS=TRUE -G "Xcode"
       fi
-      cmake --build . --config ${CONFIG}
+      xcodebuild -configuration ${CONFIG} | xcpretty
     fi

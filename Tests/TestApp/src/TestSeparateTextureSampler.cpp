@@ -1,4 +1,4 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*     Copyright 2019 Diligent Graphics LLC
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -144,6 +144,7 @@ TestSeparateTextureSampler::TestSeparateTextureSampler(IRenderDevice *pDevice, I
             VERIFY_EXPR(pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE || pVar->GetType() == SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC);
             auto pVar2 = pSRB->GetVariableByName(SHADER_TYPE_PIXEL, pVar->GetResourceDesc().Name);
             VERIFY_EXPR(pVar == pVar2);
+            (void)pVar2;
         }
 
         TextureDesc RenderTargetDesc;
