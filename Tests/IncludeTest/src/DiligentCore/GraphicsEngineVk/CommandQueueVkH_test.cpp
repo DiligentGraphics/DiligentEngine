@@ -22,4 +22,4 @@
  */
 
 #include "DiligentCore/ThirdParty/vulkan/vulkan.h"
-#include "DiligentCore/Graphics/GraphicsEngineVulkan/interface/BufferViewVk.h"
+#include "DiligentCore/Graphics/GraphicsEngineVulkan/interface/CommandQueueVk.h"
