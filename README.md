@@ -282,7 +282,8 @@ The project will be located in `build/MacOS` folder.
 By default there is no Vulkan implementation on MacOS. Diligent Engine links against Vulkan loader
 and can use a Vulkan Portability implementation such as [MoltenVK](https://github.com/KhronosGroup/MoltenVK)
 or [gfx-portability](https://github.com/gfx-rs/portability). Install [VulkanSDK](https://vulkan.lunarg.com/sdk/home#mac)
-and make sure that your system is properly configured as described [here](https://vulkan.lunarg.com/doc/sdk/latest/mac/getting_started.html).
+and make sure that your system is properly configured as described
+[here](https://vulkan.lunarg.com/doc/view/latest/mac/getting_started.html#user-content-command-line).
 In particular, you may need to define the following environment variables (assuming that Vulkan SDK is installed at
 `~/LunarG/vulkansdk-macos` and you want to use MoltenVK):
 
