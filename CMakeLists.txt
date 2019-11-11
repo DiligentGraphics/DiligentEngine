@@ -11,7 +11,6 @@ option(DILIGENT_BUILD_UNITY_PLUGIN "Build Unity plugin" ON)
 
 add_subdirectory(DiligentCore)
 add_subdirectory(DiligentTools)
-add_subdirectory(Common)
 
 if(${DILIGENT_BUILD_FX})
     add_subdirectory(DiligentFX)
