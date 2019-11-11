@@ -112,14 +112,16 @@ Master repository includes the following submodules:
   [Vulkan](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineVulkan) back-ends.
   The module is self-contained and can be built by its own.
 * [Tools](https://github.com/DiligentGraphics/DiligentTools) submodule contains 
-  [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader) and 
+  [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader),
+  [asset loading library](https://github.com/DiligentGraphics/DiligentTools/blob/master/AssetLoader),
+  [dear imgui implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/Imgui),
+  [native application implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp), and 
   [Render Script](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderScript), a Lua-based run-time 
   graphics resource managing system. Tools module depends on Core module.
 * [DiligentFX](https://github.com/DiligentGraphics/DiligentFX) is a high-level rendering framework that implements
   various rendering components. The module depends on Core and Tools modules.
-* [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule contains several simple graphics applications 
+* [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule contains tutorials and sample applications 
   intended to demonstrate the usage of the Diligent Engine API. The module depends on Core, Tools and DiligentFX modules.
-  
 
 <a name="build_and_run"></a>
 # Build and Run Instructions
@@ -346,6 +348,22 @@ for more details.
 
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
+
+Diligent has modular structure, so for your project you can only use these 
+submodules that implement the required functionality.
+The diagram below shows the dependencies between modules.
+
+```
+  Core
+   |
+   +------>Tools----------.
+   |        |             |
+   |        V             |
+   +------->FX---------.  |
+   |                   |  |
+   |                   V  V
+   '----------------->Samples
+```
 
 ### Your Project Uses Cmake
 
