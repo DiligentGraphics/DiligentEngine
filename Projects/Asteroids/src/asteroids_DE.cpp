@@ -102,7 +102,6 @@ struct SkyboxConstantBuffer {
 void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 {
     SwapChainDesc SwapChainDesc;
-    SwapChainDesc.SamplesCount = 1;
     SwapChainDesc.BufferCount = NUM_SWAP_CHAIN_BUFFERS;
     SwapChainDesc.ColorBufferFormat = TEX_FORMAT_RGBA8_UNORM_SRGB;
     SwapChainDesc.DepthBufferFormat = TEX_FORMAT_D32_FLOAT;

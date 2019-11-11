@@ -127,8 +127,7 @@ void DiligentGraphicsAdapterD3D11::InitProxySwapChain()
     SCDesc.DepthBufferFormat = DXGI_FormatToTexFormat(DSVDesc.Format);
     SCDesc.Width = GraphicsD3D11Impl->GetBackBufferWidth();
     SCDesc.Height = GraphicsD3D11Impl->GetBackBufferHeight();
-    // These fields are irrelevant
-    SCDesc.SamplesCount = 0;
+    // This field is irrelevant
     SCDesc.BufferCount = 0;
 
     auto &DefaultAllocator = DefaultRawMemoryAllocator::GetAllocator();

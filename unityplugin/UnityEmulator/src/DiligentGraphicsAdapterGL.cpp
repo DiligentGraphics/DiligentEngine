@@ -96,8 +96,7 @@ DiligentGraphicsAdapterGL::DiligentGraphicsAdapterGL(const UnityGraphicsGLCoreES
 
     SCDesc.Width = UnityGraphicsGLImpl->GetBackBufferWidth();
     SCDesc.Height = UnityGraphicsGLImpl->GetBackBufferHeight();
-    // These fields are irrelevant
-    SCDesc.SamplesCount = 0;
+    // This field is irrelevant
     SCDesc.BufferCount = 0;
 
     auto &DefaultAllocator = DefaultRawMemoryAllocator::GetAllocator();

@@ -157,7 +157,6 @@ void TestApp::InitializeDiligentEngine(
     )
 {
     SwapChainDesc SCDesc;
-    SCDesc.SamplesCount = 1;
     Uint32 NumDeferredCtx = 0;
     std::vector<IDeviceContext*> ppContexts;
     std::vector<HardwareAdapterAttribs> Adapters;
