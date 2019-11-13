@@ -60,7 +60,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 # Table of Contents
 
-- [Clonning the Repository](#clonning)
+- [Cloning the Repository](#cloning)
   - [Repository Structure](#repository_structure)
 - [Build and Run Instructions](#build_and_run)
   - [Win32](#build_and_run_win32)
@@ -82,7 +82,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 - [References](#references)
 - [Release History](#release_history)
 
-<a name="clonning"></a>
+<a name="cloning"></a>
 # Cloning the Repository
 
 This is the master repository that contains four [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules). To get the repository and all submodules, use the following command:
