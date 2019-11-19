@@ -418,11 +418,10 @@ Please also take a look at getting started tutorials for
 If your project doesn't use CMake, it is recommended to build libraries with CMake and add them to your build system.
 For Windows platforms, you can download the latest build artifacts from [appveyor](https://ci.appveyor.com/project/DiligentGraphics/diligentcore).
 
-Global CMake installation directory is controlled by `CMAKE_INTALL_PREFIX` variable. Within that directory,
-`DILIGENT_CORE_INSTALL_DIR` defines the subdirectory where libraries and headers are installed.
-Note that [CMAKE_INTALL_PREFIX](https://cmake.org/cmake/help/v3.13/variable/CMAKE_INSTALL_PREFIX.html) defaults
-to `/usr/local` on UNIX and `c:/Program Files/${PROJECT_NAME}` on Windows, which may not be what you want.
-Use `-D CMAKE_INSTALL_PREFIX=install` to use local `install` folder instead:
+Global CMake installation directory is controlled by
+[CMAKE_INTALL_PREFIX](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html) variable. 
+Note that it defaults to `/usr/local` on UNIX and `c:/Program Files/${PROJECT_NAME}` on Windows, which may not
+be what you want. Use `-D CMAKE_INSTALL_PREFIX=install` to use local `install` folder instead:
 
 ```
 cmake -S . -B ./build/Win64 -D CMAKE_INSTALL_PREFIX=install -G "Visual Studio 15 2017" -A x64
@@ -482,7 +481,7 @@ reduce the size of the Vulkan back-end binary.
 ## Customizing Build
 
 Diligent Engine allows clients to customize build settings by providing configuration script file that defines two optional 
-[cmake functions](https://cmake.org/cmake/help/v3.13/command/function.html):
+[cmake functions](https://cmake.org/cmake/help/latest/command/function.html):
 
 * `custom_configure_build()` - defines global build properties such as build configurations, c/c++ compile flags, link flags etc.
 * `custom_configure_target()` - defines custom settings for every target in the build.
@@ -562,7 +561,7 @@ allows configuring target-specific properties.
 
 By default, the build system sets some target properties. If `custom_configure_target()` sets all required properties,
 it can tell the build system that no further processing is required by setting `TARGET_CONFIGURATION_COMPLETE`
-[parent scope](https://cmake.org/cmake/help/v3.13/command/set.html#set-normal-variable) variable to `TRUE`:
+[parent scope](https://cmake.org/cmake/help/latest/command/set.html#set-normal-variable) variable to `TRUE`:
 
 ```cmake
 set(TARGET_CONFIGURATION_COMPLETE TRUE PARENT_SCOPE)
