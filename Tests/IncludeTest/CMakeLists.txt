@@ -51,6 +51,11 @@ if(MSVC)
     )
 endif()
 
+set_source_files_properties(
+    src/DiligentFX/PostProcess/EpipolarLightScattering/EpipolarLightScatteringH_test.cpp
+    PROPERTIES INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/../../DiligentFX"
+)
+
 source_group("src\\DiligentCore\\GraphicsEngine" FILES ${GRAPHICS_ENGINE_INC_TEST})
 source_group("src\\DiligentCore\\Platforms" FILES ${PLATFORMS_INC_TEST})
 source_group("src\\DiligentCore\\Common" FILES ${COMMON_INC_TEST})
