@@ -447,10 +447,13 @@ For example, for Windows platform, the list of libraries your project will need 
 DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib spirv-cross-core.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
 ```
 
-Vulkan libraries can be found in [DiligentCore/External/vulkan/libs](https://github.com/DiligentGraphics/DiligentCore/tree/master/External/vulkan/libs) directory.
+Vulkan libraries can be found in [DiligentCore/ThirdParty/vulkan/libs](https://github.com/DiligentGraphics/DiligentCore/tree/master/ThirdParty/vulkan/libs) directory.
 
 Diligent Engine headers require one of the following platform macros to be defined as `1`:
 `PLATFORM_WIN32`, `PLATFORM_UNIVERSAL_WINDOWS`, `PLATFORM_ANDROID`, `PLATFORM_LINUX`, `PLATFORM_MACOS`, `PLATFORM_IOS`.
+
+You can control which components of the engine you want to install using the following CMake options:
+`INSTALL_DILIGENT_CORE`, `INSTALL_DILIGENT_FX`, `INSTALL_DILIGENT_SAMPLES`, and `INSTALL_DILIGENT_TOOLS`.
 
 Another way to intergrate the engine is to generate build files (such as Visual Studio projects) and add them to your
 build system. Build customization described below can help tweak the settings for your specific needs.
@@ -470,7 +473,8 @@ cmake -D DILIGENT_NO_DIRECT3D11=TRUE -S . -B ./build/Win64 -G "Visual Studio 15 
 
 Additionally, individual engine components can be enabled or disabled using the following options:
 `DILIGENT_BUILD_FX`, `DILIGENT_BUILD_SAMPLES`, `DILIGENT_BUILD_DEMOS`, `DILIGENT_BUILD_UNITY_PLUGIN`,
-`DILIGENT_BUILD_RENDER_SCRIPT`.
+`DILIGENT_BUILD_RENDER_SCRIPT`. If you only want to build `SampleBase` project, you can use 
+`DILIGENT_BUILD_SAMPLE_BASE_ONLY` option.
 
 By default Vulkan back-end is linked with glslang that enables compiling HLSL and GLSL shaders to SPIRV at run time.
 If run-time compilation is not required, glslang can be disabled with `DILIGENT_NO_GLSLANG` cmake option. This will significantly 
