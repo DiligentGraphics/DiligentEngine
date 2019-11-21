@@ -453,7 +453,7 @@ Diligent Engine headers require one of the following platform macros to be defin
 `PLATFORM_WIN32`, `PLATFORM_UNIVERSAL_WINDOWS`, `PLATFORM_ANDROID`, `PLATFORM_LINUX`, `PLATFORM_MACOS`, `PLATFORM_IOS`.
 
 You can control which components of the engine you want to install using the following CMake options:
-`INSTALL_DILIGENT_CORE`, `INSTALL_DILIGENT_FX`, `INSTALL_DILIGENT_SAMPLES`, and `INSTALL_DILIGENT_TOOLS`.
+`DILIGENT_INSTALL_CORE`, `DILIGENT_INSTALL_FX`, `DILIGENT_INSTALL_SAMPLES`, and `DILIGENT_INSTALL_TOOLS`.
 
 Another way to intergrate the engine is to generate build files (such as Visual Studio projects) and add them to your
 build system. Build customization described below can help tweak the settings for your specific needs.
