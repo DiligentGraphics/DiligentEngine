@@ -1,0 +1,479 @@
+---
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+Language:        Cpp
+# BasedOnStyle:  Microsoft
+
+# The extra indent or outdent of access modifiers, e.g. public:.
+AccessModifierOffset: -4
+# class
+# {
+# public:
+#
+
+
+# If true, horizontally aligns arguments after an open bracket.
+# This applies to round brackets (parentheses), angle brackets and square brackets.
+AlignAfterOpenBracket: Align
+# Align:
+# someLongFunction(argument1,
+#                  argument2);
+
+
+# If true, aligns consecutive C/C++ preprocessor macros.
+AlignConsecutiveMacros: true
+# true:
+# #define SHORT_NAME       42
+# #define LONGER_NAME      0x007f
+# #define EVEN_LONGER_NAME (2)
+# #define foo(x)           (x * x)
+# #define bar(y, z)        (y + z)
+
+
+# If true, aligns consecutive assignments.
+AlignConsecutiveAssignments: true
+# true:
+# int aaaa = 12;
+# int b    = 23;
+# int ccc  = 23;
+
+
+# If true, aligns consecutive declarations.
+AlignConsecutiveDeclarations: true
+# true:
+# int         aaaa = 12;
+# float       b = 23;
+# std::string ccc = 23;
+
+
+AlignEscapedNewlines: Left
+# Left:
+# #define A   \
+#   int aaaa; \
+#   int b;    \
+#   int dddddddddd;
+
+
+# If true, horizontally align operands of binary and ternary expressions.
+AlignOperands:   false
+
+
+# If true, aligns trailing comments.
+AlignTrailingComments: true
+# true:
+# int a;     // My comment a
+# int b = 2; // comment  b
+
+
+# If a function call or braced initializer list doesn't fit on a line,
+# allow putting all arguments onto the next line, even if BinPackArguments is false.
+AllowAllArgumentsOnNextLine: true
+# true:
+# callFunction(a,
+#              b,
+#              c,
+#              d);
+
+
+# If a constructor definition with a member initializer list doesn't fit on a single line,
+# allow putting all member initializers onto the next line, if 'ConstructorInitializerAllOnOneLineOrOnePerLine'
+# is true. Note that this parameter has no effect if 'ConstructorInitializerAllOnOneLineOrOnePerLine' is false.
+AllowAllConstructorInitializersOnNextLine: true
+# true:
+# MyClass::MyClass() :
+#     member0(0), member1(2) {}
+
+
+# If the function declaration doesn't fit on a line, allow putting all parameters
+# of a function declaration onto the next line even if BinPackParameters is false.
+AllowAllParametersOfDeclarationOnNextLine: false
+#false:
+#void myFunction(int a,
+#                int b,
+#                int c);
+
+
+AllowShortBlocksOnASingleLine: Always
+# Always:
+# while (true) {}
+# while (true) {continue;}
+
+
+AllowShortCaseLabelsOnASingleLine: true
+# true:
+# switch (a)
+# {  
+#     case 1: x = 1; break;  
+
+
+AllowShortFunctionsOnASingleLine: All
+AllowShortLambdasOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Always
+AllowShortLoopsOnASingleLine: true
+
+# The function definition return type breaking style to use.
+# This option is deprecated and is retained for backwards compatibility.
+AlwaysBreakAfterDefinitionReturnType: None
+
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakTemplateDeclarations: No
+
+# If false, a function call's arguments will either be all on the same line or will have one line each.
+BinPackArguments: true
+# false:
+# void f() {
+#   f(aaaaaaaaaaaaaaaaaaaa,
+#     aaaaaaaaaaaaaaaaaaaa,
+#     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa);
+# }
+
+
+# If false, a function declaration's or function definition's parameters will
+# either all be on the same line or will have one line each.
+BinPackParameters: false
+# false:
+# void f(int aaaaaaaaaaaaaaaaaaaa,
+#        int aaaaaaaaaaaaaaaaaaaa,
+#        int aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa) {}
+
+
+# Cuatom: Configure each individual brace in BraceWrapping.
+BreakBeforeBraces: Custom
+
+BraceWrapping:
+  AfterCaseLabel: true
+  # true:
+  # case 1
+  # {
+  #     bar();
+  #     break;
+  # }
+
+
+  AfterClass: true
+  # true:
+  # class A
+  # {
+
+
+  # Only wrap braces after a multi-line control statement.
+  AfterControlStatement: Always
+  # MultiLine:
+  # if (foo && bar)
+  # {
+  #     quux();
+  # }
+  # while (foo || bar)
+  # {}    
+
+
+  AfterEnum: true
+  # true:
+  # enum X : int
+  # {
+  #     B
+  # };
+
+
+  AfterFunction: true
+  # void foo()
+  # {
+  #     bar();
+  #     bar2();
+  # }
+
+
+  AfterNamespace: true
+  # true:
+  # namespace
+  # {
+  # int foo();
+
+
+  # Wrap ObjC definitions (interfaces, implementations...). @autoreleasepool and @synchronized
+  # blocks are wrapped according to AfterControlStatement flag.
+  AfterObjCDeclaration: true
+
+
+  AfterStruct: true
+  # true:
+  # struct foo
+  # {
+  #     int x;
+  # };
+
+
+  AfterUnion: true
+  # true:
+  # union foo
+  # {
+  #     int x;
+  # }
+
+
+  AfterExternBlock: true
+  # true:
+  # extern "C"
+  # {
+  #     int foo();
+  # }
+
+
+  BeforeCatch: true
+  # true:
+  # }
+  # catch ()
+  
+
+  BeforeElse: true
+  # true:
+  # }
+  # else
+
+
+  # Indent the wrapped braces themselves.
+  IndentBraces: false
+
+  # If false, empty function body can be put on a single line
+  SplitEmptyFunction: false
+
+  # If false, empty record (e.g. class, struct or union) body can be put on a single line.
+  SplitEmptyRecord: false
+
+  #  If false, empty namespace body can be put on a single line.
+  SplitEmptyNamespace: false
+
+# The way to wrap binary operators.
+BreakBeforeBinaryOperators: None
+
+
+BreakBeforeInheritanceComma: false
+
+BreakInheritanceList: AfterColon
+# AfterColon:
+# class Foo :
+#     Base1,
+#     Base2
+# {};
+
+
+# If true, ternary operators will be placed after line breaks.
+BreakBeforeTernaryOperators: false
+# false:
+# veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongDescription ?
+#     firstValue :
+#     SecondValueVeryVeryVeryVeryLong;
+
+BreakConstructorInitializersBeforeComma: false
+
+BreakConstructorInitializers: AfterColon
+# Constructor() :
+#     initializer1(),
+#     initializer2()
+
+BreakAfterJavaFieldAnnotations: false
+
+# Allow breaking string literals when formatting.
+BreakStringLiterals: false
+
+# A column limit of 0 means that there is no column limit. In this case, clang-format will
+# respect the input's line breaking decisions within statements unless they contradict other rules.
+ColumnLimit: 0
+
+# A regular expression that describes comments with special meaning, which should not be split into lines or otherwise changed.
+CommentPragmas:  '^ IWYU pragma:'
+
+# If true, consecutive namespace declarations will be on the same line.
+CompactNamespaces: false
+# false:
+# namespace Foo
+# {
+# namespace Bar
+# {
+# }
+# }
+
+# If the constructor initializers don't fit on a line, put each initializer on its own line.
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+
+# If true, format braced lists as best suited for C++11 braced lists.
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false
+DisableFormat:   false
+ExperimentalAutoDetectBinPacking: false
+# If true, clang-format adds missing namespace end comments and fixes invalid existing ones.
+FixNamespaceComments: true
+
+# A vector of macros that should be interpreted as foreach loops instead of as function calls.
+ForEachMacros:
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
+
+IncludeBlocks:   Preserve
+IncludeCategories:
+  - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
+    Priority:        2
+    SortPriority:    0
+  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
+    Priority:        3
+    SortPriority:    0
+  - Regex:           '.*'
+    Priority:        1
+    SortPriority:    0
+IncludeIsMainRegex: '(Test)?$'
+
+# Indent case labels one level from the switch statement.
+IndentCaseLabels: true
+#   true:
+#   switch(foo)
+#   {
+#       case bar:
+
+IndentGotoLabels: true
+
+# The preprocessor directive indenting style to use.
+IndentPPDirectives: AfterHash
+# #if FOO
+# #  if BAR
+# #    include <foo>
+# #  endif
+# #endif
+
+
+IndentWidth:     4
+IndentWrappedFunctionNames: false
+JavaScriptQuotes: Leave
+JavaScriptWrapImports: true
+
+# If true, the empty line at the start of blocks is kept.
+KeepEmptyLinesAtTheStartOfBlocks: true
+MacroBlockBegin: ''
+MacroBlockEnd:   ''
+
+# The maximum number of consecutive empty lines to keep.
+MaxEmptyLinesToKeep: 10000
+
+# The indentation used for namespaces.
+NamespaceIndentation: None
+
+ObjCBinPackProtocolList: Auto
+ObjCBlockIndentWidth: 4
+ObjCSpaceAfterProperty: false
+ObjCSpaceBeforeProtocolList: true
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 1000
+
+PointerAlignment: Left
+# left:
+# int* a;
+# int& b;
+
+# If true, clang-format will attempt to re-flow comments.
+ReflowComments:  false
+
+SortIncludes:    false
+SortUsingDeclarations: false
+SpaceAfterCStyleCast: false
+# false:
+# (int)i;
+
+
+SpaceAfterLogicalNot: false
+# false:
+# !bar();
+
+SpaceAfterTemplateKeyword: true
+# true:
+# template <typename>
+
+
+SpaceBeforeAssignmentOperators: true
+# true:
+# int a =
+
+# If true, a space will be inserted before a C++11 braced list used to
+# initialize an object (after the preceding identifier or type).
+SpaceBeforeCpp11BracedList: false
+# false:
+# vector<int>{1, 2, 3};
+
+
+SpaceBeforeCtorInitializerColon: true
+# true:
+# Foo::Foo() : a(a) {}
+
+
+SpaceBeforeInheritanceColon: true
+# true:
+# class Foo : Bar {}  
+
+
+# Put a space before opening parentheses only after control statement keywords (for/if/while...)
+SpaceBeforeParens: ControlStatements
+# ControlStatements:
+# void f() {
+#   if (true) {
+#     f();
+#   }
+# }
+
+
+SpaceBeforeRangeBasedForLoopColon: true
+# true:
+# for (auto v : values) {}
+
+
+SpaceInEmptyBlock: false
+# false:
+# void f() {}
+
+
+SpaceInEmptyParentheses: false
+# false:
+# f();
+
+SpacesBeforeTrailingComments: 1
+
+SpacesInAngles:  false
+# false:
+# static_cast<int>(arg);
+
+
+SpacesInContainerLiterals: false
+# false:
+# var arr = [1, 2, 3];
+
+
+SpacesInCStyleCastParentheses: false
+# false:
+# x = (int32)y
+
+
+SpacesInParentheses: false
+# false:
+# t f(Deleted &) & = delete;
+
+SpacesInSquareBrackets: false
+# false:
+# int a[5];
+
+
+Standard:        Latest
+
+StatementMacros:
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
+TabWidth:        4
+UseTab:          Never
+...
