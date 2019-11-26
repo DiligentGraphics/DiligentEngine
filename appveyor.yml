@@ -66,13 +66,13 @@ install:
   - if "%PLATFORM%"=="x64" ( set generator_arch=x64 ) else ( set generator_arch=Win32 )
   
 before_build:
-  - cd c:\projects\diligentengine\DiligentCore\Utilities\FormatValidation
+  - cd c:\projects\diligentengine\DiligentCore\BuildTools\FormatValidation
   - validate_format_win.bat
-  - cd c:\projects\diligentengine\DiligentTools\Utilities\FormatValidation
+  - cd c:\projects\diligentengine\DiligentTools\BuildTools\FormatValidation
   - validate_format_win.bat
-  - cd c:\projects\diligentengine\DiligentFX\Utilities\FormatValidation
+  - cd c:\projects\diligentengine\DiligentFX\BuildTools\FormatValidation
   - validate_format_win.bat
-  - cd c:\projects\diligentengine\DiligentSamples\Utilities\FormatValidation
+  - cd c:\projects\diligentengine\DiligentSamples\BuildTools\FormatValidation
   - validate_format_win.bat
   - cd c:\projects\diligentengine
   - echo %generator_arch%
