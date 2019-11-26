@@ -9,24 +9,6 @@ option(DILIGENT_BUILD_SAMPLES "Build DiligentSamples module" ON)
 option(DILIGENT_BUILD_DEMOS "Build demo projects" ON)
 option(DILIGENT_BUILD_UNITY_PLUGIN "Build Unity plugin" ON)
 
-# Create a custom target to run source code formatting validation command
-# Need to do this before including Core
-if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
-    add_custom_target(Diligent-ValidateFormatting ALL
-        COMMAND validate_format_win.bat
-        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/DiligentCore/Utilities/FormatValidation"
-        COMMENT "Validating Core module's source code formatting..."
-        VERBATIM
-    )
-    add_custom_command(TARGET Diligent-ValidateFormatting
-        COMMAND validate_format_win.bat
-        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Utilities/FormatValidation"
-        COMMENT "Validating Samples, Tools, and Tutorials modules' source code formatting..."
-        VERBATIM
-    )
-endif()
-
-
 add_subdirectory(DiligentCore)
 add_subdirectory(DiligentTools)
 

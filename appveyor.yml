@@ -68,7 +68,11 @@ install:
 before_build:
   - cd c:\projects\diligentengine\DiligentCore\Utilities\FormatValidation
   - validate_format_win.bat
-  - cd c:\projects\diligentengine\Utilities\FormatValidation
+  - cd c:\projects\diligentengine\DiligentTools\Utilities\FormatValidation
+  - validate_format_win.bat
+  - cd c:\projects\diligentengine\DiligentFX\Utilities\FormatValidation
+  - validate_format_win.bat
+  - cd c:\projects\diligentengine\DiligentSamples\Utilities\FormatValidation
   - validate_format_win.bat
   - cd c:\projects\diligentengine
   - echo %generator_arch%
