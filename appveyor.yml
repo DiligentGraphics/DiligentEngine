@@ -65,7 +65,7 @@ before_build:
   - validate_format_win.bat
   - cd c:\projects\diligentengine
   - echo %PLATFORM%
-  - echo %cmake_args%
+  - echo.%cmake_args%
   - cmake -D DILIGENT_ENABLE_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 15 2017" -A %PLATFORM%
 
 build:

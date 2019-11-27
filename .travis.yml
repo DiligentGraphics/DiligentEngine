@@ -57,10 +57,22 @@ matrix:
   include:
   - os: linux
     compiler: gcc
-    env: CONFIG=Debug
+    env:
+      - CONFIG=Debug
+  - os: osx
+    compiler: clang
+    env: 
+      - CONFIG=Debug
+      - IOS=false
+  - os: osx
+    compiler: clang
+    env: 
+      - CONFIG=Debug
+      - IOS=true
   - os: linux
     compiler: gcc
-    env: CONFIG=Release
+    env:
+      - CONFIG=Release
   - os: osx
     compiler: clang
     env: 
@@ -69,17 +81,7 @@ matrix:
   - os: osx
     compiler: clang
     env: 
-      - CONFIG=Debug
-      - IOS=false
-  - os: osx
-    compiler: clang
-    env: 
       - CONFIG=Release
-      - IOS=true
-  - os: osx
-    compiler: clang
-    env: 
-      - CONFIG=Debug
       - IOS=true
     
 script:
