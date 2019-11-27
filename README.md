@@ -40,7 +40,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 ## High-level Rendering components
 
-* [Atmospheric light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/Postprocess/EpipolarLightScattering)
+* [Atmospheric light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering)
 * [Tone mapping utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
 * [Physically-based GLTF2.0 renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer)
 * [Shadows](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows)
@@ -616,7 +616,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 
 | Sample     | Screenshot  | Description          |
 |------------|-------------|----------------------|
-| [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Atmosphere/Animation_Small.gif) | This sample demonstrates how to integrate [Epipolar Light Scattering](https://github.com/DiligentGraphics/DiligentFX/tree/master/Postprocess/EpipolarLightScattering) post-processing effect into an application to render physically-based atmosphere. |
+| [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Atmosphere/Animation_Small.gif) | This sample demonstrates how to integrate [Epipolar Light Scattering](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering) post-processing effect into an application to render physically-based atmosphere. |
 | [GLTF Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer) | <img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/flight_helmet.jpg" width=240> | This sample demonstrates how to use the [Asset Loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader) and [GLTF PBR Renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer) to load and render GLTF models. |
 | [Shadows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Shadows/Screenshot.jpg" width=240> | This sample demonstrates how to use the [Shadowing component](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows) to render high-quality shadows. |
 | [Dear ImGui Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/ImguiDemo/Screenshot.png" width=240> | This sample demonstrates the integration of the engine with [dear imgui](https://github.com/ocornut/imgui) UI library. |
@@ -636,8 +636,8 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 High-level rendering functionality is implemented by [DiligentFX module](https://github.com/DiligentGraphics/DiligentFX).
 The following components are now available:
 
-* [Epipolar light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/Postprocess/EpipolarLightScattering)
-<img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/Postprocess/EpipolarLightScattering/media/LightScattering.png" width=240>
+* [Epipolar light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering)
+<img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/PostProcess/EpipolarLightScattering/media/LightScattering.png" width=240>
 
 * [Tone mapping shader utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
 
