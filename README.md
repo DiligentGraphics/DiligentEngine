@@ -694,6 +694,11 @@ to this repository. **Diligent Engine** is licensed under the [Apache 2.0 licens
 that code in the **DiligentEngine** repository is free of Intellectual Property encumbrances. In submitting code to
 this repository, you are agreeing that the code is free of any Intellectual Property claims.  
 
+Diligent Engine uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to ensure
+consistent source code style throught the code base. The format is validated by appveyor and travis
+for each commit and pull request, and the build will fail if any code formatting issue is found. Please refer
+to [this page](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/code_formatting.md) for instructions
+on how to set up clang-format and automatic code formatting.
 
 <a name="references"></a>
 # References
