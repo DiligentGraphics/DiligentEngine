@@ -21,4 +21,4 @@
  *  of the possibility of such damages.
  */
 
-#include "DiligentFX/Postprocess/EpipolarLightScattering/interface/EpipolarLightScattering.h"
+#include "DiligentFX/PostProcess/EpipolarLightScattering/interface/EpipolarLightScattering.h"
