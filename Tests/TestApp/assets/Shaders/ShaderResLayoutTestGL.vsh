@@ -152,5 +152,8 @@ void main(void)
     imageStore(g_tex2DStorageImgArr_Dyn[0], ivec2(0, 0), vec4(1.0, 2.0, 3.0, 4.0));
     imageStore(g_tex2DStorageImgArr_Dyn[1], ivec2(0, 0), vec4(1.0, 2.0, 3.0, 4.0));
 
+    imageStore(g_StorageTexelBuff, 0, texelFetch(g_UniformTexelBuff, 0));
+    imageStore(g_StorageTexelBuff_mut, 0, texelFetch(g_UniformTexelBuff_mut, 0));
+
 	gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
 }
