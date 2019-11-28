@@ -51,5 +51,8 @@ matrix:
       - IOS=true
 
 script:
-
+  - . ./DiligentCore/BuildTools/FormatValidation/validate_format_linux.sh
+  - . ./DiligentTools/BuildTools/FormatValidation/validate_format_linux.sh
+  - . ./DiligentFX/BuildTools/FormatValidation/validate_format_linux.sh
+  - . ./DiligentSamples/BuildTools/FormatValidation/validate_format_linux.sh
   - . ./DiligentCore/BuildTools/Scripts/travis/build.sh "-DDILIGENT_ENABLE_TESTS=TRUE"
