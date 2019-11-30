@@ -71,7 +71,7 @@ void TestCreateObjFromNativeResD3D12::CreateBuffer(Diligent::IBuffer *pBuffer)
         VERIFY_EXPR(TestBufferDesc == SrcBuffDesc);
 
         RefCntAutoPtr<IBufferD3D12> pTestBufferD3D12(pBufferFromNativeD3D12Handle, IID_BufferD3D12);
-        size_t TestBuffDataStartByteOffset;
+        Uint64 TestBuffDataStartByteOffset;
         VERIFY_EXPR(pTestBufferD3D12->GetD3D12Buffer(TestBuffDataStartByteOffset, 0) == pD3D12Buffer);
         VERIFY_EXPR(TestBuffDataStartByteOffset == 0);
         VERIFY_EXPR(pTestBufferD3D12->GetNativeHandle() == pD3D12Buffer);
