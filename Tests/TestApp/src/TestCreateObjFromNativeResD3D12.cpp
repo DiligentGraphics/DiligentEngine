@@ -58,7 +58,7 @@ void TestCreateObjFromNativeResD3D12::CreateBuffer(Diligent::IBuffer *pBuffer)
     RefCntAutoPtr<IRenderDeviceD3D12> pDeviceD3D12(m_pDevice, IID_RenderDeviceD3D12);
     const auto &SrcBuffDesc = pBuffer->GetDesc();
     RefCntAutoPtr<IBufferD3D12> pBufferD3D12(pBuffer, IID_BufferD3D12);
-    size_t DataStartByteOffset;
+    Uint64 DataStartByteOffset;
     auto *pD3D12Buffer = pBufferD3D12->GetD3D12Buffer(DataStartByteOffset, 0);
     VERIFY_EXPR(DataStartByteOffset == 0);
     
