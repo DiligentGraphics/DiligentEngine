@@ -4,13 +4,32 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project(DiligentEngine)
 
+option(DILIGENT_BUILD_TOOLS "Build DiligentTools module" ON)
 option(DILIGENT_BUILD_FX "Build DiligentFX module" ON)
 option(DILIGENT_BUILD_SAMPLES "Build DiligentSamples module" ON)
 option(DILIGENT_BUILD_DEMOS "Build demo projects" ON)
 option(DILIGENT_BUILD_UNITY_PLUGIN "Build Unity plugin" ON)
 
 add_subdirectory(DiligentCore)
-add_subdirectory(DiligentTools)
+
+if(${DILIGENT_BUILD_TOOLS})
+    add_subdirectory(DiligentTools)
+else()
+    if(${DILIGENT_BUILD_FX})
+        message("Disabling DiligentFX module as it requires DiligentTools module to be enabled")
+        set(DILIGENT_BUILD_FX OFF CACHE BOOL "Build DiligentFX module" FORCE)
+    endif()
+
+    if (${DILIGENT_BUILD_SAMPLES})
+        message("Disabling DiligentSamples module as it requires DiligentTools module to be enabled")
+        set(DILIGENT_BUILD_SAMPLES OFF CACHE BOOL "Build DiligentSamples module" FORCE)
+    endif()
+
+    if (${DILIGENT_BUILD_UNITY_PLUGIN})
+        message("Disabling unity plugin as it requires DiligentTools module to be enabled")
+        set(DILIGENT_BUILD_UNITY_PLUGIN OFF CACHE BOOL "Build Unity plugin" FORCE)
+    endif()
+endif()
 
 if(${DILIGENT_BUILD_FX})
     add_subdirectory(DiligentFX)
