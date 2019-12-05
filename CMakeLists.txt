@@ -47,7 +47,7 @@ if(${DILIGENT_BUILD_UNITY_PLUGIN} AND (D3D11_SUPPORTED OR D3D12_SUPPORTED OR GL_
     add_subdirectory(unityplugin)
 endif()
 
-if(DILIGENT_ENABLE_TESTS)
+if(DILIGENT_BUILD_TESTS)
     add_subdirectory(Tests)
 endif()
 

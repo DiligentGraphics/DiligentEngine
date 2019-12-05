@@ -42,7 +42,6 @@
 #include "TestRenderTarget.h"
 #include "MTResourceCreationTest.h"
 #include "TestShaderResArrays.h"
-#include "SmartPointerTest.h"
 #include "TestGeometryShader.h"
 #include "TestTessellation.h"
 
@@ -93,7 +92,6 @@ protected:
     RefCntAutoPtr<IFence> m_pFence;
     Uint64 m_NextFenceValue = 1;
 
-    SmartPointerTest m_SmartPointerTest;
     double m_CurrTime = 0;
 };
 

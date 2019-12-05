@@ -666,7 +666,6 @@ void TestApp::WindowResize(int width, int height)
 
 void TestApp::Update(double CurrTime, double ElapsedTime)
 {
-    m_SmartPointerTest.RunConcurrencyTest();
     m_CurrTime = CurrTime;
 }
 
