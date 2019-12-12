@@ -33,15 +33,11 @@
 
 #include "TestDrawCommands.h"
 #include "TestBufferAccess.h"
-#include "TestTextureCreation.h"
-#include "TestSamplerCreation.h"
 #include "TestTexturing.h"
 #include "ScriptParser.h"
 #include "TestComputeShaders.h"
 #include "Timer.h"
 #include "TestRenderTarget.h"
-#include "MTResourceCreationTest.h"
-#include "TestShaderResArrays.h"
 #include "TestGeometryShader.h"
 #include "TestTessellation.h"
 
@@ -81,8 +77,6 @@ protected:
     std::unique_ptr<TestTexturing> m_pTestTexturing[16];
     std::unique_ptr<TestComputeShaders> m_pTestCS;
     std::unique_ptr<TestRenderTarget> m_pTestRT;
-    std::unique_ptr<MTResourceCreationTest> m_pMTResCreationTest;
-    std::unique_ptr<TestShaderResArrays> m_pTestShaderResArrays;
     TestGeometryShader m_TestGS;
     TestTessellation m_TestTessellation;
 

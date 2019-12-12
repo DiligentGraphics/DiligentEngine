@@ -58,22 +58,9 @@
 #include "ScriptParser.h"
 #include "Errors.h"
 #include "ConvenienceFunctions.h"
-#include "TestDepthStencilState.h"
-#include "TestRasterizerState.h"
-#include "TestBlendState.h"
 #include "TestVPAndSR.h"
-#include "TestPSOCompatibility.h"
-#if GL_SUPPORTED || GLES_SUPPORTED
-    #include "ShaderConverterTest.h"
-#endif
 #include "TestCopyTexData.h"
-#include "TestMipMapsGeneration.h"
 #include "PlatformMisc.h"
-#include "TestBufferCreation.h"
-#include "TestBrokenShader.h"
-#include "TestShaderResourceLayout.h"
-#include "TestShaderVarAccess.h"
-#include "TestSeparateTextureSampler.h"
 #include "StringTools.h"
 
 namespace Diligent
@@ -82,70 +69,10 @@ namespace Diligent
 TestApp::TestApp() :
     m_AppTitle("Test app")
 {
-    VERIFY_EXPR(PlatformMisc::GetMSB(Uint32{0}) == 32);
-    for (Uint32 i = 0; i < 32; ++i)
-    {
-        auto MSB = PlatformMisc::GetMSB((Uint32{1} << i) | 1);
-        VERIFY_EXPR(MSB == i); (void)MSB;
-    }
-    
-    VERIFY_EXPR(PlatformMisc::GetMSB(Uint64{0}) == 64);
-    for (Uint32 i = 0; i < 64; ++i)
-    {
-        auto MSB = PlatformMisc::GetMSB((Uint64{1} << i) | 1);
-        VERIFY_EXPR(MSB == i); (void)MSB;
-    }
-    
-    VERIFY_EXPR(PlatformMisc::GetLSB(Uint32{0}) == 32);
-    for (Uint32 i = 0; i < 32; ++i)
-    {
-        auto LSB = PlatformMisc::GetLSB((Uint32{1} << i) | (Uint32{1}<<31));
-        VERIFY_EXPR(LSB == i); (void)LSB;
-    }
-
-    VERIFY_EXPR(PlatformMisc::GetLSB(Uint64{0}) == 64);
-    for (Uint32 i = 0; i < 64; ++i)
-    {
-        auto LSB = PlatformMisc::GetLSB((Uint64{1} << i) | (Uint64{1}<<63));
-        VERIFY_EXPR(LSB == i); (void)LSB;
-    }
-
-    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint32{0}) == 0);
-    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint64{0}) == 0);
-    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint32{1}) == 1);
-    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint64{1}) == 1);
-    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint32{7}) == 3);
-    VERIFY_EXPR(PlatformMisc::CountOneBits(Uint64{7}) == 3);
-    VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint32{1}<<31) | (Uint32{1} << 15)) == 2);
-    VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint64{1}<<63) | (Uint32{1} << 31)) == 2);
-    VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint32{1}<<31) - 1) == 31);
-    VERIFY_EXPR(PlatformMisc::CountOneBits( (Uint64{1}<<63) - 1) == 63);
-
-
-    VERIFY_EXPR(StreqSuff("abc_def","abc", "_def"));
-    VERIFY_EXPR(!StreqSuff("abc","abc", "_def"));
-    VERIFY_EXPR(!StreqSuff("ab","abc", "_def"));
-    VERIFY_EXPR(!StreqSuff("abc_de","abc", "_def"));
-    VERIFY_EXPR(!StreqSuff("abc_def","ab", "_def"));
-    VERIFY_EXPR(!StreqSuff("abc_def","abd", "_def"));
-    VERIFY_EXPR(!StreqSuff("abc_def","abc", "_de"));
-    VERIFY_EXPR(!StreqSuff("abc","abc", "_def"));
-    VERIFY_EXPR(!StreqSuff("abc_def", "", "_def"));
-    VERIFY_EXPR(!StreqSuff("abc_def", "", ""));
-    
-    VERIFY_EXPR(StreqSuff("abc","abc", "_def", true));
-    VERIFY_EXPR(!StreqSuff("abc","abc_", "_def", true));
-    VERIFY_EXPR(!StreqSuff("abc_","abc", "_def", true));
-    VERIFY_EXPR(StreqSuff("abc","abc", nullptr, true));
-    VERIFY_EXPR(StreqSuff("abc","abc", nullptr, false));
-    VERIFY_EXPR(!StreqSuff("ab","abc", nullptr, true));
-    VERIFY_EXPR(!StreqSuff("abc","ab", nullptr, false));
 }
 
 TestApp::~TestApp()
 {
-    if(m_pMTResCreationTest)
-        m_pMTResCreationTest->StopThreads();
 }
 
 
@@ -159,7 +86,7 @@ void TestApp::InitializeDiligentEngine(
     SwapChainDesc SCDesc;
     Uint32 NumDeferredCtx = 0;
     std::vector<IDeviceContext*> ppContexts;
-    std::vector<HardwareAdapterAttribs> Adapters;
+    std::vector<AdapterAttribs> Adapters;
     std::vector<std::vector<DisplayModeAttribs>> AdapterDisplayModes;
     switch (m_DeviceType)
     {
@@ -179,9 +106,9 @@ void TestApp::InitializeDiligentEngine(
 #endif
             auto *pFactoryD3D11 = GetEngineFactoryD3D11();
             Uint32 NumAdapters = 0;
-            pFactoryD3D11->EnumerateHardwareAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, 0);
+            pFactoryD3D11->EnumerateAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, 0);
             Adapters.resize(NumAdapters);
-            pFactoryD3D11->EnumerateHardwareAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, Adapters.data());
+            pFactoryD3D11->EnumerateAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, Adapters.data());
 
             for(Uint32 i=0; i < Adapters.size(); ++i)
             {
@@ -213,9 +140,9 @@ void TestApp::InitializeDiligentEngine(
 #endif
             auto *pFactoryD3D12 = GetEngineFactoryD3D12();
             Uint32 NumAdapters = 0;
-            pFactoryD3D12->EnumerateHardwareAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, 0);
+            pFactoryD3D12->EnumerateAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, 0);
             Adapters.resize(NumAdapters);
-            pFactoryD3D12->EnumerateHardwareAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, Adapters.data());
+            pFactoryD3D12->EnumerateAdapters(DIRECT3D_FEATURE_LEVEL_11_0, NumAdapters, Adapters.data());
 
             for (Uint32 i = 0; i < Adapters.size(); ++i)
             {
@@ -367,30 +294,9 @@ void TestApp::InitializeDiligentEngine(
 
 void TestApp::InitializeRenderers()
 {
-    m_pMTResCreationTest.reset(new MTResourceCreationTest(m_pDevice, m_pImmediateContext, 7));
-    
-    TestSeparateTextureSampler TestSeparateTexSampler{m_pDevice, m_pImmediateContext};
-    TestRasterizerState TestRS{m_pDevice, m_pImmediateContext};
-    TestBlendState TestBS{m_pDevice, m_pImmediateContext};
-    TestDepthStencilState TestDSS{m_pDevice, m_pImmediateContext};
-    TestBufferCreation TestBuffCreation{m_pDevice, m_pImmediateContext};
-    TestTextureCreation TestTexCreation{m_pDevice, m_pImmediateContext};
-    TestPSOCompatibility TestPSOCompat{m_pDevice};
-    TestBrokenShader TestBrknShdr{m_pDevice};
-
     m_TestGS.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
-    m_pTestShaderResArrays.reset(new TestShaderResArrays(m_pDevice, m_pImmediateContext, m_pSwapChain, 0.4f, -0.9f, 0.5f, 0.5f));
         
-    TestShaderVarAccess TestShaderVarAccess{m_pDevice, m_pImmediateContext, m_pSwapChain};
-    TestShaderResourceLayout TestShaderResLayout{m_pDevice, m_pImmediateContext};
-    
-#if GL_SUPPORTED || GLES_SUPPORTED
-    ShaderConverterTest ConverterTest{m_pDevice, m_pImmediateContext};
-#endif
-    
-    TestSamplerCreation TestSamplers{m_pDevice};
-    
     RenderScriptTest LuaTest{m_pDevice, m_pImmediateContext};
     
     const auto* BackBufferFmt = m_pDevice->GetTextureFormatInfo(m_pSwapChain->GetDesc().ColorBufferFormat).Name;
@@ -425,7 +331,6 @@ void TestApp::InitializeRenderers()
         }
 
     TestCopyTexData TestCopyData(m_pDevice, m_pImmediateContext);
-    TestMipMapsGeneration TestMipsGen(m_pDevice, m_pImmediateContext);
 
     TestVPAndSR TestVPAndSR(m_pDevice, m_pImmediateContext);
 
@@ -434,8 +339,6 @@ void TestApp::InitializeRenderers()
 
     m_pTestRT.reset(new TestRenderTarget);
     m_pTestRT->Init(m_pDevice, m_pImmediateContext, m_pSwapChain, -0.4f, 0.55f, 0.4f, 0.4f);
-
-    m_pMTResCreationTest->StartThreads();
 
     float instance_offsets[] = { -0.3f, 0.0f, 0.0f, 0.0f, +0.3f, -0.3f };
     
@@ -717,7 +620,6 @@ void TestApp::Render()
     }
     m_pTestCS->Draw();
     m_pTestRT->Draw();
-    m_pTestShaderResArrays->Draw();
     m_TestGS.Draw();
     
     auto CompletedFenceValue = m_pFence->GetCompletedValue();

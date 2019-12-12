@@ -55,20 +55,24 @@ install:
   - DiligentCore\BuildTools\Scripts\appveyor\install.bat
  
 before_build:
-  - cd c:\projects\diligentengine\DiligentCore\BuildTools\FormatValidation
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentCore\BuildTools\FormatValidation'
   - validate_format_win.bat
-  - cd c:\projects\diligentengine\DiligentTools\BuildTools\FormatValidation
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentTools\BuildTools\FormatValidation'
   - validate_format_win.bat
-  - cd c:\projects\diligentengine\DiligentFX\BuildTools\FormatValidation
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentFX\BuildTools\FormatValidation'
   - validate_format_win.bat
-  - cd c:\projects\diligentengine\DiligentSamples\BuildTools\FormatValidation
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentSamples\BuildTools\FormatValidation'
   - validate_format_win.bat
-  - cd c:\projects\diligentengine
+  - 'cd %APPVEYOR_BUILD_FOLDER%'
   - echo %PLATFORM%
   - echo.%cmake_args%
-  - cmake -D DILIGENT_ENABLE_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 15 2017" -A %PLATFORM%
+  - cmake -D DILIGENT_BUILD_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 15 2017" -A %PLATFORM%
 
 build:
-  project: c:\projects\diligentengine\build\DiligentEngine.sln
+  project: '%APPVEYOR_BUILD_FOLDER%\build\DiligentEngine.sln'
   verbosity: minimal
   parallel: true
+
+test_script:
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentCore\UnitTests\DiligentCoreAPITest\assets'
+  - '%APPVEYOR_BUILD_FOLDER%\DiligentCore\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentCore'

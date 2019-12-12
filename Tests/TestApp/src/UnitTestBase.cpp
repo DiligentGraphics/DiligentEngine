@@ -21,9 +21,6 @@
  *  of the possibility of such damages.
  */
 
-// EngineSandbox.cpp : Defines the entry point for the application.
-//
-
 #include <iomanip>
 #include <ios>
 
