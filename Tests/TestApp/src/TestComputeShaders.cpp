@@ -24,7 +24,6 @@
 #include "pch.h"
 #include "TestComputeShaders.h"
 #include "GraphicsUtilities.h"
-#include "ConvenienceFunctions.h"
 
 using namespace Diligent;
 
@@ -40,7 +39,7 @@ void TestComputeShaders::Init( IRenderDevice *pDevice, IDeviceContext *pContext,
         SetStatus(TestResult::Skipped, "Compute shaders are not supported");
         return;
     }
-    
+#if 0
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pContext;
     const auto* BackBufferFmt = pDevice->GetTextureFormatInfo(pSwapChain->GetDesc().ColorBufferFormat).Name;
@@ -50,13 +49,16 @@ void TestComputeShaders::Init( IRenderDevice *pDevice, IDeviceContext *pContext,
         pScriptParser->SetGlobalVariable( "extBackBufferFormat", BackBufferFmt );
         pScriptParser->SetGlobalVariable( "extDepthBufferFormat", DepthBufferFmt );
     } );
+#endif
 }
     
 void TestComputeShaders::Draw()
 {
+#if 0
     if(!m_pDeviceContext)
         return;
     
     m_pRenderScript->Run( m_pDeviceContext, "Render" );
     SetStatus(TestResult::Succeeded);
+#endif
 }

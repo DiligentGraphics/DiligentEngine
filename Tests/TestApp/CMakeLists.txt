@@ -135,7 +135,6 @@ PUBLIC
     Diligent-Common 
     Diligent-GraphicsTools
     Diligent-TargetPlatform
-    Diligent-RenderScript
     Diligent-GraphicsAccessories
     ${ENGINE_LIBRARIES}
 )

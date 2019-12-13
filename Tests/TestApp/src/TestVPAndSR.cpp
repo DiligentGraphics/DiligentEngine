@@ -24,7 +24,6 @@
 #include "pch.h"
 #include "TestVPAndSR.h"
 #include "GraphicsUtilities.h"
-#include "ConvenienceFunctions.h"
 
 using namespace Diligent;
 
@@ -33,6 +32,7 @@ TestVPAndSR::TestVPAndSR(IRenderDevice *pDevice, IDeviceContext *pContext ) :
 {
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pContext;
+#if 0
     m_pRenderScript = CreateRenderScriptFromFile( "VPAndSRTest.lua", pDevice, pContext, []( ScriptParser *pScriptParser )
     {
         Viewport VP(16.5, 24.25, 156.125, 381.625, 0.25, 0.75);
@@ -44,6 +44,6 @@ TestVPAndSR::TestVPAndSR(IRenderDevice *pDevice, IDeviceContext *pContext ) :
 
     m_pRenderScript->Run( m_pDeviceContext, "SetViewports" );
     m_pRenderScript->Run( m_pDeviceContext, "SetScissorRects" );
-    
+#endif
     SetStatus(TestResult::Succeeded);
 }

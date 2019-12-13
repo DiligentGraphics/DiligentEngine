@@ -54,10 +54,7 @@
 
 #include "FileSystem.h"
 #include "MapHelper.h"
-#include "RenderScriptTest.h"
-#include "ScriptParser.h"
 #include "Errors.h"
-#include "ConvenienceFunctions.h"
 #include "TestVPAndSR.h"
 #include "TestCopyTexData.h"
 #include "PlatformMisc.h"
@@ -297,15 +294,8 @@ void TestApp::InitializeRenderers()
     m_TestGS.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
     m_TestTessellation.Init(m_pDevice, m_pImmediateContext, m_pSwapChain);
         
-    RenderScriptTest LuaTest{m_pDevice, m_pImmediateContext};
-    
     const auto* BackBufferFmt = m_pDevice->GetTextureFormatInfo(m_pSwapChain->GetDesc().ColorBufferFormat).Name;
     const auto* DepthBufferFmt = m_pDevice->GetTextureFormatInfo(m_pSwapChain->GetDesc().DepthBufferFormat).Name;
-    m_pRenderScript = CreateRenderScriptFromFile("TestRenderScripts.lua", m_pDevice, m_pImmediateContext, [BackBufferFmt, DepthBufferFmt](ScriptParser *pScriptParser)
-    {
-        pScriptParser->SetGlobalVariable( "extBackBufferFormat", BackBufferFmt );
-        pScriptParser->SetGlobalVariable( "extDepthBufferFormat", DepthBufferFmt );
-    });
 
     m_pTestDrawCommands.reset(new TestDrawCommands);
     m_pTestDrawCommands->Init(m_pDevice, m_pImmediateContext, m_pSwapChain, 0, 0, 1, 1);
@@ -342,26 +332,6 @@ void TestApp::InitializeRenderers()
 
     float instance_offsets[] = { -0.3f, 0.0f, 0.0f, 0.0f, +0.3f, -0.3f };
     
-    {
-        m_pRenderScript->GetBufferByName("InstanceBuffer", &m_pInstBuff);
-    }
-
-    {
-        auto BuffDesc = m_pInstBuff->GetDesc();
-        BuffDesc.uiSizeInBytes = sizeof(instance_offsets);
-        //BuffDesc.BindFlags = BIND_VERTEX_BUFFER;
-        BuffDesc.Usage = USAGE_DEFAULT;
-        //Diligent::BufferData BuffData;
-        //BuffData.pData = instance_offsets;
-        //BuffData.DataSize = sizeof(instance_offsets);
-        m_pDevice->CreateBuffer(BuffDesc, nullptr, &m_pInstBuff2);
-    }
-    
-
-    {
-        m_pRenderScript->GetBufferByName("UnfiformBuffer1", &m_pUniformBuff);
-    }
-
     {
         Diligent::BufferDesc BuffDesc;
         BuffDesc.Name = "cbTestBlock2";
@@ -402,15 +372,6 @@ void TestApp::InitializeRenderers()
     }
 
     {
-        RefCntAutoPtr<IResourceMapping> pResMapping;
-        m_pRenderScript->GetResourceMappingByName("ResMapping", &pResMapping);
-        pResMapping->AddResource("cbTestBlock3", m_pUniformBuff3, true);
-        m_pRenderScript->Run("AddConstBufferToMapping", "cbTestBlock4", m_pUniformBuff4);
-        m_pRenderScript->Run("AddConstBufferToMapping", "cbTestBlock2", m_pUniformBuff2);
-        m_pRenderScript->Run("BindShaderResources");
-    }
-
-    {
         TextureDesc TexDesc;
         TexDesc.Type = RESOURCE_DIM_TEX_2D;
         TexDesc.Width = 1024;
@@ -448,11 +409,6 @@ void TestApp::InitializeRenderers()
         auto* pDSV = pDepthTex->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
 
         {
-            MapHelper<float> UniformData(m_pImmediateContext, m_pUniformBuff, MAP_WRITE, MAP_FLAG_DISCARD);
-            UniformData[0] = UniformData[1] = UniformData[2] = UniformData[3] = 0;
-        }
-
-        {
             MapHelper<float> UniformData(m_pImmediateContext, m_pUniformBuff2, MAP_WRITE, MAP_FLAG_DISCARD);
             UniformData[0] = (float)sin(0)*0.1f;
             UniformData[1] = (float)cos(0)*0.1f;
@@ -463,17 +419,12 @@ void TestApp::InitializeRenderers()
         m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         float ClearColor[] = {0.1f, 0.2f, 0.4f, 1.0f};
         m_pImmediateContext->ClearRenderTarget(nullptr, ClearColor, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
-        DrawAttribs DrawAttrs;
-        DrawAttrs.NumVertices = 3;
-        DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
         
         // This adds transition barrier for pTex1
         m_pImmediateContext->SetRenderTargets(1, pRTVs, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         m_pImmediateContext->ClearRenderTarget(pRTVs[0], ClearColor, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, 1, 0, RESOURCE_STATE_TRANSITION_MODE_VERIFY);
         // Generate draw command to the bound render target
-        m_pImmediateContext->Draw(DrawAttrs);
         m_pImmediateContext->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
         // This will destroy texture and put D3D12 resource into release queue
         pTex.Release();
@@ -581,36 +532,7 @@ void TestApp::Render()
     
     double dCurrTime = m_CurrTime;
     
-    float instance_offsets[] = { -0.3f, (float)sin(dCurrTime + 0.5)*0.1f, 0.0f, (float)sin(dCurrTime)*0.1f, +0.3f, -0.3f + (float)cos(dCurrTime)*0.1f };
-    m_pImmediateContext->UpdateBuffer(m_pInstBuff2, sizeof(float) * 1, sizeof(float) * 5, &instance_offsets[1], RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-    m_pImmediateContext->CopyBuffer(m_pInstBuff2, sizeof(float) * 2, RESOURCE_STATE_TRANSITION_MODE_TRANSITION, m_pInstBuff, sizeof(float) * 2, sizeof(float) * 4, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     
-    {
-        MapHelper<float> UniformData(m_pImmediateContext, m_pUniformBuff, MAP_WRITE, MAP_FLAG_DISCARD);
-        UniformData[0] = UniformData[1] = UniformData[2] = UniformData[3] = (float)fabs(sin(dCurrTime));
-    }
-    
-    {
-        MapHelper<float> UniformData(m_pImmediateContext, m_pUniformBuff2, MAP_WRITE, MAP_FLAG_DISCARD);
-        UniformData[0] = (float)sin(dCurrTime*3.8)*0.1f;
-        UniformData[1] = (float)cos(dCurrTime*3.2)*0.1f;
-        UniformData[2] = (float)sin(dCurrTime*3.9)*0.1f;
-        UniformData[3] = 0;
-    }
-
-    {
-        DrawAttribs DrawAttrs{3, DRAW_FLAG_VERIFY_ALL};
-        m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
-    }
-
-    {
-        DrawIndexedAttribs DrawAttrs{};
-        DrawAttrs.NumIndices = 3;
-        DrawAttrs.IndexType = VT_UINT32;
-        DrawAttrs.NumInstances = 3;
-        DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-        m_pRenderScript->Run(m_pImmediateContext, "DrawTris", DrawAttrs);
-    }
     m_pTestDrawCommands->Draw();
     m_pTestBufferAccess->Draw((float)dCurrTime);
 

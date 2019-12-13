@@ -114,10 +114,8 @@ Master repository includes the following submodules:
 * [Tools](https://github.com/DiligentGraphics/DiligentTools) submodule contains 
   [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader),
   [asset loading library](https://github.com/DiligentGraphics/DiligentTools/blob/master/AssetLoader),
-  [dear imgui implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/Imgui),
-  [native application implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp), and 
-  [Render Script](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderScript), a Lua-based run-time 
-  graphics resource managing system. Tools module depends on Core module.
+  [dear imgui implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/Imgui), and
+  [native application implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp).
 * [DiligentFX](https://github.com/DiligentGraphics/DiligentFX) is a high-level rendering framework that implements
   various rendering components. The module depends on Core and Tools modules.
 * [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule contains tutorials and sample applications 
@@ -473,7 +471,7 @@ cmake -D DILIGENT_NO_DIRECT3D11=TRUE -S . -B ./build/Win64 -G "Visual Studio 15 
 
 Additionally, individual engine components can be enabled or disabled using the following options:
 `DILIGENT_BUILD_TOOLS`, `DILIGENT_BUILD_FX`, `DILIGENT_BUILD_SAMPLES`, `DILIGENT_BUILD_DEMOS`,
-`DILIGENT_BUILD_UNITY_PLUGIN`, `DILIGENT_BUILD_RENDER_SCRIPT`. If you only want to build `SampleBase` project,
+`DILIGENT_BUILD_UNITY_PLUGIN`. If you only want to build `SampleBase` project,
  you can use `DILIGENT_BUILD_SAMPLE_BASE_ONLY` option.
 
 By default Vulkan back-end is linked with glslang that enables compiling HLSL and GLSL shaders to SPIRV at run time.
@@ -681,7 +679,6 @@ This project has some third-party dependencies, each of which may have independe
   * [libtiff](http://www.libtiff.org/): TIFF Library and Utilities.
   * [libpng](http://www.libpng.org/pub/png/libpng.html): Official PNG reference library.
   * [zlib](https://zlib.net/): A compression library.
-  * [lua](https://www.lua.org/): Lua programming language run time.
   * [tinygltf](https://github.com/syoyo/tinygltf): A header only C++11 glTF 2.0 library.
   * [dear imgui](https://github.com/ocornut/imgui): A bloat-free immediate mode graphical user interface library.
 

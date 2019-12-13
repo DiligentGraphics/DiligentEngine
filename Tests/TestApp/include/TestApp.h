@@ -34,7 +34,6 @@
 #include "TestDrawCommands.h"
 #include "TestBufferAccess.h"
 #include "TestTexturing.h"
-#include "ScriptParser.h"
 #include "TestComputeShaders.h"
 #include "Timer.h"
 #include "TestRenderTarget.h"
@@ -80,9 +79,8 @@ protected:
     TestGeometryShader m_TestGS;
     TestTessellation m_TestTessellation;
 
-    RefCntAutoPtr<IBuffer> m_pInstBuff, m_pInstBuff2, m_pUniformBuff, m_pUniformBuff2, m_pUniformBuff3, m_pUniformBuff4;
+    RefCntAutoPtr<IBuffer> m_pUniformBuff2, m_pUniformBuff3, m_pUniformBuff4;
     RefCntAutoPtr<ITexture> m_pTestTex;
-    RefCntAutoPtr<ScriptParser> m_pRenderScript;
     RefCntAutoPtr<IFence> m_pFence;
     Uint64 m_NextFenceValue = 1;
 

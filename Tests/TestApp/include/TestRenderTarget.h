@@ -23,7 +23,6 @@
 
 #pragma once
 
-#include "ScriptParser.h"
 #include "UnitTestBase.h"
 
 class TestRenderTarget : public UnitTestBase
@@ -38,5 +37,4 @@ private:
 
     Diligent::RefCntAutoPtr<Diligent::IRenderDevice> m_pRenderDevice;
     Diligent::RefCntAutoPtr<Diligent::IDeviceContext> m_pDeviceContext;
-    Diligent::RefCntAutoPtr<Diligent::ScriptParser> m_pRenderScript;
 };

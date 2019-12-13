@@ -24,7 +24,6 @@
 #include "pch.h"
 #include "TestRenderTarget.h"
 #include "GraphicsUtilities.h"
-#include "ConvenienceFunctions.h"
 
 using namespace Diligent;
 
@@ -40,6 +39,7 @@ void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
     return;
 #endif
     
+#if 0
     m_pRenderDevice = pDevice;
     m_pDeviceContext = pDeviceContext;
     m_pRenderScript = CreateRenderScriptFromFile( "TestRenderTargets.lua", pDevice, pDeviceContext, [&]( ScriptParser *pScriptParser )
@@ -54,13 +54,15 @@ void TestRenderTarget::Init( IRenderDevice *pDevice, IDeviceContext *pDeviceCont
         pScriptParser->SetGlobalVariable( "XExt", fXExtent );
         pScriptParser->SetGlobalVariable( "YExt", fYExtent );
     } );
+#endif
 }
 
 void TestRenderTarget::Draw()
 {
     if(!m_pDeviceContext)
         return;
-    
+#if 0
     m_pRenderScript->Run( m_pDeviceContext, "Render" );
     SetStatus(TestResult::Succeeded);
+#endif
 }
