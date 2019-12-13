@@ -7,7 +7,7 @@ branches:
     - master
 
 image:
-- Visual Studio 2017
+- Visual Studio 2019
 
 environment: 
   matrix:
@@ -73,7 +73,7 @@ before_build:
   - 'cd %APPVEYOR_BUILD_FOLDER%'
   - echo %PLATFORM%
   - echo.%cmake_args%
-  - cmake -D DILIGENT_BUILD_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 15 2017" -A %PLATFORM%
+  - cmake -D DILIGENT_BUILD_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
 
 build:
   project: '%APPVEYOR_BUILD_FOLDER%\build\DiligentEngine.sln'
