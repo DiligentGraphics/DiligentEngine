@@ -13,6 +13,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 [![Chat on gitter](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/diligent-engine)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine)
 [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/978eebabb2fc438f9d736443b71127aa)](https://www.codacy.com/manual/DiligentGraphics/DiligentEngine?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DiligentGraphics/DiligentEngine&amp;utm_campaign=Badge_Grade)
 
 ## Features
 
