@@ -9,6 +9,8 @@
 
 #include "UnityGraphicsGL_Impl.h"
 #include "SwapChainGL.h"
+#include "RenderDeviceGL.h"
+#include "DeviceContextGL.h"
 
 using namespace Diligent;
 
@@ -27,7 +29,26 @@ public:
                       const SwapChainDesc& SCDesc ) : 
         TBase(pRefCounters, pDevice, pDeviceContext,SCDesc),
         m_UnityGraphicsGL(UnityGraphicsGL)
-    {}
+    {
+        TextureDesc DummyTexDesc;
+        DummyTexDesc.Name      = "Back buffer proxy";
+        DummyTexDesc.Type      = RESOURCE_DIM_TEX_2D;
+        DummyTexDesc.Format    = SCDesc.ColorBufferFormat;
+        DummyTexDesc.Width     = SCDesc.Width;
+        DummyTexDesc.Height    = SCDesc.Height;
+        DummyTexDesc.BindFlags = BIND_RENDER_TARGET;
+        RefCntAutoPtr<IRenderDeviceGL> pDeviceGL(pDevice, IID_RenderDeviceGL);
+        RefCntAutoPtr<ITexture> pDummyRenderTarget;
+        pDeviceGL->CreateDummyTexture(DummyTexDesc, RESOURCE_STATE_RENDER_TARGET, &pDummyRenderTarget);
+        m_pRTV = pDummyRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
+
+        DummyTexDesc.Name      = "Depth buffer proxy";
+        DummyTexDesc.Format    = SCDesc.DepthBufferFormat;
+        DummyTexDesc.BindFlags = BIND_DEPTH_STENCIL;
+        RefCntAutoPtr<ITexture> pDummyDepthBuffer;
+        pDeviceGL->CreateDummyTexture(DummyTexDesc, RESOURCE_STATE_DEPTH_WRITE, &pDummyDepthBuffer);
+        m_pDSV = pDummyDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
+    }
         
     virtual void Present(Uint32 SyncInterval)override final
     {
@@ -54,11 +75,13 @@ public:
         return m_UnityGraphicsGL.GetGraphicsImpl()->GetDefaultFBO();
     }
     
-    virtual ITextureView* GetCurrentBackBufferRTV()override final{return nullptr;}
-    virtual ITextureView* GetDepthBufferDSV()override final{return nullptr;}
+    virtual ITextureView* GetCurrentBackBufferRTV()override final{return m_pRTV;}
+    virtual ITextureView* GetDepthBufferDSV()override final{return m_pDSV;}
 
 private:
     const UnityGraphicsGLCoreES_Emulator& m_UnityGraphicsGL;
+    RefCntAutoPtr<ITextureView> m_pRTV;
+    RefCntAutoPtr<ITextureView> m_pDSV;
 };
 
 }
@@ -103,7 +126,7 @@ DiligentGraphicsAdapterGL::DiligentGraphicsAdapterGL(const UnityGraphicsGLCoreES
     auto pProxySwapChainGL = NEW_RC_OBJ(DefaultAllocator, "ProxySwapChainGL instance", ProxySwapChainGL)(m_UnityGraphicsGL, m_pDevice, m_pDeviceCtx, SCDesc);
     pProxySwapChainGL->QueryInterface(IID_SwapChain, reinterpret_cast<IObject**>(static_cast<ISwapChain**>(&m_pProxySwapChain)));
 
-    m_pDeviceCtx->SetSwapChain(m_pProxySwapChain);
+    RefCntAutoPtr<IDeviceContextGL>(m_pDeviceCtx, IID_DeviceContextGL)->SetSwapChain(pProxySwapChainGL);
 }
 
 void DiligentGraphicsAdapterGL::BeginFrame()

@@ -219,7 +219,6 @@ void DiligentGraphicsAdapterD3D12::InitProxySwapChain()
     auto ProxySwapChain = NEW_RC_OBJ(DefaultAllocator, "UnityCommandQueueImpl instance", ProxySwapChainD3D12)(m_pDevice, m_pDeviceCtx, SCDesc);
     ProxySwapChain->CreateBuffers(GraphicsImpl->GetDXGISwapChain(), GraphicsImpl->GetDepthBuffer());
     m_pProxySwapChain = ProxySwapChain;
-    m_pDeviceCtx->SetSwapChain(ProxySwapChain);
 }
 
 void DiligentGraphicsAdapterD3D12::PreSwapChainResize()

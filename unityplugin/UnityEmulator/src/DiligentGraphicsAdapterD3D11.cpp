@@ -134,8 +134,6 @@ void DiligentGraphicsAdapterD3D11::InitProxySwapChain()
     auto pProxySwapChainD3D11 = NEW_RC_OBJ(DefaultAllocator, "ProxySwapChainD3D11 instance", ProxySwapChainD3D11)(m_pDevice, m_pDeviceCtx, SCDesc);
     pProxySwapChainD3D11->QueryInterface(IID_SwapChain, reinterpret_cast<IObject**>(static_cast<ISwapChain**>(&m_pProxySwapChain)));
     pProxySwapChainD3D11->CreateViews(pBackBufferRTV, pDepthBufferDSV);
-
-    m_pDeviceCtx->SetSwapChain(m_pProxySwapChain);
 }
 
 void DiligentGraphicsAdapterD3D11::BeginFrame()

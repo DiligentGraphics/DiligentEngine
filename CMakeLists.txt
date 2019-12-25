@@ -47,10 +47,6 @@ if(${DILIGENT_BUILD_UNITY_PLUGIN} AND (D3D11_SUPPORTED OR D3D12_SUPPORTED OR GL_
     add_subdirectory(unityplugin)
 endif()
 
-if(DILIGENT_BUILD_TESTS)
-    add_subdirectory(Tests)
-endif()
-
 if(TARGET GLTFViewer)
     set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT GLTFViewer)
 elseif(TARGET Asteroids)

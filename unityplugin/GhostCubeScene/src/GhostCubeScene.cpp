@@ -148,18 +148,19 @@ void GhostCubeScene::Update(double CurrTime, double ElapsedTime)
 
 void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
 {
-    auto pDevice = m_DiligentGraphics->GetDevice();
-    auto pCtx = m_DiligentGraphics->GetContext();
+    auto* pDevice = m_DiligentGraphics->GetDevice();
+    auto* pCtx = m_DiligentGraphics->GetContext();
+    auto* pSwapChain = m_DiligentGraphics->GetSwapChain();
     const auto& DeviceCaps = pDevice->GetDeviceCaps();
     const bool bIsGL = DeviceCaps.IsGLDevice();
     auto ReverseZ = m_DiligentGraphics->UsesReverseZ();
 
     // In OpenGL, render targets must be bound to the pipeline to be cleared
-    ITextureView *pRTVs[] = { m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET) };
+    ITextureView *pRTV = m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
     ITextureView *pDSV = m_pDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
-    pCtx->SetRenderTargets(1, pRTVs, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+    pCtx->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     const float ClearColor[] = { 0.f, 0.2f, 0.5f, 1.0f };
-    pCtx->ClearRenderTarget(pRTVs[0], ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+    pCtx->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     pCtx->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, ReverseZ ? 0.f : 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
     if (DeviceCaps.DevType == DeviceType::D3D12)
@@ -194,7 +195,9 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     
     // We need to invalidate the context state since the plugin has used d3d11 context
     pCtx->InvalidateState();
-    pCtx->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+    pRTV = pSwapChain->GetCurrentBackBufferRTV();
+    pDSV = pSwapChain->GetDepthBufferDSV();
+    pCtx->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     pCtx->SetPipelineState(m_pMirrorPSO);
     pCtx->CommitShaderResources(m_pMirrorSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
