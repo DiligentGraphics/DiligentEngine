@@ -38,7 +38,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * Shader resource reflection
 * Extensive validation and error reporting
 * Modern c++ features to make the code fast and reliable
-* Consistent high quality and reliability are ensured by continuous integration
+* Consistent high quality is ensured by continuous integration
   * Automated builds and unit testing
   * Source code formatting validation
   * Static analysis
