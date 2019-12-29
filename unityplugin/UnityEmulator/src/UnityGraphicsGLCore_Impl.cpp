@@ -183,6 +183,11 @@ void UnityGraphicsGLCore_Impl::InitGLContext(void *pNativeWndHandle,
     if(m_Context == nullptr)
         LOG_ERROR_AND_THROW( "No active GL context found" );
 
+    XWindowAttributes WndAttribs = {};
+    XGetWindowAttributes(m_Display, m_LinuxWindow, &WndAttribs);
+	m_BackBufferWidth = WndAttribs.width;
+	m_BackBufferHeight = WndAttribs.height;
+
 	// Initialize GLEW
 	GLenum err = glewInit();
 	if( GLEW_OK != err )
