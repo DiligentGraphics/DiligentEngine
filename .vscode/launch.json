@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "AtmosphereSample",
+            "name": "Atmosphere",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/DiligentSamples/Samples/Atmosphere/AtmosphereSample",
+            "program": "${workspaceFolder}/build/DiligentSamples/Samples/Atmosphere/Atmosphere",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Samples/Atmosphere/assets",
@@ -43,10 +43,10 @@
             ]
         },
         {
-            "name": "ShadowsSample",
+            "name": "Shadows",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/DiligentSamples/Samples/Shadows/ShadowsSample",
+            "program": "${workspaceFolder}/build/DiligentSamples/Samples/Shadows/Shadows",
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Samples/Shadows/assets",
@@ -423,13 +423,50 @@
             ]
         },
         {
-            "name": "TestApp",
+            "name": "Tutorial17_MSAA",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Tests/TestApp/TestApp",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial17_MSAA/Tutorial17_MSAA",
             "args": ["-mode vk"],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/Tests/TestApp/assets",
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial17_MSAA/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "DiligentCoreTest",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentCore/Tests/DiligentCoreTest",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "DiligentCoreAPITest",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentCore/Tests/DiligentCoreAPITest/DiligentCoreAPITest",
+            "args": ["--mode=vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentCore/Tests/DiligentCoreAPITest/assets",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
