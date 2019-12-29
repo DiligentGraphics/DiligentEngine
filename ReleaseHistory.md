@@ -1,3 +1,42 @@
+
+## v2.4.d
+
+### API Changes
+
+* Added `AdapterType` member to `DeviceCaps` struct (API Version 240048)
+* Added `IDeviceContextGL::SetSwapChain` and `IRenderDeviceGL::CreateDummyTexture` methods (API Version 240047)
+* Removed `IDeviceContext::SetSwapChain` method (API Version 240046)
+* Renamed `MAP_FLAG_DO_NOT_SYNCHRONIZE` flag to `MAP_FLAG_NO_OVERWRITE` (API Version 240045)
+* Added `GetVkInstance` and `GetVkPhysicalDevice` methods to `IRenderDeviceVk` interface (API Version 240044)
+* Added `HLSLSemantic` member to `LayoutElement` struct (API Version 240042)
+* Added `ResolveTextureSubresource` device context command, removed `SamplesCount` member of the
+  `SwapChainDesc` (API Version 240041)
+* Added `APIVersion` member to `EngineCreateInfo` struct (API Version 240040)
+* Added `IDeviceObject::GetUniqueID` method (API Version 240039)
+* Added `IDeviceContextD3D12::LockCommandQueue`, `IDeviceContextD3D12::UnlockCommandQueue`,
+  `IDeviceContextVk::LockCommandQueue`, and `IDeviceContextVk::UnlockCommandQueue` methods (API Version 240038)
+* Added `EnableGPUBasedValidation` member to `EngineD3D12CreateInfo` struct (API Version 240037)
+* Added `DRAW_FLAG_RESOURCE_BUFFERS_INTACT` flag (API Version 240036)
+* Added `HLSLVersion`, `GLSLVersion` and `GLESSLVersion` to `ShaderCreateInfo` struct (API Version 240035)
+* Renamed `EngineD3D11DebugFlags` to `D3D11_DEBUG_FLAGS` (API Version 240034)
+* Split up `Draw` command into `Draw`, `DrawIndexed`, `DrawIndirect` and `DrawIndexedIndirect`.
+  Split up `DispatchCompute` command into `DispatchCompute` and `DispatchComputeInidrect` (API Version 240033).
+* Enabled bindless resources
+* Removed `SHADER_PROFILE` enum (API Version 240032)
+* Added `DIRECT3D_FEATURE_LEVEL` and `DIRECT3D_FEATURE_LEVEL MinimumFeatureLevel` member to 
+  `EngineD3D11CreateInfo` and `EngineD3D12CreateInfo` structs (API Version 240032)
+* Updated `IEngineFactoryD3D11::EnumerateHardwareAdapters`, `IEngineFactoryD3D11::EnumerateDisplayModes`,
+  `IEngineFactoryD3D12::EnumerateHardwareAdapters`, `IEngineFactoryD3D12::EnumerateDisplayModes` 
+  to take minimum feature level. (API Version 240032)
+* Added `bBindlessSupported` member to `DeviceCaps` struct. (API Version 240032)
+
+### General
+
+* Enabled automatic format validation, unit testing and static code analysis
+* Added [Tutorial16 - Bindless Resources](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial16_BindlessResources)
+* Added [Tutorial17 - MSAA](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial17_MSAA)
+* Reomoved RenderScript and Lua
+
 ## v2.4.c
 
 ### General
