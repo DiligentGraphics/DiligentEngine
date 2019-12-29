@@ -1,6 +1,6 @@
 {
     "cmake.buildDirectory": "${workspaceRoot}/build",
-    "cmake.configureSettings": { "DILIGENT_ENABLE_TESTS": "TRUE"},
+    "cmake.configureSettings": { "DILIGENT_BUILD_TESTS": "TRUE"},
     "files.associations": {
         "*.tcc": "cpp",
         "ostream": "cpp",
@@ -67,6 +67,8 @@
         "memory_resource": "cpp",
         "random": "cpp",
         "set": "cpp",
-        "cfenv": "cpp"
+        "cfenv": "cpp",
+        "style.c": "cpp",
+        "overview.c": "cpp"
     }
 }
