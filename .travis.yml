@@ -61,6 +61,6 @@ script:
   - cd ../../../DiligentSamples/BuildTools/FormatValidation
   - . ../../../DiligentCore/BuildTools/Scripts/travis/validate_format.sh
   - cd ../../../
-  - . ./DiligentCore/BuildTools/Scripts/travis/build.sh "-DDILIGENT_ENABLE_TESTS=TRUE"
+  - . ./DiligentCore/BuildTools/Scripts/travis/build.sh "-DDILIGENT_BUILD_TESTS=TRUE"
   - cd ../DiligentCore/Tests/DiligentCoreAPITest/assets
   - . ../../../BuildTools/Scripts/travis/run_tests.sh ../../../../build/DiligentCore
