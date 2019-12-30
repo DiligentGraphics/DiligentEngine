@@ -30,26 +30,9 @@ public:
         TBase(pRefCounters, pDevice, pDeviceContext,SCDesc),
         m_UnityGraphicsGL(UnityGraphicsGL)
     {
-        TextureDesc DummyTexDesc;
-        DummyTexDesc.Name      = "Back buffer proxy";
-        DummyTexDesc.Type      = RESOURCE_DIM_TEX_2D;
-        DummyTexDesc.Format    = SCDesc.ColorBufferFormat;
-        DummyTexDesc.Width     = SCDesc.Width;
-        DummyTexDesc.Height    = SCDesc.Height;
-        DummyTexDesc.BindFlags = BIND_RENDER_TARGET;
-        RefCntAutoPtr<IRenderDeviceGL> pDeviceGL(pDevice, IID_RenderDeviceGL);
-        RefCntAutoPtr<ITexture> pDummyRenderTarget;
-        pDeviceGL->CreateDummyTexture(DummyTexDesc, RESOURCE_STATE_RENDER_TARGET, &pDummyRenderTarget);
-        m_pRTV = pDummyRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
-
-        DummyTexDesc.Name      = "Depth buffer proxy";
-        DummyTexDesc.Format    = SCDesc.DepthBufferFormat;
-        DummyTexDesc.BindFlags = BIND_DEPTH_STENCIL;
-        RefCntAutoPtr<ITexture> pDummyDepthBuffer;
-        pDeviceGL->CreateDummyTexture(DummyTexDesc, RESOURCE_STATE_DEPTH_WRITE, &pDummyDepthBuffer);
-        m_pDSV = pDummyDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
+        CreateDummyBuffers();
     }
-        
+
     virtual void Present(Uint32 SyncInterval)override final
     {
         UNEXPECTED("Present is not expected to be called directly");
@@ -67,18 +50,46 @@ public:
 
     virtual void Resize(Uint32 NewWidth, Uint32 NewHeight)override final
     {
-        TBase::Resize(NewWidth, NewHeight, 0);
+        if (TBase::Resize(NewWidth, NewHeight, 0))
+        {
+            CreateDummyBuffers();
+        }
     }
 
     virtual GLuint GetDefaultFBO()const override final
     {
         return m_UnityGraphicsGL.GetGraphicsImpl()->GetDefaultFBO();
     }
-    
+
     virtual ITextureView* GetCurrentBackBufferRTV()override final{return m_pRTV;}
     virtual ITextureView* GetDepthBufferDSV()override final{return m_pDSV;}
 
 private:
+    void CreateDummyBuffers()
+    {
+        if (m_SwapChainDesc.Width == 0 || m_SwapChainDesc.Height == 0)
+            return;
+
+        TextureDesc DummyTexDesc;
+        DummyTexDesc.Name      = "Back buffer proxy";
+        DummyTexDesc.Type      = RESOURCE_DIM_TEX_2D;
+        DummyTexDesc.Format    = m_SwapChainDesc.ColorBufferFormat;
+        DummyTexDesc.Width     = m_SwapChainDesc.Width;
+        DummyTexDesc.Height    = m_SwapChainDesc.Height;
+        DummyTexDesc.BindFlags = BIND_RENDER_TARGET;
+        RefCntAutoPtr<IRenderDeviceGL> pDeviceGL(m_pRenderDevice, IID_RenderDeviceGL);
+        RefCntAutoPtr<ITexture> pDummyRenderTarget;
+        pDeviceGL->CreateDummyTexture(DummyTexDesc, RESOURCE_STATE_RENDER_TARGET, &pDummyRenderTarget);
+        m_pRTV = pDummyRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
+
+        DummyTexDesc.Name      = "Depth buffer proxy";
+        DummyTexDesc.Format    = m_SwapChainDesc.DepthBufferFormat;
+        DummyTexDesc.BindFlags = BIND_DEPTH_STENCIL;
+        RefCntAutoPtr<ITexture> pDummyDepthBuffer;
+        pDeviceGL->CreateDummyTexture(DummyTexDesc, RESOURCE_STATE_DEPTH_WRITE, &pDummyDepthBuffer);
+        m_pDSV = pDummyDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
+    }
+
     const UnityGraphicsGLCoreES_Emulator& m_UnityGraphicsGL;
     RefCntAutoPtr<ITextureView> m_pRTV;
     RefCntAutoPtr<ITextureView> m_pDSV;
