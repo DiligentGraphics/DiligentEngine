@@ -98,6 +98,9 @@ elseif (PLATFORM_LINUX)
 elseif (PLATFORM_MACOS OR PLATFORM_IOS)
     target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared)
 endif()
+if(D3D12_SUPPORTED)
+    target_link_libraries(GhostCubeScene PRIVATE d3d12.lib)
+endif()
 
 set_common_target_properties(GhostCubeScene)
 
