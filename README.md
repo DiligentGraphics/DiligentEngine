@@ -438,7 +438,7 @@ cmake --build . --target install
 
 DiligentCore installation directory will contain everything required to integrate the engine:
 
-* *headers* subdirectory will contain all required header files. Add this directory to your include search directories.
+* *include* subdirectory will contain all required header files. Add this directory to your include search directories.
 * *lib* subdirectory will contain static libraries.
 * *bin* subdirectory will contain dynamic libraries.
 
