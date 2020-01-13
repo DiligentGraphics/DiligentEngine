@@ -43,7 +43,7 @@ public:
     IMPLEMENT_QUERY_INTERFACE_IN_PLACE( IID_CommandQueueD3D12, TBase )
 
 	// Returns the fence value that will be signaled next time
-    virtual Uint64 GetNextFenceValue()override final
+    virtual Uint64 GetNextFenceValue()const override final
     {
         return m_pUnityGraphicsD3D12->GetNextFrameFenceValue();
     }
