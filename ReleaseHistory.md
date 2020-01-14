@@ -37,7 +37,7 @@
 * Added [Tutorial16 - Bindless Resources](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial16_BindlessResources)
 * Added [Tutorial17 - MSAA](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial17_MSAA)
 * Added [Tutorial18 - Queries](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial18_Queries)
-* Reomoved RenderScript and Lua
+* Removed RenderScript and Lua
 
 ## v2.4.c
 
