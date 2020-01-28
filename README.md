@@ -230,6 +230,7 @@ sudo apt-get install libx11-dev
 sudo apt-get install mesa-common-dev
 sudo apt-get install mesa-utils
 sudo apt-get install libgl-dev
+sudo apt-get install python3-distutils
 ```
 
 To configure Vulkan you will also need to:
