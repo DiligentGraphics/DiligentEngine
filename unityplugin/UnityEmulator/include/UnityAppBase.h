@@ -28,10 +28,10 @@
 
 #include <memory>
 
-#include "NativeAppBase.h"
+#include "NativeAppBase.hpp"
 #include "RenderDevice.h"
 #include "DeviceContext.h"
-#include "RefCntAutoPtr.h"
+#include "RefCntAutoPtr.hpp"
 #include "UnitySceneBase.h"
 #include "IUnityGraphics.h"
 #include "DiligentGraphicsAdapter.h"
@@ -66,7 +66,7 @@ protected:
     virtual void InitScene();
 
     std::unique_ptr<UnitySceneBase> m_Scene;
-    Diligent::DeviceType m_DeviceType = Diligent::DeviceType::Undefined;
+    Diligent::RENDER_DEVICE_TYPE m_DeviceType = Diligent::RENDER_DEVICE_TYPE_UNDEFINED;
     std::string m_AppTitle;
 
     class UnityGraphicsEmulator *m_GraphicsEmulator = nullptr;

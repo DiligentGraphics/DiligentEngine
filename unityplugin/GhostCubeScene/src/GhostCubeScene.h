@@ -27,7 +27,7 @@
 
 #include "UnitySceneBase.h"
 #include "IUnityInterface.h"
-#include "BasicMath.h"
+#include "BasicMath.hpp"
 
 using TSetMatrixFromUnity = void (UNITY_INTERFACE_API *) (float m00, float m01, float m02, float m03,
                                                           float m10, float m11, float m12, float m13,

@@ -44,8 +44,8 @@
 #endif
 
 #include "UnityAppBase.h"
-#include "StringTools.h"
-#include "Errors.h"
+#include "StringTools.hpp"
+#include "Errors.hpp"
 
 using namespace Diligent;
 
@@ -76,19 +76,19 @@ void UnityAppBase::ProcessCommandLine(const char *CmdLine)
         pos += strlen(Key);
         if (_stricmp(pos, "D3D11") == 0)
         {
-            m_DeviceType = DeviceType::D3D11;
+            m_DeviceType = RENDER_DEVICE_TYPE_D3D11;
         }
         else if (_stricmp(pos, "D3D12") == 0)
         {
-            m_DeviceType = DeviceType::D3D12;
+            m_DeviceType = RENDER_DEVICE_TYPE_D3D12;
         }
         else if (_stricmp(pos, "GL") == 0)
         {
-            m_DeviceType = DeviceType::OpenGL;
+            m_DeviceType = RENDER_DEVICE_TYPE_GL;
         }
         else if (_stricmp(pos, "VK") == 0)
         {
-            m_DeviceType = DeviceType::Vulkan;
+            m_DeviceType = RENDER_DEVICE_TYPE_VULKAN;
         }
         else
         {
@@ -98,14 +98,14 @@ void UnityAppBase::ProcessCommandLine(const char *CmdLine)
     else
     {
         LOG_INFO_MESSAGE("Device type is not specified. Using D3D11 device");
-        m_DeviceType = DeviceType::D3D11;
+        m_DeviceType = RENDER_DEVICE_TYPE_D3D11;
     }
 
     switch (m_DeviceType)
     {
-        case DeviceType::D3D11: m_AppTitle.append(" (D3D11)"); break;
-        case DeviceType::D3D12: m_AppTitle.append(" (D3D12)"); break;
-        case DeviceType::OpenGL: m_AppTitle.append(" (OpenGL)"); break;
+        case RENDER_DEVICE_TYPE_D3D11: m_AppTitle.append(" (D3D11)"); break;
+        case RENDER_DEVICE_TYPE_D3D12: m_AppTitle.append(" (D3D12)"); break;
+        case RENDER_DEVICE_TYPE_GL:    m_AppTitle.append(" (OpenGL)"); break;
         default: UNEXPECTED("Unknown device type");
     }
 }
@@ -122,7 +122,7 @@ void UnityAppBase::InitGraphics(
    switch (m_DeviceType)
    {
 #if D3D11_SUPPORTED
-        case DeviceType::D3D11:
+        case RENDER_DEVICE_TYPE_D3D11:
         {
             auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
             GraphicsD3D11Emulator.CreateD3D11DeviceAndContext();
@@ -139,7 +139,7 @@ void UnityAppBase::InitGraphics(
 #endif
 
 #if D3D12_SUPPORTED
-        case DeviceType::D3D12:
+        case RENDER_DEVICE_TYPE_D3D12:
         {
             auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
             GraphicsD3D12Emulator.CreateD3D12DeviceAndCommandQueue();
@@ -156,8 +156,8 @@ void UnityAppBase::InitGraphics(
 #endif
 
 #if GL_SUPPORTED || GLES_SUPPORTED
-        case DeviceType::OpenGL:
-        case DeviceType::OpenGLES:
+        case RENDER_DEVICE_TYPE_GL:
+        case RENDER_DEVICE_TYPE_GLES:
         {
 #if !PLATFORM_MACOS
             VERIFY_EXPR(NativeWindowHandle != nullptr);
@@ -202,7 +202,7 @@ void UnityAppBase::InitScene()
    m_Scene->SetDiligentGraphicsAdapter(m_DiligentGraphics.get());
    m_Scene->OnGraphicsInitialized();
 #if D3D12_SUPPORTED
-   if (m_DeviceType == DeviceType::D3D12)
+   if (m_DeviceType == RENDER_DEVICE_TYPE_D3D12)
    {
        UnityGraphicsD3D12Emulator::GetInstance().SetTransitionHandler(m_Scene->GetStateTransitionHandler());
    }

@@ -4,8 +4,8 @@
 #if GL_SUPPORTED
 
 #include <iostream>
-#include "DebugUtilities.h"
-#include "Errors.h"
+#include "DebugUtilities.hpp"
+#include "Errors.hpp"
 
 #if PLATFORM_MACOS
 #import <AppKit/AppKit.h>

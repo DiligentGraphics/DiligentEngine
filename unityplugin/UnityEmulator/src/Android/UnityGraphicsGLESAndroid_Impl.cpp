@@ -22,7 +22,7 @@
  */
 
 #include "UnityGraphicsGLESAndroid_Impl.h"
-#include "Errors.h"
+#include "Errors.hpp"
 
 #ifndef EGL_CONTEXT_MINOR_VERSION_KHR
 #   define EGL_CONTEXT_MINOR_VERSION_KHR 0x30FB

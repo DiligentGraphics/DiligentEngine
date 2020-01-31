@@ -4,8 +4,8 @@
 
 #if GL_SUPPORTED || GLES_SUPPORTED
 
-#include "DebugUtilities.h"
-#include "Errors.h"
+#include "DebugUtilities.hpp"
+#include "Errors.hpp"
 
 std::unique_ptr<UnityGraphicsGL_Impl> UnityGraphicsGLCoreES_Emulator::m_GraphicsImpl;
 

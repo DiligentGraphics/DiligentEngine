@@ -5,8 +5,8 @@
 
 #include "UnityGraphicsD3D11Emulator.h"
 #include "IUnityGraphicsD3D11.h"
-#include "DebugUtilities.h"
-#include "Errors.h"
+#include "DebugUtilities.hpp"
+#include "Errors.hpp"
 
 
 #if defined(_DEBUG)

@@ -31,7 +31,7 @@
 #include "UnityGraphicsEmulator.h"
 #include "UnityAppBase.h"
 #include "IUnityInterface.h"
-#include "Errors.h"
+#include "Errors.hpp"
 
 HMODULE g_DLLHandle;
 

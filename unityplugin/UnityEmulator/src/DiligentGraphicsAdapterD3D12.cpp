@@ -14,9 +14,9 @@
 #include "DeviceContextD3D12.h"
 #include "CommandQueueD3D12.h"
 #include "EngineFactoryD3D12.h"
-#include "SwapChainBase.h"
-#include "DefaultRawMemoryAllocator.h"
-#include "DXGITypeConversions.h"
+#include "SwapChainBase.hpp"
+#include "DefaultRawMemoryAllocator.hpp"
+#include "DXGITypeConversions.hpp"
 
 using namespace Diligent;
 

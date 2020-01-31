@@ -3,7 +3,7 @@
 #include "Unity/IUnityGraphics.h"
 #include "RenderDevice.h"
 #include "DeviceContext.h"
-#include "RefCntAutoPtr.h"
+#include "RefCntAutoPtr.hpp"
 
 struct IUnityInterfaces;
 

@@ -30,7 +30,7 @@
 
 #include "RenderDevice.h"
 #include "DeviceContext.h"
-#include "RefCntAutoPtr.h"
+#include "RefCntAutoPtr.hpp"
 #include "IUnityGraphics.h"
 #include "DiligentGraphicsAdapter.h"
 #include "ResourceStateTransitionHandler.h"

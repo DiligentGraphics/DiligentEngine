@@ -4,11 +4,11 @@
 #include "DiligentGraphicsAdapterD3D11.h"
 #include "UnityGraphicsD3D11Emulator.h"
 #include "EngineFactoryD3D11.h"
-#include "SwapChainBase.h"
+#include "SwapChainBase.hpp"
 #include "SwapChainD3D11.h"
-#include "DefaultRawMemoryAllocator.h"
+#include "DefaultRawMemoryAllocator.hpp"
 #include "UnityGraphicsD3D11Impl.h"
-#include "DXGITypeConversions.h"
+#include "DXGITypeConversions.hpp"
 #include "RenderDeviceD3D11.h"
 
 using namespace Diligent;
@@ -66,7 +66,7 @@ public:
 
         RefCntAutoPtr<IRenderDeviceD3D11> pRenderDeviceD3D11(m_pRenderDevice, IID_RenderDeviceD3D11);
         RefCntAutoPtr<ITexture> pBackBuffer;
-        pRenderDeviceD3D11->CreateTextureFromD3DResource(pd3dTex2DBackBuffer, RESOURCE_STATE_UNDEFINED, &pBackBuffer);
+        pRenderDeviceD3D11->CreateTexture2DFromD3DResource(pd3dTex2DBackBuffer, RESOURCE_STATE_UNDEFINED, &pBackBuffer);
         TextureViewDesc RTVDesc;
         RTVDesc.ViewType = TEXTURE_VIEW_RENDER_TARGET;
         RTVDesc.Format = m_SwapChainDesc.ColorBufferFormat;
@@ -75,7 +75,7 @@ public:
         m_pRTV = RefCntAutoPtr<ITextureViewD3D11>(pRTV, IID_TextureViewD3D11);
 
         RefCntAutoPtr<ITexture> pDepthBuffer;
-        pRenderDeviceD3D11->CreateTextureFromD3DResource(pd3dTex2DDepthBuffer, RESOURCE_STATE_UNDEFINED, &pDepthBuffer);
+        pRenderDeviceD3D11->CreateTexture2DFromD3DResource(pd3dTex2DDepthBuffer, RESOURCE_STATE_UNDEFINED, &pDepthBuffer);
         m_pDSV = RefCntAutoPtr<ITextureViewD3D11>(pDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL), IID_TextureViewD3D11);
     }
 

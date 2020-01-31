@@ -80,11 +80,11 @@ void RenderAPI_D3D11::AttachToNativeRenderTexture(void *nativeRenderTargetHandle
 
         auto *pd3d11RenderTarget = reinterpret_cast<ID3D11Texture2D *>(nativeRenderTargetHandle);
         RefCntAutoPtr<ITexture> pRenderTarget;
-        pDeviceD3D11->CreateTextureFromD3DResource(pd3d11RenderTarget, RESOURCE_STATE_UNDEFINED, &pRenderTarget);
+        pDeviceD3D11->CreateTexture2DFromD3DResource(pd3d11RenderTarget, RESOURCE_STATE_UNDEFINED, &pRenderTarget);
 
         auto *pd3d11DepthBuffer = reinterpret_cast<ID3D11Texture2D *>(nativeDepthTextureHandle);
         RefCntAutoPtr<ITexture> pDepthBuffer;
-        pDeviceD3D11->CreateTextureFromD3DResource(pd3d11DepthBuffer, RESOURCE_STATE_UNDEFINED, &pDepthBuffer);
+        pDeviceD3D11->CreateTexture2DFromD3DResource(pd3d11DepthBuffer, RESOURCE_STATE_UNDEFINED, &pDepthBuffer);
 
         CreateTextureViews(pRenderTarget, pDepthBuffer);
     }

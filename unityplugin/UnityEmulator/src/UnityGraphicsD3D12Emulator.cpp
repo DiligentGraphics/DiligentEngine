@@ -2,8 +2,8 @@
 #include "UnityGraphicsD3D12Impl.h"
 #include "UnityGraphicsD3D12Emulator.h"
 #include "IUnityGraphicsD3D12.h"
-#include "DebugUtilities.h"
-#include "Errors.h"
+#include "DebugUtilities.hpp"
+#include "Errors.hpp"
 
 UnityGraphicsD3D12Impl::UnityGraphicsD3D12Impl() :
     m_WaitForGPUEventHandle( CreateEvent(nullptr, false, false, nullptr) )

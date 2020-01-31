@@ -27,9 +27,9 @@
 #include "UnityGraphicsD3D12Emulator.h"
 #include "DiligentGraphicsAdapterD3D11.h"
 #include "DiligentGraphicsAdapterD3D12.h"
-#include "ValidatedCast.h"
-#include "StringTools.h"
-#include "Errors.h"
+#include "ValidatedCast.hpp"
+#include "StringTools.hpp"
+#include "Errors.hpp"
 
 using namespace Diligent;
 
@@ -38,7 +38,7 @@ class UnityAppUWP final : public UnityAppBase
 public:
     UnityAppUWP()
     {
-        m_DeviceType = DeviceType::D3D12;
+        m_DeviceType = RENDER_DEVICE_TYPE_D3D12;
     }
 
     virtual void OnWindowSizeChanged()override final
@@ -86,12 +86,12 @@ public:
 
         ID3D12Device *pd3d12Device = nullptr;
         ID3D11Device *pd3d11Device = nullptr;
-        if (m_DeviceType == DeviceType::D3D12)
+        if (m_DeviceType == RENDER_DEVICE_TYPE_D3D12)
         {
             auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
             pd3d12Device = reinterpret_cast<ID3D12Device*>(GraphicsD3D12Emulator.GetD3D12Device());
         }
-        else if (m_DeviceType == DeviceType::D3D11)
+        else if (m_DeviceType == RENDER_DEVICE_TYPE_D3D11)
         {
             auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
             pd3d11Device = reinterpret_cast<ID3D11Device*>(GraphicsD3D11Emulator.GetD3D11Device());
@@ -138,7 +138,7 @@ public:
             auto NativeWndHandle = reinterpret_cast<IUnknown*>(m_DeviceResources->GetWindow());
             switch (m_DeviceType)
             {
-            case DeviceType::D3D11:
+            case RENDER_DEVICE_TYPE_D3D11:
             {
                 auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
                 GraphicsD3D11Emulator.CreateSwapChain(NativeWndHandle, backBufferWidth, backBufferHeight);
@@ -146,7 +146,7 @@ public:
             }
             break;
 
-            case DeviceType::D3D12:
+            case RENDER_DEVICE_TYPE_D3D12:
             {
                 auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
                 GraphicsD3D12Emulator.CreateSwapChain(NativeWndHandle, backBufferWidth, backBufferHeight);
@@ -159,12 +159,12 @@ public:
             }
         }
 
-        if (m_DeviceType == DeviceType::D3D12)
+        if (m_DeviceType == RENDER_DEVICE_TYPE_D3D12)
         {
             auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
             m_swapChain = reinterpret_cast<IDXGISwapChain3*>(GraphicsD3D12Emulator.GetDXGISwapChain());
         }
-        else if (m_DeviceType == DeviceType::D3D11)
+        else if (m_DeviceType == RENDER_DEVICE_TYPE_D3D11)
         {
             auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
             auto *pSwapChain1 = reinterpret_cast<IDXGISwapChain*>(GraphicsD3D11Emulator.GetDXGISwapChain());

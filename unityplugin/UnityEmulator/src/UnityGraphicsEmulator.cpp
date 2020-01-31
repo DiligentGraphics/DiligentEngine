@@ -1,5 +1,5 @@
 #include "UnityGraphicsEmulator.h"
-#include "DebugUtilities.h"
+#include "DebugUtilities.hpp"
 #include "IUnityGraphics.h"
 
 UnityGraphicsEmulator *UnityGraphicsEmulator::m_Instance = nullptr;

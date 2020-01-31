@@ -18,8 +18,8 @@
 #include "RenderDeviceD3D12.h"
 #include "CommandQueueD3D12.h"
 #include "TextureD3D12.h"
-#include "ObjectBase.h"
-#include "DefaultRawMemoryAllocator.h"
+#include "ObjectBase.hpp"
+#include "DefaultRawMemoryAllocator.hpp"
 
 using namespace Diligent;
 

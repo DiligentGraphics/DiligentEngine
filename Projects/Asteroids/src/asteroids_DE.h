@@ -13,8 +13,8 @@
 #include "RenderDevice.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
-#include "RefCntAutoPtr.h"
-#include "ThreadSignal.h"
+#include "RefCntAutoPtr.hpp"
+#include "ThreadSignal.hpp"
 #include <map>
 #include <mutex>
 #include <atomic>
@@ -30,7 +30,7 @@ namespace AsteroidsDE {
 
 class Asteroids {
 public:
-    Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::DeviceType DevType);
+    Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::RENDER_DEVICE_TYPE DevType);
     ~Asteroids();
 
     void Render(float frameTime, const OrbitCamera& camera, const Settings& settings);
@@ -44,7 +44,7 @@ private:
     void InitializeTextureData();
     void CreateGUIResources();
     void RenderSubset(Diligent::Uint32 SubsetNum, Diligent::IDeviceContext *pCtx, const OrbitCamera& camera, Diligent::Uint32 startIdx, Diligent::Uint32 numAsteroids);
-    void InitDevice(HWND hWnd, Diligent::DeviceType DevType);
+    void InitDevice(HWND hWnd, Diligent::RENDER_DEVICE_TYPE DevType);
 
     enum class BindingMode
     {

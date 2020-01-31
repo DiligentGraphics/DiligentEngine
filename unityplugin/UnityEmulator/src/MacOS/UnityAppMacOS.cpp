@@ -24,14 +24,14 @@
 #include "UnityGraphicsEmulator.h"
 #include "UnityAppBase.h"
 #include "IUnityInterface.h"
-#include "Errors.h"
+#include "Errors.hpp"
 
 class UnityAppMacOS : public UnityAppBase
 {
 public:
     UnityAppMacOS()
     {
-        m_DeviceType = Diligent::DeviceType::OpenGL;
+        m_DeviceType = Diligent::RENDER_DEVICE_TYPE_GL;
     }
 
     virtual void Initialize(void* view)override final

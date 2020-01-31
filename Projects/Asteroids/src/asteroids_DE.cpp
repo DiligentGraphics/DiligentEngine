@@ -39,13 +39,13 @@
 #    include "EngineFactoryVk.h"
 #endif
 
-#include "MapHelper.h"
+#include "MapHelper.hpp"
 
 #include "util.h"
 #include "mesh.h"
 #include "noise.h"
 #include "texture.h"
-#include "StringTools.h"
+#include "StringTools.hpp"
 #include "TextureUtilities.h"
 
 using namespace Diligent;
@@ -101,7 +101,7 @@ struct SkyboxConstantBuffer
 
 
 // Create Direct3D device and swap chain
-void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
+void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
 {
     SwapChainDesc SwapChainDesc;
     SwapChainDesc.BufferCount       = NUM_SWAP_CHAIN_BUFFERS;
@@ -114,7 +114,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
     switch (DevType)
     {
 #if D3D11_SUPPORTED
-        case DeviceType::D3D11:
+        case RENDER_DEVICE_TYPE_D3D11:
         {
             EngineD3D11CreateInfo EngineCI;
             EngineCI.NumDeferredContexts = mNumSubsets - 1;
@@ -122,8 +122,8 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
                 D3D11_DEBUG_FLAG_VERIFY_COMMITTED_SHADER_RESOURCES;
 
 #    if ENGINE_DLL
-            if (!GetEngineFactoryD3D11)
-                LoadGraphicsEngineD3D11(GetEngineFactoryD3D11);
+            if (GetEngineFactoryD3D11 == nullptr)
+                GetEngineFactoryD3D11 = LoadGraphicsEngineD3D11();
 #    endif
             auto* pFactoryD3D11 = GetEngineFactoryD3D11();
             pFactoryD3D11->CreateDeviceAndContextsD3D11(EngineCI, &mDevice, ppContexts.data());
@@ -134,7 +134,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 
 
 #if D3D12_SUPPORTED
-        case DeviceType::D3D12:
+        case RENDER_DEVICE_TYPE_D3D12:
         {
             EngineD3D12CreateInfo EngineCI;
             EngineCI.NumDeferredContexts             = mNumSubsets - 1;
@@ -145,8 +145,8 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
             EngineCI.DynamicDescriptorAllocationChunkSize[0] = 8192;
 #    endif
 #    if ENGINE_DLL
-            if (!GetEngineFactoryD3D12)
-                LoadGraphicsEngineD3D12(GetEngineFactoryD3D12);
+            if (GetEngineFactoryD3D12 == nullptr)
+                GetEngineFactoryD3D12 = LoadGraphicsEngineD3D12();
 #    endif
             auto* pFactoryD3D12 = GetEngineFactoryD3D12();
             pFactoryD3D12->CreateDeviceAndContextsD3D12(EngineCI, &mDevice, ppContexts.data());
@@ -157,14 +157,14 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 
 
 #if VULKAN_SUPPORTED
-        case DeviceType::Vulkan:
+        case RENDER_DEVICE_TYPE_VULKAN:
         {
             EngineVkCreateInfo EngineCI;
             EngineCI.NumDeferredContexts = mNumSubsets - 1;
             EngineCI.DynamicHeapSize     = 64 << 20;
 #    if ENGINE_DLL
-            if (!GetEngineFactoryVulkan)
-                LoadGraphicsEngineVk(GetEngineFactoryVulkan);
+            if (GetEngineFactoryVulkan == nullptr)
+                GetEngineFactoryVulkan = LoadGraphicsEngineVk();
 #    endif
             auto* pFactoryVk = GetEngineFactoryVulkan();
             pFactoryVk->CreateDeviceAndContextsVk(EngineCI, &mDevice, ppContexts.data());
@@ -175,13 +175,11 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
 
 
 #if GL_SUPPORTED
-        case DeviceType::OpenGL:
+        case RENDER_DEVICE_TYPE_GL:
         {
 #    if ENGINE_DLL
             if (GetEngineFactoryOpenGL == nullptr)
-            {
-                LoadGraphicsEngineOpenGL(GetEngineFactoryOpenGL);
-            }
+                GetEngineFactoryOpenGL = LoadGraphicsEngineOpenGL();
 #    endif
             EngineGLCreateInfo CreationAttribs;
             CreationAttribs.pNativeWndHandle = hWnd;
@@ -197,7 +195,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
             break;
     }
 
-    if (DevType == DeviceType::D3D11 || DevType == DeviceType::D3D12 || DevType == DeviceType::Vulkan)
+    if (DevType == RENDER_DEVICE_TYPE_D3D11 || DevType == RENDER_DEVICE_TYPE_D3D12 || DevType == RENDER_DEVICE_TYPE_VULKAN)
     {
         mDeviceCtxt.Attach(ppContexts[0]);
         mDeferredCtxt.resize(mNumSubsets - 1);
@@ -206,7 +204,7 @@ void Asteroids::InitDevice(HWND hWnd, DeviceType DevType)
     }
 }
 
-Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::DeviceType DevType) :
+Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::RENDER_DEVICE_TYPE DevType) :
     mAsteroids(asteroids), mGUI(gui)
 {
     QueryPerformanceFrequency((LARGE_INTEGER*)&mPerfCounterFreq);
@@ -230,10 +228,10 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
     const char* spriteFile = nullptr;
     switch (DevType)
     {
-        case DeviceType::D3D11: spriteFile = "DiligentD3D11.dds"; break;
-        case DeviceType::D3D12: spriteFile = "DiligentD3D12.dds"; break;
-        case DeviceType::OpenGL: spriteFile = "DiligentGL.dds"; break;
-        case DeviceType::Vulkan: spriteFile = "DiligentVk.dds"; break;
+        case RENDER_DEVICE_TYPE_D3D11:  spriteFile = "DiligentD3D11.dds"; break;
+        case RENDER_DEVICE_TYPE_D3D12:  spriteFile = "DiligentD3D12.dds"; break;
+        case RENDER_DEVICE_TYPE_GL:     spriteFile = "DiligentGL.dds"; break;
+        case RENDER_DEVICE_TYPE_VULKAN: spriteFile = "DiligentVk.dds"; break;
         default: UNEXPECTED("Unexpected device type");
     }
     mSprite.reset(new GUISprite(5, 10, 140, 50, spriteFile));
@@ -305,7 +303,7 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
             {
                 LayoutElement{0, 0, 3, VT_FLOAT32, false, 0, sizeof(Vertex)},
                 LayoutElement{1, 0, 3, VT_FLOAT32},
-                LayoutElement{2, 1, 1, VT_UINT32, False, LayoutElement::FREQUENCY_PER_INSTANCE}};
+                LayoutElement{2, 1, 1, VT_UINT32, False, INPUT_ELEMENT_FREQUENCY_PER_INSTANCE}};
 
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = inputDesc;
         // In bindless mode we will use instance ID buffer as the third input

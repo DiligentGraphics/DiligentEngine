@@ -25,14 +25,14 @@
 #include "UnityGraphicsGLCoreES_Emulator.h"
 #include "UnityAppBase.h"
 #include "IUnityInterface.h"
-#include "Errors.h"
+#include "Errors.hpp"
 
 class UnityAppAndroid : public UnityAppBase
 {
 public:
     UnityAppAndroid()
     {
-        m_DeviceType = Diligent::DeviceType::OpenGLES;
+        m_DeviceType = Diligent::RENDER_DEVICE_TYPE_GLES;
     }
 
     virtual void Initialize()override final

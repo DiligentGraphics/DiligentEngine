@@ -25,12 +25,13 @@
  *  of the possibility of such damages.
  */
 
+#include <algorithm>
+
 #include "GhostCubeScene.h"
 #include "PlatformDefinitions.h"
-#include "BasicMath.h"
-#include <algorithm>
+#include "BasicMath.hpp"
 #include "GraphicsUtilities.h"
-#include "MapHelper.h"
+#include "MapHelper.hpp"
 #include "CommonlyUsedStates.h"
 
 #if D3D12_SUPPORTED
@@ -167,7 +168,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     pCtx->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     pCtx->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, ReverseZ ? 0.f : 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-    if (DeviceCaps.DevType == DeviceType::D3D12)
+    if (DeviceCaps.DevType == RENDER_DEVICE_TYPE_D3D12)
     {
         // D3D12 context must be flushed so that the commands are submitted before the
         // commands issued by the plugin

@@ -339,15 +339,15 @@ int InitWorkload(HWND hWnd, AsteroidsSimulation &asteroids)
         break;
 
         case Settings::RenderMode::DiligentD3D11:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D11);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::RENDER_DEVICE_TYPE_D3D11);
         break;
 
         case Settings::RenderMode::DiligentD3D12:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D12);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::RENDER_DEVICE_TYPE_D3D12);
         break;
 
         case Settings::RenderMode::DiligentVulkan:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::Vulkan);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::RENDER_DEVICE_TYPE_VULKAN);
         break;
     }
 

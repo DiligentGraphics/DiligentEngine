@@ -2,9 +2,9 @@
 
 #include "RenderDevice.h"
 #include "DeviceContext.h"
-#include "RefCntAutoPtr.h"
+#include "RefCntAutoPtr.hpp"
 #include "RenderAPI.h"
-#include "BasicMath.h"
+#include "BasicMath.hpp"
 
 class SamplePlugin
 {

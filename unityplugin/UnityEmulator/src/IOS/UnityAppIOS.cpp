@@ -24,14 +24,14 @@
 #include "UnityGraphicsEmulator.h"
 #include "UnityAppBase.h"
 #include "IUnityInterface.h"
-#include "Errors.h"
+#include "Errors.hpp"
 
 class UnityAppIOS : public UnityAppBase
 {
 public:
     virtual void Initialize(int deviceType, void* layer)override final
     {
-        m_DeviceType = static_cast<Diligent::DeviceType>(deviceType);
+        m_DeviceType = static_cast<Diligent::RENDER_DEVICE_TYPE>(deviceType);
         InitGraphics(layer, 0/*Unused*/, 0/*Unused*/);
         InitScene();
     }

@@ -4,8 +4,8 @@
 
 #include "UnityGraphicsGLCoreES_Emulator.h"
 #include "EngineFactoryOpenGL.h"
-#include "SwapChainBase.h"
-#include "DefaultRawMemoryAllocator.h"
+#include "SwapChainBase.hpp"
+#include "DefaultRawMemoryAllocator.hpp"
 
 #include "UnityGraphicsGL_Impl.h"
 #include "SwapChainGL.h"

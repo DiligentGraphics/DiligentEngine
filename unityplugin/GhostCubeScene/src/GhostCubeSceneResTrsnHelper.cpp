@@ -32,7 +32,7 @@
 #include "IUnityGraphicsD3D12.h"
 #include "TextureD3D12.h"
 #include "DeviceContextD3D12.h"
-#include "ValidatedCast.h"
+#include "ValidatedCast.hpp"
 
 
 using namespace Diligent;
