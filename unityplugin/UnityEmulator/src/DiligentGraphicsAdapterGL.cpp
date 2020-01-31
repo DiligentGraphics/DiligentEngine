@@ -33,22 +33,22 @@ public:
         CreateDummyBuffers();
     }
 
-    virtual void Present(Uint32 SyncInterval)override final
+    virtual void DILIGENT_CALL_TYPE Present(Uint32 SyncInterval)override final
     {
         UNEXPECTED("Present is not expected to be called directly");
     }
 
-    virtual void SetFullscreenMode(const DisplayModeAttribs &DisplayMode)override final
+    virtual void DILIGENT_CALL_TYPE SetFullscreenMode(const DisplayModeAttribs &DisplayMode)override final
     {
         UNEXPECTED("Fullscreen mode cannot be set through the proxy swap chain");
     }
 
-    virtual void SetWindowedMode()override final
+    virtual void DILIGENT_CALL_TYPE SetWindowedMode()override final
     {
         UNEXPECTED("Windowed mode cannot be set through the proxy swap chain");
     }
 
-    virtual void Resize(Uint32 NewWidth, Uint32 NewHeight)override final
+    virtual void DILIGENT_CALL_TYPE Resize(Uint32 NewWidth, Uint32 NewHeight)override final
     {
         if (TBase::Resize(NewWidth, NewHeight, 0))
         {
@@ -56,13 +56,13 @@ public:
         }
     }
 
-    virtual GLuint GetDefaultFBO()const override final
+    virtual GLuint DILIGENT_CALL_TYPE GetDefaultFBO()const override final
     {
         return m_UnityGraphicsGL.GetGraphicsImpl()->GetDefaultFBO();
     }
 
-    virtual ITextureView* GetCurrentBackBufferRTV()override final{return m_pRTV;}
-    virtual ITextureView* GetDepthBufferDSV()override final{return m_pDSV;}
+    virtual ITextureView* DILIGENT_CALL_TYPE GetCurrentBackBufferRTV()override final{return m_pRTV;}
+    virtual ITextureView* DILIGENT_CALL_TYPE GetDepthBufferDSV()override final{return m_pDSV;}
 
 private:
     void CreateDummyBuffers()

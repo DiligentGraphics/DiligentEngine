@@ -43,13 +43,13 @@ public:
     IMPLEMENT_QUERY_INTERFACE_IN_PLACE( IID_CommandQueueD3D12, TBase )
 
 	// Returns the fence value that will be signaled next time
-    virtual Uint64 GetNextFenceValue()const override final
+    virtual Uint64 DILIGENT_CALL_TYPE GetNextFenceValue()const override final
     {
         return m_pUnityGraphicsD3D12->GetNextFrameFenceValue();
     }
 
 	// Executes a given command list
-    virtual Uint64 Submit(ID3D12GraphicsCommandList* commandList)override final
+    virtual Uint64 DILIGENT_CALL_TYPE Submit(ID3D12GraphicsCommandList* commandList)override final
     {
         auto NextFenceValue = m_pUnityGraphicsD3D12->GetNextFrameFenceValue();
         m_CurrentFenceValue = m_pUnityGraphicsD3D12->ExecuteCommandList(commandList, static_cast<int>(m_ResourcesToTransition.size()), m_ResourcesToTransition.empty() ? nullptr : m_ResourcesToTransition.data());
@@ -59,19 +59,19 @@ public:
     }
 
     // Returns D3D12 command queue. May return null if queue is anavailable
-    virtual ID3D12CommandQueue* GetD3D12CommandQueue()
+    virtual ID3D12CommandQueue* DILIGENT_CALL_TYPE GetD3D12CommandQueue()
     {
         return nullptr;
     }
 
     // Returns value of the last completed fence
-    virtual Uint64 GetCompletedFenceValue()
+    virtual Uint64 DILIGENT_CALL_TYPE GetCompletedFenceValue()
     {
         return m_pUnityGraphicsD3D12->GetFrameFence()->GetCompletedValue();
     }
 
     // Blocks execution until all pending GPU commands are complete
-    virtual Uint64 WaitForIdle()
+    virtual Uint64 DILIGENT_CALL_TYPE WaitForIdle()
     {
         if (m_CurrentFenceValue < GetCompletedFenceValue())
         {
@@ -88,7 +88,7 @@ public:
         m_ResourcesToTransition.push_back(ResourceState);
     }
 
-    void SignalFence(ID3D12Fence* pFence, Uint64 Value)
+    virtual void DILIGENT_CALL_TYPE SignalFence(ID3D12Fence* pFence, Uint64 Value)
     {
         UNSUPPORTED("Signalling fence via unity command graphics is not supported");
     }
