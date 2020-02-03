@@ -135,7 +135,7 @@ target_link_libraries(UnityEmulator
 PRIVATE 
     Diligent-BuildSettings
 PUBLIC
-    NativeAppBase
+    Diligent-NativeAppBase
     Diligent-Common 
     Diligent-GraphicsEngine
     Diligent-GraphicsTools

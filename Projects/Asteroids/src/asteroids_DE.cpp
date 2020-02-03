@@ -127,7 +127,7 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
 #    endif
             auto* pFactoryD3D11 = GetEngineFactoryD3D11();
             pFactoryD3D11->CreateDeviceAndContextsD3D11(EngineCI, &mDevice, ppContexts.data());
-            pFactoryD3D11->CreateSwapChainD3D11(mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain);
+            pFactoryD3D11->CreateSwapChainD3D11(mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, Win32NativeWindow{hWnd}, &mSwapChain);
         }
         break;
 #endif
@@ -150,7 +150,7 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
 #    endif
             auto* pFactoryD3D12 = GetEngineFactoryD3D12();
             pFactoryD3D12->CreateDeviceAndContextsD3D12(EngineCI, &mDevice, ppContexts.data());
-            pFactoryD3D12->CreateSwapChainD3D12(mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, hWnd, &mSwapChain);
+            pFactoryD3D12->CreateSwapChainD3D12(mDevice, ppContexts[0], SwapChainDesc, FullScreenModeDesc{}, Win32NativeWindow{hWnd}, &mSwapChain);
         }
         break;
 #endif
@@ -168,7 +168,7 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
 #    endif
             auto* pFactoryVk = GetEngineFactoryVulkan();
             pFactoryVk->CreateDeviceAndContextsVk(EngineCI, &mDevice, ppContexts.data());
-            pFactoryVk->CreateSwapChainVk(mDevice, ppContexts[0], SwapChainDesc, hWnd, &mSwapChain);
+            pFactoryVk->CreateSwapChainVk(mDevice, ppContexts[0], SwapChainDesc, Win32NativeWindow{hWnd}, &mSwapChain);
         }
         break;
 #endif
@@ -182,7 +182,7 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
                 GetEngineFactoryOpenGL = LoadGraphicsEngineOpenGL();
 #    endif
             EngineGLCreateInfo CreationAttribs;
-            CreationAttribs.pNativeWndHandle = hWnd;
+            CreationAttribs.Window.hWnd = hWnd;
             GetEngineFactoryOpenGL()->CreateDeviceAndSwapChainGL(
                 CreationAttribs, &mDevice, &mDeviceCtxt, SwapChainDesc, &mSwapChain);
         }
@@ -228,9 +228,9 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
     const char* spriteFile = nullptr;
     switch (DevType)
     {
-        case RENDER_DEVICE_TYPE_D3D11:  spriteFile = "DiligentD3D11.dds"; break;
-        case RENDER_DEVICE_TYPE_D3D12:  spriteFile = "DiligentD3D12.dds"; break;
-        case RENDER_DEVICE_TYPE_GL:     spriteFile = "DiligentGL.dds"; break;
+        case RENDER_DEVICE_TYPE_D3D11: spriteFile = "DiligentD3D11.dds"; break;
+        case RENDER_DEVICE_TYPE_D3D12: spriteFile = "DiligentD3D12.dds"; break;
+        case RENDER_DEVICE_TYPE_GL: spriteFile = "DiligentGL.dds"; break;
         case RENDER_DEVICE_TYPE_VULKAN: spriteFile = "DiligentVk.dds"; break;
         default: UNEXPECTED("Unexpected device type");
     }

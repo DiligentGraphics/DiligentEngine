@@ -87,7 +87,7 @@ PRIVATE
 target_link_libraries(GhostCubeScene
 PRIVATE
     Diligent-BuildSettings
-    NativeAppBase
+    Diligent-NativeAppBase
     UnityEmulator
     Diligent-TargetPlatform
 )
