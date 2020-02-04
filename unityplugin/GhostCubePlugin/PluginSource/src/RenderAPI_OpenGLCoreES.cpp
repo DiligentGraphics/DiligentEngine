@@ -30,6 +30,8 @@ public:
 
     void CreateRenderTargetAndDepthBuffer();
 
+    UnityGfxRenderer GetAPIType() const { return m_APIType; }
+
 private:
 	UnityGfxRenderer m_APIType;
     RefCntAutoPtr<IDeviceContextGL> m_DeviceCtxGL;
