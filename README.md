@@ -27,6 +27,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * Components are clearly separated logically and physically and can be used as needed
   * Only take what you need for your project
 * Clear object-based interface
+  * C or C++
   * No hidden global states
 * Key graphics features:
   * [Automatic shader resource binding](http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/) designed to leverage next-generation graphics APIs
