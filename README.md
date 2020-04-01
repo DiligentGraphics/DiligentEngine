@@ -352,6 +352,11 @@ For every executable target, the following manual steps have to be performed:
 Please refer to [MoltenVK user guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install)
 for more details. 
 
+By default, the engine will link with dynamic version of MoltenVK library located in LunarG SDK. If this is not desired or an application wants
+to use a library from a specific location, it can provide the full path to the library via `MoltenVK_LIBRARY` CMake variable. When
+`MoltenVK_LIBRARY` is defined, `VULKAN_SDK` is ignored.
+
+
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
 
