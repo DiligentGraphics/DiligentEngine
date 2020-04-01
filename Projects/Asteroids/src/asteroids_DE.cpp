@@ -298,12 +298,17 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
 
     // create pipeline state
     {
-        PipelineStateDesc PSODesc;
-        LayoutElement     inputDesc[] =
-            {
-                LayoutElement{0, 0, 3, VT_FLOAT32, false, 0, sizeof(Vertex)},
-                LayoutElement{1, 0, 3, VT_FLOAT32},
-                LayoutElement{2, 1, 1, VT_UINT32, False, INPUT_ELEMENT_FREQUENCY_PER_INSTANCE}};
+        PipelineStateCreateInfo PSOCreateInfo;
+        PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+
+        // clang-format off
+        LayoutElement inputDesc[] =
+        {
+            LayoutElement{0, 0, 3, VT_FLOAT32, false, 0, sizeof(Vertex)},
+            LayoutElement{1, 0, 3, VT_FLOAT32},
+            LayoutElement{2, 1, 1, VT_UINT32, False, INPUT_ELEMENT_FREQUENCY_PER_INSTANCE}
+        };
+        // clang-format on
 
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = inputDesc;
         // In bindless mode we will use instance ID buffer as the third input
@@ -382,7 +387,7 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
 
         PSODesc.GraphicsPipeline.pVS = vs;
         PSODesc.GraphicsPipeline.pPS = ps;
-        mDevice->CreatePipelineState(PSODesc, &mAsteroidsPSO);
+        mDevice->CreatePipelineState(PSOCreateInfo, &mAsteroidsPSO);
         mAsteroidsPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "DrawConstantBuffer")->Set(mDrawConstantBuffer);
 
         Uint32 NumSRBs = 0;
@@ -461,7 +466,9 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
         attribs.Desc.ShaderType = SHADER_TYPE_PIXEL;
         mDevice->CreateShader(attribs, &ps);
 
-        PipelineStateDesc PSODesc;
+        PipelineStateCreateInfo PSOCreateInfo;
+        PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
         StaticSamplerDesc ssdesc;
@@ -490,7 +497,7 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
         PSODesc.GraphicsPipeline.DSVFormat         = mSwapChain->GetDesc().DepthBufferFormat;
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
-        mDevice->CreatePipelineState(PSODesc, &mSkyboxPSO);
+        mDevice->CreatePipelineState(PSOCreateInfo, &mSkyboxPSO);
         mSkyboxPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "SkyboxConstantBuffer")->Set(mSkyboxConstantBuffer);
         mSkyboxPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "Skybox")->Set(mSkyboxSRV);
         mSkyboxPSO->CreateShaderResourceBinding(&mSkyboxSRB, true);
@@ -517,10 +524,17 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
 
     // Sprites and fonts
     {
-        PipelineStateDesc PSODesc;
-        LayoutElement     inputDesc[] = {
+        PipelineStateCreateInfo PSOCreateInfo;
+        PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+
+        // clang-format off
+        LayoutElement inputDesc[] =
+        {
             LayoutElement{0, 0, 2, VT_FLOAT32},
-            LayoutElement{1, 0, 2, VT_FLOAT32}};
+            LayoutElement{1, 0, 2, VT_FLOAT32}
+        };
+        // clang-format on
+
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = inputDesc;
         PSODesc.GraphicsPipeline.InputLayout.NumElements    = _countof(inputDesc);
 
@@ -581,13 +595,13 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC;
         PSODesc.GraphicsPipeline.pVS               = sprite_vs;
         PSODesc.GraphicsPipeline.pPS               = sprite_ps;
-        mDevice->CreatePipelineState(PSODesc, &mSpritePSO);
+        mDevice->CreatePipelineState(PSOCreateInfo, &mSpritePSO);
         mSpritePSO->CreateShaderResourceBinding(&mSpriteSRB, true);
 
         PSODesc.Name                               = "Font PSO";
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
         PSODesc.GraphicsPipeline.pPS               = font_ps;
-        mDevice->CreatePipelineState(PSODesc, &mFontPSO);
+        mDevice->CreatePipelineState(PSOCreateInfo, &mFontPSO);
         mFontPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "Tex")->Set(mFontTextureSRV);
         mFontPSO->CreateShaderResourceBinding(&mFontSRB, true);
     }

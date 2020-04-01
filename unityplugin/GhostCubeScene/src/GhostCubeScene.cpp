@@ -86,7 +86,9 @@ void GhostCubeScene::OnGraphicsInitialized()
         const auto &SCDesc = m_DiligentGraphics->GetSwapChain()->GetDesc();
         auto UseReverseZ = m_DiligentGraphics->UsesReverseZ();
 
-        PipelineStateDesc PSODesc;
+        PipelineStateCreateInfo PSOCreateInfo;
+        PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+
         PSODesc.IsComputePipeline = false;
         PSODesc.Name = "Mirror PSO";
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
@@ -135,7 +137,7 @@ void GhostCubeScene::OnGraphicsInitialized()
 
         PSODesc.GraphicsPipeline.pVS = pVS;
         PSODesc.GraphicsPipeline.pPS = pPS;
-        pDevice->CreatePipelineState(PSODesc, &m_pMirrorPSO);
+        pDevice->CreatePipelineState(PSOCreateInfo, &m_pMirrorPSO);
         m_pMirrorPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_pMirrorVSConstants);
         m_pMirrorPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2Reflection")->Set(m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
         m_pMirrorPSO->CreateShaderResourceBinding(&m_pMirrorSRB, true);

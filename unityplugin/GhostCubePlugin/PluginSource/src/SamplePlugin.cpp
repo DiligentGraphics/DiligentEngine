@@ -43,7 +43,9 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
 {
     auto deviceType = pDevice->GetDeviceCaps().DevType;
     {
-        PipelineStateDesc PSODesc;
+        PipelineStateCreateInfo PSOCreateInfo;
+        PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+
         PSODesc.IsComputePipeline = false;
         PSODesc.Name = "Render sample cube PSO";
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
@@ -95,7 +97,7 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         PSODesc.GraphicsPipeline.pPS = pPS;
         PSODesc.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
         PSODesc.GraphicsPipeline.InputLayout.NumElements    = _countof(LayoutElems);
-        pDevice->CreatePipelineState(PSODesc, &m_PSO);
+        pDevice->CreatePipelineState(PSOCreateInfo, &m_PSO);
         m_PSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
         m_PSO->CreateShaderResourceBinding(&m_SRB, true);
     }
