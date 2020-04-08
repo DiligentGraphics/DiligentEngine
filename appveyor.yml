@@ -83,5 +83,7 @@ build:
 test_script:
   - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentCore\Tests\DiligentCoreAPITest\assets'
   - '%APPVEYOR_BUILD_FOLDER%\DiligentCore\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentCore'
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentTools\Tests\DiligentToolsTest\assets'
+  - '%APPVEYOR_BUILD_FOLDER%\DiligentTools\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentTools'
   - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentSamples\Tests\GoldenImages'
   - '%APPVEYOR_BUILD_FOLDER%\DiligentSamples\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build compare'
