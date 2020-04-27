@@ -125,9 +125,9 @@ public:
         UNEXPECTED("Windowed mode cannot be set through the proxy swap chain");
     }
 
-    virtual void DILIGENT_CALL_TYPE Resize(Uint32 NewWidth, Uint32 NewHeight) override final
+    virtual void DILIGENT_CALL_TYPE Resize(Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewPreTransform) override final
     {
-        TBase::Resize(NewWidth, NewHeight, 0);
+        TBase::Resize(NewWidth, NewHeight, NewPreTransform, 0);
     }
 
     void ReleaseBuffers()

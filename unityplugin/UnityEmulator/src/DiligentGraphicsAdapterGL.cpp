@@ -48,9 +48,9 @@ public:
         UNEXPECTED("Windowed mode cannot be set through the proxy swap chain");
     }
 
-    virtual void DILIGENT_CALL_TYPE Resize(Uint32 NewWidth, Uint32 NewHeight)override final
+    virtual void DILIGENT_CALL_TYPE Resize(Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewPreTransform)override final
     {
-        if (TBase::Resize(NewWidth, NewHeight, 0))
+        if (TBase::Resize(NewWidth, NewHeight, NewPreTransform))
         {
             CreateDummyBuffers();
         }
@@ -145,7 +145,7 @@ void DiligentGraphicsAdapterGL::BeginFrame()
     auto *UnityGraphicsGLImpl = m_UnityGraphicsGL.GetGraphicsImpl();
     Uint32 Width = UnityGraphicsGLImpl->GetBackBufferWidth();
     Uint32 Height = UnityGraphicsGLImpl->GetBackBufferHeight();
-    m_pProxySwapChain.RawPtr<ProxySwapChainGL>()->Resize(Width, Height);
+    m_pProxySwapChain.RawPtr<ProxySwapChainGL>()->Resize(Width, Height, SURFACE_TRANSFORM_OPTIMAL);
 }
     
 void DiligentGraphicsAdapterGL::EndFrame()

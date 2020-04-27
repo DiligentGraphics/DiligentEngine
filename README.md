@@ -61,7 +61,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Win32 (Windows desktop)| Direct3D11, Direct3D12, OpenGL4.2+, Vulkan     | [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/uwindows-logo.png" width=24 valign="middle"> Universal Windows     | Direct3D11, Direct3D12                         | [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                    | OpenGL4.2+, Vulkan                             | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android                | OpenGLES3.0+                                   |																																					    |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android                | OpenGLES3.0+, Vulkan                           |																																					    |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                    | OpenGL4.1, Vulkan (via [MoltenVK](https://github.com/KhronosGroup/MoltenVK)) | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                      | OpenGLES3.0, Vulkan (via [MoltenVK](https://github.com/KhronosGroup/MoltenVK)) | [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
 
@@ -267,11 +267,21 @@ Please make sure that your machine is set up for Android development. Download
 and other required tools. If you are not using CMake version bundled with Android Studio, make sure
 your build files are [properly configured](https://developer.android.com/studio/projects/add-native-code.html#use_a_custom_cmake_version).
 To verify that your environment is properly set up, try building the
-[teapots sample](https://github.com/googlesamples/android-ndk/tree/master/teapots).
+[teapots sample](https://github.com/googlesamples/android-ndk/tree/master/teapots) as well as
+[Vulkan Android tutorials](https://github.com/googlesamples/android-vulkan-tutorials).
+
+Known issues:
+
+* If native build does not find python executable, add `PYTHON_EXECUTABLE` variable to [CMake arguments in NativeApp's
+  build.gradle file](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp/Android/build.gradle#L12):
+  `-DPYTHON_EXECUTABLE=/Path/To/Your/Python36/python.exe`
+* If native build messes up shader_list.h file, go to git and undo the changes.
 
 Open *DiligentSamples/Android* or *UnityPlugin/Android* folders with Android Studio to build and run
 the engine samples and Unity emulator on Android.
 
+By default, appplications will run in OpenGLES mode. To run them in Vulkan mode, add the following launch flags:
+`--es mode vk` (in Android Studio, go to Run->Edit Configurations menu)
 
 <a name="build_and_run_macos"></a>
 ## MacOS
