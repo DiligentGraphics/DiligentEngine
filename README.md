@@ -277,8 +277,7 @@ Known issues:
   `-DPYTHON_EXECUTABLE=/Path/To/Your/Python36/python.exe`
 * If native build messes up shader_list.h file, go to git and undo the changes.
 
-Open *DiligentSamples/Android* or *UnityPlugin/Android* folders with Android Studio to build and run
-the engine samples and Unity emulator on Android.
+Open *DiligentSamples/Android* folder with Android Studio to build and run tutorials and samples on Android.
 
 By default, appplications will run in OpenGLES mode. To run them in Vulkan mode, add the following launch flags:
 `--es mode vk` (in Android Studio, go to Run->Edit Configurations menu)
