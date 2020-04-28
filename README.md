@@ -325,6 +325,7 @@ defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
 
 Please refer to [this page](https://vulkan.lunarg.com/doc/sdk/latest/mac/getting_started.html) for more details.
 
+Last tested LunarG SDK version: 1.2.135.0.
 
 <a name="build_and_run_ios"></a>
 ## iOS
@@ -366,6 +367,7 @@ By default, the engine will link with dynamic version of MoltenVK library locate
 to use a library from a specific location, it can provide the full path to the library via `MoltenVK_LIBRARY` CMake variable. When
 `MoltenVK_LIBRARY` is defined, `VULKAN_SDK` is ignored.
 
+Last tested LunarG SDK version: 1.2.135.0.
 
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
