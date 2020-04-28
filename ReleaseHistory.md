@@ -1,3 +1,35 @@
+## v2.4.e
+
+### General
+
+* Enabled Vulkan on Android
+* Added C Interface (API Version 240052)
+
+### API Changes
+
+* Added `PreTransform` parameter to swap chain description (API Version 240057).
+* Added `PipelineStateCreateInfo` struct that is now taken by `IRenderDevice::CreatePipelineState` instead of
+  `PipelineStateDesc` struct. Added `PSO_CREATE_FLAGS` enum (API Version 240056).
+
+  Old API:
+  ```cpp
+  PipelineStateDesc PSODesc;
+  // ...
+  pRenderDevice->CreatePipelineState(PSODesc, &pPSO);
+  ```
+
+  New API:
+  ```cpp
+  PipelineStateCreateInfo PSOCreateInfo;
+  PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+  // ...
+  pRenderDevice->CreatePipelineState(PSOCreateInfo, &pPSO);
+  ```
+
+* Added `PRIMITIVE_TOPOLOGY_LINE_STRIP` topology (API Version 240055)
+* Updated swap chain creation functions to use `NativeWindow` (API Version 240054)
+* Added `NativeWindow` wrapper and replaced `pNativeWndHandle` and `pDisplay` members with it in `EngineGLCreateInfo` (API Version 240053)
+
 
 ## v2.4.d
 
