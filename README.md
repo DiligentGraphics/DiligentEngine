@@ -343,7 +343,9 @@ you will need to set appropriate development team in the project settings.
 ### Configuring Vulkan Build Environment
 
 To enable Vulkan on iOS, download and install [VulkanSDK](https://vulkan.lunarg.com/sdk/home#mac). There is no Vulkan loader
-on iOS, and Diligent Engine links directly with MoltenVK dynamic library that implements Vulkan on Metal.
+on iOS, and Diligent Engine links directly with MoltenVK static library (as recommended by 
+[MoltenVk install guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install-as-static-framework-static-library-or-dynamic-library)
+that implements Vulkan on Metal.
 Note that iOS simulator does not currently support Metal, and MoltenVK libraries are only available for arm64 architecture.
 To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK when running CMake, for example (assuming
 that Vulkan SDK is installed at `/LunarG/vulkansdk-macos`):
@@ -352,18 +354,10 @@ that Vulkan SDK is installed at `/LunarG/vulkansdk-macos`):
 cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -DIOS_ARCH=arm64 -DVULKAN_SDK=/LunarG/vulkansdk-macos -H. -Bbuild/IOS -GXcode
 ```
 
-Xcode project [cannot be completely configured by CMake](https://github.com/DiligentGraphics/DiligentSamples/issues/9).
-For every executable target, the following manual steps have to be performed:
-
-* Open *Build Phases* tab and add a new *Copy Files* phase.
-* Select  `Executables` in the `Destination` list.
-* Drag `MoltenVK/iOS/dynamic/libMoltenVK.dylib` dynamic library from Vulkan SDK into the copy files list.
-* Make sure that *Code Sign On Copy* checkbox is marked.
-
 Please refer to [MoltenVK user guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install)
 for more details. 
 
-By default, the engine will link with dynamic version of MoltenVK library located in LunarG SDK. If this is not desired or an application wants
+By default, the engine will link with static version of MoltenVK library located in LunarG SDK. If this is not desired or an application wants
 to use a library from a specific location, it can provide the full path to the library via `MoltenVK_LIBRARY` CMake variable. When
 `MoltenVK_LIBRARY` is defined, `VULKAN_SDK` is ignored.
 
