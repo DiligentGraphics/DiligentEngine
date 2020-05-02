@@ -153,7 +153,7 @@ You can generate Win32 solution that targets Win8.1 SDK using the following comm
 cmake -D CMAKE_SYSTEM_VERSION=8.1 -S . -B ./build/Win64_8.1 -G "Visual Studio 15 2017" -A x64
 ```
 
-If you use MinGW, you can generate the make files using the command below (please be aware of some [known build issues](https://github.com/DiligentGraphics/DiligentEngine/issues/31)):
+If you use MinGW, you can generate the make files using the command below (please be aware of some [known build issues](https://github.com/ocornut/imgui/issues/3183)):
 
 ```
 cmake -S . -B ./build/MinGW -G "MinGW Makefiles"
