@@ -156,7 +156,7 @@ cmake -D CMAKE_SYSTEM_VERSION=8.1 -S . -B ./build/Win64_8.1 -G "Visual Studio 15
 If you use MinGW, you can generate the make files using the command below (please be aware of some [known build issues](https://github.com/ocornut/imgui/issues/3183)):
 
 ```
-cmake -S . -B ./build/MinGW -G "MinGW Makefiles"
+cmake -S . -B ./build/MinGW -D CMAKE_BUILD_TYPE=Release -G "MinGW Makefiles"
 ```
 
 **WARNING!** In current implementation, full path to cmake build folder **must not contain white spaces**.
