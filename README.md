@@ -638,6 +638,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [Shadows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Shadows/Screenshot.jpg" width=240> | This sample demonstrates how to use the [Shadowing component](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows) to render high-quality shadows. |
 | [Dear ImGui Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/ImguiDemo/Screenshot.png" width=240> | This sample demonstrates the integration of the engine with [dear imgui](https://github.com/ocornut/imgui) UI library. |
 | [Nuklear Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/NuklearDemo) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/NuklearDemo/Screenshot.png" width=240> | This sample demonstrates the integration of the engine with [nuklear](https://github.com/vurtun/nuklear) UI library. |
+| [Hello AR](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Android/HelloAR) | <img src="https://github.com/DiligentGraphics/DiligentSamples/tree/master/Android/HelloAR/Screenshot.png" width=240> | This sample demonstrates how to use Diligent Engine in a basic Android AR application. |
 
 <a name="demos"></a>
 # Demos

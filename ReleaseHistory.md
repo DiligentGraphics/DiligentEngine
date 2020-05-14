@@ -1,3 +1,11 @@
+
+## Current Progress
+
+### Samples and Tutorials
+
+* Added [HelloAR Android sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Android/HelloAR)
+
+
 ## v2.4.e
 
 ### General
