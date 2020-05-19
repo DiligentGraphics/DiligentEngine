@@ -678,6 +678,8 @@ The following components are now available:
 
 We would appreciate it if you could send us a link in case your product uses Diligent Engine.
 
+* [Vrmac Graphics](https://github.com/Const-me/Vrmac): A cross-platform graphics library for .NET  
+  <img src="https://github.com/Const-me/Vrmac/blob/master/screenshots/Linux/TigerFullHD-1.png" width=240>
 * Your product here (please submit a [PR](https://github.com/DiligentGraphics/DiligentEngine/pulls))!
 
 
