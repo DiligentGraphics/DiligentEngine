@@ -1,12 +1,12 @@
 [submodule "DiligentCore"]
 	path = DiligentCore
-	url = https://github.com/DiligentGraphics/DiligentCore.git
+	url = https://github.com/loopunit/DiligentCore.git
 [submodule "DiligentTools"]
 	path = DiligentTools
-	url = https://github.com/DiligentGraphics/DiligentTools.git
+	url = https://github.com/loopunit/DiligentTools.git
 [submodule "DiligentSamples"]
 	path = DiligentSamples
-	url = https://github.com/DiligentGraphics/DiligentSamples.git
+	url = https://github.com/loopunit/DiligentSamples.git
 [submodule "DiligentFX"]
 	path = DiligentFX
-	url = https://github.com/DiligentGraphics/DiligentFX.git
+	url = https://github.com/loopunit/DiligentFX.git
