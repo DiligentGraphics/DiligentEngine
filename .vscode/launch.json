@@ -515,6 +515,25 @@
                     "ignoreFailures": true
                 }
             ]
+        },
+        {
+            "name": "HLSL2GLSLConverter",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentTools/HLSL2GLSLConverter/HLSL2GLSLConverter",
+            "args": ["-i", "ConverterTest.fx", "-e", "TestPS", "-t", "ps", "-c"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentTools/HLSL2GLSLConverter/testshaders",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
         }
     ]
 }
