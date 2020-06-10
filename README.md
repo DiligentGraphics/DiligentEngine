@@ -499,11 +499,14 @@ reduce the size of the Vulkan back-end binary.
 <a name="build_and_run_customizing"></a>
 ## Customizing Build
 
-Diligent Engine allows clients to customize build settings by providing configuration script file that defines two optional 
+Diligent Engine allows clients to customize build settings by providing configuration script file that defines the following optional 
 [cmake functions](https://cmake.org/cmake/help/latest/command/function.html):
 
 * `custom_configure_build()` - defines global build properties such as build configurations, c/c++ compile flags, link flags etc.
-* `custom_configure_target()` - defines custom settings for every target in the build.
+* `custom_pre_configure_target()` - defines custom settings for every target in the build and is called before the engine's
+									build system starts configuring the target.
+* `custom_post_configure_target()` - called after the engine's build system has configured the target to let the client
+									 override properties set by the engine.
 
 The path to the configuration script should be provided through `BUILD_CONFIGURATION_FILE` variable when running 
 cmake and must be relative to the cmake root folder, for example:
@@ -573,12 +576,12 @@ endfunction()
 ```
 
 
-### Customizing individual target build settings with custom_configure_target() function
+### Customizing individual target build settings with custom_pre_configure_target() and custom_post_configure_target() functions
 
-If defined, `custom_configure_target()` is called for every target created by the build system and
+If defined, `custom_pre_configure_target()` is called for every target created by the build system and
 allows configuring target-specific properties.
 
-By default, the build system sets some target properties. If `custom_configure_target()` sets all required properties,
+By default, the build system sets some target properties. If `custom_pre_configure_target()` sets all required properties,
 it can tell the build system that no further processing is required by setting `TARGET_CONFIGURATION_COMPLETE`
 [parent scope](https://cmake.org/cmake/help/latest/command/set.html#set-normal-variable) variable to `TRUE`:
 
@@ -586,16 +589,28 @@ it can tell the build system that no further processing is required by setting `
 set(TARGET_CONFIGURATION_COMPLETE TRUE PARENT_SCOPE)
 ```
 
-The following is an example of `custom_configure_target()` function:
+The following is an example of `custom_pre_configure_target()` function:
 
 ```cmake
-function(custom_configure_target TARGET)
+function(custom_pre_configure_target TARGET)
     set_target_properties(${TARGET} PROPERTIES
         STATIC_LIBRARY_FLAGS_RELEASEMT /LTCG
     )
     set(TARGET_CONFIGURATION_COMPLETE TRUE PARENT_SCOPE)   
 endfunction()
 ```
+
+If the client only needs to override some settings, it may define `custom_post_configure_target()` function that is called
+after the engine has completed configuring the target, for example:
+
+```cmake
+function(custom_post_configure_target TARGET)
+    set_target_properties(${TARGET} PROPERTIES
+        CXX_STANDARD 17
+    )
+endfunction()
+```
+
 
 <a name="getting_started"></a>
 # Getting started with the API
