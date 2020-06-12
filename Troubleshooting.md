@@ -7,7 +7,7 @@ git pull
 git submodule update --recursive
 ```
 
-* Try to [get clean version](https://github.com/DiligentGraphics/DiligentEngine#clonning)
+* Try to [get clean version](https://github.com/DiligentGraphics/DiligentEngine#cloning-the-repository)
 
 * Make sure your build environment is up-to-date and properly configured:
   * When building with Visual Studio, make sure you have C++ build tools and Visual C++ ATL Support installed.
