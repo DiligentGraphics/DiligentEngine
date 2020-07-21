@@ -493,8 +493,10 @@ Additionally, individual engine components can be enabled or disabled using the 
  you can use `DILIGENT_BUILD_SAMPLE_BASE_ONLY` option.
 
 By default Vulkan back-end is linked with glslang that enables compiling HLSL and GLSL shaders to SPIRV at run time.
-If run-time compilation is not required, glslang can be disabled with `DILIGENT_NO_GLSLANG` cmake option. This will significantly 
-reduce the size of the Vulkan back-end binary.
+If run-time compilation is not required, glslang can be disabled with `DILIGENT_NO_GLSLANG` cmake option. 
+Additionally, HLSL support in non-Direct3D backends can be disabled with `DILIGENT_NO_HLSL` option.
+Enabling the options significantly reduces the size of Vulkan and OpenGL back-end binaries, which may be
+especailly important for mobile applications.
 
 
 <a name="build_and_run_customizing"></a>
