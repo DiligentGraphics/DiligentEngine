@@ -53,8 +53,6 @@ struct Settings
 {
     double closeAfterSeconds = 0.0;
 
-    // Will be scaled based on DPI at app start for convenience
-    double renderScale = 1.0; // 1.0 = window dimensions, <1 = upscaling, >1 = supersampling    
     int windowWidth = 1080;
     int windowHeight = 720;
     int renderWidth;
