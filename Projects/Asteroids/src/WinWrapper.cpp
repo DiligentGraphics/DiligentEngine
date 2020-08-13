@@ -588,7 +588,7 @@ int main(int argc, char** argv)
             filteredFrameTime = filteredFrameTime * (1.f - filterScale) + filterScale * (float)frameTime;
 
             char buffer[256];
-            sprintf_s(buffer, "Asteroids %s%s (%dt) - %4.2f ms (%4.2f ms / %4.2f ms)", ModeStr, resBindModeStr, (gSettings.multithreadedRendering ? gSettings.numThreads : 1), 
+            sprintf_s(buffer, "Asteroids %s%s (%dt) - %4.1f ms (%4.1f ms / %4.1f ms)", ModeStr, resBindModeStr, (gSettings.multithreadedRendering ? gSettings.numThreads : 1), 
                               1000.f * filteredFrameTime, 1000.f * filteredUpdateTime, 1000.f * filteredRenderTime);
 
             SetWindowText(hWnd, buffer);
