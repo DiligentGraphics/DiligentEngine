@@ -498,6 +498,9 @@ Additionally, HLSL support in non-Direct3D backends can be disabled with `DILIGE
 Enabling the options significantly reduces the size of Vulkan and OpenGL back-end binaries, which may be
 especailly important for mobile applications.
 
+Diligent Engine uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to ensure consistent
+formatting throught the code base. The validation can be disabled using `DILIGENT_NO_FORMAT_VALIDATION`
+CMake option. Note that any pool request will fail if formatting issues are found.
 
 <a name="build_and_run_customizing"></a>
 ## Customizing Build
