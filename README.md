@@ -144,7 +144,7 @@ Build prerequisites:
 
 * Windows SDK 10.0.17763.0 or later (10.0.19041.0 is required for mesh shaders)
 * C++ build tools
-* Visual C++ ATL Support.
+* Visual C++ ATL Support
 
 Use either CMake GUI or command line tool to generate build files. For example, to generate 
 [Visual Studio 2017](https://www.visualstudio.com/vs/community) 64-bit solution and project files in *build/Win64* folder, 
@@ -170,8 +170,6 @@ cmake -S . -B ./build/MinGW -D CMAKE_BUILD_TYPE=Release -G "MinGW Makefiles"
 
 To enable Vulkan validation layers, you will need to download [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
 variable `VK_LAYER_PATH` that contains path to the *Bin* directory in VulkanSDK installation folder.
-
-Make sure that Visual C++ ATL Support is installed via Visual Studio Installer.
 
 Open *DiligentEngine.sln* file in *build/Win64* folder, select configuration and build the engine. Set the desired project
 as startup project (by default, GLTF Viewer will be selected) and run it. 
