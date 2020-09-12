@@ -133,14 +133,20 @@ Master repository includes the following submodules:
 # Build and Run Instructions
 
 Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
-To start using cmake, download the [latest release](https://cmake.org/download/) (3.15 or later is required).
+To start using cmake, download the [latest release](https://cmake.org/download/) (3.16 or later is required).
 Another build prerequisite is [Python interpreter](https://www.python.org/downloads/) (3.0 or later is required).
 If after following the instuctions below you have build/run issues, please take a look at [troubleshooting](Troubleshooting.md).
 
 <a name="build_and_run_win32"></a>
 ## Win32
 
-To generate build files for Windows desktop platform, use either CMake GUI or command line tool. For example, to generate 
+Build prerequisites:
+
+* Windows SDK 10.0.17763.0 or later (10.0.19041.0 is required for mesh shaders)
+* C++ build tools
+* Visual C++ ATL Support.
+
+Use either CMake GUI or command line tool to generate build files. For example, to generate 
 [Visual Studio 2017](https://www.visualstudio.com/vs/community) 64-bit solution and project files in *build/Win64* folder, 
 navigate to the engine's root folder and run the following command:
 

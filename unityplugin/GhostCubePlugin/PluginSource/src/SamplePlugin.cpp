@@ -46,7 +46,7 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         PipelineStateCreateInfo PSOCreateInfo;
         PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
 
-        PSODesc.IsComputePipeline = false;
+        PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
         PSODesc.Name = "Render sample cube PSO";
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
         PSODesc.GraphicsPipeline.RTVFormats[0] = RTVFormat;

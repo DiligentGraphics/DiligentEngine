@@ -249,7 +249,7 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
         desc.Name = "Asteroids constant buffer";
         // In bindless mode we will be updating the buffer with UpdateBuffer method
         desc.Usage          = (m_BindingMode == BindingMode::Bindless) ? USAGE_DEFAULT : USAGE_DYNAMIC;
-        desc.CPUAccessFlags = CPU_ACCESS_WRITE;
+        desc.CPUAccessFlags = desc.Usage == USAGE_DYNAMIC ? CPU_ACCESS_WRITE : CPU_ACCESS_NONE;
         desc.BindFlags      = BIND_UNIFORM_BUFFER;
         // In bindless mode, we will only write view-projection matrix
         desc.uiSizeInBytes = static_cast<Uint32>((m_BindingMode == BindingMode::Bindless) ? sizeof(DirectX::XMFLOAT4X4) : sizeof(DrawConstantBuffer));

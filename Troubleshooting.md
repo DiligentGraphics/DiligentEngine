@@ -10,7 +10,8 @@ git submodule update --recursive
 * Try to [get clean version](https://github.com/DiligentGraphics/DiligentEngine#cloning-the-repository)
 
 * Make sure your build environment is up-to-date and properly configured:
-  * When building with Visual Studio, make sure you have C++ build tools and Visual C++ ATL Support installed.
+  * When building with Visual Studio, make sure you use Windows SDK 10.0.17763.0 or later,
+    have C++ build tools and Visual C++ ATL Support installed.
   * When building for UWP, make sure you have UWP build tools.
   * When building for Android, make sure all your tools are up to date, you have
     [NDK and CMake installed](https://developer.android.com/studio/projects/install-ndk).

@@ -89,7 +89,7 @@ void GhostCubeScene::OnGraphicsInitialized()
         PipelineStateCreateInfo PSOCreateInfo;
         PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
 
-        PSODesc.IsComputePipeline = false;
+        PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
         PSODesc.Name = "Mirror PSO";
         PSODesc.GraphicsPipeline.NumRenderTargets = 1;
 
