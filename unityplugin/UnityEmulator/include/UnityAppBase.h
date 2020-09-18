@@ -51,6 +51,11 @@ public:
     virtual void Present()override;
     virtual void WindowResize(int width, int height)override;
     virtual void Update(double CurrTime, double ElapsedTime)override;
+    
+    virtual bool IsReady() const override
+    {
+        return m_DiligentGraphics && m_Scene;
+    }
 
     bool LoadPlugin();
 
