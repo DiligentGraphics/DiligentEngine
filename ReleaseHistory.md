@@ -1,10 +1,41 @@
 
-## Current Progress
+## v2.4.f
+
+### API Changes
+
+* Added `UnifiedMemoryCPUAccess` member to `GraphicsAdapterInfo` struct (API Version 240072)
+   * An application should check allowed unified memory access types before creating unified buffers
+* Added GPU vendor and memory size detection (API Version 240071)
+   * Added `ADAPTER_VENDOR` enum
+   * Added `GraphicsAdapterInfo` struct
+   * Added `GraphicsAdapterInfo AdapterInfo` member to `DeviceCaps` struct
+   * Removed `ADAPTER_TYPE AdaterType` from `DeviceCaps` struct 
+* Reworked texture format properties (API Version 240070)
+   * Added `RESOURCE_DIMENSION_SUPPORT` enum
+   * Reworked `TextureFormatInfoExt` struct
+* Added option to disable/enable device features during initialization (API Version 240069)
+   * Added `DEVICE_FEATURE_STATE` enum
+   * Changed the types of members of `DeviceFeatures` struct from bool to `DEVICE_FEATURE_STATE`
+   * Added `DeviceFeatures Features` member to `EngineCreateInfo` struct
+* Enabled mesh shaders (API Version 240068)
+   * Added `PIPELINE_TYPE` enum
+   * Replaced `IsComputePipline` member of `PipelineStateDesc` struct with `PIPELINE_TYPE PipelineType`
+   * Added new mesh shader types
+   * Added mesh shader draw commands
+* Added `QUERY_TYPE_DURATION` query type (API Version 240067)
+* Added `USAGE_UNIFIED` usage type (API Version 240066)
+* Added render passes (API Version 240065)
+* Added `CREATE_SHADER_SOURCE_INPUT_STREAM_FLAGS` enum and `IShaderSourceInputStreamFactory::CreateInputStream2` method (API Version 240064)
+* Added `ISwapChain::SetMaximumFrameLatency` function (API Version 240061)
+* Added `EngineGLCreateInfo::CreateDebugContext` member (API Version 240060)
+* Added `SHADER_SOURCE_LANGUAGE_GLSL_VERBATIM` value (API Version 240059).
+* Added `GLBindTarget` parameter to `IRenderDeviceGL::CreateTextureFromGLHandle` method (API Version 240058).
 
 ### Samples and Tutorials
 
 * Added [HelloAR Android sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Android/HelloAR)
-
+* Added [Tutorial19 - Render Passes](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial19_RenderPasses)
+* Added [Tutorial20 - Mesh Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial20_MeshShader)
 
 ## v2.4.e
 
