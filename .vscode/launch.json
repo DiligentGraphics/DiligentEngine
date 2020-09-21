@@ -499,6 +499,25 @@
             ]
         },
         {
+            "name": "Tutorial20_MeshShader",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial20_MeshShader/Tutorial20_MeshShader",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial20_MeshShader/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "DiligentCoreTest",
             "type": "cppdbg",
             "request": "launch",
