@@ -11,6 +11,9 @@ option(DILIGENT_BUILD_DEMOS "Build demo projects" ON)
 option(DILIGENT_BUILD_UNITY_PLUGIN "Build Unity plugin" ON)
 
 add_subdirectory(DiligentCore)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/DiligentCorePro")
+    add_subdirectory(DiligentCorePro)
+endif()
 
 if(${DILIGENT_BUILD_TOOLS})
     add_subdirectory(DiligentTools)
