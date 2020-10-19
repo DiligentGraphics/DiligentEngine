@@ -86,18 +86,19 @@ void GhostCubeScene::OnGraphicsInitialized()
         const auto &SCDesc = m_DiligentGraphics->GetSwapChain()->GetDesc();
         auto UseReverseZ = m_DiligentGraphics->UsesReverseZ();
 
-        PipelineStateCreateInfo PSOCreateInfo;
-        PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+        GraphicsPipelineStateCreateInfo PSOCreateInfo;
+        PipelineStateDesc&      PSODesc          = PSOCreateInfo.PSODesc;
+        GraphicsPipelineDesc&   GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
 
         PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
         PSODesc.Name = "Mirror PSO";
-        PSODesc.GraphicsPipeline.NumRenderTargets = 1;
+        GraphicsPipeline.NumRenderTargets = 1;
 
-        PSODesc.GraphicsPipeline.RTVFormats[0] = SCDesc.ColorBufferFormat;
-        PSODesc.GraphicsPipeline.DSVFormat = SCDesc.DepthBufferFormat;
-        PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-        PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
-        PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
+        GraphicsPipeline.RTVFormats[0] = SCDesc.ColorBufferFormat;
+        GraphicsPipeline.DSVFormat = SCDesc.DepthBufferFormat;
+        GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+        GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
+        GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
 
         ShaderCreateInfo ShaderCI;
         RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
@@ -135,9 +136,9 @@ void GhostCubeScene::OnGraphicsInitialized()
         PSODesc.ResourceLayout.StaticSamplers    = StaticSamplers;
         PSODesc.ResourceLayout.NumStaticSamplers = _countof(StaticSamplers);
 
-        PSODesc.GraphicsPipeline.pVS = pVS;
-        PSODesc.GraphicsPipeline.pPS = pPS;
-        pDevice->CreatePipelineState(PSOCreateInfo, &m_pMirrorPSO);
+        PSOCreateInfo.pVS = pVS;
+        PSOCreateInfo.pPS = pPS;
+        pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pMirrorPSO);
         m_pMirrorPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_pMirrorVSConstants);
         m_pMirrorPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2Reflection")->Set(m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
         m_pMirrorPSO->CreateShaderResourceBinding(&m_pMirrorSRB, true);
