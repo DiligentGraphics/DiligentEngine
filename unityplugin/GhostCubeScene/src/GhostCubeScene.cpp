@@ -129,12 +129,12 @@ void GhostCubeScene::OnGraphicsInitialized()
         }
 
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-        StaticSamplerDesc StaticSamplers[] =
+        ImmutableSamplerDesc ImtblSamplers[] =
         {
             {SHADER_TYPE_PIXEL, "g_tex2Reflection", Sam_Aniso4xClamp}
         };
-        PSODesc.ResourceLayout.StaticSamplers    = StaticSamplers;
-        PSODesc.ResourceLayout.NumStaticSamplers = _countof(StaticSamplers);
+        PSODesc.ResourceLayout.ImmutableSamplers    = ImtblSamplers;
+        PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImtblSamplers);
 
         PSOCreateInfo.pVS = pVS;
         PSOCreateInfo.pPS = pPS;

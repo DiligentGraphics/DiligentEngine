@@ -352,7 +352,7 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
             mDevice->CreateShader(attribs, &ps);
         }
 
-        StaticSamplerDesc samDesc;
+        ImmutableSamplerDesc samDesc;
         samDesc.ShaderStages         = SHADER_TYPE_PIXEL;
         samDesc.Desc.MagFilter       = FILTER_TYPE_ANISOTROPIC;
         samDesc.Desc.MinFilter       = FILTER_TYPE_ANISOTROPIC;
@@ -367,8 +367,8 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
         samDesc.Desc.ComparisonFunc  = COMPARISON_FUNC_NEVER;
         samDesc.SamplerOrTextureName = "Tex";
 
-        PSODesc.ResourceLayout.StaticSamplers    = &samDesc;
-        PSODesc.ResourceLayout.NumStaticSamplers = 1;
+        PSODesc.ResourceLayout.ImmutableSamplers    = &samDesc;
+        PSODesc.ResourceLayout.NumImmutableSamplers = 1;
 
         std::vector<ShaderResourceVariableDesc> Variables =
             {
@@ -474,18 +474,18 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
 
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
-        StaticSamplerDesc ssdesc;
-        ssdesc.ShaderStages                      = SHADER_TYPE_PIXEL;
-        ssdesc.SamplerOrTextureName              = "Skybox";
-        ssdesc.Desc.MagFilter                    = FILTER_TYPE_ANISOTROPIC;
-        ssdesc.Desc.MinFilter                    = FILTER_TYPE_ANISOTROPIC;
-        ssdesc.Desc.MipFilter                    = FILTER_TYPE_ANISOTROPIC;
-        ssdesc.Desc.AddressU                     = TEXTURE_ADDRESS_WRAP;
-        ssdesc.Desc.AddressV                     = TEXTURE_ADDRESS_WRAP;
-        ssdesc.Desc.AddressW                     = TEXTURE_ADDRESS_WRAP;
-        ssdesc.Desc.MaxAnisotropy                = TEXTURE_ANISO;
-        PSODesc.ResourceLayout.StaticSamplers    = &ssdesc;
-        PSODesc.ResourceLayout.NumStaticSamplers = 1;
+        ImmutableSamplerDesc ImtblSamDesc;
+        ImtblSamDesc.ShaderStages                   = SHADER_TYPE_PIXEL;
+        ImtblSamDesc.SamplerOrTextureName           = "Skybox";
+        ImtblSamDesc.Desc.MagFilter                 = FILTER_TYPE_ANISOTROPIC;
+        ImtblSamDesc.Desc.MinFilter                 = FILTER_TYPE_ANISOTROPIC;
+        ImtblSamDesc.Desc.MipFilter                 = FILTER_TYPE_ANISOTROPIC;
+        ImtblSamDesc.Desc.AddressU                  = TEXTURE_ADDRESS_WRAP;
+        ImtblSamDesc.Desc.AddressV                  = TEXTURE_ADDRESS_WRAP;
+        ImtblSamDesc.Desc.AddressW                  = TEXTURE_ADDRESS_WRAP;
+        ImtblSamDesc.Desc.MaxAnisotropy             = TEXTURE_ANISO;
+        PSODesc.ResourceLayout.ImmutableSamplers    = &ImtblSamDesc;
+        PSODesc.ResourceLayout.NumImmutableSamplers = 1;
 
         PSODesc.Name = "Skybox PSO";
 
@@ -544,8 +544,8 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
         GraphicsPipeline.InputLayout.LayoutElements = inputDesc;
         GraphicsPipeline.InputLayout.NumElements    = _countof(inputDesc);
 
-        auto& BlendState = GraphicsPipeline.BlendDesc;
         {
+            auto& BlendState = GraphicsPipeline.BlendDesc;
             // Premultiplied over blend
             BlendState.RenderTargets[0].BlendEnable = TRUE;
             BlendState.RenderTargets[0].SrcBlend    = BLEND_FACTOR_ONE;
