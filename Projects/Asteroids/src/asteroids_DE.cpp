@@ -266,7 +266,7 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
             // (0, 1, 2, ...) and we will acess it with FirstInstanceLocation.
             BufferDesc desc;
             desc.Name          = "Instance ID buffer";
-            desc.Usage         = USAGE_STATIC;
+            desc.Usage         = USAGE_IMMUTABLE;
             desc.BindFlags     = BIND_VERTEX_BUFFER;
             desc.uiSizeInBytes = static_cast<Uint32>(sizeof(Uint32)) * MaxAsteroidsInSubset;
             std::vector<Uint32> Ids(MaxAsteroidsInSubset);
