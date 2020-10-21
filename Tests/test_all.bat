@@ -30,7 +30,7 @@ shift
 set golden_images_root_dir=%~1
 shift
 
-
+set FORMATTING_ERROR=0
 set CORE_TEST_ERROR=0
 set D3D11_ERROR=0
 set D3D12_ERROR=0
@@ -40,11 +40,23 @@ set APP_ERROR=0
 
 set CURR_DIR=%cd%
 
+cd "%CURR_DIR%\..\DiligentCore\BuildTools\FormatValidation"
+(call validate_format_win.bat) || set /a FORMATTING_ERROR+=1
+
+cd "%CURR_DIR%\..\DiligentTools\BuildTools\FormatValidation"
+(call validate_format_win.bat) || set /a FORMATTING_ERROR+=10
+
+cd "%CURR_DIR%\..\DiligentFX\BuildTools\FormatValidation"
+(call validate_format_win.bat) || set /a FORMATTING_ERROR+=100
+
+cd "%CURR_DIR%\..\DiligentSamples\BuildTools\FormatValidation"
+(call validate_format_win.bat) || set /a FORMATTING_ERROR+=1000
+
 set CORE_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreTest\%config%\DiligentCoreTest.exe"
 
 (%CORE_TEST_EXE_PATH%) || set /a CORE_TEST_ERROR=%CORE_TEST_ERROR%+1
 
-cd ..\DiligentCore\Tests\DiligentCoreAPITest\assets
+cd "%CURR_DIR%\..\DiligentCore\Tests\DiligentCoreAPITest\assets"
 
 set API_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreAPITest\%config%\DiligentCoreAPITest.exe"
 
@@ -74,6 +86,7 @@ set FONT_RED=[91m
 set FONT_GREEN=[92m
 set FONT_DEFAULT=[0m
 
+if "%FORMATTING_ERROR%"=="0" (@echo %FONT_GREEN%Format validation PASSED) else (@echo %FONT_RED%Format validation FAILED with code %FORMATTING_ERROR%)
 if "%CORE_TEST_ERROR%"=="0" (@echo %FONT_GREEN%Core tests PASSED) else (@echo %FONT_RED%Core tests FAILED with code %CORE_TEST_ERROR%)
 if "%D3D11_ERROR%"=="0" (@echo %FONT_GREEN%D3D11 tests PASSED) else (@echo %FONT_RED%D3D11 tests FAILED with code %D3D11_ERROR%)
 if "%D3D12_ERROR%"=="0" (@echo %FONT_GREEN%D3D12 tests PASSED) else (@echo %FONT_RED%D3D12 tests FAILED with code %D3D12_ERROR%)
