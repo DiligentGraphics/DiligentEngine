@@ -1,0 +1,50 @@
+Code Samples License - Intel® Software Network
+IMPORTANT - READ BEFORE COPYING, INSTALLING, OR USING. 
+Do not copy, install, or use the "Materials" provided under this license agreement ("Agreement"), until you have carefully read the following terms and conditions.By copying, installing, or otherwise using the Materials, you agree to be bound by the terms of this Agreement. If you do not agree to the terms of this Agreement, do not copy, install, or use the Materials. 
+
+
+INTEL® PRODUCT LICENSE AGREEMENT
+
+LICENSE GRANT: 
+Subject to the License Restrictions below, Intel Corporation ("Intel") grants to you the following non-exclusive, non-assignable royalty-free copyright licenses in the "Materials" below, which are identified specifically in License Definitions, and in any updates thereto that Intel may offer in the future. 
+
+LICENSE DEFINITIONS: 
+Materials are defined as consisting of Sample Source, Redistributables, and End-User Documentation. 
+
+Sample Source: may include example interface or application source code. You may copy, modify, and compile the Sample Source and distribute it in your own products in binary and source code form. 
+
+Redistributables: include header, library, and dynamically linkable library files. You may copy and distribute Redistributables with your product. 
+
+End-User Documentation: includes textual materials intended for end users. You may copy, modify, and distribute them. 
+
+LICENSE RESTRICTIONS: 
+You may not reverse-assemble, reverse-compile, or otherwise reverse-engineer any software provided solely in binary form. 
+
+ Upon Intel's release of an update, upgrade, or new version of the Materials, you will make reasonable efforts to discontinue distribution of the enclosed Materials and you will make reasonable efforts to distribute such updates, upgrades, or new versions to your customers who have received the Materials herein. 
+
+Distribution of the Materials is also subject to the following limitations: You i. shall be solely responsible to your customers for any update or support obligation or other liability which may arise from the distribution, 
+ii. do not make any statement that your product is "certified," or that its performance is guaranteed, by Intel, 
+iii. do not use Intel's name or trademarks to market your product without written permission, 
+iv. shall prohibit disassembly and reverse engineering, 
+v. shall not publish reviews of Materials designated herein as beta without written permission b y Intel, and 
+vi. shall indemnify, hold harmless, and defend Intel and its suppliers from and against any claims or lawsuits, including attorney's fees, that arise or result from your distribution of any product.
+COPYRIGHT: 
+Title to the Materials and all copies thereof remain with Intel or its suppliers. The Materials are copyrighted and are protected by United States copyright laws and international treaty provisions. You will not remove any copyright notice from the Materials. You agree to prevent unauthorized copying of the Materials. Except as expressly provided herein, Intel does not grant any express or implied right to you under Intel patents, copyrights, trademarks, or trade secret information. 
+
+REPLACEMENTS: 
+The Materials are provided "AS IS" without warranty of any kind. 
+
+USER SUBMISSIONS: 
+You agree that any material, information, or other communication, including all data, images, sounds, text, and other things embodied therein, you transmit or post to an Intel website will be considered non-confidential ("Communications"). Intel will have no confidentiality obligations with respect to the Communications. You agree that Intel and its designees will be free to copy, modify, create derivative works, publicly display, disclose, distribute, license and sublicense through multiple tiers of distribution and licensees, incorporate, and otherwise use the Communications, including derivative works thereto, for any and all commercial or non-commercial purposes. 
+
+LIMITATION OF LIABILITY: 
+THE ABOVE REPLACEMENT PROVISION IS THE ONLY WARRANTY OF ANY KIND. INTEL OFFERS NO OTHER WARRANTY EITHER EXPRESS OR IMPLIED INCLUDING THOSE OF MERCHANTABILITY, NONINFRINGEMENT OF THIRD-PARTY INTELLECTUAL PROPERTY, OR FITNESS FOR A PARTICULAR PURPOSE. NEITHER INTEL NOR ITS SUPPLIERS SHALL BE LIABLE FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR OTHER LOSS) ARISING OUT OF THE USE OF OR INABILITY TO USE THE SOFTWARE, EVEN IF INTEL HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. BECAUSE SOME JURISDICTIONS PROHIBIT THE EXCLUSION OR LIMITATION OF LIABILITY FOR CONSEQUENTIAL OR INCIDENTAL DAMAGES, THE ABOVE LIMITATION MAY NOT APPLY TO YOU. 
+
+TERMINATION OF THIS LICENSE: 
+Intel may terminate this license at any time if you are in breach of any of its terms and conditions. Upon termination, you will immediately destroy the Materials or return all copies of the Materials to Intel along with any copies you have made. 
+
+U.S. GOVERNMENT RESTRICTED RIGHTS: 
+The Materials are provided with "RESTRICTED RIGHTS." Use, duplication, or disclosure by the Government is subject to restrictions set forth in FAR52.227-14 and DFAR252.227-7013 et. seq. or its successor. Use of the Materials by the Government constitutes acknowledgement of Intel's rights in them. 
+
+APPLICABLE LAWS: 
+An y claim arising under or relating to this Agreement shall be governed by the internal substantive laws of the State of Delaware or federal courts located in Delaware, without regard to principles of conflict of laws. You may not export the Materials in violation of applicable export laws.    
