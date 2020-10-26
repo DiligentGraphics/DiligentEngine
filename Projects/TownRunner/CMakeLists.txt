@@ -3,15 +3,51 @@ cmake_minimum_required (VERSION 3.10)
 project(TownRunner CXX)
 
 set(SOURCE
+    src/asteroids_d3d11.cpp
+    src/asteroids_d3d12.cpp
+    src/asteroids_DE.cpp
+    src/camera.cpp
+    src/DDSTextureLoader.cpp
+    src/mesh.cpp
+    src/simplexnoise1234.c
+    src/simulation.cpp
+    src/texture.cpp
+    src/WinWrapper.cpp
 )
 
 set(INCLUDE
+    src/asteroids_d3d11.h
+    src/asteroids_d3d12.h
+    src/asteroids_DE.h
+    src/camera.h
+    src/dds.h
+    src/DDSTextureLoader.h
+    src/descriptor.h
+    src/mesh.h
+    src/noise.h
+    src/settings.h
+    src/simplexnoise1234.h
+    src/simulation.h
+    src/subset_d3d12.h
+    src/texture.h
+    src/upload_heap.h
+    src/util.h
 )
 
 set(PIXEL_SHADERS
+    src/asteroid_ps.hlsl
+    src/asteroid_ps_d3d11.hlsl
+    src/asteroid_ps_diligent.hlsl
+    src/font_ps.hlsl
+    src/skybox_ps.hlsl
+    src/sprite_ps.hlsl
 )
 
 set(VERTEX_SHADERS
+    src/asteroid_vs.hlsl
+    src/asteroid_vs_diligent.hlsl
+    src/skybox_vs.hlsl
+    src/sprite_vs.hlsl
 )
 
 set(SHADERS ${PIXEL_SHADERS} ${VERTEX_SHADERS})
@@ -29,6 +65,11 @@ set_source_files_properties(${VERTEX_SHADERS} PROPERTIES VS_SHADER_TYPE Vertex)
 set_source_files_properties(src/asteroid_ps.hlsl PROPERTIES VS_SHADER_MODEL 5.1)
 
 set(GUI
+    src/font.h
+    src/gui.h
+    src/intel_clear_bd_50_usascii.inl
+    src/sprite.h
+    src/stb_font_consolas_bold_50_usascii.inl
 )
 
 set(MEDIA
@@ -48,6 +89,8 @@ if(WIN32)
         ${GUI}
         ${MEDIA}
         SDK/Include/d3dx12.h
+        src/common_defines.h
+        src/shader_common.h
         readme.md
     )
     set_target_properties(TownRunner PROPERTIES 
@@ -100,6 +143,8 @@ source_group("src" FILES ${SOURCE})
 source_group("include" FILES ${INCLUDE})
 source_group("shaders" FILES 
     ${SHADERS}
+    src/common_defines.h
+    src/shader_common.h
 )
 source_group("SDK" FILES SDK/Include/d3dx12.h)
 source_group("GUI" FILES ${GUI})
