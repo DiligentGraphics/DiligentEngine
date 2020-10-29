@@ -5,10 +5,12 @@ project(TownRunner CXX)
 set(SOURCE
     src/Main.cpp
     src/Win32.cpp
+    src/Cube.cpp
 )
 
 set(INCLUDE
     src/Win32.h
+    src/Cube.h
 )
 
 add_executable(TownRunner WIN32 ${SOURCE} ${INCLUDE})

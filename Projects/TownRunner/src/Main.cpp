@@ -26,6 +26,7 @@
  */
 
 #include "Win32.h"
+#include "Cube.h"
 
 using namespace Diligent;
 
@@ -74,7 +75,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int cmdShow)
     ShowWindow(wnd, cmdShow);
     UpdateWindow(wnd);
 
-    if (!g_pTheApp->InitializeDiligentEngine(wnd))
+    if (!g_pTheApp->Initialize(wnd))
         return -1;
 
     g_pTheApp->CreateResources();

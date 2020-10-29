@@ -57,7 +57,7 @@ Win32::Win32()
 {
 }
 
-bool Win32::InitializeDiligentEngine(HWND hWnd)
+bool Win32::Initialize(HWND hWnd)
 {
     SwapChainDesc SCDesc;
     switch (m_DeviceType)

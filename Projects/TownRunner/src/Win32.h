@@ -50,17 +50,13 @@ class Win32
 {
 public:
     Win32();
-
     ~Win32() { m_pImmediateContext->Flush(); }
 
-    bool InitializeDiligentEngine(HWND hWnd);
+    bool Initialize(HWND hWnd);
     bool ProcessCommandLine(const char* CmdLine);
-
     void CreateResources();
     void Render();
-
     void Present() { m_pSwapChain->Present(); }
-
     void WindowResize(Uint32 Width, Uint32 Height) { if (m_pSwapChain)  m_pSwapChain->Resize(Width, Height); }
 
     RENDER_DEVICE_TYPE GetDeviceType() const { return m_DeviceType; }
