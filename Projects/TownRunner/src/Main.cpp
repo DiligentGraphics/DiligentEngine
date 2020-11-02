@@ -26,7 +26,6 @@
  */
 
 #include "Win32.h"
-#include "Cube.h"
 
 using namespace Diligent;
 
