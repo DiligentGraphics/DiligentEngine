@@ -13,7 +13,12 @@ set(INCLUDE
     src/Cube.h
 )
 
-add_executable(TownRunner WIN32 ${SOURCE} ${INCLUDE})
+set(SHADERS
+    assets/cube_inst.vsh
+    assets/cube_inst.psh
+)
+
+add_executable(TownRunner WIN32 ${SOURCE} ${INCLUDE} ${SHADERS})
 target_include_directories(TownRunner PRIVATE "../../DiligentCore")
 
 target_compile_definitions(TownRunner 
@@ -31,6 +36,7 @@ set_target_properties(TownRunner PROPERTIES
 
 target_compile_definitions(TownRunner PRIVATE ENGINE_DLL=1)
 target_link_libraries(TownRunner PRIVATE Diligent-BuildSettings)
+target_link_libraries(TownRunner PRIVATE Diligent-TextureLoader)
 
 if(D3D11_SUPPORTED)
     target_link_libraries(TownRunner PRIVATE Diligent-GraphicsEngineD3D11-shared)

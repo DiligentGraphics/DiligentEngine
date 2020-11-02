@@ -280,7 +280,6 @@ void Win32::CreateResources()
     // Finally, create the pipeline state
     PSOCreateInfo.pVS = pVS;
     PSOCreateInfo.pPS = pPS;
-    m_pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pPSO);
 }
 
 void Win32::Render()
@@ -303,7 +302,10 @@ void Win32::Render()
     // Typically we should now call CommitShaderResources(), however shaders in this example don't
     // use any resources.
 
-    DrawAttribs drawAttrs;
-    drawAttrs.NumVertices = 3; // Render 3 vertices
-    m_pImmediateContext->Draw(drawAttrs);
+    DrawIndexedAttribs DrawAttrs;     // This is an indexed draw call
+    DrawAttrs.IndexType  = VT_UINT32; // Index type
+    DrawAttrs.NumIndices = 36;
+    // Verify the state of vertex and index buffers
+    DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
+    m_pImmediateContext->DrawIndexed(DrawAttrs);
 }

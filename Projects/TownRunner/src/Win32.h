@@ -2,6 +2,7 @@
 #include <memory>
 #include <iomanip>
 #include <iostream>
+#include <vector>
 
 #ifndef NOMINMAX
 #    define NOMINMAX
