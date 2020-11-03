@@ -1,19 +1,20 @@
-struct PSInput 
-{ 
-    float4 Pos   : SV_POSITION; 
-    float4 Color : COLOR0; 
+#include "structures.fxh"
+
+cbuffer Constants
+{
+    float4x4 g_WorldViewProj;
 };
 
-struct PSOutput
+struct PSInput 
 { 
-    float4 Color : SV_TARGET; 
+    float4 Pos : SV_POSITION; 
 };
 
 // Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
 // shader output variable name must match exactly the name of the pixel shader input variable.
 // If the variable has structure type (like in this example), the structure declarations must also be indentical.
-void main(in  PSInput  PSIn,
-          out PSOutput PSOut)
+void main(in  CubeVSInput VSIn,
+          out PSInput     PSIn) 
 {
-    PSOut.Color = PSIn.Color; 
+    PSIn.Pos = mul( float4(VSIn.Pos,1.0), g_WorldViewProj);
 }

@@ -1,26 +1,20 @@
 cmake_minimum_required (VERSION 3.6)
 
-project(test CXX)
+project(BaseStructureExemple CXX)
 
 set(SOURCE
-    src/TestScene.cpp
+    src/Instancing.cpp
     src/TexturedCube.cpp
 )
 
 set(INCLUDE
-    src/TestScene.hpp
+    src/Instancing.hpp
     src/TexturedCube.hpp
 )
 
 set(SHADERS
-    assets/cube.vsh
-    assets/cube.psh
-    assets/cube_shadow.vsh
-    assets/plane.vsh
-    assets/plane.psh
-    assets/shadow_map_vis.vsh
-    assets/shadow_map_vis.psh
-    assets/structures.fxh
+    assets/cube_inst.vsh
+    assets/cube_inst.psh
 )
 
 set(ASSETS
@@ -120,4 +114,4 @@ function(add_sample_app APP_NAME IDE_FOLDER SOURCE INCLUDE SHADERS ASSETS)
 endfunction()
 
 
-add_sample_app("test" "Projects" "${SOURCE}" "${INCLUDE}" "${SHADERS}" "${ASSETS}")
+add_sample_app("BaseStructureExemple" "Projects" "${SOURCE}" "${INCLUDE}" "${SHADERS}" "${ASSETS}")

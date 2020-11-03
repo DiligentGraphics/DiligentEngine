@@ -33,29 +33,49 @@
 namespace Diligent
 {
 
-class Cube final : public SampleBase
+class TestScene final : public SampleBase
 {
 public:
+    virtual void GetEngineInitializationAttribs(RENDER_DEVICE_TYPE DeviceType, EngineCreateInfo& EngineCI, SwapChainDesc& SCDesc) override final;
+
     virtual void Initialize(const SampleInitInfo& InitInfo) override final;
 
     virtual void Render() override final;
     virtual void Update(double CurrTime, double ElapsedTime) override final;
 
-    virtual const Char* GetSampleName() const override final { return "Cube"; }
+    virtual const Char* GetSampleName() const override final { return "Tutorial13: Shadow Map"; }
 
 private:
-    void CreatePipelineState();
+    void CreateCubePSO();
+    void CreatePlanePSO();
+    void CreateShadowMapVisPSO();
     void CreateVertexBuffer();
-    void CreateIndexBuffer();
-    void LoadTexture();
+    void CreateShadowMap();
+    void RenderShadowMap();
+    void RenderCube(const float4x4& CameraViewProj, bool IsShadowPass);
+    void RenderPlane();
 
-    RefCntAutoPtr<IPipelineState>         m_pPSO;
+    RefCntAutoPtr<IPipelineState>         m_pCubePSO;
+    RefCntAutoPtr<IPipelineState>         m_pCubeShadowPSO;
+    RefCntAutoPtr<IPipelineState>         m_pPlanePSO;
+    RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
     RefCntAutoPtr<IBuffer>                m_CubeVertexBuffer;
     RefCntAutoPtr<IBuffer>                m_CubeIndexBuffer;
     RefCntAutoPtr<IBuffer>                m_VSConstants;
     RefCntAutoPtr<ITextureView>           m_TextureSRV;
-    RefCntAutoPtr<IShaderResourceBinding> m_SRB;
-    float4x4                              m_WorldViewProjMatrix;
+    RefCntAutoPtr<IShaderResourceBinding> m_CubeSRB;
+    RefCntAutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
+    RefCntAutoPtr<IShaderResourceBinding> m_PlaneSRB;
+    RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
+    RefCntAutoPtr<ITextureView>           m_ShadowMapDSV;
+    RefCntAutoPtr<ITextureView>           m_ShadowMapSRV;
+
+    float4x4       m_CubeWorldMatrix;
+    float4x4       m_CameraViewProjMatrix;
+    float4x4       m_WorldToShadowMapUVDepthMatr;
+    float3         m_LightDirection  = normalize(float3(-0.49f, -0.60f, 0.64f));
+    Uint32         m_ShadowMapSize   = 512;
+    TEXTURE_FORMAT m_ShadowMapFormat = TEX_FORMAT_D16_UNORM;
 };
 
 } // namespace Diligent
