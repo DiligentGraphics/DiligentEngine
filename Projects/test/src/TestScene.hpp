@@ -43,7 +43,7 @@ public:
     virtual void Render() override final;
     virtual void Update(double CurrTime, double ElapsedTime) override final;
 
-    virtual const Char* GetSampleName() const override final { return "Tutorial13: Shadow Map"; }
+    virtual const Char* GetSampleName() const override final { return "TestScene"; }
 
 private:
     void CreateCubePSO();

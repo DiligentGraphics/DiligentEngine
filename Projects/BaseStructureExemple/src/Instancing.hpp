@@ -41,7 +41,7 @@ public:
     virtual void Render() override final;
     virtual void Update(double CurrTime, double ElapsedTime) override final;
 
-    virtual const Char* GetSampleName() const override final { return "Tutorial04: Instancing"; }
+    virtual const Char* GetSampleName() const override final { return "Basic Structure"; }
 
 private:
     void CreatePipelineState();
