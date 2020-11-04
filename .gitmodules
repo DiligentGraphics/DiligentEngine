@@ -10,6 +10,6 @@
 [submodule "DiligentFX"]
 	path = DiligentFX
 	url = https://github.com/DiligentGraphics/DiligentFX.git
-[submodule "Bullet"]
-	path = Bullet
+[submodule "bullet3"]
+	path = bullet3
 	url = https://github.com/bulletphysics/bullet3.git
