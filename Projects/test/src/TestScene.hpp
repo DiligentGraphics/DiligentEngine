@@ -29,6 +29,7 @@
 
 #include "SampleBase.hpp"
 #include "BasicMath.hpp"
+#include "btBulletDynamicsCommon.h"
 
 namespace Diligent
 {

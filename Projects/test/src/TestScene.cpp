@@ -26,6 +26,7 @@
  */
 
 #include <vector>
+#include <stdio.h>
 
 #include "TestScene.hpp"
 #include "MapHelper.hpp"
@@ -610,7 +611,7 @@ void TestScene::Update(double CurrTime, double ElapsedTime)
     SampleBase::Update(CurrTime, ElapsedTime);
 
     // Animate the cube
-    m_CubeWorldMatrix = float4x4::RotationY(static_cast<float>(CurrTime) * 1.0f);
+    m_CubeWorldMatrix = float4x4::Translation(0.0f, sin(static_cast<float>(CurrTime) * 0.5f), 0.0f) * float4x4::RotationY(static_cast<float>(CurrTime) * 1.0f);
 
     float4x4 CameraView = float4x4::Translation(0.f, -5.0f, -10.0f) * float4x4::RotationY(PI_F) * float4x4::RotationX(-PI_F * 0.2);
 
