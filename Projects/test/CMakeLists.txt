@@ -66,7 +66,7 @@ function(add_sample_app APP_NAME IDE_FOLDER SOURCE INCLUDE SHADERS ASSETS)
 	BulletCollision 
 	LinearMath
     )
-    target_include_directories(${APP_NAME} PRIVATE "../../bullet3/src")
+    target_include_directories(${APP_NAME} PRIVATE "../../Bullet/src")
     set_common_target_properties(${APP_NAME})
 
     if(MSVC)
