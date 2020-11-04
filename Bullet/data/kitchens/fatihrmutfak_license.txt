@@ -1,0 +1,9 @@
+Royalty Free License 
+Original kitchen model downloaded from from https://www.turbosquid.com/3d-models/free-obj-model/1064415
+Converted using Bullet/Extras/obj2sdf
+
+This kitchen was originally using the royalty free license https://blog.turbosquid.com/royalty-free-license/
+
+However, in personal email the author gave permission to use it for any purpose with Bullet:
+You can use it freely with Bullet, without restrictions.
+Author contact: info@fabrika3b.com
