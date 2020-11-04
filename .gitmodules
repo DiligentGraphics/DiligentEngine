@@ -12,4 +12,4 @@
 	url = https://github.com/DiligentGraphics/DiligentFX.git
 [submodule "bullet3"]
 	path = bullet3
-	url = https://github.com/bulletphysics/bullet3.git
+	url = https://github.com/JorisSAN/bullet3.git
