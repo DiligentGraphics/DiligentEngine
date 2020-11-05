@@ -1,1 +1,0 @@
-window.markdeepOptions={mode:"html"};

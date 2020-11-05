@@ -1,2 +1,0 @@
-  <!-- Frying pan model, Copyright (c) 2016 Oleg Klimov       -->
-  <!-- LICENSE: CC-SA                                         -->
