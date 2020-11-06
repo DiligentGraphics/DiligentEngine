@@ -26,9 +26,11 @@
  */
 
 #pragma once
+#include <vector>
 
 #include "SampleBase.hpp"
 #include "BasicMath.hpp"
+#include "Actor.h"
 
 namespace Diligent
 {
@@ -46,28 +48,14 @@ public:
     virtual const Char* GetSampleName() const override final { return "TestScene"; }
 
 private:
-    void CreateCubePSO();
-    void CreatePlanePSO();
     void CreateShadowMapVisPSO();
-    void CreateVertexBuffer();
     void CreateShadowMap();
     void RenderShadowMap();
-    void RenderCube(const float4x4& CameraViewProj, bool IsShadowPass);
-    void RenderPlane();
+    void RenderShadowMapVis();
 
-    RefCntAutoPtr<IPipelineState>         m_pCubePSO;
-    RefCntAutoPtr<IPipelineState>         m_pCubeShadowPSO;
-    RefCntAutoPtr<IPipelineState>         m_pPlanePSO;
-    RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
-    RefCntAutoPtr<IBuffer>                m_CubeVertexBuffer;
-    RefCntAutoPtr<IBuffer>                m_CubeIndexBuffer;
-    RefCntAutoPtr<IBuffer>                m_VSConstants;
-    RefCntAutoPtr<ITextureView>           m_TextureSRV;
-    RefCntAutoPtr<IShaderResourceBinding> m_CubeSRB;
-    RefCntAutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
-    RefCntAutoPtr<IShaderResourceBinding> m_PlaneSRB;
-    RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
     RefCntAutoPtr<ITextureView>           m_ShadowMapDSV;
+    RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
+    RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
     RefCntAutoPtr<ITextureView>           m_ShadowMapSRV;
 
     float4x4       m_CubeWorldMatrix;
@@ -76,6 +64,8 @@ private:
     float3         m_LightDirection  = normalize(float3(-0.49f, -0.60f, 0.64f));
     Uint32         m_ShadowMapSize   = 512;
     TEXTURE_FORMAT m_ShadowMapFormat = TEX_FORMAT_D16_UNORM;
+
+    std::vector<Actor*> actors;
 };
 
 } // namespace Diligent

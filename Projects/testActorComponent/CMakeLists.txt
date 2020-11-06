@@ -1,14 +1,20 @@
 cmake_minimum_required (VERSION 3.6)
 
-project(test CXX)
+project(testActorComponent CXX)
 
 set(SOURCE
     src/TestScene.cpp
+    src/Actor.cpp
+    src/Cube.cpp
+    src/Plane.cpp
     src/TexturedCube.cpp
 )
 
 set(INCLUDE
     src/TestScene.hpp
+    src/Actor.h
+    src/Cube.h
+    src/Plane.h
     src/TexturedCube.hpp
 )
 
@@ -120,4 +126,4 @@ function(add_sample_app APP_NAME IDE_FOLDER SOURCE INCLUDE SHADERS ASSETS)
 endfunction()
 
 
-add_sample_app("test" "Projects" "${SOURCE}" "${INCLUDE}" "${SHADERS}" "${ASSETS}")
+add_sample_app("testActorComponent" "Projects" "${SOURCE}" "${INCLUDE}" "${SHADERS}" "${ASSETS}")

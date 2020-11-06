@@ -33,49 +33,50 @@
 namespace Diligent
 {
 
-class TestScene final : public SampleBase
+class Actor : public SampleBase
 {
 public:
-    virtual void GetEngineInitializationAttribs(RENDER_DEVICE_TYPE DeviceType, EngineCreateInfo& EngineCI, SwapChainDesc& SCDesc) override final;
+    Actor();
+    Actor(const SampleInitInfo& InitInfo);
+    Actor(const Actor&) = delete;
+    Actor& operator=(const Actor&) = delete;
 
-    virtual void Initialize(const SampleInitInfo& InitInfo) override final;
+    virtual void Initialize(const SampleInitInfo& InitInfo) override;
 
-    virtual void Render() override final;
+    virtual void Render() override final {};
+    virtual void RenderActor(const float4x4& CameraViewProj, bool IsShadowPass);
     virtual void Update(double CurrTime, double ElapsedTime) override final;
+    virtual void UpdateActor(double CurrTime, double ElapsedTime) {}
 
-    virtual const Char* GetSampleName() const override final { return "TestScene"; }
+    RefCntAutoPtr<IShaderResourceBinding> getm_SRB() { return m_SRB; }
+    RefCntAutoPtr<IPipelineState>         getm_pPSO() { return m_pPSO; }
 
-private:
-    void CreateCubePSO();
-    void CreatePlanePSO();
-    void CreateShadowMapVisPSO();
-    void CreateVertexBuffer();
-    void CreateShadowMap();
-    void RenderShadowMap();
-    void RenderCube(const float4x4& CameraViewProj, bool IsShadowPass);
-    void RenderPlane();
-
-    RefCntAutoPtr<IPipelineState>         m_pCubePSO;
-    RefCntAutoPtr<IPipelineState>         m_pCubeShadowPSO;
-    RefCntAutoPtr<IPipelineState>         m_pPlanePSO;
-    RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
-    RefCntAutoPtr<IBuffer>                m_CubeVertexBuffer;
-    RefCntAutoPtr<IBuffer>                m_CubeIndexBuffer;
+protected:
+    RefCntAutoPtr<IPipelineState>         m_pPSO;
+    RefCntAutoPtr<IBuffer>                m_VertexBuffer;
+    RefCntAutoPtr<IBuffer>                m_IndexBuffer;
     RefCntAutoPtr<IBuffer>                m_VSConstants;
     RefCntAutoPtr<ITextureView>           m_TextureSRV;
-    RefCntAutoPtr<IShaderResourceBinding> m_CubeSRB;
-    RefCntAutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
-    RefCntAutoPtr<IShaderResourceBinding> m_PlaneSRB;
-    RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
-    RefCntAutoPtr<ITextureView>           m_ShadowMapDSV;
-    RefCntAutoPtr<ITextureView>           m_ShadowMapSRV;
+    RefCntAutoPtr<IShaderResourceBinding> m_SRB;
 
-    float4x4       m_CubeWorldMatrix;
-    float4x4       m_CameraViewProjMatrix;
+    RefCntAutoPtr<IShaderResourceBinding> m_ShadowSRB;
+    RefCntAutoPtr<IPipelineState>         m_pShadowPSO;
+
+    float4x4       m_WorldMatrix;
     float4x4       m_WorldToShadowMapUVDepthMatr;
     float3         m_LightDirection  = normalize(float3(-0.49f, -0.60f, 0.64f));
     Uint32         m_ShadowMapSize   = 512;
     TEXTURE_FORMAT m_ShadowMapFormat = TEX_FORMAT_D16_UNORM;
+
+
+private:
+    virtual void CreatePSO() {}
+    virtual void CreateShadowMapVisPSO() {}
+    virtual void CreateVertexBuffer() {}
+    virtual void CreateShadowMap() {}
+    virtual void RenderShadowMap() {}
+
+    void RenderShadowMapVis();
 };
 
 } // namespace Diligent
