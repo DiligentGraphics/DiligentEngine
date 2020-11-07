@@ -1,6 +1,7 @@
 # Add Folder to CMake
 
-If you want to add a folder for do something duplicate the test folder and add him in the ```CMakeList.txt```
+If you want to add a folder for do something :
+* Duplicate the test folder and add him in the ```CMakeList.txt```
 * With this line ```add_subdirectory(FolderName)```
 
 After that go in the duplicate folder for some modification
