@@ -6,7 +6,7 @@ If you want to add a folder for do something :
 
 After that go in the duplicate folder for some modification
 
-* Go in the ```CMakeList.txt```
+* In the ```CMakeList.txt```
 * Change the name of the project
 ```
 project(test CXX)
