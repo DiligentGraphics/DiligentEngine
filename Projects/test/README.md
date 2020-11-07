@@ -1,7 +1,3 @@
-# Tutorial00 - Hello Win32
+# Test
 
-This tutorial demonstrates how to initialize Diligent Engine and render a simple triangle on Win32 platform. 
-It is similar to [Tutorial01](../Tutorial01_HelloTriangle), but the project has no dependencies and all the code
-is contained in a single file.
-
-![](Screenshot.png)
+This folder can be duplicate for do what you want
