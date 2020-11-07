@@ -23,7 +23,7 @@ add_sample_app("FolderName" "Projects" "${SOURCE}" "${INCLUDE}" "${SHADERS}" "${
 # Add File to project
 
 If we take your new folder before and you want to add some files :
-* Put your files in ```FolderName/src/```
+* Put your files in ```FolderName/src/``` or in ```FolderName/assets/```
 * And add them in the ```CMakeList.txt```
 ```
 # If your file is a source file
