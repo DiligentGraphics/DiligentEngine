@@ -27,12 +27,14 @@
 
 #include <vector>
 #include <stdio.h>
+#include <algorithm>
 
 #include "MapHelper.hpp"
 #include "GraphicsUtilities.h"
 #include "TextureUtilities.h"
 #include "TexturedCube.hpp"
 #include "Actor.h"
+#include "Component.h"
 
 namespace Diligent
 {
@@ -64,6 +66,7 @@ void Actor::Update(double CurrTime, double ElapsedTime)
 {
     SampleBase::Update(CurrTime, ElapsedTime);
 
+    updateComponents(CurrTime, ElapsedTime);
     UpdateActor(CurrTime, ElapsedTime);
 }
 
@@ -231,6 +234,41 @@ void Actor::RenderShadowMap()
     float4x4    ProjToUVBias  = float4x4::Translation(0.5f, 0.5f, NDCAttribs.GetZtoDepthBias());
 
     m_WorldToShadowMapUVDepthMatr = WorldToLightProjSpaceMatr * ProjToUVScale * ProjToUVBias;
+}
+
+void Actor::addComponent(Component* component)
+{
+    // Find the insertion point in the sorted vector
+    // (The first element with a order higher than me)
+    int  myOrder = component->getUpdateOrder();
+    auto iter    = begin(components);
+    for (; iter != end(components); ++iter)
+    {
+        if (myOrder < (*iter)->getUpdateOrder())
+        {
+            break;
+        }
+    }
+
+    // Inserts element before position of iterator
+    components.insert(iter, component);
+}
+
+void Actor::removeComponent(Component* component)
+{
+    auto iter = std::find(begin(components), end(components), component);
+    if (iter != end(components))
+    {
+        components.erase(iter);
+    }
+}
+
+void Actor::updateComponents(double CurrTime, double ElapsedTime)
+{
+    for (auto component : components)
+    {
+        component->update(CurrTime, ElapsedTime);
+    }
 }
 
 } // namespace Diligent

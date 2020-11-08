@@ -5,6 +5,7 @@ project(testActorComponent CXX)
 set(SOURCE
     src/TestScene.cpp
     src/Actor.cpp
+    src/Component.cpp
     src/Cube.cpp
     src/Plane.cpp
     src/TexturedCube.cpp
@@ -13,6 +14,7 @@ set(SOURCE
 set(INCLUDE
     src/TestScene.hpp
     src/Actor.h
+    src/Component.h
     src/Cube.h
     src/Plane.h
     src/TexturedCube.hpp

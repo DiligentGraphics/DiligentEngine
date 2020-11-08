@@ -29,9 +29,13 @@
 
 #include "SampleBase.hpp"
 #include "BasicMath.hpp"
+#include <vector>
+
 
 namespace Diligent
 {
+
+class Component;
 
 class Actor : public SampleBase
 {
@@ -47,6 +51,10 @@ public:
     virtual void RenderActor(const float4x4& CameraViewProj, bool IsShadowPass);
     virtual void Update(double CurrTime, double ElapsedTime) override final;
     virtual void UpdateActor(double CurrTime, double ElapsedTime) {}
+    void updateComponents(double CurrTime, double ElapsedTime);
+
+    void addComponent(Component* component);
+    void removeComponent(Component* component);
 
     virtual void setTransform(float3 transform) {}
 
@@ -83,6 +91,8 @@ protected:
 private:
     virtual void CreatePSO() {}
     virtual void CreateVertexBuffer() {}
+
+    std::vector<Component*> components;
 };
 
 } // namespace Diligent
