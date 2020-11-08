@@ -24,11 +24,9 @@ void Cube::Initialize(const SampleInitInfo& InitInfo)
     Barriers.emplace_back(m_VSConstants, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true);
 
     CreatePSO();
-
-    // Load cube
-
-    // In this tutorial we need vertices with normals
+    CreateShadowMapVisPSO();
     CreateVertexBuffer();
+
     // Load index buffer
     m_IndexBuffer = TexturedCube::CreateIndexBuffer(m_pDevice);
     // Explicitly transition vertex and index buffers to required states
@@ -39,6 +37,9 @@ void Cube::Initialize(const SampleInitInfo& InitInfo)
     m_SRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(CubeTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
     // Transition the texture to shader resource state
     Barriers.emplace_back(CubeTexture, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true);
+
+
+    //CreateShadowMap();
 
     m_pImmediateContext->TransitionResourceStates(static_cast<Uint32>(Barriers.size()), Barriers.data());
 }
@@ -260,5 +261,10 @@ void Cube::RenderActor(const float4x4& CameraViewProj, bool IsShadowPass)
 void Cube::UpdateActor(double CurrTime, double ElapsedTime)
 {
     // Animate the cube
-    m_WorldMatrix = float4x4::Translation(0.0f, sin(static_cast<float>(CurrTime) * 0.5f), 0.0f) * float4x4::RotationY(static_cast<float>(CurrTime) * 1.0f);
+    m_WorldMatrix = float4x4::Translation(coord[0], coord[1], coord[2]) * float4x4::RotationY(static_cast<float>(CurrTime) * 1.0f);
+}
+
+void Cube::setTransform(float3 transform)
+{
+    coord = transform;
 }

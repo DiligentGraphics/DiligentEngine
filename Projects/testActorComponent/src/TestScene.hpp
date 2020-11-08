@@ -49,14 +49,9 @@ public:
 
 private:
     void CreateShadowMapVisPSO();
-    void CreateShadowMap();
-    void RenderShadowMap();
-    void RenderShadowMapVis();
 
-    RefCntAutoPtr<ITextureView>           m_ShadowMapDSV;
     RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
     RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
-    RefCntAutoPtr<ITextureView>           m_ShadowMapSRV;
 
     float4x4       m_CubeWorldMatrix;
     float4x4       m_CameraViewProjMatrix;

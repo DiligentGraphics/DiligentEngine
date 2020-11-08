@@ -1,10 +1,8 @@
 #include "Plane.h"
-#include "TexturedCube.hpp"
 
 #include "MapHelper.hpp"
 #include "GraphicsUtilities.h"
 #include "TextureUtilities.h"
-#include "TexturedCube.hpp"
 
 using namespace Diligent;
 
@@ -24,13 +22,8 @@ void Plane::Initialize(const SampleInitInfo& InitInfo)
     Barriers.emplace_back(m_VSConstants, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true);
 
     CreatePSO();
-    // In this tutorial we need vertices with normals
-    CreateVertexBuffer();
-    // Load index buffer
-    m_IndexBuffer = TexturedCube::CreateIndexBuffer(m_pDevice);
-    // Explicitly transition vertex and index buffers to required states
-    Barriers.emplace_back(m_VertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
-    Barriers.emplace_back(m_IndexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDEX_BUFFER, true);
+
+    CreateShadowMap();
 
     m_pImmediateContext->TransitionResourceStates(static_cast<Uint32>(Barriers.size()), Barriers.data());
 }
@@ -131,79 +124,6 @@ void Plane::CreatePSO()
     // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
     // change and are bound directly through the pipeline state object.
     m_pPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
-}
-
-void Plane::CreateVertexBuffer()
-{
-    // Layout of this structure matches the one we defined in pipeline state
-    struct Vertex
-    {
-        float3 pos;
-        float2 uv;
-        float3 normal;
-    };
-
-    // Cube vertices
-
-    //      (-1,+1,+1)________________(+1,+1,+1)
-    //               /|              /|
-    //              / |             / |
-    //             /  |            /  |
-    //            /   |           /   |
-    //(-1,-1,+1) /____|__________/(+1,-1,+1)
-    //           |    |__________|____|
-    //           |   /(-1,+1,-1) |    /(+1,+1,-1)
-    //           |  /            |   /
-    //           | /             |  /
-    //           |/              | /
-    //           /_______________|/
-    //        (-1,-1,-1)       (+1,-1,-1)
-    //
-
-    // clang-format off
-    Vertex CubeVerts[] =
-    {
-        {float3(-1,-1,-1), float2(0,1), float3(0, 0, -1)},
-        {float3(-1,+1,-1), float2(0,0), float3(0, 0, -1)},
-        {float3(+1,+1,-1), float2(1,0), float3(0, 0, -1)},
-        {float3(+1,-1,-1), float2(1,1), float3(0, 0, -1)},
-        
-        {float3(-1,-1,-1), float2(0,1), float3(0, -1, 0)},
-        {float3(-1,-1,+1), float2(0,0), float3(0, -1, 0)},
-        {float3(+1,-1,+1), float2(1,0), float3(0, -1, 0)},
-        {float3(+1,-1,-1), float2(1,1), float3(0, -1, 0)},
-        
-        {float3(+1,-1,-1), float2(0,1), float3(+1, 0, 0)},
-        {float3(+1,-1,+1), float2(1,1), float3(+1, 0, 0)},
-        {float3(+1,+1,+1), float2(1,0), float3(+1, 0, 0)},
-        {float3(+1,+1,-1), float2(0,0), float3(+1, 0, 0)},
-        
-        {float3(+1,+1,-1), float2(0,1), float3(0, +1, 0)},
-        {float3(+1,+1,+1), float2(0,0), float3(0, +1, 0)},
-        {float3(-1,+1,+1), float2(1,0), float3(0, +1, 0)},
-        {float3(-1,+1,-1), float2(1,1), float3(0, +1, 0)},
-        
-        {float3(-1,+1,-1), float2(1,0), float3(-1, 0, 0)},
-        {float3(-1,+1,+1), float2(0,0), float3(-1, 0, 0)},
-        {float3(-1,-1,+1), float2(0,1), float3(-1, 0, 0)},
-        {float3(-1,-1,-1), float2(1,1), float3(-1, 0, 0)},
-        
-        {float3(-1,-1,+1), float2(1,1), float3(0, 0, +1)},
-        {float3(+1,-1,+1), float2(0,1), float3(0, 0, +1)},
-        {float3(+1,+1,+1), float2(0,0), float3(0, 0, +1)},
-        {float3(-1,+1,+1), float2(1,0), float3(0, 0, +1)}
-    };
-    // clang-format on
-
-    BufferDesc VertBuffDesc;
-    VertBuffDesc.Name          = "Cube vertex buffer";
-    VertBuffDesc.Usage         = USAGE_IMMUTABLE;
-    VertBuffDesc.BindFlags     = BIND_VERTEX_BUFFER;
-    VertBuffDesc.uiSizeInBytes = sizeof(CubeVerts);
-    BufferData VBData;
-    VBData.pData    = CubeVerts;
-    VBData.DataSize = sizeof(CubeVerts);
-    m_pDevice->CreateBuffer(VertBuffDesc, &VBData, &m_VertexBuffer);
 }
 
 void Plane::RenderActor(const float4x4& CameraViewProj, bool IsShadowPass)

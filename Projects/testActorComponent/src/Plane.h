@@ -15,7 +15,6 @@ public:
 
 private:
     void CreatePSO() override;
-    void CreateVertexBuffer() override;
 };
 
 } // namespace Diligent

@@ -48,6 +48,8 @@ public:
     virtual void Update(double CurrTime, double ElapsedTime) override final;
     virtual void UpdateActor(double CurrTime, double ElapsedTime) {}
 
+    virtual void setTransform(float3 transform) {}
+
     RefCntAutoPtr<IShaderResourceBinding> getm_SRB() { return m_SRB; }
     RefCntAutoPtr<IPipelineState>         getm_pPSO() { return m_pPSO; }
 
@@ -61,22 +63,26 @@ protected:
 
     RefCntAutoPtr<IShaderResourceBinding> m_ShadowSRB;
     RefCntAutoPtr<IPipelineState>         m_pShadowPSO;
+    RefCntAutoPtr<ITextureView>           m_ShadowMapDSV;
+    RefCntAutoPtr<ITextureView>           m_ShadowMapSRV;
+    RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
+    RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
 
+    float3         coord = float3(0.0f,0.0f,0.0f);
     float4x4       m_WorldMatrix;
     float4x4       m_WorldToShadowMapUVDepthMatr;
     float3         m_LightDirection  = normalize(float3(-0.49f, -0.60f, 0.64f));
     Uint32         m_ShadowMapSize   = 512;
     TEXTURE_FORMAT m_ShadowMapFormat = TEX_FORMAT_D16_UNORM;
 
+    void CreateShadowMap();
+    void RenderShadowMap();
+    void CreateShadowMapVisPSO();
+    void RenderShadowMapVis();
 
 private:
     virtual void CreatePSO() {}
-    virtual void CreateShadowMapVisPSO() {}
     virtual void CreateVertexBuffer() {}
-    virtual void CreateShadowMap() {}
-    virtual void RenderShadowMap() {}
-
-    void RenderShadowMapVis();
 };
 
 } // namespace Diligent
