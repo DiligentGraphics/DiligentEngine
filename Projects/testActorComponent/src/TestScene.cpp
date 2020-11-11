@@ -56,14 +56,16 @@ void TestScene::Initialize(const SampleInitInfo& InitInfo)
 {
     SampleBase::Initialize(InitInfo);
 
-    actors.emplace_back(new Cube(InitInfo));
-    actors.emplace_back(new Cube(InitInfo));
-    actors.emplace_back(new Plane(InitInfo));
+    Init = InitInfo;
+
+    actors.emplace_back(new Cube(Init));
+    actors.emplace_back(new Cube(Init));
+    actors.emplace_back(new Plane(Init));
     int i = 0;
 
     for (auto actor : actors)
     {
-        actor->setTransform(float3(2.0f*i,0.0f,0.0f));
+        actor->setTransform(float3(2.0f * i, 0.0f, 0.0f));
         i++;
     }
 

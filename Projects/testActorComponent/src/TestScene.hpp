@@ -61,6 +61,8 @@ private:
     TEXTURE_FORMAT m_ShadowMapFormat = TEX_FORMAT_D16_UNORM;
 
     std::vector<Actor*> actors;
+
+    SampleInitInfo Init;
 };
 
 } // namespace Diligent
