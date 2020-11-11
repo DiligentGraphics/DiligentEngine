@@ -261,10 +261,5 @@ void Cube::RenderActor(const float4x4& CameraViewProj, bool IsShadowPass)
 void Cube::UpdateActor(double CurrTime, double ElapsedTime)
 {
     // Animate the cube
-    m_WorldMatrix = m_WorldMatrix.Translation(coord) * Quaternion::createFromQuaternion(Quaternion::RotationFromAxisAngle(float3(0, 1, 0), static_cast<float>(CurrTime) * 1.0f));
-}
-
-void Cube::setTransform(float3 transform)
-{
-    coord = transform;
+    setRotation(Quaternion::RotationFromAxisAngle(float3(0, 1, 0), static_cast<float>(CurrTime) * 1.0f));
 }

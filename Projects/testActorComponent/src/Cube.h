@@ -15,8 +15,6 @@ public:
 
     void UpdateActor(double CurrTime, double ElapsedTime) override;
 
-    void setTransform(float3 transform) override;
-
 private:
     void CreatePSO() override;
     void CreateVertexBuffer() override;
