@@ -304,7 +304,7 @@ void TestScene::UpdateUI()
             ss << nameSelected;
             std::string s = ss.str();
 
-           // CreateAdaptedActor(s,varInitInfo);
+            CreateAdaptedActor(s,varInitInfo);
 
         }
 

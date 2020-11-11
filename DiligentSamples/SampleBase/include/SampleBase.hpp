@@ -63,7 +63,7 @@ public:
 
     virtual void Render()                                    = 0;
     virtual void Update(double CurrTime, double ElapsedTime) = 0;
-    void         UpdateInitInfo(const SampleInitInfo InitInfo) { Init = InitInfo; }
+    void         UpdateInitInfo(const SampleInitInfo InitInfo) { varInitInfo = InitInfo; }
     virtual void PreWindowResize() {}
     virtual void WindowResize(Uint32 Width, Uint32 Height) {}
     virtual bool HandleNativeMessage(const void* pNativeMsgData) { return false; }
@@ -120,6 +120,7 @@ inline void SampleBase::Update(double CurrTime, double ElapsedTime)
 
 inline void SampleBase::Initialize(const SampleInitInfo& InitInfo)
 {
+    varInitInfo         = InitInfo;
     m_pEngineFactory    = InitInfo.pEngineFactory;
     m_pDevice           = InitInfo.pDevice;
     m_pSwapChain        = InitInfo.pSwapChain;
