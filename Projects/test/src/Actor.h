@@ -56,7 +56,15 @@ public:
     void addComponent(Component* component);
     void removeComponent(Component* component);
 
-    virtual void setTransform(float3 transform) {}
+    void computeWorldTransform();
+
+    float getScale() { return scale; }
+    Quaternion getRotation() { return rotation; }
+    float3     getPostition() { return position; }
+
+    void setScale(float scaleP) { scale = scaleP; }
+    void setRotation(Quaternion rotationP) { rotation = rotationP; }
+    void setPosition(float3 positionP) { position = positionP; }
 
     RefCntAutoPtr<IShaderResourceBinding> getm_SRB() { return m_SRB; }
     RefCntAutoPtr<IPipelineState>         getm_pPSO() { return m_pPSO; }
@@ -75,8 +83,6 @@ protected:
     RefCntAutoPtr<ITextureView>           m_ShadowMapSRV;
     RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
     RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
-
-    float3         coord = float3(0.0f,0.0f,0.0f);
     float4x4       m_WorldMatrix;
     float4x4       m_WorldToShadowMapUVDepthMatr;
     float3         m_LightDirection  = normalize(float3(-0.49f, -0.60f, 0.64f));
@@ -93,6 +99,10 @@ private:
     virtual void CreateVertexBuffer() {}
 
     std::vector<Component*> components;
+
+    float scale = 1.0f;
+    Quaternion rotation = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+    float3     position = float3(0.0f, 0.0f, 0.0f);
 };
 
 } // namespace Diligent
