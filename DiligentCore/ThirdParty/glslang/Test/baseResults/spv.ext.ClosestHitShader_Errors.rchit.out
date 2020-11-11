@@ -1,0 +1,10 @@
+spv.ext.ClosestHitShader_Errors.rchit
+ERROR: 0:8: 'assign' :  l-value required "payload" (cannot modify hitAttributeNV in this stage)
+ERROR: 0:9: 'reportIntersectionEXT' : no matching overloaded function found 
+ERROR: 0:10: 'terminateRayEXT' : no matching overloaded function found 
+ERROR: 0:11: 'ignoreIntersectionEXT' : no matching overloaded function found 
+ERROR: 0:12: 'gl_RayFlagsSkipAABBEXT' : required extension not requested: GL_EXT_ray_flags_primitive_culling
+ERROR: 5 compilation errors.  No code generated.
+
+
+SPIR-V is not generated for failed compile or link

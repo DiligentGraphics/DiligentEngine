@@ -1,0 +1,35 @@
+spv.ext.RayCallable_Errors.rcall
+ERROR: 0:3: 'hitAttributeEXT' : not supported in this stage: callable
+ERROR: 0:4: 'rayPayloadEXT' : not supported in this stage: callable
+ERROR: 0:5: 'rayPayloadInEXT' : not supported in this stage: callable
+ERROR: 0:9: 'gl_PrimitiveID' : undeclared identifier 
+ERROR: 0:9: '=' :  cannot convert from ' temp float' to ' temp highp int'
+ERROR: 0:10: 'gl_InstanceID' : undeclared identifier (Did you mean gl_InstanceIndex?)
+ERROR: 0:10: '=' :  cannot convert from ' temp float' to ' temp highp int'
+ERROR: 0:11: 'gl_InstanceCustomIndexEXT' : undeclared identifier 
+ERROR: 0:11: '=' :  cannot convert from ' temp float' to ' temp highp int'
+ERROR: 0:12: 'gl_WorldRayOriginEXT' : undeclared identifier 
+ERROR: 0:12: '=' :  cannot convert from ' temp float' to ' temp highp 3-component vector of float'
+ERROR: 0:13: 'gl_WorldRayDirectionEXT' : undeclared identifier 
+ERROR: 0:13: '=' :  cannot convert from ' temp float' to ' temp highp 3-component vector of float'
+ERROR: 0:14: 'gl_ObjectRayOriginEXT' : undeclared identifier 
+ERROR: 0:14: '=' :  cannot convert from ' temp float' to ' temp highp 3-component vector of float'
+ERROR: 0:15: 'gl_ObjectRayDirectionEXT' : undeclared identifier 
+ERROR: 0:15: '=' :  cannot convert from ' temp float' to ' temp highp 3-component vector of float'
+ERROR: 0:16: 'gl_RayTminEXT' : undeclared identifier 
+ERROR: 0:17: 'gl_RayTmaxEXT' : undeclared identifier 
+ERROR: 0:18: 'gl_ObjectToWorldEXT' : undeclared identifier 
+ERROR: 0:18: '=' :  cannot convert from ' temp float' to ' temp highp 4X3 matrix of float'
+ERROR: 0:19: 'gl_WorldToObjectEXT' : undeclared identifier 
+ERROR: 0:19: '=' :  cannot convert from ' temp float' to ' temp highp 4X3 matrix of float'
+ERROR: 0:20: 'gl_HitTEXT' : undeclared identifier 
+ERROR: 0:21: 'gl_HitKindEXT' : undeclared identifier 
+ERROR: 0:22: 'gl_IncomingRayFlagsEXT' : undeclared identifier 
+ERROR: 0:22: '=' :  cannot convert from ' temp float' to ' temp highp uint'
+ERROR: 0:23: 'reportIntersectionEXT' : no matching overloaded function found 
+ERROR: 0:24: 'ignoreIntersectionEXT' : no matching overloaded function found 
+ERROR: 0:25: 'terminateRayEXT' : no matching overloaded function found 
+ERROR: 30 compilation errors.  No code generated.
+
+
+SPIR-V is not generated for failed compile or link

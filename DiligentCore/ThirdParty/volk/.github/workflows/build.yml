@@ -1,0 +1,40 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu, macos, windows]
+    name: ${{matrix.os}}
+    runs-on: ${{matrix.os}}-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/checkout@v1
+      with:
+        repository: KhronosGroup/Vulkan-Headers
+        ref: master
+        path: Vulkan-Headers
+    - name: move sdk
+      shell: bash
+      run: |
+        mv ../Vulkan-Headers ~/Vulkan-Headers
+    - name: build master
+      shell: bash
+      run: |
+        export VULKAN_SDK=~/Vulkan-Headers
+        git -C ~/Vulkan-Headers checkout master
+        test/run_tests.sh
+    - name: build 1.1.101
+      shell: bash
+      run: |
+        export VULKAN_SDK=~/Vulkan-Headers
+        git -C ~/Vulkan-Headers checkout sdk-1.1.101
+        test/run_tests.sh
+    - name: build 1.2.131
+      shell: bash
+      run: |
+        export VULKAN_SDK=~/Vulkan-Headers
+        git -C ~/Vulkan-Headers checkout sdk-1.2.131
+        test/run_tests.sh
