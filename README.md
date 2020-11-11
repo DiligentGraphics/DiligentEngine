@@ -464,7 +464,7 @@ as all third-party libraries used by the engine. Besides that, you will also nee
 For example, for Windows platform, the list of libraries your project will need to link against may look like this:
 
 ```
-DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib spirv-cross-core.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
+DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib spirv-cross-core.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib GenericCodeGen.lib MachineIndependent.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
 ```
 
 Vulkan libraries can be found in [DiligentCore/ThirdParty/vulkan/libs](https://github.com/DiligentGraphics/DiligentCore/tree/master/ThirdParty/vulkan/libs) directory.

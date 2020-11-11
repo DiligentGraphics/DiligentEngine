@@ -65,7 +65,7 @@ void TestScene::Initialize(const SampleInitInfo& InitInfo)
 
     for (auto actor : actors)
     {
-        actor->setTransform(float3(2.0f * i, 0.0f, 0.0f));
+        actor->setPosition(float3(3.0f * i, 0.0f, 0.0f));
         i++;
     }
 

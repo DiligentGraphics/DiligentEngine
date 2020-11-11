@@ -68,6 +68,14 @@ void Actor::Update(double CurrTime, double ElapsedTime)
 
     updateComponents(CurrTime, ElapsedTime);
     UpdateActor(CurrTime, ElapsedTime);
+    computeWorldTransform();
+}
+
+void Actor::computeWorldTransform() 
+{
+    m_WorldMatrix = m_WorldMatrix.Scale(getScale());
+    m_WorldMatrix *= Quaternion::createFromQuaternion(getRotation());
+    m_WorldMatrix *= m_WorldMatrix.Translation(getPostition());
 }
 
 void Actor::CreateShadowMap()
