@@ -52,9 +52,6 @@ public:
 
     RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
     RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
-
-
-    SampleInitInfo     varInitInfo;
     std::vector<float3> transforms;
     float4x4       m_CubeWorldMatrix;
     float4x4       m_CameraViewProjMatrix;
