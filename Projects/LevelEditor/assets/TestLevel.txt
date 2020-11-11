@@ -1,0 +1,12 @@
+Cube/0,0,0
+Cube/2,0,0
+Cube/4,0,0
+Cube/0,2,0
+Cube/2,2,0
+Cube/4,2,0
+Cube/0,0,2
+Cube/2,0,2
+Cube/4,0,2
+Cube/0,2,2
+Cube/2,2,2
+Cube/4,2,2

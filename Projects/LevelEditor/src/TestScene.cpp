@@ -25,9 +25,12 @@
  *  of the possibility of such damages.
  */
 
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <vector>
-
 #include <stdio.h>
+#include <typeinfo>
 
 #include "TestScene.hpp"
 #include "MapHelper.hpp"
@@ -36,7 +39,26 @@
 #include "TexturedCube.hpp"
 #include "Cube.h"
 #include "Plane.h"
+#include "imgui.h"
 
+
+namespace ImGui
+{
+static auto vector_getter = [](void* vec, int idx, const char** out_text) {
+    auto& vector = *static_cast<std::vector<std::string>*>(vec);
+    if (idx < 0 || idx >= static_cast<int>(vector.size())) { return false; }
+    *out_text = vector.at(idx).c_str();
+    return true;
+};
+
+bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values)
+{
+    if (values.empty()) { return false; }
+    return ListBox(label, currIndex, vector_getter,
+                   static_cast<void*>(&values),(int) values.size());
+}
+
+} // namespace ImGui
 namespace Diligent
 {
 
@@ -54,23 +76,84 @@ void TestScene::GetEngineInitializationAttribs(RENDER_DEVICE_TYPE DeviceType, En
 
 void TestScene::Initialize(const SampleInitInfo& InitInfo)
 {
-    SampleBase::Initialize(InitInfo);
-
-    actors.emplace_back(new Cube(InitInfo));
-    actors.emplace_back(new Cube(InitInfo));
-    actors.emplace_back(new Plane(InitInfo));
+    varInitInfo = InitInfo;
+    SampleBase::Initialize(varInitInfo);
+    ReadFile("TestLevel.txt",varInitInfo);
+   // actors.emplace_back(new Cube(InitInfo));
+   // actors.emplace_back(new Cube(InitInfo));
+   // actors.emplace_back(new Plane(InitInfo));
     int i = 0;
-
     for (auto actor : actors)
     {
-        actor->setTransform(float3(2.0f*i,0.0f,0.0f));
+        if (transforms.size() >= i)
+        {
+            actor->setTransform(float3(transforms.at(i).x, transforms.at(i).y, transforms.at(i).z));
+
+       //     actor->setTransform(float3(2.0f * i, 0.0f, 0.0f));
+        
+        }
+        else
+        {
+            actor->setTransform(float3(0.0f, 0.0f, 0.0f));
+
+        }
         i++;
     }
 
     CreateShadowMapVisPSO();
+
 }
 
-// Render a frame
+void TestScene::ReadFile(std::string fileName, const SampleInitInfo& InitInfo)
+{
+    std::ifstream file(fileName.c_str());
+
+    if (!file)
+    {
+        return ;
+    }
+    std::string line;
+
+    while (std::getline(file, line))
+    {
+        std::istringstream ss(line);
+
+        std::stringstream        test(line);
+        std::string       actorClass;
+        std::getline(test, actorClass, '/');
+        std::string xCoord;
+        std::string yCoord;
+        std::string zCoord;
+        std::getline(test, xCoord, ',');
+        std::getline(test, yCoord, ',');
+        std::getline(test, zCoord, ',');
+
+        float x = std::stof(xCoord.c_str());
+        float y = std::stof(yCoord.c_str());
+        float z = std::stof(zCoord.c_str());
+        CreateAdaptedActor(actorClass, InitInfo);
+        transforms.emplace_back(float3(x,y,z));
+    }
+
+    int isfserfs = 0;
+    isfserfs++;
+
+    file.close();
+    //    transforms.push_back(float3(2, 0, 0));
+//    transforms.push_back(float3(4, 0, 0));
+}
+
+void TestScene::CreateAdaptedActor(std::string actorClass, const SampleInitInfo& InitInfo)
+{
+    if (actorClass == "Cube") {
+        actors.emplace_back(new Cube(InitInfo));
+    }
+    if (actorClass == "Plane")
+    {
+        actors.emplace_back(new Plane(InitInfo));
+    }
+}
+    // Render a frame
 void TestScene::Render()
 {
     // Bind main back buffer
@@ -166,10 +249,103 @@ void TestScene::CreateShadowMapVisPSO()
     m_pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pShadowMapVisPSO);
 }
 
+
+void TestScene::UpdateUI()
+{
+    ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_FirstUseEver);
+    if (ImGui::Begin("Level Editor", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        //index a selectionner avec listbox
+        std::vector<std::string> indexesName;
+        int size        = (int)actors.size();
+        for (int indextemp = 0; indextemp < size; indextemp++) {
+            indexesName.emplace_back(std::to_string(indextemp));
+        }
+
+        ImGui::ListBox("index actor", &indexActors, indexesName);
+
+    //    ImGui::InputInt("Index acteur", &indexActors);
+    //    ImGui::DragInt("drag int", &indexActors, 1);
+
+
+        //Transform of index selected transform
+        if (indexActors > -1) {
+
+        
+            float3 coord = actors.at(indexActors)->getCoord();
+             float vec4i[4] = {coord.x, coord.y, coord.z, 1};
+            if (ImGui::InputFloat3("coord", vec4i))
+            {
+                coord = float3(vec4i[0], vec4i[1], vec4i[2]);
+                actors.at(indexActors)->setTransform(coord);
+            }
+        }
+        
+        
+        /*
+        int size =(int) actors.size();
+        if (ImGui::ListBoxHeader("List",size ))
+        {
+            for (int indes=0; indes <size; indes++)
+            {
+
+             //   ImGui::Selectable((std::to_string(indes)).c_str(), false,);
+            }
+            ImGui::ListBoxFooter();
+        }
+        */
+
+        //Same line String to write + button to create actor
+        
+        ImGui::InputText("Name of class", nameSelected, IM_ARRAYSIZE(nameSelected));
+        ImGui::SameLine();
+        if (ImGui::Button("Create")) {
+            std::stringstream ss;
+            ss << nameSelected;
+            std::string s = ss.str();
+
+           // CreateAdaptedActor(s,varInitInfo);
+
+        }
+
+         ImGui::NewLine();
+        ImGui::InputText("Level file name", levelName, IM_ARRAYSIZE(levelName));
+        ImGui::SameLine();
+        if (ImGui::Button("SaveLevel"))
+        {
+            std::stringstream sslevel;
+            sslevel << levelName;
+            std::string slevel = sslevel.str();
+
+            SaveLevel(levelName);
+        }
+
+    }
+    ImGui::End();
+}
+void TestScene::SaveLevel(std::string fileName)
+{
+    std::ofstream file(fileName.c_str());
+    std::string   line;
+    
+    for (auto actor : actors)
+    {
+        line = actor->getClassName();
+        line += "/";
+        float3 tempCoord = actor->getCoord();
+        line += std::to_string(tempCoord.x) + "," +std::to_string(tempCoord.y) + "," +std::to_string(tempCoord.z);
+        line += "\n";
+        file << line;
+    }
+    file.close();
+}
+
+
+
 void TestScene::Update(double CurrTime, double ElapsedTime)
 {
     SampleBase::Update(CurrTime, ElapsedTime);
-
+    UpdateUI();
     // Animate the cube
     for (auto actor : actors)
     {
