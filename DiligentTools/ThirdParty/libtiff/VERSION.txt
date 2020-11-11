@@ -1,0 +1,2 @@
+4.0.10
+Note that VERSION without extensions causes build error on Android because insane toolchain has #include<version> somewhere

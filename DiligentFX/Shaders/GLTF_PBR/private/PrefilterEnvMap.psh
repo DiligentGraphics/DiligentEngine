@@ -1,0 +1,67 @@
+#include "GLTF_PBR_PrecomputeCommon.fxh"
+
+#ifndef OPTIMIZE_SAMPLES
+#   define OPTIMIZE_SAMPLES 1
+#endif
+
+TextureCube  g_EnvironmentMap;
+SamplerState g_EnvironmentMap_sampler;
+
+cbuffer FilterAttribs
+{
+    float4x4 g_RotationUnused;
+
+    float    g_Roughness;
+    float    g_EnvMapDim;
+    uint     g_NumSamples;
+    float    Dummy;
+}
+
+// https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf
+float3 PrefilterEnvMap( float Roughness, float3 R )
+{
+    float3 N = R;
+    float3 V = R;
+    float3 PrefilteredColor = float3(0.0, 0.0, 0.0);
+    float TotalWeight = 0.0;
+    for( uint i = 0u; i < g_NumSamples; i++ )
+    {
+        float2 Xi = Hammersley2D( i, g_NumSamples );
+        float3 H  = ImportanceSampleGGX( Xi, Roughness, N );
+        float3 L  = 2.0 * dot(V, H) * H - V;
+        float NoL = clamp(dot(N, L), 0.0, 1.0);
+        float VoH = clamp(dot(V, H), 0.0, 1.0);
+        if(NoL > 0.0 && VoH > 0.0)
+        {
+#if OPTIMIZE_SAMPLES
+            // https://placeholderart.wordpress.com/2015/07/28/implementation-notes-runtime-environment-map-filtering-for-image-based-lighting/
+
+            float NoH = clamp(dot(N, H), 0.0, 1.0);
+
+            // Probability Distribution Function
+            float pdf = max(NormalDistribution_GGX(NoH, Roughness) * NoH / (4.0 * VoH), 0.0001);
+            // Slid angle of current smple
+            float OmegaS = 1.0 / (float(g_NumSamples) * pdf);
+            // Solid angle of 1 pixel across all cube faces
+            float OmegaP = 4.0 * PI / (6.0 * g_EnvMapDim * g_EnvMapDim);
+            // Do not apply mip bias as this produces result that are not cosistent with the reference
+            float MipLevel = (Roughness == 0.0) ? 0.0 : max(0.5 * log2(OmegaS / OmegaP), 0.0);
+#else
+            float MipLevel = 0.0;
+#endif
+            PrefilteredColor += g_EnvironmentMap.SampleLevel(g_EnvironmentMap_sampler, L, MipLevel).rgb * NoL;
+            TotalWeight += NoL;
+        }
+    }
+    return PrefilteredColor / TotalWeight;
+}
+
+
+void main(in float4  Pos      : SV_Position,
+          in float3  WorldPos : WORLD_POS,
+          out float4 Color    : SV_Target)
+{		
+    float3 R = normalize(WorldPos);
+    Color.rgb = PrefilterEnvMap(g_Roughness, R);
+    Color.a = 0.0;
+}

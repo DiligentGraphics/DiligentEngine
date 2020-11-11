@@ -1,0 +1,42 @@
+// Generates an irradiance cube from an environment map using convolution
+
+#ifndef NUM_PHI_SAMPLES
+#   define NUM_PHI_SAMPLES 64
+#endif
+
+#ifndef NUM_THETA_SAMPLES
+#   define NUM_THETA_SAMPLES 32
+#endif
+
+TextureCube  g_EnvironmentMap;
+SamplerState g_EnvironmentMap_sampler;
+
+void main(in float4 Pos      : SV_Position,
+          in float3 WorldPos : WORLD_POS,
+          out float4 Color   : SV_Target)
+{
+    float3 N     = normalize(WorldPos);
+    float3 up    = float3(0.0, 1.0, 0.0);
+    float3 right = normalize(cross(up, N));
+    up = cross(N, right);
+
+    const float PI         = 3.14159265;
+    const float deltaPhi   = 2.0 * PI / float(NUM_PHI_SAMPLES);
+    const float deltaTheta = 0.5 * PI / float(NUM_THETA_SAMPLES);
+
+    float3 color = float3(0.0, 0.0, 0.0);
+    float sampleCount = 0.0;
+    for (int p=0; p < NUM_PHI_SAMPLES; ++p)
+    {
+        float phi = float(p) * deltaPhi;
+        for (int t=0; t < NUM_THETA_SAMPLES; ++t)
+        {
+            float theta = float(t) * deltaTheta;
+            float3 tempVec   = cos(phi) * right + sin(phi) * up;
+            float3 sampleDir = cos(theta) * N + sin(theta) * tempVec;
+            color += g_EnvironmentMap.Sample(g_EnvironmentMap_sampler, sampleDir).rgb * cos(theta) * sin(theta);
+            sampleCount += 1.0;
+        }
+    }
+    Color = float4(PI * color / sampleCount, 1.0);
+}

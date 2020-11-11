@@ -1,0 +1,44 @@
+version: '2.4.{build}'
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+image:
+- Visual Studio 2019
+
+environment:
+  matrix:
+    - platform: x64
+      configuration: Debug
+
+    - platform: x64
+      configuration: Release
+
+# clone directory
+clone_folder: c:\projects\DiligentFX
+
+install:
+  # clone submodules
+  - git clone https://github.com/DiligentGraphics/DiligentCore.git ../DiligentCore --recursive
+  - git clone https://github.com/DiligentGraphics/DiligentTools.git ../DiligentTools --recursive
+  - ..\DiligentCore\BuildTools\Scripts\appveyor\install.bat
+
+before_build:
+  - cd c:\projects\DiligentFX\BuildTools\FormatValidation
+  - validate_format_win.bat
+  - cd c:\projects
+  - echo cmake_minimum_required(VERSION 3.6) > CMakeLists.txt
+  - echo Project(DiligentFX_Test) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentCore) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentTools) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentFX) >> CMakeLists.txt
+  - echo %PLATFORM%
+  - cmake -S . -B ./build -D DILIGENT_BUILD_TESTS=TRUE -G "Visual Studio 16 2019" -A %PLATFORM%
+
+build:
+  project: c:\projects\build\DiligentFX_Test.sln
+  verbosity: minimal
+  parallel: true

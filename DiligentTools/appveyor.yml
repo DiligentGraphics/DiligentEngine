@@ -1,0 +1,49 @@
+version: '2.4.{build}'
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+image:
+- Visual Studio 2019
+
+environment:
+  matrix:
+    - platform: x64
+      configuration: Debug
+      platform_name: Windows
+
+    - platform: x64
+      configuration: Release
+      platform_name: Windows
+
+# clone directory
+clone_folder: c:\projects\DiligentTools
+
+install:
+  # clone submodules
+  - git submodule update --init --recursive
+  - git clone https://github.com/DiligentGraphics/DiligentCore.git ../DiligentCore --recursive
+  - ..\DiligentCore\BuildTools\Scripts\appveyor\install.bat
+
+before_build:
+  - cd c:\projects\DiligentTools\BuildTools\FormatValidation
+  - validate_format_win.bat
+  - cd c:\projects
+  - echo cmake_minimum_required(VERSION 3.6) > CMakeLists.txt
+  - echo Project(DiligentTools_Test) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentCore) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentTools) >> CMakeLists.txt
+  - echo %PLATFORM%
+  - cmake -S . -B ./build -D DILIGENT_BUILD_TESTS=TRUE -G "Visual Studio 16 2019" -A %PLATFORM%
+
+build:
+  project: c:\projects\build\DiligentTools_Test.sln
+  verbosity: minimal
+  parallel: true
+
+test_script:
+  - 'cd %APPVEYOR_BUILD_FOLDER%\Tests\DiligentToolsTest\assets'
+  - '%APPVEYOR_BUILD_FOLDER%\BuildTools\Scripts\appveyor\run_tests.bat c:\projects\build\DiligentTools'

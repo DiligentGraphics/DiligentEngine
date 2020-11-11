@@ -1,0 +1,21 @@
+[submodule "ThirdParty/glslang"]
+	path = ThirdParty/glslang
+	url = https://github.com/DiligentGraphics/glslang
+[submodule "ThirdParty/SPIRV-Cross"]
+	path = ThirdParty/SPIRV-Cross
+	url = https://github.com/DiligentGraphics/SPIRV-Cross
+[submodule "ThirdParty/SPIRV-Tools"]
+	path = ThirdParty/SPIRV-Tools
+	url = https://github.com/DiligentGraphics/SPIRV-Tools
+[submodule "ThirdParty/SPIRV-Headers"]
+	path = ThirdParty/SPIRV-Headers
+	url = https://github.com/DiligentGraphics/SPIRV-Headers
+[submodule "ThirdParty/googletest"]
+	path = ThirdParty/googletest
+	url = https://github.com/DiligentGraphics/googletest
+[submodule "ThirdParty/Vulkan-Headers"]
+	path = ThirdParty/Vulkan-Headers
+	url = https://github.com/DiligentGraphics/Vulkan-Headers.git
+[submodule "ThirdParty/volk"]
+	path = ThirdParty/volk
+	url = https://github.com/DiligentGraphics/volk.git

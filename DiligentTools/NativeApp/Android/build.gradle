@@ -1,0 +1,77 @@
+apply plugin: 'com.android.library'
+apply from: "android_common.gradle"
+
+// The arcore aar library contains the native shared libraries.  These are
+// extracted before building to a temporary directory.
+def arcore_libpath = "${buildDir}/arcore-native"
+
+android {
+    defaultConfig {
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a' //,'x86', 'x86_64'
+        }
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static", "-DARCORE_LIBPATH=${arcore_libpath}/jni", "-DARCORE_INCLUDE=${project.projectDir}/arcore_sdk/include"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            version '3.10.2'
+            path '../../../CMakeLists.txt'
+            buildStagingDirectory "${project.rootDir}/../../build/Android/.cxx"
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'ndk_helper/src/java']
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+// Create a configuration to mark which aars to extract .so files from
+configurations { natives }
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // ARCore library
+    implementation 'com.google.ar:core:1.18.0'
+    natives 'com.google.ar:core:1.18.0'
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+}
+
+
+// Extracts the shared libraries from aars in the natives configuration.
+// This is done so that NDK builds can access these libraries.
+task extractARCoreLibraries() {
+    // Always extract, this insures the native libs are updated if the version changes.
+    outputs.upToDateWhen { false }
+    doFirst {
+        configurations.natives.files.each { f ->
+            copy {
+                from zipTree(f)
+                into arcore_libpath
+                include "jni/**/*"
+            }
+        }
+    }
+}
+
+tasks.whenTaskAdded {
+    task-> if (task.name.contains("external") && !task.name.contains("Clean")) {
+        task.dependsOn(extractARCoreLibraries)
+    }
+}

@@ -1,0 +1,88 @@
+version: '2.4.{build}'
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+image:
+- Visual Studio 2019
+
+environment: 
+  matrix:
+    # Win32/x64/Debug
+    - platform: x64
+      configuration: Debug
+      cmake_args: -D CMAKE_INSTALL_PREFIX=install
+      platform_name: Windows
+
+    # Win32/x64/Release
+    - platform: x64
+      configuration: Release
+      cmake_args: -D CMAKE_INSTALL_PREFIX=install
+      platform_name: Windows
+
+    # UWP/x64/Debug
+    - platform: x64
+      configuration: Debug
+      cmake_args: -D CMAKE_INSTALL_PREFIX=install -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
+      platform_name: UWP
+
+    # UWP/x64/Release
+    - platform: x64
+      configuration: Release
+      cmake_args: -D CMAKE_INSTALL_PREFIX=install -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
+      platform_name: UWP
+
+    # Win32/x86/Release
+    - platform: Win32
+      configuration: Release
+      cmake_args: -D CMAKE_INSTALL_PREFIX=install
+      platform_name: Windows
+
+    # UWP/x86/Release
+    - platform: Win32
+      configuration: Release
+      cmake_args: -D CMAKE_INSTALL_PREFIX=install -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
+      platform_name: UWP
+
+    # Win32-8.1SDK/x64/Release
+    - platform: x64
+      configuration: Release
+      cmake_args: -D CMAKE_INSTALL_PREFIX=install -D CMAKE_SYSTEM_VERSION=8.1
+      platform_name: Windows8.1
+
+# clone directory
+clone_folder: c:\projects\DiligentCore
+
+install:
+  # clone submodules
+  - git submodule update --init --recursive
+  - BuildTools\Scripts\appveyor\install.bat
+
+before_build:
+  - 'cd %APPVEYOR_BUILD_FOLDER%\BuildTools\FormatValidation'
+  - validate_format_win.bat
+  - 'cd %APPVEYOR_BUILD_FOLDER%'
+  - echo %PLATFORM%
+  - echo.%cmake_args%
+  - cmake %cmake_args% -S . -B ./build -D DILIGENT_BUILD_TESTS=TRUE -D CMAKE_INSTALL_PREFIX=install -G "Visual Studio 16 2019" -A %PLATFORM%
+
+build:
+  project: '%APPVEYOR_BUILD_FOLDER%\build\INSTALL.vcxproj'
+  verbosity: minimal
+  parallel: true
+
+test_script:
+  - 'cd %APPVEYOR_BUILD_FOLDER%\Tests\DiligentCoreAPITest\assets'
+  - '%APPVEYOR_BUILD_FOLDER%\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build'
+
+after_test:
+  - 'cd %APPVEYOR_BUILD_FOLDER%\install'
+  - 7z a DiligentCore-"%platform_name%"-"%PLATFORM%"-"%CONFIGURATION%".zip
+    .\*
+
+artifacts:
+  - path: install\*.zip
+    name: artifacts-zip

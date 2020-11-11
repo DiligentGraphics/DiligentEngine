@@ -1,0 +1,70 @@
+sudo: required
+
+language: cpp
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+
+before_install:
+  - . ./BuildTools/Scripts/travis/before_install.sh
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-9
+      - g++-9
+      - cmake
+
+matrix:
+  include:
+  - os: linux
+    compiler: gcc
+    env: 
+      - CONFIG=Debug
+  - os: osx
+    osx_image: xcode11.1
+    compiler: clang
+    env: 
+      - CONFIG=Debug
+      - IOS=false
+  - os: osx
+    osx_image: xcode11.1
+    compiler: clang
+    env: 
+      - CONFIG=Debug
+      - IOS=true
+  - os: linux
+    compiler: gcc
+    env:
+      - CONFIG=Release
+  - os: osx
+    osx_image: xcode11.1
+    compiler: clang
+    env: 
+      - CONFIG=Release
+      - IOS=false
+  - os: osx
+    osx_image: xcode11.1
+    compiler: clang
+    env: 
+      - CONFIG=Release
+      - IOS=true
+
+script:
+    # Travis keeps running commands even when previous one fails (https://github.com/travis-ci/travis-ci/issues/1066)
+  - cd ./BuildTools/FormatValidation
+  - . ../Scripts/travis/validate_format.sh
+  - cd ../..
+  - . ./BuildTools/Scripts/travis/build_install.sh "-DDILIGENT_BUILD_TESTS=TRUE"
+  - cd ../Tests/DiligentCoreAPITest/assets
+  - . ../../../BuildTools/Scripts/travis/run_tests.sh ../../../build
+  - cd ../../..
+
+after_success:
+  - cd ./build/install
+  - export ZIP_NAME=DiligentCore-${TRAVIS_OS_NAME}-${GLSLANG_BUILD_TYPE}.zip;
+  - zip -r ${ZIP_NAME} .
