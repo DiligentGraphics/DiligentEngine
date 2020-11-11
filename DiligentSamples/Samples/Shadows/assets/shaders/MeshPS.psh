@@ -1,0 +1,66 @@
+#include "BasicStructures.fxh"
+#include "Shadows.fxh"
+
+Texture2D    g_tex2DDiffuse;
+SamplerState g_tex2DDiffuse_sampler;
+
+#if SHADOW_MODE == SHADOW_MODE_PCF
+    Texture2DArray<float>  g_tex2DShadowMap;
+    SamplerComparisonState g_tex2DShadowMap_sampler;
+#else
+    Texture2DArray<float4> g_tex2DFilterableShadowMap;         // Can't use g_tex2DShadowMap name due to GLSL converter limitation
+    SamplerState           g_tex2DFilterableShadowMap_sampler;
+#endif
+
+cbuffer cbLightAttribs
+{
+    LightAttribs g_LightAttribs;
+}
+
+
+struct VSOutput
+{
+    float4 PositionPS 	        : SV_Position;
+    float3 PosInLightViewSpace 	: LIGHT_SPACE_POS;
+    float3 NormalWS 	        : NORMALWS;
+    float2 TexCoord 	        : TEXCOORD;
+};
+
+float4 MeshPS(VSOutput VSOut) : SV_TARGET
+{
+    // Normalize after interpolation
+    float3 normalWS = normalize(VSOut.NormalWS);
+
+    float3 diffuseAlbedo = g_tex2DDiffuse.Sample(g_tex2DDiffuse_sampler, VSOut.TexCoord).rgb;
+
+    float nDotL = saturate(dot(normalWS, -g_LightAttribs.f4Direction.xyz));
+
+    FilteredShadow Shadow;
+    float CameraSpaceZ = VSOut.PositionPS.w;
+#   ifdef VULKAN
+        // In Vulkan SV_Position.w == 1 / VSOutput.SV_Position.w
+        CameraSpaceZ = 1.0 / CameraSpaceZ;
+#   endif
+#   if SHADOW_MODE == SHADOW_MODE_PCF
+        Shadow = FilterShadowMap(g_LightAttribs.ShadowAttribs, g_tex2DShadowMap, g_tex2DShadowMap_sampler,
+                                 VSOut.PosInLightViewSpace, ddx(VSOut.PosInLightViewSpace), ddy(VSOut.PosInLightViewSpace),
+                                 CameraSpaceZ);
+#   else
+        Shadow = SampleFilterableShadowMap(g_LightAttribs.ShadowAttribs, g_tex2DFilterableShadowMap, g_tex2DFilterableShadowMap_sampler,
+                                           VSOut.PosInLightViewSpace, ddx(VSOut.PosInLightViewSpace), ddy(VSOut.PosInLightViewSpace),
+                                           CameraSpaceZ);
+#   endif
+
+	float3 Color = (nDotL * g_LightAttribs.f4Intensity.xyz * Shadow.fLightAmount + g_LightAttribs.f4AmbientLight.xyz) * diffuseAlbedo;
+
+    if (g_LightAttribs.ShadowAttribs.bVisualizeShadowing)
+    {
+        Color = lerp(Color, float3(Shadow.fLightAmount, Shadow.fLightAmount, Shadow.fLightAmount), 0.99);
+    }
+    if (g_LightAttribs.ShadowAttribs.bVisualizeCascades)
+    {
+        Color = lerp(Color, GetCascadeColor(Shadow), 0.1);
+    }
+
+    return float4(Color, 1.0);
+}

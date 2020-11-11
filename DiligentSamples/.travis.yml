@@ -1,0 +1,58 @@
+sudo: required
+
+language: cpp
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+
+before_install:
+  - git clone https://github.com/DiligentGraphics/DiligentCore.git ../DiligentCore --recursive
+  - git clone https://github.com/DiligentGraphics/DiligentTools.git ../DiligentTools --recursive
+  - git clone https://github.com/DiligentGraphics/DiligentFX.git ../DiligentFX --recursive
+  - . ../DiligentCore/BuildTools/Scripts/travis/before_install.sh
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-9
+      - g++-9
+      - cmake
+
+matrix:
+  include:
+  - os: linux
+    compiler: gcc
+    env: CONFIG=Release
+  - os: osx
+    osx_image: xcode11.1
+    compiler: clang
+    env:
+      - CONFIG=Release
+      - IOS=false
+  - os: linux
+    compiler: gcc
+    env: CONFIG=Debug
+  - os: osx
+    osx_image: xcode11.1
+    compiler: clang
+    env: 
+      - CONFIG=Release
+      - IOS=true
+
+script:
+
+  - cd ./BuildTools/FormatValidation
+  - . ../../../DiligentCore/BuildTools/Scripts/travis/validate_format.sh
+  - cd ../../..
+  - |
+    echo "cmake_minimum_required(VERSION 3.6)" > CMakeLists.txt
+    echo "Project(DiligentFX_Test)" >> CMakeLists.txt
+    echo "add_subdirectory(DiligentCore)" >> CMakeLists.txt
+    echo "add_subdirectory(DiligentTools)" >> CMakeLists.txt
+    echo "add_subdirectory(DiligentFX)" >> CMakeLists.txt
+    echo "add_subdirectory(DiligentSamples)" >> CMakeLists.txt
+  - . ./DiligentCore/BuildTools/Scripts/travis/build.sh

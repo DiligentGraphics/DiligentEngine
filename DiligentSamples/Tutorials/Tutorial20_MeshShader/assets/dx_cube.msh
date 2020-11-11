@@ -1,0 +1,61 @@
+#include "structures.fxh"
+
+cbuffer cbConstants
+{
+    Constants g_Constants;
+}
+
+cbuffer cbCubeData
+{
+    CubeData g_CubeData;
+}
+
+struct PSInput 
+{
+    float4 Pos   : SV_POSITION; 
+    float4 Color : COLOR;
+    float2 UV    : TEXCOORD;
+};
+
+// generate color
+float4 Rainbow(float factor)
+{
+    float  h   = factor / 1.35;
+    float3 col = float3(abs(h * 6.0 - 3.0) - 1.0, 2.0 - abs(h * 6.0 - 2.0), 2.0 - abs(h * 6.0 - 4.0));
+    return float4(clamp(col, float3(0.0, 0.0, 0.0), float3(1.0, 1.0, 1.0)), 1.0);
+}
+
+
+[numthreads(24, 1, 1)]       // use 24 threads out of the 32 maximum available
+[outputtopology("triangle")] // output primitive type is triangle list
+void main(in uint I   : SV_GroupIndex,   // thread index used to access mesh shader output (0 .. 23)
+          in uint gid : SV_GroupID,      // work group index used to access amplification shader output (0 .. s_TaskCount-1)
+          in  payload  Payload  payload, // entire amplification shader output can be accessed by the mesh shader
+          out indices  uint3    tris[12],
+          out vertices PSInput  verts[24])
+{
+    // The cube contains 24 vertices, 36 indices for 12 triangles.
+    // Only the input values from the the first active thread are used.
+    SetMeshOutputCounts(24, 12);
+    
+    // Read the amplification shader output for this group
+    float3 pos;
+    float  scale = payload.Scale[gid];
+    float  LOD   = payload.LODs[gid];
+    pos.x = payload.PosX[gid];
+    pos.y = payload.PosY[gid];
+    pos.z = payload.PosZ[gid];
+    
+    // Each thread handles only one vertex
+    verts[I].Pos = mul(float4(pos + g_CubeData.Positions[I].xyz * scale, 1.0), g_Constants.ViewProjMat);
+    verts[I].UV  = g_CubeData.UVs[I].xy;
+    
+    // LOD doesn't affect the vertex count, we just display it as color
+    verts[I].Color = Rainbow(LOD);
+    
+    // Only the first 12 threads write indices. We must not access the array outside of its bounds.
+    if (I < 12)
+    {
+        tris[I] = g_CubeData.Indices[I].xyz;
+    }
+}

@@ -1,0 +1,81 @@
+#include "structures.fxh"
+
+Texture2D<float> g_HeightMap;
+SamplerState     g_HeightMap_sampler;
+
+cbuffer HSConstants
+{
+    GlobalConstants g_Constants;
+};
+
+#ifndef BLOCK_SIZE
+#   define BLOCK_SIZE 32
+#endif
+
+TerrainHSConstFuncOut ConstantHS( InputPatch<TerrainVSOut, 1> inputPatch/*, uint BlockID : SV_PrimitiveID*/)
+{
+    TerrainHSConstFuncOut Out;
+    if(g_Constants.AdaptiveTessellation != 0)
+    {
+        float2 BlockOffset = inputPatch[0].BlockOffset;
+        float4 UV = float4(0.0, 0.0, 1.0, 1.0) / float2(g_Constants.fNumHorzBlocks, g_Constants.fNumVertBlocks).xyxy + BlockOffset.xyxy;
+        float2 leftEdgeCntrUV  = float2(UV.x,              (UV.y + UV.w)/2.0);
+        float2 rightEdgeCntrUV = float2(UV.z,              (UV.y + UV.w)/2.0);
+        float2 btmEdgeCntrUV   = float2((UV.x + UV.z)/2.0, UV.y);
+        float2 topEdgeCntrUV   = float2((UV.x + UV.z)/2.0, UV.w);
+
+        // Compute edge center position
+        float3 leftEdgeCntr  = float3((leftEdgeCntrUV  - float2(0.5, 0.5)) * g_Constants.LengthScale, 0);
+        float3 rightEdgeCntr = float3((rightEdgeCntrUV - float2(0.5, 0.5)) * g_Constants.LengthScale, 0);
+        float3 btmEdgeCntr   = float3((btmEdgeCntrUV   - float2(0.5, 0.5)) * g_Constants.LengthScale, 0);
+        float3 topEdgeCntr   = float3((topEdgeCntrUV   - float2(0.5, 0.5)) * g_Constants.LengthScale, 0);
+
+        // Sample height map at the location of the edge center
+        leftEdgeCntr.z  = g_HeightMap.SampleLevel(g_HeightMap_sampler, leftEdgeCntrUV, 0)  * g_Constants.HeightScale;
+        rightEdgeCntr.z = g_HeightMap.SampleLevel(g_HeightMap_sampler, rightEdgeCntrUV, 0) * g_Constants.HeightScale;
+        btmEdgeCntr.z   = g_HeightMap.SampleLevel(g_HeightMap_sampler, btmEdgeCntrUV, 0)   * g_Constants.HeightScale;
+        topEdgeCntr.z   = g_HeightMap.SampleLevel(g_HeightMap_sampler, topEdgeCntrUV, 0)   * g_Constants.HeightScale;
+
+        // Transform to camera space
+        float3 leftEdgeCntrViewSpace  = mul(float4(leftEdgeCntr.xzy, 1.0), g_Constants.WorldView).xyz;
+        float3 rightEdgeCntrViewSpace = mul(float4(rightEdgeCntr.xzy,1.0), g_Constants.WorldView).xyz;
+        float3 btmEdgeCntrViewSpace   = mul(float4(btmEdgeCntr.xzy,  1.0), g_Constants.WorldView).xyz;
+        float3 topEdgeCntrViewSpace   = mul(float4(topEdgeCntr.xzy,  1.0), g_Constants.WorldView).xyz;
+
+        // Compute distance to camera
+        float distToLeftEdge = length(leftEdgeCntrViewSpace);
+        float distToRightEdge = length(rightEdgeCntrViewSpace);
+        float distToBtmEdge = length(btmEdgeCntrViewSpace);
+        float distToTopEdge = length(topEdgeCntrViewSpace);
+
+        Out.Edges[0] = clamp( g_Constants.TessDensity / distToLeftEdge,  2.0, g_Constants.fBlockSize);
+        Out.Edges[1] = clamp( g_Constants.TessDensity / distToBtmEdge,   2.0, g_Constants.fBlockSize);
+        Out.Edges[2] = clamp( g_Constants.TessDensity / distToRightEdge, 2.0, g_Constants.fBlockSize);
+        Out.Edges[3] = clamp( g_Constants.TessDensity / distToTopEdge,   2.0, g_Constants.fBlockSize);
+    }
+    else
+    {
+        Out.Edges[0] = g_Constants.TessDensity; // left
+        Out.Edges[1] = g_Constants.TessDensity; // right
+        Out.Edges[2] = g_Constants.TessDensity; // bottom
+        Out.Edges[3] = g_Constants.TessDensity; // top
+    }
+    Out.Inside[0] = min(Out.Edges[1], Out.Edges[3]); // horizontal
+    Out.Inside[1] = min(Out.Edges[0], Out.Edges[2]); // vertical
+
+    return Out;
+}
+
+[domain("quad")]
+[partitioning("fractional_even")]
+[outputtopology("triangle_ccw")]
+[outputcontrolpoints(1)]
+[patchconstantfunc("ConstantHS")]
+[maxtessfactor( (float)(BLOCK_SIZE) )]
+TerrainHSOut TerrainHS(InputPatch<TerrainVSOut, 1> inputPatch, uint uCPID : SV_OutputControlPointID )
+{
+    TerrainHSOut HSOut;
+    HSOut.BlockOffset = inputPatch[0].BlockOffset;
+
+    return HSOut;
+}

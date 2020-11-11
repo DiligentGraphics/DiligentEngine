@@ -1,0 +1,88 @@
+#version 460
+#extension GL_NV_mesh_shader : require
+#extension GL_GOOGLE_include_directive : require
+
+#include "structures.fxh"
+
+// row major matrices for compatibility with DirectX
+layout(std140, row_major) uniform cbConstants
+{
+    Constants g_Constants;
+};
+
+layout(std140, row_major) uniform cbCubeData
+{
+    CubeData g_CubeData;
+};
+
+// use only 24 threads of 32 maximum available
+layout(local_size_x = 24) in;
+
+// cube contains 24 vertices, 36 indices for 12 triangles
+layout(max_vertices = 24, max_primitives = 12) out;
+
+// output primitive type is triangle list
+layout(triangles) out;
+
+// built-in output variables
+//out uint gl_PrimitiveCountNV;
+//out uint gl_PrimitiveIndicesNV[max_primitives * 3]
+//out gl_MeshPerVertexNV {
+//  vec4 gl_Position;
+//} gl_MeshVerticesNV[max_vertices]
+//perprimitiveNV out gl_MeshPerPrimitiveNV {
+//  int gl_PrimitiveID;
+//  int gl_Layer;
+//  int gl_ViewportIndex;
+//} gl_MeshPrimitivesNV[max_primitives];
+
+layout(location=0) out vec2 out_UV[];
+layout(location=1) out vec4 out_Color[];
+
+
+// All task shader output can be accessed by mesh shader
+taskNV in Task {
+    Payload payload;
+} Input;
+
+
+// generate color
+vec4 Rainbow(float factor)
+{
+    float h   = factor / 1.35;
+    vec3  col = vec3(abs(h * 6.0 - 3.0) - 1.0, 2.0 - abs(h * 6.0 - 2.0), 2.0 - abs(h * 6.0 - 4.0));
+    return vec4(clamp(col, vec3(0.0), vec3(1.0)), 1.0);
+}
+
+void main()
+{
+    // work group index used to access task shader output
+    const uint gid = gl_WorkGroupID.x;
+
+    // local invocation index used to access mesh shader output
+    const uint I   = gl_LocalInvocationID.x;
+
+    Payload payload = Input.payload;
+    vec3  pos   = vec3(payload.PosX[gid], payload.PosY[gid], payload.PosZ[gid]);
+    float scale = payload.Scale[gid];
+    float LOD   = payload.LODs[gid];
+    
+    // each thread writes to only one vertex
+    gl_MeshVerticesNV[I].gl_Position = g_Constants.ViewProjMat * vec4(pos + g_CubeData.Positions[I].xyz * scale, 1.0);
+    out_UV[I] = g_CubeData.UVs[I].xy;
+
+    // LOD doesn't affect on vertices count, just show LOD with different colors
+    out_Color[I] = Rainbow(LOD);
+
+    // only 12 threads writes indices
+    if (I < 12)
+    {
+        gl_PrimitiveIndicesNV[I*3+0] = g_CubeData.Indices[I].x;
+        gl_PrimitiveIndicesNV[I*3+1] = g_CubeData.Indices[I].y;
+        gl_PrimitiveIndicesNV[I*3+2] = g_CubeData.Indices[I].z;
+    }
+
+    // only one thread write the primitive count
+    if (I == 20)
+        gl_PrimitiveCountNV = 12;
+}

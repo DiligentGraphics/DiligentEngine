@@ -1,0 +1,12 @@
+#version 430
+ 
+layout(location = 0) in  vec2 in_UV;
+layout(location = 1) in  vec4 in_Color;
+layout(location = 0) out vec4 out_Color;
+
+uniform sampler2D g_Texture;
+
+void main()
+{
+    out_Color = texture(g_Texture, in_UV) * in_Color;
+}

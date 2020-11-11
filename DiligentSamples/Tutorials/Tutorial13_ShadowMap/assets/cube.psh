@@ -1,0 +1,15 @@
+#include "structures.fxh"
+
+Texture2D    g_Texture;
+SamplerState g_Texture_sampler; // By convention, texture samplers must use the '_sampler' suffix
+
+struct CubePSOutput
+{
+    float4 Color : SV_TARGET;
+};
+
+void main(in  CubePSInput  PSIn,
+          out CubePSOutput PSOut)
+{
+    PSOut.Color = g_Texture.Sample(g_Texture_sampler, PSIn.UV) * (PSIn.NdotL * 0.8 + 0.2);
+}

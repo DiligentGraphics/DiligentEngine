@@ -1,0 +1,3 @@
+[submodule "ThirdParty/nuklear"]
+	path = ThirdParty/nuklear
+	url = https://github.com/DiligentGraphics/nuklear

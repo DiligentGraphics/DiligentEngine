@@ -1,0 +1,67 @@
+cbuffer Constants
+{
+    float g_Time;
+    float g_Padding0;
+    float g_Padding1;
+    float g_Padding2;
+
+    float4 g_UVPreTransform;    // Need to store this as float4, because 
+    float4 g_UVPreTransformInv; // there are layout problems with float2x2.
+};
+
+Texture2D    g_Texture;
+SamplerState g_Texture_sampler; // By convention, texture samplers must use the '_sampler' suffix
+
+struct PSInput
+{
+    float4 Pos   : SV_POSITION;
+    float2 UV    : TEX_COORD;
+};
+
+struct PSOutput
+{
+    float4 Color : SV_TARGET;
+};
+
+// Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
+// shader output variable name must match exactly the name of the pixel shader input variable.
+// If the variable has structure type (like in this example), the structure declarations must also be indentical.
+void main(in  PSInput  PSIn,
+          out PSOutput PSOut)
+{
+#if defined(DESKTOP_GL) || defined(GL_ES)
+    // Unlike other graphics API's, OpenGL has its texture coordinates origin at the bottom-left corner instead
+    // of the top left. When sampling a regular texture, there is no visible difference since the texture data
+    // is also uploaded starting from that lower-left corner. When sampling a framebuffer attachment, there is
+    // a visible difference, though. Hence we need to flip the Y coordinate of the frame buffer attachment.
+    float2 UV = float2(PSIn.UV.x, 1.0 - PSIn.UV.y);
+#else
+    float2 UV = PSIn.UV;
+#endif
+
+#if TRANSFORM_UV
+    // If pre-transform is applied, then current UV coordinates are in pre-transformed space.
+    // We need to transform them back to original space.
+    float2x2 UVTransformMatrixInv;
+    MATRIX_ELEMENT(UVTransformMatrixInv, 0, 0) = g_UVPreTransformInv.x;
+    MATRIX_ELEMENT(UVTransformMatrixInv, 1, 0) = g_UVPreTransformInv.y;
+    MATRIX_ELEMENT(UVTransformMatrixInv, 0, 1) = g_UVPreTransformInv.z;
+    MATRIX_ELEMENT(UVTransformMatrixInv, 1, 1) = g_UVPreTransformInv.w;
+    UV = mul(UV - float2(0.5, 0.5), UVTransformMatrixInv) + float2(0.5, 0.5);
+#endif
+
+    float2 DistortedUV = UV + float2(sin(UV.y*300.0)*0.1 * sin(g_Time*3.0), sin(UV.x*200.0)*0.02 * sin(g_Time*2.0));
+
+#if TRANSFORM_UV
+    // Now we need to transform DistortedUV back to pre-transformed space, because this is how
+    // off-screen buffer was rendered
+    float2x2 UVTransformMatrix;
+    MATRIX_ELEMENT(UVTransformMatrix, 0, 0) = g_UVPreTransform.x;
+    MATRIX_ELEMENT(UVTransformMatrix, 1, 0) = g_UVPreTransform.y;
+    MATRIX_ELEMENT(UVTransformMatrix, 0, 1) = g_UVPreTransform.z;
+    MATRIX_ELEMENT(UVTransformMatrix, 1, 1) = g_UVPreTransform.w;
+    DistortedUV = mul(DistortedUV - float2(0.5, 0.5), UVTransformMatrix) + float2(0.5, 0.5);
+#endif
+
+    PSOut.Color = g_Texture.Sample(g_Texture_sampler, DistortedUV);
+}

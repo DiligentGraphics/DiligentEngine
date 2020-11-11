@@ -1,0 +1,35 @@
+#include "structures.fxh"
+
+Texture2D<float> g_HeightMap;
+SamplerState     g_HeightMap_sampler;
+
+
+cbuffer DSConstants
+{
+    GlobalConstants g_Constants;
+};
+
+// For some reason, winding direction in HLSL and GLSL are different
+// Special comment below is used by the HLSL->GLSL converter to define
+// output topology and partitioning type
+[domain("quad")]
+/* partitioning = fractional_even, outputtopology = triangle_ccw */
+TerrainDSOut TerrainDS( TerrainHSConstFuncOut ConstFuncOut, 
+                        OutputPatch<TerrainHSOut, 1> QuadPatch,
+                        float2 DomainUV : SV_DomainLocation)
+{
+    TerrainDSOut Out;
+    float2 BlockOffset = QuadPatch[0].BlockOffset;
+    // Scale domain UV by the block size and add offset
+    float2 UV = DomainUV / float2(g_Constants.fNumHorzBlocks, g_Constants.fNumVertBlocks) + BlockOffset;
+    // Scale to world units
+    float2 XY = (UV - float2(0.5,0.5)) * g_Constants.LengthScale;
+    // Sample the height map
+    float Height = g_HeightMap.SampleLevel(g_HeightMap_sampler, UV, 0) * g_Constants.HeightScale;
+    float4 PosWorld = float4(XY, Height, 1.0);
+    // Apply world-view-projection matrix:
+    Out.Pos = mul(PosWorld.xzyw, g_Constants.WorldViewProj);
+    // Pass uv coordinates to the pixel shader
+    Out.uv = UV;
+    return Out;
+}

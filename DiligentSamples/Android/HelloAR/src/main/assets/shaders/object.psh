@@ -1,0 +1,51 @@
+Texture2D    g_Texture;
+SamplerState g_Texture_sampler;
+
+struct PSInput 
+{ 
+    float4 Pos : SV_POSITION; 
+    float2 UV : TEX_COORD; 
+};
+
+struct PSOutput
+{
+    float4 Color : SV_TARGET;
+};
+
+cbuffer Constants
+{
+    float4x4 g_ModelView;
+    float4x4 g_ModelViewProjection;
+
+    float4 g_LightingParameters;
+    float4 g_ColorCorrectionParameters;
+    float4 g_ObjectColor;
+}
+
+void main(in  PSInput  PSIn,
+          out PSOutput PSOut)
+{
+    float3 Color = g_Texture.Sample(g_Texture_sampler, PSIn.UV).rgb * 0.5;
+
+    // Approximate sRGB gamma.
+    const float kGamma           = 0.4545454;
+    const float kInverseGamma    = 2.2;
+    const float kMiddleGrayGamma = 0.466;
+
+    float3 ColorShift            = g_ColorCorrectionParameters.rgb;
+    float  AveragePixelIntensity = g_ColorCorrectionParameters.a;
+
+    // Apply color to grayscale image only if the alpha of g_ObjectColor is
+    // greater than or equal to 255.0.
+    //if (g_ObjectColor.a >= 255.0)
+    //{
+    //    float intensity = Color.r;
+    //    Color.rgb = g_ObjectColor.rgb * intensity / 255.0;
+    //}
+    
+    // Apply sRGB gamma before writing the fragment color.
+    Color.rgb = pow(Color, float3(kGamma, kGamma, kGamma));
+    // Apply average pixel intensity and color shift
+    Color *= ColorShift * (AveragePixelIntensity / kMiddleGrayGamma);
+    PSOut.Color = float4(Color, 1.0);
+}

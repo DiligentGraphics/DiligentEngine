@@ -1,0 +1,15 @@
+#include "structures.fxh"
+
+Texture2D    g_Texture;
+SamplerState g_Texture_sampler; // By convention, texture samplers must use the '_sampler' suffix
+
+struct PSOutput
+{
+    float4 Color : SV_TARGET;
+};
+
+void TerrainPS(in TerrainDSOut PSIn,
+               out PSOutput    PSOut)
+{
+    PSOut.Color = g_Texture.Sample(g_Texture_sampler, PSIn.uv);
+}

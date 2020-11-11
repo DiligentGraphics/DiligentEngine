@@ -1,0 +1,66 @@
+version: '2.4.{build}'
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+image:
+- Visual Studio 2019
+
+environment:
+  # use 'capture' to generate golden images and upload them as build artifacts
+  # use 'compare' to render and compare with the golden references
+  # use 'compare_update' to first compare with the references and then update them
+  test_mode: compare_update
+
+  matrix:
+    - platform: x64
+      configuration: Debug
+      platform_name: Windows
+
+    - platform: x64
+      configuration: Release
+      platform_name: Windows
+
+# clone directory
+clone_folder: c:\projects\DiligentSamples
+
+install:
+  # clone submodules
+  - git submodule update --init --recursive
+  - git clone https://github.com/DiligentGraphics/DiligentCore.git ../DiligentCore --recursive
+  - git clone https://github.com/DiligentGraphics/DiligentTools.git ../DiligentTools --recursive
+  - git clone https://github.com/DiligentGraphics/DiligentFX.git ../DiligentFX --recursive
+  - ..\DiligentCore\BuildTools\Scripts\appveyor\install.bat
+
+before_build:
+  - cd c:\projects\DiligentSamples\BuildTools\FormatValidation
+  - validate_format_win.bat
+  - cd c:\projects
+  - echo cmake_minimum_required(VERSION 3.6) > CMakeLists.txt
+  - echo Project(DiligentSamples_Test) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentCore) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentTools) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentFX) >> CMakeLists.txt
+  - echo add_subdirectory(DiligentSamples) >> CMakeLists.txt
+  - echo %PLATFORM%
+  - cmake -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
+
+build:
+  project: c:\projects\build\DiligentSamples_Test.sln
+  verbosity: minimal
+  parallel: true
+
+test_script:
+  - 'cd %APPVEYOR_BUILD_FOLDER%\Tests\GoldenImages'
+  - '%APPVEYOR_BUILD_FOLDER%\BuildTools\Scripts\appveyor\run_tests.bat c:\projects\build %test_mode%'
+
+after_test:
+  - 'cd %APPVEYOR_BUILD_FOLDER%'
+  - 7z a golden_images-"%CONFIGURATION%".zip .\Tests\GoldenImages\*\*
+
+artifacts:
+  - path: \golden_images-*.zip
+    name: golden_images-zip
