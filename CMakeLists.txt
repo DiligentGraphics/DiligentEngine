@@ -2,6 +2,9 @@ cmake_minimum_required (VERSION 3.6)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Generate XCode schema files
+set(CMAKE_XCODE_GENERATE_SCHEME TRUE)
+
 project(DiligentEngine)
 
 option(DILIGENT_BUILD_TOOLS "Build DiligentTools module" ON)
