@@ -1,0 +1,5 @@
+
+float4 BoundBoxPS(in float4 Pos : SV_Position) : SV_Target
+{
+    return float4(0.5, 0.0, 0.0, 1.0);
+}

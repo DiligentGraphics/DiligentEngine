@@ -1,0 +1,191 @@
+{
+    "asset": {
+        "copyright": "Copyright 2017 Analytical Graphics, Inc., CC-BY 4.0 https://creativecommons.org/licenses/by/4.0/ - Mesh and textures by Ed Mackey, see: https://emackey.github.io/testing-pbr/normal-tangent-readme.html",
+        "generator": "COLLADA2GLTF with hand-edits",
+        "version": "2.0"
+    },
+    "scene": 0,
+    "scenes": [
+        {
+            "nodes": [
+                0
+            ]
+        }
+    ],
+    "nodes": [
+        {
+            "children": [
+                1
+            ]
+        },
+        {
+            "mesh": 0
+        }
+    ],
+    "meshes": [
+        {
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 1,
+                        "POSITION": 2,
+                        "TEXCOORD_0": 3
+                    },
+                    "indices": 0,
+                    "mode": 4,
+                    "material": 0
+                }
+            ],
+            "name": "NormalTangentTest_low"
+        }
+    ],
+    "accessors": [
+        {
+            "bufferView": 0,
+            "byteOffset": 0,
+            "componentType": 5123,
+            "count": 23322,
+            "max": [
+                3982
+            ],
+            "min": [
+                0
+            ],
+            "type": "SCALAR"
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 3983,
+            "max": [
+                0.9247629046440125,
+                0.9247735142707824,
+                1.0
+            ],
+            "min": [
+                -0.9247629046440125,
+                -0.9247629046440125,
+                -1.0
+            ],
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 47796,
+            "componentType": 5126,
+            "count": 3983,
+            "max": [
+                1.1100000143051148,
+                0.9500001072883606,
+                0.08049999922513962
+            ],
+            "min": [
+                -1.1100000143051148,
+                -1.200000047683716,
+                -0.009999989531934262
+            ],
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 2,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 3983,
+            "max": [
+                0.9821358323097228,
+                0.9877346754074096
+            ],
+            "min": [
+                0.0106734000146389,
+                0.03816509246826172
+            ],
+            "type": "VEC2"
+        }
+    ],
+    "materials": [
+        {
+            "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                    "index": 0
+                },
+                "metallicRoughnessTexture": {
+                    "index": 1
+                }
+            },
+            "occlusionTexture": {
+                "index": 1
+            },
+            "normalTexture": {
+                "index": 2
+            },
+            "doubleSided": true,
+            "emissiveFactor": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    ],
+    "textures": [
+        {
+            "sampler": 0,
+            "source": 0
+        },
+        {
+            "sampler": 0,
+            "source": 1
+        },
+        {
+            "sampler": 0,
+            "source": 2
+        }
+    ],
+    "images": [
+        {
+            "uri": "NormalTangentTest_BaseColor.png"
+        },
+        {
+            "uri": "NormalTangentTest_OcclusionRoughnessMetallic.png"
+        },
+        {
+            "uri": "NormalTangentTest_Normal.png"
+        }
+    ],
+    "samplers": [
+        {
+            "magFilter": 9729,
+            "minFilter": 9986,
+            "wrapS": 10497,
+            "wrapT": 10497
+        }
+    ],
+    "bufferViews": [
+        {
+            "buffer": 0,
+            "byteOffset": 127456,
+            "byteLength": 46644,
+            "target": 34963
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 0,
+            "byteLength": 95592,
+            "byteStride": 12,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 95592,
+            "byteLength": 31864,
+            "byteStride": 8,
+            "target": 34962
+        }
+    ],
+    "buffers": [
+        {
+            "byteLength": 174100,
+            "uri": "NormalTangentTest0.bin"
+        }
+    ]
+}
