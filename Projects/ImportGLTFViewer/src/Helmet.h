@@ -7,10 +7,10 @@
 namespace Diligent
 {
 
-class GLTFTest : public Actor
+class Helmet : public Actor
 {
 public:
-    GLTFTest(const SampleInitInfo& InitInfo);
+    Helmet(const SampleInitInfo& InitInfo);
 
     void Initialize(const SampleInitInfo& InitInfo) override;
 
@@ -30,7 +30,7 @@ private:
         Irradiance,
         PrefilteredEnvMap,
         NumModes
-    } m_BackgroundMode = BackgroundMode::None;
+    } m_BackgroundMode = BackgroundMode::PrefilteredEnvMap;
 
     GLTF_PBR_Renderer::RenderInfo m_RenderParams;
 

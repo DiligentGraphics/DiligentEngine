@@ -27,7 +27,7 @@
 
 #include <cmath>
 #include <array>
-#include "GLTFTest.h"
+#include "Sphere.h"
 #include "MapHelper.hpp"
 #include "BasicMath.hpp"
 #include "GraphicsUtilities.h"
@@ -59,24 +59,12 @@ struct EnvMapRenderAttribs
 
 } // namespace
 
-// clang-format off
-const std::pair<const char*, const char*> GLTFTest::GLTFModels[] =
-{
-    {"Damaged Helmet",      "models/DamagedHelmet/DamagedHelmet.gltf"},
-    {"Metal Rough Spheres", "models/MetalRoughSpheres/MetalRoughSpheres.gltf"},
-    {"Flight Helmet",       "models/FlightHelmet/FlightHelmet.gltf"},
-    {"Cesium Man",          "models/CesiumMan/CesiumMan.gltf"},
-    {"Boom Box",            "models/BoomBoxWithAxes/BoomBoxWithAxes.gltf"},
-    {"Normal Tangent Test", "models/NormalTangentTest/NormalTangentTest.gltf"}
-};
-// clang-format on
-
-GLTFTest::GLTFTest(const SampleInitInfo& InitInfo)
+Sphere::Sphere(const SampleInitInfo& InitInfo)
 {
     Initialize(InitInfo);
 }
 
-void GLTFTest::LoadModel(const char* Path)
+void Sphere::LoadModel(const char* Path)
 {
     if (m_Model)
     {
@@ -108,7 +96,7 @@ void GLTFTest::LoadModel(const char* Path)
     }
 }
 
-void GLTFTest::Initialize(const SampleInitInfo& InitInfo)
+void Sphere::Initialize(const SampleInitInfo& InitInfo)
 {
     SampleBase::Initialize(InitInfo);
 
@@ -147,10 +135,10 @@ void GLTFTest::Initialize(const SampleInitInfo& InitInfo)
 
     m_LightDirection = normalize(float3(0.5f, -0.6f, -0.2f));
 
-    LoadModel("models/DamagedHelmet/DamagedHelmet.gltf");
+    LoadModel("models/MetalRoughSpheres/MetalRoughSpheres.gltf");
 }
 
-void GLTFTest::CreatePSO()
+void Sphere::CreatePSO()
 {
     ShaderCreateInfo                               ShaderCI;
     RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
@@ -218,7 +206,7 @@ void GLTFTest::CreatePSO()
     CreateVertexBuffer();
 }
 
-void GLTFTest::CreateVertexBuffer()
+void Sphere::CreateVertexBuffer()
 {
     if (m_BackgroundMode != BackgroundMode::None)
     {
@@ -247,7 +235,7 @@ void GLTFTest::CreateVertexBuffer()
 }
 
 // Render a frame
-void GLTFTest::RenderActor(const Camera cameraP, bool IsShadowPass)
+void Sphere::RenderActor(const Camera cameraP, bool IsShadowPass)
 {
     m_RenderParams.ModelTransform = m_WorldMatrix;
 
@@ -311,7 +299,7 @@ void GLTFTest::RenderActor(const Camera cameraP, bool IsShadowPass)
     }
 }
 
-void GLTFTest::UpdateActor(double CurrTime, double ElapsedTime)
+void Sphere::UpdateActor(double CurrTime, double ElapsedTime)
 {
     {
         const auto& mouseState = m_InputController.GetMouseState();

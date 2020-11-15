@@ -34,8 +34,8 @@
 #include "GraphicsUtilities.h"
 #include "TextureUtilities.h"
 #include "TexturedCube.hpp"
-#include "Cube.h"
-#include "Plane.h"
+#include "Sphere.h"
+#include "Helmet.h"
 
 namespace Diligent
 {
@@ -58,18 +58,23 @@ void TestScene::Initialize(const SampleInitInfo& InitInfo)
 
     Init = InitInfo;
 
-    actors.emplace_back(new Cube(Init));
-    actors.emplace_back(new Cube(Init));
-    actors.emplace_back(new Plane(Init));
+    actors.emplace_back(new Helmet(Init));
+    actors.emplace_back(new Sphere(Init));
+
     int i = 0;
 
     for (auto actor : actors)
     {
-        actor->setPosition(float3(3.0f * i, 0.0f, 0.0f));
+        actor->setPosition(float3(0.0f, 0.0f, i * 1.0f));
         i++;
     }
+}
 
-    CreateShadowMapVisPSO();
+void TestScene::ResetView()
+{
+    camera.m_CameraYaw      = 0;
+    camera.m_CameraPitch    = 0;
+    camera.m_CameraRotation = Quaternion::RotationFromAxisAngle(float3{0.75f, 0.0f, 0.75f}, PI_F);
 }
 
 // Render a frame
@@ -78,115 +83,83 @@ void TestScene::Render()
     // Bind main back buffer
     auto* pRTV = m_pSwapChain->GetCurrentBackBufferRTV();
     auto* pDSV = m_pSwapChain->GetDepthBufferDSV();
-    m_pImmediateContext->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-    const float ClearColor[] = {0.5f, 0.5f, 0.5f, 1.0f};
+    // Clear the back buffer
+    const float ClearColor[] = {0.032f, 0.032f, 0.032f, 1.0f};
     m_pImmediateContext->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
+    // Get pretransform matrix that rotates the scene according the surface orientation
+    auto     SrfPreTransform = GetSurfacePretransformMatrix(float3{0, 0, 1});
+    float4x4 CameraView      = camera.m_CameraRotation.ToMatrix() * float4x4::Translation(0.f, 0.0f, camera.m_CameraDist) * SrfPreTransform;
+    float4x4 CameraWorld     = CameraView.Inverse();
+    float3   CameraWorldPos  = float3::MakeVector(CameraWorld[3]);
+
+    camera.m_CameraWorldPos = CameraWorldPos;
+
+    // Get projection matrix adjusted to the current screen orientation
+    camera.m_Proj = GetAdjustedProjectionMatrix(PI_F / 4.0f, 0.1f, 100.f);
+
+    // Compute world-view-projection matrix
+    camera.m_CameraViewProjMatrix = CameraView * camera.m_Proj;
+
     for (auto actor : actors)
     {
-        actor->RenderActor(m_CameraViewProjMatrix, false);
+        actor->RenderActor(camera, false);
     }
-}
-
-void TestScene::CreateShadowMapVisPSO()
-{
-    GraphicsPipelineStateCreateInfo PSOCreateInfo;
-
-    PSOCreateInfo.PSODesc.Name = "Shadow Map Vis PSO";
-
-    // This is a graphics pipeline
-    PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
-
-    // clang-format off
-    // This tutorial renders to a single render target
-    PSOCreateInfo.GraphicsPipeline.NumRenderTargets             = 1;
-    // Set render target format which is the format of the swap chain's color buffer
-    PSOCreateInfo.GraphicsPipeline.RTVFormats[0]                = m_pSwapChain->GetDesc().ColorBufferFormat;
-    // Set depth buffer format which is the format of the swap chain's back buffer
-    PSOCreateInfo.GraphicsPipeline.DSVFormat                    = m_pSwapChain->GetDesc().DepthBufferFormat;
-    // Primitive topology defines what kind of primitives will be rendered by this pipeline state
-    PSOCreateInfo.GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-    // No cull
-    PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE_NONE;
-    // Disable depth testing
-    PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
-    // clang-format on
-
-    ShaderCreateInfo ShaderCI;
-    // Tell the system that the shader source code is in HLSL.
-    // For OpenGL, the engine will convert this into GLSL under the hood.
-    ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-
-    // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
-    ShaderCI.UseCombinedTextureSamplers = true;
-
-    // Create a shader source stream factory to load shaders from files.
-    RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
-    m_pEngineFactory->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
-    ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
-    // Create shadow map visualization vertex shader
-    RefCntAutoPtr<IShader> pShadowMapVisVS;
-    {
-        ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
-        ShaderCI.EntryPoint      = "main";
-        ShaderCI.Desc.Name       = "Shadow Map Vis VS";
-        ShaderCI.FilePath        = "shadow_map_vis.vsh";
-        m_pDevice->CreateShader(ShaderCI, &pShadowMapVisVS);
-    }
-
-    // Create shadow map visualization pixel shader
-    RefCntAutoPtr<IShader> pShadowMapVisPS;
-    {
-        ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
-        ShaderCI.EntryPoint      = "main";
-        ShaderCI.Desc.Name       = "Shadow Map Vis PS";
-        ShaderCI.FilePath        = "shadow_map_vis.psh";
-        m_pDevice->CreateShader(ShaderCI, &pShadowMapVisPS);
-    }
-
-    PSOCreateInfo.pVS = pShadowMapVisVS;
-    PSOCreateInfo.pPS = pShadowMapVisPS;
-
-    // Define variable type that will be used by default
-    PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
-
-    // clang-format off
-    SamplerDesc SamLinearClampDesc
-    {
-        FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR,
-        TEXTURE_ADDRESS_CLAMP, TEXTURE_ADDRESS_CLAMP, TEXTURE_ADDRESS_CLAMP
-    };
-    ImmutableSamplerDesc ImtblSamplers[] =
-    {
-        {SHADER_TYPE_PIXEL, "g_ShadowMap", SamLinearClampDesc}
-    };
-    // clang-format on
-    PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers    = ImtblSamplers;
-    PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImtblSamplers);
-
-    m_pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pShadowMapVisPSO);
 }
 
 void TestScene::Update(double CurrTime, double ElapsedTime)
 {
     SampleBase::Update(CurrTime, ElapsedTime);
 
-    // Animate the cube
+    {
+        const auto& mouseState = m_InputController.GetMouseState();
+
+        float MouseDeltaX = 0;
+        float MouseDeltaY = 0;
+        if (m_LastMouseState.PosX >= 0 && m_LastMouseState.PosY >= 0 &&
+            m_LastMouseState.ButtonFlags != MouseState::BUTTON_FLAG_NONE)
+        {
+            MouseDeltaX = mouseState.PosX - m_LastMouseState.PosX;
+            MouseDeltaY = mouseState.PosY - m_LastMouseState.PosY;
+        }
+        m_LastMouseState = mouseState;
+
+        constexpr float RotationSpeed = 0.005f;
+
+        float fYawDelta   = MouseDeltaX * RotationSpeed;
+        float fPitchDelta = MouseDeltaY * RotationSpeed;
+        if (mouseState.ButtonFlags & MouseState::BUTTON_FLAG_LEFT)
+        {
+            camera.m_CameraYaw += fYawDelta;
+            camera.m_CameraPitch += fPitchDelta;
+            camera.m_CameraPitch = std::max(camera.m_CameraPitch, -PI_F / 2.f);
+            camera.m_CameraPitch = std::min(camera.m_CameraPitch, +PI_F / 2.f);
+        }
+
+        // Apply extra rotations to adjust the view to match Khronos GLTF viewer
+        camera.m_CameraRotation =
+            Quaternion::RotationFromAxisAngle(float3{1, 0, 0}, -camera.m_CameraPitch) *
+            Quaternion::RotationFromAxisAngle(float3{0, 1, 0}, -camera.m_CameraYaw) *
+            Quaternion::RotationFromAxisAngle(float3{0.75f, 0.0f, 0.75f}, PI_F);
+
+        if (mouseState.ButtonFlags & MouseState::BUTTON_FLAG_RIGHT)
+        {
+            auto CameraView  = camera.m_CameraRotation.ToMatrix();
+            auto CameraWorld = CameraView.Transpose();
+
+            float3 CameraRight = float3::MakeVector(CameraWorld[0]);
+            float3 CameraUp    = float3::MakeVector(CameraWorld[1]);
+        }
+
+        camera.m_CameraDist -= mouseState.WheelDelta * 0.25f;
+        camera.m_CameraDist = clamp(camera.m_CameraDist, 0.1f, 5.f);
+    }
+
+    // Animate Actors
     for (auto actor : actors)
     {
         actor->Update(CurrTime, ElapsedTime);
     }
-
-    float4x4 CameraView = float4x4::Translation(0.f, -5.0f, -10.0f) * float4x4::RotationY(PI_F) * float4x4::RotationX(-PI_F * 0.2);
-
-    // Get pretransform matrix that rotates the scene according the surface orientation
-    auto SrfPreTransform = GetSurfacePretransformMatrix(float3{0, 0, 1});
-
-    // Get projection matrix adjusted to the current screen orientation
-    auto Proj = GetAdjustedProjectionMatrix(PI_F / 4.0f, 0.1f, 100.f);
-
-    // Compute camera view-projection matrix
-    m_CameraViewProjMatrix = CameraView * SrfPreTransform * Proj;
 }
 } // namespace Diligent

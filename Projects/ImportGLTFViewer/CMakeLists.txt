@@ -6,9 +6,9 @@ set(SOURCE
     src/TestScene.cpp
     src/Actor.cpp
     src/Component.cpp
-    src/Cube.cpp
-    src/Plane.cpp
     src/GLTFTest.cpp
+    src/Helmet.cpp
+    src/Sphere.cpp
     src/TexturedCube.cpp
 )
 
@@ -16,21 +16,14 @@ set(INCLUDE
     src/TestScene.hpp
     src/Actor.h
     src/Component.h
-    src/Cube.h
-    src/Plane.h
+    src/Camera.h
     src/GLTFTest.h
+    src/Helmet.h
+    src/Sphere.h
     src/TexturedCube.hpp
 )
 
 set(SHADERS
-    assets/cube.vsh
-    assets/cube.psh
-    assets/cube_shadow.vsh
-    assets/plane.vsh
-    assets/plane.psh
-    assets/shadow_map_vis.vsh
-    assets/shadow_map_vis.psh
-    assets/structures.fxh
     assets/shaders/BoundBox.vsh
     assets/shaders/BoundBox.psh
     assets/shaders/env_map.vsh
@@ -38,14 +31,10 @@ set(SHADERS
 )
 
 set(EXTERNAL_SHADERS
-    ../../../DiligentFX/Shaders/PostProcess/ToneMapping/public/ToneMappingStructures.fxh
-    ../../../DiligentFX/Shaders/PostProcess/ToneMapping/public/ToneMapping.fxh
-    ../../../DiligentFX/Shaders/Common/public/BasicStructures.fxh
-    ../../../DiligentFX/Shaders/Common/public/ShaderUtilities.fxh
-)
-
-set(ASSETS
-    assets/DGLogo.png
+    ../../DiligentFX/Shaders/PostProcess/ToneMapping/public/ToneMappingStructures.fxh
+    ../../DiligentFX/Shaders/PostProcess/ToneMapping/public/ToneMapping.fxh
+    ../../DiligentFX/Shaders/Common/public/BasicStructures.fxh
+    ../../DiligentFX/Shaders/Common/public/ShaderUtilities.fxh
 )
 
 set(ALL_SHADERS ${SHADERS} ${EXTERNAL_SHADERS})
@@ -59,7 +48,9 @@ file(GLOB NORMAL_TANGENT_TEST_MODEL LIST_DIRECTORIES false assets/models/NormalT
 
 set(MODELS ${BOOM_BOX_MODEL} ${CESIUM_MAN_MODEL} ${DAMAGED_HELMENT_MODEL}
            ${FLIGHT_HELMENT_MODEL} ${METAL_ROUGH_SPHERES_MODEL} ${NORMAL_TANGENT_TEST_MODEL})
+
 set(TEXTURES assets/textures/papermill.ktx)
+
 set(ASSETS
     ${MODELS}
     ${TEXTURES}
@@ -158,17 +149,17 @@ function(add_sample_app APP_NAME IDE_FOLDER SOURCE INCLUDE SHADERS ASSETS)
 endfunction()
 
 
-add_sample_app("ImportGLTFViewer" "Projects" "${SOURCE}" "${INCLUDE}" "${SHADERS}" "${ASSETS}")
+add_sample_app("ImportGLTFViewer" "Projects" "${SOURCE}" "${INCLUDE}" "${ALL_SHADERS}" "${ASSETS}")
 
-target_link_libraries(GLTFViewer PRIVATE Diligent-AssetLoader DiligentFX)
+target_link_libraries(ImportGLTFViewer PRIVATE Diligent-AssetLoader DiligentFX)
 
-target_include_directories(GLTFViewer PRIVATE
+target_include_directories(ImportGLTFViewer PRIVATE
     ../../../DiligentFX/Shaders/PostProcess/ToneMapping/public/
 )
 
 foreach(FILE ${EXTERNAL_SHADERS})
     # Copy external shaders
-    add_custom_command(TARGET GLTFViewer PRE_BUILD 
+    add_custom_command(TARGET ImportGLTFViewer PRE_BUILD 
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/${FILE}" "${CMAKE_CURRENT_SOURCE_DIR}/assets/shaders"
     )
 endforeach(FILE)

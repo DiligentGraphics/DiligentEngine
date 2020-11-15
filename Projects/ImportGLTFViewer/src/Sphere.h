@@ -7,10 +7,10 @@
 namespace Diligent
 {
 
-class GLTFTest : public Actor
+class Sphere : public Actor
 {
 public:
-    GLTFTest(const SampleInitInfo& InitInfo);
+    Sphere(const SampleInitInfo& InitInfo);
 
     void Initialize(const SampleInitInfo& InitInfo) override;
 

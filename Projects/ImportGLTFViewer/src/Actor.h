@@ -29,6 +29,7 @@
 
 #include "SampleBase.hpp"
 #include "BasicMath.hpp"
+#include "Camera.h"
 #include <vector>
 
 
@@ -47,27 +48,24 @@ public:
 
     virtual void Initialize(const SampleInitInfo& InitInfo) override;
 
-    virtual void Render() override final {};
-    virtual void RenderActor(const float4x4& CameraViewProj, bool IsShadowPass);
-    virtual void Update(double CurrTime, double ElapsedTime) override final;
-    virtual void UpdateActor(double CurrTime, double ElapsedTime) {}
-    void updateComponents(double CurrTime, double ElapsedTime);
+    void            Render() override final {};
+    virtual void    RenderActor(const Camera camera, bool IsShadowPass) {};
+    void            Update(double CurrTime, double ElapsedTime) override final;
+    virtual void    UpdateActor(double CurrTime, double ElapsedTime) {}
+    void            updateComponents(double CurrTime, double ElapsedTime);
 
     void addComponent(Component* component);
     void removeComponent(Component* component);
 
     void computeWorldTransform();
 
-    float getScale() { return scale; }
+    float      getScale() { return scale; }
     Quaternion getRotation() { return rotation; }
-    float3     getPostition() { return position; }
+    float3     getPosition() { return position; }
 
     void setScale(float scaleP) { scale = scaleP; }
     void setRotation(Quaternion rotationP) { rotation = rotationP; }
     void setPosition(float3 positionP) { position = positionP; }
-
-    RefCntAutoPtr<IShaderResourceBinding> getm_SRB() { return m_SRB; }
-    RefCntAutoPtr<IPipelineState>         getm_pPSO() { return m_pPSO; }
 
 protected:
     RefCntAutoPtr<IPipelineState>         m_pPSO;
@@ -77,32 +75,18 @@ protected:
     RefCntAutoPtr<ITextureView>           m_TextureSRV;
     RefCntAutoPtr<IShaderResourceBinding> m_SRB;
 
-    RefCntAutoPtr<IShaderResourceBinding> m_ShadowSRB;
-    RefCntAutoPtr<IPipelineState>         m_pShadowPSO;
-    RefCntAutoPtr<ITextureView>           m_ShadowMapDSV;
-    RefCntAutoPtr<ITextureView>           m_ShadowMapSRV;
-    RefCntAutoPtr<IPipelineState>         m_pShadowMapVisPSO;
-    RefCntAutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
     float4x4       m_WorldMatrix;
-    float4x4       m_WorldToShadowMapUVDepthMatr;
-    float3         m_LightDirection  = normalize(float3(-0.49f, -0.60f, 0.64f));
-    Uint32         m_ShadowMapSize   = 512;
-    TEXTURE_FORMAT m_ShadowMapFormat = TEX_FORMAT_D16_UNORM;
+    float4x4       m_ContextInit = float4x4::Identity();
 
-    void CreateShadowMap();
-    void RenderShadowMap();
-    void CreateShadowMapVisPSO();
-    void RenderShadowMapVis();
+    float      scale    = 1.0f;
+    Quaternion rotation = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+    float3     position = float3(0.0f, 0.0f, 0.0f);
 
 private:
     virtual void CreatePSO() {}
     virtual void CreateVertexBuffer() {}
 
     std::vector<Component*> components;
-
-    float scale = 1.0f;
-    Quaternion rotation = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
-    float3     position = float3(0.0f, 0.0f, 0.0f);
 };
 
 } // namespace Diligent
