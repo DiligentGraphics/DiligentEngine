@@ -27,7 +27,7 @@
 
 #include <cmath>
 #include <array>
-#include "GLTFTest.h"
+#include "GLTFObject.h"
 #include "MapHelper.hpp"
 #include "BasicMath.hpp"
 #include "GraphicsUtilities.h"
@@ -59,24 +59,17 @@ struct EnvMapRenderAttribs
 
 } // namespace
 
-// clang-format off
-const std::pair<const char*, const char*> GLTFTest::GLTFModels[] =
+GLTFObject::GLTFObject()
 {
-    {"Damaged Helmet",      "models/DamagedHelmet/DamagedHelmet.gltf"},
-    {"Metal Rough Spheres", "models/MetalRoughSpheres/MetalRoughSpheres.gltf"},
-    {"Flight Helmet",       "models/FlightHelmet/FlightHelmet.gltf"},
-    {"Cesium Man",          "models/CesiumMan/CesiumMan.gltf"},
-    {"Boom Box",            "models/BoomBoxWithAxes/BoomBoxWithAxes.gltf"},
-    {"Normal Tangent Test", "models/NormalTangentTest/NormalTangentTest.gltf"}
-};
-// clang-format on
 
-GLTFTest::GLTFTest(const SampleInitInfo& InitInfo)
+}
+
+GLTFObject::GLTFObject(const SampleInitInfo& InitInfo)
 {
     Initialize(InitInfo);
 }
 
-void GLTFTest::LoadModel(const char* Path)
+void GLTFObject::LoadModel(const char* Path)
 {
     if (m_Model)
     {
@@ -108,7 +101,7 @@ void GLTFTest::LoadModel(const char* Path)
     }
 }
 
-void GLTFTest::Initialize(const SampleInitInfo& InitInfo)
+void GLTFObject::Initialize(const SampleInitInfo& InitInfo)
 {
     SampleBase::Initialize(InitInfo);
 
@@ -146,11 +139,15 @@ void GLTFTest::Initialize(const SampleInitInfo& InitInfo)
     CreatePSO();
 
     m_LightDirection = normalize(float3(0.5f, -0.6f, -0.2f));
-
-    LoadModel("models/DamagedHelmet/DamagedHelmet.gltf");
 }
 
-void GLTFTest::CreatePSO()
+void GLTFObject::setObjectPath(const char* pathP)
+{
+    path = pathP;
+    LoadModel(path);
+}
+
+void GLTFObject::CreatePSO()
 {
     ShaderCreateInfo                               ShaderCI;
     RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
@@ -218,7 +215,7 @@ void GLTFTest::CreatePSO()
     CreateVertexBuffer();
 }
 
-void GLTFTest::CreateVertexBuffer()
+void GLTFObject::CreateVertexBuffer()
 {
     if (m_BackgroundMode != BackgroundMode::None)
     {
@@ -247,7 +244,7 @@ void GLTFTest::CreateVertexBuffer()
 }
 
 // Render a frame
-void GLTFTest::RenderActor(const Camera cameraP, bool IsShadowPass)
+void GLTFObject::RenderActor(const Camera cameraP, bool IsShadowPass)
 {
     m_RenderParams.ModelTransform = m_WorldMatrix;
 
@@ -311,11 +308,9 @@ void GLTFTest::RenderActor(const Camera cameraP, bool IsShadowPass)
     }
 }
 
-void GLTFTest::UpdateActor(double CurrTime, double ElapsedTime)
+void GLTFObject::UpdateActor(double CurrTime, double ElapsedTime)
 {
     SampleBase::Update(CurrTime, ElapsedTime);
-
-    setRotation(Quaternion::RotationFromAxisAngle(float3(0, 1, 0), static_cast<float>(CurrTime) * 1.0f));
 
     if (!m_Model->Animations.empty() && m_PlayAnimation)
     {

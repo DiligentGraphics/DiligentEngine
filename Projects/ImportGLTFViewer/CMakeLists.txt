@@ -6,9 +6,11 @@ set(SOURCE
     src/TestScene.cpp
     src/Actor.cpp
     src/Component.cpp
+    src/Camera.cpp
     src/GLTFTest.cpp
     src/Helmet.cpp
     src/Sphere.cpp
+    src/GLTFObject.cpp
     src/TexturedCube.cpp
 )
 
@@ -20,6 +22,8 @@ set(INCLUDE
     src/GLTFTest.h
     src/Helmet.h
     src/Sphere.h
+    src/GLTFObject.h
+    src/EnvMap.h
     src/TexturedCube.hpp
 )
 

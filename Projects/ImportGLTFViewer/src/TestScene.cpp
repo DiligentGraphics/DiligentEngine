@@ -33,7 +33,6 @@
 #include "MapHelper.hpp"
 #include "GraphicsUtilities.h"
 #include "TextureUtilities.h"
-#include "TexturedCube.hpp"
 #include "Sphere.h"
 #include "Helmet.h"
 
@@ -58,8 +57,8 @@ void TestScene::Initialize(const SampleInitInfo& InitInfo)
 
     Init = InitInfo;
 
-    actors.emplace_back(new Helmet(Init));
-    actors.emplace_back(new Sphere(Init));
+    actors.emplace_back(new Helmet(Init, m_BackgroundMode));
+    actors.emplace_back(new Sphere(Init, m_BackgroundMode));
 
     int i = 0;
 
@@ -110,8 +109,6 @@ void TestScene::Render()
 
 void TestScene::Update(double CurrTime, double ElapsedTime)
 {
-    SampleBase::Update(CurrTime, ElapsedTime);
-
     {
         const auto& mouseState = m_InputController.GetMouseState();
 
@@ -155,6 +152,7 @@ void TestScene::Update(double CurrTime, double ElapsedTime)
         camera.m_CameraDist -= mouseState.WheelDelta * 0.25f;
         camera.m_CameraDist = clamp(camera.m_CameraDist, 0.1f, 5.f);
     }
+    SampleBase::Update(CurrTime, ElapsedTime);
 
     // Animate Actors
     for (auto actor : actors)
