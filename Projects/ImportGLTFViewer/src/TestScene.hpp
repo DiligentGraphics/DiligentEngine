@@ -50,11 +50,11 @@ public:
     virtual const Char* GetSampleName() const override final { return "Scene"; }
 
 private:
+    RefCntAutoPtr<IBuffer> m_CameraAttribsCB;
+
     BackgroundMode m_BackgroundMode = BackgroundMode::Irradiance;
 
-    void ResetView();
-
-    Camera camera;
+    Camera m_Camera;
 
     MouseState m_LastMouseState;
 

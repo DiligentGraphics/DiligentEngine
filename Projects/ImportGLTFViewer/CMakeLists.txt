@@ -7,7 +7,6 @@ set(SOURCE
     src/Actor.cpp
     src/Component.cpp
     src/Camera.cpp
-    src/GLTFTest.cpp
     src/Helmet.cpp
     src/Sphere.cpp
     src/GLTFObject.cpp
@@ -19,7 +18,6 @@ set(INCLUDE
     src/Actor.h
     src/Component.h
     src/Camera.h
-    src/GLTFTest.h
     src/Helmet.h
     src/Sphere.h
     src/GLTFObject.h

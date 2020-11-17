@@ -35,9 +35,11 @@
 #include "TextureUtilities.h"
 #include "Sphere.h"
 #include "Helmet.h"
+#include "InputController.hpp"
 
 namespace Diligent
 {
+    
 
 SampleBase* CreateSample()
 {
@@ -57,6 +59,12 @@ void TestScene::Initialize(const SampleInitInfo& InitInfo)
 
     Init = InitInfo;
 
+    m_Camera.SetPos(float3(0.0f, 0.0f, 0.0f));
+    m_Camera.SetRotation(PI_F / 2.f, 0);
+    m_Camera.SetRotationSpeed(0.005f);
+    m_Camera.SetMoveSpeed(5.f);
+    m_Camera.SetSpeedUpScales(5.f, 10.f);
+
     actors.emplace_back(new Helmet(Init, m_BackgroundMode));
     actors.emplace_back(new Sphere(Init, m_BackgroundMode));
 
@@ -69,90 +77,31 @@ void TestScene::Initialize(const SampleInitInfo& InitInfo)
     }
 }
 
-void TestScene::ResetView()
-{
-    camera.m_CameraYaw      = 0;
-    camera.m_CameraPitch    = 0;
-    camera.m_CameraRotation = Quaternion::RotationFromAxisAngle(float3{0.75f, 0.0f, 0.75f}, PI_F);
-}
-
 // Render a frame
 void TestScene::Render()
 {
-    // Bind main back buffer
+    // Reset default framebuffer
     auto* pRTV = m_pSwapChain->GetCurrentBackBufferRTV();
     auto* pDSV = m_pSwapChain->GetDepthBufferDSV();
+    m_pImmediateContext->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
     // Clear the back buffer
-    const float ClearColor[] = {0.032f, 0.032f, 0.032f, 1.0f};
+    const float ClearColor[] = {0.23f, 0.5f, 0.74f, 1.0f};
     m_pImmediateContext->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-    // Get pretransform matrix that rotates the scene according the surface orientation
-    auto     SrfPreTransform = GetSurfacePretransformMatrix(float3{0, 0, 1});
-    float4x4 CameraView      = camera.m_CameraRotation.ToMatrix() * float4x4::Translation(0.f, 0.0f, camera.m_CameraDist) * SrfPreTransform;
-    float4x4 CameraWorld     = CameraView.Inverse();
-    float3   CameraWorldPos  = float3::MakeVector(CameraWorld[3]);
-
-    camera.m_CameraWorldPos = CameraWorldPos;
-
-    // Get projection matrix adjusted to the current screen orientation
-    camera.m_Proj = GetAdjustedProjectionMatrix(PI_F / 4.0f, 0.1f, 100.f);
-
-    // Compute world-view-projection matrix
-    camera.m_CameraViewProjMatrix = CameraView * camera.m_Proj;
-
     for (auto actor : actors)
     {
-        actor->RenderActor(camera, false);
+        actor->RenderActor(m_Camera, false);
     }
 }
 
 void TestScene::Update(double CurrTime, double ElapsedTime)
 {
-    {
-        const auto& mouseState = m_InputController.GetMouseState();
-
-        float MouseDeltaX = 0;
-        float MouseDeltaY = 0;
-        if (m_LastMouseState.PosX >= 0 && m_LastMouseState.PosY >= 0 &&
-            m_LastMouseState.ButtonFlags != MouseState::BUTTON_FLAG_NONE)
-        {
-            MouseDeltaX = mouseState.PosX - m_LastMouseState.PosX;
-            MouseDeltaY = mouseState.PosY - m_LastMouseState.PosY;
-        }
-        m_LastMouseState = mouseState;
-
-        constexpr float RotationSpeed = 0.005f;
-
-        float fYawDelta   = MouseDeltaX * RotationSpeed;
-        float fPitchDelta = MouseDeltaY * RotationSpeed;
-        if (mouseState.ButtonFlags & MouseState::BUTTON_FLAG_LEFT)
-        {
-            camera.m_CameraYaw += fYawDelta;
-            camera.m_CameraPitch += fPitchDelta;
-            camera.m_CameraPitch = std::max(camera.m_CameraPitch, -PI_F / 2.f);
-            camera.m_CameraPitch = std::min(camera.m_CameraPitch, +PI_F / 2.f);
-        }
-
-        // Apply extra rotations to adjust the view to match Khronos GLTF viewer
-        camera.m_CameraRotation =
-            Quaternion::RotationFromAxisAngle(float3{1, 0, 0}, -camera.m_CameraPitch) *
-            Quaternion::RotationFromAxisAngle(float3{0, 1, 0}, -camera.m_CameraYaw) *
-            Quaternion::RotationFromAxisAngle(float3{0.75f, 0.0f, 0.75f}, PI_F);
-
-        if (mouseState.ButtonFlags & MouseState::BUTTON_FLAG_RIGHT)
-        {
-            auto CameraView  = camera.m_CameraRotation.ToMatrix();
-            auto CameraWorld = CameraView.Transpose();
-
-            float3 CameraRight = float3::MakeVector(CameraWorld[0]);
-            float3 CameraUp    = float3::MakeVector(CameraWorld[1]);
-        }
-
-        camera.m_CameraDist -= mouseState.WheelDelta * 0.25f;
-        camera.m_CameraDist = clamp(camera.m_CameraDist, 0.1f, 5.f);
-    }
     SampleBase::Update(CurrTime, ElapsedTime);
+
+
+    m_Camera.Update(m_InputController, static_cast<float>(ElapsedTime));
 
     // Animate Actors
     for (auto actor : actors)
@@ -160,4 +109,5 @@ void TestScene::Update(double CurrTime, double ElapsedTime)
         actor->Update(CurrTime, ElapsedTime);
     }
 }
+
 } // namespace Diligent

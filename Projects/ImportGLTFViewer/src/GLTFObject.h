@@ -18,7 +18,7 @@ public:
 
     void setObjectPath(const char* path);
 
-    void RenderActor(const Camera camera, bool IsShadowPass) override;
+    void RenderActor(const Camera& camera, bool IsShadowPass) override;
 
     void UpdateActor(double CurrTime, double ElapsedTime) override;
 
@@ -29,6 +29,7 @@ protected:
 
 
 private:
+    void DrawMesh(IDeviceContext* pCtx, bool bIsShadowPass, const ViewFrustumExt& Frustum);
     void CreatePSO() override;
     void CreateVertexBuffer() override;
     void LoadModel(const char* Path);
@@ -57,8 +58,6 @@ private:
     };
 
     BoundBoxMode m_BoundBoxMode = BoundBoxMode::None;
-
-    Camera camera;
 
     MouseState m_LastMouseState;
 };

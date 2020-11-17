@@ -244,46 +244,32 @@ void GLTFObject::CreateVertexBuffer()
 }
 
 // Render a frame
-void GLTFObject::RenderActor(const Camera cameraP, bool IsShadowPass)
+void GLTFObject::RenderActor(const Camera& camera, bool IsShadowPass)
 {
-    m_RenderParams.ModelTransform = m_WorldMatrix;
-
-    camera = cameraP;
-
-    {
-        MapHelper<CameraAttribs> CamAttribs(m_pImmediateContext, m_VertexBuffer, MAP_WRITE, MAP_FLAG_DISCARD);
-        CamAttribs->mProjT        = camera.m_Proj.Transpose();
-        CamAttribs->mViewProjT    = camera.m_CameraViewProjMatrix.Transpose();
-        CamAttribs->mViewProjInvT = camera.m_CameraViewProjMatrix.Inverse().Transpose();
-        CamAttribs->f4Position    = float4(camera.m_CameraWorldPos, 1);
-
-        if (m_BoundBoxMode != BoundBoxMode::None)
-        {
-            float4x4 BBTransform;
-            if (m_BoundBoxMode == BoundBoxMode::Local)
-            {
-                BBTransform = m_Model->AABBTransform * m_RenderParams.ModelTransform;
-            }
-            else if (m_BoundBoxMode == BoundBoxMode::Global)
-            {
-                auto TransformedBB = BoundBox{m_Model->dimensions.min, m_Model->dimensions.max}.Transform(m_RenderParams.ModelTransform);
-                BBTransform        = float4x4::Scale(TransformedBB.Max - TransformedBB.Min) * float4x4::Translation(TransformedBB.Min);
-            }
-            else
-            {
-                UNEXPECTED("Unexpected bound box mode");
-            }
-
-
-            for (int row = 0; row < 4; ++row)
-                CamAttribs->f4ExtraData[row] = float4::MakeVector(BBTransform[row]);
-        }
-    }
-
     {
         MapHelper<LightAttribs> lightAttribs(m_pImmediateContext, m_VSConstants, MAP_WRITE, MAP_FLAG_DISCARD);
         lightAttribs->f4Direction = m_LightDirection;
         lightAttribs->f4Intensity = m_LightColor * m_LightIntensity;
+    }
+
+    // Get pretransform matrix that rotates the scene according the surface orientation
+    auto SrfPreTransform = GetSurfacePretransformMatrix(float3{0, 0, 1});
+
+    const auto  CameraView     = camera.m_ViewMatrix * SrfPreTransform;
+    const auto& CameraWorld    = camera.GetWorldMatrix();
+    float3      CameraWorldPos = float3::MakeVector(CameraWorld[3]);
+    const auto& Proj           = GetAdjustedProjectionMatrix(PI_F / 4.0f, 0.1f, 100.f);
+
+    auto CameraViewProj = CameraView * Proj;
+
+    m_RenderParams.ModelTransform = m_WorldMatrix;
+
+    {
+        MapHelper<CameraAttribs> CamAttribs(m_pImmediateContext, m_VertexBuffer, MAP_WRITE, MAP_FLAG_DISCARD);
+        CamAttribs->mProjT        = Proj.Transpose();
+        CamAttribs->mViewProjT    = CameraViewProj.Transpose();
+        CamAttribs->mViewProjInvT = CameraViewProj.Inverse().Transpose();
+        CamAttribs->f4Position    = float4(CameraWorldPos, 1);
     }
 
     m_GLTFRenderer->Render(m_pImmediateContext, *m_Model, m_RenderParams);

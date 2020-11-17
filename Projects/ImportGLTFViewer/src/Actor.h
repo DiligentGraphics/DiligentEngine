@@ -49,7 +49,7 @@ public:
     virtual void Initialize(const SampleInitInfo& InitInfo) override;
 
     void            Render() override final {};
-    virtual void    RenderActor(const Camera camera, bool IsShadowPass) {};
+    virtual void    RenderActor(const Camera& camera, bool IsShadowPass){};
     void            Update(double CurrTime, double ElapsedTime) override final;
     virtual void    UpdateActor(double CurrTime, double ElapsedTime) {}
     void            updateComponents(double CurrTime, double ElapsedTime);
