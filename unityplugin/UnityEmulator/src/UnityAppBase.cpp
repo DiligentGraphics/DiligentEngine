@@ -62,7 +62,8 @@ UnityAppBase::~UnityAppBase()
     UnloadPlugin();
 
     m_DiligentGraphics.reset();
-    m_GraphicsEmulator->Release();
+    if (m_GraphicsEmulator)
+        m_GraphicsEmulator->Release();
 }
 
 
