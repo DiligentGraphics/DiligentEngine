@@ -334,11 +334,17 @@ Last tested LunarG SDK version: 1.2.135.0.
 <a name="build_and_run_ios"></a>
 ## iOS
 
-Run the command below from the engine's root folder to generate Xcode project configured for iOS build
-(you need to have [CMake](https://cmake.org/) installed on your Mac):
+Run the command below from the engine's root folder to generate Xcode project configured for
+[iOS build](https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html#cross-compiling-for-ios-tvos-or-watchos):
 
 ```cmake
-cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -H. -Bbuild/IOS -GXcode
+cmake -S . -B ./build/iOS -DCMAKE_SYSTEM_NAME=iOS -G "Xcode"
+```
+
+If needed, you can provide iOS deployment target as well as other parameters, e.g.:
+
+```cmake
+cmake -S . -B ./build/iOS -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -G "Xcode"
 ```
 
 Open Xcode project file in `build/IOS` folder and build the engine. To run the applications on an iOS device,
@@ -354,7 +360,7 @@ To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK when 
 that Vulkan SDK is installed at `/LunarG/vulkansdk-macos`):
 
 ```cmake
-cmake -DCMAKE_TOOLCHAIN_FILE=DiligentCore/ios.toolchain.cmake -DIOS_PLATFORM=OS64 -DIOS_ARCH=arm64 -DVULKAN_SDK=/LunarG/vulkansdk-macos -H. -Bbuild/IOS -GXcode
+cmake -DCMAKE_SYSTEM_NAME=iOS -DVULKAN_SDK=/LunarG/vulkansdk-macos -S . -B ./build/iOS -G "Xcode"
 ```
 
 By default, the engine will link with static version of MoltenVK library located in LunarG SDK. If this is not desired or an application wants
