@@ -358,11 +358,10 @@ you will need to set appropriate development team in the project settings.
 ### Configuring Vulkan Build Environment
 
 To enable Vulkan on iOS, download and install [VulkanSDK](https://vulkan.lunarg.com/sdk/home#mac). There is no Vulkan loader
-on iOS, and Diligent Engine links directly with MoltenVK static library (as recommended by 
+on iOS, and Diligent Engine links directly with MoltenVK XCFramework (see
 [MoltenVk install guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install-as-static-framework-static-library-or-dynamic-library))
-that implements Vulkan on Metal. Note that MoltenVK libraries are only provided for arm64 architecture.
-To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK when running CMake, for example (assuming
-that Vulkan SDK is installed at `/LunarG/vulkansdk-macos`):
+that implements Vulkan on Metal. To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK 
+when running CMake, for example (assuming that Vulkan SDK is installed at `/LunarG/vulkansdk-macos`):
 
 ```cmake
 cmake -DCMAKE_SYSTEM_NAME=iOS -DVULKAN_SDK=/LunarG/vulkansdk-macos -S . -B ./build/iOS -G "Xcode"
