@@ -139,8 +139,8 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
             EngineD3D12CreateInfo EngineCI;
             EngineCI.NumDeferredContexts             = mNumSubsets - 1;
             EngineCI.GPUDescriptorHeapDynamicSize[0] = 65536 * 4;
-            EngineCI.GPUDescriptorHeapSize[0]        = 65536; // For mutable mode
-            EngineCI.NumCommandsToFlushCmdList       = 1024;
+            EngineCI.GPUDescriptorHeapSize[0]        = 65536;    // For mutable mode
+            EngineCI.NumCommandsToFlushCmdList       = UINT_MAX; // Never flush the context while recording commands
 #    ifndef _DEBUG
             EngineCI.DynamicDescriptorAllocationChunkSize[0] = 8192;
 #    endif
@@ -160,8 +160,9 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
         case RENDER_DEVICE_TYPE_VULKAN:
         {
             EngineVkCreateInfo EngineCI;
-            EngineCI.NumDeferredContexts = mNumSubsets - 1;
-            EngineCI.DynamicHeapSize     = 64 << 20;
+            EngineCI.NumDeferredContexts         = mNumSubsets - 1;
+            EngineCI.DynamicHeapSize             = 64 << 20;
+            EngineCI.NumCommandsToFlushCmdBuffer = UINT_MAX; // Never flush the context while recording commands
 #    if ENGINE_DLL
             if (GetEngineFactoryVulkan == nullptr)
                 GetEngineFactoryVulkan = LoadGraphicsEngineVk();
