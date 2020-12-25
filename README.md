@@ -39,6 +39,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * [Automatic or explicit control over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
   * Descriptor and memory management
   * Shader resource reflection
+  * Ray-tracing, mesh shaders, bindless resources, and other state of the art capabilities
 * Extensive validation and error reporting
 * Modern c++ features to make the code fast and reliable
 * Consistent high quality is ensured by continuous integration
