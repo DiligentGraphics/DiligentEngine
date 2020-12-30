@@ -17,7 +17,7 @@ if "%num_args%" LSS "3" (
     echo Example:
     echo   test_all.bat c:\Projects\DiligentEngine\build\Win64 Debug c:\Projects\DiligentEngine\GoldenImages
     echo.
-    echo To capture golden images, replace 'capture' with 'compare' in the script below
+    echo To capture golden images, replace 'compare' with 'capture' in the script below
     EXIT /B -1
 )
 
