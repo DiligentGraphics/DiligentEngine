@@ -387,10 +387,10 @@ Core:
   * Moved `ITextureView::GenerateMips()` to `IDeviceContext::GenerateMips()`
   * Added state transition mode parameters to `IDeviceContext::UpdateBuffer()`, `IDeviceContext::UpdateTexture()`,
     `IDeviceContext::CopyBuffer()`, `IDeviceContext::CopyTexture()`, `IDeviceContext::SetVertexBuffers()`, 
-	`IDeviceContext::SetIndexBuffers()`, `IDeviceContext::ClearRenderTargets()`, and `IDeviceContext::ClearDepthStencil()` methods
+    `IDeviceContext::SetIndexBuffers()`, `IDeviceContext::ClearRenderTargets()`, and `IDeviceContext::ClearDepthStencil()` methods
   * Replaced `COMMIT_SHADER_RESOURCES_FLAGS` enum with `RESOURCE_STATE_TRANSITION_MODE`
   * Added `ITextureD3D12::GetD3D12ResourceState()`, `IBufferD3D12::GetD3D12ResourceState()`,
-	`IBufferVk::GetAccessFlags()`, and `ITextureVk::GetLayout()` methods
+    `IBufferVk::GetAccessFlags()`, and `ITextureVk::GetLayout()` methods
   * Added `CopyTextureAttribs` structure that combines all paramters of `IDeviceContext::CopyTexture()` method
 
 ## v2.3.b
@@ -403,8 +403,8 @@ Core:
       * When separate samplers are used (`UseCombinedTextureSamplers == false`), samplers are set in the same way as other shader variables
         via shader or SRB objects
     * Removed `BIND_SHADER_RESOURCES_RESET_BINDINGS` flag, renamed `BIND_SHADER_RESOURCES_KEEP_EXISTING` to `BIND_SHADER_RESOURCES_KEEP_EXISTING`.
-	  Added `BIND_SHADER_RESOURCES_UPDATE_STATIC`, `BIND_SHADER_RESOURCES_UPDATE_MUTABLE`, `BIND_SHADER_RESOURCES_UPDATE_DYNAMIC`, and
-	  `BIND_SHADER_RESOURCES_UPDATE_ALL` flags
+      Added `BIND_SHADER_RESOURCES_UPDATE_STATIC`, `BIND_SHADER_RESOURCES_UPDATE_MUTABLE`, `BIND_SHADER_RESOURCES_UPDATE_DYNAMIC`, and
+      `BIND_SHADER_RESOURCES_UPDATE_ALL` flags
   * Using glslang to compile HLSL to SPIRV in Vulkan backend instead of relying on HLSL->GLSL converter
 
 
@@ -430,9 +430,9 @@ Core:
   * API Changes
     * Added `NumViewports` member to `GraphicsPipelineDesc` struct
     * Removed `PRIMITIVE_TOPOLOGY_TYPE` type
-	* Replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
+    * Replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
       with `PRIMITIVE_TOPOLOGY GraphicsPipelineDesc::PrimitiveTopology`
-	* Removed `DrawAttribs::Topology`
+    * Removed `DrawAttribs::Topology`
     * Removed `pStrides` parameter from `IDeviceContext::SetVertexBuffers()`. Strides are now defined
       through vertex layout.
 * API Changes:
