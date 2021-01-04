@@ -754,8 +754,10 @@ This project has some third-party dependencies, each of which may have independe
 
 To contribute your code, submit a [Pull Request](https://github.com/DiligentGraphics/DiligentEngine/pulls) 
 to this repository. **Diligent Engine** is licensed under the [Apache 2.0 license](License.txt) that guarantees 
-that code in the **DiligentEngine** repository is free of Intellectual Property encumbrances. In submitting code to
-this repository, you are agreeing that the code is free of any Intellectual Property claims.  
+that content in the **DiligentEngine** repository is free of Intellectual Property encumbrances.
+In submitting any content to this repository,
+[you license that content under the same terms](https://docs.github.com/en/free-pro-team@latest/github/site-policy/github-terms-of-service#6-contributions-under-repository-license),
+and you agree that the content is free of any Intellectual Property claims and you have the right to license it under those terms. 
 
 Diligent Engine uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to ensure
 consistent source code style throught the code base. The format is validated by appveyor and travis
