@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Diligent Graphics LLC
+ *  Copyright 2019-2021 Diligent Graphics LLC
  *  Copyright 2015-2019 Egor Yusov
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,7 +62,8 @@ UnityAppBase::~UnityAppBase()
     UnloadPlugin();
 
     m_DiligentGraphics.reset();
-    m_GraphicsEmulator->Release();
+    if (m_GraphicsEmulator)
+        m_GraphicsEmulator->Release();
 }
 
 

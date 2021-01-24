@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Diligent Graphics LLC
+ *  Copyright 2019-2021 Diligent Graphics LLC
  *  Copyright 2015-2019 Egor Yusov
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,6 +51,11 @@ public:
     virtual void Present()override;
     virtual void WindowResize(int width, int height)override;
     virtual void Update(double CurrTime, double ElapsedTime)override;
+    
+    virtual bool IsReady() const override
+    {
+        return m_DiligentGraphics && m_Scene;
+    }
 
     bool LoadPlugin();
 

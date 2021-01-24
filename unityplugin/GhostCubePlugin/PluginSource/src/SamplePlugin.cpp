@@ -43,24 +43,26 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
 {
     auto deviceType = pDevice->GetDeviceCaps().DevType;
     {
-        PipelineStateCreateInfo PSOCreateInfo;
-        PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+        GraphicsPipelineStateCreateInfo PSOCreateInfo;
+        PipelineStateDesc&    PSODesc          = PSOCreateInfo.PSODesc;
+        GraphicsPipelineDesc& GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
 
-        PSODesc.IsComputePipeline = false;
-        PSODesc.Name = "Render sample cube PSO";
-        PSODesc.GraphicsPipeline.NumRenderTargets = 1;
-        PSODesc.GraphicsPipeline.RTVFormats[0] = RTVFormat;
-        PSODesc.GraphicsPipeline.DSVFormat = DSVFormat;
-        PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-        PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
-        PSODesc.GraphicsPipeline.RasterizerDesc.FrontCounterClockwise = deviceType == RENDER_DEVICE_TYPE_D3D11 || deviceType == RENDER_DEVICE_TYPE_D3D12 ? true : false;
-        PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
+        PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
+        PSODesc.Name         = "Render sample cube PSO";
 
-        PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].BlendEnable = True;
-        PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].SrcBlend = BLEND_FACTOR_SRC_ALPHA;
-        PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].DestBlend = BLEND_FACTOR_INV_SRC_ALPHA;
-        PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].SrcBlendAlpha = BLEND_FACTOR_ZERO;
-        PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].DestBlendAlpha = BLEND_FACTOR_ONE;
+        GraphicsPipeline.NumRenderTargets = 1;
+        GraphicsPipeline.RTVFormats[0] = RTVFormat;
+        GraphicsPipeline.DSVFormat = DSVFormat;
+        GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
+        GraphicsPipeline.RasterizerDesc.FrontCounterClockwise = deviceType == RENDER_DEVICE_TYPE_D3D11 || deviceType == RENDER_DEVICE_TYPE_D3D12 ? true : false;
+        GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
+
+        GraphicsPipeline.BlendDesc.RenderTargets[0].BlendEnable = True;
+        GraphicsPipeline.BlendDesc.RenderTargets[0].SrcBlend = BLEND_FACTOR_SRC_ALPHA;
+        GraphicsPipeline.BlendDesc.RenderTargets[0].DestBlend = BLEND_FACTOR_INV_SRC_ALPHA;
+        GraphicsPipeline.BlendDesc.RenderTargets[0].SrcBlendAlpha = BLEND_FACTOR_ZERO;
+        GraphicsPipeline.BlendDesc.RenderTargets[0].DestBlendAlpha = BLEND_FACTOR_ONE;
 
         ShaderCreateInfo ShaderCI;
         ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
@@ -93,11 +95,11 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         };
 
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-        PSODesc.GraphicsPipeline.pVS = pVS;
-        PSODesc.GraphicsPipeline.pPS = pPS;
-        PSODesc.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
-        PSODesc.GraphicsPipeline.InputLayout.NumElements    = _countof(LayoutElems);
-        pDevice->CreatePipelineState(PSOCreateInfo, &m_PSO);
+        PSOCreateInfo.pVS = pVS;
+        PSOCreateInfo.pPS = pPS;
+        GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
+        GraphicsPipeline.InputLayout.NumElements    = _countof(LayoutElems);
+        pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_PSO);
         m_PSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
         m_PSO->CreateShaderResourceBinding(&m_SRB, true);
     }

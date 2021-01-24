@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply from: "../../../Common/NativeApp/Android/android_common.gradle"
+apply from: "../../../DiligentTools/NativeApp/Android/android_common.gradle"
 
 android {
     defaultConfig {

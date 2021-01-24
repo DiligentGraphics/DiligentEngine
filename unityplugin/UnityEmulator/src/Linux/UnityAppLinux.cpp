@@ -34,10 +34,11 @@ public:
         m_DeviceType = Diligent::RENDER_DEVICE_TYPE_GL;
     }
 
-    virtual void OnGLContextCreated(Display* display, Window window)override final
+    virtual bool OnGLContextCreated(Display* display, Window window)override final
     {
         InitGraphics(display, reinterpret_cast<void*>(static_cast<size_t>(window)), 0/*Unused*/, 0/*Unused*/);
         InitScene();
+        return true;
     }
 #if VULKAN_SUPPORTED
     virtual bool InitVulkan(xcb_connection_t* connection, uint32_t window)override final

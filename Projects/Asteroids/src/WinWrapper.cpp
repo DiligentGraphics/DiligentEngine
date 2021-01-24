@@ -65,23 +65,6 @@ bool CheckDll(char const* dllName)
     return true;
 }
 
-
-UINT SetupDPI()
-{
-    // Just do system DPI awareness for now for simplicity... scale the 3D content
-    SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE);
-    
-    UINT dpiX = 0, dpiY;
-    POINT pt = {1, 1};
-    auto hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST);
-    if (SUCCEEDED(GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpiX, &dpiY))) {
-        return dpiX;
-    } else {
-        return 96; // default
-    }
-}
-
-
 void ResetCameraView()
 {
     auto center    = XMVectorSet(0.0f, -0.4f*SIM_DISC_RADIUS, 0.0f, 0.0f);
@@ -144,8 +127,8 @@ LRESULT CALLBACK WindowProc(
 
             gSettings.windowWidth = (int)ww;
             gSettings.windowHeight = (int)wh;
-            gSettings.renderWidth = (UINT)(double(gSettings.windowWidth)  * gSettings.renderScale);
-            gSettings.renderHeight = (UINT)(double(gSettings.windowHeight) * gSettings.renderScale);
+            gSettings.renderWidth = gSettings.windowWidth;
+            gSettings.renderHeight = gSettings.windowHeight;
 
             // Update camera projection
             if(gSettings.renderWidth !=0 && gSettings.renderHeight !=0)
@@ -401,15 +384,6 @@ int main(int argc, char** argv)
     gVulkanAvailable = CheckDll("vulkan-1.dll");
 #endif
 
-    // Must be done before any windowing-system-like things or else virtualization will kick in
-    auto dpi = SetupDPI();
-    // By default render at the lower resolution and scale up based on system settings
-    gSettings.renderScale = 96.0 / double(dpi);
-
-    // Scale default window size based on dpi
-    gSettings.windowWidth *= dpi / 96;
-    gSettings.windowHeight *= dpi / 96;
-
     gSettings.mode = Settings::RenderMode::Undefined;
     for (int a = 1; a < argc; ++a) {
         if (_stricmp(argv[a], "-close_after") == 0 && a + 1 < argc) {
@@ -429,8 +403,6 @@ int main(int argc, char** argv)
         } else if (_stricmp(argv[a], "-window") == 0 && a + 2 < argc) {
             gSettings.windowWidth = atoi(argv[++a]);
             gSettings.windowHeight = atoi(argv[++a]);
-        } else if (_stricmp(argv[a], "-render_scale") == 0 && a + 1 < argc) {
-            gSettings.renderScale = atof(argv[++a]);
         } else if (_stricmp(argv[a], "-locked_fps") == 0 && a + 1 < argc) {
             gSettings.lockedFrameRate = atoi(argv[++a]);
         } else if (_stricmp(argv[a], "-threads") == 0 && a + 1 < argc) {
@@ -616,7 +588,7 @@ int main(int argc, char** argv)
             filteredFrameTime = filteredFrameTime * (1.f - filterScale) + filterScale * (float)frameTime;
 
             char buffer[256];
-            sprintf_s(buffer, "Asteroids %s%s (%dt) - %4.2f ms (%4.2f ms / %4.2f ms)", ModeStr, resBindModeStr, (gSettings.multithreadedRendering ? gSettings.numThreads : 1), 
+            sprintf_s(buffer, "Asteroids %s%s (%dt) - %4.1f ms (%4.1f ms / %4.1f ms)", ModeStr, resBindModeStr, (gSettings.multithreadedRendering ? gSettings.numThreads : 1), 
                               1000.f * filteredFrameTime, 1000.f * filteredUpdateTime, 1000.f * filteredRenderTime);
 
             SetWindowText(hWnd, buffer);

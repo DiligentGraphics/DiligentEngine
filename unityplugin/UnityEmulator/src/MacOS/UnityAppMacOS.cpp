@@ -34,12 +34,10 @@ public:
         m_DeviceType = Diligent::RENDER_DEVICE_TYPE_GL;
     }
 
-    virtual void Initialize(void* view)override final
+    virtual void Initialize(void* view, RenderMode Mode)override final
     {
-        if (view != nullptr)
-        {
-            UNSUPPORTED("This app does not support Vulkan");
-        }
+        if (Mode != RenderMode::OpenGL)
+            LOG_ERROR_AND_THROW("This app only supports OpenGL mode");
         InitGraphics(nullptr, 0/*Unused*/, 0/*Unused*/);
         InitScene();
     }
@@ -80,7 +78,9 @@ bool UnityAppBase::LoadPlugin()
 
 void UnityAppBase::UnloadPlugin()
 {
-    m_GraphicsEmulator->InvokeDeviceEventCallback(kUnityGfxDeviceEventShutdown);
-    UnityPluginUnload();
+    if (m_GraphicsEmulator)
+        m_GraphicsEmulator->InvokeDeviceEventCallback(kUnityGfxDeviceEventShutdown);
+    if (UnityPluginUnload)
+        UnityPluginUnload();
 }
 

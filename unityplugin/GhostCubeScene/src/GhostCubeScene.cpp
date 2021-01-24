@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2020 Diligent Graphics LLC
+ *  Copyright 2019-2021 Diligent Graphics LLC
  *  Copyright 2015-2019 Egor Yusov
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -86,18 +86,19 @@ void GhostCubeScene::OnGraphicsInitialized()
         const auto &SCDesc = m_DiligentGraphics->GetSwapChain()->GetDesc();
         auto UseReverseZ = m_DiligentGraphics->UsesReverseZ();
 
-        PipelineStateCreateInfo PSOCreateInfo;
-        PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+        GraphicsPipelineStateCreateInfo PSOCreateInfo;
+        PipelineStateDesc&      PSODesc          = PSOCreateInfo.PSODesc;
+        GraphicsPipelineDesc&   GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
 
-        PSODesc.IsComputePipeline = false;
+        PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
         PSODesc.Name = "Mirror PSO";
-        PSODesc.GraphicsPipeline.NumRenderTargets = 1;
+        GraphicsPipeline.NumRenderTargets = 1;
 
-        PSODesc.GraphicsPipeline.RTVFormats[0] = SCDesc.ColorBufferFormat;
-        PSODesc.GraphicsPipeline.DSVFormat = SCDesc.DepthBufferFormat;
-        PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-        PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
-        PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
+        GraphicsPipeline.RTVFormats[0] = SCDesc.ColorBufferFormat;
+        GraphicsPipeline.DSVFormat = SCDesc.DepthBufferFormat;
+        GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+        GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
+        GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
 
         ShaderCreateInfo ShaderCI;
         RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
@@ -128,16 +129,16 @@ void GhostCubeScene::OnGraphicsInitialized()
         }
 
         PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-        StaticSamplerDesc StaticSamplers[] =
+        ImmutableSamplerDesc ImtblSamplers[] =
         {
             {SHADER_TYPE_PIXEL, "g_tex2Reflection", Sam_Aniso4xClamp}
         };
-        PSODesc.ResourceLayout.StaticSamplers    = StaticSamplers;
-        PSODesc.ResourceLayout.NumStaticSamplers = _countof(StaticSamplers);
+        PSODesc.ResourceLayout.ImmutableSamplers    = ImtblSamplers;
+        PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImtblSamplers);
 
-        PSODesc.GraphicsPipeline.pVS = pVS;
-        PSODesc.GraphicsPipeline.pPS = pPS;
-        pDevice->CreatePipelineState(PSOCreateInfo, &m_pMirrorPSO);
+        PSOCreateInfo.pVS = pVS;
+        PSOCreateInfo.pPS = pPS;
+        pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pMirrorPSO);
         m_pMirrorPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_pMirrorVSConstants);
         m_pMirrorPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_tex2Reflection")->Set(m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
         m_pMirrorPSO->CreateShaderResourceBinding(&m_pMirrorSRB, true);

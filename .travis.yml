@@ -68,3 +68,5 @@ script:
   - . ./DiligentCore/BuildTools/Scripts/travis/build.sh "-DDILIGENT_BUILD_TESTS=TRUE"
   - cd ../DiligentCore/Tests/DiligentCoreAPITest/assets
   - . ../../../BuildTools/Scripts/travis/run_tests.sh ../../../../build/DiligentCore
+  - cd ../../../../DiligentTools/Tests/DiligentToolsTest/assets
+  - . ../../../BuildTools/Scripts/travis/run_tests.sh ../../../../build/DiligentTools

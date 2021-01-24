@@ -41,9 +41,9 @@ public:
         UNEXPECTED("Present is not expected to be called directly");
     }
 
-    virtual void DILIGENT_CALL_TYPE Resize(Uint32 NewWidth, Uint32 NewHeight) override final
+    virtual void DILIGENT_CALL_TYPE Resize(Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewPreTransform) override final
     {
-        TBase::Resize(NewWidth, NewHeight, 0);
+        TBase::Resize(NewWidth, NewHeight, NewPreTransform, 0);
     }
 
     void ReleaseViews()
@@ -150,7 +150,7 @@ void DiligentGraphicsAdapterD3D11::PostSwapChainResize()
 {
     auto* GraphicsD3D11Impl    = m_UnityGraphicsD3D11.GetGraphicsImpl();
     auto* pProxySwapChainD3D11 = m_pProxySwapChain.RawPtr<ProxySwapChainD3D11>();
-    pProxySwapChainD3D11->Resize(GraphicsD3D11Impl->GetBackBufferWidth(), GraphicsD3D11Impl->GetBackBufferHeight());
+    pProxySwapChainD3D11->Resize(GraphicsD3D11Impl->GetBackBufferWidth(), GraphicsD3D11Impl->GetBackBufferHeight(), SURFACE_TRANSFORM_OPTIMAL);
     pProxySwapChainD3D11->CreateViews(GraphicsD3D11Impl->GetRTV(), GraphicsD3D11Impl->GetDSV());
 }
 

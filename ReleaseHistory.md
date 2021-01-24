@@ -1,4 +1,146 @@
 
+## v2.4.g
+
+### API Changes
+
+* Enabled ray tracing (API Version 240080)
+* Added `IDeviceContext::GetFrameNumber` method (API Version 240079)
+* Added `ShaderResourceQueries` device feature and `EngineGLCreateInfo::ForceNonSeparablePrograms` parameter (API Version 240078)
+
+* Renamed `USAGE_STATIC` to `USAGE_IMMUTABLE` (API Version 240077)
+
+* Renamed static samplers into immutable samplers (API Version 240076)
+  * Renamed `StaticSamplerDesc` -> `ImmutableSamplerDesc`
+  * Renamed `PipelineResourceLayoutDesc::NumStaticSamplers` -> `PipelineResourceLayoutDesc::NumImmutableSamplers`
+  * Renamed `PipelineResourceLayoutDesc::StaticSamplers` -> `PipelineResourceLayoutDesc::ImmutableSamplers`
+
+* Refactored pipeline state creation (API Version 240075)
+  * Replaced `PipelineStateCreateInfo` with `GraphicsPipelineStateCreateInfo` and `ComputePipelineStateCreateInfo`
+  * Replaced `IRenderDevice::CreatePipelineState` with `IRenderDevice::CreateGraphicsPipelineState` and `IRenderDevice::CreateComputePipelineState`
+  * `pVS`, `pGS`, `pHS`, `pDS`, `pPS`, `pAS`, `pMS` were moved from `GraphicsPipelineDesc` to `GraphicsPipelineStateCreateInfo`
+  * `GraphicsPipelineDesc GraphicsPipeline`  was moved from `PipelineStateDesc` to `GraphicsPipelineStateCreateInfo`
+  * `pCS` is now a member of `ComputePipelineStateCreateInfo`, `ComputePipelineDesc` was removed
+  * Added `IPipelineState::GetGraphicsPipelineDesc` method
+  
+  Old API for graphics pipeline initialization:
+  ```cpp
+  PipelineStateCreateInfo PSOCreateInfo;
+  PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+
+  PSODesc.GraphicsPipeline.pVS = pVS;
+  PSODesc.GraphicsPipeline.pPS = pVS;
+  // ...
+  Device->CreatePipelineState(PSOCreateInfo, &pPSO);
+  ```
+
+  New API for graphics pipeline initialization:
+  ```cpp
+  GraphicsPipelineStateCreateInfo PSOCreateInfo;
+  // ...
+  PSOCreateInfo.pVS = pVS;
+  PSOCreateInfo.pPS = pVS;
+  Device->CreateGraphicsPipelineState(PSOCreateInfo, &pPSO);
+  ```
+
+  Old API for compute pipeline initialization:
+  ```cpp
+  PipelineStateCreateInfo PSOCreateInfo;
+  PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+
+  PSODesc.ComputePipeline.pCS = pCS;
+  // ...
+  Device->CreatePipelineState(PSOCreateInfo, &pPSO);
+  ```
+
+    New API for compute pipeline initialization:
+  ```cpp
+  ComputePipelineStateCreateInfo PSOCreateInfo;
+
+  PSOCreateInfo.pCS = pCS;
+  Device->CreateComputePipelineState(PSOCreateInfo, &pPSO);
+  ```
+
+* Added `ShaderInt8`, `ResourceBuffer8BitAccess`, and `UniformBuffer8BitAccess` device features. (API Version 240074)
+* Added `ShaderFloat16`, `ResourceBuffer16BitAccess`, `UniformBuffer16BitAccess`, and `ShaderInputOutput16` device features. (API Version 240073)
+
+
+### Samples and Tutorials
+
+* Added [Tutorial21 - Ray Tracing](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial21_RayTracing)
+
+
+## v2.4.f
+
+### API Changes
+
+* Added `UnifiedMemoryCPUAccess` member to `GraphicsAdapterInfo` struct (API Version 240072)
+   * An application should check allowed unified memory access types before creating unified buffers
+* Added GPU vendor and memory size detection (API Version 240071)
+   * Added `ADAPTER_VENDOR` enum
+   * Added `GraphicsAdapterInfo` struct
+   * Added `GraphicsAdapterInfo AdapterInfo` member to `DeviceCaps` struct
+   * Removed `ADAPTER_TYPE AdaterType` from `DeviceCaps` struct 
+* Reworked texture format properties (API Version 240070)
+   * Added `RESOURCE_DIMENSION_SUPPORT` enum
+   * Reworked `TextureFormatInfoExt` struct
+* Added option to disable/enable device features during initialization (API Version 240069)
+   * Added `DEVICE_FEATURE_STATE` enum
+   * Changed the types of members of `DeviceFeatures` struct from bool to `DEVICE_FEATURE_STATE`
+   * Added `DeviceFeatures Features` member to `EngineCreateInfo` struct
+* Enabled mesh shaders (API Version 240068)
+   * Added `PIPELINE_TYPE` enum
+   * Replaced `IsComputePipline` member of `PipelineStateDesc` struct with `PIPELINE_TYPE PipelineType`
+   * Added new mesh shader types
+   * Added mesh shader draw commands
+* Added `QUERY_TYPE_DURATION` query type (API Version 240067)
+* Added `USAGE_UNIFIED` usage type (API Version 240066)
+* Added render passes (API Version 240065)
+* Added `CREATE_SHADER_SOURCE_INPUT_STREAM_FLAGS` enum and `IShaderSourceInputStreamFactory::CreateInputStream2` method (API Version 240064)
+* Added `ISwapChain::SetMaximumFrameLatency` function (API Version 240061)
+* Added `EngineGLCreateInfo::CreateDebugContext` member (API Version 240060)
+* Added `SHADER_SOURCE_LANGUAGE_GLSL_VERBATIM` value (API Version 240059).
+* Added `GLBindTarget` parameter to `IRenderDeviceGL::CreateTextureFromGLHandle` method (API Version 240058).
+
+### Samples and Tutorials
+
+* Added [HelloAR Android sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Android/HelloAR)
+* Added [Tutorial19 - Render Passes](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial19_RenderPasses)
+* Added [Tutorial20 - Mesh Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial20_MeshShader)
+
+
+## v2.4.e
+
+### General
+
+* Enabled Vulkan on Android
+* Added C Interface (API Version 240052)
+
+### API Changes
+
+* Added `PreTransform` parameter to swap chain description (API Version 240057).
+* Added `PipelineStateCreateInfo` struct that is now taken by `IRenderDevice::CreatePipelineState` instead of
+  `PipelineStateDesc` struct. Added `PSO_CREATE_FLAGS` enum (API Version 240056).
+
+  Old API:
+  ```cpp
+  PipelineStateDesc PSODesc;
+  // ...
+  pRenderDevice->CreatePipelineState(PSODesc, &pPSO);
+  ```
+
+  New API:
+  ```cpp
+  PipelineStateCreateInfo PSOCreateInfo;
+  PipelineStateDesc&      PSODesc = PSOCreateInfo.PSODesc;
+  // ...
+  pRenderDevice->CreatePipelineState(PSOCreateInfo, &pPSO);
+  ```
+
+* Added `PRIMITIVE_TOPOLOGY_LINE_STRIP` topology (API Version 240055)
+* Updated swap chain creation functions to use `NativeWindow` (API Version 240054)
+* Added `NativeWindow` wrapper and replaced `pNativeWndHandle` and `pDisplay` members with it in `EngineGLCreateInfo` (API Version 240053)
+
+
 ## v2.4.d
 
 ### API Changes
@@ -245,10 +387,10 @@ Core:
   * Moved `ITextureView::GenerateMips()` to `IDeviceContext::GenerateMips()`
   * Added state transition mode parameters to `IDeviceContext::UpdateBuffer()`, `IDeviceContext::UpdateTexture()`,
     `IDeviceContext::CopyBuffer()`, `IDeviceContext::CopyTexture()`, `IDeviceContext::SetVertexBuffers()`, 
-	`IDeviceContext::SetIndexBuffers()`, `IDeviceContext::ClearRenderTargets()`, and `IDeviceContext::ClearDepthStencil()` methods
+    `IDeviceContext::SetIndexBuffers()`, `IDeviceContext::ClearRenderTargets()`, and `IDeviceContext::ClearDepthStencil()` methods
   * Replaced `COMMIT_SHADER_RESOURCES_FLAGS` enum with `RESOURCE_STATE_TRANSITION_MODE`
   * Added `ITextureD3D12::GetD3D12ResourceState()`, `IBufferD3D12::GetD3D12ResourceState()`,
-	`IBufferVk::GetAccessFlags()`, and `ITextureVk::GetLayout()` methods
+    `IBufferVk::GetAccessFlags()`, and `ITextureVk::GetLayout()` methods
   * Added `CopyTextureAttribs` structure that combines all paramters of `IDeviceContext::CopyTexture()` method
 
 ## v2.3.b
@@ -261,8 +403,8 @@ Core:
       * When separate samplers are used (`UseCombinedTextureSamplers == false`), samplers are set in the same way as other shader variables
         via shader or SRB objects
     * Removed `BIND_SHADER_RESOURCES_RESET_BINDINGS` flag, renamed `BIND_SHADER_RESOURCES_KEEP_EXISTING` to `BIND_SHADER_RESOURCES_KEEP_EXISTING`.
-	  Added `BIND_SHADER_RESOURCES_UPDATE_STATIC`, `BIND_SHADER_RESOURCES_UPDATE_MUTABLE`, `BIND_SHADER_RESOURCES_UPDATE_DYNAMIC`, and
-	  `BIND_SHADER_RESOURCES_UPDATE_ALL` flags
+      Added `BIND_SHADER_RESOURCES_UPDATE_STATIC`, `BIND_SHADER_RESOURCES_UPDATE_MUTABLE`, `BIND_SHADER_RESOURCES_UPDATE_DYNAMIC`, and
+      `BIND_SHADER_RESOURCES_UPDATE_ALL` flags
   * Using glslang to compile HLSL to SPIRV in Vulkan backend instead of relying on HLSL->GLSL converter
 
 
@@ -288,9 +430,9 @@ Core:
   * API Changes
     * Added `NumViewports` member to `GraphicsPipelineDesc` struct
     * Removed `PRIMITIVE_TOPOLOGY_TYPE` type
-	* Replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
+    * Replaced `PRIMITIVE_TOPOLOGY_TYPE GraphicsPipelineDesc::PrimitiveTopologyType` 
       with `PRIMITIVE_TOPOLOGY GraphicsPipelineDesc::PrimitiveTopology`
-	* Removed `DrawAttribs::Topology`
+    * Removed `DrawAttribs::Topology`
     * Removed `pStrides` parameter from `IDeviceContext::SetVertexBuffers()`. Strides are now defined
       through vertex layout.
 * API Changes:

@@ -480,6 +480,44 @@
             ]
         },
         {
+            "name": "Tutorial19_RenderPasses",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial19_RenderPasses/Tutorial19_RenderPasses",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial19_RenderPasses/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial20_MeshShader",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial20_MeshShader/Tutorial20_MeshShader",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial20_MeshShader/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "DiligentCoreTest",
             "type": "cppdbg",
             "request": "launch",
@@ -505,6 +543,25 @@
             "args": ["--mode=vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentCore/Tests/DiligentCoreAPITest/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "HLSL2GLSLConverter",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentTools/HLSL2GLSLConverter/HLSL2GLSLConverter",
+            "args": ["-i", "ConverterTest.fx", "-e", "TestPS", "-t", "ps", "-c"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentTools/HLSL2GLSLConverter/testshaders",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
