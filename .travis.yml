@@ -26,13 +26,13 @@ matrix:
     env:
       - CONFIG=Debug
   - os: osx
-    osx_image: xcode11.1
+    osx_image: xcode12.2
     compiler: clang
     env: 
       - CONFIG=Debug
       - IOS=false
   - os: osx
-    osx_image: xcode11.1
+    osx_image: xcode12.2
     compiler: clang
     env: 
       - CONFIG=Debug
@@ -42,13 +42,13 @@ matrix:
     env:
       - CONFIG=Release
   - os: osx
-    osx_image: xcode11.1
+    osx_image: xcode12.2
     compiler: clang
     env: 
       - CONFIG=Release
       - IOS=false
   - os: osx
-    osx_image: xcode11.1
+    osx_image: xcode12.2
     compiler: clang
     env: 
       - CONFIG=Release
