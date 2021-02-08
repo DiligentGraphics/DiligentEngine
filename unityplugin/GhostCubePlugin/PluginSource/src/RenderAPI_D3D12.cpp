@@ -48,13 +48,16 @@ public:
         return m_pUnityGraphicsD3D12->GetNextFrameFenceValue();
     }
 
-	// Executes a given command list
-    virtual Uint64 DILIGENT_CALL_TYPE Submit(ID3D12GraphicsCommandList* commandList)override final
+	// Executes command lists
+    virtual Uint64 DILIGENT_CALL_TYPE Submit(Uint32 NumCommandLists, ID3D12CommandList* const* ppCommandLists)override final
     {
         auto NextFenceValue = m_pUnityGraphicsD3D12->GetNextFrameFenceValue();
-        m_CurrentFenceValue = m_pUnityGraphicsD3D12->ExecuteCommandList(commandList, static_cast<int>(m_ResourcesToTransition.size()), m_ResourcesToTransition.empty() ? nullptr : m_ResourcesToTransition.data());
-        VERIFY(m_CurrentFenceValue >= NextFenceValue, "Current fence value returned by ExecuteCommandList() is less than the next fence value previously queried through GetNextFrameFenceValue()");
-        m_ResourcesToTransition.clear();
+        for(Uint32 i=0; i < NumCommandLists; ++i)
+        {
+            m_CurrentFenceValue = m_pUnityGraphicsD3D12->ExecuteCommandList(static_cast<ID3D12GraphicsCommandList*>(ppCommandLists[i]), static_cast<int>(m_ResourcesToTransition.size()), m_ResourcesToTransition.empty() ? nullptr : m_ResourcesToTransition.data());
+            VERIFY(m_CurrentFenceValue >= NextFenceValue, "Current fence value returned by ExecuteCommandList() is less than the next fence value previously queried through GetNextFrameFenceValue()");
+            m_ResourcesToTransition.clear();
+        }
         return std::max(m_CurrentFenceValue, NextFenceValue);
     }
 

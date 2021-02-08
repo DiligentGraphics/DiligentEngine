@@ -45,10 +45,10 @@ public:
         return m_GraphicsD3D12Impl.GetNextFenceValue();
     }
 
-    // Executes a given command list
-    virtual Uint64 DILIGENT_CALL_TYPE Submit(ID3D12GraphicsCommandList* commandList) override final
+    // Executes command lists
+    virtual Uint64 DILIGENT_CALL_TYPE Submit(Uint32 NumCommandLists, ID3D12CommandList* const* ppCommandLists) override final
     {
-        return m_GraphicsD3D12Impl.ExecuteCommandList(commandList);
+        return m_GraphicsD3D12Impl.ExecuteCommandLists(NumCommandLists, ppCommandLists);
     }
 
     // Returns D3D12 command queue. May return null if queue is anavailable

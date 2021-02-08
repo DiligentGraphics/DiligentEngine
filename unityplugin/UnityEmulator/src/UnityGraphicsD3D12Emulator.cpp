@@ -398,12 +398,16 @@ UINT64 UnityGraphicsD3D12Impl::IdleGPU()
     return SignaledValue;
 }
 
-UINT64 UnityGraphicsD3D12Impl::ExecuteCommandList(ID3D12CommandList *pCmdList)
+UINT64 UnityGraphicsD3D12Impl::ExecuteCommandList(ID3D12CommandList* pCommandList)
 {
-    if (pCmdList != nullptr)
+    return ExecuteCommandLists(pCommandList != nullptr ? 1 : 0, &pCommandList);
+}
+
+UINT64 UnityGraphicsD3D12Impl::ExecuteCommandLists(UINT NumCommandLists, ID3D12CommandList* const* ppCommandLists)
+{
+    if (NumCommandLists !=0 && ppCommandLists != nullptr)
     {
-        ID3D12CommandList *CmdLists[] = { pCmdList };
-        m_D3D12CmdQueue->ExecuteCommandLists(1, CmdLists);
+        m_D3D12CmdQueue->ExecuteCommandLists(NumCommandLists, ppCommandLists);
     }
     auto FenceValue = m_NextFenceValue;
     m_D3D12CmdQueue->Signal(m_D3D12FrameFence, m_NextFenceValue++);

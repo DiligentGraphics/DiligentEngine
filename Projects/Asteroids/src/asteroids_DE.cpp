@@ -1024,9 +1024,13 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         // Reset mRenderSubsetsSignal while all threads are waiting for mUpdateSubsetsSignal
         mRenderSubsetsSignal.Reset();
 
+        mCmdListPtrs.resize(mCmdLists.size());
+        for(size_t i=0; i < mCmdLists.size(); ++i)
+            mCmdListPtrs[i] = mCmdLists[i];
+        mDeviceCtxt->ExecuteCommandLists(static_cast<Uint32>(mCmdListPtrs.size()), mCmdListPtrs.data());
+
         for (auto& cmdList : mCmdLists)
         {
-            mDeviceCtxt->ExecuteCommandList(cmdList);
             // Release command lists now to release all outstanding references
             // In d3d11 mode, command lists hold references to the swap chain's back buffer
             // that cause swap chain resize to fail

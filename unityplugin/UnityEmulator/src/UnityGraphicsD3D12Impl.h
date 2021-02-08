@@ -54,7 +54,8 @@ public:
     }
     UINT64 GetNextFenceValue() { return m_NextFenceValue; }
     UINT64 GetCompletedFenceValue() { return m_D3D12FrameFence->GetCompletedValue(); }
-    UINT64 ExecuteCommandList(ID3D12CommandList *pCmdList);
+    UINT64 ExecuteCommandLists(UINT NumCommandLists, ID3D12CommandList* const* ppCommandLists);
+    UINT64 ExecuteCommandList(ID3D12CommandList* pCmdList);
     void SetTransitionHandler(IResourceStateTransitionHandler *pTransitionHandler) { m_pStateTransitionHandler = pTransitionHandler; }
     void TransitonResourceStates(int stateCount, UnityGraphicsD3D12ResourceState* states);
     IDXGISwapChain3* GetSwapChain(){ return m_SwapChain; }

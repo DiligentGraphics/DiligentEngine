@@ -62,6 +62,7 @@ private:
     Diligent::RefCntAutoPtr<Diligent::IDeviceContext>  mDeviceCtxt;
     std::vector< Diligent::RefCntAutoPtr<Diligent::IDeviceContext> > mDeferredCtxt;
     std::vector< Diligent::RefCntAutoPtr<Diligent::ICommandList> > mCmdLists;
+    std::vector< Diligent::ICommandList* > mCmdListPtrs;
     
     Diligent::Uint32 mBackBufferWidth, mBackBufferHeight;
     Diligent::Uint32 mNumSubsets = 0;
