@@ -18,6 +18,7 @@ addons:
       - gcc-9
       - g++-9
       - cmake
+      - xorg-dev
 
 matrix:
   include:
