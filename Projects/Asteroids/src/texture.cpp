@@ -121,11 +121,11 @@ void InitializeTexture2D(
             placed.Footprint.Width = width >> m;   // TODO: Handle mip sizes properly!
             placed.Footprint.Height = height >> m; // TODO: Handle mip sizes properly!
             placed.Footprint.Depth = 1;
-            placed.Footprint.RowPitch = Align<UINT>(placed.Footprint.Width * bytesPerPixel, D3D12_TEXTURE_DATA_PITCH_ALIGNMENT);
+            placed.Footprint.RowPitch = AlignUp<UINT>(placed.Footprint.Width * bytesPerPixel, D3D12_TEXTURE_DATA_PITCH_ALIGNMENT);
             placed.Offset = totalSize;
         
-            totalSize = Align<UINT64>(placed.Offset + (size_t{placed.Footprint.RowPitch} * size_t{placed.Footprint.Height}),
-                                      D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT);
+            totalSize = AlignUp<UINT64>(placed.Offset + (size_t{placed.Footprint.RowPitch} * size_t{placed.Footprint.Height}),
+                                        D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT);
             placedUpload.push_back(placed);
         }
     }

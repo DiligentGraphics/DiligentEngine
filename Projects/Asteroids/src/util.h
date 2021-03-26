@@ -39,7 +39,7 @@ inline HRESULT ThrowIfFailed(HRESULT hr)
 }
 
 template <typename T>
-inline T Align(T v, T align)
+inline T AlignUp(T v, T align)
 {
     return (v + (align-1)) & ~(align-1);
 }

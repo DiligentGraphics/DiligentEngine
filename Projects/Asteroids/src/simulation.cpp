@@ -192,7 +192,7 @@ void AsteroidsSimulation::CreateTextures(unsigned int textureCount, unsigned int
     UINT texelSizeInBytes = 4; // RGBA8
     UINT extraSpaceForMips = 2;
     UINT totalTextureSizeInBytes = texelSizeInBytes * mTextureDim * mTextureDim * mTextureArraySize * extraSpaceForMips;
-    totalTextureSizeInBytes = Align(totalTextureSizeInBytes, 64U); // Avoid false sharing
+    totalTextureSizeInBytes = AlignUp(totalTextureSizeInBytes, 64U); // Avoid false sharing
 
     mTextureDataBuffer.resize(size_t{totalTextureSizeInBytes} * size_t{textureCount});
     mTextureSubresources.resize(size_t{mTextureArraySize} * size_t{mTextureMipLevels} * size_t{textureCount});
