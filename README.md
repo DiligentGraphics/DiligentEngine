@@ -769,7 +769,11 @@ on how to set up clang-format and automatic code formatting.
 <a name="references"></a>
 # References
 
-[API Reference](https://cdn.rawgit.com/DiligentGraphics/DiligentCore/4949ec8a/doc/html/index.html)
+[Coding Guidelines](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/CodingGuidelines.md)
+
+[Performance Best Practices](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/PerformanceGuide.md)
+
+[Code Formatting](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/code_formatting.md)
 
 
 <a name="release_history"></a>
