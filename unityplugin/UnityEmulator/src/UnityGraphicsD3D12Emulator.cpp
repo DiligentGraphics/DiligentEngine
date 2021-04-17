@@ -76,7 +76,7 @@ void UnityGraphicsD3D12Impl::CreateDeviceAndCommandQueue()
         if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to enum warp adapter");
 
 		hr = D3D12CreateDevice( warpAdapter, D3D_FEATURE_LEVEL_11_0, __uuidof(m_D3D12Device), reinterpret_cast<void**>(static_cast<ID3D12Device**>(&m_D3D12Device)) );
-        if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to crate warp device");
+        if(FAILED(hr)) LOG_ERROR_AND_THROW("Failed to create warp device");
     }
 
 #if _DEBUG

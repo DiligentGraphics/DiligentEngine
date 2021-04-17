@@ -260,7 +260,7 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
         {
             // In Direct3D there is no easy way to pass draw call number into the shader,
             // so we will use this auxiliary buffer that solely contains integers in ascending order
-            // (0, 1, 2, ...) and we will acess it with FirstInstanceLocation.
+            // (0, 1, 2, ...) and we will access it with FirstInstanceLocation.
             BufferDesc desc;
             desc.Name          = "Instance ID buffer";
             desc.Usage         = USAGE_IMMUTABLE;
@@ -937,7 +937,7 @@ void Asteroids::RenderSubset(Diligent::Uint32   SubsetNum,
 
         if (m_BindingMode == BindingMode::Bindless)
         {
-            // It is very important to speciy this flag to make sure the engine does not do extra
+            // It is very important to specify this flag to make sure the engine does not do extra
             // work processing buffers that stay intact.
             attribs.Flags |= DRAW_FLAG_DYNAMIC_RESOURCE_BUFFERS_INTACT;
             attribs.FirstInstanceLocation = drawIdx - startIdx;
