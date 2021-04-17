@@ -16,7 +16,7 @@
 #include <d3d12.h>
 #include <d3dx12.h>
 
-// Used for CPU-only desriptors; simple linear allocator.
+// Used for CPU-only descriptors; simple linear allocator.
 class DescriptorArray
 {
 public:

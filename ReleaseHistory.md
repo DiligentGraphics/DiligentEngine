@@ -391,7 +391,7 @@ Core:
   * Replaced `COMMIT_SHADER_RESOURCES_FLAGS` enum with `RESOURCE_STATE_TRANSITION_MODE`
   * Added `ITextureD3D12::GetD3D12ResourceState()`, `IBufferD3D12::GetD3D12ResourceState()`,
     `IBufferVk::GetAccessFlags()`, and `ITextureVk::GetLayout()` methods
-  * Added `CopyTextureAttribs` structure that combines all paramters of `IDeviceContext::CopyTexture()` method
+  * Added `CopyTextureAttribs` structure that combines all parameters of `IDeviceContext::CopyTexture()` method
 
 ## v2.3.b
 

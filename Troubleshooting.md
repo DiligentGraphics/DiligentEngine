@@ -28,7 +28,7 @@ git submodule update --recursive
   use Visual Studio's built-in CMake and *Open Folder* option. Other IDEs such as Visual Studio
   Code or CLion are not guaranteed to work.
  
-* If on Windows you get long path error, try clonning the project to a folder with shorter name
+* If on Windows you get long path error, try cloning the project to a folder with shorter name
   such as `c:/git/DiligentEngine`.
 
 ### Projects don't run

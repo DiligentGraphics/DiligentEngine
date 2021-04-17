@@ -56,7 +56,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 * [Integration with Dear Imgui](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo)
   [and Nuklear](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/NuklearDemo)
 
-## Supported Plaforms and Low-Level Graphics APIs
+## Supported Platforms and Low-Level Graphics APIs
 
 | Platform                                                                                                                                        | D3D11              | D3D12              |  OpenGL/GLES       | Vulkan                          | Metal                           |  Build Status                    |
 | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |------------------- | ------------------ | ------------------------------- | ------------------------------- | -------------------------------- |
@@ -166,7 +166,7 @@ You can generate Win32 solution that targets Win8.1 SDK using the following comm
 cmake -D CMAKE_SYSTEM_VERSION=8.1 -S . -B ./build/Win64_8.1 -G "Visual Studio 16 2019" -A x64
 ```
 
-If you use MinGW, you can generate the make files using the command below (note however that the functionalty
+If you use MinGW, you can generate the make files using the command below (note however that the functionality
 will be limited and that MinGW is not a recommended way to build the engine):
 
 ```
@@ -210,7 +210,7 @@ cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.16299.0 -S 
 
 Set the desired project as startup project (by default, GLTF Viewer will be selected) and run it. 
 
-By default, appplications will run in D3D12 mode. You can select D3D11 or D3D12 using the following command line options:
+By default, applications will run in D3D12 mode. You can select D3D11 or D3D12 using the following command line options:
 **-mode D3D11**, **-mode D3D12**.
 
 Note: it is possible to generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but it will fail
@@ -291,7 +291,7 @@ Known issues:
 
 Open *DiligentSamples/Android* folder with Android Studio to build and run tutorials and samples on Android.
 
-By default, appplications will run in OpenGLES mode. To run them in Vulkan mode, add the following launch flags:
+By default, applications will run in OpenGLES mode. To run them in Vulkan mode, add the following launch flags:
 `--es mode vk` (in Android Studio, go to Run->Edit Configurations menu)
 
 <a name="build_and_run_macos"></a>
@@ -516,10 +516,10 @@ By default Vulkan back-end is linked with glslang that enables compiling HLSL an
 If run-time compilation is not required, glslang can be disabled with `DILIGENT_NO_GLSLANG` cmake option. 
 Additionally, HLSL support in non-Direct3D backends can be disabled with `DILIGENT_NO_HLSL` option.
 Enabling the options significantly reduces the size of Vulkan and OpenGL back-end binaries, which may be
-especailly important for mobile applications.
+especially important for mobile applications.
 
 Diligent Engine uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to ensure consistent
-formatting throught the code base. The validation can be disabled using `DILIGENT_NO_FORMAT_VALIDATION`
+formatting throughout the code base. The validation can be disabled using `DILIGENT_NO_FORMAT_VALIDATION`
 CMake option. Note that any pool request will fail if formatting issues are found.
 
 <a name="build_and_run_customizing"></a>
@@ -658,7 +658,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [06 - Multithreading](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial06_Multithreading) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial06_Multithreading/Animation_Small.gif) | This tutorial shows how to generate command lists in parallel from multiple threads. |
 | [07 - Geometry Shader](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial07_GeometryShader) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial07_GeometryShader/Animation_Small.gif) | This tutorial shows how to use geometry shader to render smooth wireframe. |
 | [08 - Tessellation](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial08_Tessellation) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial08_Tessellation/Animation_Small.gif) | This tutorial shows how to use hardware tessellation to implement simple adaptive terrain rendering algorithm. |
-| [09 - Quads](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial09_Quads) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial09_Quads/Animation_Small.gif) | This tutorial shows how to render multiple 2D quads, frequently swithcing textures and blend modes. |
+| [09 - Quads](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial09_Quads) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial09_Quads/Animation_Small.gif) | This tutorial shows how to render multiple 2D quads, frequently switching textures and blend modes. |
 | [10 - Data Streaming](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial10_DataStreaming) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial10_DataStreaming/Animation_Small.gif) | This tutorial shows dynamic buffer mapping strategy using `MAP_FLAG_DISCARD` and `MAP_FLAG_DO_NOT_SYNCHRONIZE` flags to efficiently stream varying amounts of data to GPU. |
 | [11 - Resource Updates](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial11_ResourceUpdates) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial11_ResourceUpdates/Animation_Small.gif) | This tutorial demonstrates different ways to update buffers and textures in Diligent Engine and explains important internal details and performance implications related to each method. |
 | [12 - Render Target](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial12_RenderTarget) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial12_RenderTarget/Animation_Small.gif) | This tutorial demonstrates how to render a 3d cube into an offscreen render target and do a simple post-processing effect. |
@@ -761,7 +761,7 @@ In submitting any content to this repository,
 and you agree that the content is free of any Intellectual Property claims and you have the right to license it under those terms. 
 
 Diligent Engine uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to ensure
-consistent source code style throught the code base. The format is validated by appveyor and travis
+consistent source code style throughout the code base. The format is validated by appveyor and travis
 for each commit and pull request, and the build will fail if any code formatting issue is found. Please refer
 to [this page](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/code_formatting.md) for instructions
 on how to set up clang-format and automatic code formatting.

@@ -391,7 +391,7 @@ static D3DFORMAT GetD3D9Format( const DDS_PIXELFORMAT& ddpf )
                 return D3DFMT_X8B8G8R8;
 
             // Note that many common DDS reader/writers (including D3DX) swap the
-            // the RED/BLUE masks for 10:10:10:2 formats. We assumme
+            // the RED/BLUE masks for 10:10:10:2 formats. We assume
             // below that the 'incorrect' header mask is being used
 
             // For 'correct' writers this should be 0x3ff00000,0x000ffc00,0x000003ff for BGR data
@@ -521,7 +521,7 @@ DXGI_FORMAT GetDXGIFormat( const DDS_PIXELFORMAT& ddpf )
             // alpha channel is 255 (don't care formats could contain garbage)
 
             // Note that many common DDS reader/writers (including D3DX) swap the
-            // the RED/BLUE masks for 10:10:10:2 formats. We assumme
+            // the RED/BLUE masks for 10:10:10:2 formats. We assume
             // below that the 'backwards' header mask is being used since it is most
             // likely written by D3DX. The more robust solution is to use the 'DX10'
             // header extension and specify the DXGI_FORMAT_R10G10B10A2_UNORM format directly

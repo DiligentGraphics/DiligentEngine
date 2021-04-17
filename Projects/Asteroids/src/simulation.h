@@ -83,7 +83,7 @@ public:
     const AsteroidStatic* StaticData() const { return mAsteroidStatic.data(); }
     const AsteroidDynamic* DynamicData() const { return mAsteroidDynamic.data(); }
 
-    // Can optionall provide a range of asteroids to update; count = 0 => to the end
+    // Can optionally provide a range of asteroids to update; count = 0 => to the end
     // This is useful for multithreading
     void Update(float frameTime, DirectX::XMVECTOR cameraEye, const Settings& settings,
                 size_t startIndex = 0, size_t count = 0);

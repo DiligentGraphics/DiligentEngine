@@ -196,7 +196,7 @@ public:
         // consider releasing that memory to make it available to other applications.
     }
 
-    // Notifes the app that it is no longer suspended.
+    // Notifies the app that it is no longer suspended.
     virtual void OnResuming()override final
     {
         // TODO: Replace this with your app's resuming logic.
