@@ -1,0 +1,137 @@
+name: Linux
+
+on: [push, pull_request]
+
+jobs:
+  build-gcc-9:
+    strategy:
+      matrix:
+        config: [Debug, Release]
+
+    runs-on: ubuntu-latest
+    name: Linux x64, GCC 9, ${{ matrix.config }}
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: DiligentCore format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
+        ./validate_format_linux.sh
+
+    - name: DiligentTools format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
+        ./validate_format_linux.sh
+        
+    - name: DiligentFX format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
+        ./validate_format_linux.sh
+        
+    - name: DiligentSamples format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
+        ./validate_format_linux.sh
+        
+    - name: Configure dependencies
+      if: success()
+      run: |
+        sudo apt-get install build-essential pkg-config libx11-dev libxcursor-dev \
+          libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev yasm
+
+    - name: Configure CMake
+      if: success()
+      env:
+        CC: gcc-9
+        CXX: g++-9
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
+        chmod +x configure_cmake.sh
+        ./configure_cmake.sh "linux" "${{runner.workspace}}" ${{ matrix.config }}
+
+    - name: Build
+      if: success()
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config ${{ matrix.config }} -j2
+
+    - name: DiligentCoreTest
+      if: success()
+      shell: bash
+      run: ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
+      
+
+  build-clang-9:
+    strategy:
+      matrix:
+        config: [Debug, Release]
+
+    runs-on: ubuntu-latest
+    name: Linux x64, Clang 9, ${{ matrix.config }}
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: DiligentCore format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
+        ./validate_format_linux.sh
+
+    - name: DiligentTools format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
+        ./validate_format_linux.sh
+        
+    - name: DiligentFX format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
+        ./validate_format_linux.sh
+        
+    - name: DiligentSamples format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
+        ./validate_format_linux.sh
+
+    - name: Configure dependencies
+      if: success()
+      run: |
+        sudo apt-get install build-essential pkg-config libx11-dev libxcursor-dev \
+          libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev yasm
+
+    - name: Configure CMake
+      if: success()
+      env:
+        CC: clang-9
+        CXX: clang++-9
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
+        chmod +x configure_cmake.sh
+        ./configure_cmake.sh "linux" "${{runner.workspace}}" ${{ matrix.config }}
+
+    - name: Build
+      if: success()
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config ${{ matrix.config }} -j2
+
+    - name: DiligentCoreTest
+      if: success()
+      shell: bash
+      run: ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest

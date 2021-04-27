@@ -1,0 +1,64 @@
+name: iOS
+
+on: [push, pull_request]
+
+jobs:
+  build-ios-clang:
+    strategy:
+      matrix:
+        config: [Debug, Release]
+
+    runs-on: macos-latest
+    name: iOS, ${{ matrix.config }}
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: DiligentCore format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
+        ./validate_format_mac.sh
+
+    - name: DiligentTools format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
+        ./validate_format_mac.sh
+        
+    - name: DiligentFX format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
+        ./validate_format_mac.sh
+        
+    - name: DiligentSamples format validation
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
+        ./validate_format_mac.sh
+
+    - name: Download Vulkan SDK
+      if: success()
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
+        chmod +x vulkan_sdk.sh
+        ./vulkan_sdk.sh
+
+    - name: Configure CMake
+      if: success()
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
+        chmod +x configure_cmake.sh
+        ./configure_cmake.sh "ios" "${{runner.workspace}}" ${{ matrix.config }}
+
+    - name: Build
+      if: success()
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config ${{ matrix.config }} -j2

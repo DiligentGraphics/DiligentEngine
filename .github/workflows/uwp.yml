@@ -1,0 +1,56 @@
+name: UWP
+
+on: [push, pull_request]
+
+jobs:
+  build-uwp:
+    strategy:
+      matrix:
+        toolset: [x64]
+        config: [Debug, Release]
+
+    runs-on: windows-latest
+    name: UWP, ${{ matrix.config }} ${{ matrix.toolset }}
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: DiligentCore format validation
+      shell: cmd
+      run: |
+        cd "%GITHUB_WORKSPACE%\DiligentCore\BuildTools\FormatValidation"
+        validate_format_win.bat
+        
+    - name: DiligentTools format validation
+      shell: cmd
+      run: |
+        cd "%GITHUB_WORKSPACE%\DiligentTools\BuildTools\FormatValidation"
+        validate_format_win.bat
+        
+    - name: DiligentFX format validation
+      shell: cmd
+      run: |
+        cd "%GITHUB_WORKSPACE%\DiligentFX\BuildTools\FormatValidation"
+        validate_format_win.bat
+        
+    - name: DiligentSamples format validation
+      shell: cmd
+      run: |
+        cd "%GITHUB_WORKSPACE%\DiligentSamples\BuildTools\FormatValidation"
+        validate_format_win.bat
+
+    - name: Configure CMake
+      if: success()
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
+        ./configure_cmake.sh "uwp" "${{runner.workspace}}" ${{ matrix.config }} ${{ matrix.toolset }}
+
+    - name: Build
+      if: success()
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config ${{ matrix.config }} -j2
