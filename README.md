@@ -520,7 +520,10 @@ especially important for mobile applications.
 
 Diligent Engine uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to ensure consistent
 formatting throughout the code base. The validation can be disabled using `DILIGENT_NO_FORMAT_VALIDATION`
-CMake option. Note that any pool request will fail if formatting issues are found.
+CMake option. Note that any pull request will fail if formatting issues are found.
+
+Diligent Engine uses extensive validation that is always enabled in Debug build. Some of the checks may be
+enabled in release configurations by setting `DILIGENT_DEVELOPMENT` CMake option.
 
 <a name="build_and_run_customizing"></a>
 ## Customizing Build
