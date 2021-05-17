@@ -8,7 +8,7 @@ struct PSInput
     float2 UV : TEX_COORD; 
 };
 
-float4 main(PSInput In) : SV_Target
+float4 main(PSInput PSIn) : SV_Target
 {
-    return g_tex2Reflection.Sample(g_tex2Reflection_sampler, In.UV);
+    return g_tex2Reflection.Sample(g_tex2Reflection_sampler, PSIn.UV);
 }

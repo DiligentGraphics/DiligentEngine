@@ -38,7 +38,7 @@ public:
     void ResizeSwapchain(int NewWidth, int NewHeight);
 
     void SwapBuffers();
-    
+
     int GetBackBufferWidth()const { return screen_width_; }
     int GetBackBufferHeight()const { return screen_height_; }
     GLenum GetBackBufferFormat()const { return GL_RGBA8; }
@@ -62,7 +62,7 @@ public:
     EGLint Resume( ANativeWindow* window );
 
     void UpdateScreenSize();
-    
+
 private:
     //EGL configurations
     ANativeWindow* window_ = nullptr;
@@ -80,8 +80,6 @@ private:
     //Flags
     bool gles_initialized_ = false;
     bool egl_context_initialized_ = false;
-    bool es3_supported_ = false;
-    float gl_version_ = 0;
     bool context_valid_ = false;
 
     int screen_width_ = 0;

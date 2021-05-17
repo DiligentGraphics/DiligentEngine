@@ -23,7 +23,7 @@
 
 using namespace Diligent;
 
-class UnityCommandQueueImpl : public ObjectBase<ICommandQueueD3D12>
+class UnityCommandQueueImpl final : public ObjectBase<ICommandQueueD3D12>
 {
 public:
     using TBase = ObjectBase<ICommandQueueD3D12>;
@@ -43,13 +43,13 @@ public:
     IMPLEMENT_QUERY_INTERFACE_IN_PLACE( IID_CommandQueueD3D12, TBase )
 
 	// Returns the fence value that will be signaled next time
-    virtual Uint64 DILIGENT_CALL_TYPE GetNextFenceValue()const override final
+    virtual Uint64 DILIGENT_CALL_TYPE GetNextFenceValue() const override final
     {
         return m_pUnityGraphicsD3D12->GetNextFrameFenceValue();
     }
 
 	// Executes command lists
-    virtual Uint64 DILIGENT_CALL_TYPE Submit(Uint32 NumCommandLists, ID3D12CommandList* const* ppCommandLists)override final
+    virtual Uint64 DILIGENT_CALL_TYPE Submit(Uint32 NumCommandLists, ID3D12CommandList* const* ppCommandLists) override final
     {
         auto NextFenceValue = m_pUnityGraphicsD3D12->GetNextFrameFenceValue();
         for(Uint32 i=0; i < NumCommandLists; ++i)
@@ -62,19 +62,19 @@ public:
     }
 
     // Returns D3D12 command queue. May return null if queue is anavailable
-    virtual ID3D12CommandQueue* DILIGENT_CALL_TYPE GetD3D12CommandQueue()
+    virtual ID3D12CommandQueue* DILIGENT_CALL_TYPE GetD3D12CommandQueue() override final
     {
         return nullptr;
     }
 
     // Returns value of the last completed fence
-    virtual Uint64 DILIGENT_CALL_TYPE GetCompletedFenceValue()
+    virtual Uint64 DILIGENT_CALL_TYPE GetCompletedFenceValue() override final
     {
         return m_pUnityGraphicsD3D12->GetFrameFence()->GetCompletedValue();
     }
 
     // Blocks execution until all pending GPU commands are complete
-    virtual Uint64 DILIGENT_CALL_TYPE WaitForIdle()
+    virtual Uint64 DILIGENT_CALL_TYPE WaitForIdle() override final
     {
         if (m_CurrentFenceValue < GetCompletedFenceValue())
         {
@@ -91,9 +91,21 @@ public:
         m_ResourcesToTransition.push_back(ResourceState);
     }
 
-    virtual void DILIGENT_CALL_TYPE SignalFence(ID3D12Fence* pFence, Uint64 Value)
+    virtual void DILIGENT_CALL_TYPE EnqueueSignal(ID3D12Fence* pFence, Uint64 Value) override final
     {
         UNSUPPORTED("Signalling fence via unity command graphics is not supported");
+    }
+
+    virtual void DILIGENT_CALL_TYPE WaitFence(ID3D12Fence* pFence,
+                                              Uint64       Value) override final
+    {
+        UNSUPPORTED("Waiting for fence via unity command graphics is not supported");
+    }
+
+    virtual const D3D12_COMMAND_QUEUE_DESC& DILIGENT_CALL_TYPE GetD3D12CommandQueueDesc() const override final
+    {
+        static constexpr D3D12_COMMAND_QUEUE_DESC DefaultQueueDesc{};
+        return DefaultQueueDesc;
     }
 
 private:
@@ -148,8 +160,8 @@ void RenderAPI_D3D12::ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInt
             m_CmdQueue = NEW_RC_OBJ(DefaultAllocator, "UnityCommandQueueImpl instance", UnityCommandQueueImpl)(m_UnityGraphicsD3D12);
             auto *pFactoryD3D12 = GetEngineFactoryD3D12();
             EngineD3D12CreateInfo Attribs;
-            std::array<ICommandQueueD3D12*, 1> CmdQueues = {m_CmdQueue};
-            pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueues.size(), CmdQueues.data(), Attribs, &m_Device, &m_Context);
+            ICommandQueueD3D12* CmdQueues[] = {m_CmdQueue};
+            pFactoryD3D12->AttachToD3D12Device(d3d12Device, _countof(CmdQueues), CmdQueues, Attribs, &m_Device, &m_Context);
             m_Device->QueryInterface(IID_RenderDeviceD3D12, reinterpret_cast<IObject**>(static_cast<IRenderDeviceD3D12**>(&m_RenderDeviceD3D12)));
         }
         break;

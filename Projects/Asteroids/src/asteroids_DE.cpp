@@ -201,7 +201,7 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
     }
 }
 
-Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::RENDER_DEVICE_TYPE DevType) :
+Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, RENDER_DEVICE_TYPE DevType) :
     mAsteroids(asteroids), mGUI(gui)
 {
     QueryPerformanceFrequency((LARGE_INTEGER*)&mPerfCounterFreq);
@@ -212,7 +212,7 @@ Asteroids::Asteroids(const Settings& settings, AsteroidsSimulation* asteroids, G
     InitDevice(hWnd, DevType);
 
     m_BindingMode = static_cast<BindingMode>(settings.resourceBindingMode);
-    if (m_BindingMode == BindingMode::Bindless && !mDevice->GetDeviceCaps().Features.BindlessResources)
+    if (m_BindingMode == BindingMode::Bindless && !mDevice->GetDeviceInfo().Features.BindlessResources)
         m_BindingMode = BindingMode::TextureMutable;
 
     mCmdLists.resize(mDeferredCtxt.size());
@@ -818,7 +818,7 @@ void Asteroids::CreateGUIResources()
 
 static_assert(sizeof(IndexType) == 2, "Expecting 16-bit index buffer");
 
-void Asteroids::WorkerThreadFunc(Asteroids* pThis, Diligent::Uint32 ThreadNum)
+void Asteroids::WorkerThreadFunc(Asteroids* pThis, Uint32 ThreadNum)
 {
     for (;;)
     {
@@ -851,12 +851,15 @@ void Asteroids::WorkerThreadFunc(Asteroids* pThis, Diligent::Uint32 ThreadNum)
     }
 }
 
-void Asteroids::RenderSubset(Diligent::Uint32   SubsetNum,
+void Asteroids::RenderSubset(Uint32             SubsetNum,
                              IDeviceContext*    pCtx,
                              const OrbitCamera& camera,
                              Uint32             startIdx,
                              Uint32             numAsteroids)
 {
+    if (pCtx->GetDesc().IsDeferred)
+        pCtx->Begin(0);
+
     auto* pRTV = mSwapChain->GetCurrentBackBufferRTV();
     auto* pDSV = mSwapChain->GetDepthBufferDSV();
     pCtx->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_VERIFY);

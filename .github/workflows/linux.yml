@@ -28,24 +28,23 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
         ./validate_format_linux.sh
-        
+
     - name: DiligentFX format validation
       shell: bash
       run: |
         cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
         ./validate_format_linux.sh
-        
+
     - name: DiligentSamples format validation
       shell: bash
       run: |
         cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
         ./validate_format_linux.sh
-        
+
     - name: Configure dependencies
       if: success()
       run: |
-        sudo apt-get install build-essential pkg-config libx11-dev libxcursor-dev \
-          libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev yasm
+        sudo apt-get install build-essential libx11-dev libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
 
     - name: Configure CMake
       if: success()
@@ -68,15 +67,15 @@ jobs:
       if: success()
       shell: bash
       run: ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
-      
 
-  build-clang-9:
+
+  build-clang-10:
     strategy:
       matrix:
         config: [Debug, Release]
 
     runs-on: ubuntu-latest
-    name: Linux x64, Clang 9, ${{ matrix.config }}
+    name: Linux x64, Clang 10, ${{ matrix.config }}
 
     steps:
     - name: Clone repository
@@ -95,13 +94,13 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
         ./validate_format_linux.sh
-        
+
     - name: DiligentFX format validation
       shell: bash
       run: |
         cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
         ./validate_format_linux.sh
-        
+
     - name: DiligentSamples format validation
       shell: bash
       run: |
@@ -111,14 +110,13 @@ jobs:
     - name: Configure dependencies
       if: success()
       run: |
-        sudo apt-get install build-essential pkg-config libx11-dev libxcursor-dev \
-          libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev yasm
+        sudo apt-get install build-essential libx11-dev libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
 
     - name: Configure CMake
       if: success()
       env:
-        CC: clang-9
-        CXX: clang++-9
+        CC: clang-10
+        CXX: clang++-10
       shell: bash
       run: |
         cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions

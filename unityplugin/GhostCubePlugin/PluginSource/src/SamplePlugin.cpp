@@ -17,12 +17,12 @@ struct PSInput
     float4 Color : COLOR0; 
 };
 
-PSInput main(float3 pos : ATTRIB0, float4 color : ATTRIB1) 
+void main(float3 pos   : ATTRIB0,
+          float4 color : ATTRIB1,
+          out PSInput PSIn) 
 {
-    PSInput ps; 
-    ps.Pos = mul( float4(pos,1.0), g_WorldViewProj);
-    ps.Color = color;
-    return ps;
+    PSIn.Pos = mul( float4(pos,1.0), g_WorldViewProj);
+    PSIn.Color = color;
 }
 )";
 
@@ -33,15 +33,15 @@ struct PSInput
     float4 Color : COLOR0; 
 };
 
-float4 main(PSInput ps_in) : SV_TARGET
+float4 main(PSInput PSIn) : SV_TARGET
 {
-    return ps_in.Color; 
+    return PSIn.Color; 
 }
 )";
 
 SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, TEXTURE_FORMAT RTVFormat, TEXTURE_FORMAT DSVFormat)
 {
-    auto deviceType = pDevice->GetDeviceCaps().DevType;
+    auto deviceType = pDevice->GetDeviceInfo().Type;
     {
         GraphicsPipelineStateCreateInfo PSOCreateInfo;
         PipelineStateDesc&    PSODesc          = PSOCreateInfo.PSODesc;

@@ -28,8 +28,9 @@ class ProxyCommandQueueD3D12 : public ObjectBase<ICommandQueueD3D12>
 public:
     using TBase = ObjectBase<ICommandQueueD3D12>;
     ProxyCommandQueueD3D12(IReferenceCounters* pRefCounters, UnityGraphicsD3D12Impl& GraphicsD3D12Impl) :
-        TBase(pRefCounters),
-        m_GraphicsD3D12Impl(GraphicsD3D12Impl)
+        TBase{pRefCounters},
+        m_GraphicsD3D12Impl{GraphicsD3D12Impl},
+        m_d3d12QueueDesc{GraphicsD3D12Impl.GetCommandQueue()->GetDesc()}
     {
     }
 
@@ -69,13 +70,27 @@ public:
         return m_GraphicsD3D12Impl.IdleGPU();
     }
 
-    virtual void DILIGENT_CALL_TYPE SignalFence(ID3D12Fence* pFence, Uint64 Value) override final
+    virtual void DILIGENT_CALL_TYPE EnqueueSignal(ID3D12Fence* pFence, Uint64 Value) override final
     {
         m_GraphicsD3D12Impl.GetCommandQueue()->Signal(pFence, Value);
     }
 
+    virtual void DILIGENT_CALL_TYPE WaitFence(ID3D12Fence* pFence,
+                                              Uint64       Value) override final
+    {
+        UNSUPPORTED("Waiting for fence via proxy command queue is not supported");
+    }
+
+    virtual const D3D12_COMMAND_QUEUE_DESC& DILIGENT_CALL_TYPE GetD3D12CommandQueueDesc() const override final
+    {
+        return m_d3d12QueueDesc;
+    }
+
+
 private:
     UnityGraphicsD3D12Impl& m_GraphicsD3D12Impl;
+
+    const D3D12_COMMAND_QUEUE_DESC m_d3d12QueueDesc;
 };
 
 
@@ -205,10 +220,10 @@ DiligentGraphicsAdapterD3D12::DiligentGraphicsAdapterD3D12(UnityGraphicsD3D12Emu
     auto& DefaultAllocator = DefaultRawMemoryAllocator::GetAllocator();
     auto  CmdQueue         = NEW_RC_OBJ(DefaultAllocator, "UnityCommandQueueImpl instance", ProxyCommandQueueD3D12)(*GraphicsImpl);
 
-    auto*                              pFactoryD3D12 = GetEngineFactoryD3D12();
-    EngineD3D12CreateInfo              Attribs;
-    std::array<ICommandQueueD3D12*, 1> CmdQueues = {CmdQueue};
-    pFactoryD3D12->AttachToD3D12Device(d3d12Device, CmdQueues.size(), CmdQueues.data(), Attribs, &m_pDevice, &m_pDeviceCtx);
+    auto*                 pFactoryD3D12 = GetEngineFactoryD3D12();
+    EngineD3D12CreateInfo Attribs;
+    ICommandQueueD3D12*   CmdQueues[] = {CmdQueue};
+    pFactoryD3D12->AttachToD3D12Device(d3d12Device, _countof(CmdQueues), CmdQueues, Attribs, &m_pDevice, &m_pDeviceCtx);
 }
 
 void DiligentGraphicsAdapterD3D12::InitProxySwapChain()
