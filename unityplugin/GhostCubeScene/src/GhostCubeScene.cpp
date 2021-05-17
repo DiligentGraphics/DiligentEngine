@@ -159,8 +159,8 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     auto* pDevice = m_DiligentGraphics->GetDevice();
     auto* pCtx = m_DiligentGraphics->GetContext();
     auto* pSwapChain = m_DiligentGraphics->GetSwapChain();
-    const auto& DeviceCaps = pDevice->GetDeviceCaps();
-    const bool bIsGL = DeviceCaps.IsGLDevice();
+    const auto& DeviceInfo = pDevice->GetDeviceInfo();
+    const bool bIsGL = DeviceInfo.IsGLDevice();
     auto ReverseZ = m_DiligentGraphics->UsesReverseZ();
 
     // In OpenGL, render targets must be bound to the pipeline to be cleared
@@ -171,7 +171,7 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     pCtx->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     pCtx->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, ReverseZ ? 0.f : 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-    if (DeviceCaps.DevType == RENDER_DEVICE_TYPE_D3D12)
+    if (DeviceInfo.Type == RENDER_DEVICE_TYPE_D3D12)
     {
         // D3D12 context must be flushed so that the commands are submitted before the
         // commands issued by the plugin

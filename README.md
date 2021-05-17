@@ -1,5 +1,6 @@
 # Diligent Engine <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/diligentgraphics-logo.png" height=64 align="right" valign="middle">
-**A Modern Cross-Platform Low-Level 3D Graphics Library** [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=An%20easy-to-use%20cross-platform%20graphics%20library%20that%20takes%20full%20advantage%20of%20%23Direct3D12%20and%20%23VulkanAPI&url=https://github.com/DiligentGraphics/DiligentEngine)
+**A Modern Cross-Platform Low-Level 3D Graphics Library and Rendering Framework**
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=An%20easy-to-use%20cross-platform%20graphics%20library%20that%20takes%20full%20advantage%20of%20%23Direct3D12%20and%20%23VulkanAPI&url=https://github.com/DiligentGraphics/DiligentEngine)
 
 [Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform graphics
 API abstraction library and rendering framework. It is designed to take full advantage of Direct3D12, Vulkan
@@ -15,6 +16,22 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine)
 [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/978eebabb2fc438f9d736443b71127aa)](https://www.codacy.com/manual/DiligentGraphics/DiligentEngine?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DiligentGraphics/DiligentEngine&amp;utm_campaign=Badge_Grade)
+
+## Supported Platforms and Low-Level Graphics APIs
+
+| Platform                                                                                                                                     | D3D11              | D3D12              |  OpenGL/GLES       | Vulkan                          | Metal                           |  Build Status                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |------------------- | ------------------ | ------------------------------- | ------------------------------- | -------------------------------- |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Windows             | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Windows/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/windows.yml?query=branch%3Amaster) |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/uwindows-logo.png" width=24 valign="middle"> Universal Windows  | :heavy_check_mark: | :heavy_check_mark: | -                  | -                               | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/UWP/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/uwp.yml?query=branch%3Amaster)         |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Linux/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/linux.yml?query=branch%3Amaster)     |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/MacOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/macos.yml?query=branch%3Amaster)     |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android             | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Android/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/android.yml?query=branch%3Amaster) |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                   | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/iOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/ios.yml?query=branch%3Amaster)         |
+
+<sup>1</sup> Vulkan API is not natively supported on MacOS and iOS platforms and requires a Vulkan portability implementation such as [MoltenVK](https://github.com/KhronosGroup/MoltenVK)
+or [gfx-portability](https://github.com/gfx-rs/portability).
+
+<sup>2</sup> Available under commercial license - please contact us for details.
 
 ## Features
 
@@ -39,7 +56,8 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * [Automatic or explicit control over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
   * Descriptor and memory management
   * Shader resource reflection
-  * Ray-tracing, mesh shaders, bindless resources, and other state of the art capabilities
+  * Async compute and multiple command queues
+  * Ray-tracing, mesh shaders, tile shaders, bindless resources, and other state of the art capabilities
 * Extensive validation and error reporting
 * Modern c++ features to make the code fast and reliable
 * Consistent high quality is ensured by continuous integration
@@ -56,21 +74,6 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 * [Integration with Dear Imgui](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo)
   [and Nuklear](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/NuklearDemo)
 
-## Supported Platforms and Low-Level Graphics APIs
-
-| Platform                                                                                                                                     | D3D11              | D3D12              |  OpenGL/GLES       | Vulkan                          | Metal                           |  Build Status                    |
-| -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |------------------- | ------------------ | ------------------------------- | ------------------------------- | -------------------------------- |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Windows             | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Windows/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/windows.yml?query=branch%3Amaster) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/uwindows-logo.png" width=24 valign="middle"> Universal Windows  | :heavy_check_mark: | :heavy_check_mark: | -                  | -                               | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/UWP/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/uwp.yml?query=branch%3Amaster)         |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Linux/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/linux.yml?query=branch%3Amaster)     |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/MacOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/macos.yml?query=branch%3Amaster)     |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android             | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Android/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/android.yml?query=branch%3Amaster) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                   | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/iOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/ios.yml?query=branch%3Amaster)         |
-
-<sup>1</sup> Vulkan API is not natively supported on MacOS and iOS platforms and requires a Vulkan portability implementation such as [MoltenVK](https://github.com/KhronosGroup/MoltenVK)
-or [gfx-portability](https://github.com/gfx-rs/portability).
-
-<sup>2</sup> Available under commercial license - please contact us for details.
 
 # Table of Contents
 
@@ -524,6 +527,9 @@ CMake option. Note that any pull request will fail if formatting issues are foun
 
 Diligent Engine uses extensive validation that is always enabled in Debug build. Some of the checks may be
 enabled in release configurations by setting `DILIGENT_DEVELOPMENT` CMake option.
+
+To enable PIX events support, download [WinPixEventRuntime](https://devblogs.microsoft.com/pix/winpixeventruntime/)
+and set `DILIGENT_PIX_EVENT_RUNTIME_PATH` CMake variable to the root folder of the package.
 
 <a name="build_and_run_customizing"></a>
 ## Customizing Build
