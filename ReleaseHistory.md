@@ -1,3 +1,75 @@
+## v2.5
+
+### API Changes
+
+* Removed `RayTracing2` device feature and added `RAY_TRACING_CAP_FLAGS` enum (API Version 240099)
+* Added tile shaders (API Version 240098)
+  * Added `PIPELINE_TYPE_TILE` and `SHADER_TYPE_TILE` enum values
+  * Added `TileShaders` device feature
+  * Added `TilePipelineDesc`, `TilePipelineStateCreateInfo` and `DispatchTileAttribs` structs
+  * Added `IRenderDevice::CreateTilePipelineState`, `IPipelineState::GetTilePipelineDesc`,
+    `IDeviceContext::DispatchTile` and `IDeviceContext::GetTileSize` methods
+* Removed `GetNextFenceValue`, `GetCompletedFenceValue`, and `IsFenceSignaled` methods from `IRenderDeviceD3D12` and `IRenderDeviceVk` interfaces
+  as they are now in `ICommandQueue` interface (API Version 240097)
+* Added `ICommandQueue` interface, `IDeviceContext::LockCommandQueue` and `IDeviceContext::UnlockCommandQueue` methods,
+  removed fence query methods from `IRenderDeviceVk`, `IRenderDeviceD3D12`, and `IRenderDeviceMtl` (API Version 240096)
+* Added multiple immediate device contexts and refactored adapter queries (API Version 240095)
+  * `CommandQueueMask` member of `TextureDesc`, `BufferDesc`, `PipelineStateDesc`, `TopLevelASDesc`,
+    and `BottomLevelASDesc`, was renamed to `ImmediateContextMask`
+  * Added `pContext` member to `TextureData` and `BufferData` structs to indicate which context to
+    use for initialization.
+  * Removed `GetDeviceCaps` and `GetDeviceProperties` `IDeviceContext` methods and added
+   `GetDeviceInfo` and `GetAdapterInfo` methods; added `RenderDeviceInfo` struct.
+  * Renamed `SamplerCaps` to `SamplerProperties, `TextureCaps` to `TextureProperties`; added `BufferProperties`,
+    `RayTracingProperties`, and `MeshShaderProperties` structs
+  * Removed `DeviceLimits` struct
+  * Removed `DeviceCaps` struct and moved its members to `GraphicsAdapterInfo` and `RenderDeviceInfo` structs
+  * Added `NativeFence` to `DeviceFeatures`
+  * Added `CommandQueueInfo` struct
+  * Added `COMMAND_QUEUE_TYPE` and `QUEUE_PRIORITY` enums
+  * Renamed `ShaderVersion` struct to `Version`
+  * Reworked `GraphicsAdapterInfo` struct
+  * Added `ImmediateContextCreateInfo` struct and `pImmediateContextInfo`, `NumImmediateContexts` members to `EngineCreateInfo` struct
+  * Added `AdapterId` and `GraphicsAPIVersion` members to `EngineCreateInfo` struct
+  * Removed `DIRECT3D_FEATURE_LEVEL` enum
+  * Added `FENCE_TYPE` enum
+  * Renamed `IFence::Reset` to `IFence::Signal`; added `IFence::Wait` method
+  * Added `IEngineFactory::EnumerateAdapters` method
+  * Added `DeviceContextDesc` struct and `IDeviceContext::GetDesc` method
+  * Added `IDeviceContext::Begin` method, renamed `IDeviceContext::SignalFence` to `IDeviceContext::EnqueueSignal`
+* Added debug annotations `IDeviceContext::BeginDebugGroup`, `IDeviceContext::EndDebugGroup`,
+ `IDeviceContext::InsertDebugLabel` (API Version 240095)
+* Added `DefaultVariableMergeStages` member to `PipelineResourceLayoutDesc` struct (API240094)
+* Added `IShaderResourceVariable::SetBufferRange` and `IShaderResourceVariable::SetBufferOffset` methods,
+  added `DeviceLimits` struct (API240093)
+* Updated API to allow explicitly flushing/invlidating mapped buffer memory range :
+  added `MEMORY_PROPERTIES` enum, `IBuffer::GetMemoryProperties()`, `IBuffer::FlushMappedRange()`,
+  and `IBuffer::InvalidateMappedRange()` methods (API240092)
+* Added `IDeviceContext::SetUserData()` and `IDeviceContext::GetUserData()` methods (API240091)
+* Added `SHADER_VARIABLE_FLAGS` enum and `SHADER_VARIABLE_FLAGS Flags` member to ShaderResourceVariableDesc struct (API240090)
+* Reworked validation options (API240089)
+  * Added `VALIDATION_FLAGS` and `D3D12_VALIDATION_FLAGS` enums; renamed `D3D11_DEBUG_FLAGS` to `D3D11_VALIDATION_FLAGS`
+  * Added `VALIDATION_FLAGS ValidationFlags` and `bool EnableValidation` to `EngineCreateInfo`
+  * Added `D3D12_VALIDATION_FLAGS D3D12ValidationFlags` to `EngineD3D12CreateInfo`; removed `EnableDebugLayer`, `EnableGPUBasedValidation`,
+    `BreakOnError`, `BreakOnCorruption`
+  * Added `VALIDATION_LEVEL` enum and `SetValidationLevel()` create info structs' helper functions
+  * Removed `EngineGLCreateInfo::CreateDebugContext` member (it is replaced with `EnableValidation`)
+* Added `MtlThreadGroupSizeX`, `MtlThreadGroupSizeY`, and `MtlThreadGroupSizeZ` members to
+  `DispatchComputeAttribs` and `DispatchComputeIndirectAttribs` structs (API Version 240088)
+* Added InstanceDataStepRate device feature (API Version 240087)
+* Added WaveOp device feature (API Version 240086)
+* Added UpdateSBT command (API Version 240085)
+* Removed `EngineD3D12CreateInfo::NumCommandsToFlushCmdList` and `EngineVkCreateInfo::NumCommandsToFlushCmdBuffer` as flushing
+  the context based on the number of commands is unreasonable (API Version 240084)
+* Added pipeline resource signatures, enabled inline ray tracing, added indirect draw mesh command (API Version 240083)
+* Replaced `IDeviceContext::ExecuteCommandList()` with `IDeviceContext::ExecuteCommandLists()` method that takes
+  an array of command lists instead of one (API Version 240082)
+* Added `IDeviceObject::SetUserData()` and `IDeviceObject::GetUserData()` methods (API Version 240081)
+
+### Samples and Tutorials
+
+* Added [Tutorial22 - Hybrid Rendering](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial22_HybridRendering)
+
 
 ## v2.4.g
 
