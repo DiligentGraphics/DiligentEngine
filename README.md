@@ -6,7 +6,7 @@
 API abstraction library and rendering framework. It is designed to take full advantage of Direct3D12, Vulkan
 and Metal, while supporting older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common
 front-end  API and uses HLSL as universal shading language on all platforms and rendering back-ends. 
-Platform-specific shader representations (GLSL, DX bytecode or SPIRV) can be used with corresponding back-ends.
+Platform-specific shader representations (GLSL, MSL, DX bytecode or SPIRV) can be used with corresponding back-ends.
 The engine is intended to be used as graphics subsystem in a game engine or any other 3D application. 
 It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
@@ -51,7 +51,6 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
 * Key graphics features:
   * [Automatic shader resource binding](http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/) designed to leverage next-generation graphics APIs
   * Multithreaded command buffer generation
-    * [50,000 draw calls at 300 fps](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) with D3D12/Vulkan backend
   * Multithreaded resource creation
   * [Automatic or explicit control over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
   * Descriptor and memory management
@@ -224,7 +223,7 @@ to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++1
 ## Linux
 
 Your Linux environment needs to be set up for c++ development. If it already is, make sure your c++ tools are up to date
-as Diligent Engine uses modern c++ features (gcc/g++ 7 or later is recommended). You may need to install the following packages:
+as Diligent Engine uses modern c++ features (gcc/g++ or clang 9 or later is recommended). You may need to install the following packages:
 
 1. gcc, make and other essential c/c++ tools:
 
@@ -279,7 +278,7 @@ the app's assets folder must be current directory.
 Please make sure that your machine is set up for Android development. Download 
 [Android Studio](https://developer.android.com/studio/index.html),
 [install and configure the NDK and CMake](https://developer.android.com/studio/projects/install-ndk)
-and other required tools. If you are not using CMake version bundled with Android Studio, make sure
+and other required tools. NDK r22 or later is required. If you are not using CMake version bundled with Android Studio, make sure
 your build files are [properly configured](https://developer.android.com/studio/projects/add-native-code.html#use_a_custom_cmake_version).
 To verify that your environment is properly set up, try building the
 [teapots sample](https://github.com/googlesamples/android-ndk/tree/master/teapots) as well as
@@ -344,7 +343,7 @@ System Integrity Protection is disabled (which generally is not recommended). In
 Vulkan library, it must be in rpath. If `VULKAN_SDK` environment variable is set and points to correct location, Diligent
 Engine will configure the rpath for all applications automatically.
 
-Last tested LunarG SDK version: 1.2.154.0.
+Last tested LunarG SDK version: 1.2.176.1.
 
 <a name="build_and_run_ios"></a>
 ## iOS
@@ -383,7 +382,7 @@ to use a framework from a specific location, it can provide the full path to the
 Refer to [MoltenVK user guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install)
 for more information about MoltenVK installation and usage.
 
-Last tested LunarG SDK version: 1.2.154.0.
+Last tested LunarG SDK version: 1.2.176.1.
 
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
@@ -444,10 +443,7 @@ copy_required_dlls(HelloDiligent)
 ```
 
 `copy_required_dlls()` is a convenience function that copies shared libraries next to
-the executable so that the system can find and load them. Alternatively, you can link against 
-static (as well as shared) versions of libraries using `target_link_libraries()` command. In this case 
-there is no need to explicitly add *DiligentCore* to the list of include directories as the targets export
-all required include paths.
+the executable so that the system can find and load them. 
 Please also take a look at getting started tutorials for 
 [Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloWin32) and 
 [Linux](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloLinux).
@@ -455,7 +451,7 @@ Please also take a look at getting started tutorials for
 ### Your Project Does Not Use Cmake
 
 If your project doesn't use CMake, it is recommended to build libraries with CMake and add them to your build system.
-For Windows platforms, you can download the latest build artifacts from [appveyor](https://ci.appveyor.com/project/DiligentGraphics/diligentcore).
+You can download the latest build artifacts from [GitHub](https://github.com/DiligentGraphics/DiligentCore/actions).
 
 Global CMake installation directory is controlled by
 [CMAKE_INTALL_PREFIX](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html) variable. 
@@ -732,9 +728,22 @@ The following components are now available:
 
 We would appreciate it if you could send us a link in case your product uses Diligent Engine.
 
+* [Godus](https://apps.apple.com/gb/app/godus/id815181808): An award-winning sandbox game by [22cans](http://22cans.com/)  
+  <img src="http://22cans.com/wp-content/uploads/2016/11/godus_header1-01.jpg" width=480>
+
 * [Vrmac Graphics](https://github.com/Const-me/Vrmac): A cross-platform graphics library for .NET  
   <img src="https://github.com/Const-me/Vrmac/blob/master/screenshots/Linux/TigerFullHD-1.png" width=480>
+
 * Your product here (please submit a [PR](https://github.com/DiligentGraphics/DiligentEngine/pulls))!
+
+
+<a name="disclaimer"></a>
+## Disclaimer
+
+Diligent Engine is an open project that may be freely used by everyone. We started it to empower the community
+and help people achive their goals. Sadly enough, not everyone's goals are worthy. Please don't associate us with
+suspicious projects you may find on the Web that appear to be using Diligent Engine. We neither can possibly track
+all such uses nor can we really do anything about them because our permissive license does not give us a lot of leverage. 
 
 
 <a name="license"></a>
@@ -742,22 +751,11 @@ We would appreciate it if you could send us a link in case your product uses Dil
 
 See [Apache 2.0 license](License.txt).
 
-This project has some third-party dependencies, each of which may have independent licensing:
+Each module has some third-party dependencies, each of which may have independent licensing:
 
-* Core module:
-  * [SPIRV-Cross](https://github.com/KhronosGroup/SPIRV-Cross): SPIRV parsing and cross-compilation tools.
-  * [SPIRV-Headers](https://github.com/KhronosGroup/SPIRV-Headers): SPIRV header files.
-  * [SPIRV-Tools](https://github.com/KhronosGroup/SPIRV-Tools): SPIRV optimization and validation tools.
-  * [glslang](https://github.com/KhronosGroup/glslang): Khronos reference compiler and validator for GLSL, ESSL, and HLSL.
-  * [glew](http://glew.sourceforge.net/): OpenGL Extension Wrangler Library.
-* Tools module:
-  * [libjpeg](http://libjpeg.sourceforge.net/): C library for reading and writing JPEG image files.
-  * [libtiff](http://www.libtiff.org/): TIFF Library and Utilities.
-  * [libpng](http://www.libpng.org/pub/png/libpng.html): Official PNG reference library.
-  * [zlib](https://zlib.net/): A compression library.
-  * [tinygltf](https://github.com/syoyo/tinygltf): A header only C++11 glTF 2.0 library.
-  * [dear imgui](https://github.com/ocornut/imgui): A bloat-free immediate mode graphical user interface library.
-
+* [Core module](https://github.com/DiligentGraphics/DiligentCore#license)
+* [Tools module](https://github.com/DiligentGraphics/DiligentTools#license)
+* [Samples module](https://github.com/DiligentGraphics/DiligentSamples#license)
 
 <a name="contributing"></a>
 # Contributing
