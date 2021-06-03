@@ -18,7 +18,7 @@ git submodule update --recursive
     If you are not using CMake version bundled with Android Studio, make sure your build files are
     [properly configured](https://developer.android.com/studio/projects/add-native-code.html#use_a_custom_cmake_version).
   * When using gcc, make sure the compiler version is at least 7.4.
-  * Make sure you build your project with c++11 features enabled.
+  * Make sure you build the project with c++14 features enabled.
 
 * When including Diligent headers, make sure that exactly one of `PLATFORM_WIN32`,
   `PLATFORM_UNIVERSAL_WINDOWS`, `PLATFORM_ANDROID`, `PLATFORM_LINUX`, `PLATFORM_MACOS`, and

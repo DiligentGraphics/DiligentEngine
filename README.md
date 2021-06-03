@@ -56,7 +56,7 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
   * Descriptor and memory management
   * Shader resource reflection
   * Async compute and multiple command queues
-  * Ray-tracing, mesh shaders, tile shaders, bindless resources, and other state of the art capabilities
+  * Ray-tracing, mesh shaders, tile shaders, bindless resources, and other state-of-the-art capabilities
 * Extensive validation and error reporting
 * Modern c++ features to make the code fast and reliable
 * Consistent high quality is ensured by continuous integration
@@ -177,7 +177,7 @@ cmake -S . -B ./build/MinGW -D CMAKE_BUILD_TYPE=Release -G "MinGW Makefiles"
 :warning: In current implementation, full path to cmake build folder **must not contain white spaces**.
 
 To enable Vulkan validation layers, you will need to download [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
-variable `VK_LAYER_PATH` that contains path to the *Bin* directory in VulkanSDK installation folder.
+variable `VK_LAYER_PATH` that contains the path to the *Bin* directory in VulkanSDK installation folder.
 
 Open *DiligentEngine.sln* file in *build/Win64* folder, select configuration and build the engine. Set the desired project
 as startup project (by default, GLTF Viewer will be selected) and run it. 
@@ -206,7 +206,7 @@ cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0 -S . -B ./b
 You can target specific SDK version by refining CMAKE_SYSTEM_VERSION, for instance:
 
 ```
-cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.16299.0 -S . -B ./build/UWP64 -G "Visual Studio 16 2019" -A x64
+cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.17763.0 -S . -B ./build/UWP64 -G "Visual Studio 16 2019" -A x64
 ```
 
 Set the desired project as startup project (by default, GLTF Viewer will be selected) and run it. 
@@ -215,7 +215,7 @@ By default, applications will run in D3D12 mode. You can select D3D11 or D3D12 u
 **-mode D3D11**, **-mode D3D12**.
 
 Note: it is possible to generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but it will fail
-to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++11 support.
+to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++14 support.
 
 
 <a name="build_and_run_linux"></a>
@@ -286,7 +286,7 @@ To verify that your environment is properly set up, try building the
 Known issues:
 
 * If native build does not find python executable, add `PYTHON_EXECUTABLE` variable to [CMake arguments in NativeApp's
-  build.gradle file](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp/Android/build.gradle#L12):
+  build.gradle file](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp/Android/build.gradle#L16):
   `-DPYTHON_EXECUTABLE=/Path/To/Your/Python36/python.exe`
 * If native build messes up shader_list.h file, go to git and undo the changes.
 
@@ -354,7 +354,7 @@ Run the command below from the engine's root folder to generate Xcode project co
 cmake -S . -B ./build/iOS -DCMAKE_SYSTEM_NAME=iOS -G "Xcode"
 ```
 
-If needed, you can provide iOS deployment target as well as other parameters, e.g.:
+If needed, you can provide iOS deployment target (11.0 or later is required) as well as other parameters, e.g.:
 
 ```cmake
 cmake -S . -B ./build/iOS -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -G "Xcode"
@@ -386,7 +386,7 @@ Last tested LunarG SDK version: 1.2.176.1.
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
 
-Diligent has modular structure, so for your project you can only use these 
+Diligent has modular structure, so for your project you can only use those 
 submodules that implement the required functionality.
 The diagram below shows the dependencies between modules.
 
@@ -478,7 +478,7 @@ as all third-party libraries used by the engine. Besides that, you will also nee
 For example, for Windows platform, the list of libraries your project will need to link against may look like this:
 
 ```
-DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib spirv-cross-core.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib GenericCodeGen.lib MachineIndependent.lib vulkan-1.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
+DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib spirv-cross-core.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib GenericCodeGen.lib MachineIndependent.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
 ```
 
 Vulkan libraries can be found in [DiligentCore/ThirdParty/vulkan/libs](https://github.com/DiligentGraphics/DiligentCore/tree/master/ThirdParty/vulkan/libs) directory.
@@ -522,8 +522,7 @@ CMake option. Note that any pull request will fail if formatting issues are foun
 Diligent Engine uses extensive validation that is always enabled in Debug build. Some of the checks may be
 enabled in release configurations by setting `DILIGENT_DEVELOPMENT` CMake option.
 
-To enable PIX events support, download [WinPixEventRuntime](https://devblogs.microsoft.com/pix/winpixeventruntime/)
-and set `DILIGENT_PIX_EVENT_RUNTIME_PATH` CMake variable to the root folder of the package.
+To enable PIX events support, set `DILIGENT_LOAD_PIX_EVENT_RUNTIME` CMake flag.
 
 <a name="build_and_run_customizing"></a>
 ## Customizing Build
