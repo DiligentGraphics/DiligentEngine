@@ -91,7 +91,6 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
 - [Getting started with the API](#getting_started)
 - [Tutorials](#tutorials)
 - [Samples](#samples)
-- [Demos](#demos)
 - [High-Level Rendering Components](#high_level_components)
 - [License](#license)
 - [Contributing](#contributing)
@@ -507,9 +506,8 @@ cmake -D DILIGENT_NO_DIRECT3D11=TRUE -S . -B ./build/Win64 -G "Visual Studio 16 
 ```
 
 Additionally, individual engine components can be enabled or disabled using the following options:
-`DILIGENT_BUILD_TOOLS`, `DILIGENT_BUILD_FX`, `DILIGENT_BUILD_SAMPLES`, `DILIGENT_BUILD_DEMOS`,
-`DILIGENT_BUILD_UNITY_PLUGIN`. If you only want to build `SampleBase` project,
- you can use `DILIGENT_BUILD_SAMPLE_BASE_ONLY` option.
+`DILIGENT_BUILD_TOOLS`, `DILIGENT_BUILD_FX`, `DILIGENT_BUILD_SAMPLES`.
+If you only want to build `SampleBase` project, you can use `DILIGENT_BUILD_SAMPLE_BASE_ONLY` option.
 
 By default Vulkan back-end is linked with glslang that enables compiling HLSL and GLSL shaders to SPIRV at run time.
 If run-time compilation is not required, glslang can be disabled with `DILIGENT_NO_GLSLANG` cmake option. 
@@ -676,6 +674,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [19 - Render Passes](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial19_RenderPasses) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial19_RenderPasses/Animation_Small.gif) | This tutorial demonstrates how to use the render passes API to implement simple deferred shading. |
 | [20 - Mesh Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial20_MeshShader) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial20_MeshShader/Animation_Small.gif) | This tutorial demonstrates how to use amplification and mesh shaders, the new programmable stages, to implement view frustum culling and object LOD calculation on the GPU. |
 | [21 - Ray Tracing](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial21_RayTracing) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial21_RayTracing/Animation_Small.gif) | This tutorial demonstrates the basics of using ray tracing API in Diligent Engine. |
+| [21 - Hybrid Rendering](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial22_HybridRendering) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial22_HybridRendering/Animation_Small.gif) | This tutorial demonstrates how to implement a simple hybrid renderer that combines rasterization with ray tracing. |
 
 <a name="samples"></a>
 # [Samples](https://github.com/DiligentGraphics/DiligentSamples)
@@ -689,14 +688,9 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [Dear ImGui Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/ImguiDemo/Screenshot.png" width=240> | This sample demonstrates the integration of the engine with [dear imgui](https://github.com/ocornut/imgui) UI library. |
 | [Nuklear Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/NuklearDemo) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/NuklearDemo/Screenshot.png" width=240> | This sample demonstrates the integration of the engine with [nuklear](https://github.com/vurtun/nuklear) UI library. |
 | [Hello AR](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Android/HelloAR) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Android/HelloAR/Screenshot.png" width=240> | This sample demonstrates how to use Diligent Engine in a basic Android AR application. |
+| [Asteroids](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Asteroids) |  <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Asteroids/Screenshot.png" width=240> | This sampple is a performance benchmark that renders 50,000 unique textured asteroids and allows comparing performance of different rendering modes. |
+| [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/UnityPlugin) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/UnityPlugin/GhostCubePlugin/Screenshot.png" width=240> | This project demonstrates integration of Diligent Engine with Unity. |
 
-<a name="demos"></a>
-# Demos
-
-| Project    | Screenshot  | Description          |
-|------------|-------------|----------------------|
-| [Asteroids Performance Benchmark](https://github.com/DiligentGraphics/DiligentEngine/tree/master/Projects/Asteroids) | ![](Projects/Asteroids/Screenshot.png) | This demo is designed to be a performance benchmark and is based on [this demo](https://software.intel.com/en-us/articles/asteroids-and-directx-12-performance-and-power-savings) developed by Intel. It renders 50,000 unique textured asteroids. Every asteroid is a combination of one of 1000 unique meshes and one of 10 unique textures. The sample uses original D3D11 and D3D12 native implementations, and adds implementation using Diligent Engine API to allow comparing performance of different rendering modes. |
-| [Unity Integration Demo](https://github.com/DiligentGraphics/DiligentEngine/tree/master/unityplugin) | ![](unityplugin/GhostCubePlugin/Screenshot.png) | This project demonstrates integration of Diligent Engine with Unity |
 
 <a name="high_level_components"></a>
 # High-Level Rendering Components

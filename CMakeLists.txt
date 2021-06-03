@@ -14,8 +14,6 @@ project(DiligentEngine)
 option(DILIGENT_BUILD_TOOLS "Build DiligentTools module" ON)
 option(DILIGENT_BUILD_FX "Build DiligentFX module" ON)
 option(DILIGENT_BUILD_SAMPLES "Build DiligentSamples module" ON)
-option(DILIGENT_BUILD_DEMOS "Build demo projects" ON)
-option(DILIGENT_BUILD_UNITY_PLUGIN "Build Unity plugin" ON)
 
 add_subdirectory(DiligentCore)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/DiligentCorePro")
@@ -47,14 +45,6 @@ endif()
 
 if(${DILIGENT_BUILD_SAMPLES})
     add_subdirectory(DiligentSamples)
-endif()
-
-if(${DILIGENT_BUILD_DEMOS})
-    add_subdirectory(Projects)
-endif()
-
-if(${DILIGENT_BUILD_UNITY_PLUGIN} AND (D3D11_SUPPORTED OR D3D12_SUPPORTED OR GL_SUPPORTED OR GLES_SUPPORTED))
-    add_subdirectory(unityplugin)
 endif()
 
 if(TARGET GLTFViewer)

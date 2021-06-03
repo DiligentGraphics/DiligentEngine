@@ -1,2 +1,0 @@
-include 'Common', ':GhostCubeScene'
-project(':Common').projectDir = new File(settingsDir, '../../DiligentTools/NativeApp/Android')
