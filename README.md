@@ -222,9 +222,12 @@ to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++1
 ## Linux
 
 Your Linux environment needs to be set up for c++ development. If it already is, make sure your c++ tools are up to date
-as Diligent Engine uses modern c++ features (gcc/g++ or clang 9 or later is recommended). You may need to install the following packages:
+as Diligent Engine uses modern c++ features (clang 10 or later is recommended). You may need to install the following packages:
 
-1. gcc, make and other essential c/c++ tools:
+:warning: gcc 9, 10 and 11 seemingly produce invalid code in release configurations that causes crash on startup.
+Use gcc 7 or 8 or clang.
+
+1. gcc, clang, make and other essential c/c++ tools:
 
 ```
 sudo apt-get update
