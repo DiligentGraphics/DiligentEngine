@@ -100,13 +100,32 @@
             ]
         },
         {
+            "name": "GLFWDemo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Samples/GLFWDemo/GLFWDemo",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/GLFWDemo/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "GhostCubeScene",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/unityplugin/GhostCubeScene/GhostCubeScene",
+            "program": "${workspaceFolder}/build/DiligentSamples/UnityPlugin/GhostCubeScene/GhostCubeScene",
             "args": ["-mode gl"],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/unityplugin/GhostCubeScene/assets",
+            "cwd": "${workspaceFolder}//DiligentSamples/UnityPlugin/GhostCubeScene/assets",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
@@ -506,6 +525,44 @@
             "args": ["-mode vk"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial20_MeshShader/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial21_RayTracing",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial21_RayTracing/Tutorial21_RayTracing",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial21_RayTracing/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial22_HybridRendering",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial22_HybridRendering/Tutorial22_HybridRendering",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial22_HybridRendering/assets",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
