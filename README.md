@@ -222,10 +222,12 @@ to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++1
 ## Linux
 
 Your Linux environment needs to be set up for c++ development. If it already is, make sure your c++ tools are up to date
-as Diligent Engine uses modern c++ features (clang 10 or later is recommended). You may need to install the following packages:
+as Diligent Engine uses modern c++ features (clang 10 or later is recommended).
 
-:warning: gcc 9, 10 and 11 seemingly produce invalid code in release configurations that causes crash on startup.
+:warning: gcc 9, 10 and 11 seemingly produce invalid binary code in release configurations that causes crash on startup.
 Use gcc 7 or 8 or clang.
+
+You may need to install the following packages:
 
 1. gcc, clang, make and other essential c/c++ tools:
 
@@ -249,6 +251,11 @@ sudo apt-get install mesa-common-dev
 sudo apt-get install mesa-utils
 sudo apt-get install libgl-dev
 sudo apt-get install python3-distutils
+sudo apt-get install libgl1-mesa-dev
+sudo apt-get install libxrandr-dev
+sudo apt-get install libxinerama-dev
+sudo apt-get install libxcursor-dev
+sudo apt-get install libxi-dev
 ```
 
 To configure Vulkan you will also need to:
