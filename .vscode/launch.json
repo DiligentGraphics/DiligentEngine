@@ -125,7 +125,7 @@
             "program": "${workspaceFolder}/build/DiligentSamples/UnityPlugin/GhostCubeScene/GhostCubeScene",
             "args": ["-mode gl"],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}//DiligentSamples/UnityPlugin/GhostCubeScene/assets",
+            "cwd": "${workspaceFolder}/DiligentSamples/UnityPlugin/GhostCubeScene/assets",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
