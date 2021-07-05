@@ -92,6 +92,7 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
 - [Tutorials](#tutorials)
 - [Samples](#samples)
 - [High-Level Rendering Components](#high_level_components)
+- [Products Using Diligent Engine](#products-using-diligent-engine)
 - [License](#license)
 - [Contributing](#contributing)
 - [References](#references)
@@ -731,13 +732,14 @@ The following components are now available:
 
 We would appreciate it if you could send us a link in case your product uses Diligent Engine.
 
+* [LumenRT](https://www.bentley.com/en/products/brands/lumenrt): A Visualization and Reality Modeling Software by [Bentley Systems](https://www.bentley.com/)
+  <img src="https://prod-bentleycdn.azureedge.net/-/media/images/website-specific-graphics/hero/hero_lumenrt_lobby.jpg" width=600>
+
 * [Godus](https://apps.apple.com/gb/app/godus/id815181808): An award-winning sandbox game by [22cans](http://22cans.com/)  
-  <img src="http://22cans.com/wp-content/uploads/2016/11/godus_header1-01.jpg" width=480>
+  <img src="http://22cans.com/wp-content/uploads/2016/11/godus_header1-01.jpg" width=600>
 
 * [Vrmac Graphics](https://github.com/Const-me/Vrmac): A cross-platform graphics library for .NET  
-  <img src="https://github.com/Const-me/Vrmac/blob/master/screenshots/Linux/TigerFullHD-1.png" width=480>
-
-* Your product here (please submit a [PR](https://github.com/DiligentGraphics/DiligentEngine/pulls))!
+  <img src="https://github.com/Const-me/Vrmac/blob/master/screenshots/Linux/TigerFullHD-1.png" width=600>
 
 
 <a name="disclaimer"></a>
