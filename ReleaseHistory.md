@@ -1,3 +1,10 @@
+## Current progress
+
+### Samples and Tutorials
+
+* Added [Tutorial23 - Command Queues](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial23_CommandQueues)
+
+
 ## v2.5
 
 ### API Changes
