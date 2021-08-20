@@ -44,7 +44,7 @@ jobs:
     - name: Configure dependencies
       if: success()
       run: |
-        sudo apt-get install build-essential libx11-dev libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+        sudo apt-get update && sudo apt-get install build-essential libx11-dev libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
 
     - name: Configure CMake
       if: success()
@@ -110,7 +110,7 @@ jobs:
     - name: Configure dependencies
       if: success()
       run: |
-        sudo apt-get install build-essential libx11-dev libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+        sudo apt-get update && sudo apt-get install build-essential libx11-dev libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
 
     - name: Configure CMake
       if: success()

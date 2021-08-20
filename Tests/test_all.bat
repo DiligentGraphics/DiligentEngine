@@ -74,13 +74,12 @@ set API_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreAPITest\%co
 (%API_TEST_EXE_PATH% --mode=vk) || set /a VK_ERROR=%VK_ERROR%+1
 (%API_TEST_EXE_PATH% --mode=vk --shader_compiler=dxc) || set /a VK_ERROR=%VK_ERROR%+10
 
-
-cd "%CURR_DIR%\..\DiligentSamples\Tests\GoldenImages"
-set golden_img_width=1024
-set golden_img_height=768
-(call ProcessGoldenImages.bat %build_folder% %config% compare "-mode d3d11" "-mode d3d12" "-mode gl" "-mode gl -non_separable_progs 1" "-mode vk") || set APP_ERROR=!ERRORLEVEL!
-
 cd "%CURR_DIR%"
+
+echo.
+echo.
+
+(call test_samples.bat %build_folder% %config%  %golden_images_root_dir%) || set APP_ERROR=!ERRORLEVEL!
 
 set FONT_RED=[91m
 set FONT_GREEN=[92m
@@ -96,4 +95,4 @@ if "%APP_ERROR%"=="0" (@echo %FONT_GREEN%Sample app tests PASSED) else (@echo %F
 
 @echo %FONT_DEFAULT%
 
-exit /B %D3D11_ERROR%+%D3D12_ERROR%+%GL_ERROR%+%VK_ERROR%
+exit /B %D3D11_ERROR%+%D3D12_ERROR%+%GL_ERROR%+%VK_ERROR%+%APP_ERROR%
