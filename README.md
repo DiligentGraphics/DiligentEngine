@@ -535,6 +535,9 @@ enabled in release configurations by setting `DILIGENT_DEVELOPMENT` CMake option
 
 To enable PIX events support, set `DILIGENT_LOAD_PIX_EVENT_RUNTIME` CMake flag.
 
+To enable some advanced features on NVidia GPUs (such as native multi draw indirect support in Direct3D11),
+download [NVAPI](https://developer.nvidia.com/nvapi) and set the `DILIGENT_NVAPI_PATH` CMake variable. 
+
 <a name="build_and_run_customizing"></a>
 ## Customizing Build
 
