@@ -19,13 +19,14 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 | Platform                                                                                                                                     | D3D11              | D3D12              |  OpenGL/GLES       | Vulkan                          | Metal                           |  Build Status                    |
 | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |------------------- | ------------------ | ------------------------------- | ------------------------------- | -------------------------------- |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Windows             | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Windows/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/windows.yml?query=branch%3Amaster) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/uwindows-logo.png" width=24 valign="middle"> Universal Windows  | :heavy_check_mark: | :heavy_check_mark: | -                  | -                               | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/UWP/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/uwp.yml?query=branch%3Amaster)         |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Linux/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/linux.yml?query=branch%3Amaster)     |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android             | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Android/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/android.yml?query=branch%3Amaster) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/MacOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/macos.yml?query=branch%3Amaster)     |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                   | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/iOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/ios.yml?query=branch%3Amaster)         |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/tvos-logo.png" width=24 valign="middle"> tvOS                   | -                  | -                  | -                  | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/tvOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/tvos.yml?query=branch%3Amaster)       |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Windows             | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Windows/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/windows.yml?query=branch%3Amaster)       |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/uwindows-logo.png" width=24 valign="middle"> Universal Windows  | :heavy_check_mark: | :heavy_check_mark: | -                  | -                               | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/UWP/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/uwp.yml?query=branch%3Amaster)               |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Linux/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/linux.yml?query=branch%3Amaster)           |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android             | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Android/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/android.yml?query=branch%3Amaster)       |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/MacOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/macos.yml?query=branch%3Amaster)           |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                   | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/iOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/ios.yml?query=branch%3Amaster)               |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/tvos-logo.png" width=24 valign="middle"> tvOS                   | -                  | -                  | -                  | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/tvOS/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/tvos.yml?query=branch%3Amaster)             |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/emscripten-logo.png" width=24 valign="middle"> Emscripten       | -                  | -                  | :heavy_check_mark: | -                               | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/workflows/Emscripten/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/emscripten.yml?query=branch%3Amaster) |
 
 
 <sup>1</sup> Vulkan API is not natively supported on MacOS, iOS and tvOS platforms and requires a Vulkan portability implementation such as [MoltenVK](https://github.com/KhronosGroup/MoltenVK)
@@ -86,6 +87,7 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
   - [Android](#build_and_run_android)
   - [MacOS](#build_and_run_macos)
   - [iOS](#build_and_run_ios)
+  - [Emscripten](#build_and_run_emscripten)
   - [Integrating Diligent Engine with Existing Build System](#build_and_run_integration)
   - [Build Options](#build_option)
   - [Customizing Build](#build_and_run_customizing)
@@ -394,6 +396,46 @@ Refer to [MoltenVK user guide](https://github.com/KhronosGroup/MoltenVK/blob/mas
 for more information about MoltenVK installation and usage.
 
 Last tested LunarG SDK version: 1.2.176.1.
+
+<a name="build_and_run_emscripten"></a>
+## Emscripten
+Build prerequisites:
+
+* Emscripten SDK 2.0.30
+* Ninja 1.10.2
+
+To activate PATH and other environment variables in the current terminal
+````bash
+source ${PATH_TO_EMSDK}/emsdk/emsdk_env.sh
+````
+:warning: On Windows, run `${PATH_TO_EMSDK}/emsdk/emsdk_env.bat` instead of `source ${PATH_TO_EMSDK}/emsdk/emsdk_env.sh`
+
+
+To generate project, run the following CMake command from the engine's root folder:
+
+```cmake
+emcmake cmake -S . -B ./build/Emscripten -G "Ninja"
+```
+
+To build the engine, run the following command:
+
+```cmake
+cmake --build ./build/Emscripten
+```
+
+To test emscripten applications, run a basic web server
+
+```bash
+cd ./build/Emscripten
+python -m http.server
+```
+
+Open a browser, and navigate to `http://localhost:8000`
+
+For example, the demo will be available at 
+```
+http://localhost:8000/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html
+```
 
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
