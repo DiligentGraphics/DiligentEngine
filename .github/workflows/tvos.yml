@@ -9,37 +9,13 @@ jobs:
         config: [Release]
 
     runs-on: macos-latest
-    name: tvOS, ${{ matrix.config }}
+    name: MacOS -> tvOS, ${{ matrix.config }}
 
     steps:
     - name: Clone repository
       uses: actions/checkout@v2
       with:
         submodules: recursive
-
-    - name: DiligentCore format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
-        ./validate_format_mac.sh
-
-    - name: DiligentTools format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
-        ./validate_format_mac.sh
-        
-    - name: DiligentFX format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
-        ./validate_format_mac.sh
-        
-    - name: DiligentSamples format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
-        ./validate_format_mac.sh
 
     - name: Download Vulkan SDK
       if: success()

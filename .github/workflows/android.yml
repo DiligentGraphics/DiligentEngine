@@ -5,37 +5,13 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Android
+    name: Linux -> Android-ARM32-ARM64
 
     steps:
     - name: Clone repository
       uses: actions/checkout@v2
       with:
         submodules: recursive
-
-    - name: DiligentCore format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-
-    - name: DiligentTools format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-        
-    - name: DiligentFX format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-        
-    - name: DiligentSamples format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
-        ./validate_format_linux.sh
 
     - name: Set up Java 8
       if: success()

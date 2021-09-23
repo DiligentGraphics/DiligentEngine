@@ -9,37 +9,13 @@ jobs:
         config: [Debug, Release]
 
     runs-on: ubuntu-latest
-    name: Linux x64, GCC 9, ${{ matrix.config }}
+    name: Linux -> x64, GCC 9, ${{ matrix.config }}
 
     steps:
     - name: Clone repository
       uses: actions/checkout@v2
       with:
         submodules: recursive
-
-    - name: DiligentCore format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-
-    - name: DiligentTools format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-
-    - name: DiligentFX format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-
-    - name: DiligentSamples format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
-        ./validate_format_linux.sh
 
     - name: Configure dependencies
       if: success()
@@ -55,7 +31,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
         chmod +x configure_cmake.sh
-        ./configure_cmake.sh "linux" "${{runner.workspace}}" ${{ matrix.config }}
+        ./configure_cmake.sh "linux" "${{runner.workspace}}" ${{ matrix.config }} "-DDILIGENT_BUILD_TESTS=ON"
 
     - name: Build
       if: success()
@@ -75,37 +51,13 @@ jobs:
         config: [Debug, Release]
 
     runs-on: ubuntu-latest
-    name: Linux x64, Clang 10, ${{ matrix.config }}
+    name: Linux -> x64, Clang 10, ${{ matrix.config }}
 
     steps:
     - name: Clone repository
       uses: actions/checkout@v2
       with:
         submodules: recursive
-
-    - name: DiligentCore format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-
-    - name: DiligentTools format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-
-    - name: DiligentFX format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
-        ./validate_format_linux.sh
-
-    - name: DiligentSamples format validation
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
-        ./validate_format_linux.sh
 
     - name: Configure dependencies
       if: success()
@@ -121,7 +73,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
         chmod +x configure_cmake.sh
-        ./configure_cmake.sh "linux" "${{runner.workspace}}" ${{ matrix.config }}
+        ./configure_cmake.sh "linux" "${{runner.workspace}}" ${{ matrix.config }} "-DDILIGENT_BUILD_TESTS=ON"
 
     - name: Build
       if: success()
