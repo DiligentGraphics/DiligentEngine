@@ -56,7 +56,8 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
   * Descriptor and memory management
   * Shader resource reflection
   * Async compute and multiple command queues
-  * Ray-tracing, mesh shaders, tile shaders, bindless resources, and other state-of-the-art capabilities
+  * Ray-tracing, mesh shaders, tile shaders, bindless resources, variable rate shading, sparse resources,
+    wave operations, and other state-of-the-art capabilities
 * Extensive validation and error reporting
 * Modern c++ features to make the code fast and reliable
 * Consistent high quality is ensured by continuous integration
