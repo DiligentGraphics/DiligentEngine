@@ -1,8 +1,25 @@
-## Current progress
+## v2.5.1
+
+### API Changes
+
+* Enabled emscripten platform
+* Added subsampled render targets for VRS (API Version 250011)
+* Added sparse resources (API Version 250010)
+* Updated API to use 64bit offsets for GPU memory (API Version 250009)
+* Reworked draw indirect command attributes (moved buffers into the attribs structs), removed DrawMeshIndirectCount (API Version 250008)
+* Enabled indirect multidraw commands (API Version 250007)
+* Enabled variable rate shading (API Version 250006)
+* Added 'TransferQueueTimestampQueries' feature (API Version 250005)
+* Added 'RESOURCE_STATE_COMMON' state; added `STATE_TRANSITION_FLAGS` enum and replaced
+  `StateTransitionDesc::UpdateResourceState` with `STATE_TRANSITION_FLAGS Flags` (API Version 250004)
+* Added `ComputeShaderProperties` struct (API Version 250003)
+* Added `IShaderResourceBinding::CheckResources` method and `SHADER_RESOURCE_VARIABLE_TYPE_FLAGS` enum (API Version 250002)
+* Removed `IShaderResourceVariable::IsBound` with `IShaderResourceVariable::Get` (API Version 250001)
 
 ### Samples and Tutorials
 
 * Added [Tutorial23 - Command Queues](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial23_CommandQueues)
+* Added [Tutorial24 - Variable rate shading](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial24_VRS)
 
 
 ## v2.5
