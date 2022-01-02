@@ -26,9 +26,9 @@ git submodule update --recursive
   `PLATFORM_UNIVERSAL_WINDOWS`, `PLATFORM_ANDROID`, `PLATFORM_LINUX`, `PLATFORM_MACOS`, and
   `PLATFORM_IOS` macros is defined as `1`.
 
-* When building on Windows, generating Visual Studio project files is the recommended way. **Do not**
-  use Visual Studio's built-in CMake and *Open Folder* option. Other IDEs such as Visual Studio
-  Code or CLion are not guaranteed to work.
+* When building on Windows, generating Visual Studio project files is the recommended way.
+  Other IDEs such as Visual Studio Code or CLion may need extra configuration to properly set up
+  the build environment.
  
 * If on Windows you get long path error, try cloning the project to a folder with shorter name
   such as `c:/git/DiligentEngine`.

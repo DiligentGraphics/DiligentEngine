@@ -4,7 +4,7 @@ If you have build or run problems, please read [troubleshooting](https://github.
 
 Please double-check that your [code is up-to-date, including all submodules](https://github.com/DiligentGraphics/DiligentEngine#cloning-the-repository).
 
-If you have a question that does not require creating an issue, you may ask it on [gitter](https://gitter.im/diligent-engine/Lobby).
+If you have a question that does not require creating an issue, you may ask it on [discord](https://discord.gg/t7HGBK7).
 
 For performance issues, please make sure you are running release builds. Debug builds may be significantly slower, especially on Windows.
 
