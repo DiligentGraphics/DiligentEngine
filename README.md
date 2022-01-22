@@ -59,6 +59,7 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
   * Async compute and multiple command queues
   * Ray-tracing, mesh shaders, tile shaders, bindless resources, variable rate shading, sparse resources,
     wave operations, and other state-of-the-art capabilities
+* JSON-based render state description language and state packaging tool
 * Extensive validation and error reporting
 * Modern c++ features to make the code fast and reliable
 * Consistent high quality is ensured by continuous integration
@@ -92,6 +93,7 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
   - [Build Options](#build_option)
   - [Customizing Build](#build_and_run_customizing)
 - [Getting started with the API](#getting_started)
+- [Render State Notation](#render_state_notation)
 - [Tutorials](#tutorials)
 - [Samples](#samples)
 - [High-Level Rendering Components](#high_level_components)
@@ -550,6 +552,34 @@ build system. Build customization described below can help tweak the settings fo
 <a name="build_option"></a>
 ## Build Options
 
+Available CMake options are summarized in the table below:
+
+| Option                              |Default value|     Description                                              |
+|-------------------------------------|-------------|--------------------------------------------------------------|
+| `DILIGENT_NO_DIRECT3D11`            |    No       | Do not build Direct3D11 backend                              |
+| `DILIGENT_NO_DIRECT3D12`            |    No       | Do not build Direct3D12 backend                              |
+| `DILIGENT_NO_OPENGL`                |    No       | Do not build OpenGL backend                                  |
+| `DILIGENT_NO_VULKAN`                |    No       | Do not build Vulkan backend                                  |
+| `DILIGENT_NO_METAL`                 |    No       | Do not build Metal backend                                   |
+| `DILIGENT_NO_ARCHIVER`              |    No       | Do not build Archiver                                        |
+| `DILIGENT_NO_RENDER_STATE_PACKAGER` |    No       | Do not build Render State Packager tool                      |
+| `DILIGENT_BUILD_TOOLS`              |    Yes      | Build Tools module                                           |
+| `DILIGENT_BUILD_FX`                 |    Yes      | Build FX module                                              |
+| `DILIGENT_BUILD_SAMPLES`            |    Yes      | Build Samples module                                         |
+| `DILIGENT_BUILD_SAMPLE_BASE_ONLY`   |    No       | Build only SampleBase project and no other samples/tutorials |
+| `DILIGENT_BUILD_TESTS`              |    No       | Build Unit Tests                                             |
+| `DILIGENT_NO_GLSLANG`               |    No       | Do not build GLSLang and SPRIV-Tools                         |
+| `DILIGENT_NO_HLSL`                  |    No       | Disable HLSL support in non-Direct3D backends                |
+| `DILIGENT_NO_FORMAT_VALIDATION`     |    No       | Disable source code formatting validation                    |
+| `DILIGENT_LOAD_PIX_EVENT_RUNTIME`   |    No       | Enable PIX event support                                     |
+| `DILIGENT_NVAPI_PATH`               |             | Path to NVAPI SDK                                            |
+| `DILIGENT_INSTALL_CORE`             |    Yes      | Install core module                                          |
+| `DILIGENT_INSTALL_TOOLS`            |    Yes      | Install tools module                                         |
+| `DILIGENT_INSTALL_FX`               |    Yes      | Install FX module                                            |
+| `DILIGENT_INSTALL_SAMPLES`          |    Yes      | Install Samples module                                       |
+| `DILIGENT_INSTALL_PDB`              |    No       | Install program debug database                               |
+
+
 By default, all back-ends available on current platform are built. To disable specific back-ends,
 use the following options: `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `DILIGENT_NO_OPENGL`,
 `DILIGENT_NO_VULKAN`, `DILIGENT_NO_METAL`.
@@ -701,6 +731,68 @@ endfunction()
 # Getting started with the API
 
 Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api-basics). Also, tutorials and samples listed below is a good place to start.
+
+
+<a name="render_state_notation"></a>
+# Render State Notation
+
+Diligent Render State Notation is a JSON-based language that describes shaders, pipeline states,
+resource signatures and other objects in a convenient form, e.g.:
+
+```json
+{
+    "Shaders": [
+        {
+            "Desc": {
+                "Name": "My Vertex shader",
+                "ShaderType": "VERTEX"
+            },
+            "SourceLanguage": "HLSL",
+            "FilePath": "cube.vsh"
+        },
+        {
+            "Desc": {
+                "Name": "My Pixel shader",
+                "ShaderType": "PIXEL"
+            },
+            "SourceLanguage": "HLSL",
+            "FilePath": "cube.psh",
+        }
+    ],
+    "Pipeleines": [
+        {
+            "GraphicsPipeline": {
+                "DepthStencilDesc": {
+                    "DepthEnable": true
+                },
+                "RTVFormats": {
+                    "0": "RGBA8_UNORM_SRGB"
+                },
+                "RasterizerDesc": {
+                    "CullMode": "FRONT"
+                },
+                "BlendDesc": {
+                    "RenderTargets": {
+                        "0": {
+                            "BlendEnable": true
+                        }
+                    }
+                }
+            },
+            "PSODesc": {
+                "Name": "My Pipeline State",
+                "PipelineType": "GRAPHICS"
+            },
+            "pVS": "My Vertex shader",
+            "pPS": "My Pixel shader"
+        }
+    ]
+}
+```
+
+JSON files can be [parsed dynamically at run time](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderStateNotation/interface).
+Alternatively, an application can use the [packager tool](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderStatePackager) to preprocess pipeline
+descriptions (compile shaders for target platforms, define internal resource layouts, etc.) into a binary archive optimized for run-time loading performance.
 
 
 <a name="tutorials"></a>
