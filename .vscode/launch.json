@@ -612,6 +612,44 @@
             ]
         },
         {
+            "name": "DiligentToolsTest",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentTools/Tests/DiligentToolsTest/DiligentToolsTest",
+            "args": ["--gtest_filter=*.*"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentTools/Tests/DiligentToolsTest/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "DiligentToolsGPUTest",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentTools/Tests/DiligentToolsGPUTest/DiligentToolsGPUTest",
+            "args": ["--mode=vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentTools/Tests/DiligentToolsGPUTest/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "HLSL2GLSLConverter",
             "type": "cppdbg",
             "request": "launch",
@@ -629,6 +667,25 @@
                     "ignoreFailures": true
                 }
             ]
-        }
+        },
+        {
+            "name": "RenderStatePackager",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentTools/RenderStatePackager/Diligent-RenderStatePackager",
+            "args": [""],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentTools/RenderStatePackager",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
     ]
 }

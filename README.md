@@ -230,8 +230,8 @@ to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++1
 Your Linux environment needs to be set up for c++ development. If it already is, make sure your c++ tools are up to date
 as Diligent Engine uses modern c++ features (clang 10 or later is recommended).
 
-:warning: gcc 9, 10 and 11 seemingly produce invalid binary code in release configurations that causes crash on startup.
-Use gcc 7 or 8 or clang.
+:warning: gcc 9 and above seemingly produces invalid binary code with O2 and O3 optimization levels. To avoid crashes,
+optimization level is downgraded to O1 in release configurations. It is recommended to use clang or gcc 7 or 8.
 
 You may need to install the following packages:
 
