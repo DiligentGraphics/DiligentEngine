@@ -578,6 +578,7 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_INSTALL_FX`               |    Yes      | Install FX module                                            |
 | `DILIGENT_INSTALL_SAMPLES`          |    Yes      | Install Samples module                                       |
 | `DILIGENT_INSTALL_PDB`              |    No       | Install program debug database                               |
+| `DILIGENT_DEAR_IMGUI_PATH`          |             | Path to a custom dear imgui implementation                   |
 
 
 By default, all back-ends available on current platform are built. To disable specific back-ends,
