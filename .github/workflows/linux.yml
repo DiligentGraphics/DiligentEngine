@@ -42,7 +42,9 @@ jobs:
     - name: DiligentCoreTest
       if: success()
       shell: bash
-      run: ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
+      run: |
+        cd "$GITHUB_WORKSPACE/DiligentCore/Tests/DiligentCoreTest/assets"
+        ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
 
 
   build-clang-10:
@@ -84,4 +86,6 @@ jobs:
     - name: DiligentCoreTest
       if: success()
       shell: bash
-      run: ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
+      run: |
+        cd "$GITHUB_WORKSPACE/DiligentCore/Tests/DiligentCoreTest/assets"
+        ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
