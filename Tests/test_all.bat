@@ -52,12 +52,11 @@ cd "%CURR_DIR%\..\DiligentFX\BuildTools\FormatValidation"
 cd "%CURR_DIR%\..\DiligentSamples\BuildTools\FormatValidation"
 (call validate_format_win.bat) || set /a FORMATTING_ERROR+=1000
 
+cd "%CURR_DIR%\..\DiligentCore\Tests\DiligentCoreTest\assets"
 set CORE_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreTest\%config%\DiligentCoreTest.exe"
-
 (%CORE_TEST_EXE_PATH%) || set /a CORE_TEST_ERROR=%CORE_TEST_ERROR%+1
 
 cd "%CURR_DIR%\..\DiligentCore\Tests\DiligentCoreAPITest\assets"
-
 set API_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreAPITest\%config%\DiligentCoreAPITest.exe"
 
 (%API_TEST_EXE_PATH% --mode=d3d11) || set /a D3D11_ERROR=%D3D11_ERROR%+1
