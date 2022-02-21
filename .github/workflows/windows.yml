@@ -9,7 +9,7 @@ jobs:
         toolset: [Win32, x64]
         config: [Debug, Release]
 
-    runs-on: windows-latest
+    runs-on: windows-2019
     name: Win10 -> ${{ matrix.toolset }}, ${{ matrix.config }}
 
     steps:
@@ -63,7 +63,7 @@ jobs:
         toolset: [x64]
         config: [Release]
 
-    runs-on: windows-latest
+    runs-on: windows-2019
     name: Win10 -> ${{ matrix.toolset }}, ${{ matrix.config }}, DEVELOPMENT
 
     steps:
@@ -98,7 +98,7 @@ jobs:
         toolset: [x64]
         config: [Release]
 
-    runs-on: windows-latest
+    runs-on: windows-2019
     name: Win10 -> Win8.1-${{ matrix.toolset }}, ${{ matrix.config }}
 
     steps:
