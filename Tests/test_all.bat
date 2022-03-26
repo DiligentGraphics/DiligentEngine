@@ -36,6 +36,8 @@ set D3D11_ERROR=0
 set D3D12_ERROR=0
 set GL_ERROR=0
 set VK_ERROR=0
+set TOOLS_TEST_ERROR=0
+set TOOLS_GPU_TEST_ERROR=0
 set APP_ERROR=0
 
 set CURR_DIR=%cd%
@@ -56,6 +58,11 @@ cd "%CURR_DIR%\..\DiligentCore\Tests\DiligentCoreTest\assets"
 set CORE_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreTest\%config%\DiligentCoreTest.exe"
 (%CORE_TEST_EXE_PATH%) || set /a CORE_TEST_ERROR=%CORE_TEST_ERROR%+1
 
+cd "%CURR_DIR%\..\DiligentTools\Tests\DiligentToolsTest\assets"
+set TOOLS_TEST_EXE_PATH="%build_folder%\DiligentTools\Tests\DiligentToolsTest\%config%\DiligentToolsTest.exe"
+(%TOOLS_TEST_EXE_PATH%) || set /a TOOLS_TEST_ERROR=%TOOLS_TEST_ERROR%+1
+
+
 cd "%CURR_DIR%\..\DiligentCore\Tests\DiligentCoreAPITest\assets"
 set API_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreAPITest\%config%\DiligentCoreAPITest.exe"
 
@@ -73,6 +80,18 @@ set API_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreAPITest\%co
 (%API_TEST_EXE_PATH% --mode=vk) || set /a VK_ERROR=%VK_ERROR%+1
 (%API_TEST_EXE_PATH% --mode=vk --shader_compiler=dxc) || set /a VK_ERROR=%VK_ERROR%+10
 
+
+cd "%CURR_DIR%\..\DiligentTools\Tests\DiligentToolsGPUTest\assets"
+set TOOLS_GPU_TEST_EXE_PATH="%build_folder%\DiligentTools\Tests\DiligentToolsGPUTest\%config%\DiligentToolsGPUTest.exe"
+
+(%TOOLS_GPU_TEST_EXE_PATH% --mode=d3d11) || set /a TOOLS_GPU_TEST_ERROR=%TOOLS_GPU_TEST_ERROR%+1
+(%TOOLS_GPU_TEST_EXE_PATH% --mode=d3d11_sw) || set /a TOOLS_GPU_TEST_ERROR=%TOOLS_GPU_TEST_ERROR%+10
+(%TOOLS_GPU_TEST_EXE_PATH% --mode=d3d12) || set /a TOOLS_GPU_TEST_ERROR=%TOOLS_GPU_TEST_ERROR%+100
+(%TOOLS_GPU_TEST_EXE_PATH% --mode=d3d12_sw) || set /a TOOLS_GPU_TEST_ERROR=%TOOLS_GPU_TEST_ERROR%+1000
+(%TOOLS_GPU_TEST_EXE_PATH% --mode=gl) || set /a TOOLS_GPU_TEST_ERROR=%TOOLS_GPU_TEST_ERROR%+10000
+(%TOOLS_GPU_TEST_EXE_PATH% --mode=vk) || set /a TOOLS_GPU_TEST_ERROR=%TOOLS_GPU_TEST_ERROR%+100000
+
+
 cd "%CURR_DIR%"
 
 echo.
@@ -86,12 +105,17 @@ set FONT_DEFAULT=[0m
 
 if "%FORMATTING_ERROR%"=="0" (@echo %FONT_GREEN%Format validation PASSED) else (@echo %FONT_RED%Format validation FAILED with code %FORMATTING_ERROR%)
 if "%CORE_TEST_ERROR%"=="0" (@echo %FONT_GREEN%Core tests PASSED) else (@echo %FONT_RED%Core tests FAILED with code %CORE_TEST_ERROR%)
+
 if "%D3D11_ERROR%"=="0" (@echo %FONT_GREEN%D3D11 tests PASSED) else (@echo %FONT_RED%D3D11 tests FAILED with code %D3D11_ERROR%)
 if "%D3D12_ERROR%"=="0" (@echo %FONT_GREEN%D3D12 tests PASSED) else (@echo %FONT_RED%D3D12 tests FAILED with code %D3D12_ERROR%)
 if "%GL_ERROR%"=="0" (@echo %FONT_GREEN%GL tests PASSED) else (@echo %FONT_RED%GL tests FAILED with code %GL_ERROR%)
 if "%VK_ERROR%"=="0" (@echo %FONT_GREEN%Vk tests PASSED) else (@echo %FONT_RED%Vk tests FAILED with code %VK_ERROR%)
+
+if "%TOOLS_TEST_ERROR%"=="0" (@echo %FONT_GREEN%Tools tests PASSED) else (@echo %FONT_RED%Tools tests FAILED with code %TOOLS_TEST_ERROR%)
+if "%TOOLS_GPU_TEST_ERROR%"=="0" (@echo %FONT_GREEN%Tools GPU tests PASSED) else (@echo %FONT_RED%Tools GPU tests FAILED with code %TOOLS_GPU_TEST_ERROR%)
+
 if "%APP_ERROR%"=="0" (@echo %FONT_GREEN%Sample app tests PASSED) else (@echo %FONT_RED%Sample app tests FAILED with code %APP_ERROR%)
 
 @echo %FONT_DEFAULT%
 
-exit /B %D3D11_ERROR%+%D3D12_ERROR%+%GL_ERROR%+%VK_ERROR%+%APP_ERROR%
+exit /B %FORMATTING_ERROR%+%CORE_TEST_ERROR%+%D3D11_ERROR%+%D3D12_ERROR%+%GL_ERROR%+%VK_ERROR%+%TOOLS_TEST_ERROR%+%TOOLS_GPU_TEST_ERROR%+%APP_ERROR%

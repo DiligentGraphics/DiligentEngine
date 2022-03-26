@@ -49,6 +49,7 @@ jobs:
       run: |
         cd "$GITHUB_WORKSPACE\DiligentCore\Tests\DiligentCoreAPITest\assets"
         "${{runner.workspace}}\build\DiligentCore\Tests\DiligentCoreAPITest\${{ matrix.config }}\DiligentCoreAPITest.exe" --mode=d3d12_sw
+
     - name: DiligentCoreAPITest D3D12 DXC
       if: success()
       shell: bash
@@ -56,6 +57,26 @@ jobs:
         cd "$GITHUB_WORKSPACE\DiligentCore\Tests\DiligentCoreAPITest\assets"
         "${{runner.workspace}}\build\DiligentCore\Tests\DiligentCoreAPITest\${{ matrix.config }}\DiligentCoreAPITest.exe" --mode=d3d12_sw --shader_compiler=dxc
 
+    - name: DiligentToolsTest
+      if: success()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE\DiligentTools\Tests\DiligentToolsTest\assets"
+        "${{runner.workspace}}\build\DiligentTools\Tests\DiligentToolsTest\${{ matrix.config }}\DiligentToolsTest.exe"
+
+    - name: DiligentToolsGPUTest D3D11
+      if: success()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE\DiligentTools\Tests\DiligentToolsGPUTest\assets"
+        "${{runner.workspace}}\build\DiligentTools\Tests\DiligentToolsGPUTest\${{ matrix.config }}\DiligentToolsGPUTest.exe" --mode=d3d11_sw
+
+    - name: DiligentToolsGPUTest D3D12
+      if: success()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE\DiligentTools\Tests\DiligentToolsGPUTest\assets"
+        "${{runner.workspace}}\build\DiligentTools\Tests\DiligentToolsGPUTest\${{ matrix.config }}\DiligentToolsGPUTest.exe" --mode=d3d12_sw
 
   build-win10-dev:
     strategy:
@@ -132,3 +153,16 @@ jobs:
         cd "$GITHUB_WORKSPACE\DiligentCore\Tests\DiligentCoreAPITest\assets"
         "${{runner.workspace}}\build\DiligentCore\Tests\DiligentCoreAPITest\${{ matrix.config }}\DiligentCoreAPITest.exe" --mode=d3d11_sw
 
+    - name: DiligentToolsTest
+      if: success()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE\DiligentTools\Tests\DiligentToolsTest\assets"
+        "${{runner.workspace}}\build\DiligentTools\Tests\DiligentToolsTest\${{ matrix.config }}\DiligentToolsTest.exe"
+
+    - name: DiligentToolsGPUTest D3D11
+      if: success()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE\DiligentTools\Tests\DiligentToolsGPUTest\assets"
+        "${{runner.workspace}}\build\DiligentTools\Tests\DiligentToolsGPUTest\${{ matrix.config }}\DiligentToolsGPUTest.exe" --mode=d3d11_sw
