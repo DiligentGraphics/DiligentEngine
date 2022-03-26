@@ -29,9 +29,14 @@ git submodule update --recursive
 * When building on Windows, generating Visual Studio project files is the recommended way.
   Other IDEs such as Visual Studio Code or CLion may need extra configuration to properly set up
   the build environment.
- 
+
 * If on Windows you get long path error, try cloning the project to a folder with shorter name
   such as `c:/git/DiligentEngine`.
+
+* If on MacOS CMake fails to find the compiler, run the following command:
+  ```cmake
+  sudo xcode-select --reset
+  ```  
 
 ### Projects don't run
 

@@ -323,6 +323,12 @@ cmake -S . -B ./build/MacOS -G "Xcode"
 
 The project will be located in `build/MacOS` folder.
 
+Note that if CMake fails to find the compiler, you may need to run the following command:
+
+```
+sudo xcode-select --reset
+```
+
 ### Configuring Vulkan Build Environment
 
 By default there is no Vulkan implementation on MacOS. Diligent Engine loads Vulkan dynamically
@@ -457,6 +463,9 @@ The diagram below shows the dependencies between modules.
    |                   V  V
    '----------------->Samples
 ```
+
+Don't forget to recursively initialize submodules if you are adding Diligent repos
+as submodules to your project.
 
 ### Your Project Uses Cmake
 
