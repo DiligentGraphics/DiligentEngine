@@ -587,7 +587,12 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_INSTALL_FX`               |    Yes      | Install FX module                                            |
 | `DILIGENT_INSTALL_SAMPLES`          |    Yes      | Install Samples module                                       |
 | `DILIGENT_INSTALL_PDB`              |    No       | Install program debug database                               |
-| `DILIGENT_DEAR_IMGUI_PATH`          |             | Path to a custom dear imgui implementation                   |
+| `DILIGENT_DEAR_IMGUI_PATH`          |             | Optional path to a user-provided dear imgui project          |
+| `DILIGENT_VULKAN_HEADERS_DIR`       |             | Optional path to a user-provided Vulkan-Headers project      |
+| `DILIGENT_SPIRV_HEADERS_DIR`        |             | Optional path to a user-provided SPIRV-Headers project       |
+| `DILIGENT_VOLK_DIR`                 |             | Optional path to a user-provided volk project                |
+| `DILIGENT_ARGS_DIR`                 |             | Optional path to a user-provided args project                |
+| `DILIGENT_NUKLEAR_DIR`              |             | Optional path to a user-provided nuklear project             |
 
 
 By default, all back-ends available on current platform are built. To disable specific back-ends,
@@ -620,6 +625,10 @@ To enable PIX events support, set `DILIGENT_LOAD_PIX_EVENT_RUNTIME` CMake flag.
 
 To enable some advanced features on NVidia GPUs (such as native multi draw indirect support in Direct3D11),
 download [NVAPI](https://developer.nvidia.com/nvapi) and set the `DILIGENT_NVAPI_PATH` CMake variable. 
+
+Diligent Engine uses multiple third-party libraries. If an application's CMake file defines any of
+those libraries, Diligent will use existing targets. The application will need to make sure that
+build settings are compatible with Diligent.
 
 <a name="build_and_run_customizing"></a>
 ## Customizing Build
