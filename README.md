@@ -588,9 +588,6 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_INSTALL_SAMPLES`          |    Yes      | Install Samples module                                       |
 | `DILIGENT_INSTALL_PDB`              |    No       | Install program debug database                               |
 | `DILIGENT_DEAR_IMGUI_PATH`          |             | Optional path to a user-provided dear imgui project          |
-| `DILIGENT_VULKAN_HEADERS_DIR`       |             | Optional path to a user-provided Vulkan-Headers project      |
-| `DILIGENT_SPIRV_HEADERS_DIR`        |             | Optional path to a user-provided SPIRV-Headers project       |
-| `DILIGENT_VOLK_DIR`                 |             | Optional path to a user-provided volk project                |
 | `DILIGENT_ARGS_DIR`                 |             | Optional path to a user-provided args project                |
 | `DILIGENT_NUKLEAR_DIR`              |             | Optional path to a user-provided nuklear project             |
 
