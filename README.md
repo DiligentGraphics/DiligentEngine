@@ -135,8 +135,10 @@ Master repository includes the following submodules:
 * [Tools](https://github.com/DiligentGraphics/DiligentTools) submodule contains 
   [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader),
   [asset loading library](https://github.com/DiligentGraphics/DiligentTools/blob/master/AssetLoader),
-  [dear imgui implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/Imgui), and
-  [native application implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp).
+  [dear imgui implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/Imgui),
+  [native application implementation](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp),
+  [Diligent render state notation parser](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderStateNotation) and
+  [offline render state packaging tool](https://github.com/DiligentGraphics/DiligentTools/tree/master/RenderStatePackager).
 * [DiligentFX](https://github.com/DiligentGraphics/DiligentFX) is a high-level rendering framework that implements
   various rendering components. The module depends on Core and Tools modules.
 * [Samples](https://github.com/DiligentGraphics/DiligentSamples) submodule contains tutorials and sample applications 
@@ -182,7 +184,7 @@ cmake -S . -B ./build/MinGW -D CMAKE_BUILD_TYPE=Release -G "MinGW Makefiles"
 
 :warning: In current implementation, full path to cmake build folder **must not contain white spaces**.
 
-To enable Vulkan validation layers, you will need to download [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
+To enable Vulkan validation layers, you will need to download the [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
 variable `VK_LAYER_PATH` that contains the path to the *Bin* directory in VulkanSDK installation folder.
 
 Open *DiligentEngine.sln* file in *build/Win64* folder, select configuration and build the engine. Set the desired project
@@ -273,13 +275,13 @@ To configure Vulkan you will also need to:
 To generate make files for debug configuration, run the following CMake command from the engine's root folder:
 
 ```
-cmake -S . -B ./build/Linux64 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+cmake -S . -B ./build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
 ```
 
 To build the engine, run the following command:
 
 ```
-cmake --build ./build/Linux64
+cmake --build ./build
 ```
 
 The engine's root folder contains [Visual Studio Code](https://code.visualstudio.com/) settings files that configure
@@ -314,8 +316,7 @@ By default, applications will run in OpenGLES mode. To run them in Vulkan mode, 
 <a name="build_and_run_macos"></a>
 ## MacOS
 
-After you clone the repo, run the following command from the engine's root folder to generate Xcode project
-(you need to have [CMake](https://cmake.org/) installed on the system):
+After you clone the repo, run the following command from the engine's root folder to generate Xcode project:
 
 ```
 cmake -S . -B ./build/MacOS -G "Xcode"
@@ -387,7 +388,7 @@ you will need to set appropriate development team in the project settings.
 
 ### Configuring Vulkan Build Environment
 
-To enable Vulkan on iOS, download and install [VulkanSDK](https://vulkan.lunarg.com/sdk/home#mac). There is no Vulkan loader
+To enable Vulkan on iOS, download and install the [VulkanSDK](https://vulkan.lunarg.com/sdk/home#mac). There is no Vulkan loader
 on iOS, and Diligent Engine links directly with MoltenVK XCFramework (see
 [MoltenVk install guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install-moltenvk-as-a-universal-xcframework))
 that implements Vulkan on Metal. To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK 
@@ -545,8 +546,6 @@ For example, for Windows platform, the list of libraries your project will need 
 ```
 DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib spirv-cross-core.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib GenericCodeGen.lib MachineIndependent.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
 ```
-
-Vulkan libraries can be found in [DiligentCore/ThirdParty/vulkan/libs](https://github.com/DiligentGraphics/DiligentCore/tree/master/ThirdParty/vulkan/libs) directory.
 
 Diligent Engine headers require one of the following platform macros to be defined as `1`:
 `PLATFORM_WIN32`, `PLATFORM_UNIVERSAL_WINDOWS`, `PLATFORM_ANDROID`, `PLATFORM_LINUX`, `PLATFORM_MACOS`, `PLATFORM_IOS`.
@@ -929,7 +928,7 @@ In submitting any content to this repository,
 and you agree that the content is free of any Intellectual Property claims and you have the right to license it under those terms. 
 
 Diligent Engine uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to ensure
-consistent source code style throughout the code base. The format is validated by appveyor and travis
+consistent source code style throughout the code base. The format is validated by CI
 for each commit and pull request, and the build will fail if any code formatting issue is found. Please refer
 to [this page](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/code_formatting.md) for instructions
 on how to set up clang-format and automatic code formatting.
