@@ -9,7 +9,7 @@ jobs:
         toolset: [x64]
         config: [Debug, Release]
 
-    runs-on: windows-2019
+    runs-on: windows-2022
     name: Win10 -> UWP-${{ matrix.toolset }}, ${{ matrix.config }} 
 
     steps:

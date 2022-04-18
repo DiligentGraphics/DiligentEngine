@@ -3,7 +3,7 @@ name: Linux
 on: [push, pull_request]
 
 jobs:
-  build-gcc-9:
+  make-gcc-9:
     strategy:
       matrix:
         config: [Debug, Release]
@@ -47,7 +47,7 @@ jobs:
         ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
 
 
-  build-clang-12:
+  ninja-clang-12:
     strategy:
       matrix:
         config: [Debug, Release]
@@ -66,11 +66,15 @@ jobs:
       run: |
         sudo apt-get update && sudo apt-get install build-essential libx11-dev libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
 
+    - name: Setup Ninja
+      uses: seanmiddleditch/gha-setup-ninja@master
+
     - name: Configure CMake
       if: success()
       env:
         CC: clang-12
         CXX: clang++-12
+        CMAKE_GENERATOR: Ninja
       shell: bash
       run: |
         cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
