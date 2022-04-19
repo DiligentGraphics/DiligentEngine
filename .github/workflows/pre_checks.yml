@@ -73,6 +73,14 @@ jobs:
         cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
         ./validate_format_linux.sh
 
+    - name: Codespell
+      uses: codespell-project/actions-codespell@master
+      with:
+        check_filenames: true
+        ignore_words_list: lod
+        skip: ./DiligentCore,./DiligentTools,./DiligentFX,./DiligentSamples
+        path: .
+
   run-macos:
 
     runs-on: macos-latest

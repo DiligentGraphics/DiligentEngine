@@ -901,7 +901,7 @@ We would appreciate it if you could send us a link in case your product uses Dil
 ## Disclaimer
 
 Diligent Engine is an open project that may be freely used by everyone. We started it to empower the community
-and help people achive their goals. Sadly enough, not everyone's goals are worthy. Please don't associate us with
+and help people achieve their goals. Sadly enough, not everyone's goals are worthy. Please don't associate us with
 suspicious projects you may find on the Web that appear to be using Diligent Engine. We neither can possibly track
 all such uses nor can we really do anything about them because our permissive license does not give us a lot of leverage. 
 
