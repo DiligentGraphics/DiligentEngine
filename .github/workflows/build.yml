@@ -129,6 +129,7 @@ jobs:
         build_type: [Debug, Release]
         cmake_generator: ["Visual Studio 17 2022"]
         cmake_args: ["-DDILIGENT_BUILD_TESTS=ON"]
+        platform: ["Win32"]
 
         include:
           - name: "Win10-Dev"
@@ -150,12 +151,14 @@ jobs:
             cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON "
 
           - name: "UWP"
+            platform: "UWP"
             toolset: x64
             build_type: Debug
             cmake_generator: "Visual Studio 17 2022"
             cmake_args: "-DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0"
 
           - name: "UWP"
+            platform: "UWP"
             toolset: x64
             build_type: Release
             cmake_generator: "Visual Studio 17 2022"
@@ -169,15 +172,13 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Setup Ninja
-      if: ${{ success() && matrix.cmake_generator == 'Ninja' }}
-      uses: seanmiddleditch/gha-setup-ninja@master
-
-    - name: Setup VS Development Environment
-      if: ${{ success() && matrix.cmake_generator == 'Ninja' }}
-      uses: ilammy/msvc-dev-cmd@v1
+    - name: Set up build environment
+      if: success()
+      uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
-        arch: ${{ matrix.toolset }}
+        platform:      ${{ matrix.platform }}
+        setup-ninja:   ${{ matrix.cmake_generator == 'Ninja' }}
+        ninja-vs-arch: ${{ matrix.toolset }}
 
     - name: Configure CMake
       if: success()
@@ -280,14 +281,12 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Configure dependencies
+    - name: Set up build environment
       if: success()
-      run: |
-        sudo apt-get update && sudo apt-get install build-essential libx11-dev libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
-
-    - name: Setup Ninja
-      if: ${{ success() && matrix.cmake_generator == 'Ninja' }}
-      uses: seanmiddleditch/gha-setup-ninja@master
+      uses: DiligentGraphics/github-action/setup-build-env@v1
+      with:
+        platform:    Linux
+        setup-ninja: ${{ matrix.cmake_generator == 'Ninja' }}
 
     - name: Configure CMake
       if: success()
@@ -359,14 +358,11 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Download Vulkan SDK
+    - name: Set up build environment
       if: success()
-      working-directory: DiligentCore
-      shell: bash
-      run: |
-        cd ./BuildTools/Scripts/github_actions
-        chmod +x vulkan_sdk.sh
-        ./vulkan_sdk.sh
+      uses: DiligentGraphics/github-action/setup-build-env@v1
+      with:
+        platform: ${{ matrix.platform }}
 
     - name: Configure CMake
       if: success()
@@ -413,11 +409,12 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Set up Java 8
+    - name: Set up build environment
       if: success()
-      uses: actions/setup-java@v1
+      uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
-        java-version: 8
+        platform:     Android
+        java-version: 8 # Override Java version
 
     - name: Build with Gradle
       if: success()
@@ -457,13 +454,11 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Configure Ninja
-      uses: seanmiddleditch/gha-setup-ninja@master
-
-    - name: Setup Emscripten SDK
-      uses: mymindstorm/setup-emsdk@master
+    - name: Set up build environment
+      if: success()
+      uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
-        version: "3.1.9"
+        platform: Emscripten
 
     - name: Configure CMake
       if: success()
