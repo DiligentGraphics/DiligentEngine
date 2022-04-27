@@ -133,18 +133,21 @@ jobs:
 
         include:
           - name: "Win10-Dev"
+            platform: "Win32"
             toolset: x64
             build_type: RelWithDebInfo
             cmake_generator: "Visual Studio 17 2022"
             cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_DEVELOPMENT=ON"
 
           - name: "Win8.1"
+            platform: "Win32"
             toolset: x64
             build_type: Release
             cmake_generator: "Visual Studio 17 2022"
             cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DCMAKE_SYSTEM_VERSION=8.1"
 
           - name: "Win10-Ninja"
+            platform: "Win32"
             toolset: x64
             build_type: Debug
             cmake_generator: "Ninja"
@@ -182,12 +185,12 @@ jobs:
 
     - name: Configure CMake
       if: success()
-      env:
-        CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
-        ./configure_cmake.sh "win" "${{runner.workspace}}" ${{ matrix.toolset }} ${{ matrix.build_type }} "${{ matrix.cmake_args }}"
+      uses: DiligentGraphics/github-action/configure-cmake@v1
+      with:
+        generator:  ${{ matrix.cmake_generator }}
+        vs-arch:    ${{ matrix.toolset }}
+        build-type: ${{ matrix.build_type }}
+        cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if: success()
@@ -290,18 +293,13 @@ jobs:
 
     - name: Configure CMake
       if: success()
-      env:
-        CC: ${{ matrix.cc }}
-        CXX: ${{ matrix.cxx }}
-        CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/Scripts/github_actions
-        chmod +x create_cmake.sh
-        ./create_cmake.sh "$GITHUB_WORKSPACE"
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
-        chmod +x configure_cmake.sh
-        ./configure_cmake.sh "linux" "${{runner.workspace}}" ${{ matrix.build_type }} "${{ matrix.cmake_args }}"
+      uses: DiligentGraphics/github-action/configure-cmake@v1
+      with:
+        cc:         ${{ matrix.cc }}
+        cxx:        ${{ matrix.cxx }}
+        generator:  ${{ matrix.cmake_generator }}
+        build-type: ${{ matrix.build_type }}
+        cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if: success()
@@ -366,14 +364,10 @@ jobs:
 
     - name: Configure CMake
       if: success()
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/Scripts/github_actions
-        chmod +x create_cmake.sh
-        ./create_cmake.sh "$GITHUB_WORKSPACE"
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
-        chmod +x configure_cmake.sh
-        ./configure_cmake.sh "${{ matrix.platform }}" "${{runner.workspace}}" ${{ matrix.build_type }} "${{ matrix.cmake_args }}"
+      uses: DiligentGraphics/github-action/configure-cmake@v1
+      with:
+        build-type: ${{ matrix.build_type }}
+        cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if: success()
@@ -462,13 +456,9 @@ jobs:
 
     - name: Configure CMake
       if: success()
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/Scripts/github_actions
-        if [[ "${{ matrix.host_name }}" != "Win"* ]]; then
-          chmod +x configure_cmake.sh
-        fi
-        ./configure_cmake.sh "emscripten" "${{runner.workspace}}" ${{ matrix.build_type }}
+      uses: DiligentGraphics/github-action/configure-cmake@v1
+      with:
+        build-type: ${{ matrix.build_type }}
 
     - name: Build
       if: success()
