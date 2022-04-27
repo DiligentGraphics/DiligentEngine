@@ -194,9 +194,7 @@ jobs:
 
     - name: Build
       if: success()
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config ${{ matrix.build_type }} -j2
+      uses: DiligentGraphics/github-action/build@master
 
 
     - name: DiligentCoreTest
@@ -303,9 +301,7 @@ jobs:
 
     - name: Build
       if: success()
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config ${{ matrix.build_type }} -j2
+      uses: DiligentGraphics/github-action/build@master
 
     - name: DiligentCoreTest
       if: success()
@@ -371,9 +367,7 @@ jobs:
 
     - name: Build
       if: success()
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config ${{ matrix.build_type }} -j2
+      uses: DiligentGraphics/github-action/build@master
 
     - name: DiligentCoreTest
       if: ${{ success() && matrix.platform == 'MacOS' }}
@@ -462,6 +456,4 @@ jobs:
 
     - name: Build
       if: success()
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . -j2
+      uses: DiligentGraphics/github-action/build@master
