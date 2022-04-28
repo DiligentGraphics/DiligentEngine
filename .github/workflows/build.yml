@@ -202,49 +202,40 @@ jobs:
       uses: DiligentGraphics/github-action/run-core-tests@master
 
     - name: DiligentCoreAPITest D3D11
-      if: ${{ success() && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE\DiligentCore\Tests\DiligentCoreAPITest\assets"
-        "${{runner.workspace}}\build\DiligentCore\Tests\DiligentCoreAPITest\${{ matrix.build_type }}\DiligentCoreAPITest.exe" --mode=d3d11_sw
+      if:   ${{ success() && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@master
+      with:
+        mode: d3d11_sw
 
     - name: DiligentCoreAPITest D3D12
-      if: ${{ success() && matrix.name == 'Win10' }}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE\DiligentCore\Tests\DiligentCoreAPITest\assets"
-        "${{runner.workspace}}\build\DiligentCore\Tests\DiligentCoreAPITest\${{ matrix.build_type }}\DiligentCoreAPITest.exe" --mode=d3d12_sw
+      if:   ${{ success() && matrix.name == 'Win10' }}
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@master
+      with:
+        mode: d3d12_sw
 
     - name: DiligentCoreAPITest D3D12 DXC
-      if: ${{ success() && matrix.name == 'Win10' }}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE\DiligentCore\Tests\DiligentCoreAPITest\assets"
-        "${{runner.workspace}}\build\DiligentCore\Tests\DiligentCoreAPITest\${{ matrix.build_type }}\DiligentCoreAPITest.exe" --mode=d3d12_sw --shader_compiler=dxc
+      if:   ${{ success() && matrix.name == 'Win10' }}
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@master
+      with:
+        mode:    d3d12_sw
+        use_dxc: true
 
 
     - name: DiligentToolsTest
-      if: ${{ success() && matrix.name != 'UWP'}}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE\DiligentTools\Tests\DiligentToolsTest\assets"
-        export BIN_DIR="${{runner.workspace}}\build\DiligentTools\Tests\DiligentToolsTest"
-        if [ "${{ matrix.cmake_generator }}" != "Ninja" ]; then BIN_DIR="$BIN_DIR\${{ matrix.build_type }}"; fi
-        "$BIN_DIR\DiligentToolsTest.exe"
+      if:   ${{ success() && matrix.name != 'UWP'}}
+      uses: DiligentGraphics/github-action/run-tools-tests@master
 
     - name: DiligentToolsGPUTest D3D11
       if: ${{ success() && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE\DiligentTools\Tests\DiligentToolsGPUTest\assets"
-        "${{runner.workspace}}\build\DiligentTools\Tests\DiligentToolsGPUTest\${{ matrix.build_type }}\DiligentToolsGPUTest.exe" --mode=d3d11_sw
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@master
+      with:
+        mode: d3d11_sw
 
     - name: DiligentToolsGPUTest D3D12
       if: ${{ success() && matrix.name == 'Win10' }}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE\DiligentTools\Tests\DiligentToolsGPUTest\assets"
-        "${{runner.workspace}}\build\DiligentTools\Tests\DiligentToolsGPUTest\${{ matrix.build_type }}\DiligentToolsGPUTest.exe" --mode=d3d12_sw
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@master
+      with:
+        mode: d3d12_sw
 
 
 
@@ -303,11 +294,8 @@ jobs:
       uses: DiligentGraphics/github-action/run-core-tests@master
 
     - name: DiligentToolsTest
-      if: success()
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE/DiligentTools/Tests/DiligentToolsTest/assets"
-        ${{runner.workspace}}/build/DiligentTools/Tests/DiligentToolsTest/DiligentToolsTest
+      if:   success()
+      uses: DiligentGraphics/github-action/run-tools-tests@master
 
 
 
@@ -366,11 +354,8 @@ jobs:
       uses: DiligentGraphics/github-action/run-core-tests@master
 
     - name: DiligentToolsTest
-      if: ${{ success() && matrix.platform == 'MacOS' }}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE/DiligentTools/Tests/DiligentToolsTest/assets"
-        ${{runner.workspace}}/build/DiligentTools/Tests/DiligentToolsTest/DiligentToolsTest
+      if:   ${{ success() && matrix.platform == 'MacOS' }}
+      uses: DiligentGraphics/github-action/run-tools-tests@master
 
 
 
