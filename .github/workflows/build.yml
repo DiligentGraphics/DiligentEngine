@@ -77,7 +77,7 @@ jobs:
       with:
         check_filenames: true
         ignore_words_list: lod
-        skip: ./DiligentCore,./DiligentTools,./DiligentFX,./DiligentSamples
+        skip: ./.git,./DiligentCore,./DiligentTools,./DiligentFX,./DiligentSamples
         path: .
 
   macos-precheks:
@@ -198,13 +198,8 @@ jobs:
 
 
     - name: DiligentCoreTest
-      if: ${{ success() && matrix.name != 'UWP'}}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE\DiligentCore\Tests\DiligentCoreTest\assets"
-        export BIN_DIR="${{runner.workspace}}\build\DiligentCore\Tests\DiligentCoreTest"
-        if [ "${{ matrix.cmake_generator }}" != "Ninja" ]; then BIN_DIR="$BIN_DIR\${{ matrix.build_type }}"; fi
-        "$BIN_DIR\DiligentCoreTest.exe"
+      if:   ${{ success() && matrix.name != 'UWP'}}
+      uses: DiligentGraphics/github-action/run-core-tests@master
 
     - name: DiligentCoreAPITest D3D11
       if: ${{ success() && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
@@ -305,10 +300,7 @@ jobs:
 
     - name: DiligentCoreTest
       if: success()
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE/DiligentCore/Tests/DiligentCoreTest/assets"
-        ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
+      uses: DiligentGraphics/github-action/run-core-tests@master
 
     - name: DiligentToolsTest
       if: success()
@@ -370,11 +362,8 @@ jobs:
       uses: DiligentGraphics/github-action/build@master
 
     - name: DiligentCoreTest
-      if: ${{ success() && matrix.platform == 'MacOS' }}
-      shell: bash
-      run: |
-        cd "$GITHUB_WORKSPACE/DiligentCore/Tests/DiligentCoreTest/assets"
-        ${{runner.workspace}}/build/DiligentCore/Tests/DiligentCoreTest/DiligentCoreTest
+      if:   ${{ success() && matrix.platform == 'MacOS' }}
+      uses: DiligentGraphics/github-action/run-core-tests@master
 
     - name: DiligentToolsTest
       if: ${{ success() && matrix.platform == 'MacOS' }}
