@@ -16,27 +16,23 @@ jobs:
 
     - name: DiligentCore format validation
       shell: cmd
-      run: |
-        cd "%GITHUB_WORKSPACE%\DiligentCore\BuildTools\FormatValidation"
-        validate_format_win.bat
+      working-directory: ${{github.workspace}}\DiligentCore\BuildTools\FormatValidation
+      run: validate_format_win.bat
 
     - name: DiligentTools format validation
+      working-directory: ${{github.workspace}}\DiligentTools\BuildTools\FormatValidation
       shell: cmd
-      run: |
-        cd "%GITHUB_WORKSPACE%\DiligentTools\BuildTools\FormatValidation"
-        validate_format_win.bat
+      run: validate_format_win.bat
 
     - name: DiligentFX format validation
+      working-directory: ${{github.workspace}}\DiligentFX\BuildTools\FormatValidation
       shell: cmd
-      run: |
-        cd "%GITHUB_WORKSPACE%\DiligentFX\BuildTools\FormatValidation"
-        validate_format_win.bat
+      run: validate_format_win.bat
 
     - name: DiligentSamples format validation
+      working-directory: ${{github.workspace}}\DiligentSamples\BuildTools\FormatValidation
       shell: cmd
-      run: |
-        cd "%GITHUB_WORKSPACE%\DiligentSamples\BuildTools\FormatValidation"
-        validate_format_win.bat
+      run: validate_format_win.bat
 
   linux-precheks:
     runs-on: ubuntu-latest
@@ -49,28 +45,24 @@ jobs:
         submodules: true # only need direct submodules
 
     - name: DiligentCore format validation
+      working-directory: ${{github.workspace}}/DiligentCore/BuildTools/FormatValidation
       shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
-        ./validate_format_linux.sh
+      run: ./validate_format_linux.sh
 
     - name: DiligentTools format validation
+      working-directory: ${{github.workspace}}/DiligentTools/BuildTools/FormatValidation
       shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
-        ./validate_format_linux.sh
+      run: ./validate_format_linux.sh
 
     - name: DiligentFX format validation
+      working-directory: ${{github.workspace}}/DiligentFX/BuildTools/FormatValidation
       shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
-        ./validate_format_linux.sh
+      run: ./validate_format_linux.sh
 
     - name: DiligentSamples format validation
+      working-directory: ${{github.workspace}}/DiligentSamples/BuildTools/FormatValidation
       shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
-        ./validate_format_linux.sh
+      run: ./validate_format_linux.sh
 
     - name: Codespell
       uses: codespell-project/actions-codespell@master
@@ -91,28 +83,24 @@ jobs:
         submodules: true # only need direct submodules
 
     - name: DiligentCore format validation
+      working-directory: ${{github.workspace}}/DiligentCore/BuildTools/FormatValidation
       shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentCore/BuildTools/FormatValidation
-        ./validate_format_mac.sh
+      run: ./validate_format_mac.sh
 
     - name: DiligentTools format validation
+      working-directory: ${{github.workspace}}/DiligentTools/BuildTools/FormatValidation
       shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentTools/BuildTools/FormatValidation
-        ./validate_format_mac.sh
+      run: ./validate_format_mac.sh
 
     - name: DiligentFX format validation
+      working-directory: ${{github.workspace}}/DiligentFX/BuildTools/FormatValidation
       shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentFX/BuildTools/FormatValidation
-        ./validate_format_mac.sh
+      run: ./validate_format_mac.sh
 
     - name: DiligentSamples format validation
+      working-directory: ${{github.workspace}}/DiligentSamples/BuildTools/FormatValidation
       shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/DiligentSamples/BuildTools/FormatValidation
-        ./validate_format_mac.sh
+      run: ./validate_format_mac.sh
 
 
 
@@ -124,48 +112,48 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: ["Win10"]
-        toolset: [Win32, x64]
-        build_type: [Debug, Release]
+        name:            ["Win10"]
+        toolset:         ["Win32", "x64"]
+        build_type:      ["Debug", "Release"]
         cmake_generator: ["Visual Studio 17 2022"]
-        cmake_args: ["-DDILIGENT_BUILD_TESTS=ON"]
-        platform: ["Win32"]
+        cmake_args:      ["-DDILIGENT_BUILD_TESTS=ON"]
+        platform:        ["Win32"]
 
         include:
-          - name: "Win10-Dev"
-            platform: "Win32"
-            toolset: x64
-            build_type: RelWithDebInfo
+          - name:            "Win10-Dev"
+            platform:        "Win32"
+            toolset:         "x64"
+            build_type:      "RelWithDebInfo"
             cmake_generator: "Visual Studio 17 2022"
-            cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_DEVELOPMENT=ON"
+            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_DEVELOPMENT=ON"
 
-          - name: "Win8.1"
-            platform: "Win32"
-            toolset: x64
-            build_type: Release
+          - name:            "Win8.1"
+            platform:        "Win32"
+            toolset:         "x64"
+            build_type:      "Release"
             cmake_generator: "Visual Studio 17 2022"
-            cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DCMAKE_SYSTEM_VERSION=8.1"
+            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DCMAKE_SYSTEM_VERSION=8.1"
 
-          - name: "Win10-Ninja"
-            platform: "Win32"
-            toolset: x64
-            build_type: Debug
+          - name:            "Win10-Ninja"
+            platform:        "Win32"
+            toolset:         "x64"
+            build_type:      "Debug"
             cmake_generator: "Ninja"
-            cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON "
+            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON "
 
-          - name: "UWP"
-            platform: "UWP"
-            toolset: x64
-            build_type: Debug
+          - name:            "UWP"
+            platform:        "UWP"
+            toolset:         "x64"
+            build_type:      "Debug"
             cmake_generator: "Visual Studio 17 2022"
-            cmake_args: "-DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0"
+            cmake_args:      "-DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0"
 
-          - name: "UWP"
-            platform: "UWP"
-            toolset: x64
-            build_type: Release
+          - name:            "UWP"
+            platform:        "UWP"
+            toolset:         "x64"
+            build_type:      "Release"
             cmake_generator: "Visual Studio 17 2022"
-            cmake_args: "-DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0"
+            cmake_args:      "-DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0"
 
     name: Win10 -> ${{ matrix.name }}-${{ matrix.toolset }}, ${{ matrix.build_type }}
 
@@ -176,7 +164,7 @@ jobs:
         submodules: recursive
 
     - name: Set up build environment
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
         platform:      ${{ matrix.platform }}
@@ -184,7 +172,7 @@ jobs:
         ninja-vs-arch: ${{ matrix.toolset }}
 
     - name: Configure CMake
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/configure-cmake@v1
       with:
         generator:  ${{ matrix.cmake_generator }}
@@ -193,7 +181,7 @@ jobs:
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/build@master
 
 
@@ -226,13 +214,13 @@ jobs:
       uses: DiligentGraphics/github-action/run-tools-tests@master
 
     - name: DiligentToolsGPUTest D3D11
-      if: ${{ success() && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
+      if:   ${{ success() && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@master
       with:
         mode: d3d11_sw
 
     - name: DiligentToolsGPUTest D3D12
-      if: ${{ success() && matrix.name == 'Win10' }}
+      if:   ${{ success() && matrix.name == 'Win10' }}
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@master
       with:
         mode: d3d12_sw
@@ -246,19 +234,19 @@ jobs:
 
     strategy:
       matrix:
-        name: ["GCC", "Clang"]
+        name:       ["GCC", "Clang"]
         build_type: ["Debug", "Release"]
         cmake_args: ["-DDILIGENT_BUILD_TESTS=ON"]
         include:
-          - name: "GCC"
+          - name:            "GCC"
             cmake_generator: "Unix Makefiles"
-            cc: gcc-9
-            cxx: g++-9
+            cc:              "gcc-9"
+            cxx:             "g++-9"
 
-          - name: "Clang"
+          - name:            "Clang"
             cmake_generator: "Ninja"
-            cc: clang-12
-            cxx: clang++-12
+            cc:              "clang-12"
+            cxx:             "clang++-12"
 
     name: Linux -> ${{ matrix.name }}-x64, ${{ matrix.build_type }}
 
@@ -269,14 +257,14 @@ jobs:
         submodules: recursive
 
     - name: Set up build environment
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
         platform:    Linux
         setup-ninja: ${{ matrix.cmake_generator == 'Ninja' }}
 
     - name: Configure CMake
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/configure-cmake@v1
       with:
         cc:         ${{ matrix.cc }}
@@ -286,11 +274,11 @@ jobs:
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/build@master
 
     - name: DiligentCoreTest
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/run-core-tests@master
 
     - name: DiligentToolsTest
@@ -306,22 +294,27 @@ jobs:
 
     strategy:
       matrix:
-        platform: [MacOS, iOS, tvOS]
-        build_type: [Debug, Release]
+        platform:   ["MacOS", "iOS", "tvOS"]
+        build_type: ["Debug", "Release"]
+
         exclude:
           # Exclude tvOS-Release
-          - platform: tvOS
-            build_type: Release
+          - platform:   "tvOS"
+            build_type: "Release"
+
         include:
-          - platform: "MacOS"
+          - platform:   "MacOS"
             build_type: "Debug"
             cmake_args: "-DDILIGENT_BUILD_TESTS=ON"
-          - platform: "MacOS"
+
+          - platform:   "MacOS"
             build_type: "Release"
             cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON"
-          - platform: "iOS"
+
+          - platform:  "iOS"
             cmake_args: ""
-          - platform: "tvOS"
+
+          - platform:   "tvOS"
             cmake_args: ""
 
     name: MacOS -> ${{ matrix.platform }}-${{ matrix.build_type }}
@@ -346,7 +339,7 @@ jobs:
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/build@master
 
     - name: DiligentCoreTest
@@ -372,14 +365,14 @@ jobs:
         submodules: recursive
 
     - name: Set up build environment
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
         platform:     Android
         java-version: 8 # Override Java version
 
     - name: Build with Gradle
-      if: success()
+      if:   success()
       run: |
         cd $GITHUB_WORKSPACE/DiligentSamples/Android
         chmod +x gradlew
@@ -393,19 +386,23 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        build_type: [Debug, Release]
+        os:         ["windows-latest", "ubuntu-latest", "macos-latest"]
+        build_type: ["Debug", "Release"]
+
         exclude:
           # Exclude MacOS-Release
-          - os: macos-latest
-            build_type: Release
+          - os:         "macos-latest"
+            build_type: "Release"
+
         include:
-          - os: windows-latest
-            host_name: Win10
-          - os: ubuntu-latest
-            host_name: Linux
-          - os: macos-latest
-            host_name: MacOS
+          - os:        "windows-latest"
+            host_name: "Win10"
+
+          - os:        "ubuntu-latest"
+            host_name: "Linux"
+
+          - os:        "macos-latest"
+            host_name: "MacOS"
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.host_name }} -> Emscripten, ${{ matrix.build_type }}
@@ -417,13 +414,13 @@ jobs:
         submodules: recursive
 
     - name: Set up build environment
-      if: success()
+      if:  success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
         platform: Emscripten
 
     - name: Configure CMake
-      if: success()
+      if:   success()
       uses: DiligentGraphics/github-action/configure-cmake@v1
       with:
         build-type: ${{ matrix.build_type }}
