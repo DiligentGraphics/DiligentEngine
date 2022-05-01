@@ -71,14 +71,14 @@ set API_TEST_EXE_PATH="%build_folder%\DiligentCore\Tests\DiligentCoreAPITest\%co
 
 (%API_TEST_EXE_PATH% --mode=d3d12) || set /a D3D12_ERROR=%D3D12_ERROR%+1
 (%API_TEST_EXE_PATH% --mode=d3d12_sw) || set /a D3D12_ERROR=%D3D12_ERROR%+10
-(%API_TEST_EXE_PATH% --mode=d3d12 --shader_compiler=dxc) || set /a D3D12_ERROR=%D3D12_ERROR%+100
-(%API_TEST_EXE_PATH% --mode=d3d12_sw --shader_compiler=dxc) || set /a D3D12_ERROR=%D3D12_ERROR%+1000
+(%API_TEST_EXE_PATH% --mode=d3d12 --shader_compiler=dxc --gtest_filter=-TextureCreation*) || set /a D3D12_ERROR=%D3D12_ERROR%+100
+(%API_TEST_EXE_PATH% --mode=d3d12_sw --shader_compiler=dxc --gtest_filter=-TextureCreation*) || set /a D3D12_ERROR=%D3D12_ERROR%+1000
 
 (%API_TEST_EXE_PATH% --mode=gl) || set /a GL_ERROR=%GL_ERROR%+1
-(%API_TEST_EXE_PATH% --mode=gl --non_separable_progs) || set /a GL_ERROR=%GL_ERROR%+10
+(%API_TEST_EXE_PATH% --mode=gl --non_separable_progs --gtest_filter=-TextureCreation*) || set /a GL_ERROR=%GL_ERROR%+10
 
 (%API_TEST_EXE_PATH% --mode=vk) || set /a VK_ERROR=%VK_ERROR%+1
-(%API_TEST_EXE_PATH% --mode=vk --shader_compiler=dxc) || set /a VK_ERROR=%VK_ERROR%+10
+(%API_TEST_EXE_PATH% --mode=vk --shader_compiler=dxc --gtest_filter=-TextureCreation*) || set /a VK_ERROR=%VK_ERROR%+10
 
 
 cd "%CURR_DIR%\..\DiligentTools\Tests\DiligentToolsGPUTest\assets"
