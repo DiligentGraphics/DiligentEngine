@@ -139,7 +139,14 @@ jobs:
             toolset:         "x64"
             build_type:      "Debug"
             cmake_generator: "Ninja"
-            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON "
+            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON"
+
+          - name:            "MinGW"
+            platform:        "Win32"
+            toolset:         "x64"
+            build_type:      "Release" # Debug build is unbelievably slow
+            cmake_generator: "MinGW Makefiles"
+            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON"
 
           - name:            "UWP"
             platform:        "UWP"
@@ -167,9 +174,9 @@ jobs:
       if:   success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
-        platform:      ${{ matrix.platform }}
-        setup-ninja:   ${{ matrix.cmake_generator == 'Ninja' }}
-        ninja-vs-arch: ${{ matrix.toolset }}
+        platform:        ${{ matrix.platform }}
+        cmake-generator: ${{ matrix.cmake_generator }}
+        ninja-vs-arch:   ${{ matrix.toolset }}
 
     - name: Configure CMake
       if:   success()
@@ -260,8 +267,8 @@ jobs:
       if:   success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
-        platform:    Linux
-        setup-ninja: ${{ matrix.cmake_generator == 'Ninja' }}
+        platform:        Linux
+        cmake-generator: ${{ matrix.cmake_generator }}
 
     - name: Configure CMake
       if:   success()
