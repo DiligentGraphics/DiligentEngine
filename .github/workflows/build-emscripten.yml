@@ -1,0 +1,50 @@
+name: Emscripten build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:         ["windows-latest", "ubuntu-latest", "macos-latest"]
+        build_type: ["Debug", "Release"]
+
+        exclude:
+          # Exclude MacOS-Release
+          - os:         "macos-latest"
+            build_type: "Release"
+
+        include:
+          - os:        "windows-latest"
+            host_name: "Win10"
+
+          - os:        "ubuntu-latest"
+            host_name: "Linux"
+
+          - os:        "macos-latest"
+            host_name: "MacOS"
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.host_name }} -> Emscripten, ${{ matrix.build_type }}
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Set up build environment
+      if:  success()
+      uses: DiligentGraphics/github-action/setup-build-env@v1
+      with:
+        platform: Emscripten
+
+    - name: Configure CMake
+      if:   success()
+      uses: DiligentGraphics/github-action/configure-cmake@v1
+      with:
+        build-type: ${{ matrix.build_type }}
+
+    - name: Build
+      if: success()
+      uses: DiligentGraphics/github-action/build@v1
