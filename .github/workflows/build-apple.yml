@@ -55,7 +55,8 @@ jobs:
 
           - platform:   "MacOS"
             build_type: "Release"
-            cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON"
+            # For some reason AVX2 causes invalid instruction exception on CI in CoreTest, so disable it
+            cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_CLANG_RELEASE_COMPILE_OPTIONS=\"\""
 
           - platform:  "iOS"
             cmake_args: ""
