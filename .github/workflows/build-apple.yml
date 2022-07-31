@@ -96,3 +96,7 @@ jobs:
     - name: DiligentToolsTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
       uses: DiligentGraphics/github-action/run-tools-tests@v1
+
+    - name: HLSL2GLSLConverterTest
+      if:   ${{ success() && matrix.platform == 'MacOS' }}
+      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v1

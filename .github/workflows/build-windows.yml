@@ -160,3 +160,7 @@ jobs:
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
       with:
         mode: d3d12_sw
+
+    - name: HLSL2GLSLConverterTest
+      if:   ${{ success() && matrix.name != 'UWP'}}
+      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v1
