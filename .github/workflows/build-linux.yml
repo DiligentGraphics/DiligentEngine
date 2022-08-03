@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   precheks:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Linux -> Pre-checks
 
     steps:
@@ -95,9 +95,22 @@ jobs:
       if:   success()
       uses: DiligentGraphics/github-action/run-core-tests@v1
 
+    - name: DiligentCoreAPITest VK
+      if:   success()
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
+      with:
+        mode: vk_sw
+        args: --gtest_filter=-DrawCommandTest.DrawIndexedInstancedIndirect_FirstInstance_BaseVertex_FirstIndex_VBOffset_IBOffset_InstOffset:TextureCreation/TextureCreationTest.CreateTexture/TEX_FORMAT_BGRA8_TYPELESS
+
     - name: DiligentToolsTest
       if:   success()
       uses: DiligentGraphics/github-action/run-tools-tests@v1
+
+    - name: DiligentToolsGPUTest VK
+      if:   success()
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
+      with:
+        mode: vk_sw
 
     - name: HLSL2GLSLConverterTest
       if:   success()

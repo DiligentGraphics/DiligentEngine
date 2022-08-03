@@ -143,6 +143,8 @@ jobs:
       with:
         mode:    d3d12_sw
         use_dxc: true
+        # Disable texture creation tests that are not relevant for DXC to save time
+        args: --gtest_filter=-TextureCreation*
 
 
     - name: DiligentToolsTest
