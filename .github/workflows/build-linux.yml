@@ -70,6 +70,13 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Clone Test Data
+      if:   success()
+      uses: actions/checkout@v2
+      with:
+        repository: DiligentGraphics/DiligentTestData
+        path:       DiligentTestData
+
     - name: Set up build environment
       if:   success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
@@ -88,30 +95,45 @@ jobs:
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
+      id:   build
       if:   success()
       uses: DiligentGraphics/github-action/build@v1
 
+      # Core tests
     - name: DiligentCoreTest
       if:   success()
       uses: DiligentGraphics/github-action/run-core-tests@v1
 
     - name: DiligentCoreAPITest VK
-      if:   success()
+      if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
       with:
         mode: vk_sw
         args: --gtest_filter=-DrawCommandTest.DrawIndexedInstancedIndirect_FirstInstance_BaseVertex_FirstIndex_VBOffset_IBOffset_InstOffset:TextureCreation/TextureCreationTest.CreateTexture/TEX_FORMAT_BGRA8_TYPELESS
 
+
+      # Tools tests
     - name: DiligentToolsTest
-      if:   success()
+      if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
       uses: DiligentGraphics/github-action/run-tools-tests@v1
 
     - name: DiligentToolsGPUTest VK
-      if:   success()
+      if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
       with:
         mode: vk_sw
 
     - name: HLSL2GLSLConverterTest
-      if:   success()
+      if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
       uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v1
+
+
+      # Samples tests
+    - name: Sample Tests Vk
+      working-directory: ${{github.workspace}}/DiligentSamples/Tests
+      if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
+      shell: bash
+      run: |
+        # Sample Tests Vk
+        chmod +x ./ProcessGoldenImages.sh
+        ./ProcessGoldenImages.sh "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode vk --adapter sw"

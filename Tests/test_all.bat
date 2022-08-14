@@ -24,7 +24,7 @@ if "%num_args%" LSS "3" (
 set build_folder=%~1
 shift
 
-set config=%1
+set config=%~1
 shift
 
 set golden_images_root_dir=%~1
@@ -101,7 +101,7 @@ echo.
 (call test_samples.bat %build_folder% %config%  %golden_images_root_dir%) || set APP_ERROR=!ERRORLEVEL!
 
 set FONT_RED=[91m
-set FONT_GREEN=[92m
+set FONT_GREEN=[92m
 set FONT_DEFAULT=[0m
 
 if "%FORMATTING_ERROR%"=="0" (@echo %FONT_GREEN%Format validation PASSED) else (@echo %FONT_RED%Format validation FAILED with code %FORMATTING_ERROR%)

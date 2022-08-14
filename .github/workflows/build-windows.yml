@@ -99,6 +99,13 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Clone Test Data
+      if:   success()
+      uses: actions/checkout@v2
+      with:
+        repository: DiligentGraphics/DiligentTestData
+        path:       DiligentTestData
+
     - name: Set up build environment
       if:   success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
@@ -117,28 +124,29 @@ jobs:
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
+      id:   build
       if:   success()
       uses: DiligentGraphics/github-action/build@v1
 
-
+      # Core tests
     - name: DiligentCoreTest
       if:   ${{ success() && matrix.name != 'UWP'}}
       uses: DiligentGraphics/github-action/run-core-tests@v1
 
     - name: DiligentCoreAPITest D3D11
-      if:   ${{ success() && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
       with:
         mode: d3d11_sw
 
     - name: DiligentCoreAPITest D3D12
-      if:   ${{ success() && matrix.name == 'Win10' }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
       with:
         mode: d3d12_sw
 
     - name: DiligentCoreAPITest D3D12 DXC
-      if:   ${{ success() && matrix.name == 'Win10' }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
       with:
         mode:    d3d12_sw
@@ -147,22 +155,41 @@ jobs:
         args: --gtest_filter=-TextureCreation*
 
 
+      # Tools tests
     - name: DiligentToolsTest
-      if:   ${{ success() && matrix.name != 'UWP'}}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name != 'UWP'}}
       uses: DiligentGraphics/github-action/run-tools-tests@v1
 
     - name: DiligentToolsGPUTest D3D11
-      if:   ${{ success() && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
       with:
         mode: d3d11_sw
 
     - name: DiligentToolsGPUTest D3D12
-      if:   ${{ success() && matrix.name == 'Win10' }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
       with:
         mode: d3d12_sw
 
     - name: HLSL2GLSLConverterTest
-      if:   ${{ success() && matrix.name != 'UWP'}}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name != 'UWP'}}
       uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v1
+
+
+      # Samples tests
+    - name: Sample Tests D3D11
+      working-directory: ${{github.workspace}}/DiligentSamples/Tests
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1' || matrix.name == 'Win10-Ninja') }}
+      shell: cmd
+      run: |
+        :: Sample Tests D3D11
+        ProcessGoldenImages.bat "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode d3d11 --adapter sw"
+
+    - name: Sample Tests D3D12
+      working-directory: ${{github.workspace}}/DiligentSamples/Tests
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
+      shell: cmd
+      run: |
+        :: Sample Tests D3D12
+        ProcessGoldenImages.bat "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode d3d12 --adapter sw"
