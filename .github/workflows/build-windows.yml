@@ -150,7 +150,7 @@ jobs:
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
       with:
         mode:    d3d12_sw
-        use_dxc: true
+        use-dxc: true
         # Disable texture creation tests that are not relevant for DXC to save time
         args: --gtest_filter=-TextureCreation*
 

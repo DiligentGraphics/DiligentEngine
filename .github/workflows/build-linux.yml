@@ -124,8 +124,8 @@ jobs:
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
       with:
         mode: gl
-        args: "--non_separable_progs --gtest_filter=-DrawCommandTest.MultiDrawIndirectCount:DrawCommandTest.MultiDrawIndexedIndirectCount:DrawCommandTest.StructuredBufferArray:PipelineResourceSignatureTest.StructuredBuffers"
-
+        non-separable-progs: true
+        args: "--gtest_filter=-DrawCommandTest.MultiDrawIndirectCount:DrawCommandTest.MultiDrawIndexedIndirectCount:PipelineResourceSignatureTest.StructuredBuffers:DrawCommandTest.StructuredBufferArray"
 
       # Tools tests
     - name: DiligentToolsTest
