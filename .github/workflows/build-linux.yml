@@ -47,6 +47,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         name:       ["GCC", "Clang"]
         build_type: ["Debug", "Release"]
@@ -111,6 +112,20 @@ jobs:
         mode: vk_sw
         args: --gtest_filter=-DrawCommandTest.DrawIndexedInstancedIndirect_FirstInstance_BaseVertex_FirstIndex_VBOffset_IBOffset_InstOffset:TextureCreation/TextureCreationTest.CreateTexture/TEX_FORMAT_BGRA8_TYPELESS
 
+    - name: DiligentCoreAPITest GL
+      if: ${{ success() || failure() && steps.build.outcome == 'success' }}
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
+      with:
+        mode: gl
+        args: "--gtest_filter=-DrawCommandTest.MultiDrawIndirectCount:DrawCommandTest.MultiDrawIndexedIndirectCount:PipelineResourceSignatureTest.StructuredBuffers"
+
+    - name: DiligentCoreAPITest GL with Non-Separable Programs
+      if: ${{ success() || failure() && steps.build.outcome == 'success' }}
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
+      with:
+        mode: gl
+        args: "--non_separable_progs --gtest_filter=-DrawCommandTest.MultiDrawIndirectCount:DrawCommandTest.MultiDrawIndexedIndirectCount:DrawCommandTest.StructuredBufferArray:PipelineResourceSignatureTest.StructuredBuffers"
+
 
       # Tools tests
     - name: DiligentToolsTest
@@ -122,6 +137,12 @@ jobs:
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
       with:
         mode: vk_sw
+
+    - name: DiligentToolsGPUTest GL
+      if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
+      with:
+        mode: gl
 
     - name: HLSL2GLSLConverterTest
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
@@ -137,3 +158,19 @@ jobs:
         # Sample Tests Vk
         chmod +x ./ProcessGoldenImages.sh
         ./ProcessGoldenImages.sh "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode vk --adapter sw"
+
+    - name: Sample Tests GL
+      working-directory: ${{github.workspace}}/DiligentSamples/Tests
+      if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
+      shell: bash
+      run: |
+        # Sample Tests GL
+        ./ProcessGoldenImages.sh "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode gl"
+
+    - name: Sample Tests GL with Non-Separable Programs
+      working-directory: ${{github.workspace}}/DiligentSamples/Tests
+      if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
+      shell: bash
+      run: |
+        # Sample Tests GL with Non-Separable Programs
+        ./ProcessGoldenImages.sh "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode gl --non_separable_progs 1"
