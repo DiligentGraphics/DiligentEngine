@@ -150,7 +150,7 @@ Master repository includes the following submodules:
 Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
 To start using cmake, download the [latest release](https://cmake.org/download/) (3.20 or later is required).
 Another build prerequisite is [Python interpreter](https://www.python.org/downloads/) (3.0 or later is required).
-If after following the instuctions below you have build/run issues, please take a look at [troubleshooting](Troubleshooting.md).
+If after following the instructions below you have build/run issues, please take a look at [troubleshooting](Troubleshooting.md).
 
 <a name="build_and_run_win32"></a>
 ## Win32
@@ -553,7 +553,7 @@ Diligent Engine headers require one of the following platform macros to be defin
 You can control which components of the engine you want to install using the following CMake options:
 `DILIGENT_INSTALL_CORE`, `DILIGENT_INSTALL_FX`, `DILIGENT_INSTALL_SAMPLES`, and `DILIGENT_INSTALL_TOOLS`.
 
-Another way to intergrate the engine is to generate build files (such as Visual Studio projects) and add them to your
+Another way to integrate the engine is to generate build files (such as Visual Studio projects) and add them to your
 build system. Build customization described below can help tweak the settings for your specific needs.
 
 

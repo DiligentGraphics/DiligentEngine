@@ -44,7 +44,7 @@ jobs:
 
   build:
     needs:   precheks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       fail-fast: false
@@ -151,26 +151,20 @@ jobs:
 
       # Samples tests
     - name: Sample Tests Vk
-      working-directory: ${{github.workspace}}/DiligentSamples/Tests
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      shell: bash
-      run: |
-        # Sample Tests Vk
-        chmod +x ./ProcessGoldenImages.sh
-        ./ProcessGoldenImages.sh "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode vk --adapter sw"
+      uses: DiligentGraphics/github-action/run-sample-tests@v1
+      with:
+        mode: "vk_sw"
 
     - name: Sample Tests GL
-      working-directory: ${{github.workspace}}/DiligentSamples/Tests
       if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
-      shell: bash
-      run: |
-        # Sample Tests GL
-        ./ProcessGoldenImages.sh "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode gl"
+      uses: DiligentGraphics/github-action/run-sample-tests@v1
+      with:
+        mode: "gl"
 
     - name: Sample Tests GL with Non-Separable Programs
-      working-directory: ${{github.workspace}}/DiligentSamples/Tests
       if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
-      shell: bash
-      run: |
-        # Sample Tests GL with Non-Separable Programs
-        ./ProcessGoldenImages.sh "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode gl --non_separable_progs 1"
+      uses: DiligentGraphics/github-action/run-sample-tests@v1
+      with:
+        mode:                "gl"
+        non-separable-progs: "true"

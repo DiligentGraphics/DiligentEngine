@@ -179,17 +179,13 @@ jobs:
 
       # Samples tests
     - name: Sample Tests D3D11
-      working-directory: ${{github.workspace}}/DiligentSamples/Tests
       if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1' || matrix.name == 'Win10-Ninja') }}
-      shell: cmd
-      run: |
-        :: Sample Tests D3D11
-        ProcessGoldenImages.bat "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode d3d11 --adapter sw"
+      uses: DiligentGraphics/github-action/run-sample-tests@v1
+      with:
+        mode: "d3d11_sw"
 
     - name: Sample Tests D3D12
-      working-directory: ${{github.workspace}}/DiligentSamples/Tests
       if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
-      shell: cmd
-      run: |
-        :: Sample Tests D3D12
-        ProcessGoldenImages.bat "${{github.workspace}}/DiligentTestData/GoldenImages" compare "--mode d3d12 --adapter sw"
+      uses: DiligentGraphics/github-action/run-sample-tests@v1
+      with:
+        mode: "d3d12_sw"
