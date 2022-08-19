@@ -1,6 +1,7 @@
 @echo off
 
 setlocal ENABLEDELAYEDEXPANSION
+setlocal
 
 set num_args=0
 for %%x in (%*) do set /A num_args+=1
@@ -25,10 +26,8 @@ if "%num_args%" LSS "3" (
     echo   test_samples.bat c:\Projects\DiligentEngine\build\Win64 Debug c:\Projects\DiligentTestData\GoldenImages compare
     echo.
     echo To capture golden images, use 'capture'
-    EXIT /B -1
+    EXIT /B 1
 )
-
-SETLOCAL
 
 set DILIGENT_BUILD_DIR=%~1
 shift
@@ -89,8 +88,6 @@ for %%X in (!TEST_STATUS!) do (
 if "%TESTS_FAILED%" NEQ "0" (
     echo %FONT_RED%In total !TESTS_FAILED! tests FAILED%FONT_DEFAULT%
 )
-
-ENDLOCAL
 
 exit /B !TESTS_FAILED!
 
