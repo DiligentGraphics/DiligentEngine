@@ -1,3 +1,10 @@
+## Current Progress
+
+### Samples and Tutorials
+
+* Added [Tutorial25 - Render State Packager](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial25_StatePackager)
+
+
 ## v2.5.1
 
 ### API Changes
