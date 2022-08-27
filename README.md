@@ -191,7 +191,7 @@ Open *DiligentEngine.sln* file in *build/Win64* folder, select configuration and
 as startup project (by default, GLTF Viewer will be selected) and run it. 
 
 By default, sample and tutorial applications will show rendering backend selection dialog box. Use the following command line options to force
-D3D11, D3D12, OpenGL, or Vulkan mode: **-mode D3D11**, **-mode D3D12**, **-mode GL**, or **-mode Vk**. If you want to run an application
+D3D11, D3D12, OpenGL, or Vulkan mode: **--mode d3d11**, **--mode d3d12**, **--mode gl**, or **--mode vk**. If you want to run an application
 outside of Visual Studio environment, the application's assets folder must be set as working directory. (For Visual Studio, this 
 is automatically configured by CMake). Alternatively, you can navigate to the build target or install folder and run the executable from there.
 
@@ -220,7 +220,7 @@ cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.17763.0 -S 
 Set the desired project as startup project (by default, GLTF Viewer will be selected) and run it. 
 
 By default, applications will run in D3D12 mode. You can select D3D11 or D3D12 using the following command line options:
-**-mode D3D11**, **-mode D3D12**.
+**--mode d3d11**, **--mode d3d12**.
 
 Note: it is possible to generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but it will fail
 to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++14 support.
