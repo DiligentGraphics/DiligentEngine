@@ -295,7 +295,7 @@ the app's assets folder must be current directory.
 Please make sure that your machine is set up for Android development. Download 
 [Android Studio](https://developer.android.com/studio/index.html),
 [install and configure the NDK and CMake](https://developer.android.com/studio/projects/install-ndk)
-and other required tools. NDK r22 or later is required. If you are not using CMake version bundled with Android Studio, make sure
+and other required tools. NDK r24 or later is required. If you are not using CMake version bundled with Android Studio, make sure
 your build files are [properly configured](https://developer.android.com/studio/projects/add-native-code.html#use_a_custom_cmake_version).
 To verify that your environment is properly set up, try building the
 [teapots sample](https://github.com/googlesamples/android-ndk/tree/master/teapots) as well as
@@ -315,6 +315,11 @@ By default, applications will run in OpenGLES mode. To run them in Vulkan mode, 
 
 <a name="build_and_run_macos"></a>
 ## MacOS
+
+Prerequisites:
+
+* Xcode 13 or later
+* Vulkan SDK 1.3.216.0 or later to enable Vulkan
 
 After you clone the repo, run the following command from the engine's root folder to generate Xcode project:
 
@@ -369,6 +374,11 @@ Last tested Vulkan SDK version: 1.3.216.0.
 
 <a name="build_and_run_ios"></a>
 ## iOS
+
+Prerequisites:
+
+* Xcode 13 or later
+* Vulkan SDK 1.3.216.0 or later to enable Vulkan
 
 Run the command below from the engine's root folder to generate Xcode project configured for
 [iOS build](https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html#cross-compiling-for-ios-tvos-or-watchos):
