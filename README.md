@@ -505,7 +505,6 @@ add_subdirectory(DiligentCore)
 
 add_executable(HelloDiligent WIN32 HelloDiligent.cpp)
 target_compile_options(HelloDiligent PRIVATE -DUNICODE -DENGINE_DLL)
-target_include_directories(HelloDiligent PRIVATE "DiligentCore")
 
 target_link_libraries(HelloDiligent
 PRIVATE

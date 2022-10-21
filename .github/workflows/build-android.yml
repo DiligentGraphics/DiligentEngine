@@ -5,11 +5,21 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Linux -> Android-ARM32-ARM64
+
+    strategy:
+      matrix:
+        include:
+          - name: "ARM32"
+            arch: "armeabi-v7a"
+
+          - name: "ARM64"
+            arch: "arm64-v8a"
+
+    name: Linux -> Android-${{ matrix.name }}
 
     steps:
     - name: Clone repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: recursive
 
@@ -22,6 +32,8 @@ jobs:
 
     - name: Build with Gradle
       if:   success()
+      env:
+        ANDROID_ARCH: ${{ matrix.arch }}
       run: |
         cd $GITHUB_WORKSPACE/DiligentSamples/Android
         chmod +x gradlew
