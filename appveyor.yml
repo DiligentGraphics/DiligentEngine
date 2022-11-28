@@ -43,7 +43,7 @@ before_build:
   - 'cd %APPVEYOR_BUILD_FOLDER%'
   - echo %PLATFORM%
   - echo.%cmake_args%
-  - cmake -D DILIGENT_BUILD_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
+  - cmake -D DILIGENT_BUILD_CORE_TESTS=TRUE -D DILIGENT_BUILD_TOOLS_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
 
 build:
   project: '%APPVEYOR_BUILD_FOLDER%\build\DiligentEngine.sln'
