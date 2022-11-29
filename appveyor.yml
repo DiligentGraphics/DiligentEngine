@@ -17,9 +17,9 @@ environment:
       cmake_args:
       platform_name: Windows
 
-    # Win32/x64/Release
+    # Win32/x64/RelWithDebInfo
     - platform: x64
-      configuration: Release
+      configuration: RelWithDebInfo
       cmake_args:
       platform_name: Windows
 
