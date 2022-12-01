@@ -903,8 +903,10 @@ The following components are now available:
 
 We would appreciate it if you could send us a link in case your product uses Diligent Engine.
 
-* [LumenRT](https://www.bentley.com/en/products/brands/lumenrt): A Visualization and Reality Modeling Software by [Bentley Systems](https://www.bentley.com/)
-  <img src="https://prod-bentleycdn.azureedge.net/-/media/images/website-specific-graphics/hero/hero_lumenrt_lobby.jpg" width=600>
+* Large-scale terrain visualization system for pilot training simulators by [Elbit Systems](https://elbitsystems.com/)
+  <img src="https://github.com/DiligentGraphics/DiligentEngine/blob/master/Media/DiligentTerrain.jpg" width=600>
+
+* [LumenRT](https://www.bentley.com/software/bentley-lumenrt/): A Visualization and Reality Modeling Software by [Bentley Systems](https://www.bentley.com/)
 
 * [Godus](https://apps.apple.com/gb/app/godus/id815181808): An award-winning sandbox game by [22cans](http://22cans.com/)  
   <img src="http://22cans.com/wp-content/uploads/2016/11/godus_header1-01.jpg" width=600>
