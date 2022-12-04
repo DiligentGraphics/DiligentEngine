@@ -1,8 +1,32 @@
-## Current Progress
+## v2.5.3
+
+### API Changes
+
+* Added `RENDER_STATE_CACHE_LOG_LEVEL` enum, replaced `EnableLogging` member of `RenderStateCacheCreateInfo` struct with `LoggingLevel` (API252009)
+* Added `IPipelineResourceSignature::CopyStaticResources` and `IPipelineState::CopyStaticResources` methods (API252008)
+* Added render state cache (`IRenderStateCache` interface and related data types) (API252007)
+* Moved `UseCombinedTextureSamplers` and `CombinedSamplerSuffix` members from `ShaderCreateInfo` to `ShaderDesc` (API252006)
+* Added `IntanceLayerCount` and `ppInstanceLayerNames` members to EngineVkCreateInfo struct (API252005)
+* Added `IgnoreDebugMessageCount` and `ppIgnoreDebugMessageNames` to `EngineVkCreateInfo` struct (API252004)
+* Refactored archiver API (removed `IDeviceObjectArchive` and `IArchive`; enabled dearchiver
+  to load multiple archives to allow storing signatures and pipelines separately) (API252003)
+* Added `SET_SHADER_RESOURCES_FLAGS` enum and `Flags` parameter to `IShaderResourceVariable::Set`
+  and `IShaderResourceVariable::SetArray` methods (API252002)
+* Added primitive topologies with adjacency (API252001)
 
 ### Samples and Tutorials
 
 * Added [Tutorial25 - Render State Packager](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial25_StatePackager)
+* Added [Tutorial26 - Render State Cache](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial26_StateCache)
+
+
+## v2.5.2
+
+### API Changes
+
+* Added `SamplerDesc::UnnormalizedCoords` parameter (API Version 250014)
+* Added device object serialization/deserialization (API Version 250013)
+* Added pipeline state cache (API Version 250012)
 
 
 ## v2.5.1
