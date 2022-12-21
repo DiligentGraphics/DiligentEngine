@@ -67,6 +67,17 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
   * Source code formatting validation
   * Static analysis
 
+
+Minimum supported low-level API versions:
+* OpenGL 4.1
+* OpenGLES 3.0
+* WebGL 2.0
+* Direct3D11.1
+* Direct3D12 with SDK version 10.0.17763.0
+* Vulkan 1.0
+* Metal 1.0
+
+
 ## High-level Rendering components
 
 * [Atmospheric light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering)
