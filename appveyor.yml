@@ -14,7 +14,7 @@ environment:
     # Win32/x64/Debug
     - platform: x64
       configuration: Debug
-      cmake_args:
+      cmake_args: -D DILIGENT_BUILD_CORE_TESTS=TRUE -D DILIGENT_BUILD_TOOLS_TESTS=TRUE
       platform_name: Windows
 
     # Win32/x64/RelWithDebInfo
@@ -43,7 +43,7 @@ before_build:
   - 'cd %APPVEYOR_BUILD_FOLDER%'
   - echo %PLATFORM%
   - echo.%cmake_args%
-  - cmake -D DILIGENT_BUILD_CORE_TESTS=TRUE -D DILIGENT_BUILD_TOOLS_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
+  - cmake %cmake_args% -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
 
 build:
   project: '%APPVEYOR_BUILD_FOLDER%\build\DiligentEngine.sln'
@@ -51,6 +51,6 @@ build:
   parallel: true
 
 test_script:
-  - '%APPVEYOR_BUILD_FOLDER%\DiligentCore\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentCore %APPVEYOR_BUILD_FOLDER%\DiligentCore\Tests\DiligentCoreTest\assets %APPVEYOR_BUILD_FOLDER%\DiligentCore\Tests\DiligentCoreAPITest\assets'
+  - 'if "%configuration%"=="Debug" (%APPVEYOR_BUILD_FOLDER%\DiligentCore\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentCore %APPVEYOR_BUILD_FOLDER%\DiligentCore\Tests\DiligentCoreTest\assets %APPVEYOR_BUILD_FOLDER%\DiligentCore\Tests\DiligentCoreAPITest\assets)'
   - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentTools\Tests\DiligentToolsTest\assets'
-  - '%APPVEYOR_BUILD_FOLDER%\DiligentTools\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentTools'
+  - 'if "%configuration%"=="Debug" (%APPVEYOR_BUILD_FOLDER%\DiligentTools\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentTools)'
