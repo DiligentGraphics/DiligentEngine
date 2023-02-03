@@ -37,4 +37,4 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/DiligentSamples/Android
         chmod +x gradlew
-        ./gradlew buildDebug
+        ./gradlew buildRelease
