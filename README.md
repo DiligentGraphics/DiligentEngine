@@ -598,6 +598,7 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_NO_METAL`                     |    No       | Do not build Metal backend                                   |
 | `DILIGENT_NO_ARCHIVER`                  |    No       | Do not build Archiver                                        |
 | `DILIGENT_NO_RENDER_STATE_PACKAGER`     |    No       | Do not build Render State Packager tool                      |
+| `DILIGENT_ENABLE_DRACO`                 |    No       | Enable Draco compression support in GLTF loader              |
 | `DILIGENT_BUILD_TOOLS`                  |    Yes      | Build Tools module                                           |
 | `DILIGENT_BUILD_FX`                     |    Yes      | Build FX module                                              |
 | `DILIGENT_BUILD_SAMPLES`                |    Yes      | Build Samples module                                         |
