@@ -195,7 +195,7 @@ cmake -S . -B ./build/MinGW -D CMAKE_BUILD_TYPE=Release -G "MinGW Makefiles"
 
 :warning: In current implementation, full path to cmake build folder **must not contain white spaces**.
 
-To enable Vulkan validation layers, you will need to download the [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environemt
+To enable Vulkan validation layers, you will need to download the [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/) and add environment
 variable `VK_LAYER_PATH` that contains the path to the *Bin* directory in VulkanSDK installation folder.
 
 Open *DiligentEngine.sln* file in *build/Win64* folder, select configuration and build the engine. Set the desired project
@@ -667,9 +667,9 @@ Diligent Engine allows clients to customize build settings by providing configur
 
 * `custom_configure_build()` - defines global build properties such as build configurations, c/c++ compile flags, link flags etc.
 * `custom_pre_configure_target()` - defines custom settings for every target in the build and is called before the engine's
-									build system starts configuring the target.
+                                    build system starts configuring the target.
 * `custom_post_configure_target()` - called after the engine's build system has configured the target to let the client
-									 override properties set by the engine.
+                                     override properties set by the engine.
 
 The path to the configuration script should be provided through `BUILD_CONFIGURATION_FILE` variable when running 
 cmake and must be relative to the cmake root folder, for example:
