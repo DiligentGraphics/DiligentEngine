@@ -44,6 +44,7 @@ before_build:
   - echo %PLATFORM%
   - echo.%cmake_args%
   - cmake %cmake_args% -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
+  - nuget restore C:\projects\diligentengine\build\DiligentEngine.sln
 
 build:
   project: '%APPVEYOR_BUILD_FOLDER%\build\DiligentEngine.sln'

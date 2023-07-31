@@ -47,6 +47,7 @@ jobs:
         cmake_generator: ["Visual Studio 17 2022"]
         cmake_args:      ["-DDILIGENT_BUILD_TESTS=ON"]
         platform:        ["Win32"]
+        build_args:      ["-- -restore"]
 
         include:
           - name:            "Win10-Dev"
@@ -55,6 +56,7 @@ jobs:
             build_type:      "RelWithDebInfo"
             cmake_generator: "Visual Studio 17 2022"
             cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_DEVELOPMENT=ON"
+            build_args:      "-- -restore"
 
           - name:            "Win8.1"
             platform:        "Win32"
@@ -62,6 +64,7 @@ jobs:
             build_type:      "Release"
             cmake_generator: "Visual Studio 17 2022"
             cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DCMAKE_SYSTEM_VERSION=8.1"
+            build_args:      "-- -restore"
 
           - name:            "Win10-Ninja"
             platform:        "Win32"
@@ -127,6 +130,8 @@ jobs:
       id:   build
       if:   success()
       uses: DiligentGraphics/github-action/build@v1
+      with:
+        build-args: ${{ matrix.build_args }}
 
       # Core tests
     - name: DiligentCoreTest
