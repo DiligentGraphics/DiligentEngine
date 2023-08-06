@@ -312,13 +312,6 @@ To verify that your environment is properly set up, try building the
 [teapots sample](https://github.com/googlesamples/android-ndk/tree/master/teapots) as well as
 [Vulkan Android tutorials](https://github.com/googlesamples/android-vulkan-tutorials).
 
-Known issues:
-
-* If native build does not find python executable, add `PYTHON_EXECUTABLE` variable to [CMake arguments in NativeApp's
-  build.gradle file](https://github.com/DiligentGraphics/DiligentTools/blob/master/NativeApp/Android/build.gradle#L16):
-  `-DPYTHON_EXECUTABLE=/Path/To/Your/Python36/python.exe`
-* If native build messes up shader_list.h file, go to git and undo the changes.
-
 Open *DiligentSamples/Android* folder with Android Studio to build and run tutorials and samples on Android.
 
 By default, applications will run in OpenGLES mode. To run them in Vulkan mode, add the following launch flags:
