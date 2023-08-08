@@ -1,3 +1,35 @@
+## v2.5.4
+
+### API Changes
+
+* Use thread group count X/Y/Z for mesh draw commands (API253012)
+* Added `ShaderMacroArray` struct (API253011)
+  * The `Macros` member of `ShaderCreateInfo` struct is now of type `ShaderMacroArray`
+* Replaced `ResourceMappingDesc` with `ResourceMappingCreateInfo` (API253010)
+  * Use `ResourceMappingCreateInfo::NumEntries` to define the number of entries instead of the trailing null entry
+* Removed `ShaderCreateInfo::ppConversionStream` (API253009)
+* Removed `ppCompilerOutput` member of the `ShaderCreateInfo` struct and added it as parameter to the `IRenderDevice::CreateShader` method (API253008)
+* Added `IPipelineStateGL::GetGLProgramHandle` and `IShaderGL::GetGLShaderHandle` methods (API253007)
+* Enabled read-only depth-stencil buffers (API253006)
+  * Added `TEXTURE_VIEW_READ_ONLY_DEPTH_STENCIL` view type
+  * Added `UseReadOnlyDSV` member to `GraphicsPipelineDesc` struct
+* Added `PSO_CACHE_FLAGS` enum and `PipelineStateCacheDesc::Flags` member (API253005)
+* Archiver and render state cache: added content version (API253004)
+* Added `RenderDeviceShaderVersionInfo` struct and `RenderDeviceInfo::MaxShaderVersion` member (API253003)
+* Added texture component swizzle (API253002)
+  * Added `TEXTURE_COMPONENT_SWIZZLE` enum and `TextureComponentMapping` struct
+  * Added `Swizzle` member to `TextureViewDesc` struct
+  * Added `TextureComponentSwizzle` member to `DeviceFeatures` struct
+* Added shader constant buffer reflection API (API253001)
+  * Added `SHADER_CODE_BASIC_TYPE` and `SHADER_CODE_VARIABLE_CLASS` enums
+  * Added `ShaderCodeVariableDesc` and `ShaderCodeBufferDesc` structs
+  * Added `IShader::GetConstantBufferDesc` method
+
+### Samples and Tutorials
+
+* Added [Tutorial03 - Texturing for DotNet](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial03_Texturing-DotNet)
+
+
 ## v2.5.3
 
 ### API Changes
