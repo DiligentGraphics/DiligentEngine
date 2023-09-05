@@ -27,8 +27,7 @@ jobs:
       if:   success()
       uses: DiligentGraphics/github-action/setup-build-env@v1
       with:
-        platform:     Android
-        java-version: 8 # Override Java version
+        platform: Android
 
     - name: Build with Gradle
       if:   success()
