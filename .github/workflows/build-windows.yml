@@ -58,14 +58,6 @@ jobs:
             cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_DEVELOPMENT=ON"
             build_args:      "-- -restore"
 
-          - name:            "Win8.1"
-            platform:        "Win32"
-            toolset:         "x64"
-            build_type:      "Release"
-            cmake_generator: "Visual Studio 17 2022"
-            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DCMAKE_SYSTEM_VERSION=8.1"
-            build_args:      "-- -restore"
-
           - name:            "Win10-Ninja"
             platform:        "Win32"
             toolset:         "x64"

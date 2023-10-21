@@ -170,7 +170,8 @@ Build prerequisites:
 * Windows SDK 10.0.17763.0 or later (10.0.19041.0 is required for mesh shaders)
 * C++ build tools
 * Visual C++ ATL Support
-* .NET SDK
+
+.NET support requires .NET SDK 6.0 or later.
 
 Use either CMake GUI or command line tool to generate build files. For example, to generate 
 [Visual Studio 2022](https://visualstudio.microsoft.com/) 64-bit solution and project files in *build/Win64* folder, 
@@ -213,19 +214,13 @@ is automatically configured by CMake). Alternatively, you can navigate to the bu
 To generate build files for Universal Windows platform, you need to define the following two cmake variables:
 
 * `CMAKE_SYSTEM_NAME=WindowsStore`
-* `CMAKE_SYSTEM_VERSION=< Windows SDK Version >`
+* `CMAKE_SYSTEM_VERSION=< Windows Version >`
 
 For example, to generate Visual Studio 2019 64-bit solution and project files in *build/UWP64* folder, run the following command
 from the engine's root folder:
 
 ```
 cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0 -S . -B ./build/UWP64 -G "Visual Studio 17 2022" -A x64
-```
-
-You can target specific SDK version by refining CMAKE_SYSTEM_VERSION, for instance:
-
-```
-cmake -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0.17763.0 -S . -B ./build/UWP64 -G "Visual Studio 17 2022" -A x64
 ```
 
 Set the desired project as startup project (by default, GLTF Viewer will be selected) and run it. 
