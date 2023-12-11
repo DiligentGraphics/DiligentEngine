@@ -82,6 +82,7 @@ Minimum supported low-level API versions:
 * [Atmospheric light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering)
 * [Tone mapping utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
 * [PBR renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/PBR)
+* [Hydrogent](https://github.com/DiligentGraphics/DiligentFX/tree/master/Hydrogent), an implementation of the Hydra rendering API in Diligent Engine.
 * [Shadows](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows)
 * [Integration with Dear Imgui](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo)
   [and Nuklear](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/NuklearDemo)
@@ -873,6 +874,7 @@ descriptions (compile shaders for target platforms, define internal resource lay
 | [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Atmosphere/Animation_Small.gif) | This sample demonstrates how to integrate [Epipolar Light Scattering](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering) post-processing effect into an application to render physically-based atmosphere. |
 | [GLFW Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLFWDemo) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/GLFWDemo/Animation_Small.gif) | This maze mini-game demonstrates how to use GLFW to create window and handle keyboard and mouse input. |
 | [GLTF Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer) | <img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/PBR/screenshots/flight_helmet.jpg" width=240> | This sample demonstrates how to use the [Asset Loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader) and [PBR Renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/PBR) to load and render GLTF models. |
+| [USD Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/USDViewer) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/USDViewer/Screenshot.jpg" width=240> | This sample demonstrates how to render USD files using [Hydrogent](https://github.com/DiligentGraphics/DiligentFX/tree/master/Hydrogent), an implementation of the Hydra rendering API in Diligent Engine. |
 | [Shadows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Shadows/Screenshot.jpg" width=240> | This sample demonstrates how to use the [Shadowing component](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows) to render high-quality shadows. |
 | [Dear ImGui Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/ImguiDemo/Screenshot.png" width=240> | This sample demonstrates the integration of the engine with [dear imgui](https://github.com/ocornut/imgui) UI library. |
 | [Nuklear Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/NuklearDemo) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/NuklearDemo/Screenshot.png" width=240> | This sample demonstrates the integration of the engine with [nuklear](https://github.com/vurtun/nuklear) UI library. |
@@ -900,6 +902,10 @@ The following components are now available:
 |-----------------|-----------------|
 | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/PBR/screenshots/damaged_helmet.jpg) | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/PBR/screenshots/flight_helmet.jpg) |
 | ![](https://github.com/DiligentGraphics/DiligentFX/blob/master/PBR/screenshots/mr_spheres.jpg)     | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/GLTFViewer/screenshots/cesium_man_large.gif)  |
+
+
+* [Hydrogent](https://github.com/DiligentGraphics/DiligentFX/tree/master/Hydrogent), an implementation of the Hydra rendering API in Diligent Engine.
+<img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/USDViewer/Screenshot.jpg" width=240>
 
 
 * [Shadows](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows)
