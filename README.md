@@ -529,6 +529,57 @@ Please also take a look at getting started tutorials for
 [Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloWin32) and 
 [Linux](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloLinux).
 
+#### Using FetchContent
+
+You can use [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) to download Diligent Engine modules.
+The only caveat is that you need to specify the source directory for each module to be the same as the module name,
+so that header files can be found. Below is an example of a CMake file that uses FetchContent:
+
+```cmake
+cmake_minimum_required (VERSION 3.6)
+
+project(HelloDiligent CXX)
+
+include(FetchContent)
+FetchContent_Declare(
+    DiligentCore
+    GIT_REPOSITORY https://github.com/DiligentGraphics/DiligentCore.git
+    SOURCE_DIR _deps/DiligentCore
+)
+FetchContent_Declare(
+    DiligentTools
+    GIT_REPOSITORY https://github.com/DiligentGraphics/DiligentTools.git
+    SOURCE_DIR _deps/DiligentTools
+)
+FetchContent_Declare(
+    DiligentFX
+    GIT_REPOSITORY https://github.com/DiligentGraphics/DiligentFX.git
+    SOURCE_DIR _deps/DiligentFX
+)
+FetchContent_MakeAvailable(DiligentCore DiligentTools DiligentFX)
+
+add_executable(HelloDiligent WIN32 HelloDiligent.cpp)
+target_include_directories(HelloDiligent
+PRIVATE
+    ${diligentcore_SOURCE_DIR}
+    ${diligenttools_SOURCE_DIR}
+    ${diligentfx_SOURCE_DIR}
+)
+
+target_compile_definitions(HelloDiligent PRIVATE UNICODE)
+
+target_link_libraries(HelloDiligent
+PRIVATE
+    Diligent-BuildSettings
+    Diligent-GraphicsEngineD3D11-shared
+    Diligent-GraphicsEngineD3D12-shared
+    Diligent-GraphicsEngineOpenGL-shared
+    Diligent-GraphicsEngineVk-shared
+    DiligentFX
+)
+copy_required_dlls(HelloDiligent)
+```
+
 ### Your Project Does Not Use Cmake
 
 If your project doesn't use CMake, it is recommended to build libraries with CMake and add them to your build system.
