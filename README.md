@@ -79,6 +79,7 @@ Minimum supported low-level API versions:
 
 ## High-level Rendering components
 
+* [Screen-Space Reflections](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/ScreenSpaceReflection)
 * [Atmospheric light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering)
 * [Tone mapping utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
 * [PBR renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/PBR)
@@ -916,6 +917,7 @@ descriptions (compile shaders for target platforms, define internal resource lay
 | [24 - Variable Rate Shading](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial24_VRS) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial24_VRS/Animation_Small.gif) | This tutorial demonstrates how to use variable rate shading to reduce the pixel shading load. |
 | [25 - Render State Packager](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial25_StatePackager) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial25_StatePackager/Screenshot.jpg) | This tutorial shows how to create and archive pipeline states with the render state packager off-line tool on the example of a simple path tracer. |
 | [26 - Render State Cache](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial26_StateCache) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial26_StateCache/Screenshot.jpg) | This tutorial expands the path tracing technique implemented in previous tutorial and demonstrates how to use the render state cache to save pipeline states created at run time and load them when the application starts. |
+| [27 - Post-Processing](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial27_PostProcessing) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial27_PostProcessing/Screenshot.jpg) | This tutorial demonstrates how to use post-processing effects from the DiligentFX module. |
 
 <a name="samples"></a>
 # [Samples](https://github.com/DiligentGraphics/DiligentSamples)
@@ -940,8 +942,11 @@ descriptions (compile shaders for target platforms, define internal resource lay
 High-level rendering functionality is implemented by [DiligentFX module](https://github.com/DiligentGraphics/DiligentFX).
 The following components are now available:
 
+* [Screen-Space Reflections](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/ScreenSpaceReflection)
+<img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/PostProcess/ScreenSpaceReflection/media/ssr-logo.jpg" width=400>
+
 * [Epipolar light scattering post-effect](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering)
-<img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/PostProcess/EpipolarLightScattering/media/LightScattering.png" width=240>
+<img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/PostProcess/EpipolarLightScattering/media/LightScattering.png" width=400>
 
 * [Tone mapping shader utilities](https://github.com/DiligentGraphics/DiligentFX/tree/master/Shaders/PostProcess/ToneMapping/public)
 
@@ -956,11 +961,11 @@ The following components are now available:
 
 
 * [Hydrogent](https://github.com/DiligentGraphics/DiligentFX/tree/master/Hydrogent), an implementation of the Hydra rendering API in Diligent Engine.
-<img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/USDViewer/Screenshot.jpg" width=240>
+<img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/USDViewer/Screenshot.jpg" width=400>
 
 
 * [Shadows](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows)
-<img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/Components/media/Powerplant-Shadows.jpg" width=240>
+<img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/Components/media/Powerplant-Shadows.jpg" width=400>
 
 
 <a name="products"></a>
