@@ -70,6 +70,16 @@
         "cfenv": "cpp",
         "style.c": "cpp",
         "overview.c": "cpp",
-        "*.mm": "cpp"
+        "*.mm": "cpp",
+        "bit": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "span": "cpp",
+        "stop_token": "cpp",
+        "typeindex": "cpp",
+        "variant": "cpp",
+        "regex": "cpp"
     }
 }
