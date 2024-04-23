@@ -6,12 +6,12 @@ jobs:
   build:
     strategy:
       matrix:
-        os:         ["windows-latest", "ubuntu-20.04", "macos-latest"]
+        os:         ["windows-latest", "ubuntu-20.04", "macos-14"]
         build_type: ["Debug", "Release"]
 
         exclude:
           # Exclude MacOS-Release
-          - os:         "macos-latest"
+          - os:         "macos-14"
             build_type: "Release"
 
         include:
@@ -21,7 +21,7 @@ jobs:
           - os:        "ubuntu-20.04"
             host_name: "Linux"
 
-          - os:        "macos-latest"
+          - os:        "macos-14"
             host_name: "MacOS"
 
     runs-on: ${{ matrix.os }}
