@@ -394,10 +394,10 @@ Run the command below from the engine's root folder to generate Xcode project co
 cmake -S . -B ./build/iOS -DCMAKE_SYSTEM_NAME=iOS -G "Xcode"
 ```
 
-If needed, you can provide iOS deployment target (11.0 or later is required) as well as other parameters, e.g.:
+If needed, you can provide iOS deployment target (13.0 or later is required) as well as other parameters, e.g.:
 
 ```cmake
-cmake -S . -B ./build/iOS -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -G "Xcode"
+cmake -S . -B ./build/iOS -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=13.0 -G "Xcode"
 ```
 
 :warning: To build for iPhone simulator, set the `PLATFORM_IOS_SIMULATOR` CMake flag. You may also use the
