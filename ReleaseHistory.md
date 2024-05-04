@@ -1,3 +1,37 @@
+## v2.5.5
+
+### API Changes
+
+* Added `MultiDraw` and `MultiDrawIndexed` commands (API254006)
+* Added `SerializationDeviceGLInfo` struct (API254005)
+  * The `ValidateShaders` member allows disabling time-consuming shader compilation
+* Replaced `AnisotropicFilteringSupported` member of `SamplerProperties` struct with `MaxAnisotropy` (API254004)
+* Added `TextureSubresourceViews` device feature (API254003)
+* Added device context rendering statistics (API254002)
+  * Added `DeviceContextStats` struct
+  * Added `IDeviceContext::ClearStats` and `IDeviceContext::GetStats` methods
+* `IDeviceContext::TransitionShaderResources`: removed unused `pPipelineState` parameter (API254001)
+
+### Samples and Tutorials
+
+* Added [Tutorial27 - Post Processing](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial27_PostProcessing)
+* Added [USD Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/USDViewer)
+
+### FX
+
+* Added Post Processing effects:
+  * [Screen-Space Reflections](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/ScreenSpaceReflection)
+  * [Screen-Space Ambient Occlusion](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/ScreenSpaceAmbientOcclusion)
+  * [Depth of Field](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/DepthOfField)
+  * [Bloom](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/Bloom)
+  * [Temporal Anti-Aliasing](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/TemporalAntiAliasing)
+* Added [Hydrogent](https://github.com/DiligentGraphics/DiligentFX/tree/master/Hydrogent), an implementation of the Hydra rendering API in Diligent Engine.
+* PBR Material Improvements:
+  * Clear-Coat
+  * Sheen (aka fuzz)
+  * Iridescence (aka thin layer)
+  * Anisotropy
+
 ## v2.5.4
 
 ### API Changes
