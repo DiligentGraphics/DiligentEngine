@@ -222,7 +222,7 @@ To generate build files for Universal Windows platform, you need to define the f
 * `CMAKE_SYSTEM_NAME=WindowsStore`
 * `CMAKE_SYSTEM_VERSION=< Windows Version >`
 
-For example, to generate Visual Studio 2019 64-bit solution and project files in *build/UWP64* folder, run the following command
+For example, to generate Visual Studio 2022 64-bit solution and project files in *build/UWP64* folder, run the following command
 from the engine's root folder:
 
 ```
@@ -315,8 +315,8 @@ To verify that your environment is properly set up, try building the
 
 Open *DiligentSamples/Android* folder with Android Studio to build and run tutorials and samples on Android.
 
-By default, applications will run in OpenGLES mode. To run them in Vulkan mode, add the following launch flags:
-`--es mode vk` (in Android Studio, go to Run->Edit Configurations menu)
+By default, applications will run in Vulkan mode. To run them in Vulkan mode, add the following launch flags:
+`--es mode gl` (in Android Studio, go to Run->Edit Configurations menu)
 
 <a name="build_and_run_macos"></a>
 ## MacOS
@@ -508,7 +508,6 @@ Suppose that the directory structure looks like this:
 
 Then the following steps need to be done:
 * Call `add_subdirectory(DiligentCore)`
-* Add *DiligentCore* to the list of include directories
 * Add dependencies on the targets implementing required rendering backends
 
 Below is an example of a CMake file:
@@ -673,8 +672,9 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_CLANG_COMPILE_OPTIONS`        |   -Werror   | Additional Clang compile options for all configurations      |
 | `DILIGENT_CLANG_DEBUG_COMPILE_OPTIONS`  |             | Additional Clang compile options for debug configuration     |
 | `DILIGENT_CLANG_RELEASE_COMPILE_OPTIONS`|    -mavx2   | Additional Clang compile options for release configurations  |
+| `DILIGENT_USD_PATH`                     |             | Path to USD installation folder                              |
 
-By default, all back-ends available on current platform are built. To disable specific back-ends,
+By default, all back-ends available on the current platform are built. To disable specific back-ends,
 use the following options: `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `DILIGENT_NO_OPENGL`,
 `DILIGENT_NO_VULKAN`, `DILIGENT_NO_METAL`.
 The options can be set through cmake UI or from the command line as in the example below:
