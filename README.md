@@ -354,8 +354,9 @@ In particular, you may need to define the following environment variables (assum
 export VULKAN_SDK=/Users/MyName/VulkanSDK/1.3.268.1/macOS
 export PATH=$VULKAN_SDK/bin:$PATH
 export DYLD_LIBRARY_PATH=$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH
+export VK_ADD_LAYER_PATH=$VULKAN_SDK/share/vulkan/explicit_layer.d
 export VK_ICD_FILENAMES=$VULKAN_SDK/share/vulkan/icd.d/MoltenVK_icd.json
-export VK_LAYER_PATH=$VULKAN_SDK/share/vulkan/explicit_layer.d
+export VK_DRIVER_FILES=$VULKAN_SDK/share/vulkan/icd.d/MoltenVK_icd.json
 ```
 
 Note that environment variables set in the shell are not seen by the applications launched from Launchpad
@@ -400,11 +401,11 @@ If needed, you can provide iOS deployment target (13.0 or later is required) as 
 cmake -S . -B ./build/iOS -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=13.0 -G "Xcode"
 ```
 
-:warning: To build for iPhone simulator, set the `PLATFORM_IOS_SIMULATOR` CMake flag. You may also use the
+:warning: To build for iPhone simulator, use the `iphonesimulator` system root. You may also use the
 `CMAKE_OSX_ARCHITECTURES` variable to specify target architecture, for example:
 
 ```cmake
-cmake -S . -B ./build/iOSSim -DCMAKE_SYSTEM_NAME=iOS -DPLATFORM_IOS_SIMULATOR=ON -DCMAKE_OSX_ARCHITECTURES=arm64 -G "Xcode"
+cmake -S . -B ./build/iOSSim -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_SYSROOT=iphonesimulator -DCMAKE_OSX_ARCHITECTURES=arm64 -G "Xcode"
 ```
 
 Open Xcode project file in `build/IOS` folder and build the engine. To run the applications on an iOS device,
