@@ -283,6 +283,9 @@ To configure Vulkan you will also need to:
 * Install latest Vulkan drivers and libraries for your GPU
 * Install [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/)
   * To make sure that you system is properly configured you can try to build and run samples from the SDK
+  * Samples can be listed and run with:
+    * `./build/linux/app/bin/Release/x86_64/vulkan_samples samples | grep 'id'`
+    * `./build/linux/app/bin/Release/x86_64/vulkan_samples sample compute_nbody`
 
 To generate make files for debug configuration, run the following CMake command from the engine's root folder:
 
@@ -295,6 +298,9 @@ To build the engine, run the following command:
 ```
 cmake --build ./build
 ```
+
+On Ubuntu 23 and newer, it may crash if you don't have libt5info installed, you'll need to [add it](https://askubuntu.com/questions/1491254/installing-cuda-on-ubuntu-23-10-libt5info-not-installable).
+ 
 
 The engine's root folder contains [Visual Studio Code](https://code.visualstudio.com/) settings files that configure
 the IDE to build the engine. You can run applications directly from the IDE. To run an application from the command line,
