@@ -299,7 +299,7 @@ To build the engine, run the following command:
 cmake --build ./build
 ```
 
-On Ubuntu 23 and newer, it may crash if you don't have libt5info installed, you'll need to [add it](https://askubuntu.com/questions/1491254/installing-cuda-on-ubuntu-23-10-libt5info-not-installable).
+On Ubuntu 23 and newer, it may crash if you don't have libtinfo5 installed, you'll need to [add it](https://askubuntu.com/questions/1491254/installing-cuda-on-ubuntu-23-10-libt5info-not-installable).
  
 
 The engine's root folder contains [Visual Studio Code](https://code.visualstudio.com/) settings files that configure
