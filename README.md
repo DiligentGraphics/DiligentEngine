@@ -283,9 +283,6 @@ To configure Vulkan you will also need to:
 * Install latest Vulkan drivers and libraries for your GPU
 * Install [Vulkan SDK](https://www.lunarg.com/vulkan-sdk/)
   * To make sure that you system is properly configured you can try to build and run samples from the SDK
-  * Samples can be listed and run with:
-    * `./build/linux/app/bin/Release/x86_64/vulkan_samples samples | grep 'id'`
-    * `./build/linux/app/bin/Release/x86_64/vulkan_samples sample compute_nbody`
 
 To generate make files for debug configuration, run the following CMake command from the engine's root folder:
 
