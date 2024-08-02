@@ -468,14 +468,53 @@ To test emscripten applications, run a basic web server
 
 ```bash
 cd ./build/Emscripten
-python -m http.server
+python https_server.py
 ```
 
-Open a browser, and navigate to `http://localhost:8000`
+Open a browser and navigate to `http://localhost`
 
-For example, the demo will be available at 
+For example, the Hello Triangle tutorial will be available at 
+
 ```
-http://localhost:8000/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html
+http://localhost/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html
+```
+
+To access the server from another computer on the local network, use the HTTPS server.
+To enable this, first install the `cryptography` module. You can do so by running the following command:
+
+```bash
+pip install cryptography
+```
+
+To start the HTTPS server, use the following command:
+
+```bash
+python https_server.py --mode=https
+```
+
+Use the HTTPS protocol to open the pages. For example:
+
+```
+https://localhost/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html
+```
+
+When using the HTTPS server, unlike with the HTTP server, you may encounter the following error
+when loading the page: `net::ERR_CERT_AUTHORITY_INVALID`.
+
+There are two ways to resolve this issue:
+1. Click the `Advanced` button and then select `Proceed to localhost (unsafe)`.
+2. Alternatively, start the terminal as administrator and run the following command:
+
+```bash
+python https_server.py --mode=https --register
+```
+
+We use the default ports for HTTP/HTTPS protocols, `80` and `443` respectively. 
+If you already have a server running on those ports, you may specify a different port number using the `--port`
+argument and include the corresponding port number in the URL after the IP address. For example:
+
+```
+http://localhost:${YOUR_PORT}/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html
 ```
 
 <a name="build_and_run_integration"></a>
