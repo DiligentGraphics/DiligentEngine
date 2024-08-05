@@ -45,7 +45,7 @@ jobs:
         toolset:         ["Win32", "x64"]
         build_type:      ["Debug", "Release"]
         cmake_generator: ["Visual Studio 17 2022"]
-        cmake_args:      ["-DDILIGENT_BUILD_TESTS=ON"]
+        cmake_args:      ["-DDILIGENT_BUILD_TESTS=ON -DDILIGENT_NO_WEBGPU=OFF"]
         platform:        ["Win32"]
         build_args:      ["-- -restore"]
 
@@ -150,6 +150,12 @@ jobs:
         use-dxc: true
         # Disable texture creation tests that are not relevant for DXC to save time
         args: --gtest_filter=-TextureCreation*
+
+    - name: DiligentCoreAPITest WebGPU
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
+      with:
+        mode: wgpu
 
 
       # Tools tests

@@ -15,14 +15,24 @@ jobs:
             build_type: "Release"
 
         include:
-          - os:        "windows-latest"
-            host_name: "Win10"
+          - os:         "windows-latest"
+            build_type: "Release"
+            host_name:  "Win10"
+            # Do not build WebGPU on Windows/Release as it is extremely slow
+            cmake_args: "-DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON -DDILIGENT_NO_WEBGPU=ON"
+
+          - os:         "windows-latest"
+            build_type: "Debug"
+            host_name:  "Win10"
+            cmake_args: "-DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON"
 
           - os:        "ubuntu-20.04"
             host_name: "Linux"
+            cmake_args: "-DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON"
 
           - os:        "macos-14"
             host_name: "MacOS"
+            cmake_args: "-DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON"
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.host_name }} -> Emscripten, ${{ matrix.build_type }}
@@ -44,6 +54,7 @@ jobs:
       uses: DiligentGraphics/github-action/configure-cmake@v1
       with:
         build-type: ${{ matrix.build_type }}
+        cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if: success()
