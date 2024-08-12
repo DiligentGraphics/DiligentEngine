@@ -700,7 +700,7 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_BUILD_TESTS`                  |    No       | Build Unit Tests                                             |
 | `DILIGENT_NO_GLSLANG`                   |    No       | Do not build GLSLang and SPRIV-Tools                         |
 | `DILIGENT_NO_HLSL`                      |    No       | Disable HLSL support in non-Direct3D backends                |
-| `DILIGENT_NO_FORMAT_VALIDATION`         |    No       | Disable source code formatting validation                    |
+| `DILIGENT_NO_FORMAT_VALIDATION`         |    Yes      | Disable source code formatting validation                    |
 | `DILIGENT_LOAD_PIX_EVENT_RUNTIME`       |    No       | Enable PIX event support                                     |
 | `DILIGENT_NVAPI_PATH`                   |             | Path to NVAPI SDK                                            |
 | `DILIGENT_INSTALL_CORE`                 |    Yes      | Install core module                                          |
