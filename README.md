@@ -564,7 +564,7 @@ project(HelloDiligent CXX)
 add_subdirectory(DiligentCore)
 
 add_executable(HelloDiligent WIN32 HelloDiligent.cpp)
-target_compile_options(HelloDiligent PRIVATE -DUNICODE -DENGINE_DLL)
+target_compile_options(HelloDiligent PRIVATE -DUNICODE)
 
 target_link_libraries(HelloDiligent
 PRIVATE
@@ -581,6 +581,28 @@ the executable so that the system can find and load them.
 Please also take a look at getting started tutorials for 
 [Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloWin32) and 
 [Linux](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial00_HelloLinux).
+
+#### Static vs Dynamic Linking
+
+On most platforms, core engine libraries are built in both static and dynamic versions
+(for example, `Diligent-GraphicsEngineD3D12-static` and `Diligent-GraphicsEngineD3D12-shared`).
+You can choose which version to link with by changing the target name in `target_link_libraries()` CMake command.
+When linking with dynamic libraries, the `ENGINE_DLL` macro will be defined, and the libraries will need to be loaded
+at runtime. For example, for Direct3D12 backend:
+
+```cpp
+#if ENGINE_DLL
+// Load the dll and import GetEngineFactoryD3D12() function
+auto GetEngineFactoryD3D12 = LoadGraphicsEngineD3D12();
+#endif
+auto* pFactoryD3D12 = GetEngineFactoryD3D12();
+```
+
+When using static linking, the `ENGINE_DLL` macro will not be defined, and the `GetEngineFactoryD3D12` function will be
+statically linked with the executable.
+
+[SampleApp.cpp](https://github.com/DiligentGraphics/DiligentSamples/blob/master/SampleBase/src/SampleApp.cpp) file provides
+an example of how to initialize the engine on different platforms using static or dynamic linking.
 
 #### Using FetchContent
 
