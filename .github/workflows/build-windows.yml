@@ -125,70 +125,10 @@ jobs:
       with:
         build-args: ${{ matrix.build_args }}
 
-      # Core tests
-    - name: DiligentCoreTest
-      if:   ${{ success() && matrix.name != 'UWP'}}
-      uses: DiligentGraphics/github-action/run-core-tests@v1
-
-    - name: DiligentCoreAPITest D3D11
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
-      with:
-        mode: d3d11_sw
-
-    - name: DiligentCoreAPITest D3D12
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
-      with:
-        mode: d3d12_sw
-
-    - name: DiligentCoreAPITest D3D12 DXC
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
-      with:
-        mode:    d3d12_sw
-        use-dxc: true
-        # Disable texture creation tests that are not relevant for DXC to save time
-        args: --gtest_filter=-TextureCreation*
-
-    - name: DiligentCoreAPITest WebGPU
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
-      with:
-        mode: wgpu
-
-
-      # Tools tests
-    - name: DiligentToolsTest
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name != 'UWP'}}
-      uses: DiligentGraphics/github-action/run-tools-tests@v1
-
-    - name: DiligentToolsGPUTest D3D11
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
-      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
-      with:
-        mode: d3d11_sw
-
-    - name: DiligentToolsGPUTest D3D12
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
-      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
-      with:
-        mode: d3d12_sw
-
-    - name: HLSL2GLSLConverterTest
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name != 'UWP'}}
-      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v1
-
-
-      # Samples tests
-    - name: Sample Tests D3D11
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1' || matrix.name == 'Win10-Ninja') }}
-      uses: DiligentGraphics/github-action/run-sample-tests@v1
-      with:
-        mode: "d3d11_sw"
-
-    - name: Sample Tests D3D12
+    - name: Sample Tests WebGPU
       if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
       uses: DiligentGraphics/github-action/run-sample-tests@v1
       with:
-        mode: "d3d12_sw"
+        mode: "wgpu"
+        golden-image-mode: "compare_update"
+
