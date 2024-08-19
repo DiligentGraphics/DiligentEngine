@@ -192,3 +192,9 @@ jobs:
       uses: DiligentGraphics/github-action/run-sample-tests@v1
       with:
         mode: "d3d12_sw"
+
+    - name: Sample Tests WebGPU
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10') }}
+      uses: DiligentGraphics/github-action/run-sample-tests@v1
+      with:
+        mode: "wgpu"
