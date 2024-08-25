@@ -704,42 +704,42 @@ build system. Build customization described below can help tweak the settings fo
 
 Available CMake options are summarized in the table below:
 
-| Option                                  |Default value|     Description                                              |
-|-----------------------------------------|-------------|--------------------------------------------------------------|
-| `DILIGENT_NO_DIRECT3D11`                |    No       | Do not build Direct3D11 backend                              |
-| `DILIGENT_NO_DIRECT3D12`                |    No       | Do not build Direct3D12 backend                              |
-| `DILIGENT_NO_OPENGL`                    |    No       | Do not build OpenGL backend                                  |
-| `DILIGENT_NO_VULKAN`                    |    No       | Do not build Vulkan backend                                  |
-| `DILIGENT_NO_METAL`                     |    No       | Do not build Metal backend                                   |
-| `DILIGENT_NO_ARCHIVER`                  |    No       | Do not build Archiver                                        |
-| `DILIGENT_NO_RENDER_STATE_PACKAGER`     |    No       | Do not build Render State Packager tool                      |
-| `DILIGENT_ENABLE_DRACO`                 |    No       | Enable Draco compression support in GLTF loader              |
-| `DILIGENT_USE_RAPIDJSON`                |    No       | Use rapidjson parser in GLTF loader                          |
-| `DILIGENT_BUILD_TOOLS`                  |    Yes      | Build Tools module                                           |
-| `DILIGENT_BUILD_FX`                     |    Yes      | Build FX module                                              |
-| `DILIGENT_BUILD_SAMPLES`                |    Yes      | Build Samples module                                         |
-| `DILIGENT_BUILD_SAMPLE_BASE_ONLY`       |    No       | Build only SampleBase project and no other samples/tutorials |
-| `DILIGENT_BUILD_TESTS`                  |    No       | Build Unit Tests                                             |
-| `DILIGENT_NO_GLSLANG`                   |    No       | Do not build GLSLang and SPRIV-Tools                         |
-| `DILIGENT_NO_HLSL`                      |    No       | Disable HLSL support in non-Direct3D backends                |
-| `DILIGENT_NO_FORMAT_VALIDATION`         |    Yes      | Disable source code formatting validation                    |
-| `DILIGENT_LOAD_PIX_EVENT_RUNTIME`       |    No       | Enable PIX event support                                     |
-| `DILIGENT_NVAPI_PATH`                   |             | Path to NVAPI SDK                                            |
-| `DILIGENT_INSTALL_CORE`                 |    Yes      | Install core module                                          |
-| `DILIGENT_INSTALL_TOOLS`                |    Yes      | Install tools module                                         |
-| `DILIGENT_INSTALL_FX`                   |    Yes      | Install FX module                                            |
-| `DILIGENT_INSTALL_SAMPLES`              |    Yes      | Install Samples module                                       |
-| `DILIGENT_INSTALL_PDB`                  |    No       | Install program debug database                               |
-| `DILIGENT_DEAR_IMGUI_PATH`              |             | Optional path to a user-provided dear imgui project          |
-| `DILIGENT_ARGS_DIR`                     |             | Optional path to a user-provided args project                |
-| `DILIGENT_NUKLEAR_DIR`                  |             | Optional path to a user-provided nuklear project             |
-| `DILIGENT_MSVC_COMPILE_OPTIONS`         |     /WX     | Additional MSVC compile options for all configurations       |
-| `DILIGENT_MSVC_DEBUG_COMPILE_OPTIONS`   |             | Additional MSVC compile options for debug configuration      |
-| `DILIGENT_MSVC_RELEASE_COMPILE_OPTIONS` |  /arch:AVX2 | Additional MSVC compile options for release configurations   |
-| `DILIGENT_CLANG_COMPILE_OPTIONS`        |   -Werror   | Additional Clang compile options for all configurations      |
-| `DILIGENT_CLANG_DEBUG_COMPILE_OPTIONS`  |             | Additional Clang compile options for debug configuration     |
-| `DILIGENT_CLANG_RELEASE_COMPILE_OPTIONS`|    -mavx2   | Additional Clang compile options for release configurations  |
-| `DILIGENT_USD_PATH`                     |             | Path to USD installation folder                              |
+| Option                                  |Default value |     Description                                              |
+|-----------------------------------------|--------------|--------------------------------------------------------------|
+| `DILIGENT_NO_DIRECT3D11`                |     No       | Do not build Direct3D11 backend                              |
+| `DILIGENT_NO_DIRECT3D12`                |     No       | Do not build Direct3D12 backend                              |
+| `DILIGENT_NO_OPENGL`                    |     No       | Do not build OpenGL backend                                  |
+| `DILIGENT_NO_VULKAN`                    |     No       | Do not build Vulkan backend                                  |
+| `DILIGENT_NO_METAL`                     |     No       | Do not build Metal backend                                   |
+| `DILIGENT_NO_ARCHIVER`                  |     No       | Do not build Archiver                                        |
+| `DILIGENT_NO_RENDER_STATE_PACKAGER`     |     No       | Do not build Render State Packager tool                      |
+| `DILIGENT_ENABLE_DRACO`                 |     No       | Enable Draco compression support in GLTF loader              |
+| `DILIGENT_USE_RAPIDJSON`                |     No       | Use rapidjson parser in GLTF loader                          |
+| `DILIGENT_BUILD_TOOLS`                  |     Yes      | Build Tools module                                           |
+| `DILIGENT_BUILD_FX`                     |     Yes      | Build FX module                                              |
+| `DILIGENT_BUILD_SAMPLES`                |     Yes      | Build Samples module                                         |
+| `DILIGENT_BUILD_SAMPLE_BASE_ONLY`       |     No       | Build only SampleBase project and no other samples/tutorials |
+| `DILIGENT_BUILD_TESTS`                  |     No       | Build Unit Tests                                             |
+| `DILIGENT_NO_GLSLANG`                   |     No       | Do not build GLSLang and SPRIV-Tools                         |
+| `DILIGENT_NO_HLSL`                      |     No       | Disable HLSL support in non-Direct3D backends                |
+| `DILIGENT_NO_FORMAT_VALIDATION`         |     Yes      | Disable source code formatting validation                    |
+| `DILIGENT_LOAD_PIX_EVENT_RUNTIME`       |     No       | Enable PIX event support                                     |
+| `DILIGENT_NVAPI_PATH`                   |              | Path to NVAPI SDK                                            |
+| `DILIGENT_INSTALL_CORE`                 |     Yes      | Install core module                                          |
+| `DILIGENT_INSTALL_TOOLS`                |     Yes      | Install tools module                                         |
+| `DILIGENT_INSTALL_FX`                   |     Yes      | Install FX module                                            |
+| `DILIGENT_INSTALL_SAMPLES`              |     Yes      | Install Samples module                                       |
+| `DILIGENT_INSTALL_PDB`                  |     No       | Install program debug database                               |
+| `DILIGENT_DEAR_IMGUI_PATH`              |              | Optional path to a user-provided dear imgui project          |
+| `DILIGENT_ARGS_DIR`                     |              | Optional path to a user-provided args project                |
+| `DILIGENT_NUKLEAR_DIR`                  |              | Optional path to a user-provided nuklear project             |
+| `DILIGENT_MSVC_COMPILE_OPTIONS`         |     /WX      | Additional MSVC compile options for all configurations       |
+| `DILIGENT_MSVC_DEBUG_COMPILE_OPTIONS`   |              | Additional MSVC compile options for debug configuration      |
+| `DILIGENT_MSVC_RELEASE_COMPILE_OPTIONS` |/GL /arch:AVX2| Additional MSVC compile options for release configurations   |
+| `DILIGENT_CLANG_COMPILE_OPTIONS`        |   -Werror    | Additional Clang compile options for all configurations      |
+| `DILIGENT_CLANG_DEBUG_COMPILE_OPTIONS`  |              | Additional Clang compile options for debug configuration     |
+| `DILIGENT_CLANG_RELEASE_COMPILE_OPTIONS`|    -mavx2    | Additional Clang compile options for release configurations  |
+| `DILIGENT_USD_PATH`                     |              | Path to USD installation folder                              |
 
 By default, all back-ends available on the current platform are built. To disable specific back-ends,
 use the following options: `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `DILIGENT_NO_OPENGL`,
