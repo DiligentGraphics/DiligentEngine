@@ -3,9 +3,9 @@
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=An%20easy-to-use%20cross-platform%20graphics%20library%20that%20takes%20full%20advantage%20of%20%23Direct3D12%20and%20%23VulkanAPI&url=https://github.com/DiligentGraphics/DiligentEngine)
 
 [Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform graphics
-API abstraction library and rendering framework. It is designed to take full advantage of Direct3D12, Vulkan
-and Metal, while supporting older platforms via Direct3D11, OpenGL and OpenGLES. Diligent Engine exposes common
-front-end  API and uses HLSL as universal shading language on all platforms and rendering back-ends. 
+API abstraction library and rendering framework. It is designed to take full advantage of Direct3D12, Vulkan,
+Metal and WebGPU, while supporting older platforms via Direct3D11, OpenGL, OpenGLES and WebGL. Diligent Engine
+exposes common front-end  API and uses HLSL as universal shading language on all platforms and rendering back-ends. 
 Platform-specific shader representations (GLSL, MSL, DX bytecode or SPIRV) can be used with corresponding back-ends.
 The engine is intended to be used as graphics subsystem in a game engine or any other 3D application. 
 It is distributed under [Apache 2.0 license](License.txt) and is free to use.
@@ -733,10 +733,10 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_DEAR_IMGUI_PATH`              |              | Optional path to a user-provided dear imgui project          |
 | `DILIGENT_ARGS_DIR`                     |              | Optional path to a user-provided args project                |
 | `DILIGENT_NUKLEAR_DIR`                  |              | Optional path to a user-provided nuklear project             |
-| `DILIGENT_MSVC_COMPILE_OPTIONS`         |     /WX      | Additional MSVC compile options for all configurations       |
+| `DILIGENT_MSVC_COMPILE_OPTIONS`         |              | Additional MSVC compile options for all configurations       |
 | `DILIGENT_MSVC_DEBUG_COMPILE_OPTIONS`   |              | Additional MSVC compile options for debug configuration      |
 | `DILIGENT_MSVC_RELEASE_COMPILE_OPTIONS` |/GL /arch:AVX2| Additional MSVC compile options for release configurations   |
-| `DILIGENT_CLANG_COMPILE_OPTIONS`        |   -Werror    | Additional Clang compile options for all configurations      |
+| `DILIGENT_CLANG_COMPILE_OPTIONS`        |              | Additional Clang compile options for all configurations      |
 | `DILIGENT_CLANG_DEBUG_COMPILE_OPTIONS`  |              | Additional Clang compile options for debug configuration     |
 | `DILIGENT_CLANG_RELEASE_COMPILE_OPTIONS`|    -mavx2    | Additional Clang compile options for release configurations  |
 | `DILIGENT_USD_PATH`                     |              | Path to USD installation folder                              |
