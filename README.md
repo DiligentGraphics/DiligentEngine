@@ -329,7 +329,7 @@ By default, applications will run in Vulkan mode. To run them in Vulkan mode, ad
 Prerequisites:
 
 * Xcode 14 or later
-* Vulkan SDK 1.3.268.1 or later to enable Vulkan
+* Vulkan SDK 1.3.290.0 or later to enable Vulkan
 
 After you clone the repo, run the following command from the engine's root folder to generate Xcode project:
 
@@ -353,10 +353,10 @@ or [gfx-portability](https://github.com/gfx-rs/portability). Install [VulkanSDK]
 and make sure that your system is properly configured as described
 [here](https://vulkan.lunarg.com/doc/view/latest/mac/getting_started.html#user-content-sdk-system-paths).
 In particular, you may need to define the following environment variables (assuming that Vulkan SDK is installed at
-`/Users/MyName/VulkanSDK/1.3.268.1` and you want to use MoltenVK):
+`/Users/MyName/VulkanSDK/1.3.290.0` and you want to use MoltenVK):
 
 ```
-export VULKAN_SDK=/Users/MyName/VulkanSDK/1.3.268.1/macOS
+export VULKAN_SDK=/Users/MyName/VulkanSDK/1.3.290.0/macOS
 export PATH=$VULKAN_SDK/bin:$PATH
 export DYLD_LIBRARY_PATH=$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH
 export VK_ADD_LAYER_PATH=$VULKAN_SDK/share/vulkan/explicit_layer.d
@@ -381,7 +381,7 @@ System Integrity Protection is disabled (which generally is not recommended). In
 Vulkan library, it must be in rpath. If `VULKAN_SDK` environment variable is set and points to correct location, Diligent
 Engine will configure the rpath for all applications automatically.
 
-Latest tested Vulkan SDK version: 1.3.268.1.
+Latest tested Vulkan SDK version: 1.3.290.0.
 
 :warning: There are known issues with later versions of the SDK, so it is recommended to use the latest tested version.
 
@@ -391,7 +391,7 @@ Latest tested Vulkan SDK version: 1.3.268.1.
 Prerequisites:
 
 * Xcode 14 or later
-* Vulkan SDK 1.3.268.1 or later to enable Vulkan
+* Vulkan SDK 1.3.290.0 or later to enable Vulkan
 
 Run the command below from the engine's root folder to generate Xcode project configured for
 [iOS build](https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html#cross-compiling-for-ios-tvos-or-watchos):
@@ -422,10 +422,10 @@ To enable Vulkan on iOS, download and install the [VulkanSDK](https://vulkan.lun
 on iOS, and Diligent Engine links directly with MoltenVK XCFramework (see
 [MoltenVk install guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install-moltenvk-as-a-universal-xcframework))
 that implements Vulkan on Metal. To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK 
-when running CMake, for example (assuming that Vulkan SDK is installed at `/Users/MyName/VulkanSDK/1.3.268.1`):
+when running CMake, for example (assuming that Vulkan SDK is installed at `/Users/MyName/VulkanSDK/1.3.290.0`):
 
 ```cmake
-cmake -DCMAKE_SYSTEM_NAME=iOS -DVULKAN_SDK=/Users/MyName/VulkanSDK/1.3.268.1 -S . -B ./build/iOS -G "Xcode"
+cmake -DCMAKE_SYSTEM_NAME=iOS -DVULKAN_SDK=/Users/MyName/VulkanSDK/1.3.290.0 -S . -B ./build/iOS -G "Xcode"
 ```
 
 By default, the engine links with MoltenVK XCFramework located in Vulkan SDK. If this is not desired or an application wants
@@ -434,7 +434,7 @@ to use a specific library, it can provide the full path to the library via `MOLT
 Refer to [MoltenVK user guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install)
 for more information about MoltenVK installation and usage.
 
-Latest tested Vulkan SDK version: 1.3.268.1.
+Latest tested Vulkan SDK version: 1.3.290.0.
 
 :warning: There are known issues with later versions of the SDK, so it is recommended to use the latest tested version.
 
@@ -442,7 +442,7 @@ Latest tested Vulkan SDK version: 1.3.268.1.
 ## Emscripten
 Build prerequisites:
 
-* Emscripten SDK 3.1.61
+* Emscripten SDK 3.1.64
 * Ninja 1.10.2
 
 To activate PATH and other environment variables in the current terminal
