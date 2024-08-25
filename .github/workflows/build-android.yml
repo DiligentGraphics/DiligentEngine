@@ -22,7 +22,7 @@ jobs:
       uses: DiligentGraphics/github-action/clean-disk-ubuntu@v1
 
     - name: Clone repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
