@@ -175,6 +175,12 @@ jobs:
       with:
         mode: d3d12_sw
 
+    - name: DiligentToolsGPUTest WebGPU
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v1
+      with:
+        mode: wgpu
+
     - name: HLSL2GLSLConverterTest
       if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name != 'UWP'}}
       uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v1
