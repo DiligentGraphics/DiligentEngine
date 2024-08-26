@@ -59,3 +59,18 @@ jobs:
     - name: Build
       if: success()
       uses: DiligentGraphics/github-action/build@v1
+
+    - name: Pack Web Artifacts
+      if:  ${{ success() && (matrix.host_name == 'Linux') && (matrix.build_type == 'Release') }}
+      working-directory: ${{github.workspace}}
+      run: |
+        python ./DiligentSamples/BuildTools/Emscripten/pack-artifacts.py -s ${{ env.DILIGENT_BUILD_DIR }}/DiligentSamples -o ./WebArtifacts
+
+    - name: Upload Web Artifacts
+      if:  ${{ success() && (matrix.host_name == 'Linux') && (matrix.build_type == 'Release') }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: WasmModules-DiligentGraphics.github.io
+        path: |
+          ${{github.workspace}}/WebArtifacts
+        retention-days: 14
