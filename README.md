@@ -442,7 +442,7 @@ Latest tested Vulkan SDK version: 1.3.290.0.
 ## Emscripten
 Build prerequisites:
 
-* Emscripten SDK 3.1.64
+* Emscripten SDK 3.1.65
 * Ninja 1.10.2
 
 To activate PATH and other environment variables in the current terminal
