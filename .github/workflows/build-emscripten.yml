@@ -28,7 +28,7 @@ jobs:
 
           - os:        "ubuntu-20.04"
             host_name: "Linux"
-            cmake_args: "-DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON"
+            cmake_args: "-DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON -DDILIGENT_EMSCRIPTEN_INCLUDE_COI_SERVICE_WORKER=ON"
 
           - os:        "macos-14"
             host_name: "MacOS"
