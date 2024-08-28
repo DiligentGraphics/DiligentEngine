@@ -43,7 +43,7 @@ before_build:
   - 'cd %APPVEYOR_BUILD_FOLDER%'
   - echo %PLATFORM%
   - echo.%cmake_args%
-  - cmake %cmake_args% -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
+  - cmake %cmake_args% -S . -B ./build -D DILIGENT_MSVC_RELEASE_COMPILE_OPTIONS="/arch:AVX2" -G "Visual Studio 16 2019" -A %PLATFORM%
   - nuget restore C:\projects\diligentengine\build\DiligentEngine.sln
 
 build:
