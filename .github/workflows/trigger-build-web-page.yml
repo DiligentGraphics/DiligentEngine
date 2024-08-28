@@ -2,7 +2,7 @@ name: Trigger Build Web Page
 
 on:
   workflow_run:
-    workflows: ["Build Emscripten"]
+    workflows: ["Emscripten build"]
     types:
       - completed
 
