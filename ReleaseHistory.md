@@ -1,3 +1,27 @@
+## v2.5.6
+
+### API Changes
+
+* Implemented WebGPU backend
+  * Added `EngineWebGPUCreateInfo`
+  * Added `IEngineFactoryWebGPU` interface
+  * Added `RENDER_DEVICE_TYPE_WEBGPU`, `SHADER_SOURCE_LANGUAGE_WGSL`, `SHADER_VARIABLE_FLAG_UNFILTERABLE_FLOAT_TEXTURE_WEBGPU`,
+   `SHADER_VARIABLE_FLAG_NON_FILTERING_SAMPLER_WEBGPU` enum values
+  * Added `WEB_GPU_BINDING_TYPE` enum, `WebGPUResourceAttribs` struct, and
+    `WebGPUResourceAttribs WebGPUAttribs` member to `PipelineResourceDesc` struct
+  * Added WebGPU-specific interfaces (`IRenderDeviceWebGPU`, `IDeviceContextWebGPU`, etc.) 
+* Enabled asynchronous shdare and pipeline state compilation (API255001)
+  * Added `AsyncShaderCompilation` render device feature
+  * Added `pAsyncShaderCompilationThreadPool` and `NumAsyncShaderCompilerThreads` members to `EngineCreateInfo` struct
+  * Added `SHADER_COMPILE_FLAG_ASYNCHRONOUS` and `PSO_CREATE_FLAG_ASYNCHRONOUS` flags
+  * Added `SHADER_STATUS` and `PIPELINE_STATE_STATUS` enums
+  * Added `IShader::GetStatus` and `IPipelineState::GetStatus` methods
+
+### Samples and Tutorials
+
+Added [samples and tutorials web page](https://diligentgraphics.github.io/)
+
+
 ## v2.5.5
 
 ### API Changes
@@ -31,6 +55,7 @@
   * Sheen (aka fuzz)
   * Iridescence (aka thin layer)
   * Anisotropy
+
 
 ## v2.5.4
 
