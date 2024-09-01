@@ -87,6 +87,8 @@ call :run_tests "%API_TEST_EXE_PATH% --mode=gl --non_separable_progs --gtest_fil
 call :run_tests "%API_TEST_EXE_PATH% --mode=vk" "Core GPU Tests VK"
 call :run_tests "%API_TEST_EXE_PATH% --mode=vk --shader_compiler=dxc --gtest_filter=-TextureCreation*" "Core GPU Tests VK DXC"
 
+call :run_tests "%API_TEST_EXE_PATH% --mode=wgpu" "Core GPU Tests WebGPU"
+
 
 rem Tools GPU tests
 
@@ -100,6 +102,7 @@ call :run_tests "%TOOLS_GPU_TEST_EXE_PATH% --mode=d3d12_sw" "Tools GPU Tests D3D
 call :run_tests "%TOOLS_GPU_TEST_EXE_PATH% --mode=gl" "Tools GPU Tests GL"
 call :run_tests "%TOOLS_GPU_TEST_EXE_PATH% --mode=gl --non_separable_progs" "Tools GPU Tests GL Non-sep progs"
 call :run_tests "%TOOLS_GPU_TEST_EXE_PATH% --mode=vk" "Tools GPU Tests VK"
+call :run_tests "%TOOLS_GPU_TEST_EXE_PATH% --mode=wgpu" "Tools GPU Tests WebGPU"
 
 
 cd "%CURR_DIR%"

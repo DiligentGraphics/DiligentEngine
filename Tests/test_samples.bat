@@ -21,6 +21,7 @@ if "%num_args%" LSS "3" (
     echo   ADDITIONAL_TEST_APPS_D3D12 - Additional test applications to run in D3D12 mode
     echo   ADDITIONAL_TEST_APPS_GL    - Additional test applications to run in GL mode
     echo   ADDITIONAL_TEST_APPS_VK    - Additional test applications to run in Vk mode
+    echo   ADDITIONAL_TEST_APPS_WGPU  - Additional test applications to run in WebGPU mode
     echo.
     echo Example:
     echo   test_samples.bat c:\Projects\DiligentEngine\build\Win64 Debug c:\Projects\DiligentTestData\GoldenImages compare
@@ -75,6 +76,9 @@ call :run_tests "--mode gl --non_separable_progs 1"
 
 set ADDITIONAL_TEST_APPS=%ADDITIONAL_TEST_APPS_VK%
 call :run_tests  "--mode vk"
+
+set ADDITIONAL_TEST_APPS=%ADDITIONAL_TEST_APPS_WGPU%
+call :run_tests  "--mode wgpu"
 
 cd "%CURR_DIR%"
 
