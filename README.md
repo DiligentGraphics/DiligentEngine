@@ -711,6 +711,7 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_NO_OPENGL`                    |     No       | Do not build OpenGL backend                                  |
 | `DILIGENT_NO_VULKAN`                    |     No       | Do not build Vulkan backend                                  |
 | `DILIGENT_NO_METAL`                     |     No       | Do not build Metal backend                                   |
+| `DILIGENT_NO_WEBGPU`                    |     No       | Do not build WebGPU backend                                  |
 | `DILIGENT_NO_ARCHIVER`                  |     No       | Do not build Archiver                                        |
 | `DILIGENT_NO_RENDER_STATE_PACKAGER`     |     No       | Do not build Render State Packager tool                      |
 | `DILIGENT_ENABLE_DRACO`                 |     No       | Enable Draco compression support in GLTF loader              |
@@ -743,7 +744,8 @@ Available CMake options are summarized in the table below:
 
 By default, all back-ends available on the current platform are built. To disable specific back-ends,
 use the following options: `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `DILIGENT_NO_OPENGL`,
-`DILIGENT_NO_VULKAN`, `DILIGENT_NO_METAL`.
+`DILIGENT_NO_VULKAN`, `DILIGENT_NO_METAL`, `DILIGENT_NO_WEBGPU`. WebGPU backend is enabled by default when building
+for the Web. To enable it on other platforms, use `DILIGENT_NO_WEBGPU=OFF`.
 The options can be set through cmake UI or from the command line as in the example below:
 
 ```
