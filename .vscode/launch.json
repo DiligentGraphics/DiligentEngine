@@ -670,6 +670,25 @@
             ]
         },
         {
+            "name": "Tutorial29_OIT",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/DiligentSamples/Tutorials/Tutorial29_OIT/Tutorial29_OIT",
+            "args": ["--mode", "vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial29_OIT/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },        
+        {
             "name": "DiligentCoreTest",
             "type": "cppdbg",
             "request": "launch",

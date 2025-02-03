@@ -1,6 +1,6 @@
 {
     "cmake.buildDirectory": "${workspaceRoot}/build",
-    "cmake.configureSettings": { "DILIGENT_BUILD_TESTS": "TRUE", "CMAKE_INSTALL_PREFIX": "install"}, 
+    "cmake.configureSettings": { "DILIGENT_BUILD_TESTS": "TRUE", "DILIGENT_NO_FORMAT_VALIDATION": "FALSE", "CMAKE_INSTALL_PREFIX": "install"}, 
     "files.associations": {
         "*.tcc": "cpp",
         "ostream": "cpp",
@@ -16,7 +16,6 @@
         "condition_variable": "cpp",
         "csignal": "cpp",
         "cstddef": "cpp",
-        "cstdint": "cpp",
         "cstdio": "cpp",
         "cstdlib": "cpp",
         "cstring": "cpp",
