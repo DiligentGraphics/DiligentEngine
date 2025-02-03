@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   precheks:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: Linux -> Pre-checks
 
     steps:
@@ -44,7 +44,7 @@ jobs:
 
   build:
     needs:   precheks
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -55,13 +55,13 @@ jobs:
         include:
           - name:            "GCC"
             cmake_generator: "Unix Makefiles"
-            cc:              "gcc-9"
-            cxx:             "g++-9"
+            cc:              "gcc-14"
+            cxx:             "g++-14"
 
           - name:            "Clang"
             cmake_generator: "Ninja"
-            cc:              "clang-12"
-            cxx:             "clang++-12"
+            cc:              "clang-18"
+            cxx:             "clang++-18"
 
     name: Linux -> ${{ matrix.name }}-x64, ${{ matrix.build_type }}
 
@@ -110,14 +110,12 @@ jobs:
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
       with:
         mode: vk_sw
-        args: --gtest_filter=-DrawCommandTest.DrawIndexedInstancedIndirect_FirstInstance_BaseVertex_FirstIndex_VBOffset_IBOffset_InstOffset:TextureCreation/TextureCreationTest.CreateTexture/TEX_FORMAT_BGRA8_TYPELESS
 
     - name: DiligentCoreAPITest GL
       if: ${{ success() || failure() && steps.build.outcome == 'success' }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
       with:
         mode: gl
-        args: "--gtest_filter=-DrawCommandTest.MultiDrawIndirectCount:DrawCommandTest.MultiDrawIndexedIndirectCount:PipelineResourceSignatureTest.StructuredBuffers"
 
     - name: DiligentCoreAPITest GL with Non-Separable Programs
       if: ${{ success() || failure() && steps.build.outcome == 'success' }}
@@ -125,7 +123,6 @@ jobs:
       with:
         mode: gl
         non-separable-progs: true
-        args: "--gtest_filter=-DrawCommandTest.MultiDrawIndirectCount:DrawCommandTest.MultiDrawIndexedIndirectCount:PipelineResourceSignatureTest.StructuredBuffers:DrawCommandTest.StructuredBufferArray"
 
       # Tools tests
     - name: DiligentToolsTest

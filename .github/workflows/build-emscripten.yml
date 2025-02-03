@@ -6,7 +6,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os:         ["windows-latest", "ubuntu-20.04", "macos-14"]
+        os:         ["windows-latest", "ubuntu-24.04", "macos-14"]
         build_type: ["Debug", "Release"]
 
         exclude:
@@ -26,7 +26,7 @@ jobs:
             host_name:  "Win10"
             cmake_args: "-DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON"
 
-          - os:        "ubuntu-20.04"
+          - os:        "ubuntu-24.04"
             host_name: "Linux"
             cmake_args: "-DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON -DDILIGENT_EMSCRIPTEN_INCLUDE_COI_SERVICE_WORKER=ON"
 
