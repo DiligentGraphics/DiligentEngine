@@ -1,5 +1,5 @@
 {
-    "cmake.buildDirectory": "${workspaceRoot}/build",
+    "cmake.buildDirectory": "${workspaceRoot}/build/${buildType}",
     "cmake.configureSettings": { "DILIGENT_BUILD_TESTS": "TRUE", "DILIGENT_NO_FORMAT_VALIDATION": "FALSE", "CMAKE_INSTALL_PREFIX": "install"}, 
     "files.associations": {
         "*.tcc": "cpp",
