@@ -1,0 +1,635 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Atmosphere",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Atmosphere"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Atmosphere CMake target"
+        },
+        {
+            "label": "Build GLTFViewer",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "GLTFViewer"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds GLTFViewer CMake target"
+        },
+        {
+            "label": "Build Shadows",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Shadows"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Shadows CMake target"
+        },
+        {
+            "label": "Build ImguiDemo",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "ImguiDemo"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds ImguiDemo CMake target"
+        },
+        {
+            "label": "Build NuklearDemo",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "NuklearDemo"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds NuklearDemo CMake target"
+        },
+        {
+            "label": "Build GLFWDemo",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "GLFWDemo"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds GLFWDemo CMake target"
+        },
+        {
+            "label": "Build GhostCubeScene",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "GhostCubeScene"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds GhostCubeScene CMake target"
+        },
+        {
+            "label": "Build Tutorial00_HelloLinux",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial00_HelloLinux"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial00_HelloLinux CMake target"
+        },
+        {
+            "label": "Build Tutorial01_HelloTriangle",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial01_HelloTriangle"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial01_HelloTriangle CMake target"
+        },
+        {
+            "label": "Build Tutorial02_Cube",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial02_Cube"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial02_Cube CMake target"
+        },
+        {
+            "label": "Build Tutorial03_Texturing",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial03_Texturing"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial03_Texturing CMake target"
+        },
+        {
+            "label": "Build Tutorial03_Texturing-C",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial03_Texturing-C"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial03_Texturing-C CMake target"
+        },
+        {
+            "label": "Build Tutorial04_Instancing",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial04_Instancing"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial04_Instancing CMake target"
+        },
+        {
+            "label": "Build Tutorial05_TextureArray",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial05_TextureArray"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial05_TextureArray CMake target"
+        },
+        {
+            "label": "Build Tutorial06_Multithreading",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial06_Multithreading"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial06_Multithreading CMake target"
+        },
+        {
+            "label": "Build Tutorial07_GeometryShader",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial07_GeometryShader"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial07_GeometryShader CMake target"
+        },
+        {
+            "label": "Build Tutorial08_Tessellation",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial08_Tessellation"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial08_Tessellation CMake target"
+        },
+        {
+            "label": "Build Tutorial09_Quads",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial09_Quads"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial09_Quads CMake target"
+        },
+        {
+            "label": "Build Tutorial10_DataStreaming",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial10_DataStreaming"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial10_DataStreaming CMake target"
+        },
+        {
+            "label": "Build Tutorial11_ResourceUpdates",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial11_ResourceUpdates"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial11_ResourceUpdates CMake target"
+        },
+        {
+            "label": "Build Tutorial12_RenderTarget",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial12_RenderTarget"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial12_RenderTarget CMake target"
+        },
+        {
+            "label": "Build Tutorial13_ShadowMap",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial13_ShadowMap"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial13_ShadowMap CMake target"
+        },
+        {
+            "label": "Build Tutorial14_ComputeShader",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial14_ComputeShader"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial14_ComputeShader CMake target"
+        },
+        {
+            "label": "Build Tutorial16_BindlessResources",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial16_BindlessResources"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial16_BindlessResources CMake target"
+        },
+        {
+            "label": "Build Tutorial17_MSAA",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial17_MSAA"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial17_MSAA CMake target"
+        },
+        {
+            "label": "Build Tutorial18_Queries",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial18_Queries"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial18_Queries CMake target"
+        },
+        {
+            "label": "Build Tutorial19_RenderPasses",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial19_RenderPasses"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial19_RenderPasses CMake target"
+        },
+        {
+            "label": "Build Tutorial20_MeshShader",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial20_MeshShader"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial20_MeshShader CMake target"
+        },
+        {
+            "label": "Build Tutorial21_RayTracing",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial21_RayTracing"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial21_RayTracing CMake target"
+        },        
+        {
+            "label": "Build Tutorial22_HybridRendering",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial22_HybridRendering"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial22_HybridRendering CMake target"
+        },        
+        {
+            "label": "Build Tutorial23_CommandQueues",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial23_CommandQueues"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial23_CommandQueues CMake target"
+        },        
+        {
+            "label": "Build Tutorial24_VRS",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial24_VRS"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial24_VRS CMake target"
+        },        
+        {
+            "label": "Build Tutorial25_StatePackager",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial25_StatePackager"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial25_StatePackager CMake target"
+        },        
+        {
+            "label": "Build Tutorial26_StateCache",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial26_StateCache"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial26_StateCache CMake target"
+        },        
+        {
+            "label": "Build Tutorial27_PostProcessing",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial27_PostProcessing"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial27_PostProcessing CMake target"
+        },        
+        {
+            "label": "Build Tutorial29_OIT",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "Tutorial29_OIT"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds Tutorial29_OIT CMake target"
+        },        
+        {
+            "label": "Build DiligentCoreTest",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "DiligentCoreTest"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds DiligentCoreTest CMake target"
+        },        
+        {
+            "label": "Build DiligentCoreAPITest",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "DiligentCoreAPITest"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds DiligentCoreAPITest CMake target"
+        },        
+        {
+            "label": "Build DiligentToolsTest",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "DiligentToolsTest"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds DiligentToolsTest CMake target"
+        },        
+        {
+            "label": "Build DiligentToolsGPUTest",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "DiligentToolsGPUTest"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds DiligentToolsGPUTest CMake target"
+        },        
+        {
+            "label": "Build HLSL2GLSLConverter",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "HLSL2GLSLConverter"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds HLSL2GLSLConverter CMake target"
+        },        
+        {
+            "label": "Build RenderStatePackager",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "RenderStatePackager"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds RenderStatePackager CMake target"
+        },        
+    ]
+}

@@ -21,7 +21,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Atmosphere"
         },
         {
             "name": "GLTFViewer",
@@ -40,7 +41,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build GLTFViewer"
         },
         {
             "name": "Shadows",
@@ -59,7 +61,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Shadows"
         },
         {
             "name": "ImguiDemo",
@@ -78,7 +81,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build ImguiDemo"
         },
         {
             "name": "NuklearDemo",
@@ -97,7 +101,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build NuklearDemo"
         },
         {
             "name": "GLFWDemo",
@@ -116,7 +121,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build GLFWDemo"
         },
         {
             "name": "GhostCubeScene",
@@ -135,7 +141,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build GhostCubeScene"
         },
         {
             "name": "Tutorial00_HelloLinux",
@@ -154,7 +161,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial00_HelloLinux"
         },
         {
             "name": "Tutorial01_HelloTriangle",
@@ -173,7 +181,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial01_HelloTriangle"
         },
         {
             "name": "Tutorial02_Cube",
@@ -192,7 +201,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial02_Cube"
         },
         {
             "name": "Tutorial03_Texturing",
@@ -211,7 +221,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial03_Texturing"
         },
         {
             "name": "Tutorial03_Texturing-C",
@@ -230,10 +241,11 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial03_Texturing-C"
         },
         {
-            "name": "Tutorial04_Instancig",
+            "name": "Tutorial04_Instancing",
             "type": "cppdbg",
             "request": "launch",
             "program": "${command:cmake.buildDirectory}/DiligentSamples/Tutorials/Tutorial04_Instancing/Tutorial04_Instancing",
@@ -249,7 +261,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial04_Instancing"
         },
         {
             "name": "Tutorial05_TextureArray",
@@ -268,7 +281,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial05_TextureArray"
         },
         {
             "name": "Tutorial06_Multithreading",
@@ -287,7 +301,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial06_Multithreading"
         },
         {
             "name": "Tutorial07_GeometryShader",
@@ -306,7 +321,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial07_GeometryShader"
         },
         {
             "name": "Tutorial08_Tessellation",
@@ -325,7 +341,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial08_Tessellation"
         },
         {
             "name": "Tutorial09_Quads",
@@ -344,7 +361,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial09_Quads"
         },
         {
             "name": "Tutorial10_DataStreaming",
@@ -363,7 +381,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial10_DataStreaming"
         },
         {
             "name": "Tutorial11_ResourceUpdates",
@@ -382,7 +401,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial11_ResourceUpdates"
         },
         {
             "name": "Tutorial12_RenderTarget",
@@ -401,7 +421,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial12_RenderTarget"
         },
         {
             "name": "Tutorial13_ShadowMap",
@@ -420,7 +441,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial13_ShadowMap"
         },
         {
             "name": "Tutorial14_ComputeShader",
@@ -439,7 +461,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial14_ComputeShader"
         },
         {
             "name": "Tutorial16_BindlessResources",
@@ -458,7 +481,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial16_BindlessResources"
         },
         {
             "name": "Tutorial17_MSAA",
@@ -477,7 +501,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial17_MSAA"
         },
         {
             "name": "Tutorial18_Queries",
@@ -496,7 +521,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial18_Queries"
         },
         {
             "name": "Tutorial19_RenderPasses",
@@ -515,7 +541,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial19_RenderPasses"
         },
         {
             "name": "Tutorial20_MeshShader",
@@ -534,7 +561,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial20_MeshShader"
         },
         {
             "name": "Tutorial21_RayTracing",
@@ -553,7 +581,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial21_RayTracing"
         },
         {
             "name": "Tutorial22_HybridRendering",
@@ -572,7 +601,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial22_HybridRendering"
         },
         {
             "name": "Tutorial23_CommandQueues",
@@ -591,7 +621,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial23_CommandQueues"
         },
         {
             "name": "Tutorial24_VRS",
@@ -610,7 +641,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial24_VRS"
         },
         {
             "name": "Tutorial25_StatePackager",
@@ -629,7 +661,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial25_StatePackager"
         },
         {
             "name": "Tutorial26_StateCache",
@@ -648,7 +681,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial26_StateCache"
         },
         {
             "name": "Tutorial27_PostProcessing",
@@ -667,7 +701,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial27_PostProcessing"
         },
         {
             "name": "Tutorial29_OIT",
@@ -686,7 +721,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build Tutorial29_OIT"
         },        
         {
             "name": "DiligentCoreTest",
@@ -705,7 +741,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build DiligentCoreTest"
         },
         {
             "name": "DiligentCoreAPITest",
@@ -724,7 +761,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build DiligentCoreAPITest"
         },
         {
             "name": "DiligentToolsTest",
@@ -743,7 +781,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build DiligentToolsTest"
         },
         {
             "name": "DiligentToolsGPUTest",
@@ -762,7 +801,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build DiligentToolsGPUTest"
         },
         {
             "name": "HLSL2GLSLConverter",
@@ -781,7 +821,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build HLSL2GLSLConverter"
         },
         {
             "name": "RenderStatePackager",
@@ -800,7 +841,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "Build RenderStatePackager"
         },
     ]
 }
