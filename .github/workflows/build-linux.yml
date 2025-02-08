@@ -111,6 +111,13 @@ jobs:
       with:
         mode: vk_sw
 
+    - name: DiligentCoreAPITest VK Compatibility
+      if: ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Clang' || matrix.name == 'GCC') }}
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
+      with:
+        mode: vk_sw
+        vk-compatibility: true
+
     - name: DiligentCoreAPITest GL
       if: ${{ success() || failure() && steps.build.outcome == 'success' }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v1
@@ -152,6 +159,13 @@ jobs:
       uses: DiligentGraphics/github-action/run-sample-tests@v1
       with:
         mode: "vk_sw"
+
+    - name: Sample Tests Vk Compatibility
+      if:   success()
+      uses: DiligentGraphics/github-action/run-sample-tests@v1
+      with:
+        mode:             "vk_sw"
+        vk-compatibility: "true"
 
     - name: Sample Tests GL
       if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
