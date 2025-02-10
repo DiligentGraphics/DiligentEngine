@@ -25,7 +25,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> | :heavy_check_mark: <sup>3</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml?query=branch%3Amaster) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                   | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml?query=branch%3Amaster) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/tvos-logo.png" width=24 valign="middle"> tvOS                   | -                  | -                  | -                  | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml?query=branch%3Amaster) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/emscripten-logo.png" width=24 valign="middle"> Emscripten       | -                  | -                  | :heavy_check_mark: | -                               | -                               | :heavy_check_mark:              |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-emscripten.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-emscripten.yml?query=branch%3Amaster) |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/emscripten-logo.png" width=24 valign="middle"> Web              | -                  | -                  | :heavy_check_mark: | -                               | -                               | :heavy_check_mark:              |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-emscripten.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-emscripten.yml?query=branch%3Amaster) |
 
 
 <sup>1</sup> Vulkan API is not natively supported on MacOS, iOS and tvOS platforms and requires a Vulkan portability implementation such as [MoltenVK](https://github.com/KhronosGroup/MoltenVK)
@@ -106,7 +106,7 @@ Minimum supported low-level API versions:
   - [Android](#build_and_run_android)
   - [MacOS](#build_and_run_macos)
   - [iOS](#build_and_run_ios)
-  - [Emscripten](#build_and_run_emscripten)
+  - [Web](#build_and_run_web)
   - [Integrating Diligent Engine with Existing Build System](#build_and_run_integration)
   - [Build Options](#build_option)
   - [Customizing Build](#build_and_run_customizing)
@@ -438,8 +438,8 @@ Latest tested Vulkan SDK version: 1.3.290.0.
 
 :warning: There are known issues with later versions of the SDK, so it is recommended to use the latest tested version.
 
-<a name="build_and_run_emscripten"></a>
-## Emscripten
+<a name="build_and_run_web"></a>
+## Web
 Build prerequisites:
 
 * Emscripten SDK 3.1.65
@@ -464,7 +464,7 @@ To build the engine, run the following command:
 cmake --build ./build/Emscripten
 ```
 
-To test emscripten applications, run a basic web server
+To test Web applications, run a basic web server
 
 ```bash
 cd ./build/Emscripten
