@@ -45,20 +45,20 @@ jobs:
 
     - name: Set up build environment
       if:  success()
-      uses: DiligentGraphics/github-action/setup-build-env@v1
+      uses: DiligentGraphics/github-action/setup-build-env@v2
       with:
-        platform: Emscripten
+        platform: Web
 
     - name: Configure CMake
       if:   success()
-      uses: DiligentGraphics/github-action/configure-cmake@v1
+      uses: DiligentGraphics/github-action/configure-cmake@v2
       with:
         build-type: ${{ matrix.build_type }}
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if: success()
-      uses: DiligentGraphics/github-action/build@v1
+      uses: DiligentGraphics/github-action/build@v2
 
     - name: Pack Web Artifacts
       if:  ${{ success() && (matrix.host_name == 'Linux') && (matrix.build_type == 'Release') }}
