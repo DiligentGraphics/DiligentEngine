@@ -721,6 +721,7 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_BUILD_SAMPLES`                |     Yes      | Build Samples module                                         |
 | `DILIGENT_BUILD_SAMPLE_BASE_ONLY`       |     No       | Build only SampleBase project and no other samples/tutorials |
 | `DILIGENT_BUILD_TESTS`                  |     No       | Build Unit Tests                                             |
+| `DILIGENT_BUILD_WIN32_GUI_AS_CONSOLE`   |     No       | Build Windows GUI applications using the console subsystem   |
 | `DILIGENT_NO_GLSLANG`                   |     No       | Do not build GLSLang and SPRIV-Tools                         |
 | `DILIGENT_NO_HLSL`                      |     No       | Disable HLSL support in non-Direct3D backends                |
 | `DILIGENT_NO_FORMAT_VALIDATION`         |     Yes      | Disable source code formatting validation                    |

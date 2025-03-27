@@ -45,20 +45,20 @@ jobs:
 
     - name: Set up build environment
       if:  success()
-      uses: DiligentGraphics/github-action/setup-build-env@v4
+      uses: DiligentGraphics/github-action/setup-build-env@v5
       with:
         platform: Web
 
     - name: Configure CMake
       if:   success()
-      uses: DiligentGraphics/github-action/configure-cmake@v4
+      uses: DiligentGraphics/github-action/configure-cmake@v5
       with:
         build-type: ${{ matrix.build_type }}
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if: success()
-      uses: DiligentGraphics/github-action/build@v4
+      uses: DiligentGraphics/github-action/build@v5
 
     - name: Pack Web Artifacts
       if:  ${{ success() && (matrix.host_name == 'Linux') && (matrix.build_type == 'Release') }}
