@@ -2,6 +2,7 @@ import sys
 import os
 import re
 
+
 def compute_page_id(input_filepath):
     # Determine the directory of this script.
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +17,7 @@ def compute_page_id(input_filepath):
     page_id = rel_path_no_ext.replace(os.sep, "_")
     return page_id
 
+
 def replace_special_symbols(text):
     # Define your symbol mappings using Unicode escape sequences.
     replacements = {
@@ -25,6 +27,23 @@ def replace_special_symbols(text):
     for key, value in replacements.items():
         text = text.replace(key, value)
     return text
+
+
+def replace_github_blob_urls(text):
+    """
+    Replaces '/blob/' with '/raw/' in GitHub image URLs.
+
+    For example:
+    https://github.com/DiligentGraphics/DiligentSamples/blob/master/...
+    becomes:
+    https://github.com/DiligentGraphics/DiligentSamples/raw/master/...
+    """
+    # This regex looks for URLs starting with https://github.com/
+    # that have the structure: /<user>/<repo>/blob/<rest>
+    pattern = r'(https://github\.com/[^/]+/[^/]+/)(blob)/(.*?)'
+    # Replace the matched 'blob' with 'raw'
+    return re.sub(pattern, r'\1raw/\3', text)
+
 
 def process_content(input_filepath, lines):
     page_id = compute_page_id(input_filepath)
@@ -36,6 +55,9 @@ def process_content(input_filepath, lines):
         # Apply symbol replacement for every line.
         line = replace_special_symbols(line)
 
+        # Fix image URLs.
+        line = replace_github_blob_urls(line)
+        
         # Look for the first non-empty line that starts with a Markdown header.
         if not header_replaced and line.strip():
             match = header_regex.match(line)
@@ -46,6 +68,7 @@ def process_content(input_filepath, lines):
                 header_replaced = True
                 continue
         output_lines.append(line)
+    
     return output_lines
 
 def main():
