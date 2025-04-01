@@ -1,5 +1,7 @@
-### Build fails
-  
+# Troubleshooting
+
+## Build fails
+
 * Make sure your code is up-to-date. When updating existing repository, don't forget to update all submodules:
 
 ```
@@ -38,7 +40,7 @@ git submodule update --recursive
   sudo xcode-select --reset
   ```  
 
-### Projects don't run
+## Projects don't run
 
 * When running from the command line, make sure that the project's `assets` folder is set as working directory
 * Try using different backends: use `-mode d3d11` or `-mode gl` command line options 

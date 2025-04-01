@@ -1,3 +1,5 @@
+# Release Notes
+
 ## v2.5.6
 
 ### API Changes
