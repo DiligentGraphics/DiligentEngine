@@ -2,7 +2,7 @@ import sys
 import os
 import re
 
-from md_utils import compute_page_id
+from md_utils import get_project_root, compute_page_id
 
 def replace_special_symbols(text):
     # Define your symbol mappings using Unicode escape sequences.
@@ -82,10 +82,7 @@ def replace_relative_image_paths(text, root_dir, input_filepath):
 
 
 def process_content(input_filepath, lines):
-    # Determine the directory of this script.
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # The project root is one level up.
-    root_dir = os.path.dirname(script_dir)
+    root_dir = get_project_root()
     
     page_id = compute_page_id(root_dir, input_filepath)
     output_lines = []

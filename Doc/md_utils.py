@@ -16,3 +16,14 @@ def compute_page_id(root_dir, input_filepath):
     # Replace path separators with underscores.
     page_id = rel_path_no_ext.replace(os.sep, "_")
     return page_id
+
+def get_project_root():
+    """
+    Get the project root directory.
+    
+    The project root is defined as the directory containing the script.
+    """
+    # Determine the directory of this script.
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # The project root is one level up.
+    return os.path.dirname(script_dir)
