@@ -99,6 +99,14 @@ def clean_header_title(text):
     # Remove extra whitespace.
     return text.strip()
 
+TITLE_REPLACEMENTS = { 
+    "Diligent Engine": "Overview",
+    "Diligent Core": "Overview",
+    "Diligent Tools": "Overview",
+    "Diligent FX": "Overview",
+    "Diligent Samples": "Overview"
+}
+
 def process_content(input_filepath, lines):
     root_dir = get_project_root()
     
@@ -122,6 +130,8 @@ def process_content(input_filepath, lines):
             match = header_regex.match(line)
             if match:
                 header_title = clean_header_title(match.group(2))
+                if header_title in TITLE_REPLACEMENTS:
+                    header_title = TITLE_REPLACEMENTS[header_title]
                 # Replace the header with the \page command.
                 output_lines.append(f"\\page {page_id} {header_title}\n")
                 header_replaced = True
