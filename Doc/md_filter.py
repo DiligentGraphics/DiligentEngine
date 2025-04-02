@@ -80,6 +80,24 @@ def replace_relative_image_paths(text, root_dir, input_filepath):
     # Replace all Markdown image references in the text.
     return re.sub(pattern, repl, text)
 
+def clean_header_title(text):
+    """
+    Remove HTML tags, markdown image/link syntax and extra whitespace
+    from the input header text, leaving only plain text.
+    
+    For example:
+      "Diligent Core [![Tweet](https://...)](https://...) <img src="media/diligentgraphics-logo.png" ...>"
+    becomes:
+      "Diligent Core"
+    """
+    # Remove HTML tags.
+    text = re.sub(r'<[^>]+>', '', text)
+    # Remove markdown images: ![...](...)
+    text = re.sub(r'!\[[^\]]*\]\([^\)]*\)', '', text)
+    # Remove markdown links: [...](...)
+    text = re.sub(r'\[[^\]]*\]\([^\)]*\)', '', text)
+    # Remove extra whitespace.
+    return text.strip()
 
 def process_content(input_filepath, lines):
     root_dir = get_project_root()
@@ -103,7 +121,7 @@ def process_content(input_filepath, lines):
         if not header_replaced and line.strip():
             match = header_regex.match(line)
             if match:
-                header_title = match.group(2)
+                header_title = clean_header_title(match.group(2))
                 # Replace the header with the \page command.
                 output_lines.append(f"\\page {page_id} {header_title}\n")
                 header_replaced = True
