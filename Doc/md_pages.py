@@ -17,7 +17,7 @@ EXCLUDED_DIRS = [
 ]
 
 # Additional exclusion patterns.
-ADDITIONAL_EXCLUDE_PATTERNS = [
+EXCLUDE_DIR_PATTERNS = [
     "build/*",
     "*/build/*",
     "*/ThirdParty/*",
@@ -28,7 +28,12 @@ ADDITIONAL_EXCLUDE_PATTERNS = [
     "*/__pycache__/*"
 ]
 
-def should_exclude(rel_dir):
+EXLUDED_FILES = [
+    "DiligentCore/ReleaseHistory.md",
+    "DiligentSamples/ReleaseHistory.md"
+]
+
+def should_exclude_dir(rel_dir):
     """
     Return True if the given relative directory (relative to the project root)
     should be excluded based on explicit directories, additional patterns,
@@ -43,8 +48,23 @@ def should_exclude(rel_dir):
             return True
 
     # Check additional patterns.
-    for pattern in ADDITIONAL_EXCLUDE_PATTERNS:
+    for pattern in EXCLUDE_DIR_PATTERNS:
         if fnmatch.fnmatch(norm_rel_dir, pattern) or fnmatch.fnmatch(norm_rel_dir + '/', pattern):
+            return True
+
+    return False
+
+def should_exclude_file(rel_file):
+    """
+    Return True if the given relative file (relative to the project root)
+    should be excluded based on explicit files or additional patterns.
+    """
+    # Normalize to forward slashes.
+    norm_rel_file = rel_file.replace(os.sep, '/')
+    
+    # Check explicit exclusions.
+    for ex in EXLUDED_FILES:
+        if norm_rel_file == ex:
             return True
 
     return False
@@ -67,7 +87,7 @@ def build_md_tree(root_dir, rel_dir=""):
     current_path = os.path.join(root_dir, rel_dir)
     
     # Skip if the current relative directory should be excluded.
-    if rel_dir and should_exclude(rel_dir):
+    if rel_dir and should_exclude_dir(rel_dir):
         return None
     
     try:
@@ -81,7 +101,9 @@ def build_md_tree(root_dir, rel_dir=""):
     for entry in entries:
         full_path = os.path.join(current_path, entry)
         if os.path.isfile(full_path) and entry.lower().endswith('.md'):
-            files.append(entry)
+            child_rel = os.path.join(rel_dir, entry) if rel_dir else entry
+            if not should_exclude_file(child_rel):
+                files.append(entry)
         elif os.path.isdir(full_path):
             subdirs.append(entry)
     
