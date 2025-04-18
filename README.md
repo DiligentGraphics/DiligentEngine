@@ -2,17 +2,18 @@
 **A Modern Cross-Platform Low-Level 3D Graphics Library and Rendering Framework**
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=An%20easy-to-use%20cross-platform%20graphics%20library%20that%20takes%20full%20advantage%20of%20%23Direct3D12%20and%20%23VulkanAPI&url=https://github.com/DiligentGraphics/DiligentEngine)
 
-[Diligent Engine](http://diligentgraphics.com/diligent-engine/) is a lightweight cross-platform graphics
-API abstraction library and rendering framework. It is designed to take full advantage of Direct3D12, Vulkan,
-Metal and WebGPU, while supporting older platforms via Direct3D11, OpenGL, OpenGLES and WebGL. Diligent Engine
-exposes common front-end  API and uses HLSL as universal shading language on all platforms and rendering back-ends. 
-Platform-specific shader representations (GLSL, MSL, DX bytecode or SPIRV) can be used with corresponding back-ends.
-The engine is intended to be used as graphics subsystem in a game engine or any other 3D application. 
-It is distributed under [Apache 2.0 license](License.txt) and is free to use.
+Diligent Engine is a lightweight, high-performance graphics API abstraction layer and rendering framework for cross-platform development.
+It leverages the power of modern graphics APIs such as Direct3D12, Vulkan, Metal, and WebGPU, while also maintaining robust support for
+legacy platforms through Direct3D11, OpenGL, OpenGLES, and WebGL.
+Providing a consistent front-end API, Diligent Engine uses HLSL as its universal shading language and also supports platform-specific
+shader formats (GLSL, MSL, DirectX bytecode, SPIR-V) for optimized performance.
+Ideal for game engines, interactive simulations, and 3D visualization applications, Diligent Engine is open-source and distributed
+under the permissive [Apache 2.0 license](License.txt).
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](License.txt)
 [![Chat on Discord](https://img.shields.io/discord/730091778081947680?logo=discord)](https://discord.gg/t7HGBK7)
 [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine)
+[![Documentation](https://img.shields.io/badge/Documentation-blue)](https://diligentgraphics.github.io/docs)
 
 ## Supported Platforms and Low-Level Graphics APIs
 
@@ -78,6 +79,7 @@ Minimum supported low-level API versions:
 * Vulkan 1.0
 * Metal 1.0
 
+[**Documentation**](https://diligentgraphics.github.io/docs)
 
 ## High-level Rendering components
 
@@ -1116,6 +1118,8 @@ on how to set up clang-format and automatic code formatting.
 
 <a name="references"></a>
 # References
+
+[**Documentation**](https://diligentgraphics.github.io/docs)
 
 [Coding Guidelines](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/CodingGuidelines.md)
 
