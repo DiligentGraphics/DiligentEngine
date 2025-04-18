@@ -1068,15 +1068,15 @@ The following components are now available:
 
 We would appreciate it if you could send us a link in case your product uses Diligent Engine.
 
-* Large-scale terrain visualization system for pilot training simulators by [Elbit Systems](https://elbitsystems.com/)
+* Large-scale terrain visualization system for pilot training simulators by [Elbit Systems](https://elbitsystems.com/)<br />
   <img src="https://github.com/DiligentGraphics/DiligentEngine/blob/master/Media/DiligentTerrain.jpg" width=600>
 
 * [LumenRT](https://www.bentley.com/software/bentley-lumenrt/): A Visualization and Reality Modeling Software by [Bentley Systems](https://www.bentley.com/)
 
-* [Godus](https://apps.apple.com/gb/app/godus/id815181808): An award-winning sandbox game by [22cans](http://22cans.com/)  
+* [Godus](https://apps.apple.com/gb/app/godus/id815181808): An award-winning sandbox game by [22cans](http://22cans.com/)<br />
   <img src="http://22cans.com/wp-content/uploads/2016/11/godus_header1-01.jpg" width=600>
 
-* [Vrmac Graphics](https://github.com/Const-me/Vrmac): A cross-platform graphics library for .NET  
+* [Vrmac Graphics](https://github.com/Const-me/Vrmac): A cross-platform graphics library for .NET<br />
   <img src="https://github.com/Const-me/Vrmac/blob/master/screenshots/Linux/TigerFullHD-1.png" width=600>
 
 
