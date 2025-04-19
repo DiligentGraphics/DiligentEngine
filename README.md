@@ -10,10 +10,10 @@ shader formats (GLSL, MSL, DirectX bytecode, SPIR-V) for optimized performance.
 Ideal for game engines, interactive simulations, and 3D visualization applications, Diligent Engine is open-source and distributed
 under the permissive [Apache 2.0 license](License.txt).
 
+[![Documentation](https://img.shields.io/badge/Documentation-online-0072B1?logo=readthedocs&logoColor=white)](https://diligentgraphics.github.io/docs)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](License.txt)
 [![Chat on Discord](https://img.shields.io/discord/730091778081947680?logo=discord)](https://discord.gg/t7HGBK7)
 [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine)
-[![Documentation](https://img.shields.io/badge/Documentation-blue)](https://diligentgraphics.github.io/docs)
 
 ## Supported Platforms and Low-Level Graphics APIs
 
