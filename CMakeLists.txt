@@ -14,6 +14,7 @@ project(DiligentEngine)
 option(DILIGENT_BUILD_TOOLS "Build DiligentTools module" ON)
 option(DILIGENT_BUILD_FX "Build DiligentFX module" ON)
 option(DILIGENT_BUILD_SAMPLES "Build DiligentSamples module" ON)
+option(DILIGENT_BUILD_DOCS "Build documentation" OFF)
 
 add_subdirectory(DiligentCore)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/DiligentCorePro")
@@ -45,6 +46,10 @@ endif()
 
 if(${DILIGENT_BUILD_SAMPLES})
     add_subdirectory(DiligentSamples)
+endif()
+
+if(${DILIGENT_BUILD_DOCS})
+    add_subdirectory(Doc)
 endif()
 
 if(TARGET GLTFViewer)
