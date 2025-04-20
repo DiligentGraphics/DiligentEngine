@@ -6,7 +6,6 @@ from md_utils import get_project_root, compute_page_id
 
 # Directories to exclude explicitly (relative to the project root).
 EXCLUDED_DIRS = [
-    "Doc",
     "Media",
     "DiligentCore/BuildTools/Android",
     "DiligentSamples/Android",
