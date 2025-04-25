@@ -131,19 +131,19 @@ jobs:
       uses: DiligentGraphics/github-action/run-core-tests@v5
 
     - name: DiligentCoreAPITest D3D11
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v5
       with:
         mode: d3d11_sw
 
     - name: DiligentCoreAPITest D3D12
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v5
       with:
         mode: d3d12_sw
 
     - name: DiligentCoreAPITest D3D12 DXC
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
       uses: DiligentGraphics/github-action/run-core-gpu-tests@v5
       with:
         mode:    d3d12_sw
@@ -164,13 +164,13 @@ jobs:
       uses: DiligentGraphics/github-action/run-tools-tests@v5
 
     - name: DiligentToolsGPUTest D3D11
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1') }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@v5
       with:
         mode: d3d11_sw
 
     - name: DiligentToolsGPUTest D3D12
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && matrix.name == 'Win10' }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
       uses: DiligentGraphics/github-action/run-tools-gpu-tests@v5
       with:
         mode: d3d12_sw
@@ -188,7 +188,7 @@ jobs:
 
       # Samples tests
     - name: Sample Tests D3D11
-      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win8.1' || matrix.name == 'Win10-Ninja') }}
+      if:   ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Win10' || matrix.name == 'Win10-Ninja') }}
       uses: DiligentGraphics/github-action/run-sample-tests@v5
       with:
         mode: "d3d11_sw"
