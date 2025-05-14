@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: Clean Disk
-      uses: DiligentGraphics/github-action/clean-disk-ubuntu@v5
+      uses: DiligentGraphics/github-action/clean-disk-ubuntu@v7
 
     - name: Clone repository
       uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
 
     - name: Set up build environment
       if:   success()
-      uses: DiligentGraphics/github-action/setup-build-env@v5
+      uses: DiligentGraphics/github-action/setup-build-env@v7
       with:
         platform: Android
 
