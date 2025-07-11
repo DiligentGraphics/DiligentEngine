@@ -16,6 +16,8 @@ option(DILIGENT_BUILD_FX "Build DiligentFX module" ON)
 option(DILIGENT_BUILD_SAMPLES "Build DiligentSamples module" ON)
 option(DILIGENT_BUILD_DOCS "Build documentation" OFF)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 add_subdirectory(DiligentCore)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/DiligentCorePro")
     add_subdirectory(DiligentCorePro)
