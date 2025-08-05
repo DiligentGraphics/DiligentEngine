@@ -74,29 +74,29 @@ jobs:
 
     - name: Set up build environment
       if: success()
-      uses: DiligentGraphics/github-action/setup-build-env@v7
+      uses: DiligentGraphics/github-action/setup-build-env@v8
       with:
         platform: ${{ matrix.platform }}
 
     - name: Configure CMake
       if: success()
-      uses: DiligentGraphics/github-action/configure-cmake@v7
+      uses: DiligentGraphics/github-action/configure-cmake@v8
       with:
         build-type: ${{ matrix.build_type }}
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if:   success()
-      uses: DiligentGraphics/github-action/build@v7
+      uses: DiligentGraphics/github-action/build@v8
 
     - name: DiligentCoreTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-core-tests@v7
+      uses: DiligentGraphics/github-action/run-core-tests@v8
 
     - name: DiligentToolsTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-tools-tests@v7
+      uses: DiligentGraphics/github-action/run-tools-tests@v8
 
     - name: HLSL2GLSLConverterTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v7
+      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v8
