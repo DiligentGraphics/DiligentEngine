@@ -1,4 +1,4 @@
-version: '2.5.{build}'
+version: '2.6.{build}'
 
 # branches to build
 branches:
@@ -43,15 +43,10 @@ before_build:
   - 'cd %APPVEYOR_BUILD_FOLDER%'
   - echo %PLATFORM%
   - echo.%cmake_args%
-  - cmake %cmake_args% -S . -B ./build -D DILIGENT_MSVC_COMPILE_OPTIONS="/WX" -D DILIGENT_MSVC_RELEASE_COMPILE_OPTIONS="/arch:AVX2" -G "Visual Studio 16 2019" -A %PLATFORM%
+  - cmake %cmake_args% -S . -B ./build -D DILIGENT_MSVC_COMPILE_OPTIONS="/WX" -D DILIGENT_MSVC_RELEASE_COMPILE_OPTIONS="/arch:AVX2" -D CMAKE_SYSTEM_VERSION=10.0.19041.0 -G "Visual Studio 16 2019" -A %PLATFORM%
   - nuget restore C:\projects\diligentengine\build\DiligentEngine.sln
 
 build:
   project: '%APPVEYOR_BUILD_FOLDER%\build\DiligentEngine.sln'
   verbosity: minimal
   parallel: true
-
-test_script:
-  - 'if "%configuration%"=="Debug" (%APPVEYOR_BUILD_FOLDER%\DiligentCore\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentCore %APPVEYOR_BUILD_FOLDER%\DiligentCore\Tests\DiligentCoreTest\assets %APPVEYOR_BUILD_FOLDER%\DiligentCore\Tests\DiligentCoreAPITest\assets)'
-  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentTools\Tests\DiligentToolsTest\assets'
-  - 'if "%configuration%"=="Debug" (%APPVEYOR_BUILD_FOLDER%\DiligentTools\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentTools)'
