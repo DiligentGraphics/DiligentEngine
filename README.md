@@ -745,6 +745,7 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_CLANG_DEBUG_COMPILE_OPTIONS`  |              | Additional Clang compile options for debug configuration     |
 | `DILIGENT_CLANG_RELEASE_COMPILE_OPTIONS`|    -mavx2    | Additional Clang compile options for release configurations  |
 | `DILIGENT_USD_PATH`                     |              | Path to USD installation folder                              |
+| `DILIGENT_USE_OPENXR` 				  |     No       | Enable OpenXR support                                        |
 
 By default, all back-ends available on the current platform are built. To disable specific back-ends,
 use the following options: `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `DILIGENT_NO_OPENGL`,
