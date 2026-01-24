@@ -1075,9 +1075,6 @@ We would appreciate it if you could send us a link in case your product uses Dil
 
 * [LumenRT](https://www.bentley.com/software/bentley-lumenrt/): A Visualization and Reality Modeling Software by [Bentley Systems](https://www.bentley.com/)
 
-* [Godus](https://apps.apple.com/gb/app/godus/id815181808): An award-winning sandbox game by [22cans](http://22cans.com/)<br />
-  <img src="http://22cans.com/wp-content/uploads/2016/11/godus_header1-01.jpg" width=600>
-
 * [Vrmac Graphics](https://github.com/Const-me/Vrmac): A cross-platform graphics library for .NET<br />
   <img src="https://github.com/Const-me/Vrmac/blob/master/screenshots/Linux/TigerFullHD-1.png" width=600>
 
