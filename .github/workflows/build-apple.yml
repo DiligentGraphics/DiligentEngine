@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   precheks:
-    runs-on: macos-15
+    runs-on: macos-26
     name: MacOS -> Pre-Checks
 
     steps:
@@ -36,7 +36,7 @@ jobs:
 
   build:
     needs:   precheks
-    runs-on: macos-15
+    runs-on: macos-26
 
     strategy:
       matrix:
@@ -74,29 +74,29 @@ jobs:
 
     - name: Set up build environment
       if: success()
-      uses: DiligentGraphics/github-action/setup-build-env@v11
+      uses: DiligentGraphics/github-action/setup-build-env@v12
       with:
         platform: ${{ matrix.platform }}
 
     - name: Configure CMake
       if: success()
-      uses: DiligentGraphics/github-action/configure-cmake@v11
+      uses: DiligentGraphics/github-action/configure-cmake@v12
       with:
         build-type: ${{ matrix.build_type }}
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if:   success()
-      uses: DiligentGraphics/github-action/build@v11
+      uses: DiligentGraphics/github-action/build@v12
 
     - name: DiligentCoreTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-core-tests@v11
+      uses: DiligentGraphics/github-action/run-core-tests@v12
 
     - name: DiligentToolsTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-tools-tests@v11
+      uses: DiligentGraphics/github-action/run-tools-tests@v12
 
     - name: HLSL2GLSLConverterTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v11
+      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v12
