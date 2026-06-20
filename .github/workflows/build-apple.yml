@@ -56,7 +56,7 @@ jobs:
           - platform:   "MacOS"
             build_type: "Release"
             # For some reason AVX2 causes invalid instruction exception on CI in CoreTest, so disable it
-            cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_CLANG_RELEASE_COMPILE_OPTIONS=\"\""
+            cmake_args: "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_BUILD_FX_TESTS=ON -DDILIGENT_CLANG_RELEASE_COMPILE_OPTIONS=\"\""
 
           - platform:  "iOS"
             cmake_args: ""
@@ -74,29 +74,33 @@ jobs:
 
     - name: Set up build environment
       if: success()
-      uses: DiligentGraphics/github-action/setup-build-env@v14
+      uses: DiligentGraphics/github-action/setup-build-env@v17
       with:
         platform: ${{ matrix.platform }}
 
     - name: Configure CMake
       if: success()
-      uses: DiligentGraphics/github-action/configure-cmake@v14
+      uses: DiligentGraphics/github-action/configure-cmake@v17
       with:
         build-type: ${{ matrix.build_type }}
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if:   success()
-      uses: DiligentGraphics/github-action/build@v14
+      uses: DiligentGraphics/github-action/build@v17
 
     - name: DiligentCoreTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-core-tests@v14
+      uses: DiligentGraphics/github-action/run-core-tests@v17
 
     - name: DiligentToolsTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-tools-tests@v14
+      uses: DiligentGraphics/github-action/run-tools-tests@v17
 
     - name: HLSL2GLSLConverterTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v14
+      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v17
+
+    - name: RadientTest
+      if:   ${{ success() && matrix.platform == 'MacOS' }}
+      uses: DiligentGraphics/github-action/run-radient-tests@v17
