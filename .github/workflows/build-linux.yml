@@ -63,6 +63,14 @@ jobs:
             cc:              "clang-18"
             cxx:             "clang++-18"
 
+          - name:            "Clang-ASAN"
+            build_type:      "RelWithDebInfo"
+            cmake_generator: "Ninja"
+            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_BUILD_FX_TESTS=ON -DDILIGENT_BUILD_SAMPLES_TESTS=ON"
+            enable_asan:     "true"
+            cc:              "clang-18"
+            cxx:             "clang++-18"
+
     name: Linux -> ${{ matrix.name }}-x64, ${{ matrix.build_type }}
 
     steps:
@@ -80,53 +88,54 @@ jobs:
 
     - name: Set up build environment
       if:   success()
-      uses: DiligentGraphics/github-action/setup-build-env@v17
+      uses: DiligentGraphics/github-action/setup-build-env@v18
       with:
         platform:        Linux
         cmake-generator: ${{ matrix.cmake_generator }}
 
     - name: Configure CMake
       if:   success()
-      uses: DiligentGraphics/github-action/configure-cmake@v17
+      uses: DiligentGraphics/github-action/configure-cmake@v18
       with:
         cc:         ${{ matrix.cc }}
         cxx:        ${{ matrix.cxx }}
         generator:  ${{ matrix.cmake_generator }}
         build-type: ${{ matrix.build_type }}
         cmake-args: ${{ matrix.cmake_args }}
+        enable-asan: ${{ matrix.enable_asan }}
 
     - name: Build
       id:   build
       if:   success()
-      uses: DiligentGraphics/github-action/build@v17
+      uses: DiligentGraphics/github-action/build@v18
 
       # Core tests
     - name: DiligentCoreTest
       if:   success()
-      uses: DiligentGraphics/github-action/run-core-tests@v17
+      uses: DiligentGraphics/github-action/run-core-tests@v18
 
     - name: DiligentCoreAPITest VK
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v17
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v18
       with:
         mode: vk_sw
 
     - name: DiligentCoreAPITest VK Compatibility
       if: ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Clang' || matrix.name == 'GCC') }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v17
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v18
       with:
         mode: vk_sw
         vk-compatibility: true
 
     - name: DiligentCoreAPITest GL
       if: ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v17
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v18
       with:
         mode: gl
 
     - name: DiligentCoreAPITest GL with Non-Separable Programs
       if: ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v17
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v18
       with:
         mode: gl
         non-separable-progs: true
@@ -134,38 +143,38 @@ jobs:
       # Tools tests
     - name: DiligentToolsTest
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-tools-tests@v17
+      uses: DiligentGraphics/github-action/run-tools-tests@v18
 
     - name: DiligentToolsGPUTest VK
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v17
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v18
       with:
         mode: vk_sw
 
     - name: DiligentToolsGPUTest GL
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v17
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v18
       with:
         mode: gl
 
     - name: HLSL2GLSLConverterTest
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v17
+      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v18
 
       # FX tests
     - name: RadientTest
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-radient-tests@v17
+      uses: DiligentGraphics/github-action/run-radient-tests@v18
 
     - name: RadientGPUTest VK
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-radient-gpu-tests@v17
+      uses: DiligentGraphics/github-action/run-radient-gpu-tests@v18
       with:
         mode: vk_sw
 
     - name: RadientGPUTest GL
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-radient-gpu-tests@v17
+      uses: DiligentGraphics/github-action/run-radient-gpu-tests@v18
       with:
         mode: gl
 
@@ -173,26 +182,26 @@ jobs:
       # Samples tests
     - name: Sample Tests Vk
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-sample-tests@v17
+      uses: DiligentGraphics/github-action/run-sample-tests@v18
       with:
         mode: "vk_sw"
 
     - name: Sample Tests Vk Compatibility
       if:   success()
-      uses: DiligentGraphics/github-action/run-sample-tests@v17
+      uses: DiligentGraphics/github-action/run-sample-tests@v18
       with:
         mode:             "vk_sw"
         vk-compatibility: "true"
 
     - name: Sample Tests GL
       if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-sample-tests@v17
+      uses: DiligentGraphics/github-action/run-sample-tests@v18
       with:
         mode: "gl"
 
     - name: Sample Tests GL with Non-Separable Programs
       if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-sample-tests@v17
+      uses: DiligentGraphics/github-action/run-sample-tests@v18
       with:
         mode:                "gl"
         non-separable-progs: "true"
