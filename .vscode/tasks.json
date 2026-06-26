@@ -600,7 +600,37 @@
             },
             "problemMatcher": ["$gcc"],
             "detail": "Builds DiligentToolsGPUTest CMake target"
-        },        
+        },
+        {
+            "label": "Build RadientGPUTest",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "RadientGPUTest"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds RadientGPUTest CMake target"
+        },
+        {
+            "label": "Build RadientTest",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${command:cmake.buildDirectory}/",
+                "--config", "${command:cmake.buildType}",
+                "--target", "RadientTest"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Builds RadientTest CMake target"
+        },
         {
             "label": "Build HLSL2GLSLConverter",
             "type": "shell",

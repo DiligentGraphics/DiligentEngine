@@ -814,6 +814,46 @@
             "preLaunchTask": "Build DiligentToolsGPUTest"
         },
         {
+            "name": "RadientGPUTest",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.buildDirectory}/DiligentFX/Tests/RadientGPUTest/RadientGPUTest",
+            "args": ["--mode=${input:graphicsMode}"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentFX/Tests/RadientGPUTest/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build RadientGPUTest"
+        },
+        {
+            "name": "RadientTest",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.buildDirectory}/DiligentFX/Tests/RadientTest/RadientTest",
+            "args": ["--gtest_filter=*"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentFX/Tests/RadientTest/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build RadientTest"
+        },
+        {
             "name": "HLSL2GLSLConverter",
             "type": "cppdbg",
             "request": "launch",
