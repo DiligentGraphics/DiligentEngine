@@ -74,33 +74,33 @@ jobs:
 
     - name: Set up build environment
       if: success()
-      uses: DiligentGraphics/github-action/setup-build-env@v19
+      uses: DiligentGraphics/github-action/setup-build-env@v21
       with:
         platform: ${{ matrix.platform }}
 
     - name: Configure CMake
       if: success()
-      uses: DiligentGraphics/github-action/configure-cmake@v19
+      uses: DiligentGraphics/github-action/configure-cmake@v21
       with:
         build-type: ${{ matrix.build_type }}
         cmake-args: ${{ matrix.cmake_args }}
 
     - name: Build
       if:   success()
-      uses: DiligentGraphics/github-action/build@v19
+      uses: DiligentGraphics/github-action/build@v21
 
     - name: DiligentCoreTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-core-tests@v19
+      uses: DiligentGraphics/github-action/run-core-tests@v21
 
     - name: DiligentToolsTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-tools-tests@v19
+      uses: DiligentGraphics/github-action/run-tools-tests@v21
 
     - name: HLSL2GLSLConverterTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v19
+      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v21
 
     - name: RadientTest
       if:   ${{ success() && matrix.platform == 'MacOS' }}
-      uses: DiligentGraphics/github-action/run-radient-tests@v19
+      uses: DiligentGraphics/github-action/run-radient-tests@v21
