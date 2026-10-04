@@ -96,14 +96,14 @@ jobs:
 
     - name: Set up build environment
       if:   success()
-      uses: DiligentGraphics/github-action/setup-build-env@v26
+      uses: DiligentGraphics/github-action/setup-build-env@v27
       with:
         platform:        Linux
         cmake-generator: ${{ matrix.cmake_generator }}
 
     - name: Configure CMake
       if:   success()
-      uses: DiligentGraphics/github-action/configure-cmake@v26
+      uses: DiligentGraphics/github-action/configure-cmake@v27
       with:
         cc:         ${{ matrix.cc }}
         cxx:        ${{ matrix.cxx }}
@@ -115,35 +115,35 @@ jobs:
     - name: Build
       id:   build
       if:   success()
-      uses: DiligentGraphics/github-action/build@v26
+      uses: DiligentGraphics/github-action/build@v27
 
       # Core tests
     - name: DiligentCoreTest
       if:   success()
-      uses: DiligentGraphics/github-action/run-core-tests@v26
+      uses: DiligentGraphics/github-action/run-core-tests@v27
 
     - name: DiligentCoreAPITest VK
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v27
       with:
         mode: vk_sw
 
     - name: DiligentCoreAPITest VK Compatibility
       if: ${{ (success() || failure() && steps.build.outcome == 'success') && (matrix.name == 'Clang' || matrix.name == 'GCC') }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v27
       with:
         mode: vk_sw
         vk-compatibility: true
 
     - name: DiligentCoreAPITest GL
       if: ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v27
       with:
         mode: gl
 
     - name: DiligentCoreAPITest GL with Non-Separable Programs
       if: ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-core-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-core-gpu-tests@v27
       with:
         mode: gl
         non-separable-progs: true
@@ -151,50 +151,50 @@ jobs:
       # Tools tests
     - name: DiligentToolsTest
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-tools-tests@v26
+      uses: DiligentGraphics/github-action/run-tools-tests@v27
 
     - name: DiligentToolsGPUTest VK
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v27
       with:
         mode: vk_sw
 
     - name: DiligentToolsGPUTest GL
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-tools-gpu-tests@v27
       with:
         mode: gl
 
     - name: HLSL2GLSLConverterTest
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v26
+      uses: DiligentGraphics/github-action/run-hlsl2glsl-converter-test@v27
 
       # FX tests
     - name: RadientTest
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-radient-tests@v26
+      uses: DiligentGraphics/github-action/run-radient-tests@v27
 
     - name: DiligentFXGPUTest VK
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-fx-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-fx-gpu-tests@v27
       with:
         mode: vk_sw
 
     - name: DiligentFXGPUTest GL
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-fx-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-fx-gpu-tests@v27
       with:
         mode: gl
 
     - name: RadientGPUTest VK
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-radient-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-radient-gpu-tests@v27
       with:
         mode: vk_sw
 
     - name: RadientGPUTest GL
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-radient-gpu-tests@v26
+      uses: DiligentGraphics/github-action/run-radient-gpu-tests@v27
       with:
         mode: gl
 
@@ -218,7 +218,7 @@ jobs:
 
     - name: RadientRenderTest VK
       if: ${{ (success() || failure()) && steps.build.outcome == 'success' && steps.radient_test_data.outcome == 'success' && steps.gltf_sample_assets.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-radient-render-tests@v26
+      uses: DiligentGraphics/github-action/run-radient-render-tests@v27
       with:
         mode:        vk_sw
         models-path: ${{github.workspace}}/glTF-Sample-Assets
@@ -228,26 +228,26 @@ jobs:
       # Samples tests
     - name: Sample Tests Vk
       if:   ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-sample-tests@v26
+      uses: DiligentGraphics/github-action/run-sample-tests@v27
       with:
         mode: "vk_sw"
 
     - name: Sample Tests Vk Compatibility
       if:   success()
-      uses: DiligentGraphics/github-action/run-sample-tests@v26
+      uses: DiligentGraphics/github-action/run-sample-tests@v27
       with:
         mode:             "vk_sw"
         vk-compatibility: "true"
 
     - name: Sample Tests GL
       if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-sample-tests@v26
+      uses: DiligentGraphics/github-action/run-sample-tests@v27
       with:
         mode: "gl"
 
     - name: Sample Tests GL with Non-Separable Programs
       if:    ${{ success() || failure() && steps.build.outcome == 'success' }}
-      uses: DiligentGraphics/github-action/run-sample-tests@v26
+      uses: DiligentGraphics/github-action/run-sample-tests@v27
       with:
         mode:                "gl"
         non-separable-progs: "true"
