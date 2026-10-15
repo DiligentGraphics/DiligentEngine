@@ -6,7 +6,7 @@ Diligent Engine is a lightweight, high-performance graphics API abstraction laye
 It leverages the power of modern graphics APIs such as Direct3D12, Vulkan, Metal, and WebGPU, while also maintaining robust support for
 legacy platforms through Direct3D11, OpenGL, OpenGLES, and WebGL.
 Providing a consistent front-end API, Diligent Engine uses HLSL as its universal shading language and also supports platform-specific
-shader formats (GLSL, MSL, DirectX bytecode, SPIR-V) for optimized performance.
+shader formats (GLSL, MSL, WGSL, DirectX bytecode, SPIR-V) for optimized performance.
 Ideal for game engines, interactive simulations, and 3D visualization applications, Diligent Engine is open-source and distributed
 under the permissive [Apache 2.0 license](License.txt).
 
@@ -21,9 +21,9 @@ under the permissive [Apache 2.0 license](License.txt).
 | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |------------------- | ------------------ | ------------------------------- | ------------------------------- | ------------------------------- | -------------------------------- |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Windows             | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:              | -                               | :heavy_check_mark: <sup>3</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-windows.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-windows.yml?query=branch%3Amaster) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/uwindows-logo.png" width=24 valign="middle"> Universal Windows  | :heavy_check_mark: | :heavy_check_mark: | -                  | -                               | -                               | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-windows.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-windows.yml?query=branch%3Amaster) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               | :heavy_check_mark: <sup>3</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-linux.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-linux.yml?query=branch%3Amaster) |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-linux.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-linux.yml?query=branch%3Amaster) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android             | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-android.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-android.yml?query=branch%3Amaster) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> macOS                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> | :heavy_check_mark: <sup>3</sup> |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml?query=branch%3Amaster) |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> macOS                 | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml?query=branch%3Amaster) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                   | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml?query=branch%3Amaster) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/tvos-logo.png" width=24 valign="middle"> tvOS                   | -                  | -                  | -                  | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> | -                               |  [![Build Status](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml/badge.svg?branch=master)](https://github.com/DiligentGraphics/DiligentEngine/actions/workflows/build-apple.yml?query=branch%3Amaster) |
 | <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/visionos-logo.png" width=24 valign="middle"> visionOS           | -                  | -                  | -                  | -                               | :heavy_check_mark: <sup>2</sup> | -                               |                                                                                                                                                                                                                                              |
@@ -35,7 +35,8 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
 
 <sup>2</sup> Available under commercial license - please contact us for details.
 
-<sup>3</sup> Requires a native implementation of WebGPU, [Dawn](https://dawn.googlesource.com/dawn) is recommended.
+<sup>3</sup> Native WebGPU currently uses Dawn's Direct3D12 backend on Windows. Enable it with
+`-DDILIGENT_NO_WEBGPU=OFF`; CMake fetches and builds Dawn automatically.
 
 ## Features
 
@@ -43,7 +44,7 @@ or [gfx-portability](https://github.com/gfx-rs/portability).
   * Exact same client code for all supported platforms and rendering backends
     * No `#if defined(_WIN32)` ... `#elif defined(LINUX)` ... `#elif defined(ANDROID)` ...
     * No `#if defined(D3D11)` ... `#elif defined(D3D12)` ... `#elif defined(OPENGL)` ...
-  * Exact same HLSL shaders (VS, PS, GS, HS, DS, CS) run on all platforms and all back-ends 
+  * Shared HLSL shaders across platforms and backends, subject to their supported shader stages and features
 * High performance
 * Modular design
   * Components are clearly separated logically and physically and can be used as needed
@@ -137,7 +138,7 @@ When updating existing repository, don't forget to update all submodules:
 
 ```
 git pull
-git submodule update --recursive
+git submodule update --init --recursive
 ```
 
 It is also a good idea to re-run CMake and perform clean rebuild after getting the latest version.
@@ -150,8 +151,9 @@ Master repository includes the following submodules:
 * [Core](https://github.com/DiligentGraphics/DiligentCore) submodule implements 
   [Direct3D11](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D11), 
   [Direct3D12](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineD3D12),
-  [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL), and
-  [Vulkan](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineVulkan) back-ends.
+  [OpenGL/GLES](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineOpenGL),
+  [Vulkan](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineVulkan), and
+  [WebGPU](https://github.com/DiligentGraphics/DiligentCore/tree/master/Graphics/GraphicsEngineWebGPU) back-ends.
   The module is self-contained and can be built by its own.
 * [Tools](https://github.com/DiligentGraphics/DiligentTools) submodule contains 
   [texture loading library](https://github.com/DiligentGraphics/DiligentTools/tree/master/TextureLoader),
@@ -169,8 +171,11 @@ Master repository includes the following submodules:
 # Build and Run Instructions
 
 Diligent Engine uses [CMake](https://cmake.org/) as a cross-platform build tool. 
-To start using cmake, download the [latest release](https://cmake.org/download/) (3.20 or later is required).
-Another build prerequisite is [Python interpreter](https://www.python.org/downloads/) (3.0 or later is required).
+Install [CMake](https://cmake.org/download/) 3.22.1 or later for the default build, including its shader toolchain.
+A [Python 3 interpreter](https://www.python.org/downloads/) must also be available on `PATH`.
+The WebGPU backend and its Dawn/Tint dependencies require a C++20 compiler.
+The Visual Studio 2026 examples below require CMake 4.2 or later for the
+[Visual Studio 18 2026 generator](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2018%202026.html).
 If after following the instructions below you have build/run issues, please take a look at [troubleshooting](Troubleshooting.md).
 
 <a name="build_and_run_win32"></a>
@@ -184,6 +189,8 @@ Build prerequisites:
 
 .NET support requires .NET SDK 6.0 or later.
 
+For native WebGPU, use Visual Studio 2022 17.11 or later and Windows SDK 10.0.26100 or later.
+
 Use either CMake GUI or command line tool to generate build files. For example, to generate 
 [Visual Studio 2026](https://visualstudio.microsoft.com/) 64-bit solution and project files in *build/Win64* folder,
 navigate to the engine's root folder and run the following command:
@@ -192,10 +199,10 @@ navigate to the engine's root folder and run the following command:
 cmake -S . -B ./build/Win64 -G "Visual Studio 18 2026" -A x64
 ```
 
-You can generate Win32 solution that targets Win8.1 SDK using the following command:
+To generate a 32-bit solution, use a separate build directory and select the Win32 architecture:
 
 ```
-cmake -D CMAKE_SYSTEM_VERSION=8.1 -S . -B ./build/Win64_8.1 -G "Visual Studio 18 2026" -A x64
+cmake -S . -B ./build/Win32 -G "Visual Studio 18 2026" -A Win32
 ```
 
 If you use MinGW, you can generate the make files using the command below (note however that the functionality
@@ -214,7 +221,8 @@ Open *DiligentEngine.sln* file in *build/Win64* folder, select configuration and
 as startup project (by default, GLTF Viewer will be selected) and run it. 
 
 By default, sample and tutorial applications will show rendering backend selection dialog box. Use the following command line options to force
-D3D11, D3D12, OpenGL, or Vulkan mode: **--mode d3d11**, **--mode d3d12**, **--mode gl**, or **--mode vk**. If you want to run an application
+D3D11, D3D12, OpenGL, Vulkan, or WebGPU mode: **--mode d3d11**, **--mode d3d12**, **--mode gl**, **--mode vk**,
+or **--mode wgpu** (when built with WebGPU enabled). If you want to run an application
 outside of Visual Studio environment, the application's assets folder must be set as working directory. (For Visual Studio, this 
 is automatically configured by CMake). Alternatively, you can navigate to the build target or install folder and run the executable from there.
 
@@ -239,9 +247,6 @@ Set the desired project as startup project (by default, GLTF Viewer will be sele
 By default, applications will run in D3D12 mode. You can select D3D11 or D3D12 using the following command line options:
 **--mode d3d11**, **--mode d3d12**.
 
-Note: it is possible to generate solution that targets Windows 8.1 by defining CMAKE_SYSTEM_VERSION=8.1 cmake variable, but it will fail
-to build as it will use Visual Studio 2013 (v120) toolset that lacks proper c++14 support.
-
 
 <a name="build_and_run_linux"></a>
 ## Linux
@@ -250,7 +255,7 @@ Your Linux environment needs to be set up for c++ development. If it already is,
 as Diligent Engine uses modern c++ features (clang 10 or later is recommended).
 
 :warning: gcc 9 and above seemingly produces invalid binary code with O2 and O3 optimization levels. To avoid crashes,
-optimization level is downgraded to O1 in release configurations. It is recommended to use clang or gcc 7 or 8.
+optimization level is downgraded to O1 in release configurations. Clang is recommended.
 
 You may need to install the following packages:
 
@@ -275,7 +280,7 @@ sudo apt-get install libx11-dev
 sudo apt-get install mesa-common-dev
 sudo apt-get install mesa-utils
 sudo apt-get install libgl-dev
-sudo apt-get install python3-distutils
+sudo apt-get install python3
 sudo apt-get install libgl1-mesa-dev
 sudo apt-get install libxrandr-dev
 sudo apt-get install libxinerama-dev
@@ -323,7 +328,7 @@ To verify that your environment is properly set up, try building the
 
 Open *DiligentSamples/Android* folder with Android Studio to build and run tutorials and samples on Android.
 
-By default, applications will run in Vulkan mode. To run them in Vulkan mode, add the following launch flags:
+By default, applications will run in Vulkan mode. To run them in OpenGL ES mode, add the following launch flags:
 `--es mode gles` (in Android Studio, go to Run->Edit Configurations menu)
 
 <a name="build_and_run_macos"></a>
@@ -332,7 +337,7 @@ By default, applications will run in Vulkan mode. To run them in Vulkan mode, ad
 Prerequisites:
 
 * Xcode 16 or later
-* Vulkan SDK 1.4.335.1 or later to enable Vulkan
+* Vulkan SDK to enable Vulkan (CI uses 1.4.363.0)
 
 After you clone the repo, run the following command from the engine's root folder to generate Xcode project:
 
@@ -356,10 +361,10 @@ or [gfx-portability](https://github.com/gfx-rs/portability). Install [VulkanSDK]
 and make sure that your system is properly configured as described
 [here](https://vulkan.lunarg.com/doc/view/latest/mac/getting_started.html#user-content-sdk-system-paths).
 In particular, you may need to define the following environment variables (assuming that Vulkan SDK is installed at
-`/Users/MyName/VulkanSDK/1.4.335.1` and you want to use MoltenVK):
+`/Users/MyName/VulkanSDK/1.4.363.0` and you want to use MoltenVK):
 
 ```
-export VULKAN_SDK=/Users/MyName/VulkanSDK/1.4.335.1/macOS
+export VULKAN_SDK=/Users/MyName/VulkanSDK/1.4.363.0/macOS
 export PATH=$VULKAN_SDK/bin:$PATH
 export DYLD_LIBRARY_PATH=$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH
 export VK_ADD_LAYER_PATH=$VULKAN_SDK/share/vulkan/explicit_layer.d
@@ -384,9 +389,7 @@ System Integrity Protection is disabled (which generally is not recommended). In
 Vulkan library, it must be in rpath. If `VULKAN_SDK` environment variable is set and points to correct location, Diligent
 Engine will configure the rpath for all applications automatically.
 
-Latest tested Vulkan SDK version: 1.4.335.1.
-
-:warning: There are known issues with later versions of the SDK, so it is recommended to use the latest tested version.
+Vulkan SDK version used by CI: 1.4.363.0.
 
 <a name="build_and_run_ios"></a>
 ## iOS
@@ -394,7 +397,7 @@ Latest tested Vulkan SDK version: 1.4.335.1.
 Prerequisites:
 
 * Xcode 16 or later
-* Vulkan SDK 1.4.335.1 or later to enable Vulkan
+* Vulkan SDK to enable Vulkan (CI uses 1.4.363.0)
 
 Run the command below from the engine's root folder to generate Xcode project configured for
 [iOS build](https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html#cross-compiling-for-ios-tvos-or-watchos):
@@ -425,10 +428,10 @@ To enable Vulkan on iOS, download and install the [VulkanSDK](https://vulkan.lun
 on iOS, and Diligent Engine links directly with MoltenVK XCFramework (see
 [MoltenVk install guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install-moltenvk-as-a-universal-xcframework))
 that implements Vulkan on Metal. To enable Vulkan in Diligent Engine on iOS, specify the path to Vulkan SDK 
-when running CMake, for example (assuming that Vulkan SDK is installed at `/Users/MyName/VulkanSDK/1.4.335.1`):
+when running CMake, for example (assuming that Vulkan SDK is installed at `/Users/MyName/VulkanSDK/1.4.363.0`):
 
 ```cmake
-cmake -DCMAKE_SYSTEM_NAME=iOS -DVULKAN_SDK=/Users/MyName/VulkanSDK/1.4.335.1 -S . -B ./build/iOS -G "Xcode"
+cmake -DCMAKE_SYSTEM_NAME=iOS -DVULKAN_SDK=/Users/MyName/VulkanSDK/1.4.363.0 -S . -B ./build/iOS -G "Xcode"
 ```
 
 By default, the engine links with MoltenVK XCFramework located in Vulkan SDK. If this is not desired or an application wants
@@ -437,88 +440,97 @@ to use a specific library, it can provide the full path to the library via `MOLT
 Refer to [MoltenVK user guide](https://github.com/KhronosGroup/MoltenVK/blob/master/Docs/MoltenVK_Runtime_UserGuide.md#install)
 for more information about MoltenVK installation and usage.
 
-Latest tested Vulkan SDK version: 1.4.335.1.
-
-:warning: There are known issues with later versions of the SDK, so it is recommended to use the latest tested version.
+Vulkan SDK version used by CI: 1.4.363.0.
 
 <a name="build_and_run_web"></a>
 ## Web
+
 Build prerequisites:
 
-* Emscripten SDK 3.1.65
-* Ninja 1.10.2
+* [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) **6.0.11**, matching CI
+* CMake 3.22.1 or later
+* Ninja 1.12 or later, available on `PATH` (`ninja --version` should succeed)
 
-To activate PATH and other environment variables in the current terminal
-````bash
-source ${PATH_TO_EMSDK}/emsdk/emsdk_env.sh
-````
-:warning: On Windows, run `${PATH_TO_EMSDK}/emsdk/emsdk_env.bat` instead of `source ${PATH_TO_EMSDK}/emsdk/emsdk_env.sh`
+From the emsdk installation directory, install and activate the SDK on Linux or macOS:
 
-
-To generate project, run the following CMake command from the engine's root folder:
-
-```cmake
-emcmake cmake -S . -B ./build/Emscripten -G "Ninja"
+```bash
+./emsdk install 6.0.11
+./emsdk activate 6.0.11
+source ./emsdk_env.sh
 ```
 
-To build the engine, run the following command:
+On Windows, run the following commands in Command Prompt from the emsdk directory:
 
-```cmake
-cmake --build ./build/Emscripten
+```bat
+emsdk.bat install 6.0.11
+emsdk.bat activate 6.0.11
+emsdk_env.bat
 ```
 
-To test Web applications, run a basic web server
+Run the environment script again when opening a new terminal. Ensure that CMake and Ninja are also on `PATH`;
+activating emsdk does not install them. If CMake reports that `CMAKE_MAKE_PROGRAM` is not set, install Ninja
+and add the directory containing `ninja` or `ninja.exe` to `PATH`.
+
+From the engine's root directory, configure a Debug build:
+
+```bash
+emcmake cmake -S . -B ./build/Emscripten -G Ninja -DCMAKE_BUILD_TYPE=Debug -DDILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO=ON
+```
+
+The debug-info option matches CI and keeps debug information out of the main WebAssembly binary.
+For an optimized build, use `-DCMAKE_BUILD_TYPE=Release`. Ninja selects the configuration at configure time.
+
+WebGL and WebGPU are both enabled by default. CMake builds Tint and the Emdawnwebgpu browser bindings from the
+same Dawn checkout used for native WebGPU. The matching WebGPU headers and JavaScript libraries are configured
+automatically. Use `-DDILIGENT_NO_WEBGPU=ON` for a WebGL-only build, or `-DDILIGENT_NO_OPENGL=ON` for a WebGPU-only build.
+
+Build all enabled applications, or just GLTF Viewer:
+
+```bash
+cmake --build ./build/Emscripten --parallel
+# Alternatively:
+cmake --build ./build/Emscripten --target GLTFViewer --parallel
+```
+
+To run an application, start the supplied server from the build directory:
 
 ```bash
 cd ./build/Emscripten
-python https_server.py
+python https_server.py --port=8000
 ```
 
-Open a browser and navigate to `http://localhost`
+On systems where Python 3 is named `python3`, use that command instead. Open one of these URLs:
 
-For example, the Hello Triangle tutorial will be available at 
+* [Hello Triangle](http://localhost:8000/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html)
+* [GLTF Viewer](http://localhost:8000/DiligentSamples/Samples/GLTFViewer/GLTFViewer.html)
 
+Select **WebGL** or **WebGPU** on the application's page. WebGPU requires a compatible browser and GPU, and a
+secure context: `http://localhost` works for local development; remote hosting requires HTTPS.
+
+The applications use WebAssembly threads, which require cross-origin isolation. The supplied server sends
+the necessary headers; a plain `python -m http.server` does not. Configure other servers to send:
+
+```http
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Embedder-Policy: require-corp
 ```
-http://localhost/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html
-```
 
-To access the server from another computer on the local network, use the HTTPS server.
-To enable this, first install the `cryptography` module. You can do so by running the following command:
+See [Emscripten's threading requirements](https://emscripten.org/docs/porting/pthreads.html) for details.
+For static hosting where response headers cannot be configured, the Samples module provides
+`-DDILIGENT_EMSCRIPTEN_INCLUDE_COI_SERVICE_WORKER=ON` to include a service worker that supplies these headers.
+HTTPS (or localhost) is still required.
+
+The supplied server also supports HTTPS for local testing:
 
 ```bash
-pip install cryptography
+python -m pip install cryptography
+python https_server.py --mode=https --port=8443
 ```
 
-To start the HTTPS server, use the following command:
-
-```bash
-python https_server.py --mode=https
-```
-
-Use the HTTPS protocol to open the pages. For example:
-
-```
-https://localhost/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html
-```
-
-When using the HTTPS server, unlike with the HTTP server, you may encounter the following error
-when loading the page: `net::ERR_CERT_AUTHORITY_INVALID`.
-
-There are two ways to resolve this issue:
-1. Click the `Advanced` button and then select `Proceed to localhost (unsafe)`.
-2. Alternatively, start the terminal as administrator and run the following command:
-
-```bash
-python https_server.py --mode=https --register
-```
-
-We use the default ports for HTTP/HTTPS protocols, `80` and `443` respectively. 
-If you already have a server running on those ports, you may specify a different port number using the `--port`
-argument and include the corresponding port number in the URL after the IP address. For example:
-
-```
-http://localhost:${YOUR_PORT}/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle.html
-```
+For example, open `https://localhost:8443/DiligentSamples/Samples/GLTFViewer/GLTFViewer.html`.
+The server generates a self-signed certificate for `localhost`, so the browser may show a certificate warning.
+For access from another machine, use a trusted certificate valid for the hostname used in the URL.
+The server defaults to ports 80 (HTTP) and 443 (HTTPS) when `--port` is omitted.
 
 <a name="build_and_run_integration"></a>
 ## Integrating Diligent Engine with Existing Build System
@@ -560,7 +572,7 @@ Then the following steps need to be done:
 Below is an example of a CMake file:
 
 ```cmake
-cmake_minimum_required (VERSION 3.6)
+cmake_minimum_required (VERSION 3.22.1)
 
 project(HelloDiligent CXX)
 
@@ -614,7 +626,7 @@ The only caveat is that you need to specify the source directory for each module
 so that header files can be found. Below is an example of a CMake file that uses FetchContent:
 
 ```cmake
-cmake_minimum_required (VERSION 3.6)
+cmake_minimum_required (VERSION 3.22.1)
 
 project(HelloDiligent CXX)
 
@@ -664,7 +676,7 @@ If your project doesn't use CMake, it is recommended to build libraries with CMa
 You can download the latest build artifacts from [GitHub](https://github.com/DiligentGraphics/DiligentCore/actions?query=branch%3Amaster).
 
 Global CMake installation directory is controlled by
-[CMAKE_INTALL_PREFIX](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html) variable. 
+[CMAKE_INSTALL_PREFIX](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html) variable.
 Note that it defaults to `/usr/local` on UNIX and `c:/Program Files/${PROJECT_NAME}` on Windows, which may not
 be what you want. Use `-D CMAKE_INSTALL_PREFIX=install` to use local `install` folder instead:
 
@@ -684,16 +696,14 @@ DiligentCore installation directory will contain everything required to integrat
 * *lib* subdirectory will contain static libraries.
 * *bin* subdirectory will contain dynamic libraries.
 
-An easier way is to link with dynamic libraries. When linking statically, you will need to list DiligentCore as well 
-as all third-party libraries used by the engine. Besides that, you will also need to specify platform-specific system libraries. 
-For example, for Windows platform, the list of libraries your project will need to link against may look like this:
-
-```
-DiligentCore.lib glslang.lib HLSL.lib OGLCompiler.lib OSDependent.lib spirv-cross-core.lib SPIRV.lib SPIRV-Tools-opt.lib SPIRV-Tools.lib glew-static.lib GenericCodeGen.lib MachineIndependent.lib dxgi.lib d3d11.lib d3d12.lib d3dcompiler.lib opengl32.lib
-```
+Link with the libraries for the backends your application uses. Static linking also requires their Diligent,
+third-party, and platform library dependencies. The exact library list depends on the enabled backends,
+build options, and configuration; use the generated CMake link commands as a reference. Linking the CMake
+targets directly, as shown above, propagates these dependencies automatically.
 
 Diligent Engine headers require one of the following platform macros to be defined as `1`:
-`PLATFORM_WIN32`, `PLATFORM_UNIVERSAL_WINDOWS`, `PLATFORM_ANDROID`, `PLATFORM_LINUX`, `PLATFORM_MACOS`, `PLATFORM_IOS`.
+`PLATFORM_WIN32`, `PLATFORM_UNIVERSAL_WINDOWS`, `PLATFORM_ANDROID`, `PLATFORM_LINUX`, `PLATFORM_MACOS`,
+`PLATFORM_IOS`, `PLATFORM_TVOS`, `PLATFORM_VISIONOS`, `PLATFORM_WEB`.
 
 You can control which components of the engine you want to install using the following CMake options:
 `DILIGENT_INSTALL_CORE`, `DILIGENT_INSTALL_FX`, `DILIGENT_INSTALL_SAMPLES`, and `DILIGENT_INSTALL_TOOLS`.
@@ -714,7 +724,7 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_NO_OPENGL`                    |     No       | Do not build OpenGL backend                                  |
 | `DILIGENT_NO_VULKAN`                    |     No       | Do not build Vulkan backend                                  |
 | `DILIGENT_NO_METAL`                     |     No       | Do not build Metal backend                                   |
-| `DILIGENT_NO_WEBGPU`                    |     No       | Do not build WebGPU backend                                  |
+| `DILIGENT_NO_WEBGPU`                    | No on Web; Yes otherwise | Do not build WebGPU backend                         |
 | `DILIGENT_NO_ARCHIVER`                  |     No       | Do not build Archiver                                        |
 | `DILIGENT_NO_RENDER_STATE_PACKAGER`     |     No       | Do not build Render State Packager tool                      |
 | `DILIGENT_ENABLE_DRACO`                 |     No       | Enable Draco compression support in GLTF loader              |
@@ -726,9 +736,11 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_BUILD_TESTS`                  |     No       | Build Unit Tests                                             |
 | `DILIGENT_BUILD_WIN32_GUI_AS_CONSOLE`   |     No       | Build Windows GUI applications using the console subsystem   |
 | `DILIGENT_BUILD_DOCS`                   |     No       | Build documentation using Doxygen                            |
-| `DILIGENT_NO_GLSLANG`                   |     No       | Do not build GLSLang and SPRIV-Tools                         |
+| `DILIGENT_NO_GLSLANG`                   |     No       | Do not build glslang                                         |
 | `DILIGENT_NO_HLSL`                      |     No       | Disable HLSL support in non-Direct3D backends                |
 | `DILIGENT_NO_FORMAT_VALIDATION`         |     Yes      | Disable source code formatting validation                    |
+| `DILIGENT_EMSCRIPTEN_STRIP_DEBUG_INFO`  |     No       | Strip debug information from the main WebAssembly binary in Debug builds |
+| `DILIGENT_EMSCRIPTEN_INCLUDE_COI_SERVICE_WORKER` | No | Include a cross-origin isolation service worker in Web samples |
 | `DILIGENT_LOAD_PIX_EVENT_RUNTIME`       |     No       | Enable PIX event support                                     |
 | `DILIGENT_NVAPI_PATH`                   |              | Path to NVAPI SDK                                            |
 | `DILIGENT_INSTALL_CORE`                 |     Yes      | Install core module                                          |
@@ -741,17 +753,17 @@ Available CMake options are summarized in the table below:
 | `DILIGENT_NUKLEAR_DIR`                  |              | Optional path to a user-provided nuklear project             |
 | `DILIGENT_MSVC_COMPILE_OPTIONS`         |              | Additional MSVC compile options for all configurations       |
 | `DILIGENT_MSVC_DEBUG_COMPILE_OPTIONS`   |              | Additional MSVC compile options for debug configuration      |
-| `DILIGENT_MSVC_RELEASE_COMPILE_OPTIONS` |/GL /arch:AVX2| Additional MSVC compile options for release configurations   |
+| `DILIGENT_MSVC_RELEASE_COMPILE_OPTIONS` |/GL /arch:AVX2| Additional MSVC release options; `/arch:AVX2` only on x86-64, `/GL` omitted with sanitizers |
 | `DILIGENT_CLANG_COMPILE_OPTIONS`        |              | Additional Clang compile options for all configurations      |
 | `DILIGENT_CLANG_DEBUG_COMPILE_OPTIONS`  |              | Additional Clang compile options for debug configuration     |
-| `DILIGENT_CLANG_RELEASE_COMPILE_OPTIONS`|    -mavx2    | Additional Clang compile options for release configurations  |
+| `DILIGENT_CLANG_RELEASE_COMPILE_OPTIONS`|    -mavx2    | Additional Clang release options; `-mavx2` only on x86-64     |
 | `DILIGENT_USD_PATH`                     |              | Path to USD installation folder                              |
 | `DILIGENT_USE_OPENXR` 				  |     No       | Enable OpenXR support                                        |
 
-By default, all back-ends available on the current platform are built. To disable specific back-ends,
-use the following options: `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `DILIGENT_NO_OPENGL`,
-`DILIGENT_NO_VULKAN`, `DILIGENT_NO_METAL`, `DILIGENT_NO_WEBGPU`. WebGPU backend is enabled by default when building
-for the Web. To enable it on other platforms, use `DILIGENT_NO_WEBGPU=OFF`.
+By default, all backends available on the current platform are built except native WebGPU, which is opt-in.
+To disable specific backends, use `DILIGENT_NO_DIRECT3D11`, `DILIGENT_NO_DIRECT3D12`, `DILIGENT_NO_OPENGL`,
+`DILIGENT_NO_VULKAN`, `DILIGENT_NO_METAL`, or `DILIGENT_NO_WEBGPU`. WebGPU is enabled by default on the Web.
+To enable native WebGPU on Windows, use `-DDILIGENT_NO_WEBGPU=OFF`.
 The options can be set through cmake UI or from the command line as in the example below:
 
 ```
@@ -765,6 +777,8 @@ If you only want to build `SampleBase` project, you can use `DILIGENT_BUILD_SAMP
 By default Vulkan back-end is linked with glslang that enables compiling HLSL and GLSL shaders to SPIRV at run time.
 If run-time compilation is not required, glslang can be disabled with `DILIGENT_NO_GLSLANG` cmake option. 
 Additionally, HLSL support in non-Direct3D backends can be disabled with `DILIGENT_NO_HLSL` option.
+Set both options to `ON` to omit Diligent's SPIRV-Tools build. For WebGPU, this also disables SPIR-V input
+conversion; provide WGSL shaders instead.
 Enabling the options significantly reduces the size of Vulkan and OpenGL back-end binaries, which may be
 especially important for mobile applications.
 
