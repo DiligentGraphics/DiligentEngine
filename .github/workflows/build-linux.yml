@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   precheks:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     name: Linux -> Pre-checks
 
     steps:
@@ -44,7 +44,7 @@ jobs:
 
   build:
     needs:   precheks
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     strategy:
       fail-fast: false
@@ -60,24 +60,24 @@ jobs:
 
           - name:            "Clang"
             cmake_generator: "Ninja"
-            cc:              "clang-18"
-            cxx:             "clang++-18"
+            cc:              "clang-22"
+            cxx:             "clang++-22"
 
           - name:            "Clang-ASAN"
             build_type:      "RelWithDebInfo"
             cmake_generator: "Ninja"
             cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_BUILD_FX_TESTS=ON -DDILIGENT_BUILD_SAMPLES_TESTS=ON"
             sanitizer:       "address"
-            cc:              "clang-18"
-            cxx:             "clang++-18"
+            cc:              "clang-22"
+            cxx:             "clang++-22"
 
           - name:            "Clang-TSAN"
             build_type:      "RelWithDebInfo"
             cmake_generator: "Ninja"
             cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_BUILD_TOOLS_TESTS=ON -DDILIGENT_BUILD_FX_TESTS=ON -DDILIGENT_BUILD_SAMPLES_TESTS=ON"
             sanitizer:       "thread"
-            cc:              "clang-18"
-            cxx:             "clang++-18"
+            cc:              "clang-22"
+            cxx:             "clang++-22"
 
     name: Linux -> ${{ matrix.name }}-x64, ${{ matrix.build_type }}
 
