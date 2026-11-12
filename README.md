@@ -1087,18 +1087,19 @@ The following components are now available:
 We would appreciate it if you could send us a link in case your product uses Diligent Engine.
 
 * Large-scale terrain visualization system for pilot training simulators by [Elbit Systems](https://elbitsystems.com/)<br />
-  <img src="https://github.com/DiligentGraphics/DiligentEngine/blob/master/Media/DiligentTerrain.jpg" width=600>
+  <img src="https://github.com/DiligentGraphics/DiligentEngine/blob/master/Media/DiligentTerrain.jpg" height=320>
 
-* [LumenRT](https://www.bentley.com/software/bentley-lumenrt/): A Visualization and Reality Modeling Software by [Bentley Systems](https://www.bentley.com/)
+* [LumenRT](https://www.bentley.com/software/bentley-lumenrt/): A Visualization and Reality Modeling Software by [Bentley Systems](https://www.bentley.com/)<br />
+  <img src="https://www.bentley.com/cdn-cgi/image/height=320,quality=75,format=webp/globalassets/product-pages/bentley-lumenrt-hero.webp">
 
 * [Vrmac Graphics](https://github.com/Const-me/Vrmac): A cross-platform graphics library for .NET<br />
-  <img src="https://github.com/Const-me/Vrmac/blob/master/screenshots/Linux/TigerFullHD-1.png" width=600>
+  <img src="https://github.com/Const-me/Vrmac/blob/master/screenshots/Linux/TigerFullHD-1.png" height=320>
 
 * [Prisma Engine](https://github.com/deni2312/prisma-engine): A modern engine that shows rendering techniques like hardware raytracing and clustered shading<br />
-  <img src="https://github.com/deni2312/prisma-engine/blob/main/bin/images/prism.png" width=600>
+  <img src="https://github.com/deni2312/prisma-engine/blob/main/bin/images/prism.png" height=320>
 
 * [Grenzwert](https://grenzwert.net): A browser-based 3D DICOM viewer<br />
-  <img src="https://github.com/grenzwert-net/Grenzwert/blob/master/docs/images/ct-manix-head-bone-soft-tissue.webp" width=600>
+  <img src="https://github.com/grenzwert-net/Grenzwert/blob/master/docs/images/ct-manix-head-bone-soft-tissue.webp" height=320>
 
 <a name="disclaimer"></a>
 ## Disclaimer
