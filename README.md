@@ -1097,6 +1097,8 @@ We would appreciate it if you could send us a link in case your product uses Dil
 * [Prisma Engine](https://github.com/deni2312/prisma-engine): A modern engine that shows rendering techniques like hardware raytracing and clustered shading<br />
   <img src="https://github.com/deni2312/prisma-engine/blob/main/bin/images/prism.png" width=600>
 
+* [Grenzwert](https://grenzwert.net): A browser-based 3D DICOM viewer<br />
+  <img src="https://github.com/grenzwert-net/Grenzwert/blob/master/docs/images/ct-manix-head-bone-soft-tissue.webp" width=600>
 
 <a name="disclaimer"></a>
 ## Disclaimer
