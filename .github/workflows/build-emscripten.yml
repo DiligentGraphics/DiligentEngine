@@ -44,21 +44,169 @@ jobs:
         submodules: recursive
 
     - name: Set up build environment
-      if:  success()
-      uses: DiligentGraphics/github-action/setup-build-env@v28
+      if: success()
+      uses: DiligentGraphics/github-action/setup-build-env@v35
       with:
         platform: Web
 
+    # Binding tests always target Wasm32. Linux Debug and Release cover
+    # marshalling without repeating it on every host platform.
+    - name: Set up binding test dependencies
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        # Match the LLVM 22 parser used by the FX workflow.
+        python3 -m venv "$RUNNER_TEMP/bindings-venv"
+        "$RUNNER_TEMP/bindings-venv/bin/python" -m pip install -r DiligentFX/BuildTools/Bindings/requirements.txt
+        binding_args=(
+          -DRADIENT_GENERATE_BINDINGS=ON
+          "-DRADIENT_BINDINGS_PYTHON_EXECUTABLE=$RUNNER_TEMP/bindings-venv/bin/python"
+          -DRADIENT_BINDINGS_LIBCLANG=/usr/lib/llvm-22/lib/libclang-22.so.1
+          "-DRADIENT_BINDINGS_NODE_EXECUTABLE=$(command -v node)"
+        )
+        echo "RADIENT_BINDINGS_CMAKE_ARGS=${binding_args[*]}" >> "$GITHUB_ENV"
+
     - name: Configure CMake
-      if:   success()
-      uses: DiligentGraphics/github-action/configure-cmake@v28
+      if: success()
+      uses: DiligentGraphics/github-action/configure-cmake@v35
       with:
         build-type: ${{ matrix.build_type }}
-        cmake-args: ${{ matrix.cmake_args }}
+        cmake-args: >-
+          ${{ matrix.cmake_args }}
+          ${{ env.RADIENT_BINDINGS_CMAKE_ARGS }}
+          -DDILIGENT_BUILD_TESTS=ON
 
     - name: Build
+      id: build
       if: success()
-      uses: DiligentGraphics/github-action/build@v28
+      uses: DiligentGraphics/github-action/build@v35
+
+    - name: Build JavaScript binding tests
+      id: binding_tests_build
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.build.outcome == 'success' }}
+      shell: bash
+      env:
+        BUILD_TYPE: ${{ matrix.build_type }}
+      run: |
+        emcmake cmake -S DiligentFX/BuildTools/Bindings/javascript -B "$RUNNER_TEMP/binding-js" -G Ninja \
+          -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
+          -DBINDINGS_PYTHON_EXECUTABLE="$RUNNER_TEMP/bindings-venv/bin/python" \
+          -DBINDINGS_LIBCLANG=/usr/lib/llvm-22/lib/libclang-22.so.1 \
+          -DBINDINGS_NODE_EXECUTABLE="$(command -v node)"
+        cmake --build "$RUNNER_TEMP/binding-js" --target BindingTestsWasm --parallel "$(nproc)"
+
+    - name: Build Radient bindings
+      id: radient_bindings_build
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.build.outcome == 'success' }}
+      shell: bash
+      run: |
+        # Reuse the Radient library and dependencies from the main build.
+        cmake --build "$DILIGENT_BUILD_DIR" --config "$DILIGENT_BUILD_TYPE" \
+          --target RadientWasm RadientBrowserRenderTest --parallel "$(nproc)"
+
+    - name: Test Core CPU in Chrome
+      if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+      timeout-minutes: 20
+      uses: DiligentGraphics/github-action/run-core-cpu-browser-tests@v35
+      with:
+        source-dir: DiligentCore
+        build-dir: ${{ env.DILIGENT_BUILD_DIR }}/DiligentCore
+        artifact-name: CoreCPU-Chrome-${{runner.os}}-${{matrix.build_type}}
+
+    # GPU tests need WebGPU, which is disabled in the Windows Release build.
+    # macOS runners run CPU tests only, matching the module workflows.
+    - name: Test Core WebGPU in Chrome
+      if: ${{ !cancelled() && runner.os != 'macOS' && !contains(matrix.cmake_args, '-DDILIGENT_NO_WEBGPU=ON') && steps.build.outcome == 'success' }}
+      timeout-minutes: 20
+      uses: DiligentGraphics/github-action/run-core-browser-tests@v35
+      with:
+        source-dir: DiligentCore
+        build-dir: ${{ env.DILIGENT_BUILD_DIR }}/DiligentCore
+        artifact-name: CoreWebGPU-Chrome-${{runner.os}}-${{matrix.build_type}}
+
+    - name: Test Tools CPU in Chrome
+      if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+      timeout-minutes: 20
+      uses: DiligentGraphics/github-action/run-tools-cpu-browser-tests@v35
+      with:
+        artifact-name: ToolsCPU-Chrome-${{runner.os}}-${{matrix.build_type}}
+
+    - name: Test Tools WebGPU in Chrome
+      if: ${{ !cancelled() && runner.os != 'macOS' && !contains(matrix.cmake_args, '-DDILIGENT_NO_WEBGPU=ON') && steps.build.outcome == 'success' }}
+      timeout-minutes: 20
+      uses: DiligentGraphics/github-action/run-tools-gpu-browser-tests@v35
+      with:
+        artifact-name: ToolsWebGPU-Chrome-${{runner.os}}-${{matrix.build_type}}
+
+    - name: Test Radient CPU in Chrome
+      if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+      timeout-minutes: 20
+      uses: DiligentGraphics/github-action/run-radient-cpu-browser-tests@v35
+      with:
+        artifact-name: RadientCPU-Chrome-${{runner.os}}-${{matrix.build_type}}
+
+    - name: Test Radient WebGPU in Chrome
+      if: ${{ !cancelled() && runner.os != 'macOS' && !contains(matrix.cmake_args, '-DDILIGENT_NO_WEBGPU=ON') && steps.build.outcome == 'success' }}
+      timeout-minutes: 20
+      uses: DiligentGraphics/github-action/run-radient-gpu-browser-tests@v35
+      with:
+        artifact-name: RadientWebGPU-Chrome-${{runner.os}}-${{matrix.build_type}}
+
+    - name: Test JavaScript bindings in Node and Chrome
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.binding_tests_build.outcome == 'success' }}
+      shell: bash
+      run: |
+        export BINDINGS_TEST_BROWSER_EXECUTABLE="$(command -v google-chrome)"
+        ctest --test-dir "$RUNNER_TEMP/binding-js" --verbose --output-on-failure --no-tests=error
+
+    - name: Test Radient binding model and Node bindings
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.radient_bindings_build.outcome == 'success' }}
+      shell: bash
+      run: |
+        ctest --test-dir "$DILIGENT_BUILD_DIR/DiligentFX/Radient/bindings" \
+          -C "$DILIGENT_BUILD_TYPE" -LE Browser --verbose --output-on-failure --no-tests=error
+
+    - name: Clone sample test data
+      id: sample_test_data
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.build.outcome == 'success' }}
+      uses: actions/checkout@v6
+      with:
+        repository: DiligentGraphics/DiligentTestData
+        ref: master
+        path: DiligentTestData
+
+    - name: Clone Radient test data
+      id: radient_test_data
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.radient_bindings_build.outcome == 'success' }}
+      uses: actions/checkout@v6
+      with:
+        repository: DiligentGraphics/DiligentTestData
+        ref: radient
+        path: RadientTestData
+
+    - name: Clone glTF Sample Assets
+      id: gltf_sample_assets
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.radient_bindings_build.outcome == 'success' }}
+      uses: actions/checkout@v6
+      with:
+        repository: KhronosGroup/glTF-Sample-Assets
+        ref: ${{env.DILIGENT_GLTF_SAMPLE_ASSETS_COMMIT}}
+        path: glTF-Sample-Assets
+
+    - name: Test Radient JavaScript bindings and render goldens in Chrome
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.radient_bindings_build.outcome == 'success' && steps.radient_test_data.outcome == 'success' && steps.gltf_sample_assets.outcome == 'success' }}
+      uses: DiligentGraphics/github-action/run-radient-render-browser-tests@v35
+      with:
+        models-path: ${{github.workspace}}/glTF-Sample-Assets
+        assets-path: ${{github.workspace}}/RadientTestData
+        artifact-name: RadientBrowserRenderImages-${{matrix.build_type}}
+
+    - name: Test sample captures in Chrome
+      if: ${{ !cancelled() && runner.os == 'Linux' && steps.build.outcome == 'success' && steps.sample_test_data.outcome == 'success' }}
+      timeout-minutes: 30
+      uses: DiligentGraphics/github-action/run-sample-browser-tests@v35
+      with:
+        artifact-name: SamplesChrome-WebGPU-${{matrix.build_type}}
 
     - name: Pack Web Artifacts
       if:  ${{ success() && (matrix.host_name == 'Linux') && (matrix.build_type == 'Release') }}
