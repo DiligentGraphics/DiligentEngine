@@ -223,9 +223,23 @@ jobs:
           ${{github.workspace}}/WebArtifacts
         retention-days: 14
 
+    - name: Prepare Radient npm development version
+      id: npm_version
+      if: ${{ success() && runner.os == 'Linux' && matrix.build_type == 'Release' }}
+      shell: bash
+      run: |
+        python3 -B -m unittest discover -s .github/scripts/tests -v
+        version="$(python3 -B .github/scripts/radient_npm.py version \
+          --manifest DiligentFX/Radient/bindings/javascript/package/package.json \
+          --run "$GITHUB_RUN_NUMBER" --attempt "$GITHUB_RUN_ATTEMPT")"
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+
     # Reuse the tested Release SDK; publishing will consume this exact tarball.
     - name: Package and validate Radient npm SDK
       if: ${{ success() && runner.os == 'Linux' && matrix.build_type == 'Release' }}
       uses: DiligentGraphics/github-action/package-radient-npm@v38
       with:
-        artifact-name: RadientNpmPackage
+        version: ${{steps.npm_version.outputs.version}}
+        # Keep rerun artifacts separate. A retry of only failed jobs may reuse
+        # the tested package from an earlier successful packaging attempt.
+        artifact-name: RadientNpmPackage-${{github.run_number}}-${{github.run_attempt}}

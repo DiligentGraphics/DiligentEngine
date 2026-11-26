@@ -1,0 +1,100 @@
+name: Publish npm package
+
+on:
+  workflow_run:
+    workflows: [Emscripten build]
+    types: [completed]
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  publish-dev:
+    name: Publish Radient npm development package
+    # workflow_run also fires for failed builds and pull requests. Only trust
+    # successful push builds from this repository's master branch.
+    if: >-
+      github.repository == 'DiligentGraphics/DiligentEngine' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'master' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      attestations: write
+    # Serialize registry updates without dropping pending successful builds.
+    # Completion order can differ from run order; the script never regresses dev.
+    concurrency:
+      group: radient-npm-publish
+      queue: max
+      cancel-in-progress: false
+    env:
+      # A publishing retry retains the original build identity and version.
+      SOURCE_RUN_ID: ${{github.event.workflow_run.id}}
+      SOURCE_RUN_NUMBER: ${{github.event.workflow_run.run_number}}
+      SOURCE_RUN_ATTEMPT: ${{github.event.workflow_run.run_attempt}}
+      SOURCE_COMMIT: ${{github.event.workflow_run.head_sha}}
+    steps:
+    - name: Clone publishing scripts
+      uses: actions/checkout@v6
+      with:
+        # Run the publisher from this workflow's trusted default-branch revision.
+        # The source build's commit is verified against the tarball separately.
+        persist-credentials: false
+
+    - name: Set up npm trusted publishing
+      uses: actions/setup-node@v6
+      with:
+        node-version: '24'
+        registry-url: https://registry.npmjs.org
+        package-manager-cache: false
+
+    - name: Install npm with trusted dist-tag support
+      run: npm install --global npm@11.21.0 --ignore-scripts --no-audit --no-fund
+
+    - name: Download tested package artifacts
+      uses: actions/download-artifact@v7
+      with:
+        # Download from the completed build, not this publishing workflow run.
+        run-id: ${{github.event.workflow_run.id}}
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        pattern: RadientNpmPackage-${{github.event.workflow_run.run_number}}-*
+        path: ${{runner.temp}}/radient-npm-artifacts
+        merge-multiple: false
+
+    - name: Verify package and prepare build provenance
+      id: npm_subject
+      shell: bash
+      run: |
+        python3 -B -m unittest discover -s .github/scripts/tests -v
+        python3 -B .github/scripts/radient_npm.py prepare \
+          --artifacts "$RUNNER_TEMP/radient-npm-artifacts" \
+          --run-id "$SOURCE_RUN_ID" --run "$SOURCE_RUN_NUMBER" --attempt "$SOURCE_RUN_ATTEMPT" \
+          --commit "$SOURCE_COMMIT" --predicate-path "$RUNNER_TEMP/radient-npm-predicate.json" >> "$GITHUB_OUTPUT"
+
+    # Sign here so signing outages cannot fail the Emscripten build or block
+    # Web demo deployment. The explicit predicate describes the original build;
+    # the signing certificate identifies this publishing workflow.
+    - name: Sign tested npm package provenance
+      id: npm_provenance
+      uses: actions/attest@v4.2.2
+      with:
+        subject-name: ${{steps.npm_subject.outputs.name}}
+        subject-digest: ${{steps.npm_subject.outputs.digest}}
+        predicate-type: https://slsa.dev/provenance/v1
+        predicate-path: ${{runner.temp}}/radient-npm-predicate.json
+
+    - name: Publish the tested tarball with signed provenance
+      shell: bash
+      env:
+        PROVENANCE_FILE: ${{steps.npm_provenance.outputs.bundle-path}}
+      run: |
+        python3 -B .github/scripts/radient_npm.py publish \
+          --artifacts "$RUNNER_TEMP/radient-npm-artifacts" \
+          --run-id "$SOURCE_RUN_ID" --run "$SOURCE_RUN_NUMBER" --attempt "$SOURCE_RUN_ATTEMPT" \
+          --commit "$SOURCE_COMMIT" --provenance "$PROVENANCE_FILE"
