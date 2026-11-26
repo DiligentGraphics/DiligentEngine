@@ -53,8 +53,8 @@ jobs:
         registry-url: https://registry.npmjs.org
         package-manager-cache: false
 
-    - name: Install npm and the provenance signer
-      run: npm install --global npm@11.21.0 @sigstore/cli@0.11.0 --ignore-scripts --no-audit --no-fund
+    - name: Install npm with trusted dist-tag support
+      run: npm install --global npm@11.21.0 --ignore-scripts --no-audit --no-fund
 
     - name: Download tested package artifacts
       uses: actions/download-artifact@v7
@@ -66,31 +66,13 @@ jobs:
         path: ${{runner.temp}}/radient-npm-artifacts
         merge-multiple: false
 
-    - name: Verify package and prepare build provenance
+    # The bundle was signed in the source build, so its provenance matches the
+    # signing certificate even when this workflow runs from a newer commit.
+    - name: Verify and publish the tested tarball with build provenance
       shell: bash
       run: |
         python3 -B -m unittest discover -s .github/scripts/tests -v
-        python3 -B .github/scripts/radient_npm.py prepare \
-          --artifacts "$RUNNER_TEMP/radient-npm-artifacts" \
-          --run-id "$SOURCE_RUN_ID" --run "$SOURCE_RUN_NUMBER" --attempt "$SOURCE_RUN_ATTEMPT" \
-          --commit "$SOURCE_COMMIT" --statement-path "$RUNNER_TEMP/radient-npm-statement.json"
-
-    # Sign in the publisher without storing through GitHub's attestation API:
-    # that API requires the provenance build workflow to match the signer.
-    # Sigstore preserves the original build metadata and signs with this job's
-    # OIDC identity; npm verifies and stores the resulting bundle.
-    - name: Sign tested npm package provenance
-      shell: bash
-      run: |
-        sigstore attest "$RUNNER_TEMP/radient-npm-statement.json" \
-          --output-file "$RUNNER_TEMP/radient-npm-provenance.json"
-
-    - name: Publish the tested tarball with signed provenance
-      shell: bash
-      env:
-        PROVENANCE_FILE: ${{runner.temp}}/radient-npm-provenance.json
-      run: |
         python3 -B .github/scripts/radient_npm.py publish \
           --artifacts "$RUNNER_TEMP/radient-npm-artifacts" \
           --run-id "$SOURCE_RUN_ID" --run "$SOURCE_RUN_NUMBER" --attempt "$SOURCE_RUN_ATTEMPT" \
-          --commit "$SOURCE_COMMIT" --provenance "$PROVENANCE_FILE"
+          --commit "$SOURCE_COMMIT"

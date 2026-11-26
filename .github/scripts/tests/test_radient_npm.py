@@ -64,9 +64,12 @@ class ArtifactTest(unittest.TestCase):
         (directory / "package.sha256").write_text(f"{digest}  {path.name}\n")
         return path
 
-    def bundle(self, package):
-        # Deliberately unsigned fixture: npm performs cryptographic verification
-        # of the real GitHub bundle, while these tests check the statement.
+    def bundle(self, package, signing_attempt=None):
+        if signing_attempt is None:
+            signing_attempt = package.built_attempt
+        # Canonical actions/attest v4.2.2 shape, independently encoded here.
+        # npm performs cryptographic verification; this unsigned fixture checks
+        # the source-run claims that its registry also compares to the certificate.
         statement = {
             "_type": "https://in-toto.io/Statement/v1",
             "predicateType": "https://slsa.dev/provenance/v1",
@@ -77,13 +80,18 @@ class ArtifactTest(unittest.TestCase):
                     "buildType": "https://actions.github.io/buildtypes/workflow/v1",
                     "externalParameters": {"workflow": {
                         "repository": sdk.REPOSITORY, "path": sdk.BUILD_WORKFLOW, "ref": "refs/heads/master"}},
+                    "internalParameters": {"github": {
+                        "event_name": "push", "repository_id": "44292772",
+                        "repository_owner_id": "15135271", "runner_environment": "github-hosted"}},
                     "resolvedDependencies": [{"uri": f"git+{sdk.REPOSITORY}@refs/heads/master",
                                               "digest": {"gitCommit": "commit"}}]},
                 "runDetails": {
                     "builder": {"id": f"{sdk.REPOSITORY}/{sdk.BUILD_WORKFLOW}@refs/heads/master"},
                     "metadata": {"invocationId":
-                        f"{sdk.REPOSITORY}/actions/runs/12345/attempts/{package.built_attempt}"}}}}
-        path = self.root / "attestation.json"
+                        f"{sdk.REPOSITORY}/actions/runs/12345/attempts/{signing_attempt}"}}}}
+        directory = self.root / f"RadientNpmPackage-42-{signing_attempt}-provenance"
+        directory.mkdir(exist_ok=True)
+        path = directory / "attestation.json"
         self.write_statement(path, statement)
         return path
 
@@ -91,6 +99,10 @@ class ArtifactTest(unittest.TestCase):
     def write_statement(path, statement):
         path.write_text(json.dumps({"dsseEnvelope": {"payloadType": "application/vnd.in-toto+json",
             "payload": base64.b64encode(json.dumps(statement).encode()).decode()}}))
+
+    @staticmethod
+    def read_statement(path):
+        return json.loads(base64.b64decode(json.loads(path.read_text())["dsseEnvelope"]["payload"]))
 
     def read(self, attempt=1):
         return sdk.read_package(self.root, 42, attempt, "commit")
@@ -126,62 +138,85 @@ class ArtifactTest(unittest.TestCase):
         with patch.dict(os.environ, {"GITHUB_SHA": "newer-commit", "GITHUB_RUN_ID": "99999",
                                      "GITHUB_RUN_ATTEMPT": "7"}):
             package = self.read(attempt=2)
-            statement = sdk.build_statement(package, "commit", 12345)
-            self.assertEqual(statement["subject"], [sdk.package_subject(package)])
-            predicate = statement["predicate"]
-            definition = predicate["buildDefinition"]
-            self.assertEqual(definition["resolvedDependencies"][0]["digest"], {"gitCommit": "commit"})
-            self.assertEqual(definition["externalParameters"]["workflow"]["path"], sdk.BUILD_WORKFLOW)
-            self.assertEqual(predicate["runDetails"]["metadata"]["invocationId"],
-                             f"{sdk.REPOSITORY}/actions/runs/12345/attempts/1")
-            sdk.check_provenance(self.bundle(package), package, "commit", 12345)
+            sdk.check_provenance(self.bundle(package, signing_attempt=2), package, "commit", 12345, 2)
+
+    def test_later_source_attempt_can_sign_earlier_package(self):
+        self.artifact()
+        package = self.read(attempt=2)
+        self.assertEqual(package.built_attempt, 1)
+        path = self.bundle(package, signing_attempt=2)
+        sdk.check_provenance(path, package, "commit", 12345, 2)
+        for wrong_attempt in (1, 3):
+            with self.subTest(attempt=wrong_attempt), self.assertRaises(ValueError):
+                sdk.check_provenance(path, package, "commit", 12345, wrong_attempt)
+
+    def test_signature_cannot_precede_package(self):
+        self.artifact(attempt=2)
+        package = self.read(attempt=2)
+        path = self.bundle(package, signing_attempt=1)
+        with self.assertRaisesRegex(ValueError, "signing run or attempt"):
+            sdk.check_provenance(path, package, "commit", 12345, 1)
+
+    def test_requires_exact_source_attempt_provenance(self):
+        self.artifact()
+        package = self.read(attempt=2)
+        self.bundle(package, signing_attempt=1)
+        self.bundle(package, signing_attempt=3)
+        with self.assertRaisesRegex(ValueError, "rerun the source Emscripten provenance job"):
+            sdk.provenance_path(self.root, 42, 2)
+        path = self.bundle(package, signing_attempt=2)
+        self.assertEqual(sdk.provenance_path(self.root, 42, 2), path)
+        path.write_text("corrupt")
+        with self.assertRaises(ValueError):
+            sdk.check_provenance(sdk.provenance_path(self.root, 42, 2), package, "commit", 12345, 2)
 
     def test_preparation_needs_no_existing_signed_bundle(self):
         self.artifact()
         package = self.read()
-        self.assertEqual(sdk.build_predicate(package, "commit", 12345)["runDetails"]["metadata"]["invocationId"],
-                         f"{sdk.REPOSITORY}/actions/runs/12345/attempts/1")
+        self.assertEqual(sdk.package_subject(package)["name"], "pkg:npm/%40diligentgraphics/radient@0.1.0-dev.42.1")
         with self.assertRaises(FileNotFoundError):
-            sdk.check_provenance(self.root / "missing.json", package, "commit", 12345)
+            sdk.check_provenance(self.root / "missing.json", package, "commit", 12345, 1)
 
     def test_prepare_and_verify_cli(self):
         self.artifact()
         package = self.read(attempt=2)
         script = Path(sdk.__file__)
         args = ["--artifacts", str(self.root), "--run", "42", "--attempt", "2",
-                "--commit", "commit", "--run-id", "12345"]
-        statement = self.root / "statement.json"
-        result = subprocess.run([sys.executable, "-B", str(script), "prepare", *args,
-                                 "--statement-path", str(statement)], capture_output=True, text=True, check=True)
-        self.assertIn(f"Prepared provenance for {sdk.PACKAGE}@{package.version}", result.stdout)
-        bundle = self.bundle(package)
-        # Compare the complete statement with the independent fixture, not only
-        # its predicate. Sigstore signs the file exactly as provided.
-        expected = json.loads(base64.b64decode(json.loads(bundle.read_text())["dsseEnvelope"]["payload"]))
-        self.assertEqual(json.loads(statement.read_text()), expected)
-        subprocess.run([sys.executable, "-B", str(script), "publish", *args,
-                        "--provenance", str(bundle), "--verify-only"], capture_output=True, text=True, check=True)
+                "--commit", "commit"]
+        result = subprocess.run([sys.executable, "-B", str(script), "prepare", *args],
+                                capture_output=True, text=True, check=True)
+        self.assertEqual(result.stdout.splitlines(), [
+            "name=pkg:npm/%40diligentgraphics/radient@0.1.0-dev.42.1",
+            f"digest=sha512:{hashlib.sha512(package.path.read_bytes()).hexdigest()}"])
+        bundle = self.bundle(package, signing_attempt=2)
+        command = [sys.executable, "-B", str(script), "publish", *args,
+                   "--run-id", "12345", "--verify-only"]
+        subprocess.run(command, capture_output=True, text=True, check=True)
         bundle.unlink()
-        result = subprocess.run([sys.executable, "-B", str(script), "publish", *args,
-                                 "--provenance", str(bundle), "--verify-only"], capture_output=True, text=True)
+        result = subprocess.run(command, capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
+        self.assertIn("rerun the source Emscripten provenance job", result.stderr)
 
     def test_rejects_wrong_provenance_identity(self):
         self.artifact()
         package = self.read()
         path = self.bundle(package)
-        envelope = json.loads(path.read_text())["dsseEnvelope"]
-        original = base64.b64decode(envelope["payload"])
+        original = json.dumps(self.read_statement(path))
         changes = [
             (("subject", 0, "name"), "pkg:npm/wrong@0.1.0"),
             (("subject", 0, "digest", "sha512"), "0" * 128),
             (("predicateType",), "https://example.com/not-provenance"),
+            (("_type",), "https://example.com/not-a-statement"),
+            (("predicate", "buildDefinition", "buildType"), "https://example.com/build"),
             (("predicate", "buildDefinition", "externalParameters", "workflow", "path"),
              ".github/workflows/publish-npm.yml"),
             (("predicate", "buildDefinition", "externalParameters", "workflow", "repository"),
              "https://github.com/other/repo"),
             (("predicate", "buildDefinition", "externalParameters", "workflow", "ref"), "refs/heads/other"),
             (("predicate", "buildDefinition", "resolvedDependencies", 0, "digest", "gitCommit"), "newer-commit"),
+            (("predicate", "runDetails", "builder", "id"),
+             f"{sdk.REPOSITORY}/.github/workflows/publish-npm.yml@refs/heads/master"),
+            (("predicate", "buildDefinition", "internalParameters", "github", "event_name"), "workflow_run"),
             (("predicate", "runDetails", "metadata", "invocationId"),
              f"{sdk.REPOSITORY}/actions/runs/99999/attempts/1"),
             (("predicate", "runDetails", "metadata", "invocationId"),
@@ -196,7 +231,39 @@ class ArtifactTest(unittest.TestCase):
                 target[keys[-1]] = value
                 self.write_statement(path, statement)
                 with self.assertRaises(ValueError):
-                    sdk.check_provenance(path, package, "commit", 12345)
+                    sdk.check_provenance(path, package, "commit", 12345, 1)
+
+    def test_rejects_missing_or_invalid_github_claims(self):
+        self.artifact()
+        package = self.read()
+        path = self.bundle(package)
+        original = json.dumps(self.read_statement(path))
+        statement = json.loads(original)
+        del statement["predicate"]["buildDefinition"]["internalParameters"]
+        self.write_statement(path, statement)
+        with self.assertRaisesRegex(ValueError, "GitHub event or repository identifiers"):
+            sdk.check_provenance(path, package, "commit", 12345, 1)
+        for key in ("repository_id", "repository_owner_id"):
+            for invalid in (None, "", "0", "-1", "abc", 44292772):
+                with self.subTest(key=key, value=invalid):
+                    statement = json.loads(original)
+                    statement["predicate"]["buildDefinition"]["internalParameters"]["github"][key] = invalid
+                    self.write_statement(path, statement)
+                    with self.assertRaisesRegex(ValueError, "GitHub event or repository identifiers"):
+                        sdk.check_provenance(path, package, "commit", 12345, 1)
+
+    def test_rejects_custom_statement_from_publisher_run(self):
+        self.artifact()
+        package = self.read()
+        path = self.bundle(package)
+        statement = self.read_statement(path)
+        definition = statement["predicate"]["buildDefinition"]
+        definition["externalParameters"]["workflow"]["path"] = ".github/workflows/publish-npm.yml"
+        definition["internalParameters"]["github"]["event_name"] = "workflow_run"
+        statement["predicate"]["runDetails"]["metadata"]["invocationId"] = f"{sdk.REPOSITORY}/actions/runs/99999/attempts/1"
+        self.write_statement(path, statement)
+        with self.assertRaisesRegex(ValueError, "source build, attempt, and commit"):
+            sdk.check_provenance(path, package, "commit", 12345, 1)
 
     def test_rejects_changed_tarball(self):
         path = self.artifact()

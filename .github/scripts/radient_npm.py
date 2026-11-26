@@ -68,40 +68,11 @@ def package_subject(package):
     return {"name": f"pkg:npm/{quote(PACKAGE, safe='/')}@{package.version}", "digest": {"sha512": digest}}
 
 
-def build_predicate(package, commit, run_id):
-    if run_id < 1:
-        raise ValueError("Expected a positive source build run ID")
-    # Describe the verified producing build, not the current workflow_run job.
-    # The signing certificate independently identifies the publishing workflow.
-    return {
-        "buildDefinition": {
-            "buildType": "https://actions.github.io/buildtypes/workflow/v1",
-            "externalParameters": {"workflow": {
-                "repository": REPOSITORY,
-                "path": BUILD_WORKFLOW,
-                "ref": "refs/heads/master"}},
-            "resolvedDependencies": [{
-                "uri": f"git+{REPOSITORY}@refs/heads/master",
-                "digest": {"gitCommit": commit}}]},
-        "runDetails": {
-            "builder": {"id": f"{REPOSITORY}/{BUILD_WORKFLOW}@refs/heads/master"},
-            "metadata": {"invocationId":
-                f"{REPOSITORY}/actions/runs/{run_id}/attempts/{package.built_attempt}"}}}
-
-
-def build_statement(package, commit, run_id):
-    # Sigstore signs this complete in-toto statement without persisting it through
-    # GitHub's attestation API, which requires the build and signer to match.
-    return {
-        "_type": "https://in-toto.io/Statement/v1",
-        "subject": [package_subject(package)],
-        "predicateType": "https://slsa.dev/provenance/v1",
-        "predicate": build_predicate(package, commit, run_id)}
-
-
-def check_provenance(path, package, commit, run_id):
-    # Check the newly signed statement before handing it to npm, which verifies
-    # the signature and transparency log when publishing --provenance-file.
+def check_provenance(path, package, commit, run_id, signing_attempt):
+    if run_id < 1 or signing_attempt < package.built_attempt:
+        raise ValueError("Invalid source signing run or attempt")
+    # actions/attest generates provenance from the source job's OIDC claims.
+    # npm verifies its certificate, signature, and transparency log at publication.
     bundle = json.loads(path.read_text())
     envelope = bundle["dsseEnvelope"]
     if envelope["payloadType"] != "application/vnd.in-toto+json":
@@ -112,8 +83,38 @@ def check_provenance(path, package, commit, run_id):
         raise ValueError("Expected SLSA v1 build provenance")
     if statement.get("subject") != [package_subject(package)]:
         raise ValueError("Provenance does not identify the tested package and SHA-512")
-    if statement.get("predicate") != build_predicate(package, commit, run_id):
+
+    predicate = statement["predicate"]
+    definition = predicate.get("buildDefinition", {})
+    workflow = {"repository": REPOSITORY, "path": BUILD_WORKFLOW, "ref": "refs/heads/master"}
+    dependency = {"uri": f"git+{REPOSITORY}@refs/heads/master", "digest": {"gitCommit": commit}}
+    details = predicate.get("runDetails", {})
+    # A failed-job retry can sign an earlier package. Its invocation must match
+    # the signing attempt, while the package version retains its producing attempt.
+    invocation = f"{REPOSITORY}/actions/runs/{run_id}/attempts/{signing_attempt}"
+    if (definition.get("buildType") != "https://actions.github.io/buildtypes/workflow/v1" or
+            definition.get("externalParameters", {}).get("workflow") != workflow or
+            definition.get("resolvedDependencies") != [dependency] or
+            details.get("builder", {}).get("id") != f"{REPOSITORY}/{BUILD_WORKFLOW}@refs/heads/master" or
+            details.get("metadata", {}).get("invocationId") != invocation):
         raise ValueError("Provenance does not belong to the source build, attempt, and commit")
+
+    github = definition.get("internalParameters", {}).get("github", {})
+    identifiers = (github.get("repository_id"), github.get("repository_owner_id"))
+    if (github.get("event_name") != "push" or
+            any(not isinstance(value, str) or not re.fullmatch(r"[1-9][0-9]*", value)
+                for value in identifiers)):
+        raise ValueError("Provenance is missing valid source GitHub event or repository identifiers")
+
+
+def provenance_path(root, run, attempt):
+    # Require the bundle from the completed source attempt. A stale or future
+    # signing artifact must not hide a failed signing job in this attempt.
+    path = root / f"RadientNpmPackage-{run}-{attempt}-provenance" / "attestation.json"
+    if not path.is_file():
+        raise ValueError("Missing provenance for this source build attempt; rerun the source "
+                         "Emscripten provenance job before retrying publication")
+    return path
 
 
 def read_package(root, run, attempt, commit):
@@ -187,16 +188,14 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     version = commands.add_parser("version")
     version.add_argument("--manifest", type=Path, required=True)
-    prepare = commands.add_parser("prepare", help="Verify the package and prepare provenance for signing")
-    prepare.add_argument("--statement-path", type=Path, required=True)
+    prepare = commands.add_parser("prepare", help="Verify the package and emit its attestation subject")
     check = commands.add_parser("publish")
-    check.add_argument("--provenance", type=Path, required=True)
+    check.add_argument("--run-id", type=int, required=True)
     check.add_argument("--verify-only", action="store_true",
                        help="Check local artifact and provenance metadata; no signature or registry verification")
     for command in (prepare, check):
         command.add_argument("--artifacts", type=Path, required=True)
         command.add_argument("--commit", required=True)
-        command.add_argument("--run-id", type=int, required=True)
     for command in (version, prepare, check):
         command.add_argument("--run", type=int, required=True)
         command.add_argument("--attempt", type=int, required=True)
@@ -204,18 +203,19 @@ def main():
     if args.command == "version":
         print(dev_version(json.loads(args.manifest.read_text()), args.run, args.attempt))
         return
-    if args.run_id < 1:
+    if args.command == "publish" and args.run_id < 1:
         parser.error("--run-id must be positive")
     package = read_package(args.artifacts, args.run, args.attempt, args.commit)
     if args.command == "prepare":
-        statement = build_statement(package, args.commit, args.run_id)
-        args.statement_path.write_text(json.dumps(statement, indent=2) + "\n", encoding="utf-8")
-        print(f"Prepared provenance for {PACKAGE}@{package.version}: {args.statement_path}")
+        subject = package_subject(package)
+        print(f"name={subject['name']}")
+        print(f"digest=sha512:{subject['digest']['sha512']}")
         return
-    check_provenance(args.provenance, package, args.commit, args.run_id)
+    provenance = provenance_path(args.artifacts, args.run, args.attempt)
+    check_provenance(provenance, package, args.commit, args.run_id, args.attempt)
     print(f"Verified {PACKAGE}@{package.version}: {package.path}", flush=True)
     if not args.verify_only:
-        publish(package, args.provenance.resolve())
+        publish(package, provenance.resolve())
 
 
 

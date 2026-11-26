@@ -243,3 +243,58 @@ jobs:
         # Keep rerun artifacts separate. A retry of only failed jobs may reuse
         # the tested package from an earlier successful packaging attempt.
         artifact-name: RadientNpmPackage-${{github.run_number}}-${{github.run_attempt}}
+
+  npm-provenance:
+    name: Sign Radient npm provenance
+    needs: build
+    if: >-
+      github.repository == 'DiligentGraphics/DiligentEngine' &&
+      github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    # Signing must use this build's identity, but an outage must not block Web
+    # demo deployment. The separate publisher rejects a missing signed bundle.
+    continue-on-error: true
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      attestations: write
+    steps:
+    - name: Clone provenance helper
+      uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+
+    - name: Download tested package artifacts
+      uses: actions/download-artifact@v7
+      with:
+        pattern: RadientNpmPackage-${{github.run_number}}-*
+        path: ${{runner.temp}}/radient-npm-artifacts
+        merge-multiple: false
+
+    - name: Verify package and prepare provenance subject
+      id: npm_subject
+      shell: bash
+      run: |
+        python3 -B -m unittest discover -s .github/scripts/tests -v
+        python3 -B .github/scripts/radient_npm.py prepare \
+          --artifacts "$RUNNER_TEMP/radient-npm-artifacts" \
+          --run "$GITHUB_RUN_NUMBER" --attempt "$GITHUB_RUN_ATTEMPT" \
+          --commit "$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+
+    - name: Sign tested npm package provenance
+      id: npm_provenance
+      uses: actions/attest@v4.2.2
+      with:
+        subject-name: ${{steps.npm_subject.outputs.name}}
+        subject-digest: ${{steps.npm_subject.outputs.digest}}
+
+    - name: Upload npm package provenance
+      uses: actions/upload-artifact@v7
+      with:
+        # A signing retry can reuse an older tested package. This attempt
+        # identifies the signing invocation, independently of the package version.
+        name: RadientNpmPackage-${{github.run_number}}-${{github.run_attempt}}-provenance
+        path: ${{steps.npm_provenance.outputs.bundle-path}}
+        if-no-files-found: error

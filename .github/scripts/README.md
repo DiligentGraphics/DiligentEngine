@@ -17,20 +17,29 @@ Newer versions advance the `dev` tag; older builds can publish without moving it
 backward. `latest` is unchanged. Only development publishing is currently supported.
 Install development builds with `npm install @diligentgraphics/radient@dev`.
 
-Provenance identifies the original build and source commit; the publishing
-workflow signs it. Signing and npm failures affect only the publishing workflow
-and do not prevent the website from deploying successful Emscripten demo artifacts.
-The standalone Sigstore signer produces the bundle for npm without uploading it
-to GitHub's attestation API, which requires the build and signer workflows to match.
+After the build matrix succeeds, **Sign Radient npm provenance** signs the tested
+package in the same Emscripten workflow. This keeps the provenance's workflow,
+commit, and run identity consistent with the signing certificate, as npm requires.
+The separate publisher verifies and submits that signed bundle with the tarball.
+
+The signing job is allowed to fail without failing the Emscripten workflow, so
+signing outages do not block Web demo deployment. npm publication still requires
+the signed bundle; registry failures affect only the publishing workflow.
 
 ## Failure recovery
 
 - Retry the failed **Publish npm package** workflow to publish the same tested
   package and version. Retries accept an already-published version only when its
   contents match, and can repair an incomplete tag update.
-- If the package artifact has expired, rerun the Emscripten build. A full build
+- If provenance is missing or signing failed, rerun **Sign Radient npm provenance**
+  in the originating Emscripten run. This reuses the tested package and triggers
+  a new publisher when the run completes. Retrying the old publisher keeps its
+  original source attempt and will not use a bundle from the newer attempt.
+- If the package or provenance artifact has expired, rerun the Emscripten build. A full build
   rerun creates a new attempt-specific version and artifact. Retrying only failed
   build jobs may reuse a package from an earlier successful packaging attempt.
+- Workflow fixes require a new push/build: rerunning an old run uses its original
+  workflow revision.
 - For authentication failures, check [Initial npm setup](#initial-npm-setup)
   before retrying publication.
 - If publication never starts, confirm the source build was an eligible,
@@ -46,27 +55,35 @@ before packaging and again before signing:
 python3 -B -m unittest discover -s .github/scripts/tests -v
 ```
 
-To verify a downloaded package and prepare its unsigned provenance, use the
-originating Emscripten build's run ID, run number, attempt, and commit:
+To verify a downloaded package and print its signing inputs, use the originating
+Emscripten build's run number, attempt, and commit. Replace the placeholders
+with your source build's values in both commands and directory names.
+The `<build-run-id>` placeholder is the separate numeric ID from the
+GitHub Actions run URL; it is not the run number.
 
 ```sh
 python3 -B .github/scripts/radient_npm.py prepare \
-  --artifacts /path/to/artifacts --run-id <build-run-id> --run 482 --attempt 1 \
-  --commit <main-repository-sha> --statement-path /path/to/statement.json
+  --artifacts /path/to/artifacts --run <run-number> --attempt <attempt> \
+  --commit <main-repository-sha>
 ```
 
-The artifacts directory must contain `RadientNpmPackage-482-1/`, with the tarball
-and `package.sha256`. Preparation writes the complete unsigned in-toto statement
-without contacting npm.
+The artifacts directory must contain
+`RadientNpmPackage-<run-number>-<attempt>/`, with the tarball and `package.sha256`.
+Preparation prints the package URL and digest without
+signing or contacting npm.
 
-To check the signed bundle returned by the publishing workflow without publishing:
+To check the signed bundle from the source build without publishing:
 
 ```sh
 python3 -B .github/scripts/radient_npm.py publish \
-  --artifacts /path/to/artifacts --run-id <build-run-id> --run 482 --attempt 1 \
-  --commit <main-repository-sha> \
-  --provenance /path/to/attestation.json --verify-only
+  --artifacts /path/to/artifacts --run-id <build-run-id> --run <run-number> --attempt <attempt> \
+  --commit <main-repository-sha> --verify-only
 ```
+
+The artifacts directory must also contain
+`RadientNpmPackage-<run-number>-<attempt>-provenance/attestation.json`.
+Its attempt identifies the
+signing job invocation; the selected package can come from an earlier attempt.
 
 These checks validate package and provenance metadata. They do not verify live
 authentication or cryptographic signatures; npm verifies the signature during
