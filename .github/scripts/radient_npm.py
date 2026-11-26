@@ -89,6 +89,16 @@ def build_predicate(package, commit, run_id):
                 f"{REPOSITORY}/actions/runs/{run_id}/attempts/{package.built_attempt}"}}}
 
 
+def build_statement(package, commit, run_id):
+    # Sigstore signs this complete in-toto statement without persisting it through
+    # GitHub's attestation API, which requires the build and signer to match.
+    return {
+        "_type": "https://in-toto.io/Statement/v1",
+        "subject": [package_subject(package)],
+        "predicateType": "https://slsa.dev/provenance/v1",
+        "predicate": build_predicate(package, commit, run_id)}
+
+
 def check_provenance(path, package, commit, run_id):
     # Check the newly signed statement before handing it to npm, which verifies
     # the signature and transparency log when publishing --provenance-file.
@@ -178,7 +188,7 @@ def main():
     version = commands.add_parser("version")
     version.add_argument("--manifest", type=Path, required=True)
     prepare = commands.add_parser("prepare", help="Verify the package and prepare provenance for signing")
-    prepare.add_argument("--predicate-path", type=Path, required=True)
+    prepare.add_argument("--statement-path", type=Path, required=True)
     check = commands.add_parser("publish")
     check.add_argument("--provenance", type=Path, required=True)
     check.add_argument("--verify-only", action="store_true",
@@ -198,11 +208,9 @@ def main():
         parser.error("--run-id must be positive")
     package = read_package(args.artifacts, args.run, args.attempt, args.commit)
     if args.command == "prepare":
-        predicate = build_predicate(package, args.commit, args.run_id)
-        args.predicate_path.write_text(json.dumps(predicate, indent=2) + "\n")
-        subject = package_subject(package)
-        print(f"name={subject['name']}")
-        print(f"digest=sha512:{subject['digest']['sha512']}")
+        statement = build_statement(package, args.commit, args.run_id)
+        args.statement_path.write_text(json.dumps(statement, indent=2) + "\n", encoding="utf-8")
+        print(f"Prepared provenance for {PACKAGE}@{package.version}: {args.statement_path}")
         return
     check_provenance(args.provenance, package, args.commit, args.run_id)
     print(f"Verified {PACKAGE}@{package.version}: {package.path}", flush=True)

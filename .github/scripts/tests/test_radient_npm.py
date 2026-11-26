@@ -126,7 +126,9 @@ class ArtifactTest(unittest.TestCase):
         with patch.dict(os.environ, {"GITHUB_SHA": "newer-commit", "GITHUB_RUN_ID": "99999",
                                      "GITHUB_RUN_ATTEMPT": "7"}):
             package = self.read(attempt=2)
-            predicate = sdk.build_predicate(package, "commit", 12345)
+            statement = sdk.build_statement(package, "commit", 12345)
+            self.assertEqual(statement["subject"], [sdk.package_subject(package)])
+            predicate = statement["predicate"]
             definition = predicate["buildDefinition"]
             self.assertEqual(definition["resolvedDependencies"][0]["digest"], {"gitCommit": "commit"})
             self.assertEqual(definition["externalParameters"]["workflow"]["path"], sdk.BUILD_WORKFLOW)
@@ -148,14 +150,15 @@ class ArtifactTest(unittest.TestCase):
         script = Path(sdk.__file__)
         args = ["--artifacts", str(self.root), "--run", "42", "--attempt", "2",
                 "--commit", "commit", "--run-id", "12345"]
-        predicate = self.root / "predicate.json"
+        statement = self.root / "statement.json"
         result = subprocess.run([sys.executable, "-B", str(script), "prepare", *args,
-                                 "--predicate-path", str(predicate)], capture_output=True, text=True, check=True)
-        subject = sdk.package_subject(package)
-        self.assertEqual(result.stdout.splitlines(), [f"name={subject['name']}",
-                                                      f"digest=sha512:{subject['digest']['sha512']}"])
-        self.assertEqual(json.loads(predicate.read_text()), sdk.build_predicate(package, "commit", 12345))
+                                 "--statement-path", str(statement)], capture_output=True, text=True, check=True)
+        self.assertIn(f"Prepared provenance for {sdk.PACKAGE}@{package.version}", result.stdout)
         bundle = self.bundle(package)
+        # Compare the complete statement with the independent fixture, not only
+        # its predicate. Sigstore signs the file exactly as provided.
+        expected = json.loads(base64.b64decode(json.loads(bundle.read_text())["dsseEnvelope"]["payload"]))
+        self.assertEqual(json.loads(statement.read_text()), expected)
         subprocess.run([sys.executable, "-B", str(script), "publish", *args,
                         "--provenance", str(bundle), "--verify-only"], capture_output=True, text=True, check=True)
         bundle.unlink()

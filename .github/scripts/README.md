@@ -20,6 +20,8 @@ Install development builds with `npm install @diligentgraphics/radient@dev`.
 Provenance identifies the original build and source commit; the publishing
 workflow signs it. Signing and npm failures affect only the publishing workflow
 and do not prevent the website from deploying successful Emscripten demo artifacts.
+The standalone Sigstore signer produces the bundle for npm without uploading it
+to GitHub's attestation API, which requires the build and signer workflows to match.
 
 ## Failure recovery
 
@@ -50,12 +52,12 @@ originating Emscripten build's run ID, run number, attempt, and commit:
 ```sh
 python3 -B .github/scripts/radient_npm.py prepare \
   --artifacts /path/to/artifacts --run-id <build-run-id> --run 482 --attempt 1 \
-  --commit <main-repository-sha> --predicate-path /path/to/predicate.json
+  --commit <main-repository-sha> --statement-path /path/to/statement.json
 ```
 
 The artifacts directory must contain `RadientNpmPackage-482-1/`, with the tarball
-and `package.sha256`. Preparation writes the unsigned predicate and prints the
-signing inputs without contacting npm.
+and `package.sha256`. Preparation writes the complete unsigned in-toto statement
+without contacting npm.
 
 To check the signed bundle returned by the publishing workflow without publishing:
 

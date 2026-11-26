@@ -26,7 +26,6 @@ jobs:
       contents: read
       actions: read
       id-token: write
-      attestations: write
     # Serialize registry updates without dropping pending successful builds.
     # Completion order can differ from run order; the script never regresses dev.
     concurrency:
@@ -54,8 +53,8 @@ jobs:
         registry-url: https://registry.npmjs.org
         package-manager-cache: false
 
-    - name: Install npm with trusted dist-tag support
-      run: npm install --global npm@11.21.0 --ignore-scripts --no-audit --no-fund
+    - name: Install npm and the provenance signer
+      run: npm install --global npm@11.21.0 @sigstore/cli@0.11.0 --ignore-scripts --no-audit --no-fund
 
     - name: Download tested package artifacts
       uses: actions/download-artifact@v7
@@ -68,31 +67,28 @@ jobs:
         merge-multiple: false
 
     - name: Verify package and prepare build provenance
-      id: npm_subject
       shell: bash
       run: |
         python3 -B -m unittest discover -s .github/scripts/tests -v
         python3 -B .github/scripts/radient_npm.py prepare \
           --artifacts "$RUNNER_TEMP/radient-npm-artifacts" \
           --run-id "$SOURCE_RUN_ID" --run "$SOURCE_RUN_NUMBER" --attempt "$SOURCE_RUN_ATTEMPT" \
-          --commit "$SOURCE_COMMIT" --predicate-path "$RUNNER_TEMP/radient-npm-predicate.json" >> "$GITHUB_OUTPUT"
+          --commit "$SOURCE_COMMIT" --statement-path "$RUNNER_TEMP/radient-npm-statement.json"
 
-    # Sign here so signing outages cannot fail the Emscripten build or block
-    # Web demo deployment. The explicit predicate describes the original build;
-    # the signing certificate identifies this publishing workflow.
+    # Sign in the publisher without storing through GitHub's attestation API:
+    # that API requires the provenance build workflow to match the signer.
+    # Sigstore preserves the original build metadata and signs with this job's
+    # OIDC identity; npm verifies and stores the resulting bundle.
     - name: Sign tested npm package provenance
-      id: npm_provenance
-      uses: actions/attest@v4.2.2
-      with:
-        subject-name: ${{steps.npm_subject.outputs.name}}
-        subject-digest: ${{steps.npm_subject.outputs.digest}}
-        predicate-type: https://slsa.dev/provenance/v1
-        predicate-path: ${{runner.temp}}/radient-npm-predicate.json
+      shell: bash
+      run: |
+        sigstore attest "$RUNNER_TEMP/radient-npm-statement.json" \
+          --output-file "$RUNNER_TEMP/radient-npm-provenance.json"
 
     - name: Publish the tested tarball with signed provenance
       shell: bash
       env:
-        PROVENANCE_FILE: ${{steps.npm_provenance.outputs.bundle-path}}
+        PROVENANCE_FILE: ${{runner.temp}}/radient-npm-provenance.json
       run: |
         python3 -B .github/scripts/radient_npm.py publish \
           --artifacts "$RUNNER_TEMP/radient-npm-artifacts" \
